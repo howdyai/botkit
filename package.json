@@ -1,0 +1,26 @@
+{
+  "name": "botbrain",
+  "version": "1.0.0",
+  "description": "See the main readme file for operation of the BotKit bot system.",
+  "main": "Bot.js",
+  "dependencies": {
+    "body-parser": "^1.13.3",
+    "express": "^4.13.3",
+    "request": "^2.60.0",
+    "ws": "^0.7.2"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/xoxco/botbrain.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/xoxco/botbrain/issues"
+  },
+  "homepage": "https://github.com/xoxco/botbrain"
+}
