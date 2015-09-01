@@ -531,6 +531,7 @@ function Slackbot(configuration) {
       app.use(express.static(__dirname + '/public'));
 
       bot.createOauthEndpoints(app);
+      bot.createWebhookEndpoints(app);
 
       var server = app.listen(configuration.port, function () {
         console.log('listening on port ' + configuration.port);
