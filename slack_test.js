@@ -2,18 +2,17 @@ var Bot = require('./Slackbot.js');
 
 var bot = Bot({
   debug: true,
-  token: '',
+  token: process.env.token,
   webhook_url: '',
-  clientId: '',
-  clientSecret: '',
-  port: 3002,
+  clientId: process.env.clientId,
+  clientSecret: process.env.clientSecret,
+  port: process.env.port,
 });
 bot.init();
 
 setInterval(function() {
   bot.tick();
 },1000);
-
 
 
 bot.hears(['^apis$'],'direct_mention,direct_message',function(message) {
@@ -108,10 +107,13 @@ bot.hears(['he.*?llo*','hey','hi'],'direct_mention,direct_message',function(mess
   bot.reply(message,'Hello yourself, <@'+message.user+'>');
 });
 
-
 bot.hears(['ask'],'message_received,direct_message',function(message) {
-  bot.replyWithQuestion(message,'What\'s up?',function(response) {
-    bot.reply(response,'OH REALLY???');
+  bot.startTask(message,function(task,convo) {
+    convo.ask('Say YES or NO',{
+        'yes': function(response) { bot.reply(response,'YES! Good.'); },
+        'no': function(response) { bot.reply(response,'NO?!?! WTF?'); },
+        'default': function(response) { bot.reply(response,'Huh?'); convo.repeat(); }
+    });
   });
 });
 
