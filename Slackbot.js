@@ -298,6 +298,13 @@ function Slackbot(configuration) {
         message.type='slash_command';
         bot.receiveMessage(message);
 
+        // HEY THERE
+        // Slash commands can actually just send back a response
+        // and have it displayed privately.  This is different than that!
+        // maybe we need a custom event.
+
+        res.send('');
+
       } else if (req.body.trigger_word) {
 
         var message = {};
@@ -308,6 +315,13 @@ function Slackbot(configuration) {
 
         message.type='outgoing_webhook';
         bot.receiveMessage(message);
+
+        // outgoing webhooks are also different. They can simply return
+        // a response instead of using the API to reply.  Maybe this is
+        // a different type of event!!
+
+        res.send('');
+
 
       }
 

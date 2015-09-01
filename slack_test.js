@@ -15,6 +15,13 @@ setInterval(function() {
 },1000);
 
 
+bot.heads(['\/botkit'],'message_received',function(message) {
+
+
+
+
+});
+
 bot.hears(['^apis$'],'direct_mention,direct_message',function(message) {
 
   bot.reply(message,'Starting an API test...');
