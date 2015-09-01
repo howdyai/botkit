@@ -281,6 +281,40 @@ function Slackbot(configuration) {
 
   }
 
+
+  // set up a web route for receiving outgoing webhooks and/or slash commands
+  bot.createWebhookEndpoints = function(webserver) {
+
+    webserver.post('/slack/receive',function(req,res) {
+
+      // this is a slash command
+      if (req.body.command) {
+        var message = {};
+
+        for (var key in req.body) {
+          message[key] = req.body[key];
+        }
+
+        message.type='slash_command';
+        bot.receiveMessage(message);
+
+      } else if (req.body.trigger_word) {
+
+        var message = {};
+
+        for (var key in req.body) {
+          message[key] = req.body[key];
+        }
+
+        message.type='outgoing_webhook';
+        bot.receiveMessage(message);
+
+      }
+
+    })
+  }
+
+
   // set up a web route for redirecting users
   // and collecting authentication details
   // https://api.slack.com/docs/oauth
