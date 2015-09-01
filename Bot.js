@@ -16,6 +16,7 @@ function Bot(configuration) {
   function Conversation(task,message) {
 
     this.messages = [];
+    this.sent = [];
     this.status = 'new';
     this.task = task;
     this.source_message = message;
@@ -26,8 +27,37 @@ function Bot(configuration) {
       bot.debug('HANDLING MESSAGE IN CONVO',message);
       // do other stuff like call custom callbacks
       if (this.handler) {
-        this.handler(message);
-        this.handler = null;
+
+        if (typeof(this.handler)=='function') {
+          this.handler(message);
+          this.handler = null;
+        } else {
+
+          // handle might be a mapping of keyword to callback.
+          // lets see if the message matches any of the keywords
+
+          for (var keyword in this.handler) {
+
+            if (message.text.match(new RegExp(keyword,'i'))) {
+              this.handler[keyword](message);
+              this.handler = null;
+              return;
+            }
+          }
+
+          // none of the messages matched! What do we do?
+          // if a default exists, fire it!
+
+          if (this.handler['default']) {
+            this.handler['default'](message);
+            this.handler = null;
+          } else {
+            // if no proper handler exists, THEN WHAT???
+
+          }
+
+
+        }
       }
 
     }
@@ -42,6 +72,14 @@ function Bot(configuration) {
 
     this.say = function(message) {
       this.addMessage(message);
+    }
+
+    this.repeat = function() {
+      if (this.sent.length) {
+        this.say(this.sent[this.sent.length-1]);
+      } else {
+        console.log('TRIED TO REPEAT, NOTHING TO SAY');
+      }
     }
 
     this.ask = function(message,cb) {
@@ -84,6 +122,8 @@ function Bot(configuration) {
             if (message.handler) {
               this.handler = message.handler;
             }
+
+            this.sent.push(message);
             this.task.bot.say(message,this);
           } else {
             this.status='completed';
