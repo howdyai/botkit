@@ -15,7 +15,7 @@ setInterval(function() {
 },1000);
 
 
-bot.heads(['\/botkit'],'message_received',function(message) {
+bot.hears(['\/botkit'],'message_received',function(message) {
 
 
 
