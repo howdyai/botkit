@@ -8,11 +8,24 @@ var bot = Bot({
   clientSecret: process.env.clientSecret,
   port: process.env.port,
 });
+
+bot.on('ready',function() {
+
+  bot.setupWebserver(function(err,webserver) {
+    bot.createHomepageEndpoint(bot.webserver);
+    bot.createOauthEndpoints(bot.webserver);
+    bot.createWebhookEndpoints(bot.webserver);
+  });
+
+  setInterval(function() {
+    bot.tick();
+  },1000);
+
+
+});
+
 bot.init();
 
-setInterval(function() {
-  bot.tick();
-},1000);
 
 
 bot.hears(['\/botkit'],'message_received',function(message) {

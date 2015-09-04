@@ -279,6 +279,12 @@ function Slackbot(configuration) {
   // set up a web route that is a landing page
   bot.createHomepageEndpoint = function(webserver) {
 
+    webserver.get('/',function(req,res) {
+
+      res.send('Howdy!');
+
+    });
+
   }
 
 
@@ -326,6 +332,21 @@ function Slackbot(configuration) {
       }
 
     })
+  }
+
+
+  bot.setupWebserver = function(cb) {
+
+    bot.webserver = express();
+    bot.webserver.use(bodyParser.json());
+    bot.webserver.use(bodyParser.urlencoded({ extended: true }));
+    bot.webserver.use(express.static(__dirname + '/public'));
+
+    var server = bot.webserver.listen(configuration.port, function () {
+      console.log('listening on port ' + configuration.port);
+      cb(null,bot.webserver);
+    });
+
   }
 
 
@@ -536,23 +557,6 @@ function Slackbot(configuration) {
 
 
     }
-
-    if (configuration.port && configuration.clientId && configuration.clientSecret) {
-
-      var app = express();
-      app.use(bodyParser.json());
-      app.use(bodyParser.urlencoded({ extended: true }));
-      app.use(express.static(__dirname + '/public'));
-
-      bot.createOauthEndpoints(app);
-      bot.createWebhookEndpoints(app);
-
-      var server = app.listen(configuration.port, function () {
-        console.log('listening on port ' + configuration.port);
-      });
-
-    }
-
 
   });
 
