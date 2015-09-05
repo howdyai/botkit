@@ -394,7 +394,7 @@ function Slackbot(configuration) {
         var url = 'https://slack.com/oauth/authorize';
 
 
-        res.redirect(url + "?client_id=" + configuration.clientId + "&scope=incoming-webhook&state=botkit")
+        res.redirect(url + "?client_id=" + configuration.clientId + "&scope=identify,incoming-webhook&state=botkit")
 
     });
 
@@ -415,8 +415,6 @@ function Slackbot(configuration) {
           res.send('ok! sending test');
 
           console.log(auth);
-
-
 
           configuration.webhook_url=auth.incoming_webhook.url;
           bot.api.webhooks.send({
