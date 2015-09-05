@@ -550,14 +550,7 @@ function Slackbot(configuration) {
     bot.api.rtm.start({},function(err,res) {
 
       bot.identity = res.self;
-      bot.team = res.team;
-      console.log(res.team);
-      console.log('loading team by id');
-      bot.findTeamById(res.team.id,function(err,memory) {
-        console.log(err,memory);
-        configuration.incoming_webhook = memory.incoming_webhook;
-
-      });
+//      bot.team = res.team;
 
       // also available
       // res.users

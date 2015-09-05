@@ -3,7 +3,6 @@ var Bot = require('./Slackbot.js');
 var bot = Bot({
   debug: true,
   path: './teams/',
-  webhook_url: '',
   clientId: process.env.clientId,
   clientSecret: process.env.clientSecret,
   port: process.env.port,
@@ -17,10 +16,11 @@ bot.on('ready',function() {
     bot.createWebhookEndpoints(bot.webserver);
   });
 
-  bot.startRTM({
-    token: process.env.token,
-    team: 'XOXCO',
-  });
+  bot.findTeamById('T024F7C87',function(err,connection) {
+
+    bot.startRTM(connection);
+
+  })
 
   setInterval(function() {
     bot.tick();
