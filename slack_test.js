@@ -42,22 +42,26 @@ bot.hears(['\/botkit'],'message_received',function(connection,message) {
 bot.hears(['^apis$'],'direct_mention,direct_message',function(connection,message) {
 
   bot.reply(connection,message,'Starting an API test...');
-
+  bot.useConnection(connection);
   bot.api.webhooks.send({
     text: 'This is an incoming webhook',
     channel: message.channel,
   },function(err,res) {
     bot.debug('INCOMING WEBHOOK:',err,res);
-
+    if (err) {
+      bot.reply(connection,message,'Incoming webhook error');
+    } else {
+      bot.reply(connection,message,'Incoming webhook success');
+    }
   });
 
   bot.api.channels.list({},function(err,channels) {
 
       if (err) {
-        bot.reply(message,'Channel list error');
+        bot.reply(connection,message,'Channel list error');
         bot.debug('CHANNEL ERROR',err);
       } else {
-        bot.reply(message,'Channel list success');
+        bot.reply(connection,message,'Channel list success');
         bot.debug('CHANNEL SUCCESS',channels);
       }
 
@@ -69,10 +73,10 @@ bot.hears(['^apis$'],'direct_mention,direct_message',function(connection,message
   },function(err,topic) {
 
       if (err) {
-        bot.reply(message,'Topic set error');
+        bot.reply(connection,message,'Topic set error');
         bot.debug('Topic set error',err);
       } else {
-        bot.reply(message,'Topic set success');
+        bot.reply(connection,message,'Topic set success');
         bot.debug('TOPIC SUCCESS',topic);
       }
 
@@ -83,31 +87,31 @@ bot.hears(['^apis$'],'direct_mention,direct_message',function(connection,message
   },function(err,res) {
 
       if (err) {
-        bot.reply(message,'emoji error');
+        bot.reply(connection,message,'emoji error');
         bot.debug('emoji error',err);
       } else {
-        bot.reply(message,'emoji success');
+        bot.reply(connection,message,'emoji success');
         var emojis = [];
         for (var emoji in res.emoji) {
           emojis.push(emoji);
         }
         if (emojis.length) {
-          bot.reply(message,':' + emojis[Math.floor(Math.random()*emojis.length)]+":");
+          bot.reply(connection,message,':' + emojis[Math.floor(Math.random()*emojis.length)]+":");
         } else {
-          bot.reply(message,'but no custom emojis??');
+          bot.reply(connection,message,'but no custom emojis??');
         }
         bot.debug('emoji success',res);
       }
 
   });
 
-  bot.say({
+  bot.say(connection,{
     text: 'Lets add some emoji reactions...',
     channel: message.channel,
   },function(err,res) {
 
     if (err) {
-      bot.reply(message,'Failed to say...');
+      bot.reply(connection,message,'Failed to say...');
     } else {
       bot.api.reactions.add({
         timestamp: res.message.ts,
@@ -115,9 +119,9 @@ bot.hears(['^apis$'],'direct_mention,direct_message',function(connection,message
         name: 'thumbsup',
       },function(err,res) {
         if (err) {
-          bot.reply(message,'Failed to add emoji reactions...');
+          bot.reply(connection,message,'Failed to add emoji reactions...');
         } else {
-          bot.reply(message,'Boom! Reaction added!');
+          bot.reply(connection,message,'Boom! Reaction added!');
         }
       });
     }
