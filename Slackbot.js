@@ -50,11 +50,11 @@ function Slackbot(configuration) {
       },
       webhooks: {
         send: function(options,cb) {
-          if (!configuration.webhook_url) {
+          if (!configuration.incoming_webhook) {
             bot.debug('CANNOT SEND WEBHOOK!!');
             if (cb) cb('No webhook url specified');
           } else {
-            request.post(configuration.webhook_url,function(err,res,body) {
+            request.post(configuration.incoming_webhook.url,function(err,res,body) {
                 if (err) {
                   bot.debug('WEBHOOK ERROR',err);
                   if (cb) cb(err);
@@ -455,11 +455,11 @@ function Slackbot(configuration) {
 
             if (!team) {
               team = {
-                webhook_url: auth.incoming_webhook.url,
+                incoming_webhook: auth.incoming_webhook,
                 id: team_id,
               }
             } else {
-              team.webhook_url = auth.incoming_webhook.url;
+              team.incoming_webhook = auth.incoming_webhook;
             }
 
             team.team_name = auth.team_name;
@@ -492,7 +492,7 @@ function Slackbot(configuration) {
 
   bot.useConnection = function(connection) {
     configuration.token = connection.token;
-    configuration.webhook_url = connection.webhook_url;
+    configuration.incoming_webhook = connection.incoming_webhook;
 
   }
 
@@ -555,7 +555,7 @@ function Slackbot(configuration) {
       console.log('loading team by id');
       bot.findTeamById(res.team.id,function(err,memory) {
         console.log(err,memory);
-        configuration.webhook_url = memory.webhook_url;
+        configuration.incoming_webhook = memory.incoming_webhook;
 
       });
 
