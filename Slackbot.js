@@ -416,6 +416,12 @@ function Slackbot(configuration) {
 
           console.log(auth);
 
+          // team id strangely missing from this response!
+          // but it is part of the configuration url!
+          var team_id = auth.incoming_webhook.url.split(/\//)[4];
+          console.log('GOT AUTH FOR TEAM ID',team_id);
+
+
           configuration.webhook_url=auth.incoming_webhook.url;
           bot.api.webhooks.send({
             text: 'This is a test incoming webhook configured by oauth!',
