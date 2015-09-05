@@ -432,6 +432,8 @@ function Slackbot(configuration) {
               team.webhook_url = auth.incoming_webhook.url;
             }
 
+            team.team_name = auth.team_name;
+
             bot.saveTeam(team);
             bot.useConnection(team);
             bot.api.webhooks.send({
