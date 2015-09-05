@@ -123,7 +123,7 @@ bot.hears(['^apis$'],'slash_command,direct_mention,direct_message',function(conn
 
 });
 
-bot.hears(['he.*?llo*','hey','hi'],'slash_command,direct_mention,direct_message',function(connection,message) {
+bot.hears(['he.*?llo*','hey','hi'],'slash_command,outgoing_webhook,direct_mention,direct_message',function(connection,message) {
   bot.debug('HEARS HANDLER');
   bot.reply(connection,message,'Hello yourself, <@'+message.user+'>');
 });
