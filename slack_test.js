@@ -32,14 +32,6 @@ bot.on('ready',function() {
 bot.init();
 
 
-
-bot.hears(['\/botkit'],'message_received',function(connection,message) {
-
-
-
-
-});
-
 bot.hears(['^apis$'],'direct_mention,direct_message',function(connection,message) {
 
   bot.reply(connection,message,'Starting an API test...');

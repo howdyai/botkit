@@ -310,7 +310,9 @@ function Slackbot(configuration) {
 
           } else {
             message.type='slash_command';
-            bot.receiveMessage(connection,message);
+
+            bot.trigger('slash_command',[connection,message]);
+//            bot.receiveMessage(connection,message);
 
             // HEY THERE
             // Slash commands can actually just send back a response
@@ -335,7 +337,9 @@ function Slackbot(configuration) {
 
           } else {
             message.type='outgoing_webhook';
-            bot.receiveMessage(connection,message);
+            bot.trigger('outgoing_webhook',[connection,message]);
+
+            // bot.receiveMessage(connection,message);
 
             // outgoing webhooks are also different. They can simply return
             // a response instead of using the API to reply.  Maybe this is
