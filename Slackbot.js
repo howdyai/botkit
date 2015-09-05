@@ -317,6 +317,8 @@ function Slackbot(configuration) {
           } else {
             message.type='slash_command';
 
+            res.status(200);
+            connection.res = res;
             bot.trigger('slash_command',[connection,message]);
 //            bot.receiveMessage(connection,message);
 
@@ -325,7 +327,7 @@ function Slackbot(configuration) {
             // and have it displayed privately.  This is different than that!
             // maybe we need a custom event.
 
-            res.send('');
+            //res.send('');
           }
         });
 
@@ -363,6 +365,8 @@ function Slackbot(configuration) {
 
           } else {
             message.type='outgoing_webhook';
+            connection.res = res;
+            res.status(200);
             bot.trigger('outgoing_webhook',[connection,message]);
 
             // bot.receiveMessage(connection,message);

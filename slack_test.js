@@ -32,6 +32,30 @@ bot.on('ready',function() {
 bot.init();
 
 
+bot.on('slash_command',function(connection,message) {
+
+  if (message.command=='/botkit') {
+
+    // just respond with this
+    connection.res.send('OK!')
+
+  } else {
+    res.send('Unknown command!');
+  }
+
+});
+
+
+bot.on('outgoing_webhook',function(connection,message) {
+
+  connection.res.json({
+    text: 'Got it',
+  });
+
+});
+
+
+
 bot.hears(['^apis$'],'slash_command,direct_mention,direct_message',function(connection,message) {
 
   bot.reply(connection,message,'Starting an API test...');
