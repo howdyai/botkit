@@ -1,6 +1,7 @@
 var Bot = require('./Bot.js');
 var request = require('request');
 var ws = require('ws');
+var fs = require('fs');
 var express = require('express'),
     bodyParser = require("body-parser");
 
@@ -303,15 +304,22 @@ function Slackbot(configuration) {
           message[key] = req.body[key];
         }
 
-        message.type='slash_command';
-        bot.receiveMessage(message);
+        bot.findTeamById(message.team_id,function(err,connection) {
 
-        // HEY THERE
-        // Slash commands can actually just send back a response
-        // and have it displayed privately.  This is different than that!
-        // maybe we need a custom event.
+          if (err) {
 
-        res.send('');
+          } else {
+            message.type='slash_command';
+            bot.receiveMessage(connection,message);
+
+            // HEY THERE
+            // Slash commands can actually just send back a response
+            // and have it displayed privately.  This is different than that!
+            // maybe we need a custom event.
+
+            res.send('');
+          }
+        });
 
       } else if (req.body.trigger_word) {
 
@@ -321,19 +329,43 @@ function Slackbot(configuration) {
           message[key] = req.body[key];
         }
 
-        message.type='outgoing_webhook';
-        bot.receiveMessage(message);
+        bot.findTeamById(message.team_id,function(err,connection) {
 
-        // outgoing webhooks are also different. They can simply return
-        // a response instead of using the API to reply.  Maybe this is
-        // a different type of event!!
+          if (err) {
 
-        res.send('');
+          } else {
+            message.type='outgoing_webhook';
+            bot.receiveMessage(connection,message);
 
+            // outgoing webhooks are also different. They can simply return
+            // a response instead of using the API to reply.  Maybe this is
+            // a different type of event!!
+
+            res.send('');
+          }
+        });
 
       }
 
     })
+  }
+
+  bot.findTeamById = function(id,cb) {
+
+    // look up a team's memory and configuration and return it, or
+    // return an error!
+    if (!bot.config.path) {
+      cb('Not configured to store team info');
+    } else {
+      if (fs.existsSync(bot.config.path+'/' + id + '.json')) {
+        json = fs.readFileSync(bot.config.path+'/' + id + '.json','utf8');
+        json = JSON.parse(json);
+        cb(null,json);
+      } else {
+        cb('Not found');
+      }
+    }
+
   }
 
 
@@ -381,6 +413,10 @@ function Slackbot(configuration) {
           res.send(err);
         } else {
           res.send('ok! sending test');
+
+          console.log(auth);
+
+
 
           configuration.webhook_url=auth.incoming_webhook.url;
           bot.api.webhooks.send({
@@ -456,6 +492,13 @@ function Slackbot(configuration) {
 
       bot.identity = res.self;
       bot.team = res.team;
+      console.log(res.team);
+      console.log('loading team by id');
+      bot.findTeamById(res.team.id,function(err,memory) {
+        console.log(err,memory);
+        configuration.webhook_url = memory.webhook_url;
+
+      });
 
       // also available
       // res.users

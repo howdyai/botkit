@@ -359,20 +359,20 @@ function Bot(configuration) {
 
     bot.config = configuration;
 
-    var json = {};
-    if (bot.config.path && fs.existsSync(bot.config.path)) {
-        json = fs.readFileSync(bot.config.path,'utf8');
-        json = JSON.parse(json);
-      } else {
-        json = {
-          instance: 0,
-          users: {},
-          channels: {},
-        };
-    }
-    bot.memory = json;
-    bot.memory.instance++;
-    bot.remember();
+    // var json = {};
+    // if (bot.config.path && fs.existsSync(bot.config.path)) {
+    //     json = fs.readFileSync(bot.config.path,'utf8');
+    //     json = JSON.parse(json);
+    //   } else {
+    //     json = {
+    //       instance: 0,
+    //       users: {},
+    //       channels: {},
+    //     };
+    // }
+    // bot.memory = json;
+    // bot.memory.instance++;
+    // bot.remember();
 
 
     bot.debug('====> BOT ONLINE!');

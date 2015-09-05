@@ -2,6 +2,7 @@ var Bot = require('./Slackbot.js');
 
 var bot = Bot({
   debug: true,
+  path: './teams/',
   webhook_url: '',
   clientId: process.env.clientId,
   clientSecret: process.env.clientSecret,
@@ -49,7 +50,7 @@ bot.hears(['^apis$'],'direct_mention,direct_message',function(connection,message
   },function(err,res) {
     bot.debug('INCOMING WEBHOOK:',err,res);
     if (err) {
-      bot.reply(connection,message,'Incoming webhook error');
+      bot.reply(connection,message,'Incoming webhook error'+err);
     } else {
       bot.reply(connection,message,'Incoming webhook success');
     }
