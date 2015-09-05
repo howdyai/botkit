@@ -429,11 +429,10 @@ function Slackbot(configuration) {
                 id: team_id,
               }
             } else {
-
               team.webhook_url = auth.incoming_webhook.url;
-
             }
 
+            bot.saveTeam(team);
             bot.useConnection(team);
             bot.api.webhooks.send({
               text: 'This is a test incoming webhook configured by oauth!',
@@ -447,6 +446,15 @@ function Slackbot(configuration) {
 
     });
 
+
+  }
+
+  bot.saveTeam = function(team) {
+
+    if (bot.config.path) {
+      var json = JSON.stringify(team);
+      json = fs.writeFileSync(bot.config.path+'/' + team.id + '.json',json,'utf8');
+    }
 
   }
 
