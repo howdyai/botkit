@@ -397,7 +397,6 @@ function Slackbot(configuration) {
   }
 
   bot.useConnection = function(connection) {
-    console.log('USE CONNECTION',connection);
     configuration.token = connection.token;
 
   }
@@ -452,7 +451,7 @@ function Slackbot(configuration) {
 
   bot.startRTM = function(connection) {
 
-    configuration.token = connection.token;
+    bot.useConnection(connection);
     bot.api.rtm.start({},function(err,res) {
 
       bot.identity = res.self;

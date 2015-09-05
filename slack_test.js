@@ -134,9 +134,9 @@ bot.hears(['he.*?llo*','hey','hi'],'direct_mention,direct_message',function(conn
 bot.hears(['ask'],'ambient,direct_message',function(connection,message) {
   bot.startTask(connection,message,function(task,convo) {
     convo.ask('Say YES or NO',{
-        'yes': function(response) { bot.reply(response,'YES! Good.'); },
-        'no': function(response) { bot.reply(response,'NO?!?! WTF?'); },
-        'default': function(response) { bot.reply(response,'Huh?'); convo.repeat(); }
+        'yes': function(response) { convo.say('YES! Good.'); },
+        'no': function(response) { convo.say('NO?!?! WTF?'); },
+        'default': function(response) { convo.say('Huh?'); convo.repeat(); }
     });
   });
 });

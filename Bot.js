@@ -146,6 +146,8 @@ function Bot(configuration) {
     this.events = {};
 
     this.startConversation = function(message) {
+
+      console.log('Start conversation with ',message);
       var convo = new Conversation(this,message);
       convo.activate();
       this.convos.push(convo);
@@ -271,14 +273,16 @@ function Bot(configuration) {
       var keyword = keywords[k];
       for (var e = 0; e < events.length; e++) {
         (function(keyword) {
-          bot.on(events[e],function(message) {
+          bot.on(events[e],function(connection,message) {
             console.log('HEARS RESPONDER');
             if (message.text) {
               if (message.text.match(new RegExp(keyword,'i'))) {
                 bot.debug("I HEARD ",keyword);
-                cb.apply(this,[message]);
+                cb.apply(this,[connection,message]);
                 return false;
               }
+            } else {
+              console.log('Ignoring message without text',message);
             }
           });
         })(keyword);
@@ -318,6 +322,7 @@ function Bot(configuration) {
 
   bot.startTask = function(connection,message,cb) {
 
+    console.log('Start task with',message);
     var task = new Task(connection,this);
     var convo = task.startConversation(message);
     this.tasks.push(task);
