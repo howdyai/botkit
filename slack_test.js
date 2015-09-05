@@ -32,7 +32,7 @@ bot.on('ready',function() {
 bot.init();
 
 
-bot.hears(['^apis$'],'direct_mention,direct_message',function(connection,message) {
+bot.hears(['^apis$'],'slash_command,direct_mention,direct_message',function(connection,message) {
 
   bot.reply(connection,message,'Starting an API test...');
   bot.useConnection(connection);
