@@ -131,7 +131,7 @@ bot.hears(['^apis$'],'direct_mention,direct_message',function(connection,message
 
 });
 
-bot.hears(['he.*?llo*','hey','hi'],'direct_mention,direct_message',function(connection,message) {
+bot.hears(['he.*?llo*','hey','hi'],'slash_command,direct_mention,direct_message',function(connection,message) {
   bot.debug('HEARS HANDLER');
   bot.reply(connection,message,'Hello yourself, <@'+message.user+'>');
 });
