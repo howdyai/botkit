@@ -304,6 +304,12 @@ function Slackbot(configuration) {
           message[key] = req.body[key];
         }
 
+        // let's normalize some of these fields to match the rtm message format
+
+        message.user = message.user_id;
+        message.channel = message.channel_id;
+
+
         bot.findTeamById(message.team_id,function(err,connection) {
 
           if (err) {
@@ -330,6 +336,26 @@ function Slackbot(configuration) {
         for (var key in req.body) {
           message[key] = req.body[key];
         }
+
+/*  { token: 'Y07ff2RCykfHziqOqOS0oaqx',
+    team_id: 'T024F7C87',
+    team_domain: 'xoxco',
+    service_id: '10023171315',
+    channel_id: 'C0672HQUX',
+    channel_name: 'gruntforce',
+    timestamp: '1441485139.000219',
+    user_id: 'U024F7C89',
+    user_name: 'benbrown',
+    text: 'botkit hello',
+    trigger_word: 'botkit',
+    type: 'outgoing_webhook' }
+    */
+
+        // let's normalize some of these fields to match the rtm message format
+
+        message.user = message.user_id;
+        message.channel = message.channel_id;
+
 
         bot.findTeamById(message.team_id,function(err,connection) {
 
