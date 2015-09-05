@@ -421,11 +421,25 @@ function Slackbot(configuration) {
           var team_id = auth.incoming_webhook.url.split(/\//)[4];
           console.log('GOT AUTH FOR TEAM ID',team_id);
 
+          bot.findTeamById(team_id,function(err,team) {
 
-          configuration.webhook_url=auth.incoming_webhook.url;
-          bot.api.webhooks.send({
-            text: 'This is a test incoming webhook configured by oauth!',
-          });
+            if (!team) {
+              team = {
+                webhook_url: auth.incoming_webhook.url,
+                id: team_id,
+              }
+            } else {
+
+              team.webhook_url = auth.incoming_webhook.url;
+
+            }
+
+            bot.useConnection(team);
+            bot.api.webhooks.send({
+              text: 'This is a test incoming webhook configured by oauth!',
+            });
+
+          })
 
         }
 
@@ -438,6 +452,7 @@ function Slackbot(configuration) {
 
   bot.useConnection = function(connection) {
     configuration.token = connection.token;
+    configuration.webhook_url = connection.webhook_url;
 
   }
 
