@@ -124,7 +124,7 @@ function Bot(configuration) {
             }
 
             this.sent.push(message);
-            this.task.bot.say(message,this);
+            this.task.bot.say(this.task.connection,message,this);
           } else {
             this.status='completed';
             bot.debug('Conversation is over!');
@@ -138,10 +138,11 @@ function Bot(configuration) {
 
   }
 
-  function Task(bot) {
+  function Task(connection,bot) {
 
     this.convos = [];
     this.bot = bot;
+    this.connection = connection;
     this.events = {};
 
     this.startConversation = function(message) {
@@ -188,6 +189,7 @@ function Bot(configuration) {
     }
 
     this.trigger = function(event,data) {
+      console.log('TRIGGER: ' + event);
       if (this.events[event]) {
         for (var e = 0; e < this.events[event].length; e++) {
           var res = this.events[event][e].apply(this,data);
@@ -271,10 +273,12 @@ function Bot(configuration) {
         (function(keyword) {
           bot.on(events[e],function(message) {
             console.log('HEARS RESPONDER');
-            if (message.text.match(new RegExp(keyword,'i'))) {
-              bot.debug("I HEARD ",keyword);
-              cb.apply(this,[message]);
-              return false;
+            if (message.text) {
+              if (message.text.match(new RegExp(keyword,'i'))) {
+                bot.debug("I HEARD ",keyword);
+                cb.apply(this,[message]);
+                return false;
+              }
             }
           });
         })(keyword);
@@ -312,9 +316,9 @@ function Bot(configuration) {
     cb(null);
   }
 
-  bot.startTask = function(message,cb) {
+  bot.startTask = function(connection,message,cb) {
 
-    var task = new Task(this);
+    var task = new Task(connection,this);
     var convo = task.startConversation(message);
     this.tasks.push(task);
 
@@ -326,7 +330,7 @@ function Bot(configuration) {
 
   }
 
-  bot.receiveMessage = function(message) {
+  bot.receiveMessage = function(connection,message) {
 
     bot.log('RECEIVED MESSAGE');
 
@@ -334,7 +338,7 @@ function Bot(configuration) {
       if (convo) {
         convo.handle(message);
       } else {
-        bot.trigger('message_received',[message])
+        bot.trigger('message_received',[connection,message])
       }
     });
   }

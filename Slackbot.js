@@ -9,6 +9,8 @@ function Slackbot(configuration) {
 
   var bot = Bot(configuration);
 
+  bot.connections = [];
+
   bot.api = {
       api_url: 'https://slack.com/api/',
       // this is a simple function used to call the slack web API
@@ -385,7 +387,6 @@ function Slackbot(configuration) {
             text: 'This is a test incoming webhook configured by oauth!',
           });
 
-//          res.json(auth);
         }
 
       });
@@ -395,8 +396,15 @@ function Slackbot(configuration) {
 
   }
 
-  bot.say = function(message,cb) {
+  bot.useConnection = function(connection) {
+    console.log('USE CONNECTION',connection);
+    configuration.token = connection.token;
+
+  }
+
+  bot.say = function(connection,message,cb) {
     bot.debug('SAY ',message);
+    bot.useConnection(connection);
     bot.api.chat.postMessage({
       as_user: true,
       channel: message.channel,
@@ -413,8 +421,8 @@ function Slackbot(configuration) {
     // bot.rtm.sendMessage(message.channel,message.text);
   }
 
-  bot.reply = function(src,resp,cb) {
-    bot.say({
+  bot.reply = function(connection,src,resp,cb) {
+    bot.say(connection,{
       channel: src.channel,
       text: resp
     },cb);
@@ -422,16 +430,19 @@ function Slackbot(configuration) {
 
   bot.findConversation = function(message,cb) {
     bot.debug('CUSTOM FIND CONVO',message.user,message.channel);
-    for (var t = 0; t < bot.tasks.length; t++) {
-      for (var c = 0; c < bot.tasks[t].convos.length; c++) {
-        if (
-          bot.tasks[t].convos[c].isActive()
-          && bot.tasks[t].convos[c].source_message.user==message.user
-          && bot.tasks[t].convos[c].source_message.channel==message.channel
-        ) {
-          bot.debug('FOUND EXISTING CONVO!');
-          cb(bot.tasks[t].convos[c]);
-          return;
+
+    if (message.type=='message') {
+      for (var t = 0; t < bot.tasks.length; t++) {
+        for (var c = 0; c < bot.tasks[t].convos.length; c++) {
+          if (
+            bot.tasks[t].convos[c].isActive()
+            && bot.tasks[t].convos[c].source_message.user==message.user
+            && bot.tasks[t].convos[c].source_message.channel==message.channel
+          ) {
+            bot.debug('FOUND EXISTING CONVO!');
+            cb(bot.tasks[t].convos[c]);
+            return;
+          }
         }
       }
     }
@@ -439,85 +450,92 @@ function Slackbot(configuration) {
 
   }
 
+  bot.startRTM = function(connection) {
+
+    configuration.token = connection.token;
+    bot.api.rtm.start({},function(err,res) {
+
+      bot.identity = res.self;
+      bot.team = res.team;
+
+      // also available
+      // res.users
+      // res.channels
+      // res.groups
+      // res.ims
+      // res.bots
+      // these could be stored and cached for later use?
+
+          bot.debug(":::::::> I AM ", bot.identity.name);
+
+           connection.rtm = new ws(res.url);
+           connection.rtm.on('message', function(data, flags) {
+
+             var message = JSON.parse(data);
+              bot.receiveMessage(connection,message);
+           });
+     });
+  }
+
   bot.on('ready',function() {
 
     bot.debug(":::::::> Slackbot booting");
 
-    if (configuration.token) {
-      bot.api.rtm.start({},function(err,res) {
 
-             bot.rtm = new ws(res.url);
-             bot.rtm.on('message', function(data, flags) {
-
-               var message = JSON.parse(data);
-               if ("message" == message.type) {
-                  bot.receiveMessage(message);
-                }
-             });
-       });
-
-      bot.api.auth.test({},function(err,identity) {
-        if (err) {
-          bot.debug('ERROR: Could not load identity',err);
-        } else {
-          bot.identity=identity;
-          bot.debug(":::::::> I AM ", bot.identity.user);
-        }
-      });
-
-      bot.on('message_received',function(message) {
+      bot.on('message_received',function(connection,message) {
         bot.debug('DEFAULT SLACK MSG RECEIVED RESPONDER');
         console.log(message);
         console.log('~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~');
-        if ('channel_left'==message.type) {
-            bot.trigger('left_channel',[message]);
-            return false;
-        }
-        if ('file_shared'==message.type) {
-          bot.trigger('file_shared',[message]);
-          return false;
-        }
         if ('message' == message.type) {
-          if (message.username=='slackbot') {
-            bot.debug('Slackbot message! Ignore');
-            return false;
-          }
 
-          if (message.subtype && message.subtype=='bot_message') {
-            bot.trigger('bot_message',[message]);
-            return false;
-          }
+          // set up a couple of special cases based on subtype
+
 
           if (message.subtype && message.subtype=='channel_join') {
             // someone joined. maybe do something?
-            if (message.user==bot.identity.user_id) {
-              bot.trigger('joined_channel',[message]);
+            if (message.user==bot.identity.id) {
+              bot.trigger('bot_channel_join',[connection,message]);
               return false;
             } else {
-              bot.trigger('user_joined_channel',[message]);
+              bot.trigger('user_channel_join',[connection,message]);
               return false;
             }
+          } else if (message.subtype && message.subtype == 'group_join') {
+            // someone joined. maybe do something?
+            if (message.user==bot.identity.id) {
+              bot.trigger('bot_group_join',[connection,message]);
+              return false;
+            } else {
+              bot.trigger('user_group_join',[connection,message]);
+              return false;
+            }
+
+          } else if (message.subtype) {
+            bot.trigger(message.subtype,[connection,message]);
+            return false;
+
           } else if (message.channel.match(/^D/)){
-            if (message.user==bot.identity.user_id) {
+            // this is a direct message
+            if (message.user==bot.identity.id) {
               return false;
             }
+
             if (!message.text) {
               // message without text is probably an edit
               return false;
             }
 
             // remove direct mention so the handler doesn't have to deal with it
-            var direct_mention = new RegExp('^\<\@' + bot.identity.user_id + '\>','i');
+            var direct_mention = new RegExp('^\<\@' + bot.identity.id + '\>','i');
             message.text = message.text.replace(direct_mention,'').replace(/^\s+/,'').replace(/^\:/,'').replace(/^\s+/,'');
 
             message.event = 'direct_message';
-            // this is a direct message
 
-            bot.trigger('direct_message',[message]);
+            bot.trigger('direct_message',[connection,message]);
             return false;
 
           } else {
-            if (message.user==bot.identity.user_id) {
+            if (message.user==bot.identity.id) {
               return false;
             }
             if (!message.text) {
@@ -525,38 +543,30 @@ function Slackbot(configuration) {
               return false;
             }
 
-            var direct_mention = new RegExp('^\<\@' + bot.identity.user_id + '\>','i');
-            var mention = new RegExp('\<\@' + bot.identity.user_id + '\>','i');
+            var direct_mention = new RegExp('^\<\@' + bot.identity.id + '\>','i');
+            var mention = new RegExp('\<\@' + bot.identity.id + '\>','i');
 
             if (message.text.match(direct_mention)) {
               // this is a direct mention
               message.text = message.text.replace(direct_mention,'').replace(/^\s+/,'').replace(/^\:/,'').replace(/^\s+/,'');
               message.event = 'direct_mention';
 
-              bot.trigger('direct_mention',[message]);
+              bot.trigger('direct_mention',[connection,message]);
               return false;
             } else if (message.text.match(mention)) {
               message.event = 'mention';
 
-              bot.trigger('mention',[message]);
+              bot.trigger('mention',[connection,message]);
               return false;
             } else {
-              // message.event = 'ambient';
-              //
-              // bot.trigger('ambient',[message]);
-              //console.log('just a normal message probably safe to ignore');
-            }
-          }
+              message.event = 'ambient';
+              bot.trigger('ambient',[connection,message]);
+              return false;
 
-          if (message.user==bot.identity.user_id) {
-            bot.debug('This is a message that I said.');
-            return false;
+            }
           }
         }
       });
-
-
-    }
 
   });
 

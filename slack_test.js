@@ -2,7 +2,6 @@ var Bot = require('./Slackbot.js');
 
 var bot = Bot({
   debug: true,
-  token: process.env.token,
   webhook_url: '',
   clientId: process.env.clientId,
   clientSecret: process.env.clientSecret,
@@ -17,6 +16,11 @@ bot.on('ready',function() {
     bot.createWebhookEndpoints(bot.webserver);
   });
 
+  bot.startRTM({
+    token: process.env.token,
+    team: 'XOXCO',
+  });
+
   setInterval(function() {
     bot.tick();
   },1000);
@@ -28,16 +32,16 @@ bot.init();
 
 
 
-bot.hears(['\/botkit'],'message_received',function(message) {
+bot.hears(['\/botkit'],'message_received',function(connection,message) {
 
 
 
 
 });
 
-bot.hears(['^apis$'],'direct_mention,direct_message',function(message) {
+bot.hears(['^apis$'],'direct_mention,direct_message',function(connection,message) {
 
-  bot.reply(message,'Starting an API test...');
+  bot.reply(connection,message,'Starting an API test...');
 
   bot.api.webhooks.send({
     text: 'This is an incoming webhook',
@@ -122,13 +126,13 @@ bot.hears(['^apis$'],'direct_mention,direct_message',function(message) {
 
 });
 
-bot.hears(['he.*?llo*','hey','hi'],'direct_mention,direct_message',function(message) {
+bot.hears(['he.*?llo*','hey','hi'],'direct_mention,direct_message',function(connection,message) {
   bot.debug('HEARS HANDLER');
-  bot.reply(message,'Hello yourself, <@'+message.user+'>');
+  bot.reply(connection,message,'Hello yourself, <@'+message.user+'>');
 });
 
-bot.hears(['ask'],'message_received,direct_message',function(message) {
-  bot.startTask(message,function(task,convo) {
+bot.hears(['ask'],'ambient,direct_message',function(connection,message) {
+  bot.startTask(connection,message,function(task,convo) {
     convo.ask('Say YES or NO',{
         'yes': function(response) { bot.reply(response,'YES! Good.'); },
         'no': function(response) { bot.reply(response,'NO?!?! WTF?'); },
@@ -138,8 +142,8 @@ bot.hears(['ask'],'message_received,direct_message',function(message) {
 });
 
 // this will only be called if one of the hears phrases isn't heard
-bot.on('direct_message,direct_mention',function(message) {
-  bot.startTask(message,function(task,convo) {
+bot.on('direct_message,direct_mention',function(connection,message) {
+  bot.startTask(connection,message,function(task,convo) {
     bot.debug('Started a task, future messages should end up handled.')
 
 
