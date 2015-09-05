@@ -40,8 +40,10 @@ bot.on('slash_command',function(connection,message) {
     connection.res.send('OK!')
 
   } else {
-    res.send('Unknown command!');
+    connection.res.send('Unknown command!');
   }
+
+  return false;
 
 });
 
@@ -51,6 +53,9 @@ bot.on('outgoing_webhook',function(connection,message) {
   connection.res.json({
     text: 'Got it',
   });
+
+
+  return false;
 
 });
 
