@@ -394,7 +394,7 @@ function Slackbot(configuration) {
       if (fs.existsSync(bot.config.path+'/' + id + '.json')) {
         json = fs.readFileSync(bot.config.path+'/' + id + '.json','utf8');
         json = JSON.parse(json);
-        cb(null,json);
+        cb(null,{team: json});
       } else {
         cb('Not found');
       }
