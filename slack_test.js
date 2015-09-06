@@ -37,7 +37,7 @@ bot.on('slash_command',function(connection,message) {
   if (message.command=='/botkit') {
 
     // just respond with this
-    connection.res.send('OK!')
+    connection.res.send('Ouch!')
     bot.reply(connection,message,'<@' + message.user + '> touched my slash command!!');
 
   } else {
@@ -52,7 +52,7 @@ bot.on('slash_command',function(connection,message) {
 bot.on('outgoing_webhook',function(connection,message) {
 
   connection.res.json({
-    text: 'Oh.',
+    text: 'Oh!',
   });
 
   bot.reply(connection,message,'<@' + message.user + '> I love it when you say that.');
