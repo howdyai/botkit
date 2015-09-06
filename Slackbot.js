@@ -543,7 +543,7 @@ function Slackbot(configuration) {
   bot.findConversation = function(message,cb) {
     bot.debug('CUSTOM FIND CONVO',message.user,message.channel);
 
-    if (message.type=='message') {
+    if (message.type=='message' || message.type=='slash_command' || message.type=='outgoing_webhook') {
       for (var t = 0; t < bot.tasks.length; t++) {
         for (var c = 0; c < bot.tasks[t].convos.length; c++) {
           if (
