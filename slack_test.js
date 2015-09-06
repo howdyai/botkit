@@ -47,7 +47,6 @@ bot.on('create_team',function(connection) {
 
 });
 
-
 bot.on('update_team',function(connection) {
   console.log('~~~~~~~~~~~~~~~~~~~~~~~~~~~~~');
   console.log('~~~~~~~~~~~~~~~~~~~~~~~~~~~~~');
@@ -63,7 +62,6 @@ bot.on('update_team',function(connection) {
 
 
 });
-
 
 bot.on('create_incoming_webhook',function(connection) {
   console.log('~~~~~~~~~~~~~~~~~~~~~~~~~~~~~');
@@ -81,8 +79,6 @@ bot.on('create_incoming_webhook',function(connection) {
 
 })
 
-
-
 bot.on('slash_command',function(connection,message) {
 
   if (message.command=='/botkit') {
@@ -99,7 +95,6 @@ bot.on('slash_command',function(connection,message) {
 
 });
 
-
 bot.on('outgoing_webhook',function(connection,message) {
 
   connection.res.json({
@@ -112,8 +107,6 @@ bot.on('outgoing_webhook',function(connection,message) {
   return false;
 
 });
-
-
 
 bot.hears(['^apis$'],'slash_command,direct_mention,direct_message',function(connection,message) {
 

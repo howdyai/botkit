@@ -458,23 +458,23 @@ function Slackbot(configuration) {
 
             bot.findTeamById(identity.team_id,function(err,connection) {
 
-              auth.incoming_webhook.token = auth.access_token;
               if (!connection) {
                 connection = {
                   team: {
-                    incoming_webhook: auth.incoming_webhook,
                     id: identity.team_id,
                     createdBy: identity.user_id,
                     team_url: identity.url,
                     team_name: identity.team,
                   }
                 }
-                bot.trigger('create_team',[connection]);
-              } else {
-                connection.team.incoming_webhook = auth.incoming_webhook;
-                bot.trigger('update_team',[connection]);
               }
-              bot.trigger('create_incoming_webhook',[connection]);
+
+              if (auth.incoming_webhook) {
+                auth.incoming_webhook.token = auth.access_token;
+                auth.incoming_webhook.createdBy = identity.user_id;
+                connection.team.incoming_webhook = auth.incoming_webhook;
+                bot.trigger('create_incoming_webhook',[connection]);
+              }
 
               bot.saveTeam(connection);
               bot.useConnection(connection);
@@ -497,6 +497,11 @@ function Slackbot(configuration) {
   bot.saveTeam = function(connection) {
 
     if (bot.config.path) {
+      if (fs.existsSync(bot.config.path+'/' + connection.team.id + '.json')) {
+        bot.trigger('update_team',[connection]);
+      } else {
+        bot.trigger('create_team',[connection]);
+      }
       var json = JSON.stringify(connection.team);
       json = fs.writeFileSync(bot.config.path+'/' + connection.team.id + '.json',json,'utf8');
     }
