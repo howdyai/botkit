@@ -209,9 +209,12 @@ bot.hears(['ask'],'ambient,direct_message',function(connection,message) {
     convo.ask('Say YES or NO',{
         'yes': {
           callback: function(response) { convo.say('YES! Good.'); },
-          pattern: new RegExp(/^(yes|yeah|yup|sure|ok|ya)/i),
+          pattern: bot.utterances.yes,
         },
-        'no': function(response) { convo.say('NO?!?! WTF?'); },
+        'no': {
+          callback: function(response) { convo.say('NO?!?! WTF?'); },
+          pattern: bot.utterances.no,
+        },
         'default': function(response) { convo.say('Huh?'); convo.repeat(); }
     });
   });
