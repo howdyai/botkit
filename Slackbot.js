@@ -459,14 +459,16 @@ function Slackbot(configuration) {
 
             if (!team) {
               team = {
-                incoming_webhook: auth.incoming_webhook,
-                id: team_id,
+                team: {
+                  incoming_webhook: auth.incoming_webhook,
+                  id: team_id,
+                }
               }
             } else {
-              team.incoming_webhook = auth.incoming_webhook;
+              team.team.incoming_webhook = auth.incoming_webhook;
             }
 
-            team.team_name = auth.team_name;
+            team.team.team_name = auth.team_name;
 
             bot.saveTeam(team);
             bot.useConnection(team);
@@ -488,16 +490,15 @@ function Slackbot(configuration) {
   bot.saveTeam = function(team) {
 
     if (bot.config.path) {
-      var json = JSON.stringify(team);
+      var json = JSON.stringify(team.team);
       json = fs.writeFileSync(bot.config.path+'/' + team.id + '.json',json,'utf8');
     }
 
   }
 
   bot.useConnection = function(connection) {
-    configuration.token = connection.token;
-    configuration.incoming_webhook = connection.incoming_webhook;
-
+    configuration.token = connection.team.token;
+    configuration.incoming_webhook = connection.team.incoming_webhook;
   }
 
   bot.say = function(connection,message,cb) {
