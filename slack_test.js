@@ -38,6 +38,7 @@ bot.on('slash_command',function(connection,message) {
 
     // just respond with this
     connection.res.send('OK!')
+    bot.reply(connection,message,'<@' + message.user + '> touched my slash command!!');
 
   } else {
     connection.res.send('Unknown command!');
@@ -51,8 +52,10 @@ bot.on('slash_command',function(connection,message) {
 bot.on('outgoing_webhook',function(connection,message) {
 
   connection.res.json({
-    text: 'Got it',
+    text: 'Oh.',
   });
+
+  bot.reply(connection,message,'<@' + message.user + '> I love it when you say that.');
 
 
   return false;
