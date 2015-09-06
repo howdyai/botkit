@@ -209,7 +209,7 @@ bot.hears(['ask'],'ambient,direct_message',function(connection,message) {
     convo.ask('Say YES or NO',{
         'yes': {
           callback: function(response) { convo.say('YES! Good.'); },
-          pattern: new RegExp(/^[yes|yeah|yup|sure|ok|ya]/i),
+          pattern: new RegExp(/^(yes|yeah|yup|sure|ok|ya)/i),
         },
         'no': function(response) { convo.say('NO?!?! WTF?'); },
         'default': function(response) { convo.say('Huh?'); convo.repeat(); }
