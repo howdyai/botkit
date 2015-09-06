@@ -450,30 +450,37 @@ function Slackbot(configuration) {
 
           console.log(auth);
 
-          // team id strangely missing from this response!
-          // but it is part of the configuration url!
-          var team_id = auth.incoming_webhook.url.split(/\//)[4];
-          console.log('GOT AUTH FOR TEAM ID',team_id);
+          // temporarily use the token we got from the oauth
+          configuration.token = auth.access_token;
+          bot.api.auth.test({},function(err,identity) {
 
-          bot.findTeamById(team_id,function(err,team) {
+            console.log(identity);
 
-            if (!team) {
-              team = {
-                team: {
-                  incoming_webhook: auth.incoming_webhook,
-                  id: team_id,
+            // team id strangely missing from this response!
+            // but it is part of the configuration url!
+            var team_id = auth.incoming_webhook.url.split(/\//)[4];
+            console.log('GOT AUTH FOR TEAM ID',team_id);
+
+            bot.findTeamById(team_id,function(err,connection) {
+
+              if (!connection) {
+                connection = {
+                  team: {
+                    incoming_webhook: auth.incoming_webhook,
+                    id: team_id,
+                  }
                 }
+              } else {
+                connection.team.incoming_webhook = auth.incoming_webhook;
               }
-            } else {
-              team.team.incoming_webhook = auth.incoming_webhook;
-            }
 
-            team.team.team_name = auth.team_name;
+              connection.team.team_name = auth.team_name;
 
-            bot.saveTeam(team);
-            bot.useConnection(team);
-            bot.api.webhooks.send({
-              text: 'This is a test incoming webhook configured by oauth!',
+              bot.saveTeam(connection);
+              bot.useConnection(connection);
+              bot.api.webhooks.send({
+                text: 'This is a test incoming webhook configured by oauth!',
+              });
             });
 
           })
@@ -487,11 +494,11 @@ function Slackbot(configuration) {
 
   }
 
-  bot.saveTeam = function(team) {
+  bot.saveTeam = function(connection) {
 
     if (bot.config.path) {
-      var json = JSON.stringify(team.team);
-      json = fs.writeFileSync(bot.config.path+'/' + team.id + '.json',json,'utf8');
+      var json = JSON.stringify(connection.team);
+      json = fs.writeFileSync(bot.config.path+'/' + connection.team.id + '.json',json,'utf8');
     }
 
   }
