@@ -79,21 +79,21 @@ bot.on('create_incoming_webhook',function(connection) {
 
 })
 
-// bot.on('slash_command',function(connection,message) {
-//
-//   if (message.command=='/botkit') {
-//
-//     // just respond with this
-//     connection.res.send('Ouch!')
-//     bot.reply(connection,message,'<@' + message.user + '> touched my slash command!!');
-//
-//   } else {
-//     connection.res.send('Unknown command!');
-//   }
-//
-//   return false;
-//
-// });
+bot.on('slash_command',function(connection,message) {
+
+  if (message.command=='/botkit') {
+
+    // just respond with this
+    connection.res.send('Ouch!')
+    bot.reply(connection,message,'<@' + message.user + '> touched my slash command!!');
+
+  } else {
+    connection.res.send('Unknown command!');
+  }
+
+  return false;
+
+});
 
 bot.on('outgoing_webhook',function(connection,message) {
 
@@ -204,7 +204,7 @@ bot.hears(['he.*?llo*','hey','hi'],'slash_command,outgoing_webhook,direct_mentio
   bot.reply(connection,message,'Hello yourself, <@'+message.user+'>');
 });
 
-bot.hears(['ask'],'slash_command,ambient,direct_message',function(connection,message) {
+bot.hears(['ask'],'ambient,direct_message',function(connection,message) {
   bot.startTask(connection,message,function(task,convo) {
     convo.ask('Say YES or NO',{
         'yes': {

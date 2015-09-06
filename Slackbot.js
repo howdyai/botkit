@@ -317,17 +317,18 @@ function Slackbot(configuration) {
           } else {
             message.type='slash_command';
 
-            res.status(200);
-            connection.res = res;
-            bot.trigger('slash_command',[connection,message]);
-//            bot.receiveMessage(connection,message);
-
             // HEY THERE
             // Slash commands can actually just send back a response
-            // and have it displayed privately.  This is different than that!
-            // maybe we need a custom event.
+            // and have it displayed privately. That means
+            // the callback needs access to the res object
+            // to send an optional response.
 
-            //res.send('');
+            res.status(200);
+            connection.res = res;
+
+//            bot.trigger('slash_command',[connection,message]);
+            bot.receiveMessage(connection,message);
+
           }
         });
 
@@ -367,15 +368,15 @@ function Slackbot(configuration) {
             message.type='outgoing_webhook';
             connection.res = res;
             res.status(200);
-            bot.trigger('outgoing_webhook',[connection,message]);
+//            bot.trigger('outgoing_webhook',[connection,message]);
 
-            // bot.receiveMessage(connection,message);
+             bot.receiveMessage(connection,message);
 
             // outgoing webhooks are also different. They can simply return
             // a response instead of using the API to reply.  Maybe this is
             // a different type of event!!
 
-            res.send('');
+            //res.send('');
           }
         });
 
@@ -676,6 +677,9 @@ function Slackbot(configuration) {
 
             }
           }
+        } else {
+          // this is a non-message object, so trigger a custom event based on the type
+          bot.trigger(message.type,[connection,message]);
         }
       });
 
