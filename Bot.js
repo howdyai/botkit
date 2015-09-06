@@ -14,7 +14,7 @@ function Bot(configuration) {
 
   bot.utterances = {
     yes: new RegExp(/^(yes|yea|yup|ya|sure|ok)/i),
-    no: new REgExp(/^(no|nah|nope)/i),
+    no: new RegExp(/^(no|nah|nope)/i),
   }
 
   function Conversation(task,message) {
