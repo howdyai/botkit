@@ -207,7 +207,10 @@ bot.hears(['he.*?llo*','hey','hi'],'slash_command,outgoing_webhook,direct_mentio
 bot.hears(['ask'],'ambient,direct_message',function(connection,message) {
   bot.startTask(connection,message,function(task,convo) {
     convo.ask('Say YES or NO',{
-        'yes': function(response) { convo.say('YES! Good.'); },
+        'yes': {
+          callback: function(response) { convo.say('YES! Good.'); },
+          pattern: new RegExp(/[yes|yeah|yup|sure|ok|ya]/,'i'),
+        },
         'no': function(response) { convo.say('NO?!?! WTF?'); },
         'default': function(response) { convo.say('Huh?'); convo.repeat(); }
     });

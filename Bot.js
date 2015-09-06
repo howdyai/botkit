@@ -38,10 +38,20 @@ function Bot(configuration) {
 
           for (var keyword in this.handler) {
 
-            if (message.text.match(new RegExp(keyword,'i'))) {
-              this.handler[keyword](message);
-              this.handler = null;
-              return;
+            // this might be a simple keyword => callback
+            // but it might also be keyword => configuration object
+            if (typeof(this.handler[keyword])=='function') {
+              if (message.text.match(new RegExp(keyword,'i'))) {
+                this.handler[keyword](message);
+                this.handler = null;
+                return;
+              }
+            } else {
+              if (message.text.match(this.handler[keyword].pattern)) {
+                this.handler[keyword].callback(message);
+                this.handler = null;
+                return;
+              }
             }
           }
 
