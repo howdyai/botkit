@@ -456,25 +456,25 @@ function Slackbot(configuration) {
 
             console.log(identity);
 
-            // team id strangely missing from this response!
-            // but it is part of the configuration url!
-            var team_id = auth.incoming_webhook.url.split(/\//)[4];
-            console.log('GOT AUTH FOR TEAM ID',team_id);
+            bot.findTeamById(identity.team_id,function(err,connection) {
 
-            bot.findTeamById(team_id,function(err,connection) {
-
+              auth.incoming_webhook.token = auth.access_token;
               if (!connection) {
                 connection = {
                   team: {
                     incoming_webhook: auth.incoming_webhook,
-                    id: team_id,
+                    id: identity.team_id,
+                    createdBy: identity.user_id,
+                    team_url: identity.url,
+                    team_name: identity.team,
                   }
                 }
+                bot.trigger('create_team',[connection]);
               } else {
                 connection.team.incoming_webhook = auth.incoming_webhook;
+                bot.trigger('update_team',[connection]);
               }
-
-              connection.team.team_name = auth.team_name;
+              bot.trigger('create_incoming_webhook',[connection]);
 
               bot.saveTeam(connection);
               bot.useConnection(connection);

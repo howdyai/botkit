@@ -32,6 +32,57 @@ bot.on('ready',function() {
 bot.init();
 
 
+bot.on('create_team',function(connection) {
+  console.log('~~~~~~~~~~~~~~~~~~~~~~~~~~~~~');
+  console.log('~~~~~~~~~~~~~~~~~~~~~~~~~~~~~');
+  console.log('~~~~~~~~~~~~~~~~~~~~~~~~~~~~~');
+  console.log('~~~~~~~~~~~~~~~~~~~~~~~~~~~~~');
+  console.log('~~~~~~~~~~~~~~~~~~~~~~~~~~~~~');
+  console.log('CREATED A TEAM!!');
+  console.log('~~~~~~~~~~~~~~~~~~~~~~~~~~~~~');
+  console.log('~~~~~~~~~~~~~~~~~~~~~~~~~~~~~');
+  console.log('~~~~~~~~~~~~~~~~~~~~~~~~~~~~~');
+  console.log('~~~~~~~~~~~~~~~~~~~~~~~~~~~~~');
+  console.log('~~~~~~~~~~~~~~~~~~~~~~~~~~~~~');
+
+});
+
+
+bot.on('update_team',function(connection) {
+  console.log('~~~~~~~~~~~~~~~~~~~~~~~~~~~~~');
+  console.log('~~~~~~~~~~~~~~~~~~~~~~~~~~~~~');
+  console.log('~~~~~~~~~~~~~~~~~~~~~~~~~~~~~');
+  console.log('~~~~~~~~~~~~~~~~~~~~~~~~~~~~~');
+  console.log('~~~~~~~~~~~~~~~~~~~~~~~~~~~~~');
+  console.log('UPDATED A TEAM!!');
+  console.log('~~~~~~~~~~~~~~~~~~~~~~~~~~~~~');
+  console.log('~~~~~~~~~~~~~~~~~~~~~~~~~~~~~');
+  console.log('~~~~~~~~~~~~~~~~~~~~~~~~~~~~~');
+  console.log('~~~~~~~~~~~~~~~~~~~~~~~~~~~~~');
+  console.log('~~~~~~~~~~~~~~~~~~~~~~~~~~~~~');
+
+
+});
+
+
+bot.on('create_incoming_webhook',function(connection) {
+  console.log('~~~~~~~~~~~~~~~~~~~~~~~~~~~~~');
+  console.log('~~~~~~~~~~~~~~~~~~~~~~~~~~~~~');
+  console.log('~~~~~~~~~~~~~~~~~~~~~~~~~~~~~');
+  console.log('~~~~~~~~~~~~~~~~~~~~~~~~~~~~~');
+  console.log('~~~~~~~~~~~~~~~~~~~~~~~~~~~~~');
+  console.log('CREATED INCOMING WEBHOOK!!');
+  console.log('~~~~~~~~~~~~~~~~~~~~~~~~~~~~~');
+  console.log('~~~~~~~~~~~~~~~~~~~~~~~~~~~~~');
+  console.log('~~~~~~~~~~~~~~~~~~~~~~~~~~~~~');
+  console.log('~~~~~~~~~~~~~~~~~~~~~~~~~~~~~');
+  console.log('~~~~~~~~~~~~~~~~~~~~~~~~~~~~~');
+
+
+})
+
+
+
 bot.on('slash_command',function(connection,message) {
 
   if (message.command=='/botkit') {
