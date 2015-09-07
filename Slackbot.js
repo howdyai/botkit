@@ -474,7 +474,7 @@ function Slackbot(configuration) {
                 auth.incoming_webhook.token = auth.access_token;
                 auth.incoming_webhook.createdBy = identity.user_id;
                 connection.team.incoming_webhook = auth.incoming_webhook;
-                bot.trigger('create_incoming_webhook',[connection]);
+                bot.trigger('create_incoming_webhook',[connection,connection.team.incoming_webhook]);
               }
 
               bot.saveTeam(connection);
@@ -586,6 +586,11 @@ function Slackbot(configuration) {
              var message = JSON.parse(data);
               bot.receiveMessage(connection,message);
            });
+
+           setInterval(function() {
+             bot.tick();
+           },1000);
+           
      });
   }
 

@@ -22,9 +22,6 @@ bot.on('ready',function() {
 
   })
 
-  setInterval(function() {
-    bot.tick();
-  },1000);
 
 
 });
@@ -63,7 +60,7 @@ bot.on('update_team',function(connection) {
 
 });
 
-bot.on('create_incoming_webhook',function(connection) {
+bot.on('create_incoming_webhook',function(connection,webhook_config) {
   console.log('~~~~~~~~~~~~~~~~~~~~~~~~~~~~~');
   console.log('~~~~~~~~~~~~~~~~~~~~~~~~~~~~~');
   console.log('~~~~~~~~~~~~~~~~~~~~~~~~~~~~~');
@@ -75,7 +72,6 @@ bot.on('create_incoming_webhook',function(connection) {
   console.log('~~~~~~~~~~~~~~~~~~~~~~~~~~~~~');
   console.log('~~~~~~~~~~~~~~~~~~~~~~~~~~~~~');
   console.log('~~~~~~~~~~~~~~~~~~~~~~~~~~~~~');
-
 
 })
 
