@@ -62,7 +62,7 @@ function Slackbot(configuration) {
                   bot.debug('WEBHOOK SUCCESS',body);
                   if (cb) cb(null,body);
                 }
-            }).form(JSON.stringify(options));
+            }).form({payload: JSON.stringify(options)});
           }
         }
       },
@@ -590,7 +590,7 @@ function Slackbot(configuration) {
            setInterval(function() {
              bot.tick();
            },1000);
-           
+
      });
   }
 
