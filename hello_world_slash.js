@@ -7,6 +7,10 @@ var bot = Bot({
 
 bot.init();
 
+bot.setupWebserver();
+bot.createWebhookEndpoints(bot.webserver);
+
+
 bot.on('slash_command',function(connection,message) {
 
   if (message.command=='/hello') {
