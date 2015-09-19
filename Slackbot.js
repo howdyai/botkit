@@ -62,7 +62,7 @@ function Slackbot(configuration) {
                   bot.debug('WEBHOOK SUCCESS',body);
                   if (cb) cb(null,body);
                 }
-            }).form({payload: JSON.stringify(options)});
+            }).form(JSON.stringify(options));
           }
         }
       },
@@ -326,7 +326,6 @@ function Slackbot(configuration) {
             res.status(200);
             connection.res = res;
 
-//            bot.trigger('slash_command',[connection,message]);
             bot.receiveMessage(connection,message);
 
           }
@@ -340,19 +339,6 @@ function Slackbot(configuration) {
           message[key] = req.body[key];
         }
 
-/*  { token: 'Y07ff2RCykfHziqOqOS0oaqx',
-    team_id: 'T024F7C87',
-    team_domain: 'xoxco',
-    service_id: '10023171315',
-    channel_id: 'C0672HQUX',
-    channel_name: 'gruntforce',
-    timestamp: '1441485139.000219',
-    user_id: 'U024F7C89',
-    user_name: 'benbrown',
-    text: 'botkit hello',
-    trigger_word: 'botkit',
-    type: 'outgoing_webhook' }
-    */
 
         // let's normalize some of these fields to match the rtm message format
 
@@ -368,7 +354,6 @@ function Slackbot(configuration) {
             message.type='outgoing_webhook';
             connection.res = res;
             res.status(200);
-//            bot.trigger('outgoing_webhook',[connection,message]);
 
              bot.receiveMessage(connection,message);
 
@@ -455,7 +440,7 @@ function Slackbot(configuration) {
           configuration.token = auth.access_token;
           bot.api.auth.test({},function(err,identity) {
 
-            console.log(identity);
+    //        console.log(identity);
 
             bot.findTeamById(identity.team_id,function(err,connection) {
 
@@ -495,6 +480,21 @@ function Slackbot(configuration) {
 
   }
 
+
+  // convenience method for creating a DM convo
+  bot.startDM = function(task,user_id,cb) {
+
+    console.log('START A DM WITH',user_id);
+    bot.useConnection(task.connection);
+    bot.api.im.open({user:user_id},function(err,channel) {
+      if (err) {
+        cb(err);
+      } else {
+        cb(null,task.startConversation({channel:channel.channel.id, user: user_id}));
+      }
+    });
+  }
+
   bot.saveTeam = function(connection) {
 
     if (bot.config.path) {
@@ -510,6 +510,7 @@ function Slackbot(configuration) {
   }
 
   bot.useConnection = function(connection) {
+    console.log('USING OCNFIG',connection);
     configuration.token = connection.team.token;
     configuration.incoming_webhook = connection.team.incoming_webhook;
   }
@@ -517,20 +518,29 @@ function Slackbot(configuration) {
   bot.say = function(connection,message,cb) {
     bot.debug('SAY ',message);
     bot.useConnection(connection);
-    bot.api.chat.postMessage({
+    // bot.api.chat.postMessage({
+    //   as_user: true,
+    //   channel: message.channel,
+    //   text: message.text,
+    // },function(err,res) {
+    //   if (err) {
+    //     bot.debug('SLACK ERROR: ',err);
+    //     if (typeof(cb)=='function') cb(err);
+    //   } else {
+    //     bot.log('SAY SUCCESS',res);
+    //     if (typeof(cb)=='function') cb(null,res);
+    //   }
+    // });
+
+    connection.rtm.send(JSON.stringify({
       as_user: true,
       channel: message.channel,
       text: message.text,
-    },function(err,res) {
-      if (err) {
-        bot.debug('SLACK ERROR: ',err);
-        if (typeof(cb)=='function') cb(err);
-      } else {
-        bot.log('SAY SUCCESS',res);
-        if (typeof(cb)=='function') cb(null,res);
-      }
+      type: 'message',
+      id: connection.msgcount++,
+    }),function(err) {
+
     });
-    // bot.rtm.sendMessage(message.channel,message.text);
   }
 
   bot.reply = function(connection,src,resp,cb) {
@@ -541,7 +551,7 @@ function Slackbot(configuration) {
   }
 
   bot.findConversation = function(message,cb) {
-    bot.debug('CUSTOM FIND CONVO',message.user,message.channel);
+    bot.log('CUSTOM FIND CONVO',message.user,message.channel);
 
     if (message.type=='message' || message.type=='slash_command' || message.type=='outgoing_webhook') {
       for (var t = 0; t < bot.tasks.length; t++) {
@@ -551,7 +561,7 @@ function Slackbot(configuration) {
             && bot.tasks[t].convos[c].source_message.user==message.user
             && bot.tasks[t].convos[c].source_message.channel==message.channel
           ) {
-            bot.debug('FOUND EXISTING CONVO!');
+            bot.log('FOUND EXISTING CONVO!');
             cb(bot.tasks[t].convos[c]);
             return;
           }
@@ -567,8 +577,13 @@ function Slackbot(configuration) {
     bot.useConnection(connection);
     bot.api.rtm.start({},function(err,res) {
 
+      if (err) {
+        console.log(err);
+
+      } else {
+
       bot.identity = res.self;
-//      bot.team = res.team;
+      //      bot.team = res.team;
 
       // also available
       // res.users
@@ -578,18 +593,31 @@ function Slackbot(configuration) {
       // res.bots
       // these could be stored and cached for later use?
 
-          bot.debug(":::::::> I AM ", bot.identity.name);
+          bot.log(":::::::> I AM ", bot.identity.name);
 
            connection.rtm = new ws(res.url);
+           connection.msgcount = 1;
            connection.rtm.on('message', function(data, flags) {
 
              var message = JSON.parse(data);
               bot.receiveMessage(connection,message);
            });
 
-           setInterval(function() {
+           connection.rtm.on('close',function() {
+
+             console.log('WEBSOCKET RECONECT');
+             bot.startRTM(connection);
+           });
+
+           if (connection.tickInterval) {
+             clearInterval(connection.tickInterval);
+           }
+
+           console.log('Setting interval...');
+           connection.tickInterval = setInterval(function() {
              bot.tick();
            },1000);
+         }
 
      });
   }
@@ -601,8 +629,8 @@ function Slackbot(configuration) {
 
       bot.on('message_received',function(connection,message) {
         bot.debug('DEFAULT SLACK MSG RECEIVED RESPONDER');
-        console.log(message);
-        console.log('~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~');
+        //console.log(message);
+        //console.log('~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~');
         if ('message' == message.type) {
 
           // set up a couple of special cases based on subtype

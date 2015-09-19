@@ -2,6 +2,7 @@
 /* It expects to receive messages via the bot.receiveMessage function */
 /* These messages are expected to match Slack's message format. */
 var fs = require('fs');
+var mustache = require('mustache');
 
 function Bot(configuration) {
 
@@ -21,18 +22,43 @@ function Bot(configuration) {
 
     this.messages = [];
     this.sent = [];
+    this.transcript = [];
+
+
+    this.topics = {};
+    this.topic = null;
+
     this.status = 'new';
     this.task = task;
     this.source_message = message;
     this.handler = null;
-    this.responses = [];
+    this.responses = {};
+    this.capture_options = {};
 
     this.handle = function(message) {
-      bot.debug('HANDLING MESSAGE IN CONVO',message);
+      this.transcript.push(message);
+      bot.log('HANDLING MESSAGE IN CONVO',message);
       // do other stuff like call custom callbacks
       if (this.handler) {
 
+        var capture_key = this.sent[this.sent.length-1].text;
+
+        if (this.capture_options.key) {
+          capture_key = this.capture_options.key;
+        }
+
+        if (this.capture_options.multiple) {
+          if (!this.responses[capture_key]) {
+            this.responses[capture_key] = [];
+          }
+          this.responses[capture_key].push(message);
+        } else {
+          this.responses[capture_key] = message;
+        }
+
         if (typeof(this.handler)=='function') {
+
+          // store the response
           this.handler(message);
           this.handler = null;
         } else {
@@ -46,6 +72,8 @@ function Bot(configuration) {
             // but it might also be keyword => configuration object
             if (typeof(this.handler[keyword])=='function') {
               if (message.text.match(new RegExp(keyword,'i'))) {
+                // store the response
+
                 this.handler[keyword](message);
                 this.handler = null;
                 return;
@@ -96,22 +124,52 @@ function Bot(configuration) {
       }
     }
 
-    this.ask = function(message,cb) {
-      if (typeof(message)=='string') {
-        message = {
-          text: message,
-          channel: this.source_message.channel
-        }
+    this.silentRepeat = function() {
+      if (this.sent.length) {
+        var last = {};
+
+        last.text = '';
+        last.handler = this.sent[this.sent.length-1].handler;
+        last.capture_options = this.sent[this.sent.length-1].capture_options;
+        last.action = this.sent[this.sent.length-1].action;
+
+        this.messages.unshift(last);
       } else {
-        message.channel = this.source_message.channel;
+        console.log('TRIED TO REPEAT, NOTHING TO SAY');
       }
-
-      message.handler =cb;
-
-      this.addMessage(message);
     }
 
-    this.addMessage = function(message) {
+    this.addQuestion = function(message,cb,capture_options,topic) {
+
+
+        console.log('setting up an ask',message,cb,capture_options);
+        if (typeof(message)=='string') {
+          message = {
+            text: message,
+            channel: this.source_message.channel
+          }
+        } else {
+          message.channel = this.source_message.channel;
+        }
+
+        if (capture_options) {
+          message.capture_options = capture_options;
+        }
+        message.handler =cb;
+
+        this.addMessage(message,topic);
+
+    }
+
+
+    this.ask = function(message,cb,capture_options) {
+      this.addQuestion(message,cb,capture_options,this.topic||"default");
+    }
+
+    this.addMessage = function(message,topic) {
+      if (!topic) {
+        topic = this.topic;
+      }
       if (typeof(message)=='string') {
         message = {
           text: message,
@@ -121,7 +179,85 @@ function Bot(configuration) {
         message.channel = this.source_message.channel;
       }
 
-      this.messages.push(message);
+      if (!this.topics[topic]) {
+        this.topics[topic] = [];
+      }
+      this.topics[topic].push(message);
+
+      // this is the current topic, so add it here as well
+      if (this.topic==topic) {
+        this.messages.push(message);
+      }
+      //      this.messages.push(message);
+    }
+
+    this.changeTopic = function(topic) {
+      this.topic = topic;
+
+      if (!this.topics[topic]) {
+        this.topics[topic] = [];
+      }
+      this.messages = this.topics[topic].slice();
+      this.handler = null;
+    }
+
+    this.combineMessages = function(messages) {
+      if (messages.length>1) {
+        var txt = []
+        var last_user = null;
+        var multi_users = false;
+        last_user = messages[0].user;
+        for (var x = 0; x < messages.length; x++) {
+          if (messages[x].user != last_user) {
+            multi_users=true;
+          }
+        }
+        last_user = '';
+        for (var x = 0; x < messages.length; x++) {
+          if (multi_users && messages[x].user != last_user) {
+            last_user = messages[x].user;
+            if (txt.length) {
+              txt.push("");
+            }
+            txt.push('<@' + messages[x].user + '>:');
+          }
+            txt.push(messages[x].text);
+
+        }
+        return txt.join("\n");
+      } else {
+        if (messages.length) {
+          return messages[0].text;
+        } else {
+          return messages.text;
+        }
+      }
+
+    }
+
+    this.extractResponses = function() {
+
+      var res = {};
+      for (var key in this.responses) {
+        res[key] = this.extractResponse(key);
+      }
+      return res;
+    }
+
+    this.extractResponse = function(key) {
+      return this.combineMessages(this.responses[key]);
+    }
+
+    this.replaceTokens = function(text) {
+
+      var vars = {
+        identity: this.task.bot.identity,
+        responses: this.extractResponses(),
+        origin: this.source_message
+      }
+
+      return mustache.render(text,vars);
+
     }
 
     this.tick = function() {
@@ -136,10 +272,30 @@ function Bot(configuration) {
             if (message.handler) {
               this.handler = message.handler;
             }
+            if (message.capture_options) {
+              this.capture_options = message.capture_options;
+            } else {
+              this.capture_options = {};
+            }
+
 
             this.sent.push(message);
-            this.task.bot.say(this.task.connection,message,this);
-          } else {
+            this.transcript.push(message);
+            if (message.text) {
+              message.text = this.replaceTokens(message.text);
+              this.task.bot.say(this.task.connection,message,this);
+            }
+            if (message.action) {
+                if (message.action=='repeat') {
+                  this.repeat();
+                } else if (message.action=='wait') {
+                    this.silentRepeat();
+                } else if (this.topics[message.action]) {
+                  this.changeTopic(message.action);
+                }
+            }
+
+          } else if (this.sent.length) { // sent at least 1 message
             this.status='completed';
             bot.debug('Conversation is over!');
             this.task.conversationEnded(this);
@@ -149,15 +305,22 @@ function Bot(configuration) {
     }
 
     bot.debug('CREATED A CONVO FOR',this.source_message.user,this.source_message.channel);
+    this.changeTopic('default');
 
   }
 
-  function Task(connection,bot) {
+  function Task(connection,message,bot) {
 
     this.convos = [];
     this.bot = bot;
     this.connection = connection;
     this.events = {};
+    this.source_message = message;
+    this.status = 'active';
+
+    this.isActive = function() {
+      return this.status=='active';
+    }
 
     this.startConversation = function(message) {
 
@@ -188,6 +351,7 @@ function Bot(configuration) {
     this.taskEnded = function() {
 
       bot.debug('THIS TASK HAS ENDED!');
+      this.status='completed';
       this.trigger('end',[this]);
 
     }
@@ -219,8 +383,48 @@ function Bot(configuration) {
     }
 
 
+    this.getResponsesByUser = function() {
+
+      var users = {};
+
+      // go through all conversations
+      // extract normalized answers
+      for (var c = 0; c < this.convos.length; c++) {
+
+          var user = this.convos[c].source_message.user;
+          users[this.convos[c].source_message.user] = {};
+          var convo = this.convos[c];
+          users[user] = convo.extractResponses();
+      }
+
+      return users;
+
+    }
+
+    this.getResponsesBySubject = function() {
+
+      var answers = {};
+
+      // go through all conversations
+      // extract normalized answers
+      for (var c = 0; c < this.convos.length; c++) {
+        var convo = this.convos[c];
+
+        for (var key in convo.responses) {
+          if (!answers[key]) {
+            answers[key] = {};
+          }
+          answers[key][convo.source_message.user] = convo.extractResponse(key);
+
+        }
+      }
+
+      return answers;
+
+    }
 
     this.tick = function() {
+
       for (var c = 0; c < this.convos.length; c++) {
         if (this.convos[c].isActive()) {
           this.convos[c].tick();
@@ -337,7 +541,7 @@ function Bot(configuration) {
   bot.startTask = function(connection,message,cb) {
 
     console.log('Start task with',message);
-    var task = new Task(connection,this);
+    var task = new Task(connection,message,this);
     var convo = task.startConversation(message);
     this.tasks.push(task);
 
@@ -351,7 +555,7 @@ function Bot(configuration) {
 
   bot.receiveMessage = function(connection,message) {
 
-    bot.log('RECEIVED MESSAGE');
+    bot.debug('RECEIVED MESSAGE');
 
     bot.findConversation(message,function(convo) {
       if (convo) {
@@ -366,6 +570,16 @@ function Bot(configuration) {
     for (var t = 0; t < bot.tasks.length; t++) {
       bot.tasks[t].tick();
     }
+    for (var t = bot.tasks.length-1; t >=0; t--) {
+      if (!bot.tasks[t].isActive()) {
+        console.log('SPLICE OUT COMPLETED TASK');
+          bot.tasks.splice(t,1);
+      }
+    }
+
+
+    this.trigger('tick',[]);
+
   }
 
   bot.init = function() {
