@@ -6,6 +6,7 @@
   "dependencies": {
     "body-parser": "^1.13.3",
     "express": "^4.13.3",
+    "mustache": "^2.1.3",
     "request": "^2.60.0",
     "ws": "^0.7.2"
   },
