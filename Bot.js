@@ -44,7 +44,7 @@ function Bot(configuration) {
 
       this.lastActive = new Date();
       this.transcript.push(message);
-      bot.debug('HANDLING MESSAGE IN CONVO',message);
+//      bot.debug('HANDLING MESSAGE IN CONVO',message);
       // do other stuff like call custom callbacks
       if (this.handler) {
 
@@ -175,12 +175,11 @@ function Bot(configuration) {
 
         this.messages.unshift(last);
       } else {
-        //console.log('TRIED TO REPEAT, NOTHING TO SAY');
+        // do nothing
       }
     }
 
     this.addQuestion = function(message,cb,capture_options,topic) {
-
 
         if (typeof(message)=='string') {
           message = {
@@ -355,6 +354,7 @@ function Bot(configuration) {
               if (this.messages.length && !message.handler) {
                 message.continue_typing = true;
               }
+
               this.task.bot.say(this.task.connection,message,this);
             }
             if (message.action) {
@@ -624,7 +624,6 @@ function Bot(configuration) {
 
     task.id = bot.taskCount++;
     bot.log('[Start] ',task.id,' Task for ',message.user,'in',message.channel);
-
     var convo = task.startConversation(message);
 
     this.tasks.push(task);

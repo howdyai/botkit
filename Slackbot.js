@@ -62,7 +62,7 @@ function Slackbot(configuration) {
                   bot.debug('WEBHOOK SUCCESS',body);
                   if (cb) cb(null,body);
                 }
-            }).form({payload: JSON.stringify(options)});
+            }).form(JSON.stringify(options));
           }
         }
       },
@@ -520,6 +520,7 @@ function Slackbot(configuration) {
   }
 
   bot.useConnection = function(connection) {
+    console.log('USING OCNFIG',connection);
     configuration.token = connection.team.token;
     configuration.incoming_webhook = connection.team.incoming_webhook;
   }
@@ -571,7 +572,7 @@ function Slackbot(configuration) {
             && bot.tasks[t].convos[c].source_message.user==message.user
             && bot.tasks[t].convos[c].source_message.channel==message.channel
           ) {
-            bot.debug('FOUND EXISTING CONVO!');
+            bot.log('FOUND EXISTING CONVO!');
             cb(bot.tasks[t].convos[c]);
             return;
           }
@@ -589,67 +590,67 @@ function Slackbot(configuration) {
 
   }
 
-  bot.startRTM = function(connection,cb) {
+    bot.startRTM = function(connection,cb) {
 
-    bot.useConnection(connection);
-    bot.api.rtm.start({
-      no_unreads: true,
-      simple_latest: true,
-    },function(err,res) {
+      bot.useConnection(connection);
+      bot.api.rtm.start({
+        no_unreads: true,
+        simple_latest: true,
+      },function(err,res) {
 
-      if (err) {
-        if (cb) {
-          cb(err);
-        }
-      } else {
-        connection.identity = res.self;
-        connection.team_info = res.team;
-        connection.should_close = false;
+        if (err) {
+          if (cb) {
+            cb(err);
+          }
+        } else {
+          connection.identity = res.self;
+          connection.team_info = res.team;
+          connection.should_close = false;
 
-        // also available
-        // res.users
-        // res.channels
-        // res.groups
-        // res.ims
-        // res.bots
-        // these could be stored and cached for later use?
+          // also available
+          // res.users
+          // res.channels
+          // res.groups
+          // res.ims
+          // res.bots
+          // these could be stored and cached for later use?
 
-            bot.log(":::::::> I AM ", connection.identity.name);
+              bot.log(":::::::> I AM ", connection.identity.name);
 
-            bot.trigger('rtm_open',[connection]);
+              bot.trigger('rtm_open',[connection]);
 
-             connection.rtm = new ws(res.url);
-             connection.msgcount = 1;
-             connection.rtm.on('message', function(data, flags) {
+               connection.rtm = new ws(res.url);
+               connection.msgcount = 1;
+               connection.rtm.on('message', function(data, flags) {
 
-               var message = JSON.parse(data);
-                bot.receiveMessage(connection,message);
-             });
+                 var message = JSON.parse(data);
+                  bot.receiveMessage(connection,message);
+               });
 
-             connection.rtm.on('close',function() {
-               bot.trigger('rtm_close',[connection]);
-               if (!connection.should_close) {
-                 bot.startRTM(connection);
+               connection.rtm.on('close',function() {
+                 bot.trigger('rtm_close',[connection]);
+                 if (!connection.should_close) {
+                   bot.startRTM(connection);
+                 }
+               });
+
+               if (cb) {
+                 cb(null,connection);
                }
-             });
 
-             if (cb) {
-               cb(null,connection);
+
+              //  if (!botconnection.tickInterval) {
+              //    clearInterval(connection.tickInterval);
+              //  }
+
+              if (!bot.tickInterval) {
+                bot.tickInterval = setInterval(function() {
+                 bot.tick();
+                },1000);
+              }
              }
-
-
-            //  if (!botconnection.tickInterval) {
-            //    clearInterval(connection.tickInterval);
-            //  }
-
-            if (!bot.tickInterval) {
-              bot.tickInterval = setInterval(function() {
-               bot.tick();
-              },1000);
-            }
-           }
-     });
-  }
+       });
+    }
 
   bot.on('ready',function() {
 
