@@ -4,20 +4,20 @@
 
 Get botkit from NPM
 
-`
+```
 npm install --save botkit
-`
+```
 
 
 ## Basic Usage
 
-`
+```
 var Botkit = require('Botkit');
 
 var bot = Botkit(configuration);
 bot.init();
 
-`
+```
 
 
 ## Working with Slack Integrations
@@ -33,7 +33,6 @@ bot.init();
 ## Single Team Bot
 
 ## Multi Team Bot
-
 
 ## Event Handlers
 
