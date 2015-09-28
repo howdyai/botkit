@@ -6,7 +6,7 @@ Get botkit from NPM
 
 `
 npm install --save botkit
-` 
+`
 
 
 ## Basic Usage
@@ -19,10 +19,6 @@ bot.init();
 
 `
 
-## Single Team Bot
-
-## Multi Team Bot
-
 
 ## Working with Slack Integrations
 
@@ -33,8 +29,12 @@ bot.init();
 
 * RTM api / bot users (real user that receives all messages)
 
+
+## Single Team Bot
+
+## Multi Team Bot
+
+
 ## Event Handlers
 
 ## Tasks and Conversations
-
-
