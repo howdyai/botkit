@@ -31,7 +31,6 @@ function Bot(configuration) {
 
     this.vars = {};
 
-
     this.topics = {};
     this.topic = null;
 
@@ -335,7 +334,7 @@ function Bot(configuration) {
 
           if (this.task.timeLimit && // has a timelimit
               (duration > this.task.timeLimit) && // timelimit is up
-              (lastActive > (10*1000)) // nobody has typed for 60 seconds at least
+              (lastActive > (60*1000)) // nobody has typed for 60 seconds at least
             ) {
 
               if (this.topics['timeout']) {
@@ -382,7 +381,6 @@ function Bot(configuration) {
                 if (typeof(message.attachments)=='function') {
                   message.attachments = message.attachments(this);
                 }
-
 
                 this.task.bot.say(this.task.connection,message,this);
               }
@@ -431,11 +429,11 @@ function Bot(configuration) {
 
   }
 
-  function Task(connection,message,bot) {
+  function Task(message,bot) {
 
     this.convos = [];
     this.bot = bot;
-    this.connection = connection;
+    this.connection = message._connection;
     this.events = {};
     this.source_message = message;
     this.status = 'active';
@@ -561,18 +559,6 @@ function Bot(configuration) {
 
   }
 
-
-  bot.remember = function() {
-
-    if (this.config.path) {
-      fs.writeFileSync(this.config.path,JSON.stringify(this.memory));
-    } else {
-      bot.debug('NOT REMEMBERING! No path set');
-    }
-
-  }
-
-
   bot.debug = function() {
     if (configuration.debug) {
       var args=[];
@@ -608,21 +594,23 @@ function Bot(configuration) {
     bot.debug('REPLY: ',resp);
   }
 
-  bot.hears = function(keywords,event,cb) {
+  bot.hears = function(keywords,events,cb) {
     if (typeof(keywords)=='string') {
       keywords = [keywords];
     }
-    var events = event.split(/\,/g);
+    if (typeof(events)=='string') {
+      events = events.split(/\,/g);
+    }
 
     for (var k = 0; k < keywords.length; k++) {
       var keyword = keywords[k];
       for (var e = 0; e < events.length; e++) {
         (function(keyword) {
-          bot.on(events[e],function(connection,message) {
+          bot.on(events[e],function(message) {
             if (message.text) {
               if (message.text.match(new RegExp(keyword,'i'))) {
                 bot.debug("I HEARD ",keyword);
-                cb.apply(this,[connection,message]);
+                cb.apply(this,[message]);
                 return false;
               }
             } else {
@@ -659,14 +647,14 @@ function Bot(configuration) {
     }
   }
 
-  bot.findConversation = function(connection,message,cb) {
+  bot.findConversation = function(message,cb) {
     bot.debug('DEFAULT FIND CONVO');
     cb(null);
   }
 
-  bot.startTask = function(connection,message,cb) {
+  bot.startTask = function(message,cb) {
 
-    var task = new Task(connection,message,this);
+    var task = new Task(message,this);
 
     task.id = bot.taskCount++;
     bot.log('[Start] ',task.id,' Task for ',message.user,'in',message.channel);
@@ -683,15 +671,15 @@ function Bot(configuration) {
 
   }
 
-  bot.receiveMessage = function(connection,message) {
+  bot.receiveMessage = function(message) {
 
     bot.debug('RECEIVED MESSAGE');
 
-    bot.findConversation(connection,message,function(convo) {
+    bot.findConversation(message,function(convo) {
       if (convo) {
         convo.handle(message);
       } else {
-        bot.trigger('message_received',[connection,message])
+        bot.trigger('message_received',[message])
       }
     });
   }
