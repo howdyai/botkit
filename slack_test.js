@@ -91,7 +91,23 @@ bot.hears('^dm\\b','direct_mention,mention',function(message) {
   bot.startTask(message,function(task,convo) {
     bot.startDM(task,message.user,function(err,dm) {
       dm.say('Yo');
-      dm.ask('What up?');
+      dm.ask('What up?',function(res,dm) {
+        dm.sayFirst('Bro,' + res.text + '???');
+        dm.next();
+      });
+
+      dm.ask('WHA',[
+        {
+          pattern: 'ok',
+          callback: function(res,dm) { dm.say('OK!!!'); dm.next(); },
+        },
+        {
+          pattern: 'no',
+          callback: function(res,dm) { dm.say('NO!!!'); dm.next(); },
+        },
+      ]);
+
+
       convo.say('On it.');
     });
   });

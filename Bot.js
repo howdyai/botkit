@@ -143,6 +143,18 @@ function Bot(configuration) {
       this.addMessage(message);
     }
 
+    this.sayFirst = function(message) {
+      if (typeof(message)=='string') {
+        message = {
+          text: message,
+          channel: this.source_message.channel,
+        }
+      } else {
+        message.channel = this.source_message.channel;
+      }
+      this.messages.unshift(message);
+    }
+
 
     this.on = function(event,cb) {
       bot.debug('Setting up a handler for',event);

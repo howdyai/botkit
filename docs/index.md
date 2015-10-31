@@ -12,12 +12,25 @@ npm install --save botkit
 ## Basic Usage
 
 ```
-var Botkit = require('Botkit');
+var botkit = require('botkit');
 
-var bot = Botkit(configuration);
+var bot = botkit.slackbot(configuration);
 bot.init();
 
 ```
+
+## Single Team Bot
+
+Use botkit to build a bot that will connect to your team (one team at a time).
+
+These can just be manually configured by putting info into the script or environment variables!
+
+
+## Multi Team Bot
+
+This requires using oauth and the add to slack features.
+
+also requires storing provisioning info for teams.
 
 
 ## Working with Slack Integrations
@@ -29,10 +42,6 @@ bot.init();
 
 * RTM api / bot users (real user that receives all messages)
 
-
-## Single Team Bot
-
-## Multi Team Bot
 
 ## Event Handlers
 

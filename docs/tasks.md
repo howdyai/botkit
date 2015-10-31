@@ -32,11 +32,25 @@ bot.hears(['something'],'direct_message',function(connection,message) {
 
     conversation.ask('question',function(answer) {
 
+      conversation.say('something else...');
+
     });
 
 
     conversation.on('end',function(conversation) {
 
+      // retrieve user responses to questions:
+      // var user_responses = conversation.extractResponses();
+
+      // get a full transcript of all the messages sent and received
+      // var transcript = conversation.transcript;
+
+      // get a list of all the messages sent
+      // var sent = conversation.sent;
+
+      // get the final status of this conversation
+      // (completed, stopped, timeout)
+      // var status = conversation.status;
 
     });
 
