@@ -4,6 +4,7 @@
 var fs = require('fs');
 var mustache = require('mustache');
 
+
 function Bot(configuration) {
 
   var bot = {
@@ -16,8 +17,8 @@ function Bot(configuration) {
   };
 
   bot.utterances = {
-    yes: new RegExp(/^(yes|yea|yup|ya|sure|ok)/i),
-    no: new RegExp(/^(no|nah|nope)/i),
+    yes: new RegExp(/^(yes|yea|yup|ya|sure|ok|y|yeah|yah)/i),
+    no: new RegExp(/^(no|nah|nope|n)/i),
   }
 
   function Conversation(task,message) {
@@ -27,6 +28,9 @@ function Bot(configuration) {
     this.transcript = [];
 
     this.events = {};
+
+    this.vars = {};
+
 
     this.topics = {};
     this.topic = null;
@@ -40,73 +44,84 @@ function Bot(configuration) {
     this.startTime = new Date();
     this.lastActive = new Date();
 
+    this.capture = function(response) {
+
+
+      var capture_key = this.sent[this.sent.length-1].text;
+
+      if (this.capture_options.key) {
+        capture_key = this.capture_options.key;
+      }
+
+
+
+      if (this.capture_options.multiple) {
+        if (!this.responses[capture_key]) {
+          this.responses[capture_key] = [];
+        }
+        this.responses[capture_key].push(response);
+      } else {
+        this.responses[capture_key] = response;
+      }
+
+    }
+
     this.handle = function(message) {
 
       this.lastActive = new Date();
       this.transcript.push(message);
-//      bot.debug('HANDLING MESSAGE IN CONVO',message);
+      bot.debug('HANDLING MESSAGE IN CONVO',message);
       // do other stuff like call custom callbacks
       if (this.handler) {
 
-        var capture_key = this.sent[this.sent.length-1].text;
+        this.capture(message);
 
-        if (this.capture_options.key) {
-          capture_key = this.capture_options.key;
-        }
-
-        if (this.capture_options.multiple) {
-          if (!this.responses[capture_key]) {
-            this.responses[capture_key] = [];
-          }
-          this.responses[capture_key].push(message);
-        } else {
-          this.responses[capture_key] = message;
-        }
-
+        // if the handler is a normal function, just execute it!
+        // NOTE: anyone who passes in their own handler has to call
+        // convo.next() to continue after completing whatever it is they want to do.
         if (typeof(this.handler)=='function') {
-
-          // store the response
-          this.handler(message);
-          this.handler = null;
+          this.handler(message,this);
         } else {
 
           // handle might be a mapping of keyword to callback.
           // lets see if the message matches any of the keywords
-
-          for (var keyword in this.handler) {
-
-            // this might be a simple keyword => callback
-            // but it might also be keyword => configuration object
-            if (typeof(this.handler[keyword])=='function') {
-              if (message.text.match(new RegExp(keyword,'i'))) {
-                // store the response
-
-                this.handler[keyword](message);
-                this.handler = null;
-                return;
-              }
-            } else {
-              if (message.text.match(this.handler[keyword].pattern)) {
-                this.handler[keyword].callback(message);
-                this.handler = null;
-                return;
-              }
+          var patterns = this.handler;
+          for (var p = 0; p < patterns.length; p++) {
+            console.log('testing pattern ',patterns[p].pattern);
+            if (patterns[p].pattern && message.text.match(patterns[p].pattern)) {
+              patterns[p].callback(message,this);
+              return;
             }
           }
 
           // none of the messages matched! What do we do?
           // if a default exists, fire it!
-
-          if (this.handler['default']) {
-            this.handler['default'](message);
-            this.handler = null;
-          } else {
-            // if no proper handler exists, THEN WHAT???
-
+          for (var p = 0; p < patterns.length; p++) {
+            if (patterns[p].default) {
+              console.log('default pattern ',patterns[p].pattern);
+              patterns[p].callback(message,this);
+              return;
+            }
           }
+
+          // if (this.handler['default']) {
+          //   var func = this.handler['default'];
+          //   if (typeof(func)=='function') {
+          //       func(message,this);
+          //   } else {
+          //     func.callback(message,this);
+          //   }
+          //   //this.handler = null;
+          //   //console.log(">>>> CLEARED HANDLER");
+          // } else {
+          //   // if no proper handler exists, THEN WHAT???
+          //
+          // }
 
 
         }
+      } else {
+  //      console.log(">>>>> DID NOTHING, NO HANDLER");
       }
 
     }
@@ -155,28 +170,24 @@ function Bot(configuration) {
       }
     }
 
+    // proceed to the next message after waiting for an answer
+    this.next = function() {
+      this.handler = null;
+    }
 
     this.repeat = function() {
       if (this.sent.length) {
-        this.say(this.sent[this.sent.length-1]);
+       this.messages.push(this.sent[this.sent.length-1]);
       } else {
-//        console.log('TRIED TO REPEAT, NOTHING TO SAY');
+        // console.log('TRIED TO REPEAT, NOTHING TO SAY');
       }
     }
 
     this.silentRepeat = function() {
-      if (this.sent.length) {
-        var last = {};
 
-        last.text = '';
-        last.handler = this.sent[this.sent.length-1].handler;
-        last.capture_options = this.sent[this.sent.length-1].capture_options;
-        last.action = this.sent[this.sent.length-1].action;
+      // do nothing.
+      return;
 
-        this.messages.unshift(last);
-      } else {
-        // do nothing
-      }
     }
 
     this.addQuestion = function(message,cb,capture_options,topic) {
@@ -193,8 +204,8 @@ function Bot(configuration) {
         if (capture_options) {
           message.capture_options = capture_options;
         }
-        message.handler =cb;
 
+        message.handler =cb;
         this.addMessage(message,topic);
 
     }
@@ -236,6 +247,7 @@ function Bot(configuration) {
         this.topics[topic] = [];
       }
       this.messages = this.topics[topic].slice();
+      //console.log(">>> CLEAR HANDLER CHANGE TOPIC");
       this.handler = null;
     }
 
@@ -291,7 +303,8 @@ function Bot(configuration) {
       var vars = {
         identity: this.task.connection.identity,
         responses: this.extractResponses(),
-        origin: this.task.source_message
+        origin: this.task.source_message,
+        vars: this.vars,
       }
 
       return mustache.render(text,vars);
@@ -300,6 +313,7 @@ function Bot(configuration) {
 
     this.stop = function(status) {
 
+      //console.log(">>>> CLEAR HANDLER TO STOP");
       this.handler = null;
       this.messages = [];
       this.status=status||'stopped';
@@ -334,44 +348,76 @@ function Bot(configuration) {
           // otherwise do nothing
         } else {
           if (this.messages.length) {
-            var message = this.messages.shift();
-            if (message.handler) {
-              this.handler = message.handler;
-            }
-            if (message.capture_options) {
-              this.capture_options = message.capture_options;
-            } else {
-              this.capture_options = {};
-            }
-
-
-            this.sent.push(message);
-            this.transcript.push(message);
-            this.lastActive = new Date();
-
-            if (message.text) {
-              message.text = this.replaceTokens(message.text);
-              if (this.messages.length && !message.handler) {
-                message.continue_typing = true;
+            if (typeof(this.messages[0].timestamp)=='undefined' || this.messages[0].timestamp <= now.getTime()) {
+              var message = this.messages.shift();
+              //console.log('HANDLING NEW MESSAGE',message);
+              // make sure next message is delayed appropriately
+              if (this.messages.length && this.messages[0].delay) {
+                this.messages[0].timestamp = now.getTime() + this.messages[0].delay;
+              }
+              if (message.handler) {
+                //console.log(">>>>>> SET HANDLER IN TICK");
+                this.handler = message.handler;
+              } else {
+                this.handler = null;
+                //console.log(">>>>>>> CLEARING HANDLER BECAUSE NO HANDLER NEEDED");
+              }
+              if (message.capture_options) {
+                this.capture_options = message.capture_options;
+              } else {
+                this.capture_options = {};
               }
 
-              this.task.bot.say(this.task.connection,message,this);
-            }
-            if (message.action) {
-                if (message.action=='repeat') {
-                  this.repeat();
-                } else if (message.action=='wait') {
-                    this.silentRepeat();
-                } else if (message.action=='stop') {
-                    this.stop();
-                } else if (message.action=='timeout') {
-                      this.stop('timeout');
-                } else if (this.topics[message.action]) {
-                  this.changeTopic(message.action);
+
+              this.sent.push(message);
+              this.transcript.push(message);
+              this.lastActive = new Date();
+
+              if (message.text || message.attachments) {
+                message.text = this.replaceTokens(message.text);
+                if (this.messages.length && !message.handler) {
+                  message.continue_typing = true;
                 }
+
+                if (typeof(message.attachments)=='function') {
+                  message.attachments = message.attachments(this);
+                }
+
+
+                this.task.bot.say(this.task.connection,message,this);
+              }
+              if (message.action) {
+                console.log('THIS MESSAGE HAS AN ACTION!');
+                console.log(message.action);
+                  if (message.action=='repeat') {
+                    this.repeat();
+                  } else if (message.action=='wait') {
+                      this.silentRepeat();
+                  } else if (message.action=='stop') {
+                      this.stop();
+                  } else if (message.action=='timeout') {
+                        this.stop('timeout');
+                  } else if (this.topics[message.action]) {
+                    this.changeTopic(message.action);
+                  }
+              }
+            } else {
+              //console.log('Waiting to send next message...');
             }
 
+            // end immediately instad of waiting til next tick.
+            // if it hasn't already been ended by a message action!
+            if (this.isActive() && !this.messages.length && !this.handler) {
+              console.log('immediate end');
+              this.status='completed';
+              bot.debug('Conversation is over!');
+              this.task.conversationEnded(this);
+
+            }
+
+
           } else if (this.sent.length) { // sent at least 1 message
+            console.log('delayed end');
             this.status='completed';
             bot.debug('Conversation is over!');
             this.task.conversationEnded(this);
@@ -624,6 +670,7 @@ function Bot(configuration) {
 
     task.id = bot.taskCount++;
     bot.log('[Start] ',task.id,' Task for ',message.user,'in',message.channel);
+
     var convo = task.startConversation(message);
 
     this.tasks.push(task);

@@ -18,6 +18,7 @@ bot.on('ready',function() {
 
   bot.findTeamById('T024F7C87',function(err,connection) {
 
+    console.log('FOUND TEAM? ',connection);
     bot.startRTM(connection);
 
   })
@@ -202,19 +203,23 @@ bot.hears(['he.*?llo*','hey','hi'],'slash_command,outgoing_webhook,direct_mentio
 
 bot.hears(['ask'],'ambient,direct_message',function(connection,message) {
   bot.startTask(connection,message,function(task,convo) {
-    convo.ask('Say YES or NO',{
-        'yes': {
-          callback: function(response) { convo.say('YES! Good.'); },
+    convo.ask('Say YES or NO',[
+        {
+          callback: function(response) { convo.say('YES! Good.'); convo.next(); },
           pattern: bot.utterances.yes,
         },
-        'no': {
-          callback: function(response) { convo.say('NO?!?! WTF?'); },
+        {
+          callback: function(response) { convo.say('NO?!?! WTF?'); convo.next(); },
           pattern: bot.utterances.no,
         },
-        'default': function(response) { convo.say('Huh?'); convo.repeat(); }
+        {
+          default: true,
+          callback: function(response) {  convo.say('Huh?'); convo.repeat(); convo.next(); }
+        }
+      ]
+    );
     });
   });
-});
 
 // this will only be called if one of the hears phrases isn't heard
 bot.on('direct_message,direct_mention',function(connection,message) {
@@ -227,6 +232,7 @@ bot.on('direct_message,direct_mention',function(connection,message) {
     convo.ask('What?',function(response) {
       bot.debug('CUSTOM HANDLER');
       convo.say('Got it: ' + response.text);
+      convo.next();
     });
 
     task.on('end',function(task) {
