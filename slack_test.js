@@ -1,4 +1,6 @@
 var Botkit = require('./Botkit.js');
+var nlp = require("nlp_compromise")
+
 
 var bot = Botkit.slackbot({
 //  debug: true,

@@ -21,12 +21,43 @@ Tasks and conversations throw 'end' events that can be handled. Conversations
 end when all messages have been sent.  Tasks end when all child conversations have
 ended.
 
+Create a task to handle one or more conversations with users
+bot.startTask()
+
+Once a task is started, additional conversations can be added
+task.startConversation()
+
+task.on('end',callback)
+task.getResponsesByUser()
+task.getResponsesBySubject()
+
+
+Make bot say things by adding messages to a conversation
+convo.say()
+convo.ask()
+
+handle user responses and alter the flow of the conversation
+convo.sayFirst()
+convo.next()
+convo.repeat()
+convo.silentRepeat()
+convo.stop()
+
+handle the conversation end and extract user responses
+convo.on('end',callback)
+convo.extractResponse()
+convo.extractResponses()
+
+
+
+
+
 
 ```
 
-bot.hears(['something'],'direct_message',function(connection,message) {
+bot.hears(['something'],'direct_message',function(message) {
 
-  bot.startTask(connection,message,function(task,conversation) {
+  bot.startTask(message,function(task,conversation) {
 
     conversation.say('something');
 
@@ -65,3 +96,4 @@ bot.hears(['something'],'direct_message',function(connection,message) {
 
   });
 })
+```
