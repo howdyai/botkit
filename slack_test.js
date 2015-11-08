@@ -125,9 +125,7 @@ bot.on('outgoing_webhook',function(message) {
 
   return false;
 
-});
-
-bot.hears(['^apis$'],['slash_command','direct_mention','direct_message'],function(message) {
+}).hears(['^apis$'],['slash_command','direct_mention','direct_message'],function(message) {
 
   bot.reply(message,'Starting an API test...');
   bot.useConnection(message._connection);
@@ -216,14 +214,10 @@ bot.hears(['^apis$'],['slash_command','direct_mention','direct_message'],functio
 
   })
 
-});
-
-bot.hears(['he.*?llo*','hey','hi'],['slash_command','outgoing_webhook','direct_mention','direct_message'],function(message) {
+}).hears(['he.*?llo*','hey','hi'],['slash_command','outgoing_webhook','direct_mention','direct_message'],function(message) {
   bot.debug('HEARS HANDLER');
   bot.reply(message,'Hello yourself, <@'+message.user+'>');
-});
-
-bot.hears(['ask'],['ambient','direct_message'],function(message) {
+}).hears(['ask'],['ambient','direct_message'],function(message) {
   bot.startTask(message,function(task,convo) {
     convo.ask('Say YES or NO',[
         {

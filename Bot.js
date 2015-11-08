@@ -632,6 +632,8 @@ function Bot(configuration) {
         })(keyword);
       }
     }
+
+    return this;
   }
 
   bot.on = function(event,cb) {
