@@ -1,0 +1,12 @@
+# To Do
+
+These items still need to be addressed!
+
+* how to provide the default web homepage?
+* How to provide customization of behavior of post-oauth / oauth error
+* how to respond directly to outgoing webhook / slash command
+
+* can bot.say be made to have 1 param?
+* should bot.say use incoming_webhook if no other configured?
+
+* What functions need to be overridden to handle the multi team stuff?
