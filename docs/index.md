@@ -29,19 +29,51 @@ Use botkit to build a bot that will connect to your team (one team at a time).
 
 These can just be manually configured by putting info into the script or environment variables!
 
+```
+
+// send webhooks
+bot.configureIncomingWebhook({url: webhook_url});
+
+// use RTM
+bot.startRTM({token: token},function(err,connection,payload) {});
+
+// receive outgoing or slash commands
+// if you are already using Express, you can use your own server instance...
+bot.setupWebserver(process.env.port,function(err,webserver) {
+
+  bot.createWebhookEndpoints(bot.webserver);
+
+});
+```
+
 
 ## Multi Team Bot
 
 This requires using oauth and the add to slack features.
 
-also requires storing provisioning info for teams.
+also requires storing provisioning info for teams!
+
 
 ```
-bot.setupWebserver(function(err,webserver) {
-  bot.createHomepageEndpoint(bot.webserver);
-  bot.createOauthEndpoints(bot.webserver);
-  bot.createWebhookEndpoints(bot.webserver);
+var bot = Botkit.slackbot();
+
+bot.configureSlackApp({
+  clientId: process.env.clientId,
+  clientSecret: process.env.clientSecret,
+  redirect_uri: 'http://localhost:3002',
+  scopes: ['incoming-webhook','team:read','users:read','channels:read','im:read','im:write','groups:read','emoji:read','chat:write:bot']
 });
+
+bot.setupWebserver(process.env.port,function(err,webserver) {
+
+  // set up web endpoints for oauth, receiving webhooks, etc.
+  bot
+    .createHomepageEndpoint(bot.webserver)
+    .createOauthEndpoints(bot.webserver)
+    .createWebhookEndpoints(bot.webserver);
+
+});
+
 ```
 
 events
@@ -135,6 +167,9 @@ bot.hears(patterns,events,function(message) {
 
 events
 ---
+rtm_open
+rtm_close
+tick
 direct_mention
 direct_message
 mention

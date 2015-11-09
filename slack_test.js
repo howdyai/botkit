@@ -18,13 +18,11 @@ var bot = Botkit.slackbot({
     .createOauthEndpoints(bot.webserver)
     .createWebhookEndpoints(bot.webserver);
 
-
 });
 
 bot.findTeamById('T024F7C87',function(err,connection) {
 
   // load a team out storage and use its configuration...
-  console.log('FOUND TEAM? ',connection);
   bot.startRTM(connection,function(err,payload) {
     // console.log('Got this big boatload of data!');
     // console.log(payload);

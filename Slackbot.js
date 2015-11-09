@@ -435,10 +435,29 @@ function Slackbot(configuration) {
     return bot;
   }
 
+
+
+  bot.saveTeam = function(connection) {
+
+    bot.log('WARNING: Using built in, insecure method for storing team info!');
+    if (bot.config.path) {
+      if (fs.existsSync(bot.config.path+'/' + connection.team.id + '.json')) {
+        bot.trigger('update_team',[connection]);
+      } else {
+        bot.trigger('create_team',[connection]);
+      }
+      var json = JSON.stringify(connection.team);
+      json = fs.writeFileSync(bot.config.path+'/' + connection.team.id + '.json',json,'utf8');
+    }
+
+  }
+
+  // look up a team's memory and configuration and return it, or
+  // return an error!
   bot.findTeamById = function(id,cb) {
 
-    // look up a team's memory and configuration and return it, or
-    // return an error!
+    bot.log('WARNING: Using built in, insecure method for storing team info!');
+
     if (!bot.config.path) {
       cb('Not configured to store team info');
     } else {
@@ -458,7 +477,7 @@ function Slackbot(configuration) {
     if (!port) {
       throw new Error("Cannot start webserver without a port");
     }
-    
+
     bot.config.port = port;
 
     bot.webserver = express();
@@ -625,20 +644,6 @@ function Slackbot(configuration) {
         cb(null,task.startConversation({channel:channel.channel.id, user: user_id}));
       }
     });
-  }
-
-  bot.saveTeam = function(connection) {
-
-    if (bot.config.path) {
-      if (fs.existsSync(bot.config.path+'/' + connection.team.id + '.json')) {
-        bot.trigger('update_team',[connection]);
-      } else {
-        bot.trigger('create_team',[connection]);
-      }
-      var json = JSON.stringify(connection.team);
-      json = fs.writeFileSync(bot.config.path+'/' + connection.team.id + '.json',json,'utf8');
-    }
-
   }
 
 
