@@ -8,15 +8,15 @@ var express = require('express'),
 
 function Slackbot(configuration) {
 
-  var bot = Bot(configuration);
+  // Create a core botkit bot
+  var bot = Bot(configuration||{});
 
-  bot.connections = [];
-
+  // create a nice wrapper for the Slack API
   bot.api = {
       api_url: 'https://slack.com/api/',
       // this is a simple function used to call the slack web API
       callAPI: function(command,options,cb) {
-        options.token = configuration.token;
+        options.token = bot.config.token;
         bot.debug(command,options);
         request.post(this.api_url+command,function (error, response, body) {
          bot.debug('Got response',error,body);
@@ -50,11 +50,11 @@ function Slackbot(configuration) {
       },
       webhooks: {
         send: function(options,cb) {
-          if (!configuration.incoming_webhook) {
+          if (!bot.config.incoming_webhook || !bot.config.incoming_webhook.url) {
             bot.debug('CANNOT SEND WEBHOOK!!');
             if (cb) cb('No webhook url specified');
           } else {
-            request.post(configuration.incoming_webhook.url,function(err,res,body) {
+            request.post(bot.config.incoming_webhook.url,function(err,res,body) {
                 if (err) {
                   bot.debug('WEBHOOK ERROR',err);
                   if (cb) cb(err);
@@ -279,17 +279,78 @@ function Slackbot(configuration) {
       }
   }
 
+  // set up API to send incoming webhook
+  bot.configureIncomingWebhook = function(options) {
+
+    if (!options.url) {
+      throw new Error('No incoming webhook URL specified!');
+    }
+
+    bot.config.incoming_webhook = options;
+
+  }
+
+  // set up configuration for oauth
+  // slack_app_config should contain
+  // { clientId, clientSecret, scopes}
+  // https://api.slack.com/docs/oauth-scopes
+  bot.configureSlackApp = function(slack_app_config,cb) {
+
+    bot.log('Configuring app as a Slack App!');
+    if (!slack_app_config || !slack_app_config.clientId || !slack_app_config.clientSecret || !slack_app_config.scopes) {
+      throw new Error('Missing oauth config details',bot);
+    } else {
+      bot.config.clientId = slack_app_config.clientId;
+      bot.config.clientSecret = slack_app_config.clientSecret;
+      if (typeof(slack_app_config.scopes)=='string') {
+        bot.config.scopes = slack_app_config.scopes.split(/\,/);
+      } else {
+        bot.config.scopes = slack_app_config.scopes;
+      }
+      if (cb) cb(null,bot);
+    }
+
+    return bot;
+
+  }
+
+
+  // use a specific slack API token
+  bot.useToken = function(token,cb) {
+    bot.config.token = token;
+    if (cb) { cb(); }
+    return bot;
+  }
+
+
+  bot.useConnection = function(connection) {
+
+    if (connection.team.token) {
+      bot.useToken(connection.team.token);
+    }
+
+    if (connection.team.incoming_webhook) {
+      bot.configureIncomingWebhook(connection.team.incoming_webhook);
+    }
+
+  }
+
+
+
   // set up a web route that is a landing page
   bot.createHomepageEndpoint = function(webserver) {
 
-    bot.log('** Serving app landing page at : http://MY_HOST:' + configuration.port + '/');
+    bot.log('** Serving app landing page at : http://MY_HOST:' + bot.config.port + '/');
 
-
+    // FIX THIS!!!
+    // this is obvs not right.
     webserver.get('/',function(req,res) {
 
       res.send('Howdy!');
 
     });
+
+    return bot;
 
   }
 
@@ -297,9 +358,7 @@ function Slackbot(configuration) {
   // set up a web route for receiving outgoing webhooks and/or slash commands
   bot.createWebhookEndpoints = function(webserver) {
 
-
-    bot.log('** Serving webhook endpoints for Slash commands and outgoing webhooks at: http://MY_HOST:' + configuration.port + '/slack/receive');
-
+    bot.log('** Serving webhook endpoints for Slash commands and outgoing webhooks at: http://MY_HOST:' + bot.config.port + '/slack/receive');
     webserver.post('/slack/receive',function(req,res) {
 
       // this is a slash command
@@ -311,10 +370,8 @@ function Slackbot(configuration) {
         }
 
         // let's normalize some of these fields to match the rtm message format
-
         message.user = message.user_id;
         message.channel = message.channel_id;
-
 
         bot.findTeamById(message.team_id,function(err,connection) {
 
@@ -347,10 +404,8 @@ function Slackbot(configuration) {
 
 
         // let's normalize some of these fields to match the rtm message format
-
         message.user = message.user_id;
         message.channel = message.channel_id;
-
 
         bot.findTeamById(message.team_id,function(err,connection) {
 
@@ -376,6 +431,8 @@ function Slackbot(configuration) {
       }
 
     })
+
+    return bot;
   }
 
   bot.findTeamById = function(id,cb) {
@@ -396,41 +453,72 @@ function Slackbot(configuration) {
 
   }
 
+  bot.setupWebserver = function(port,cb) {
 
-  bot.setupWebserver = function(cb) {
+    if (!port) {
+      throw new Error("Cannot start webserver without a port");
+    }
+    
+    bot.config.port = port;
 
     bot.webserver = express();
     bot.webserver.use(bodyParser.json());
     bot.webserver.use(bodyParser.urlencoded({ extended: true }));
     bot.webserver.use(express.static(__dirname + '/public'));
 
-    var server = bot.webserver.listen(configuration.port, function () {
-      bot.log('** Starting webserver on port ' + configuration.port);
+    var server = bot.webserver.listen(bot.config.port, function () {
+      bot.log('** Starting webserver on port ' + bot.config.port);
       cb(null,bot.webserver);
     });
 
+    return bot;
+
   }
 
+  // get a team url to redirect the user through oauth process
+  bot.getAuthorizeURL = function(team_id) {
+
+    var url = 'https://slack.com/oauth/authorize';
+    var scopes = bot.config.scopes;
+    url = url + "?client_id=" + bot.config.clientId + "&scope=" + scopes.join(",") + "&state=botkit"
+
+    if (team_id) {
+      url = url + "&team=" + team_id;
+    }
+    if (bot.config.redirect_uri) {
+      url = url + "&redirect_uri="+redirect_uri;
+    }
+
+    return url;
+
+  }
 
   // set up a web route for redirecting users
   // and collecting authentication details
   // https://api.slack.com/docs/oauth
+  // https://api.slack.com/docs/oauth-scopes
   bot.createOauthEndpoints = function(webserver) {
 
-    bot.log('** Serving login URL: http://MY_HOST:' + configuration.port + '/login');
+    bot.log('** Serving login URL: http://MY_HOST:' + bot.config.port + '/login');
 
+    if (!bot.config.clientId) {
+      throw new Error('Cannot create oauth endpoints without calling configureSlackApp() with a clientId first');
+    }
+    if (!bot.config.clientSecret) {
+      throw new Error('Cannot create oauth endpoints without calling configureSlackApp() with a clientSecret first');
+    }
+    if (!bot.config.scopes) {
+      throw new Error('Cannot create oauth endpoints without calling configureSlackApp() with a list of scopes first');
+    }
 
     webserver.get('/login',function(req,res) {
 
-        var url = 'https://slack.com/oauth/authorize';
-
-
-        res.redirect(url + "?client_id=" + configuration.clientId + "&scope=incoming-webhook&state=botkit")
+        res.redirect(bot.getAuthorizeURL())
 
     });
 
 
-    bot.log('** Serving oauth return endpoint: http://MY_HOST:' + configuration.port + '/oauth');
+    bot.log('** Serving oauth return endpoint: http://MY_HOST:' + bot.config.port + '/oauth');
 
     webserver.get('/oauth',function(req,res) {
 
@@ -438,8 +526,8 @@ function Slackbot(configuration) {
       var state = req.query.state;
 
       bot.api.oauth.access({
-        client_id: configuration.clientId,
-        client_secret: configuration.clientSecret,
+        client_id: bot.config.clientId,
+        client_secret: bot.config.clientSecret,
         code: code
       },function(err,auth) {
 
@@ -448,40 +536,51 @@ function Slackbot(configuration) {
         } else {
           res.send('ok! sending test');
 
+          // auth contains at least:
+          // { access_token, scope, team_name}
+          // May also contain:
+          // { team_id } (not in incoming_webhook scope)
+          // info about incoming webhooks:
+          // { incoming_webhook: { url, channel, configuration_url} }
+          // might also include slash commands:
+          // { commands: ??}
+
+          // what scopes did we get approved for?
+          var scopes = auth.scope.split(/\,/);
 
           // temporarily use the token we got from the oauth
-          configuration.token = auth.access_token;
+          // we need to call auth.test to make sure the token is valid
+          // but also so that we reliably have the team_id field!
+          bot.config.token = auth.access_token;
           bot.api.auth.test({},function(err,identity) {
 
-    //        console.log(identity);
+            if (err) {
+              res.send(err);
+            } else {
 
-            bot.findTeamById(identity.team_id,function(err,connection) {
+              bot.findTeamById(identity.team_id,function(err,connection) {
 
-              if (!connection) {
-                connection = {
-                  team: {
-                    id: identity.team_id,
-                    createdBy: identity.user_id,
-                    team_url: identity.url,
-                    team_name: identity.team,
+                if (!connection) {
+                  connection = {
+                    team: {
+                      id: identity.team_id,
+                      createdBy: identity.user_id,
+                      team_url: identity.url,
+                      team_name: identity.team,
+                    }
                   }
                 }
-              }
 
-              if (auth.incoming_webhook) {
-                auth.incoming_webhook.token = auth.access_token;
-                auth.incoming_webhook.createdBy = identity.user_id;
-                connection.team.incoming_webhook = auth.incoming_webhook;
-                bot.trigger('create_incoming_webhook',[connection,connection.team.incoming_webhook]);
-              }
+                if (auth.incoming_webhook) {
+                  auth.incoming_webhook.token = auth.access_token;
+                  auth.incoming_webhook.createdBy = identity.user_id;
+                  connection.team.incoming_webhook = auth.incoming_webhook;
+                  bot.trigger('create_incoming_webhook',[connection,connection.team.incoming_webhook]);
+                }
 
-              bot.saveTeam(connection);
-              bot.useConnection(connection);
-              bot.api.webhooks.send({
-                text: 'This is a test incoming webhook configured by oauth!',
+                bot.saveTeam(connection);
               });
-            });
-
+            }
           })
 
         }
@@ -490,6 +589,7 @@ function Slackbot(configuration) {
 
     });
 
+    return bot;
 
   }
 
@@ -541,10 +641,6 @@ function Slackbot(configuration) {
 
   }
 
-  bot.useConnection = function(connection) {
-    configuration.token = connection.team.token;
-    configuration.incoming_webhook = connection.team.incoming_webhook;
-  }
 
   bot.say = function(connection,message,cb) {
     bot.debug('SAY ',message);
@@ -620,9 +716,108 @@ function Slackbot(configuration) {
 
   }
 
+  bot.handleRTM = function() {
+
+    bot.log('Setting up custom handlers for processing RTM messages');
+    bot.on('message_received',function(message) {
+
+      if (message.ok!=undefined) {
+        // this is a confirmation of something we sent.
+        return false;
+      }
+
+      bot.debug('DEFAULT SLACK MSG RECEIVED RESPONDER');
+      if ('message' == message.type) {
+
+        if (message.text) {
+          message.text = message.text.trim();
+        }
+
+        // set up a couple of special cases based on subtype
+        if (message.subtype && message.subtype=='channel_join') {
+          // someone joined. maybe do something?
+          if (message.user==message._connection.identity.id) {
+            bot.trigger('bot_channel_join',[message]);
+            return false;
+          } else {
+            bot.trigger('user_channel_join',[message]);
+            return false;
+          }
+        } else if (message.subtype && message.subtype == 'group_join') {
+          // someone joined. maybe do something?
+          if (message.user==message._connection.identity.id) {
+            bot.trigger('bot_group_join',[message]);
+            return false;
+          } else {
+            bot.trigger('user_group_join',[message]);
+            return false;
+          }
+
+        } else if (message.subtype) {
+          bot.trigger(message.subtype,[message]);
+          return false;
+
+        } else if (message.channel.match(/^D/)){
+          // this is a direct message
+          if (message.user==message._connection.identity.id) {
+            return false;
+          }
+
+          if (!message.text) {
+            // message without text is probably an edit
+            return false;
+          }
+
+          // remove direct mention so the handler doesn't have to deal with it
+          var direct_mention = new RegExp('^\<\@' + message._connection.identity.id + '\>','i');
+          message.text = message.text.replace(direct_mention,'').replace(/^\s+/,'').replace(/^\:\s+/,'').replace(/^\s+/,'');
+
+          message.event = 'direct_message';
+
+          bot.trigger('direct_message',[message]);
+          return false;
+
+        } else {
+          if (message.user==message._connection.identity.id) {
+            return false;
+          }
+          if (!message.text) {
+            // message without text is probably an edit
+            return false;
+          }
+
+          var direct_mention = new RegExp('^\<\@' + message._connection.identity.id + '\>','i');
+          var mention = new RegExp('\<\@' + message._connection.identity.id + '\>','i');
+
+          if (message.text.match(direct_mention)) {
+            // this is a direct mention
+            message.text = message.text.replace(direct_mention,'').replace(/^\s+/,'').replace(/^\:\s+/,'').replace(/^\s+/,'');
+            message.event = 'direct_mention';
+
+            bot.trigger('direct_mention',[message]);
+            return false;
+          } else if (message.text.match(mention)) {
+            message.event = 'mention';
+
+            bot.trigger('mention',[message]);
+            return false;
+          } else {
+            message.event = 'ambient';
+            bot.trigger('ambient',[message]);
+            return false;
+
+          }
+        }
+      } else {
+        // this is a non-message object, so trigger a custom event based on the type
+        bot.trigger(message.type,[message]);
+      }
+    });
+
+  }
+
   bot.closeRTM = function(connection) {
 
-    connection.should_close = true;
     connection.rtm.close();
 
   }
@@ -646,7 +841,6 @@ function Slackbot(configuration) {
       } else {
         connection.identity = res.self;
         connection.team_info = res.team;
-        connection.should_close = false;
 
         // also available
         // res.users
@@ -654,157 +848,58 @@ function Slackbot(configuration) {
         // res.groups
         // res.ims
         // res.bots
-        // these could be stored and cached for later use?
+        // these could be stored and cached for later use!
 
-            bot.log(":::::::> I AM ", connection.identity.name);
+        bot.log("** BOT ID: ", connection.identity.name," ...attempting to connect to RTM!");
 
-            bot.trigger('rtm_open',[connection]);
+        connection.rtm = new ws(res.url);
+        connection.msgcount = 1;
 
-             connection.rtm = new ws(res.url);
-             connection.msgcount = 1;
-             connection.rtm.on('message', function(data, flags) {
+        connection.rtm.on('open',function() {
+          bot.trigger('rtm_open',[connection]);
 
-               var message = JSON.parse(data);
+          connection.rtm.on('message', function(data, flags) {
+            var message = JSON.parse(data);
 
-               // Lets construct a nice quasi-standard botkit message
-               // it leaves the main slack message at the root
-               // but adds in additional fields for internal use!
-               // (including the teams api details)
+            // Lets construct a nice quasi-standard botkit message
+            // it leaves the main slack message at the root
+            // but adds in additional fields for internal use!
+            // (including the teams api details)
 
-               message._connection = connection;
+            message._connection = connection;
+           bot.receiveMessage(message);
 
-                bot.receiveMessage(message);
-             });
+          });
 
-             connection.rtm.on('close',function() {
-               bot.trigger('rtm_close',[connection]);
-               if (!connection.should_close) {
-                 bot.startRTM(connection);
-               }
-             });
+          if (!bot.tickInterval) {
 
-             if (cb) {
-               cb(null,connection);
-             }
+            // set up the RTM message handlers once
+            bot.handleRTM();
 
+            // set up a once a second tick to process messages
+            bot.tickInterval = setInterval(function() {
+             bot.tick();
+            },1000);
+          }
 
-            //  if (!botconnection.tickInterval) {
-            //    clearInterval(connection.tickInterval);
-            //  }
+          if (cb) {
+            cb(null,connection,res);
+          }
 
-            if (!bot.tickInterval) {
-              bot.tickInterval = setInterval(function() {
-               bot.tick();
-              },1000);
-            }
-           }
+        })
+
+         connection.rtm.on('error',function(err) {
+           bot.log("RTM websocket error!",err)
+           bot.trigger('rtm_close',[connection,err]);
+         });
+
+         connection.rtm.on('close',function() {
+           bot.trigger('rtm_close',[connection]);
+         });
+
+       }
      });
   }
-
-  bot.on('ready',function() {
-
-    bot.debug(":::::::> Slackbot booting");
-
-
-      bot.on('message_received',function(message) {
-
-
-        if (message.ok!=undefined) {
-          // this is a confirmation of something we sent.
-          return false;
-        }
-
-        bot.debug('DEFAULT SLACK MSG RECEIVED RESPONDER');
-        //console.log(message);
-        //console.log('~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~');
-        if ('message' == message.type) {
-
-          if (message.text) {
-            message.text = message.text.trim();
-          }
-
-          // set up a couple of special cases based on subtype
-          if (message.subtype && message.subtype=='channel_join') {
-            // someone joined. maybe do something?
-            if (message.user==message._connection.identity.id) {
-              bot.trigger('bot_channel_join',[message]);
-              return false;
-            } else {
-              bot.trigger('user_channel_join',[message]);
-              return false;
-            }
-          } else if (message.subtype && message.subtype == 'group_join') {
-            // someone joined. maybe do something?
-            if (message.user==message._connection.identity.id) {
-              bot.trigger('bot_group_join',[message]);
-              return false;
-            } else {
-              bot.trigger('user_group_join',[message]);
-              return false;
-            }
-
-          } else if (message.subtype) {
-            bot.trigger(message.subtype,[message]);
-            return false;
-
-          } else if (message.channel.match(/^D/)){
-            // this is a direct message
-            if (message.user==message._connection.identity.id) {
-              return false;
-            }
-
-            if (!message.text) {
-              // message without text is probably an edit
-              return false;
-            }
-
-            // remove direct mention so the handler doesn't have to deal with it
-            var direct_mention = new RegExp('^\<\@' + message._connection.identity.id + '\>','i');
-            message.text = message.text.replace(direct_mention,'').replace(/^\s+/,'').replace(/^\:\s+/,'').replace(/^\s+/,'');
-
-            message.event = 'direct_message';
-
-            bot.trigger('direct_message',[message]);
-            return false;
-
-          } else {
-            if (message.user==message._connection.identity.id) {
-              return false;
-            }
-            if (!message.text) {
-              // message without text is probably an edit
-              return false;
-            }
-
-            var direct_mention = new RegExp('^\<\@' + message._connection.identity.id + '\>','i');
-            var mention = new RegExp('\<\@' + message._connection.identity.id + '\>','i');
-
-            if (message.text.match(direct_mention)) {
-              // this is a direct mention
-              message.text = message.text.replace(direct_mention,'').replace(/^\s+/,'').replace(/^\:\s+/,'').replace(/^\s+/,'');
-              message.event = 'direct_mention';
-
-              bot.trigger('direct_mention',[message]);
-              return false;
-            } else if (message.text.match(mention)) {
-              message.event = 'mention';
-
-              bot.trigger('mention',[message]);
-              return false;
-            } else {
-              message.event = 'ambient';
-              bot.trigger('ambient',[message]);
-              return false;
-
-            }
-          }
-        } else {
-          // this is a non-message object, so trigger a custom event based on the type
-          bot.trigger(message.type,[message]);
-        }
-      });
-
-  });
 
   return bot;
 }

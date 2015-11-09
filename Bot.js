@@ -11,7 +11,6 @@ function Bot(configuration) {
       events: {}, // this will hold event handlers
       config: {}, // this will hold the configuration
       tasks: [],
-      memory: {}, // this will hold instance variables
       taskCount: 0,
       convoCount: 0,
   };
@@ -715,13 +714,12 @@ function Bot(configuration) {
 
   bot.init = function() {
     bot.debug('====> BOT BOOTING!');
-
-    bot.config = configuration;
-
-    bot.debug('====> BOT ONLINE!');
     bot.trigger('ready');
 
   }
+
+
+  bot.config = configuration;
 
   return bot;
 }

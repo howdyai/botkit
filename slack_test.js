@@ -3,28 +3,52 @@ var nlp = require("nlp_compromise")
 
 
 var bot = Botkit.slackbot({
-//  debug: true,
+ // debug: true,
   path: './teams/',
+}).configureSlackApp({
   clientId: process.env.clientId,
   clientSecret: process.env.clientSecret,
-  port: process.env.port,
+  redirect_uri: 'http://localhost:3002',
+  scopes: ['incoming-webhook','team:read','users:read','channels:read','im:read','im:write','groups:read','emoji:read','chat:write:bot']
+}).setupWebserver(process.env.port,function(err,webserver) {
+
+  // set up web endpoints for oauth, receiving webhooks, etc.
+  bot
+    .createHomepageEndpoint(bot.webserver)
+    .createOauthEndpoints(bot.webserver)
+    .createWebhookEndpoints(bot.webserver);
+
+
 });
 
-bot.on('ready',function() {
+bot.findTeamById('T024F7C87',function(err,connection) {
 
-  bot.setupWebserver(function(err,webserver) {
-    bot.createHomepageEndpoint(bot.webserver);
-    bot.createOauthEndpoints(bot.webserver);
-    bot.createWebhookEndpoints(bot.webserver);
+  // load a team out storage and use its configuration...
+  console.log('FOUND TEAM? ',connection);
+  bot.startRTM(connection,function(err,payload) {
+    // console.log('Got this big boatload of data!');
+    // console.log(payload);
+
+    bot.api.webhooks.send({
+      text: 'This is a test incoming webhook configured by loading details from db!',
+    },function(err) {
+      if (err) {
+        console.log('FAILED TO SEND WEBHOOK',err);
+      }
+    });
+
+
   });
 
-  bot.findTeamById('T024F7C87',function(err,connection) {
+});
 
-    console.log('FOUND TEAM? ',connection);
-    bot.startRTM(connection);
+bot.on('rtm_open',function(connection) {
+  bot.log('** Connected to RTM!');
+});
 
-  })
-}).init();
+bot.on('rtm_close',function(connection) {
+  bot.log('** Closed RTM!');
+});
 
 
 bot.on('create_team',function(connection) {
@@ -70,6 +94,17 @@ bot.on('create_incoming_webhook',function(connection,webhook_config) {
   console.log('~~~~~~~~~~~~~~~~~~~~~~~~~~~~~');
   console.log('~~~~~~~~~~~~~~~~~~~~~~~~~~~~~');
   console.log('~~~~~~~~~~~~~~~~~~~~~~~~~~~~~');
+
+
+  bot.configureIncomingWebhook(webhook_config);
+  bot.api.webhooks.send({
+    text: 'This is a test incoming webhook configured by oauth!',
+  },function(err) {
+    if (err) {
+      console.log('FAILED TO SEND WEBHOOK',err);
+    }
+  });
+
 
 })
 

@@ -1,8 +1,11 @@
 var Bot = require('./Slackbot.js');
 
-var bot = Bot({
-  clientId: process.env.clientId,
-  clientSecret: process.env.clientSecret,
+var bot = Bot().configureSlackApp({
+  {
+    clientId: process.env.clientId,
+    clientSecret: process.env.clientSecret,
+    scopes: 
+  }
 });
 
 bot.init();
