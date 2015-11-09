@@ -551,8 +551,14 @@ function Slackbot(configuration) {
       },function(err,auth) {
 
         if (err) {
+          // FIX THIS
+          // clearly this is not a good way to deal with this error
           res.send(err);
+          bot.trigger('oauth_error',[err]);
         } else {
+
+          // FIX THIS
+          // obvs this is not great.
           res.send('ok! sending test');
 
           // auth contains at least:
@@ -574,7 +580,11 @@ function Slackbot(configuration) {
           bot.api.auth.test({},function(err,identity) {
 
             if (err) {
+              // FIX THIS
+              // clearly this is not a good way to deal with this error
               res.send(err);
+              bot.trigger('oauth_error',[err]);
+
             } else {
 
               bot.findTeamById(identity.team_id,function(err,connection) {
