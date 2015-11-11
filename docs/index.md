@@ -172,6 +172,7 @@ bot.hears(['hello world'],['direct_message','direct_mention','mention','ambient'
 | handler function   | callback function in the form function(response_message,conversation)
 | _or_ |
 | array of handlers | array of objects in the form ``{ pattern: regular_expression, handler: function(response_message,conversation) { ... } }``
+| capture_options | _Optional_ Object defining options for capturing the response
 
 When passed a callback function, conversation.ask will execute the callback function for any response.
 This allows the bot to respond to open ended questions, collect the responses, and handle them in whatever
@@ -181,6 +182,15 @@ When passed an array, the bot will look first for a matching pattern, and execut
 pattern is matched. This allows the bot to present multiple choice options, or to respond proceed
 only when a valid response has been received. It is recommended that at least one of the patterns
 in the array be marked as the default option, should no other option match.
+
+The optional third parameter can be used to define different behaviors for collecting the user's response.
+This object can contain the following fields:
+
+| Field | Description
+|--- |---
+| key | _String_ If set, the response will be stored and can be referenced using this key
+| multiple | _Boolean_ if true, support multi-line responses from the user (allow the user to respond several times and aggregate the response into a single multi-line value)
+
 
 Botkit comes pre-built with several useful patterns which can be used with this function. See [included utterances]()
 
@@ -253,8 +263,44 @@ bot.hears(['question me'],['direct_message','direct_mention','mention','ambient'
 | bot.utterances.yes | Matches phrasess like yes, yeah, yup, ok and sure.
 | bot.utterances.no | Matches phrases like no, nah, nope
 
+##### Conversation Helper Functions
+
+In order to direct the flow of the conversation, several helper functions
+are provided.  These functions should only be called from within a convo.ask
+handler function!
+
+`convo.sayFirst(message)` Works just like convo.say, but injects a message into the first spot in the queue
+so that it is sent immediately, before any previously queued messages.
+
+`convo.stop()` end the conversation immediately, and set convo.status to `stopped`
+
+`convo.repeat()` repeat the last question sent and continue to wait for a response.
+
+`convo.silentRepeat()` simply wait for another response without saying anything.
+
+`convo.next()` proceed to the next message in the conversatio.  *This must be called* at the end of each handler.
+
+
+
 
 ### conversation.on()
+
+Conversations may trigger events during the course of their life.  Currently,
+only two events are fired, and only one is very useful: end.
+
+```
+convo.on('end',function(convo) {
+
+
+
+
+})
+```
+
+
+### convo.extractResponse()
+
+### convo.extractResponses()
 
 
 
