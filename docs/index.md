@@ -132,9 +132,8 @@ bot.say(
 
 Once your bot gets talking, it is going to want to ask some questions.
 
-To do this, botkit provides `bot.ask()`
 
-Bot.ask takes
+
 
 
 ## Single Team Bot
@@ -267,7 +266,7 @@ bot.hears(patterns,events,function(message) {
   bot.reply(message,'Heard you!');
 
   // get into a conversation
-  bot.startTask(message,function(task,convo) {
+  bot.startConversation(message,function(convo) {
     convo.say('Hey!');
     convo.ask('What up?',function(response) {
         // do something with response to question!

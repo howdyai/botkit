@@ -665,6 +665,13 @@ function Bot(configuration) {
     cb(null);
   }
 
+
+  bot.startConversation = function(message,cb) {
+    bot.startTask(message,function(task,convo) {
+      cb(convo);
+    });
+  }
+
   bot.startTask = function(message,cb) {
 
     var task = new Task(message,this);
