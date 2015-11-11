@@ -183,7 +183,7 @@ pattern is matched. This allows the bot to present multiple choice options, or t
 only when a valid response has been received. It is recommended that at least one of the patterns
 in the array be marked as the default option, should no other option match.
 
-The optional third parameter can be used to define different behaviors for collecting the user's response.
+The optional third parameter `capture_options` can be used to define different behaviors for collecting the user's response.
 This object can contain the following fields:
 
 | Field | Description
@@ -291,6 +291,7 @@ only two events are fired, and only one is very useful: end.
 ```
 convo.on('end',function(convo) {
 
+  // do something useful!
 
 
 
