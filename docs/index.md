@@ -1,27 +1,141 @@
 # Botkit
 
+Botkit is a Node module for use in creating bots (and other types
+of applications) that live inside chat rooms like Slack!
+It provides a semantic interface to sending and receiving messages
+so that developers can focus on creating novel applications and experiences
+instead of dealing with API endpoints.
+
+Botkit features a comprehensive set of tools
+to deal with Slack's integration platform, and allows
+developers to build both custom integrations for their
+team as well as public Slack applications that can be
+run from a central location, but be used by many teams.
+
+
 ## Installation
 
-Get botkit from NPM
+Botkit is available via npm.
+
+Though botkit has several internal dependencies, it contains everything you need to get a bot online.
 
 ```
 npm install --save botkit
 ```
 
+## Basic Concepts
+
+Bots built with botkit have a few key capabilities, which can be used
+to create clever, conversational applications. These capabilities
+map to the way real human people talk to each other.
+
+Bots can [hear things)(). Bots can [say things and reply]() to what they hear.
+
+With these two building blocks, almost any type of conversation can be created.
+
+To organize the things a bot says and does into useful units, botkit bots have a subsystem available for [creating tasks]() which contain one or more [multi-message conversations](). Conversations add features like the ability to ask a question, queue
+several messages at once, and track when an interaction has ended.  Handy!
+
+After a bot has been told what to listen for and how to respond,
+it is ready to be connected to a stream of incoming messages. Currently, botkit can handle [3 different types of incoming messages from Slack].
+
 
 ## Basic Usage
+
+Here's an example of using Botkit with Slack's [real time API](https://api.slack.com/rtm), which is the coolest one because your bot will look and act like a real user inside Slack.
+
+This sample bot listens for the word "hello" to be said to it -- either as a direct mention ("@bot hello") or an indirect mention ("hello @bot") or a direct message ("a private message inside Slack between the user and the bot").
 
 ```
 var botkit = require('botkit');
 
-var bot = botkit.slackbot(configuration);
-bot.init();
+var bot = botkit.slackbot({
+  debug: false
+});
+
+// give the bot something to list for.
+bot.hears('hello','direct_message,direct_mention,mention',function(message) {
+
+  bot.reply(message,'Hello yourself.');
+
+});
+
+// connect the bot to a stream of messages
+bot.startRTM({
+  token: my_slack_bot_token,
+},function(err,connection,payload) {
+
+  if (!err) {
+    console.log("This bot is online!");
+  }
+
+});
 
 ```
 
-events
----
-ready
+## Hearing Things
+
+Bots hear words or patterns and respond to them. This is achieved using the `bot.hears()` function.
+
+```
+bot.hears(['keyword','^pattern$'],['direct_message','direct_mention','mention','ambient'],function(message) {
+
+  // do something to respond to message
+  // all of the fields available in a normal Slack message object are available
+  // https://api.slack.com/events/message
+
+
+});
+```
+
+
+## Saying Things
+
+There are two ways for a bot to say something. `bot.say()` allows the bot to say something spontaneously,
+while `bot.reply()` causes the bot to respond to a message it received.
+
+
+### Using bot.reply
+
+Bot.reply takes 2 parameters: the incoming message to which the response is intended,
+and the response itself.
+
+```
+bot.hears(['keyword','^pattern$'],['direct_message','direct_mention','mention','ambient'],function(message) {
+
+  // do something to respond to message
+  bot.reply(message,"Tell me more!");
+
+});
+```
+
+
+### Using bot.say:
+
+The main difference is that `bot.say()` takes an additional `connection` parameter, which defines the
+bots connection to the Slack API. If your primary need is to spontaneously send messages rather than
+respond to incoming messages, you may want to use the [incoming webhooks]() feature rather than the real time API.
+
+```
+bot.say(
+  {
+    token: my_slack_bot_token
+  },
+  {
+    text: 'my message text',
+    channel: '#channel'
+  }
+);
+```
+
+## Starting a Conversation
+
+Once your bot gets talking, it is going to want to ask some questions.
+
+To do this, botkit provides `bot.ask()`
+
+Bot.ask takes
+
 
 ## Single Team Bot
 

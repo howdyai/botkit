@@ -2,6 +2,9 @@
 
 These items still need to be addressed!
 
+* bot.reply should take a string OR a message object
+
+* document token replacement (identity, responses, origin, vars)
 * how to provide the default web homepage?
 * How to provide customization of behavior of post-oauth / oauth error
 * how to respond directly to outgoing webhook / slash command
