@@ -131,7 +131,130 @@ bot.say(
 ## Starting a Conversation
 
 Once your bot gets talking, it is going to want to ask some questions.
+Botkit provides a conversation object that can string together several
+messages into a cohesive experience.
 
+### bot.startConversation()
+
+| Argument | Description
+|---  |---
+| message   | incoming message to which the conversation is in response
+| callback  | a callback function in the form of  function(conversation) { ... }
+
+
+### conversation.say()
+
+| Argument | Description
+|---  |---
+| message   | String or message object
+
+Call convo.say() several times in a row to queue messages inside the conversation. Only one message will be sent at a time, in the order they are queued.
+
+```
+bot.hears(['hello world'],['direct_message','direct_mention','mention','ambient'],function(message) {
+
+  // start a conversation to handle this response.
+  bot.startConversation(message,function(convo) {
+
+    convo.say('Hello!');
+    convo.say('Have a nice day!');
+
+  })
+
+});
+```
+
+### conversation.ask()
+
+| Argument | Description
+|---  |---
+| message   | String containing the question
+| handler function   | callback function in the form function(response_message,conversation)
+| _or_ |
+| array of handlers | array of objects in the form ``{ pattern: regular_expression, handler: function(response_message,conversation) { ... } }``
+
+When passed a callback function, conversation.ask will execute the callback function for any response.
+This allows the bot to respond to open ended questions, collect the responses, and handle them in whatever
+manner it needs to.
+
+When passed an array, the bot will look first for a matching pattern, and execute only the callback whose
+pattern is matched. This allows the bot to present multiple choice options, or to respond proceed
+only when a valid response has been received. It is recommended that at least one of the patterns
+in the array be marked as the default option, should no other option match.
+
+Botkit comes pre-built with several useful patterns which can be used with this function. See [included utterances]()
+
+#### Using conversation.ask with a callback:
+
+```
+bot.hears(['question me'],['direct_message','direct_mention','mention','ambient'],function(message) {
+
+  // start a conversation to handle this response.
+  bot.startConversation(message,function(convo) {
+
+    convo.ask('How are you?',function(response,convo) {
+
+      convo.say('Cool, you said: ' + response.text);
+      convo.next();
+
+    });
+
+  })
+
+});
+```
+
+
+
+#### Using conversation.ask with an array of callbacks:
+
+```
+bot.hears(['question me'],['direct_message','direct_mention','mention','ambient'],function(message) {
+
+  // start a conversation to handle this response.
+  bot.startConversation(message,function(convo) {
+
+    convo.ask('Shall we proceed Say YES, NO or DONE to quit.',[
+      {
+        pattern: 'done',
+        handler: function(response,convo) {
+          convo.say('OK you are done!');
+          convo.next();          
+        }
+      },
+      {
+        pattern: bot.utterances.yes,
+        handler: function(response,convo) {
+          convo.say('Great! I will continue...');
+          // do something else...
+          convo.next();
+
+        }
+      },
+      {
+        pattern: bot.utterances.no,
+        handler: function(response,convo) {
+          convo.say('Perhaps later.');
+          // do something else...
+          convo.next();
+        }
+      }
+    ]);
+
+  })
+
+});
+```
+
+##### Included Utterances
+
+| Pattern Name | Description
+|--- |---
+| bot.utterances.yes | Matches phrasess like yes, yeah, yup, ok and sure.
+| bot.utterances.no | Matches phrases like no, nah, nope
+
+
+### conversation.on()
 
 
 
