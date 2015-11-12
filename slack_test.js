@@ -251,7 +251,7 @@ bot.on('outgoing_webhook',function(message) {
   bot.debug('HEARS HANDLER');
   bot.reply(message,'Hello yourself, <@'+message.user+'>');
 }).hears(['ask'],['ambient','direct_message'],function(message) {
-  bot.startTask(message,function(task,convo) {
+  bot.startConversation(message,function(convo) {
     convo.ask('Say YES or NO',[
         {
           callback: function(response) { convo.say('YES! Good.'); convo.next(); },
@@ -272,7 +272,7 @@ bot.on('outgoing_webhook',function(message) {
 
 // this will only be called if one of the hears phrases isn't heard
 bot.on('direct_message,direct_mention',function(message) {
-  bot.startTask(message,function(task,convo) {
+  bot.startConversation(message,function(convo) {
     bot.debug('Started a task, future messages should end up handled.')
 
 
