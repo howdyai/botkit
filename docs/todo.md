@@ -13,3 +13,6 @@ These items still need to be addressed!
 * should bot.say use incoming_webhook if no other configured?
 
 * What functions need to be overridden to handle the multi team stuff?
+
+
+* bot.say takes a convo paramter? why? huh?
