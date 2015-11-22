@@ -10,22 +10,25 @@ bot.startRTM({
   }
 });
 
-bot.hears(['hello'],'direct_message,direct_mention',function(connection,message) {
-  bot.reply(connection,message,'Hello!');
+bot.hears(['hello'],'direct_message,direct_mention',function(message) {
+  bot.reply(message,'Hello!');
 });
 
-bot.hears(['lunch'],'direct_message,direct_mention',function(connection,message) {
-  bot.startTask(connection,message,function(task,convo) {
-    convo.ask('Say YES or NO',{
-        'yes': {
-          callback: function(response) { convo.say('YES! Good.'); },
+bot.hears(['question','ask'],'direct_message,direct_mention',function(message) {
+  bot.startConversation(message,function(convo) {
+    convo.ask('Say YES or NO',[
+        {
+          callback: function(response) { convo.say('YES! Good.'); convo.next(); },
           pattern: bot.utterances.yes,
         },
-        'no': {
-          callback: function(response) { convo.say('NO?!?! WTF?'); },
+        {
+          callback: function(response) { convo.say('NO?!?! WTF?'); convo.next(); },
           pattern: bot.utterances.no,
         },
-        'default': function(response) { convo.say('Huh?'); convo.repeat(); }
-    });
+        {
+          default: true,
+          callback:function(response) { convo.say('Huh?'); convo.repeat();  convo.next(); }
+        }
+    ]);
   });
 });
