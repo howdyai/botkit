@@ -3,7 +3,7 @@
 /* These messages are expected to match Slack's message format. */
 var fs = require('fs');
 var mustache = require('mustache');
-
+var simple_storage = require('./simple_storage.js');
 
 function Bot(configuration) {
 
@@ -13,6 +13,11 @@ function Bot(configuration) {
       tasks: [],
       taskCount: 0,
       convoCount: 0,
+      memory_store: {
+        users: {},
+        channels: {},
+        teams: {},
+      }
   };
 
   bot.utterances = {
@@ -119,7 +124,6 @@ function Bot(configuration) {
 
         }
       } else {
-  //      console.log(">>>>> DID NOTHING, NO HANDLER");
       }
 
     }
@@ -570,6 +574,62 @@ function Bot(configuration) {
 
   }
 
+  bot.storage = {
+    teams: {
+      get: function(team_id,cb) {
+        cb(null,bot.memory_store['teams'][team_id]);
+      },
+      save: function(team,cb) {
+        bot.log('Warning: using temporary storage. Data will be lost when process restarts.')
+        if (team.id) {
+          bot.memory_store['teams'][team.id] = team;
+          cb(null,team.id);
+        } else {
+          cb('No ID specified');
+        }
+      },
+      all: function(cb) {
+        cb(null,bot.memory_store['teams']);
+      }
+    },
+    users: {
+      get: function(user_id,cb) {
+        cb(null,bot.memory_store['users'][user_id]);
+      },
+      save: function(user,cb) {
+        bot.log('Warning: using temporary storage. Data will be lost when process restarts.')
+
+        if (user.id) {
+          bot.memory_store['users'][user.id] = user;
+          cb(null,user.id);
+        } else {
+          cb('No ID specified');
+        }
+      },
+      all: function(cb) {
+        cb(null,bot.memory_store['users']);
+      }
+    },
+    channels: {
+      get: function(channel_id,cb) {
+        cb(null,bot.memory_store['channels'][channel_id]);
+      },
+      save: function(channel,cb) {
+        bot.log('Warning: using temporary storage. Data will be lost when process restarts.')
+        if (user.id) {
+          bot.memory_store['channels'][channel.id] = channel;
+          cb(null,channel.id);
+        } else {
+          cb('No ID specified');
+        }
+      },
+      all: function(cb) {
+        cb(null,bot.memory_store['channels']);
+      }
+    }
+  }
+
+
   bot.debug = function() {
     if (configuration.debug) {
       var args=[];
@@ -727,6 +787,33 @@ function Bot(configuration) {
 
 
   bot.config = configuration;
+
+  if (configuration.storage) {
+    if (
+        configuration.storage.teams &&
+        configuration.storage.teams.get &&
+        configuration.storage.teams.save &&
+
+        configuration.storage.users &&
+        configuration.storage.users.get &&
+        configuration.storage.users.save &&
+
+        configuration.storage.channels &&
+        configuration.storage.channels.get &&
+        configuration.storage.channels.save
+      ) {
+        bot.log('** Using custom storage system.');
+        bot.storage = configuration.storage;
+      } else {
+        throw new Error('Storage object does not have all required methods!');
+      }
+  } else if (configuration.path) {
+    bot.log('** Using simple storage. Saving data to ' + configuration.path);
+    bot.storage = simple_storage({path: configuration.path});
+  } else {
+    bot.log('** No persistent storage method specified! Data may be lost when process shuts down.')
+  }
+
 
   return bot;
 }

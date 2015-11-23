@@ -15,6 +15,7 @@ These items still need to be addressed!
 * can bot.say be made to have 1 param?
 * should bot.say use incoming_webhook if no other configured?
 
+* how to create your own custom storage
 
 * What functions need to be overridden to handle the multi team stuff?
 
