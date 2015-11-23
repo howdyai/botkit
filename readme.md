@@ -2,4 +2,4 @@
 
 Botkit handles talking to all the various pieces of talking to Slack.
 
-(Read the docs here)[docs/index.md]
+[Read the docs here](docs/index.md)
