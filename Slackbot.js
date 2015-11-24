@@ -372,6 +372,7 @@ function Slackbot(configuration) {
 
           if (err || !team) {
             bot.log('Received slash command, but could not load team');
+
           } else {
             message.type='slash_command';
             // HEY THERE
@@ -728,7 +729,7 @@ function Slackbot(configuration) {
 
   bot.replyPublic = function(src,resp,cb) {
 
-    if (!src.res) {
+    if (!src._connection.res) {
       cb('No web response object found');
     } else {
 
@@ -743,7 +744,7 @@ function Slackbot(configuration) {
       }
 
       msg.response_type='in_channel';
-      res.json(msg);
+      src._connection.res.json(msg);
     }
 
   }
@@ -777,7 +778,7 @@ function Slackbot(configuration) {
 
   bot.replyPrivate = function(src,resp,cb) {
 
-    if (!src.res) {
+    if (!src._connection.res) {
       cb('No web response object found');
     } else {
 
@@ -792,7 +793,7 @@ function Slackbot(configuration) {
       }
 
       msg.response_type='ephemeral';
-      res.json(msg);
+      src._connection.res.json(msg);
     }
 
   }

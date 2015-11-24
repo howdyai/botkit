@@ -27,7 +27,12 @@ bot.on('slash_command',function(message) {
 
   if (message.command=='/botkit') {
 
-    bot.replyPublic(message,'Got a slash command!');
+    bot.replyPrivate(message,'Got a slash command!');
+    //bot.replyPublic(message,'Got a slash command!');
+    setTimeout(function() {
+      bot.replyPublicDelayed(message,'This is a delayed public response');
+    },3000)
+
     // or...
     // bot.replyPrivate(message,'');
 
