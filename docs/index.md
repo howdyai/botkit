@@ -476,14 +476,22 @@ message_received
 
 # Other stuff
 
-_connection
-
-connection contains information about the API connection
-from which the message originated.  Also contains team id.
-
-_connection.team.id
+#### How to identify what team a message came from
+```
+bot.identifyTeam(message,function(err,team_id) {
 
 
+})
+```
+
+
+#### How to identify the bot itself (for RTM only)
+```
+bot.identifyBot(message,function(err,identity) {
+  // identity contains...
+  // {name, id, team_id}
+})
+```
 
 ```
 bot.on('message_received',function(message) {

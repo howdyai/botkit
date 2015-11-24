@@ -1,8 +1,6 @@
 # To Do
 
 These items still need to be addressed!
-* how to respond directly to outgoing webhook / slash command
-* how to identify the team a message is from
 * how to identify the bot itself
 
 * can bot.say be made to have 1 param?
@@ -29,3 +27,5 @@ These items still need to be addressed!
 * bot.reply should take a string OR a message object
 * bot.startDM should work like startConversation
 * How to provide customization of behavior of post-oauth / oauth error
+* how to respond directly to outgoing webhook / slash command
+* how to identify the team a message is from

@@ -17,6 +17,16 @@ bot.startRTM({
 });
 
 bot.hears(['hello'],'direct_message,direct_mention',function(message) {
+
+  bot.identifyTeam(message,function(err,team) {
+    console.log('this message came from ',team);
+  });
+
+  bot.identifyBot(message,function(err,identity) {
+    console.log('this message was received by a bot ',identity);
+  });
+
+
   bot.reply(message,{
     text: 'Hello!',
     // username: 'hellobot',

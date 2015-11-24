@@ -670,6 +670,33 @@ function Slackbot(configuration) {
     });
   }
 
+  bot.identifyBot = function(message,cb) {
+    if (message._connection.identity) {
+      bot.identifyTeam(message,function(err,team) {
+        cb(null,{name: message._connection.identity.name,id:message._connection.identity.id,team_id:team});
+      });
+    } else {
+      // Note: Are there scenarios other than the RTM
+      // where we might pull identity info, perhaps from
+      // bot.api.auth.test on a given token?
+      cb('Identity Unknown: Not using RTM api');
+    }
+  }
+
+  bot.identifyTeam = function(message,cb) {
+
+    // if messages come in as slash commands or outgoing webhooks
+    // they include a team_id field
+    if (message.team_id) {
+      cb(null,message.team_id);
+    // otherwise, we should be connected to the RTM
+    // in which case we have a bunch of info about the team...
+    } else if (message._connection.team_info) {
+      cb(null,message._connection.team_info.id);
+    }
+
+  }
+
   bot.say = function(connection,message,cb) {
     bot.debug('SAY ',message);
 
