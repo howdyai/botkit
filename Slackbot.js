@@ -453,7 +453,7 @@ function Slackbot(configuration) {
   // return an error!
   bot.findTeamById = function(id,cb) {
 
-    bot.storage.teams.find(id,cb);
+    bot.storage.teams.get(id,cb);
 
   }
 
@@ -504,7 +504,7 @@ function Slackbot(configuration) {
   // and collecting authentication details
   // https://api.slack.com/docs/oauth
   // https://api.slack.com/docs/oauth-scopes
-  bot.createOauthEndpoints = function(webserver) {
+  bot.createOauthEndpoints = function(webserver,callback) {
 
     bot.log('** Serving login URL: http://MY_HOST:' + bot.config.port + '/login');
 
@@ -539,15 +539,13 @@ function Slackbot(configuration) {
       },function(err,auth) {
 
         if (err) {
-          // FIX THIS
-          // clearly this is not a good way to deal with this error
-          res.send(err);
+          if (callback) {
+            callback(err,req,res);
+          } else {
+            res.status(500).send(err);
+          }
           bot.trigger('oauth_error',[err]);
         } else {
-
-          // FIX THIS
-          // obvs this is not great.
-          res.send('ok! sending test');
 
           // auth contains at least:
           // { access_token, scope, team_name}
@@ -568,9 +566,12 @@ function Slackbot(configuration) {
           bot.api.auth.test({},function(err,identity) {
 
             if (err) {
-              // FIX THIS
-              // clearly this is not a good way to deal with this error
-              res.send(err);
+              if (callback) {
+                callback(err,req,res);
+              } else {
+                res.status(500).send(err);
+              }
+
               bot.trigger('oauth_error',[err]);
 
             } else {
@@ -604,9 +605,21 @@ function Slackbot(configuration) {
                 bot.saveTeam(connection.team,function(err,id) {
                   if (err) {
                     bot.log('An error occurred while saving a team: ',err);
+                    if (callback) {
+                      callback(err,req,res);
+                    } else {
+                      res.status(500).send(err);
+                    }
                     bot.trigger('error',[err]);
+                  } else {
+                    if (callback) {
+                      callback(null,req,res);
+                    } else {
+                      res.redirect('/');
+                    }
                   }
                 });
+
               });
             }
           })
