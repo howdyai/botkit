@@ -27,11 +27,18 @@ bot.on('slash_command',function(message) {
 
   if (message.command=='/botkit') {
 
-    bot.replyPrivate(message,'Got a slash command!');
-    //bot.replyPublic(message,'Got a slash command!');
+    if (message.text!='') {
+      bot.replyPrivate(message,'Got a slash command! You sent ' + message.text);
+    } else {
+      bot.replyPublic(message,'Got a slash command! No additional text.');
+    }
     setTimeout(function() {
-      bot.replyPublicDelayed(message,'This is a delayed public response');
+      bot.replyPublicDelayed(message,'This is a delayed public response to the /botkit slash command.');
     },3000)
+    setTimeout(function() {
+      bot.replyPrivateDelayed(message,'This is a delayed private response to the /botkit slash command.');
+    },5000)
+
 
     // or...
     // bot.replyPrivate(message,'');
