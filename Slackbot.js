@@ -710,7 +710,7 @@ function Slackbot(configuration) {
       username: message.username||null,
       parse: message.parse||null,
       link_names: message.link_names||null,
-      attachments: message.attachments||null,
+      attachments: message.attachments?JSON.stringify(message.attachments):null,
       unfurl_links: message.unfurl_links||null,
       unfurl_media: message.unfurl_media||null,
       icon_url: message.icon_url||null,

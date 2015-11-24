@@ -18,19 +18,49 @@ bot.startRTM({
 
 bot.hears(['hello'],'direct_message,direct_mention',function(message) {
 
-  bot.identifyTeam(message,function(err,team) {
-    console.log('this message came from ',team);
-  });
-
-  bot.identifyBot(message,function(err,identity) {
-    console.log('this message was received by a bot ',identity);
-  });
 
 
   bot.reply(message,{
     text: 'Hello!',
     // username: 'hellobot',
     // icon_emoji: ':shit:',
+  });
+});
+
+bot.hears(['attach'],'direct_message,direct_mention',function(message) {
+
+  var attachments = [];
+  var attachment = {
+    title: 'This is an attachment',
+    color: '#FFCC99',
+    fields: [],
+  }
+
+  attachment.fields.push({
+    label: 'Field',
+    value: 'A longish value',
+    short: false,
+  })
+
+  attachment.fields.push({
+    label: 'Field',
+    value: 'Value',
+    short: true,
+  })
+
+  attachment.fields.push({
+    label: 'Field',
+    value: 'Value',
+    short: true,
+  })
+
+  attachments.push(attachment);
+
+  bot.reply(message,{
+    text: 'See below...',
+    attachments: attachments,
+  },function(err,resp) {
+    console.log(err,resp);
   });
 });
 

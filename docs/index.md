@@ -29,7 +29,7 @@ Bots built with botkit have a few key capabilities, which can be used
 to create clever, conversational applications. These capabilities
 map to the way real human people talk to each other.
 
-Bots can [hear things)(). Bots can [say things and reply]() to what they hear.
+Bots can [hear things](). Bots can [say things and reply]() to what they hear.
 
 With these two building blocks, almost any type of conversation can be created.
 
