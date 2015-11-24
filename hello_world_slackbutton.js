@@ -25,7 +25,7 @@ bot.setupWebserver(process.env.port,function(err,webserver) {
 
 bot.on('slash_command',function(message) {
 
-  if (message.command=='/hello') {
+  if (message.command=='/botkit') {
 
     bot.replyPublic(message,'Got a slash command!');
     // or...
@@ -43,7 +43,7 @@ bot.on('slash_command',function(message) {
 
 bot.on('outgoing_webhook',function(message) {
 
-  if (message.trigger_word=='/hello') {
+  if (message.trigger_word=='hello') {
     bot.replyPublic(message,'Got an outgoing webhook!');
   }
 
