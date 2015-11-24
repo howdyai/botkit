@@ -26,17 +26,17 @@ npm install --save botkit
 ## Getting Started
 ​
 0. Install botkit
-​
+
 1. First make a bot integration inside of your Slack channel. Go here:
-​
+
 https://my.slack.com/services/new/bot
-​
+
 Enter a name for your bot. Make it something fun and friendly, but avoid a single task specific name. Bots can do lots! Let's not pidgeonhole them.
-​
+
 2. When you click "Add Bot Integration", you are taken to a page where you can add additional details about your bot, like an avatar, as well as customize its name & description.
 
 Copy the token. You'll need it.
-​
+
 3. Run one of the example scripts
 ​
 ```
@@ -48,7 +48,7 @@ token=REPLACE_THIS_WITH_YOUR_TOKEN node hello_world_rtm.js
 ### Things to note
 ​
 Much like a vampire, a bot has to be invited into a channel. DO NOT WORRY bots are not vampires.
-  
+
 
 
 ## Basic Concepts
