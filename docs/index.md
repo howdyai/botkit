@@ -528,6 +528,22 @@ ambient
 message_received
 * all the normal slack events
 
+## Using the Slack Web API
+
+All (or nearly all) of Slack's current web api methods are supported
+using a syntax designed to match the endpoints themselves.
+
+If your bot has the appropriate scope, it may call [any of these method](https://api.slack.com/methods) using this syntax:
+
+```
+bot.api.channels.list({},function(err,response) {
+
+
+})
+```
+
+
+
 # Other stuff
 
 #### How to identify what team a message came from
