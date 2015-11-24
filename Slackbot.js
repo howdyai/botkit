@@ -772,9 +772,9 @@ function Slackbot(configuration) {
         if (err) {
           bot.log('Error sending slash command response:',err);
           if (cb) { cb(err); }
-        } else (
+        } else {
           if (cb) { cb(null); }
-        )
+        }
       }).form(JSON.stringify(msg));
     }
 
