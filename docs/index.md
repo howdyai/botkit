@@ -447,7 +447,13 @@ outgoing_webhook
 
 special responses
 ---
-you can respond immediately to these if you want...
+
+bot.replyPublic()
+bot.replyPublicDelayed()
+
+bot.replyPrivate()
+bot.replyPrivateDelayed()
+
 
 
 ## Real Time API

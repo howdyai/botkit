@@ -462,6 +462,9 @@ function Slackbot(configuration) {
     if (!port) {
       throw new Error("Cannot start webserver without a port");
     }
+    if (isNaN(port)) {
+      throw new Error("Specified port is not a valid number");
+    }
 
     bot.config.port = port;
 
@@ -472,7 +475,7 @@ function Slackbot(configuration) {
 
     var server = bot.webserver.listen(bot.config.port, function () {
       bot.log('** Starting webserver on port ' + bot.config.port);
-      cb(null,bot.webserver);
+      if (cb) { cb(null,bot.webserver); }
     });
 
     return bot;
@@ -718,6 +721,104 @@ function Slackbot(configuration) {
         if (cb) { cb(err); }
       }
     }
+  }
+
+  bot.replyPublic = function(src,resp,cb) {
+
+    if (!src.res) {
+      cb('No web response object found');
+    } else {
+
+      var msg = {};
+
+      if (typeof(resp)=='string') {
+          msg.text = resp;
+          msg.channel = src.channel;
+      } else {
+        msg = resp;
+        msg.channel = src.channel;
+      }
+
+      msg.response_type='in_channel';
+      res.json(msg);
+    }
+
+  }
+
+  bot.replyPublicDelayed = function(src,resp,cb) {
+
+    if (!src.response_url) {
+      cb('No response_url found');
+    } else {
+
+      var msg = {};
+
+      if (typeof(resp)=='string') {
+          msg.text = resp;
+          msg.channel = src.channel;
+      } else {
+        msg = resp;
+        msg.channel = src.channel;
+      }
+
+      msg.response_type='in_channel';
+      request.post(src.response_url,function(err,resp,body) {
+        // do something?
+        if (err) {
+          bot.log('Error sending slash command response:',err);
+        }
+      }).form(msg);
+    }
+
+  }
+
+  bot.replyPrivate = function(src,resp,cb) {
+
+    if (!src.res) {
+      cb('No web response object found');
+    } else {
+
+      var msg = {};
+
+      if (typeof(resp)=='string') {
+          msg.text = resp;
+          msg.channel = src.channel;
+      } else {
+        msg = resp;
+        msg.channel = src.channel;
+      }
+
+      msg.response_type='ephemeral';
+      res.json(msg);
+    }
+
+  }
+
+  bot.replyPrivateDelayed = function(src,resp,cb) {
+
+    if (!src.response_url) {
+      cb('No response_url found');
+    } else {
+
+      var msg = {};
+
+      if (typeof(resp)=='string') {
+          msg.text = resp;
+          msg.channel = src.channel;
+      } else {
+        msg = resp;
+        msg.channel = src.channel;
+      }
+
+      msg.response_type='ephemeral';
+      request.post(src.response_url,function(err,resp,body) {
+        // do something?
+        if (err) {
+          bot.log('Error sending slash command response:',err);
+        }
+      }).form(msg);
+    }
+
   }
 
   bot.reply = function(src,resp,cb) {
