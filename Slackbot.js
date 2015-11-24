@@ -730,7 +730,7 @@ function Slackbot(configuration) {
   bot.replyPublic = function(src,resp,cb) {
 
     if (!src._connection.res) {
-      cb('No web response object found');
+      if (cb) { cb('No web response object found'); }
     } else {
 
       var msg = {};
@@ -744,7 +744,8 @@ function Slackbot(configuration) {
       }
 
       msg.response_type='in_channel';
-      src._connection.res.json(msg);
+      src._connection.res.json(JSON.stringify(msg));
+      if (cb) { cb(null) }
     }
 
   }
@@ -752,7 +753,7 @@ function Slackbot(configuration) {
   bot.replyPublicDelayed = function(src,resp,cb) {
 
     if (!src.response_url) {
-      cb('No response_url found');
+      if (cb) { cb('No response_url found'); }
     } else {
 
       var msg = {};
@@ -770,8 +771,11 @@ function Slackbot(configuration) {
         // do something?
         if (err) {
           bot.log('Error sending slash command response:',err);
-        }
-      }).form(msg);
+          if (cb) { cb(err); }
+        } else (
+          if (cb) { cb(null); }
+        )
+      }).form(JSON.stringify(msg));
     }
 
   }
@@ -779,7 +783,7 @@ function Slackbot(configuration) {
   bot.replyPrivate = function(src,resp,cb) {
 
     if (!src._connection.res) {
-      cb('No web response object found');
+      if (cb) { cb('No web response object found'); }
     } else {
 
       var msg = {};
@@ -794,6 +798,7 @@ function Slackbot(configuration) {
 
       msg.response_type='ephemeral';
       src._connection.res.json(msg);
+      if (cb) { cb(null) }
     }
 
   }
@@ -801,7 +806,7 @@ function Slackbot(configuration) {
   bot.replyPrivateDelayed = function(src,resp,cb) {
 
     if (!src.response_url) {
-      cb('No response_url found');
+      if (cb) { cb('No response_url found'); }
     } else {
 
       var msg = {};
@@ -819,6 +824,9 @@ function Slackbot(configuration) {
         // do something?
         if (err) {
           bot.log('Error sending slash command response:',err);
+          if (cb) { cb(err) }
+        } else {
+          if (cb) { cb(null) }
         }
       }).form(msg);
     }
@@ -840,6 +848,7 @@ function Slackbot(configuration) {
     console.log('say,',msg);
 
     bot.say(src._connection,msg,cb);
+
   }
 
   bot.findConversation = function(message,cb) {
@@ -863,9 +872,9 @@ function Slackbot(configuration) {
 
   }
 
-  bot.handleRTM = function() {
+  bot.handleSlackEvents = function() {
 
-    bot.log('** Setting up custom handlers for processing RTM messages');
+    bot.log('** Setting up custom handlers for processing Slack messages');
     bot.on('message_received',function(message) {
 
       if (message.ok!=undefined) {
@@ -1020,9 +1029,6 @@ function Slackbot(configuration) {
 
           if (!bot.tickInterval) {
 
-            // set up the RTM message handlers once
-            bot.handleRTM();
-
             // set up a once a second tick to process messages
             bot.tickInterval = setInterval(function() {
              bot.tick();
@@ -1047,6 +1053,9 @@ function Slackbot(configuration) {
        }
      });
   }
+
+  // set up the RTM message handlers once
+  bot.handleSlackEvents();
 
   return bot;
 }
