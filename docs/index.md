@@ -360,6 +360,60 @@ Return one specific user response, identified by its key.
 var value  = convo.extractResponse('key');
 ```
 
+
+## Storing Information
+
+
+### Use built in json file storage
+
+This is great for simple uses and quick prototypes.
+
+Support for freeform storage for teams, users and channels.
+Basically this is a key value store. You can pass in
+whatever data you like to any of these, as long as it has an
+ID field, which should be a Slack unique id.
+
+```
+var bot = botkit.slackbot({
+  json_file_store: 'path_to_json_database'
+})
+
+bot.storage.teams.get(id,function(err,team) {
+
+})
+
+bot.storage.teams.save(team_data,function(err) { ... })
+
+bot.storage.users.get(id,function(err,user) {
+
+})
+
+bot.storage.users.save(user_data,function(err) { ... })
+
+bot.storage.channels.get(id,function(err,channel) {
+
+})
+
+bot.storage.channels.save(channel_data,function(err) { ... })
+
+```
+
+### Write your own storage provider
+
+If you want to use a database or do somethign else with your data,
+you can write your own storage module and pass it in.
+
+Make sure your module returns an object with all the methods. See simple_storage.js for an example of how it is done!
+
+Then, use it when you create your bot:
+```
+var bot = botkit.slackbot({
+  storage: my_storage_provider
+})
+```
+
+
+
 ## Single Team Bot
 
 Use botkit to build a bot that will connect to your team (one team at a time).

@@ -811,9 +811,9 @@ function Bot(configuration) {
       } else {
         throw new Error('Storage object does not have all required methods!');
       }
-  } else if (configuration.path) {
-    bot.log('** Using simple storage. Saving data to ' + configuration.path);
-    bot.storage = simple_storage({path: configuration.path});
+  } else if (configuration.json_file_store) {
+    bot.log('** Using simple storage. Saving data to ' + configuration.json_file_store);
+    bot.storage = simple_storage({path: configuration.json_file_store});
   } else {
     bot.log('** No persistent storage method specified! Data may be lost when process shuts down.')
   }

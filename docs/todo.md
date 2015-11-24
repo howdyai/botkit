@@ -1,7 +1,6 @@
 # To Do
 
 These items still need to be addressed!
-* how to identify the bot itself
 
 * can bot.say be made to have 1 param?
 * should bot.say use incoming_webhook if no other configured?
@@ -19,6 +18,7 @@ These items still need to be addressed!
 
 * how to create your own custom storage
 * What functions need to be overridden to handle the multi team stuff?
+* how to identify the bot itself
 
 
 
