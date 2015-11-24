@@ -4,20 +4,21 @@ var bot = Bot().configureSlackApp({
   {
     clientId: process.env.clientId,
     clientSecret: process.env.clientSecret,
-    scopes: 
+    scopes: [''],
   }
 });
 
 bot.init();
 
-bot.setupWebserver();
-bot.createWebhookEndpoints(bot.webserver);
+bot.setupWebserver(function(webserver) {
+  bot.createWebhookEndpoints(bot.webserver);
+});
 
 
-bot.on('slash_command',function(connection,message) {
+bot.on('slash_command',function(message) {
 
   if (message.command=='/hello') {
-    connection.res.send('Hello yourself');
+    message._connection.res.send('Hello yourself');
   }
 
 });
