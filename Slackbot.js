@@ -744,7 +744,11 @@ function Slackbot(configuration) {
       }
 
       msg.response_type='in_channel';
-      src._connection.res.json(JSON.stringify(msg));
+      if (src.type=='outgoing_webhook') {
+        src._connection.res.json(msg);
+      } else {
+        src._connection.res.json(JSON.stringify(msg));
+      }
       if (cb) { cb(null) }
     }
 
