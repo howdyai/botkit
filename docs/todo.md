@@ -11,7 +11,6 @@ These items still need to be addressed!
 # Slack Button
 
 * finish support for slack button, slash and inbound
-* How to provide customization of behavior of post-oauth / oauth error
 * test!!
 * how to provide the default web homepage?
 
@@ -29,3 +28,4 @@ These items still need to be addressed!
 * bot.say takes a convo paramter? why? huh?
 * bot.reply should take a string OR a message object
 * bot.startDM should work like startConversation
+* How to provide customization of behavior of post-oauth / oauth error

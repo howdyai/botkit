@@ -314,14 +314,12 @@ function Slackbot(configuration) {
 
   }
 
-
   // use a specific slack API token
   bot.useToken = function(token,cb) {
     bot.config.token = token;
     if (cb) { cb(); }
     return bot;
   }
-
 
   bot.useConnection = function(connection) {
 
@@ -334,8 +332,6 @@ function Slackbot(configuration) {
     }
 
   }
-
-
 
   // set up a web route that is a landing page
   bot.createHomepageEndpoint = function(webserver) {
@@ -353,7 +349,6 @@ function Slackbot(configuration) {
     return bot;
 
   }
-
 
   // set up a web route for receiving outgoing webhooks and/or slash commands
   bot.createWebhookEndpoints = function(webserver) {
@@ -405,7 +400,6 @@ function Slackbot(configuration) {
           message[key] = req.body[key];
         }
 
-
         // let's normalize some of these fields to match the rtm message format
         message.user = message.user_id;
         message.channel = message.channel_id;
@@ -420,8 +414,8 @@ function Slackbot(configuration) {
               team: team,
               res: res,
             }
-            res.status(200);
 
+            res.status(200);
             message._connection = connection;
 
             bot.receiveMessage(message);
@@ -440,8 +434,6 @@ function Slackbot(configuration) {
 
     return bot;
   }
-
-
 
   bot.saveTeam = function(team,cb) {
 
@@ -664,7 +656,6 @@ function Slackbot(configuration) {
     })
   }
 
-
   // convenience method for creating a DM convo
   bot.startDM = function(task,user_id,cb) {
 
@@ -677,7 +668,6 @@ function Slackbot(configuration) {
       }
     });
   }
-
 
   bot.say = function(connection,message,cb) {
     bot.debug('SAY ',message);

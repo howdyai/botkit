@@ -518,7 +518,7 @@ bot.setupWebserver(process.env.port,function(err,webserver) {
   // set up web endpoints for oauth, receiving webhooks, etc.
   bot
     .createHomepageEndpoint(bot.webserver)
-    .createOauthEndpoints(bot.webserver)
+    .createOauthEndpoints(bot.webserver,function(err,req,res) { ... })
     .createWebhookEndpoints(bot.webserver);
 
 });
