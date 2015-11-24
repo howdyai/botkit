@@ -133,7 +133,7 @@ bot.hears(['keyword','^pattern$'],['direct_message','direct_mention','mention','
 
 | Argument | Description
 |--- |---
-| connection | Slack configuration in the form {token: some_valid_token}
+| connection | Slack configuration in the form {team: {token: some_valid_token}}
 | message | Incoming message object in the form { text: "" channel: ""}
 | callback | _Optional_ Callback in the form function(err,response) { ... }
 
@@ -143,7 +143,9 @@ respond to incoming messages, you may want to use the [incoming webhooks]() feat
 ```
 bot.say(
   {
-    token: my_slack_bot_token
+    team: {
+      token: my_slack_bot_token
+    }
   },
   {
     text: 'my message text',
@@ -503,9 +505,11 @@ special responses
 ---
 
 bot.replyPublic()
+
 bot.replyPublicDelayed()
 
 bot.replyPrivate()
+
 bot.replyPrivateDelayed()
 
 
@@ -514,6 +518,32 @@ bot.replyPrivateDelayed()
 
 ```
 bot.startRTM({token: my_slack_bot_token},function(err,connection,payload) { });
+```
+
+### Responding to events
+
+You can receive and handle any of the [native events thrown by slack](https://api.slack.com/events).  
+
+```
+bot.on('channel_joined',function(message) {
+
+  // message contains data sent by slack
+  // in this case:
+  // https://api.slack.com/events/channel_joined
+
+});
+```
+
+You can also receive and handle a long list of additional events caused
+by messages that contain a subtype field, [as listed here](https://api.slack.com/events/message)
+
+```
+bot.on('channel_leave',function(message) {
+
+  // message format matches this:
+  // https://api.slack.com/events/message/channel_leave
+
+})
 ```
 
 events

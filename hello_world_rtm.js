@@ -27,6 +27,10 @@ bot.hears(['hello'],'direct_message,direct_mention',function(message) {
   });
 });
 
+// bot.on('channel_joined',function(message) {
+//   bot.reply({_connection: message._connection,channel: message.channel.id},"I just joined this channel.");
+// })
+
 bot.hears(['attach'],'direct_message,direct_mention',function(message) {
 
   var attachments = [];
