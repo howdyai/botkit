@@ -296,7 +296,7 @@ function Slackbot(configuration) {
   // https://api.slack.com/docs/oauth-scopes
   bot.configureSlackApp = function(slack_app_config,cb) {
 
-    bot.log('Configuring app as a Slack App!');
+    bot.log('** Configuring app as a Slack App!');
     if (!slack_app_config || !slack_app_config.clientId || !slack_app_config.clientSecret || !slack_app_config.scopes) {
       throw new Error('Missing oauth config details',bot);
     } else {
@@ -314,14 +314,12 @@ function Slackbot(configuration) {
 
   }
 
-
   // use a specific slack API token
   bot.useToken = function(token,cb) {
     bot.config.token = token;
     if (cb) { cb(); }
     return bot;
   }
-
 
   bot.useConnection = function(connection) {
 
@@ -334,8 +332,6 @@ function Slackbot(configuration) {
     }
 
   }
-
-
 
   // set up a web route that is a landing page
   bot.createHomepageEndpoint = function(webserver) {
@@ -353,7 +349,6 @@ function Slackbot(configuration) {
     return bot;
 
   }
-
 
   // set up a web route for receiving outgoing webhooks and/or slash commands
   bot.createWebhookEndpoints = function(webserver) {
@@ -405,7 +400,6 @@ function Slackbot(configuration) {
           message[key] = req.body[key];
         }
 
-
         // let's normalize some of these fields to match the rtm message format
         message.user = message.user_id;
         message.channel = message.channel_id;
@@ -420,8 +414,8 @@ function Slackbot(configuration) {
               team: team,
               res: res,
             }
-            res.status(200);
 
+            res.status(200);
             message._connection = connection;
 
             bot.receiveMessage(message);
@@ -441,23 +435,9 @@ function Slackbot(configuration) {
     return bot;
   }
 
-
-
   bot.saveTeam = function(team,cb) {
 
-
     bot.storage.teams.save(team,cb);
-    //
-    // bot.log('WARNING: Using built in, insecure method for storing team info!');
-    // if (bot.config.path) {
-    //   if (fs.existsSync(bot.config.path+'/' + connection.team.id + '.json')) {
-    //     bot.trigger('update_team',[connection]);
-    //   } else {
-    //     bot.trigger('create_team',[connection]);
-    //   }
-    //   var json = JSON.stringify(connection.team);
-    //   json = fs.writeFileSync(bot.config.path+'/' + connection.team.id + '.json',json,'utf8');
-    // }
 
   }
 
@@ -465,7 +445,7 @@ function Slackbot(configuration) {
   // return an error!
   bot.findTeamById = function(id,cb) {
 
-    bot.storage.teams.find(id,cb);
+    bot.storage.teams.get(id,cb);
 
   }
 
@@ -473,6 +453,9 @@ function Slackbot(configuration) {
 
     if (!port) {
       throw new Error("Cannot start webserver without a port");
+    }
+    if (isNaN(port)) {
+      throw new Error("Specified port is not a valid number");
     }
 
     bot.config.port = port;
@@ -484,7 +467,7 @@ function Slackbot(configuration) {
 
     var server = bot.webserver.listen(bot.config.port, function () {
       bot.log('** Starting webserver on port ' + bot.config.port);
-      cb(null,bot.webserver);
+      if (cb) { cb(null,bot.webserver); }
     });
 
     return bot;
@@ -513,7 +496,7 @@ function Slackbot(configuration) {
   // and collecting authentication details
   // https://api.slack.com/docs/oauth
   // https://api.slack.com/docs/oauth-scopes
-  bot.createOauthEndpoints = function(webserver) {
+  bot.createOauthEndpoints = function(webserver,callback) {
 
     bot.log('** Serving login URL: http://MY_HOST:' + bot.config.port + '/login');
 
@@ -548,15 +531,13 @@ function Slackbot(configuration) {
       },function(err,auth) {
 
         if (err) {
-          // FIX THIS
-          // clearly this is not a good way to deal with this error
-          res.send(err);
+          if (callback) {
+            callback(err,req,res);
+          } else {
+            res.status(500).send(err);
+          }
           bot.trigger('oauth_error',[err]);
         } else {
-
-          // FIX THIS
-          // obvs this is not great.
-          res.send('ok! sending test');
 
           // auth contains at least:
           // { access_token, scope, team_name}
@@ -577,9 +558,12 @@ function Slackbot(configuration) {
           bot.api.auth.test({},function(err,identity) {
 
             if (err) {
-              // FIX THIS
-              // clearly this is not a good way to deal with this error
-              res.send(err);
+              if (callback) {
+                callback(err,req,res);
+              } else {
+                res.status(500).send(err);
+              }
+
               bot.trigger('oauth_error',[err]);
 
             } else {
@@ -613,9 +597,21 @@ function Slackbot(configuration) {
                 bot.saveTeam(connection.team,function(err,id) {
                   if (err) {
                     bot.log('An error occurred while saving a team: ',err);
+                    if (callback) {
+                      callback(err,req,res);
+                    } else {
+                      res.status(500).send(err);
+                    }
                     bot.trigger('error',[err]);
+                  } else {
+                    if (callback) {
+                      callback(null,req,res);
+                    } else {
+                      res.redirect('/');
+                    }
                   }
                 });
+
               });
             }
           })
@@ -651,6 +647,15 @@ function Slackbot(configuration) {
 
   }
 
+  bot.startPrivateConversation = function(message,cb) {
+    bot.startTask(message,function(task,convo) {
+      bot.startDM(task,message.user,function(err,dm) {
+        convo.stop();
+        cb(err,dm);
+      })
+    })
+  }
+
   // convenience method for creating a DM convo
   bot.startDM = function(task,user_id,cb) {
 
@@ -664,29 +669,35 @@ function Slackbot(configuration) {
     });
   }
 
-
   bot.say = function(connection,message,cb) {
     bot.debug('SAY ',message);
 
     // construct a valid slack message
     var slack_message = {
       id: connection.msgcount++,
-      as_user: true,
       type: 'message',
 
       channel: message.channel,
       text: message.text,
-      username: message.username,
-      parse: message.parse,
-      link_names: message.link_names,
-      attachments: message.attachments,
-      unfurl_links: message.unfurl_links,
-      unfurl_media: message.unfurl_media,
-      icon_url: message.icon_url,
-      icon_emoji: message.icon_emoji,
+      username: message.username||null,
+      parse: message.parse||null,
+      link_names: message.link_names||null,
+      attachments: message.attachments||null,
+      unfurl_links: message.unfurl_links||null,
+      unfurl_media: message.unfurl_media||null,
+      icon_url: message.icon_url||null,
+      icon_emoji: message.icon_emoji||null,
     }
 
-    if (message.attachments) {
+    if (message.icon_url || message.icon_emoji || message.username ){
+      slack_message.as_user = false;
+    } else {
+      slack_message.as_user = message.as_user || true;
+    }
+
+    // these options are not supported by the RTM
+    // so if they are specified, we use the web API to send messages
+    if (message.attachments || message.icon_emoji || message.username || message.icon_url) {
       bot.useConnection(connection);
       bot.api.chat.postMessage(slack_message,function(err,res) {
         if (err) {
@@ -701,21 +712,133 @@ function Slackbot(configuration) {
         connection.rtm.send(JSON.stringify(slack_message),function(err) {
           if (err) {
             // uhoh! RTM had an error sending
+            if (cb) { cb(err); }
+          } else {
+            if (cb) { cb(null); }
           }
         });
       } catch(err) {
         // uhoh! the RTM failed and for some reason it didn't get caught elsewhere.
         // this happens sometimes when the rtm has closed but we are sending messages anyways
         // bot probably needs to reconnect!
+        if (cb) { cb(err); }
       }
     }
   }
 
+  bot.replyPublic = function(src,resp,cb) {
+
+    if (!src.res) {
+      cb('No web response object found');
+    } else {
+
+      var msg = {};
+
+      if (typeof(resp)=='string') {
+          msg.text = resp;
+          msg.channel = src.channel;
+      } else {
+        msg = resp;
+        msg.channel = src.channel;
+      }
+
+      msg.response_type='in_channel';
+      res.json(msg);
+    }
+
+  }
+
+  bot.replyPublicDelayed = function(src,resp,cb) {
+
+    if (!src.response_url) {
+      cb('No response_url found');
+    } else {
+
+      var msg = {};
+
+      if (typeof(resp)=='string') {
+          msg.text = resp;
+          msg.channel = src.channel;
+      } else {
+        msg = resp;
+        msg.channel = src.channel;
+      }
+
+      msg.response_type='in_channel';
+      request.post(src.response_url,function(err,resp,body) {
+        // do something?
+        if (err) {
+          bot.log('Error sending slash command response:',err);
+        }
+      }).form(msg);
+    }
+
+  }
+
+  bot.replyPrivate = function(src,resp,cb) {
+
+    if (!src.res) {
+      cb('No web response object found');
+    } else {
+
+      var msg = {};
+
+      if (typeof(resp)=='string') {
+          msg.text = resp;
+          msg.channel = src.channel;
+      } else {
+        msg = resp;
+        msg.channel = src.channel;
+      }
+
+      msg.response_type='ephemeral';
+      res.json(msg);
+    }
+
+  }
+
+  bot.replyPrivateDelayed = function(src,resp,cb) {
+
+    if (!src.response_url) {
+      cb('No response_url found');
+    } else {
+
+      var msg = {};
+
+      if (typeof(resp)=='string') {
+          msg.text = resp;
+          msg.channel = src.channel;
+      } else {
+        msg = resp;
+        msg.channel = src.channel;
+      }
+
+      msg.response_type='ephemeral';
+      request.post(src.response_url,function(err,resp,body) {
+        // do something?
+        if (err) {
+          bot.log('Error sending slash command response:',err);
+        }
+      }).form(msg);
+    }
+
+  }
+
   bot.reply = function(src,resp,cb) {
-    bot.say(src._connection,{
-      channel: src.channel,
-      text: resp
-    },cb);
+
+    var msg = {};
+
+    if (typeof(resp)=='string') {
+        msg.text = resp;
+        msg.channel = src.channel;
+    } else {
+      msg = resp;
+      msg.channel = src.channel;
+    }
+
+    console.log('say,',msg);
+
+    bot.say(src._connection,msg,cb);
   }
 
   bot.findConversation = function(message,cb) {
@@ -741,7 +864,7 @@ function Slackbot(configuration) {
 
   bot.handleRTM = function() {
 
-    bot.log('Setting up custom handlers for processing RTM messages');
+    bot.log('** Setting up custom handlers for processing RTM messages');
     bot.on('message_received',function(message) {
 
       if (message.ok!=undefined) {

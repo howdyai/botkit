@@ -397,7 +397,11 @@ function Bot(configuration) {
                   message.attachments = message.attachments(this);
                 }
 
-                this.task.bot.say(this.task.connection,message,this);
+                this.task.bot.say(this.task.connection,message,function(err) {
+                  if(err) {
+                    bot.log('An error occurred while sending a message: ',err);
+                  }
+                });
               }
               if (message.action) {
                 console.log('THIS MESSAGE HAS AN ACTION!');
@@ -649,7 +653,7 @@ function Bot(configuration) {
   }
 
 
-  bot.say = function(message,convo) {
+  bot.say = function(message,cb) {
     bot.debug('SAY: ',message);
   }
 
@@ -728,7 +732,7 @@ function Bot(configuration) {
 
   bot.startConversation = function(message,cb) {
     bot.startTask(message,function(task,convo) {
-      cb(convo);
+      cb(null,convo);
     });
   }
 
