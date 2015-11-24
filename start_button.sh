@@ -1,1 +1,1 @@
-clientId=2151250279.15193278949 clientSecret=3f9380ba2ac9e220902535a09418f559 port=3002 node hello_world_slackbutton
+clientId=2151250279.15242728150 clientSecret=23e2ea90463ec3b2a33779773cd0074f port=3002 node hello_world_slackbutton
