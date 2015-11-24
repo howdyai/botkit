@@ -828,7 +828,7 @@ function Slackbot(configuration) {
         } else {
           if (cb) { cb(null) }
         }
-      }).form(msg);
+      }).form(JSON.stringify(msg));
     }
 
   }
