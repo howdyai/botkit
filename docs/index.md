@@ -496,7 +496,7 @@ bot.on('group_leave',function(message) {
 })
 ```
 
-## Multi Team Bot
+## Use the Slack Button
 
 This requires using oauth and the add to slack features.
 
