@@ -1,21 +1,72 @@
 var Bot = require('./Slackbot.js');
 
-var bot = Bot();
-
-bot.init();
+var bot = Bot({
+ path: './db/',
+});
 
 bot.startRTM({
   team: {
     token: process.env.token
   }
+},function(err) {
+
+  if (err) {
+    throw new Error(err);
+  }
+
 });
 
 bot.hears(['hello'],'direct_message,direct_mention',function(message) {
-  bot.reply(message,'Hello!');
+  bot.reply(message,{
+    text: 'Hello!',
+    // username: 'hellobot',
+    // icon_emoji: ':shit:',
+  });
 });
 
+bot.hears(['dm'],'direct_message,direct_mention',function(message) {
+  bot.startConversation(message,function(err,convo) {
+    convo.say('Heard ya');
+  });
+
+  bot.startPrivateConversation(message,function(err,dm) {
+    dm.say('Private reply!');
+  })
+
+});
+
+
+
+bot.hears(['my name is (.*)'],'direct_message,direct_mention',function(message) {
+  var matches = message.text.match(/my name is (.*)/i);
+  var name = matches[1];
+  bot.storage.users.get(message.user,function(err,user) {
+    if (!user) {
+      user = {
+        id: message.user,
+      }
+    }
+    user.name = name;
+    bot.storage.users.save(user,function(err,id) {
+      bot.reply(message,'Got it. I will call you ' + user.name + ' from now on.');
+    })
+  })
+});
+
+
+bot.hears(['what is my name'],'direct_message,direct_mention',function(message) {
+  bot.storage.users.get(message.user,function(err,user) {
+    if (user && user.name) {
+      bot.reply(message,'Your name is ' + user.name);
+    } else {
+      bot.reply(message,'I don\'t know your name yet');
+    }
+  })
+});
+
+
 bot.hears(['question','ask'],'direct_message,direct_mention',function(message) {
-  bot.startConversation(message,function(convo) {
+  bot.startConversation(message,function(err,convo) {
     convo.ask('Say YES or NO',[
         {
           callback: function(response) { convo.say('YES! Good.'); convo.next(); },
@@ -94,7 +145,7 @@ function startTalking(convo) {
 
 
 bot.hears(['talk'],'direct_message,direct_mention',function(message) {
-  bot.startConversation(message,function(convo) {
+  bot.startConversation(message,function(err,convo) {
 
     convo.on('end',function(finished_convo) {
 
