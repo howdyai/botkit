@@ -1,0 +1,1 @@
+/* a bot that responds to slash commands for a team */

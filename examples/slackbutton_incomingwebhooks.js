@@ -1,0 +1,1 @@
+/* Uses the slack button feature to offer incoming webhooks to multiple teams */

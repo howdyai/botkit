@@ -1,0 +1,1 @@
+/* Uses the slack button feature to offer a slash command to multiple teams */

@@ -1,0 +1,1 @@
+/* Uses the slack button feature to offer a real time bot to multiple teams */

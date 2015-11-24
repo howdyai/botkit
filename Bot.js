@@ -729,7 +729,6 @@ function Bot(configuration) {
     cb(null);
   }
 
-
   bot.startConversation = function(message,cb) {
     bot.startTask(message,function(task,convo) {
       cb(null,convo);

@@ -11,6 +11,21 @@ function Slackbot(configuration) {
   // Create a core botkit bot
   var bot = Bot(configuration||{});
 
+
+  /********************************************************/
+  /********************************************************/
+  /********************************************************/
+  /********************************************************/
+  /********************************************************/
+  /****** DEALS WITH CONNECTIONS TO SLACK API *************/
+  /********************************************************/
+  /********************************************************/
+  /********************************************************/
+  /********************************************************/
+  /********************************************************/
+
+
+
   // create a nice wrapper for the Slack API
   bot.api = {
       api_url: 'https://slack.com/api/',
@@ -627,6 +642,200 @@ function Slackbot(configuration) {
 
   }
 
+  bot.handleSlackEvents = function() {
+
+    bot.log('** Setting up custom handlers for processing Slack messages');
+    bot.on('message_received',function(message) {
+
+      if (message.ok!=undefined) {
+        // this is a confirmation of something we sent.
+        return false;
+      }
+
+      bot.debug('DEFAULT SLACK MSG RECEIVED RESPONDER');
+      if ('message' == message.type) {
+
+        if (message.text) {
+          message.text = message.text.trim();
+        }
+
+        // set up a couple of special cases based on subtype
+        if (message.subtype && message.subtype=='channel_join') {
+          // someone joined. maybe do something?
+          if (message.user==message._connection.identity.id) {
+            bot.trigger('bot_channel_join',[message]);
+            return false;
+          } else {
+            bot.trigger('user_channel_join',[message]);
+            return false;
+          }
+        } else if (message.subtype && message.subtype == 'group_join') {
+          // someone joined. maybe do something?
+          if (message.user==message._connection.identity.id) {
+            bot.trigger('bot_group_join',[message]);
+            return false;
+          } else {
+            bot.trigger('user_group_join',[message]);
+            return false;
+          }
+
+        } else if (message.subtype) {
+          bot.trigger(message.subtype,[message]);
+          return false;
+
+        } else if (message.channel.match(/^D/)){
+          // this is a direct message
+          if (message.user==message._connection.identity.id) {
+            return false;
+          }
+
+          if (!message.text) {
+            // message without text is probably an edit
+            return false;
+          }
+
+          // remove direct mention so the handler doesn't have to deal with it
+          var direct_mention = new RegExp('^\<\@' + message._connection.identity.id + '\>','i');
+          message.text = message.text.replace(direct_mention,'').replace(/^\s+/,'').replace(/^\:\s+/,'').replace(/^\s+/,'');
+
+          message.event = 'direct_message';
+
+          bot.trigger('direct_message',[message]);
+          return false;
+
+        } else {
+          if (message.user==message._connection.identity.id) {
+            return false;
+          }
+          if (!message.text) {
+            // message without text is probably an edit
+            return false;
+          }
+
+          var direct_mention = new RegExp('^\<\@' + message._connection.identity.id + '\>','i');
+          var mention = new RegExp('\<\@' + message._connection.identity.id + '\>','i');
+
+          if (message.text.match(direct_mention)) {
+            // this is a direct mention
+            message.text = message.text.replace(direct_mention,'').replace(/^\s+/,'').replace(/^\:\s+/,'').replace(/^\s+/,'');
+            message.event = 'direct_mention';
+
+            bot.trigger('direct_mention',[message]);
+            return false;
+          } else if (message.text.match(mention)) {
+            message.event = 'mention';
+
+            bot.trigger('mention',[message]);
+            return false;
+          } else {
+            message.event = 'ambient';
+            bot.trigger('ambient',[message]);
+            return false;
+
+          }
+        }
+      } else {
+        // this is a non-message object, so trigger a custom event based on the type
+        bot.trigger(message.type,[message]);
+      }
+    });
+
+  }
+
+  bot.closeRTM = function(connection) {
+
+    connection.rtm.close();
+
+  }
+
+  bot.startRTM = function(connection,cb) {
+
+    bot.useConnection(connection);
+    bot.api.rtm.start({
+      no_unreads: true,
+      simple_latest: true,
+    },function(err,res) {
+
+      if (err) {
+        if (cb) {
+          cb(err);
+        }
+      } else if (!res) {
+        if (cb) {
+          cb('Invalid response from rtm.start');
+        }
+      } else {
+        connection.identity = res.self;
+        connection.team_info = res.team;
+
+        // also available
+        // res.users
+        // res.channels
+        // res.groups
+        // res.ims
+        // res.bots
+        // these could be stored and cached for later use!
+
+        bot.log("** BOT ID: ", connection.identity.name," ...attempting to connect to RTM!");
+
+        connection.rtm = new ws(res.url);
+        connection.msgcount = 1;
+
+        connection.rtm.on('open',function() {
+          bot.trigger('rtm_open',[connection]);
+
+          connection.rtm.on('message', function(data, flags) {
+            var message = JSON.parse(data);
+
+            // Lets construct a nice quasi-standard botkit message
+            // it leaves the main slack message at the root
+            // but adds in additional fields for internal use!
+            // (including the teams api details)
+
+            message._connection = connection;
+           bot.receiveMessage(message);
+
+          });
+
+          if (!bot.tickInterval) {
+
+            // set up a once a second tick to process messages
+            bot.tickInterval = setInterval(function() {
+             bot.tick();
+            },1000);
+          }
+
+          if (cb) {
+            cb(null,connection,res);
+          }
+
+        })
+
+         connection.rtm.on('error',function(err) {
+           bot.log("RTM websocket error!",err)
+           bot.trigger('rtm_close',[connection,err]);
+         });
+
+         connection.rtm.on('close',function() {
+           bot.trigger('rtm_close',[connection]);
+         });
+
+       }
+     });
+  }
+
+  /********************************************************/
+  /********************************************************/
+  /********************************************************/
+  /********************************************************/
+  /********************************************************/
+  /****** DEALS WITH SENDING AND RECEIVING MESSAGES *******/
+  /********************************************************/
+  /********************************************************/
+  /********************************************************/
+  /********************************************************/
+  /********************************************************/
+
   // convenience method for adding user record to message object
   bot.lookupMessageUser = function(message,cb) {
 
@@ -648,6 +857,7 @@ function Slackbot(configuration) {
 
   }
 
+  // convenience method for creating a DM convo
   bot.startPrivateConversation = function(message,cb) {
     bot.startTask(message,function(task,convo) {
       bot.startDM(task,message.user,function(err,dm) {
@@ -878,6 +1088,14 @@ function Slackbot(configuration) {
 
   }
 
+
+  /***
+
+    This handles the particulars of finding an existing conversation or
+    topic to fit the message into...
+
+   ***/
+
   bot.findConversation = function(message,cb) {
     bot.debug('CUSTOM FIND CONVO',message.user,message.channel);
     if (message.type=='message' || message.type=='slash_command' || message.type=='outgoing_webhook') {
@@ -899,187 +1117,6 @@ function Slackbot(configuration) {
 
   }
 
-  bot.handleSlackEvents = function() {
-
-    bot.log('** Setting up custom handlers for processing Slack messages');
-    bot.on('message_received',function(message) {
-
-      if (message.ok!=undefined) {
-        // this is a confirmation of something we sent.
-        return false;
-      }
-
-      bot.debug('DEFAULT SLACK MSG RECEIVED RESPONDER');
-      if ('message' == message.type) {
-
-        if (message.text) {
-          message.text = message.text.trim();
-        }
-
-        // set up a couple of special cases based on subtype
-        if (message.subtype && message.subtype=='channel_join') {
-          // someone joined. maybe do something?
-          if (message.user==message._connection.identity.id) {
-            bot.trigger('bot_channel_join',[message]);
-            return false;
-          } else {
-            bot.trigger('user_channel_join',[message]);
-            return false;
-          }
-        } else if (message.subtype && message.subtype == 'group_join') {
-          // someone joined. maybe do something?
-          if (message.user==message._connection.identity.id) {
-            bot.trigger('bot_group_join',[message]);
-            return false;
-          } else {
-            bot.trigger('user_group_join',[message]);
-            return false;
-          }
-
-        } else if (message.subtype) {
-          bot.trigger(message.subtype,[message]);
-          return false;
-
-        } else if (message.channel.match(/^D/)){
-          // this is a direct message
-          if (message.user==message._connection.identity.id) {
-            return false;
-          }
-
-          if (!message.text) {
-            // message without text is probably an edit
-            return false;
-          }
-
-          // remove direct mention so the handler doesn't have to deal with it
-          var direct_mention = new RegExp('^\<\@' + message._connection.identity.id + '\>','i');
-          message.text = message.text.replace(direct_mention,'').replace(/^\s+/,'').replace(/^\:\s+/,'').replace(/^\s+/,'');
-
-          message.event = 'direct_message';
-
-          bot.trigger('direct_message',[message]);
-          return false;
-
-        } else {
-          if (message.user==message._connection.identity.id) {
-            return false;
-          }
-          if (!message.text) {
-            // message without text is probably an edit
-            return false;
-          }
-
-          var direct_mention = new RegExp('^\<\@' + message._connection.identity.id + '\>','i');
-          var mention = new RegExp('\<\@' + message._connection.identity.id + '\>','i');
-
-          if (message.text.match(direct_mention)) {
-            // this is a direct mention
-            message.text = message.text.replace(direct_mention,'').replace(/^\s+/,'').replace(/^\:\s+/,'').replace(/^\s+/,'');
-            message.event = 'direct_mention';
-
-            bot.trigger('direct_mention',[message]);
-            return false;
-          } else if (message.text.match(mention)) {
-            message.event = 'mention';
-
-            bot.trigger('mention',[message]);
-            return false;
-          } else {
-            message.event = 'ambient';
-            bot.trigger('ambient',[message]);
-            return false;
-
-          }
-        }
-      } else {
-        // this is a non-message object, so trigger a custom event based on the type
-        bot.trigger(message.type,[message]);
-      }
-    });
-
-  }
-
-  bot.closeRTM = function(connection) {
-
-    connection.rtm.close();
-
-  }
-
-  bot.startRTM = function(connection,cb) {
-
-    bot.useConnection(connection);
-    bot.api.rtm.start({
-      no_unreads: true,
-      simple_latest: true,
-    },function(err,res) {
-
-      if (err) {
-        if (cb) {
-          cb(err);
-        }
-      } else if (!res) {
-        if (cb) {
-          cb('Invalid response from rtm.start');
-        }
-      } else {
-        connection.identity = res.self;
-        connection.team_info = res.team;
-
-        // also available
-        // res.users
-        // res.channels
-        // res.groups
-        // res.ims
-        // res.bots
-        // these could be stored and cached for later use!
-
-        bot.log("** BOT ID: ", connection.identity.name," ...attempting to connect to RTM!");
-
-        connection.rtm = new ws(res.url);
-        connection.msgcount = 1;
-
-        connection.rtm.on('open',function() {
-          bot.trigger('rtm_open',[connection]);
-
-          connection.rtm.on('message', function(data, flags) {
-            var message = JSON.parse(data);
-
-            // Lets construct a nice quasi-standard botkit message
-            // it leaves the main slack message at the root
-            // but adds in additional fields for internal use!
-            // (including the teams api details)
-
-            message._connection = connection;
-           bot.receiveMessage(message);
-
-          });
-
-          if (!bot.tickInterval) {
-
-            // set up a once a second tick to process messages
-            bot.tickInterval = setInterval(function() {
-             bot.tick();
-            },1000);
-          }
-
-          if (cb) {
-            cb(null,connection,res);
-          }
-
-        })
-
-         connection.rtm.on('error',function(err) {
-           bot.log("RTM websocket error!",err)
-           bot.trigger('rtm_close',[connection,err]);
-         });
-
-         connection.rtm.on('close',function() {
-           bot.trigger('rtm_close',[connection]);
-         });
-
-       }
-     });
-  }
 
   // set up the RTM message handlers once
   bot.handleSlackEvents();

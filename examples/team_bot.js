@@ -1,0 +1,1 @@
+/* a bot that connects to one team via the RTM */
