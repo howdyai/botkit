@@ -1,7 +1,7 @@
-var Bot = require('./Slackbot.js');
+var Botkit = require('./Botkit.js');
 
-var bot = Bot({
-  path: './db/',
+var controller = Botkit.slackbot({
+  json_file_store: './db/',
 }).configureSlackApp(
   {
     clientId: process.env.clientId,
@@ -10,10 +10,10 @@ var bot = Bot({
   }
 );
 
-bot.setupWebserver(process.env.port,function(err,webserver) {
-  bot.createWebhookEndpoints(bot.webserver);
+controller.setupWebserver(process.env.port,function(err,webserver) {
+  controller.createWebhookEndpoints(controller.webserver);
 
-  bot.createOauthEndpoints(bot.webserver,function(err,req,res) {
+  controller.createOauthEndpoints(controller.webserver,function(err,req,res) {
     if (err) {
       res.status(500).send('ERROR: ' + err);
     } else {
@@ -23,7 +23,7 @@ bot.setupWebserver(process.env.port,function(err,webserver) {
 });
 
 
-bot.on('slash_command',function(message) {
+controller.on('slash_command',function(bot,message) {
 
   if (message.command=='/botkit') {
 
@@ -53,7 +53,7 @@ bot.on('slash_command',function(message) {
 });
 
 
-bot.on('outgoing_webhook',function(message) {
+controller.on('outgoing_webhook',function(bot,message) {
 
   if (message.trigger_word=='hello') {
     bot.replyPublic(message,'Got an outgoing webhook!');

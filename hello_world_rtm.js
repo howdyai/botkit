@@ -53,7 +53,6 @@ controller.hears(['hello'],'direct_message,direct_mention',function(bot,message)
   });
 });
 
-
 controller.hears(['attach'],'direct_message,direct_mention',function(bot,message) {
 
   var attachments = [];
