@@ -1,13 +1,12 @@
 /* This is a module that makes a bot */
-/* It expects to receive messages via the bot.receiveMessage function */
+/* It expects to receive messages via the botkit.receiveMessage function */
 /* These messages are expected to match Slack's message format. */
-var fs = require('fs');
 var mustache = require('mustache');
-var simple_storage = require('./simple_storage.js');
+var simple_storage = require(__dirname+'/simple_storage.js');
 
-function Bot(configuration) {
+function Botkit(configuration) {
 
-  var bot = {
+  var botkit = {
       events: {}, // this will hold event handlers
       config: {}, // this will hold the configuration
       tasks: [],
@@ -20,7 +19,7 @@ function Bot(configuration) {
       }
   };
 
-  bot.utterances = {
+  botkit.utterances = {
     yes: new RegExp(/^(yes|yea|yup|ya|sure|ok|y|yeah|yah)/i),
     no: new RegExp(/^(no|nah|nope|n)/i),
   }
@@ -73,7 +72,7 @@ function Bot(configuration) {
 
       this.lastActive = new Date();
       this.transcript.push(message);
-      bot.debug('HANDLING MESSAGE IN CONVO',message);
+      botkit.debug('HANDLING MESSAGE IN CONVO',message);
       // do other stuff like call custom callbacks
       if (this.handler) {
 
@@ -90,7 +89,6 @@ function Bot(configuration) {
           // lets see if the message matches any of the keywords
           var patterns = this.handler;
           for (var p = 0; p < patterns.length; p++) {
-            console.log('testing pattern ',patterns[p].pattern);
             if (patterns[p].pattern && message.text.match(patterns[p].pattern)) {
               patterns[p].callback(message,this);
               return;
@@ -101,26 +99,10 @@ function Bot(configuration) {
           // if a default exists, fire it!
           for (var p = 0; p < patterns.length; p++) {
             if (patterns[p].default) {
-              console.log('default pattern ',patterns[p].pattern);
               patterns[p].callback(message,this);
               return;
             }
           }
-
-          // if (this.handler['default']) {
-          //   var func = this.handler['default'];
-          //   if (typeof(func)=='function') {
-          //       func(message,this);
-          //   } else {
-          //     func.callback(message,this);
-          //   }
-          //   //this.handler = null;
-          //   //console.log(">>>> CLEARED HANDLER");
-          // } else {
-          //   // if no proper handler exists, THEN WHAT???
-          //
-          // }
-
 
         }
       } else {
@@ -160,7 +142,7 @@ function Bot(configuration) {
 
 
     this.on = function(event,cb) {
-      bot.debug('Setting up a handler for',event);
+      botkit.debug('Setting up a handler for',event);
       var events = event.split(/\,/g);
       for (var e in events) {
         if (!this.events[events[e]]) {
@@ -174,19 +156,15 @@ function Bot(configuration) {
     this.trigger = function(event,data) {
       if (this.events[event]) {
 
-        // this is a hack while I fix all the plces triggers happen
-        var that = this;
-        if (data[0] && data[0]._connection) {
-          that = data[0]._connection;
-        }
+
         for (var e = 0; e < this.events[event].length; e++) {
-          var res = this.events[event][e].apply(that,data);
+          var res = this.events[event][e].apply(this,data);
           if (res===false) {
             return;
           }
         }
       } else {
-        bot.debug('No handler for ',event);
+        botkit.debug('No handler for ',event);
       }
     }
 
@@ -321,7 +299,7 @@ function Bot(configuration) {
     this.replaceTokens = function(text) {
 
       var vars = {
-        identity: this.task.connection.identity,
+        identity: this.task.bot.identity,
         responses: this.extractResponses(),
         origin: this.task.source_message,
         vars: this.vars,
@@ -337,7 +315,7 @@ function Bot(configuration) {
       this.handler = null;
       this.messages = [];
       this.status=status||'stopped';
-      bot.debug('Conversation is over!');
+      botkit.debug('Conversation is over!');
       this.task.conversationEnded(this);
 
     }
@@ -403,15 +381,13 @@ function Bot(configuration) {
                   message.attachments = message.attachments(this);
                 }
 
-                this.task.connection.say(this.task.connection,message,function(err) {
+                this.task.bot.say(message,function(err) {
                   if(err) {
-                    bot.log('An error occurred while sending a message: ',err);
+                    botkit.log('An error occurred while sending a message: ',err);
                   }
                 });
               }
               if (message.action) {
-                console.log('THIS MESSAGE HAS AN ACTION!');
-                console.log(message.action);
                   if (message.action=='repeat') {
                     this.repeat();
                   } else if (message.action=='wait') {
@@ -431,34 +407,33 @@ function Bot(configuration) {
             // end immediately instad of waiting til next tick.
             // if it hasn't already been ended by a message action!
             if (this.isActive() && !this.messages.length && !this.handler) {
-              console.log('immediate end');
               this.status='completed';
-              bot.debug('Conversation is over!');
+              botkit.debug('Conversation is over!');
               this.task.conversationEnded(this);
 
             }
 
 
           } else if (this.sent.length) { // sent at least 1 message
-            console.log('delayed end');
             this.status='completed';
-            bot.debug('Conversation is over!');
+            botkit.debug('Conversation is over!');
             this.task.conversationEnded(this);
           }
         }
       }
     }
 
-    bot.debug('CREATED A CONVO FOR',this.source_message.user,this.source_message.channel);
+    botkit.debug('CREATED A CONVO FOR',this.source_message.user,this.source_message.channel);
     this.changeTopic('default');
 
   }
 
-  function Task(message,bot) {
+  function Task(bot,message,botkit) {
 
     this.convos = [];
+    this.botkit = botkit;
     this.bot = bot;
-    this.connection = message._connection;
+
     this.events = {};
     this.source_message = message;
     this.status = 'active';
@@ -471,9 +446,9 @@ function Bot(configuration) {
     this.startConversation = function(message) {
 
       var convo = new Conversation(this,message);
-      convo.id = bot.convoCount++;
+      convo.id = botkit.convoCount++;
 
-      bot.log('>   [Start] ',convo.id,' Conversation with ',message.user,'in',message.channel);
+      botkit.log('>   [Start] ',convo.id,' Conversation with ',message.user,'in',message.channel);
 
       convo.activate();
       this.convos.push(convo);
@@ -483,7 +458,7 @@ function Bot(configuration) {
 
     this.conversationEnded = function(convo) {
 
-      bot.log('>   [End] ',convo.id,' Conversation with ',convo.source_message.user,'in',convo.source_message.channel);
+      botkit.log('>   [End] ',convo.id,' Conversation with ',convo.source_message.user,'in',convo.source_message.channel);
       this.trigger('conversationEnded',[convo]);
       convo.trigger('end',[convo]);
       var actives = 0;
@@ -500,7 +475,7 @@ function Bot(configuration) {
 
     this.taskEnded = function() {
 
-      bot.log('[End] ',this.id,' Task for ',this.source_message.user,'in',this.source_message.channel);
+      botkit.log('[End] ',this.id,' Task for ',this.source_message.user,'in',this.source_message.channel);
 
       this.status='completed';
       this.trigger('end',[this]);
@@ -508,7 +483,7 @@ function Bot(configuration) {
     }
 
     this.on = function(event,cb) {
-      bot.debug('Setting up a handler for',event);
+      botkit.debug('Setting up a handler for',event);
       var events = event.split(/\,/g);
       for (var e in events) {
         if (!this.events[events[e]]) {
@@ -528,7 +503,7 @@ function Bot(configuration) {
           }
         }
       } else {
-        bot.debug('No handler for ',event);
+        botkit.debug('No handler for ',event);
       }
     }
 
@@ -584,62 +559,62 @@ function Bot(configuration) {
 
   }
 
-  bot.storage = {
+  botkit.storage = {
     teams: {
       get: function(team_id,cb) {
-        cb(null,bot.memory_store['teams'][team_id]);
+        cb(null,botkit.memory_store['teams'][team_id]);
       },
       save: function(team,cb) {
-        bot.log('Warning: using temporary storage. Data will be lost when process restarts.')
+        botkit.log('Warning: using temporary storage. Data will be lost when process restarts.')
         if (team.id) {
-          bot.memory_store['teams'][team.id] = team;
+          botkit.memory_store['teams'][team.id] = team;
           cb(null,team.id);
         } else {
           cb('No ID specified');
         }
       },
       all: function(cb) {
-        cb(null,bot.memory_store['teams']);
+        cb(null,botkit.memory_store['teams']);
       }
     },
     users: {
       get: function(user_id,cb) {
-        cb(null,bot.memory_store['users'][user_id]);
+        cb(null,botkit.memory_store['users'][user_id]);
       },
       save: function(user,cb) {
-        bot.log('Warning: using temporary storage. Data will be lost when process restarts.')
+        botkit.log('Warning: using temporary storage. Data will be lost when process restarts.')
 
         if (user.id) {
-          bot.memory_store['users'][user.id] = user;
+          botkit.memory_store['users'][user.id] = user;
           cb(null,user.id);
         } else {
           cb('No ID specified');
         }
       },
       all: function(cb) {
-        cb(null,bot.memory_store['users']);
+        cb(null,botkit.memory_store['users']);
       }
     },
     channels: {
       get: function(channel_id,cb) {
-        cb(null,bot.memory_store['channels'][channel_id]);
+        cb(null,botkit.memory_store['channels'][channel_id]);
       },
       save: function(channel,cb) {
-        bot.log('Warning: using temporary storage. Data will be lost when process restarts.')
+        botkit.log('Warning: using temporary storage. Data will be lost when process restarts.')
         if (user.id) {
-          bot.memory_store['channels'][channel.id] = channel;
+          botkit.memory_store['channels'][channel.id] = channel;
           cb(null,channel.id);
         } else {
           cb('No ID specified');
         }
       },
       all: function(cb) {
-        cb(null,bot.memory_store['channels']);
+        cb(null,botkit.memory_store['channels']);
       }
     }
   }
 
-  bot.debug = function() {
+  botkit.debug = function() {
     if (configuration.debug) {
       var args=[];
       for (var k = 0; k < arguments.length; k++) {
@@ -649,7 +624,7 @@ function Bot(configuration) {
     }
   }
 
-  bot.log = function() {
+  botkit.log = function() {
       var args=[];
       for (var k = 0; k < arguments.length; k++) {
         args.push(arguments[k]);
@@ -657,8 +632,7 @@ function Bot(configuration) {
       console.log.apply(null,args);
   }
 
-
-  bot.hears = function(keywords,events,cb) {
+  botkit.hears = function(keywords,events,cb) {
     if (typeof(keywords)=='string') {
       keywords = [keywords];
     }
@@ -670,11 +644,11 @@ function Bot(configuration) {
       var keyword = keywords[k];
       for (var e = 0; e < events.length; e++) {
         (function(keyword) {
-          bot.on(events[e],function(message) {
+          botkit.on(events[e],function(bot,message) {
             if (message.text) {
               if (message.text.match(new RegExp(keyword,'i'))) {
-                bot.debug("I HEARD ",keyword);
-                cb.apply(message._connection,[message]);
+                botkit.debug("I HEARD ",keyword);
+                cb.apply(this,[bot,message]);
                 return false;
               }
             } else {
@@ -688,8 +662,8 @@ function Bot(configuration) {
     return this;
   }
 
-  bot.on = function(event,cb) {
-    bot.debug('Setting up a handler for',event);
+  botkit.on = function(event,cb) {
+    botkit.debug('Setting up a handler for',event);
     var events = event.split(/\,/g);
     for (var e in events) {
       if (!this.events[events[e]]) {
@@ -700,7 +674,7 @@ function Bot(configuration) {
     return this;
   }
 
-  bot.trigger = function(event,data) {
+  botkit.trigger = function(event,data) {
     if (this.events[event]) {
       for (var e = 0; e < this.events[event].length; e++) {
         var res = this.events[event][e].apply(this,data);
@@ -709,70 +683,46 @@ function Bot(configuration) {
         }
       }
     } else {
-      bot.debug('No handler for ',event);
+      botkit.debug('No handler for ',event);
     }
   }
 
-  bot.startConversation = function(message,cb) {
-    bot.startTask(message,function(task,convo) {
+  botkit.startConversation = function(bot,message,cb) {
+    botkit.startTask(bot,message,function(task,convo) {
       cb(null,convo);
     });
   }
 
-
-  bot.setWorker = function(unit) {
+  botkit.defineBot = function(unit) {
     if (typeof(unit)!='function') {
-      throw new Error("Unit of worker must be a constructor function");
+      throw new Error("Bot definition must be a constructor function");
     }
-    console.log('Setting up new worker protype');
     this.worker = unit;
   }
 
-  bot.spawn = function(config,cb) {
+  botkit.spawn = function(config,cb) {
     var worker = new this.worker(this,config);
     if (cb) { cb(worker); }
     return worker;
   }
 
-
-  /* Define a default worker. This function should be customized outside of Botkit and passed in as a parameter
-    by the developer */
-
-  this.worker = function(bot,config) {
-
-    this.bot = bot;
-    this.config = config;
-
-    this.say = function(message,cb) {
-      bot.debug('SAY: ',message);
-    }
-
-    this.replyWithQuestion = function(message,question,cb) {
-
-      bot.startConversation(message,function(convo) {
-        convo.ask(question,cb);
-      });
-
-    }
-
-    this.reply = function(src,resp) {
-      bot.debug('REPLY: ',resp);
-    }
-
-
-    this.findConversation = function(message,cb) {
-      bot.debug('DEFAULT FIND CONVO');
-      cb(null);
+  botkit.startTicking = function() {
+    if (!botkit.tickInterval) {
+      // set up a once a second tick to process messages
+      botkit.tickInterval = setInterval(function() {
+       botkit.tick();
+      },1000);
     }
   }
 
-  bot.startTask = function(message,cb) {
+  botkit.startTask = function(bot,message,cb) {
 
-    var task = new Task(message,this);
 
-    task.id = bot.taskCount++;
-    task.connection = message._connection;
-    bot.log('[Start] ',task.id,' Task for ',message.user,'in',message.channel);
+    console.log(message);
+    var task = new Task(bot,message,this);
+
+    task.id = botkit.taskCount++;
+    botkit.log('[Start] ',task.id,' Task for ',message.user,'in',message.channel);
 
     var convo = task.startConversation(message);
 
@@ -786,27 +736,25 @@ function Bot(configuration) {
 
   }
 
-  bot.receiveMessage = function(message,worker) {
+  botkit.receiveMessage = function(bot,message) {
 
-    bot.debug('RECEIVED MESSAGE');
-    message._connection = worker;
-    console.log(message);
-    worker.findConversation(message,function(convo) {
+    botkit.debug('RECEIVED MESSAGE');
+    bot.findConversation(message,function(convo) {
       if (convo) {
         convo.handle(message);
       } else {
-        bot.trigger('message_received',[message])
+        botkit.trigger('message_received',[bot,message])
       }
     });
   }
 
-  bot.tick = function() {
-    for (var t = 0; t < bot.tasks.length; t++) {
-      bot.tasks[t].tick();
+  botkit.tick = function() {
+    for (var t = 0; t < botkit.tasks.length; t++) {
+      botkit.tasks[t].tick();
     }
-    for (var t = bot.tasks.length-1; t >=0; t--) {
-      if (!bot.tasks[t].isActive()) {
-          bot.tasks.splice(t,1);
+    for (var t = botkit.tasks.length-1; t >=0; t--) {
+      if (!botkit.tasks[t].isActive()) {
+          botkit.tasks.splice(t,1);
       }
     }
 
@@ -815,14 +763,38 @@ function Bot(configuration) {
 
   }
 
-  bot.init = function() {
-    bot.debug('====> BOT BOOTING!');
-    bot.trigger('ready');
 
+  /* Define a default worker bot. This function should be customized outside of Botkit and passed in as a parameter
+    by the developer */
+  botkit.worker = function(botkit,config) {
+
+    this.botkit = botkit;
+    this.config = config;
+
+    this.say = function(message,cb) {
+      botkit.debug('SAY: ',message);
+    }
+
+    this.replyWithQuestion = function(message,question,cb) {
+
+      botkit.startConversation(message,function(convo) {
+        convo.ask(question,cb);
+      });
+
+    }
+
+    this.reply = function(src,resp) {
+      botkit.debug('REPLY: ',resp);
+    }
+
+
+    this.findConversation = function(message,cb) {
+      botkit.debug('DEFAULT FIND CONVO');
+      cb(null);
+    }
   }
 
-
-  bot.config = configuration;
+  botkit.config = configuration;
 
   if (configuration.storage) {
     if (
@@ -838,20 +810,19 @@ function Bot(configuration) {
         configuration.storage.channels.get &&
         configuration.storage.channels.save
       ) {
-        bot.log('** Using custom storage system.');
-        bot.storage = configuration.storage;
+        botkit.log('** Using custom storage system.');
+        botkit.storage = configuration.storage;
       } else {
         throw new Error('Storage object does not have all required methods!');
       }
   } else if (configuration.json_file_store) {
-    bot.log('** Using simple storage. Saving data to ' + configuration.json_file_store);
-    bot.storage = simple_storage({path: configuration.json_file_store});
+    botkit.log('** Using simple storage. Saving data to ' + configuration.json_file_store);
+    botkit.storage = simple_storage({path: configuration.json_file_store});
   } else {
-    bot.log('** No persistent storage method specified! Data may be lost when process shuts down.')
+    botkit.log('** No persistent storage method specified! Data may be lost when process shuts down.')
   }
 
-
-  return bot;
+  return botkit;
 }
 
-module.exports = Bot;
+module.exports = Botkit;

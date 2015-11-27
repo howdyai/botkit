@@ -2,7 +2,6 @@
 
 These items still need to be addressed!
 
-* can bot.say be made to have 1 param?
 * should bot.say use incoming_webhook if no other configured?
 
 # Slack Button
@@ -18,7 +17,6 @@ These items still need to be addressed!
 
 * how to create your own custom storage
 * What functions need to be overridden to handle the multi team stuff?
-* how to identify the bot itself
 
 
 
@@ -29,3 +27,5 @@ These items still need to be addressed!
 * How to provide customization of behavior of post-oauth / oauth error
 * how to respond directly to outgoing webhook / slash command
 * how to identify the team a message is from
+* can bot.say be made to have 1 param?
+* how to identify the bot itself

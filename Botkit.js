@@ -1,7 +1,7 @@
-var Bot = require('./Bot.js');
-var Slackbot = require('./SlackBot.js');
+var CoreBot = require(__dirname+'/CoreBot.js');
+var Slackbot = require(__dirname+'/SlackBot.js');
 
 module.exports = {
-  core: Bot,
+  core: CoreBot,
   slackbot: Slackbot,
 }
