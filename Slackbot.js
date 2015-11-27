@@ -32,7 +32,7 @@ function Slackbot(configuration) {
       if (cb) cb(null,bot);
     }
 
-    return bot;
+    return slack_botkit;
 
   }
 
@@ -49,7 +49,7 @@ function Slackbot(configuration) {
 
     });
 
-    return bot;
+    return slack_botkit;
 
   }
 
@@ -136,7 +136,7 @@ function Slackbot(configuration) {
 
     })
 
-    return bot;
+    return slack_botkit;
   }
 
   slack_botkit.saveTeam = function(team,cb) {
@@ -174,7 +174,7 @@ function Slackbot(configuration) {
       if (cb) { cb(null,slack_botkit.webserver); }
     });
 
-    return bot;
+    return slack_botkit;
 
   }
 
@@ -326,7 +326,7 @@ function Slackbot(configuration) {
 
     });
 
-    return bot;
+    return slack_botkit;
 
   }
 
