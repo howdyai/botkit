@@ -4,23 +4,32 @@ var bot = Bot({
  path: './db/',
 });
 
-bot.startRTM({
-  team: {
-    token: process.env.token
-  }
-},function(err) {
+var worker = bot.spawn({
+  token: process.env.token
+});
 
-  if (err) {
-    throw new Error(err);
-  }
+worker.startRTM(function(err) {
+
+    if (err) {
+      throw new Error(err);
+    }
 
 });
 
+//
+// bot.startRTM({
+//   team: {
+//     token: process.env.token
+//   }
+// },function(err) {
+//
+//
+// });
+
 bot.hears(['hello'],'direct_message,direct_mention',function(message) {
 
-
-
-  bot.reply(message,{
+  console.log('inside reply handler',this);
+  this.reply(message,{
     text: 'Hello!',
     // username: 'hellobot',
     // icon_emoji: ':shit:',
@@ -60,7 +69,7 @@ bot.hears(['attach'],'direct_message,direct_mention',function(message) {
 
   attachments.push(attachment);
 
-  bot.reply(message,{
+  this.reply(message,{
     text: 'See below...',
     attachments: attachments,
   },function(err,resp) {
@@ -69,11 +78,11 @@ bot.hears(['attach'],'direct_message,direct_mention',function(message) {
 });
 
 bot.hears(['dm'],'direct_message,direct_mention',function(message) {
-  bot.startConversation(message,function(err,convo) {
+  this.startConversation(message,function(err,convo) {
     convo.say('Heard ya');
   });
 
-  bot.startPrivateConversation(message,function(err,dm) {
+  this.startPrivateConversation(message,function(err,dm) {
     dm.say('Private reply!');
   })
 
@@ -84,6 +93,7 @@ bot.hears(['dm'],'direct_message,direct_mention',function(message) {
 bot.hears(['my name is (.*)'],'direct_message,direct_mention',function(message) {
   var matches = message.text.match(/my name is (.*)/i);
   var name = matches[1];
+  var self = this;
   bot.storage.users.get(message.user,function(err,user) {
     if (!user) {
       user = {
@@ -92,25 +102,27 @@ bot.hears(['my name is (.*)'],'direct_message,direct_mention',function(message) 
     }
     user.name = name;
     bot.storage.users.save(user,function(err,id) {
-      bot.reply(message,'Got it. I will call you ' + user.name + ' from now on.');
+      self.reply(message,'Got it. I will call you ' + user.name + ' from now on.');
     })
   })
 });
 
 
 bot.hears(['what is my name'],'direct_message,direct_mention',function(message) {
+  var self = this;
+
   bot.storage.users.get(message.user,function(err,user) {
     if (user && user.name) {
-      bot.reply(message,'Your name is ' + user.name);
+      self.reply(message,'Your name is ' + user.name);
     } else {
-      bot.reply(message,'I don\'t know your name yet');
+      self.reply(message,'I don\'t know your name yet');
     }
   })
 });
 
 
 bot.hears(['question','ask'],'direct_message,direct_mention',function(message) {
-  bot.startConversation(message,function(err,convo) {
+  this.startConversation(message,function(err,convo) {
     convo.ask('Say YES or NO',[
         {
           callback: function(response) { convo.say('YES! Good.'); convo.next(); },
@@ -189,14 +201,15 @@ function startTalking(convo) {
 
 
 bot.hears(['talk'],'direct_message,direct_mention',function(message) {
-  bot.startConversation(message,function(err,convo) {
+  var self = this;
+  self.startConversation(message,function(err,convo) {
 
     convo.on('end',function(finished_convo) {
 
       var user_responses = finished_convo.extractResponses();
 
-      bot.reply(message,'You went ' + user_responses.direction);
-      bot.reply(message,'Your favorite color is ' + user_responses.color);
+      self.reply(message,'You went ' + user_responses.direction);
+      self.reply(message,'Your favorite color is ' + user_responses.color);
 
     });
 

@@ -25,275 +25,6 @@ function Slackbot(configuration) {
   /********************************************************/
 
 
-
-  // create a nice wrapper for the Slack API
-  bot.api = {
-      api_url: 'https://slack.com/api/',
-      // this is a simple function used to call the slack web API
-      callAPI: function(command,options,cb) {
-        options.token = bot.config.token;
-        bot.debug(command,options);
-        request.post(this.api_url+command,function (error, response, body) {
-         bot.debug('Got response',error,body);
-         if (!error && response.statusCode == 200) {
-           var json = JSON.parse(body);
-           if (json.ok) {
-             if (cb) cb(null,json);
-           } else {
-             if (cb) cb(json.error,json);
-           }
-         } else {
-           if (cb) cb(error);
-         }
-        }).form(options);
-      },
-      callAPIWithoutToken: function(command,options,cb) {
-        bot.debug(command,options);
-        request.post(this.api_url+command,function (error, response, body) {
-         bot.debug('Got response',error,body);
-         if (!error && response.statusCode == 200) {
-           var json = JSON.parse(body);
-           if (json.ok) {
-             if (cb) cb(null,json);
-           } else {
-             if (cb) cb(json.error,json);
-           }
-         } else {
-           if (cb) cb(error);
-         }
-        }).form(options);
-      },
-      webhooks: {
-        send: function(options,cb) {
-          if (!bot.config.incoming_webhook || !bot.config.incoming_webhook.url) {
-            bot.debug('CANNOT SEND WEBHOOK!!');
-            if (cb) cb('No webhook url specified');
-          } else {
-            request.post(bot.config.incoming_webhook.url,function(err,res,body) {
-                if (err) {
-                  bot.debug('WEBHOOK ERROR',err);
-                  if (cb) cb(err);
-                } else {
-                  bot.debug('WEBHOOK SUCCESS',body);
-                  if (cb) cb(null,body);
-                }
-            }).form({payload: JSON.stringify(options)});
-          }
-        }
-      },
-      auth: {
-          test: function(options,cb) {
-            bot.api.callAPI('auth.test',options,cb);
-          }
-      },
-      oauth: {
-          access: function(options,cb) {
-            bot.api.callAPIWithoutToken('oauth.access',options,cb);
-          }
-      },
-      channels: {
-        archive: function(options,cb) {
-          bot.api.callAPI('channels.archive',options,cb);
-        },
-        create: function(options,cb) {
-          bot.api.callAPI('channels.create',options,cb);
-        },
-        history: function(options,cb) {
-          bot.api.callAPI('channels.history',options,cb);
-        },
-        info: function(options,cb) {
-          bot.api.callAPI('channels.info',options,cb);
-        },
-        invite: function(options,cb) {
-          bot.api.callAPI('channels.invite',options,cb);
-        },
-        join: function(options,cb) {
-          bot.api.callAPI('channels.join',options,cb);
-        },
-        kick: function(options,cb) {
-          bot.api.callAPI('channels.kick',options,cb);
-        },
-        leave: function(options,cb) {
-          bot.api.callAPI('channels.leave',options,cb);
-        },
-        list: function(options,cb) {
-          bot.api.callAPI('channels.list',options,cb);
-        },
-        mark: function(options,cb) {
-          bot.api.callAPI('channels.mark',options,cb);
-        },
-        rename: function(options,cb) {
-          bot.api.callAPI('channels.rename',options,cb);
-        },
-        setPurpose: function(options,cb) {
-          bot.api.callAPI('channels.setPurpose',options,cb);
-        },
-        setTopic: function(options,cb) {
-          bot.api.callAPI('channels.setTopic',options,cb);
-        },
-        unarchive: function(options,cb) {
-          bot.api.callAPI('channels.unarchive',options,cb);
-        }
-      },
-      chat: {
-        delete: function(options,cb) {
-          bot.api.callAPI('chat.delete',options,cb);
-        },
-        postMessage: function(options,cb) {
-          bot.api.callAPI('chat.postMessage',options,cb);
-        },
-        update: function(options,cb) {
-          bot.api.callAPI('chat.update',options,cb);
-        }
-      },
-      emoji: {
-        list: function(options,cb) {
-          bot.api.callAPI('emoji.list',options,cb);
-        }
-      },
-      files: {
-        delete: function(options,cb) {
-          bot.api.callAPI('files.delete',options,cb);
-        },
-        info: function(options,cb) {
-          bot.api.callAPI('files.info',options,cb);
-        },
-        list: function(options,cb) {
-          bot.api.callAPI('files.list',options,cb);
-        },
-        upload: function(options,cb) {
-          bot.api.callAPI('files.upload',options,cb);
-        },
-      },
-      groups: {
-        archive: function(options,cb) {
-          bot.api.callAPI('groups.archive',options,cb);
-        },
-        close: function(options,cb) {
-          bot.api.callAPI('groups.close',options,cb);
-        },
-        create: function(options,cb) {
-          bot.api.callAPI('groups.create',options,cb);
-        },
-        createChild: function(options,cb) {
-          bot.api.callAPI('groups.createChild',options,cb);
-        },
-        history: function(options,cb) {
-          bot.api.callAPI('groups.history',options,cb);
-        },
-        info: function(options,cb) {
-          bot.api.callAPI('groups.info',options,cb);
-        },
-        invite: function(options,cb) {
-          bot.api.callAPI('groups.invite',options,cb);
-        },
-        kick: function(options,cb) {
-          bot.api.callAPI('groups.kick',options,cb);
-        },
-        leave: function(options,cb) {
-          bot.api.callAPI('groups.leave',options,cb);
-        },
-        list: function(options,cb) {
-          bot.api.callAPI('groups.list',options,cb);
-        },
-        mark: function(options,cb) {
-          bot.api.callAPI('groups.mark',options,cb);
-        },
-        open: function(options,cb) {
-          bot.api.callAPI('groups.open',options,cb);
-        },
-        rename: function(options,cb) {
-          bot.api.callAPI('groups.rename',options,cb);
-        },
-        setPurpose: function(options,cb) {
-          bot.api.callAPI('groups.setPurpose',options,cb);
-        },
-        setTopic: function(options,cb) {
-          bot.api.callAPI('groups.setTopic',options,cb);
-        },
-        unarchive: function(options,cb) {
-          bot.api.callAPI('groups.unarchive',options,cb);
-        },
-      },
-      im: {
-        close: function(options,cb) {
-          bot.api.callAPI('im.close',options,cb);
-        },
-        history: function(options,cb) {
-          bot.api.callAPI('im.history',options,cb);
-        },
-        list: function(options,cb) {
-          bot.api.callAPI('im.list',options,cb);
-        },
-        mark: function(options,cb) {
-          bot.api.callAPI('im.mark',options,cb);
-        },
-        open: function(options,cb) {
-          bot.api.callAPI('im.open',options,cb);
-        }
-      },
-      reactions: {
-        add: function(options,cb) {
-          bot.api.callAPI('reactions.add',options,cb);
-        },
-        get: function(options,cb) {
-          bot.api.callAPI('reactions.get',options,cb);
-        },
-        list: function(options,cb) {
-          bot.api.callAPI('reactions.list',options,cb);
-        },
-        remove: function(options,cb) {
-          bot.api.callAPI('reactions.remove',options,cb);
-        },
-      },
-      rtm: {
-        start: function(options,cb) {
-          bot.api.callAPI('rtm.start',options,cb);
-        },
-      },
-      search: {
-        all: function(options,cb) {
-          bot.api.callAPI('search.all',options,cb);
-        },
-        files: function(options,cb) {
-          bot.api.callAPI('search.files',options,cb);
-        },
-        messages: function(options,cb) {
-          bot.api.callAPI('search.messages',options,cb);
-        },
-      },
-      stars: {
-        list: function(options,cb) {
-          bot.api.callAPI('stars.list',options,cb);
-        },
-      },
-      team: {
-        accessLogs: function(options,cb) {
-          bot.api.callAPI('team.accessLogs',options,cb);
-        },
-        info: function(options,cb) {
-          bot.api.callAPI('team.info',options,cb);
-        },
-      },
-      users: {
-        getPresence: function(options,cb) {
-          bot.api.callAPI('users.getPresence',options,cb);
-        },
-        info: function(options,cb) {
-          bot.api.callAPI('users.info',options,cb);
-        },
-        list: function(options,cb) {
-          bot.api.callAPI('users.list',options,cb);
-        },
-        setActive: function(options,cb) {
-          bot.api.callAPI('users.setActive',options,cb);
-        },
-        setPresence: function(options,cb) {
-          bot.api.callAPI('users.setPresence',options,cb);
-        },
-      }
-  }
-
   // set up API to send incoming webhook
   bot.configureIncomingWebhook = function(options) {
 
@@ -742,87 +473,6 @@ function Slackbot(configuration) {
 
   }
 
-  bot.closeRTM = function(connection) {
-
-    connection.rtm.close();
-
-  }
-
-  bot.startRTM = function(connection,cb) {
-
-    bot.useConnection(connection);
-    bot.api.rtm.start({
-      no_unreads: true,
-      simple_latest: true,
-    },function(err,res) {
-
-      if (err) {
-        if (cb) {
-          cb(err);
-        }
-      } else if (!res) {
-        if (cb) {
-          cb('Invalid response from rtm.start');
-        }
-      } else {
-        connection.identity = res.self;
-        connection.team_info = res.team;
-
-        // also available
-        // res.users
-        // res.channels
-        // res.groups
-        // res.ims
-        // res.bots
-        // these could be stored and cached for later use!
-
-        bot.log("** BOT ID: ", connection.identity.name," ...attempting to connect to RTM!");
-
-        connection.rtm = new ws(res.url);
-        connection.msgcount = 1;
-
-        connection.rtm.on('open',function() {
-          bot.trigger('rtm_open',[connection]);
-
-          connection.rtm.on('message', function(data, flags) {
-            var message = JSON.parse(data);
-
-            // Lets construct a nice quasi-standard botkit message
-            // it leaves the main slack message at the root
-            // but adds in additional fields for internal use!
-            // (including the teams api details)
-
-            message._connection = connection;
-           bot.receiveMessage(message);
-
-          });
-
-          if (!bot.tickInterval) {
-
-            // set up a once a second tick to process messages
-            bot.tickInterval = setInterval(function() {
-             bot.tick();
-            },1000);
-          }
-
-          if (cb) {
-            cb(null,connection,res);
-          }
-
-        })
-
-         connection.rtm.on('error',function(err) {
-           bot.log("RTM websocket error!",err)
-           bot.trigger('rtm_close',[connection,err]);
-         });
-
-         connection.rtm.on('close',function() {
-           bot.trigger('rtm_close',[connection]);
-         });
-
-       }
-     });
-  }
 
   /********************************************************/
   /********************************************************/
@@ -835,6 +485,8 @@ function Slackbot(configuration) {
   /********************************************************/
   /********************************************************/
   /********************************************************/
+
+
 
   // convenience method for adding user record to message object
   bot.lookupMessageUser = function(message,cb) {
@@ -907,188 +559,6 @@ function Slackbot(configuration) {
 
   }
 
-  bot.say = function(connection,message,cb) {
-    bot.debug('SAY ',message);
-
-    // construct a valid slack message
-    var slack_message = {
-      id: connection.msgcount++,
-      type: 'message',
-
-      channel: message.channel,
-      text: message.text,
-      username: message.username||null,
-      parse: message.parse||null,
-      link_names: message.link_names||null,
-      attachments: message.attachments?JSON.stringify(message.attachments):null,
-      unfurl_links: message.unfurl_links||null,
-      unfurl_media: message.unfurl_media||null,
-      icon_url: message.icon_url||null,
-      icon_emoji: message.icon_emoji||null,
-    }
-
-    if (message.icon_url || message.icon_emoji || message.username ){
-      slack_message.as_user = false;
-    } else {
-      slack_message.as_user = message.as_user || true;
-    }
-
-    // these options are not supported by the RTM
-    // so if they are specified, we use the web API to send messages
-    if (message.attachments || message.icon_emoji || message.username || message.icon_url) {
-      bot.useConnection(connection);
-      bot.api.chat.postMessage(slack_message,function(err,res) {
-        if (err) {
-          if (cb) { cb(err); }
-        } else {
-          if (cb) { cb(null,res); }
-        }
-
-      });
-    } else {
-      try {
-        connection.rtm.send(JSON.stringify(slack_message),function(err) {
-          if (err) {
-            // uhoh! RTM had an error sending
-            if (cb) { cb(err); }
-          } else {
-            if (cb) { cb(null); }
-          }
-        });
-      } catch(err) {
-        // uhoh! the RTM failed and for some reason it didn't get caught elsewhere.
-        // this happens sometimes when the rtm has closed but we are sending messages anyways
-        // bot probably needs to reconnect!
-        if (cb) { cb(err); }
-      }
-    }
-  }
-
-  bot.replyPublic = function(src,resp,cb) {
-
-    if (!src._connection.res) {
-      if (cb) { cb('No web response object found'); }
-    } else {
-
-      var msg = {};
-
-      if (typeof(resp)=='string') {
-          msg.text = resp;
-          msg.channel = src.channel;
-      } else {
-        msg = resp;
-        msg.channel = src.channel;
-      }
-
-      msg.response_type='in_channel';
-      src._connection.res.json(msg);
-      if (cb) { cb(null) }
-    }
-
-  }
-
-  bot.replyPublicDelayed = function(src,resp,cb) {
-
-    if (!src.response_url) {
-      if (cb) { cb('No response_url found'); }
-    } else {
-
-      var msg = {};
-
-      if (typeof(resp)=='string') {
-          msg.text = resp;
-          msg.channel = src.channel;
-      } else {
-        msg = resp;
-        msg.channel = src.channel;
-      }
-
-      msg.response_type='in_channel';
-      request.post(src.response_url,function(err,resp,body) {
-        // do something?
-        if (err) {
-          bot.log('Error sending slash command response:',err);
-          if (cb) { cb(err); }
-        } else {
-          if (cb) { cb(null); }
-        }
-      }).form(JSON.stringify(msg));
-    }
-
-  }
-
-  bot.replyPrivate = function(src,resp,cb) {
-
-    if (!src._connection.res) {
-      if (cb) { cb('No web response object found'); }
-    } else {
-
-      var msg = {};
-
-      if (typeof(resp)=='string') {
-          msg.text = resp;
-          msg.channel = src.channel;
-      } else {
-        msg = resp;
-        msg.channel = src.channel;
-      }
-
-      msg.response_type='ephemeral';
-      src._connection.res.json(msg);
-      if (cb) { cb(null) }
-    }
-
-  }
-
-  bot.replyPrivateDelayed = function(src,resp,cb) {
-
-    if (!src.response_url) {
-      if (cb) { cb('No response_url found'); }
-    } else {
-
-      var msg = {};
-
-      if (typeof(resp)=='string') {
-          msg.text = resp;
-          msg.channel = src.channel;
-      } else {
-        msg = resp;
-        msg.channel = src.channel;
-      }
-
-      msg.response_type='ephemeral';
-      request.post(src.response_url,function(err,resp,body) {
-        // do something?
-        if (err) {
-          bot.log('Error sending slash command response:',err);
-          if (cb) { cb(err) }
-        } else {
-          if (cb) { cb(null) }
-        }
-      }).form(JSON.stringify(msg));
-    }
-
-  }
-
-  bot.reply = function(src,resp,cb) {
-
-    var msg = {};
-
-    if (typeof(resp)=='string') {
-        msg.text = resp;
-        msg.channel = src.channel;
-    } else {
-      msg = resp;
-      msg.channel = src.channel;
-    }
-
-    console.log('say,',msg);
-
-    bot.say(src._connection,msg,cb);
-
-  }
-
-
   /***
 
     This handles the particulars of finding an existing conversation or
@@ -1096,30 +566,32 @@ function Slackbot(configuration) {
 
    ***/
 
-  bot.findConversation = function(message,cb) {
-    bot.debug('CUSTOM FIND CONVO',message.user,message.channel);
-    if (message.type=='message' || message.type=='slash_command' || message.type=='outgoing_webhook') {
-      for (var t = 0; t < bot.tasks.length; t++) {
-        for (var c = 0; c < bot.tasks[t].convos.length; c++) {
-          if (
-            bot.tasks[t].convos[c].isActive()
-            && bot.tasks[t].convos[c].source_message.user==message.user
-            && bot.tasks[t].convos[c].source_message.channel==message.channel
-          ) {
-            bot.debug('FOUND EXISTING CONVO!');
-            cb(bot.tasks[t].convos[c]);
-            return;
-          }
-        }
-      }
-    }
-    cb(null);
-
-  }
+  // bot.findConversation = function(message,cb) {
+  //   bot.debug('CUSTOM FIND CONVO',message.user,message.channel);
+  //   if (message.type=='message' || message.type=='slash_command' || message.type=='outgoing_webhook') {
+  //     for (var t = 0; t < bot.tasks.length; t++) {
+  //       for (var c = 0; c < bot.tasks[t].convos.length; c++) {
+  //         if (
+  //           bot.tasks[t].convos[c].isActive()
+  //           && bot.tasks[t].convos[c].source_message.user==message.user
+  //           && bot.tasks[t].convos[c].source_message.channel==message.channel
+  //         ) {
+  //           bot.debug('FOUND EXISTING CONVO!');
+  //           cb(bot.tasks[t].convos[c]);
+  //           return;
+  //         }
+  //       }
+  //     }
+  //   }
+  //   cb(null);
+  //
+  // }
 
 
   // set up the RTM message handlers once
   bot.handleSlackEvents();
+  var worker = require(__dirname+'/Slackbot_worker.js');
+  bot.setWorker(worker);
 
   return bot;
 }

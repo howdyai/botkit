@@ -173,8 +173,14 @@ function Bot(configuration) {
 
     this.trigger = function(event,data) {
       if (this.events[event]) {
+
+        // this is a hack while I fix all the plces triggers happen
+        var that = this;
+        if (data[0] && data[0]._connection) {
+          that = data[0]._connection;
+        }
         for (var e = 0; e < this.events[event].length; e++) {
-          var res = this.events[event][e].apply(this,data);
+          var res = this.events[event][e].apply(that,data);
           if (res===false) {
             return;
           }
@@ -397,7 +403,7 @@ function Bot(configuration) {
                   message.attachments = message.attachments(this);
                 }
 
-                this.task.bot.say(this.task.connection,message,function(err) {
+                this.task.connection.say(this.task.connection,message,function(err) {
                   if(err) {
                     bot.log('An error occurred while sending a message: ',err);
                   }
@@ -633,7 +639,6 @@ function Bot(configuration) {
     }
   }
 
-
   bot.debug = function() {
     if (configuration.debug) {
       var args=[];
@@ -653,22 +658,6 @@ function Bot(configuration) {
   }
 
 
-  bot.say = function(message,cb) {
-    bot.debug('SAY: ',message);
-  }
-
-  bot.replyWithQuestion = function(message,question,cb) {
-
-    bot.startTask(message,function(task,convo) {
-      convo.ask(question,cb);
-    });
-
-  }
-
-  bot.reply = function(src,resp) {
-    bot.debug('REPLY: ',resp);
-  }
-
   bot.hears = function(keywords,events,cb) {
     if (typeof(keywords)=='string') {
       keywords = [keywords];
@@ -685,7 +674,7 @@ function Bot(configuration) {
             if (message.text) {
               if (message.text.match(new RegExp(keyword,'i'))) {
                 bot.debug("I HEARD ",keyword);
-                cb.apply(this,[message]);
+                cb.apply(message._connection,[message]);
                 return false;
               }
             } else {
@@ -724,15 +713,57 @@ function Bot(configuration) {
     }
   }
 
-  bot.findConversation = function(message,cb) {
-    bot.debug('DEFAULT FIND CONVO');
-    cb(null);
-  }
-
   bot.startConversation = function(message,cb) {
     bot.startTask(message,function(task,convo) {
       cb(null,convo);
     });
+  }
+
+
+  bot.setWorker = function(unit) {
+    if (typeof(unit)!='function') {
+      throw new Error("Unit of worker must be a constructor function");
+    }
+    console.log('Setting up new worker protype');
+    this.worker = unit;
+  }
+
+  bot.spawn = function(config,cb) {
+    var worker = new this.worker(this,config);
+    if (cb) { cb(worker); }
+    return worker;
+  }
+
+
+  /* Define a default worker. This function should be customized outside of Botkit and passed in as a parameter
+    by the developer */
+
+  this.worker = function(bot,config) {
+
+    this.bot = bot;
+    this.config = config;
+
+    this.say = function(message,cb) {
+      bot.debug('SAY: ',message);
+    }
+
+    this.replyWithQuestion = function(message,question,cb) {
+
+      bot.startConversation(message,function(convo) {
+        convo.ask(question,cb);
+      });
+
+    }
+
+    this.reply = function(src,resp) {
+      bot.debug('REPLY: ',resp);
+    }
+
+
+    this.findConversation = function(message,cb) {
+      bot.debug('DEFAULT FIND CONVO');
+      cb(null);
+    }
   }
 
   bot.startTask = function(message,cb) {
@@ -740,6 +771,7 @@ function Bot(configuration) {
     var task = new Task(message,this);
 
     task.id = bot.taskCount++;
+    task.connection = message._connection;
     bot.log('[Start] ',task.id,' Task for ',message.user,'in',message.channel);
 
     var convo = task.startConversation(message);
@@ -754,11 +786,12 @@ function Bot(configuration) {
 
   }
 
-  bot.receiveMessage = function(message) {
+  bot.receiveMessage = function(message,worker) {
 
     bot.debug('RECEIVED MESSAGE');
-
-    bot.findConversation(message,function(convo) {
+    message._connection = worker;
+    console.log(message);
+    worker.findConversation(message,function(convo) {
       if (convo) {
         convo.handle(message);
       } else {
