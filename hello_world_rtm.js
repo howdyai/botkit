@@ -13,17 +13,17 @@ controller.spawn({
   }
 });
 
-controller.spawn({
-  token: process.env.token2
-}).configureIncomingWebhook({
-  url: 'https://hooks.slack.com/services/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',
-}).startRTM(function(err) {
-  if (err) {
-    throw new Error(err);
-  }
-}).sendWebhook({
-  text:'Configured'
-});
+// controller.spawn({
+//   token: process.env.token2
+// }).configureIncomingWebhook({
+//   url: 'https://hooks.slack.com/services/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',
+// }).startRTM(function(err) {
+//   if (err) {
+//     throw new Error(err);
+//   }
+// }).sendWebhook({
+//   text:'Configured'
+// });
 
 
 controller.hears(['^hook'],'direct_message,direct_mention',function(bot,message) {

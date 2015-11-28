@@ -7,6 +7,11 @@ module.exports = function(botkit,config) {
   bot.botkit = botkit;
   bot.config = config;
 
+  // make these available at the bot level where they will be used by developers
+  bot.utterances = botkit.utterances;
+
+  
+
   bot.api = require(__dirname + '/Slack_web_api.js')(bot.botkit,bot.config);
 
   // set up API to send incoming webhook

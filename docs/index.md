@@ -77,33 +77,35 @@ This sample bot listens for the word "hello" to be said to it -- either as a dir
 ```
 var botkit = require('botkit');
 
-var bot = botkit.slackbot({
+var controller = botkit.slackbot({
   debug: false
 });
 
-// give the bot something to list for.
-bot.hears('hello','direct_message,direct_mention,mention',function(message) {
-
-  bot.reply(message,'Hello yourself.');
-
-});
-
 // connect the bot to a stream of messages
-bot.startRTM({
+controller.spawn({
   token: my_slack_bot_token,
-},function(err,connection,payload) {
+}).startRTM(function(err,connection,payload) {
 
   if (!err) {
     console.log("This bot is online!");
   }
 
+})
+
+// give the bot something to list for.
+controller.hears('hello','direct_message,direct_mention,mention',function(bot,message) {
+
+  bot.reply(message,'Hello yourself.');
+
 });
 
 ```
 
-## Hearing Things
+## Receiving Messages
 
-Bots hear words or patterns and respond to them. This is achieved using the `bot.hears()` function.
+### Hearing Things
+
+Bots hear words or patterns and respond to them. This is achieved using the `hears()` function.
 
 | Argument | Description
 |--- |---
@@ -114,7 +116,7 @@ Bots hear words or patterns and respond to them. This is achieved using the `bot
 For the types field, use one or more of: `ambient`, `mention`, `direct_mention` and `direct_message`
 
 ```
-bot.hears(['keyword','^pattern$'],['direct_message','direct_mention','mention','ambient'],function(message) {
+controller.hears(['keyword','^pattern$'],['direct_message','direct_mention','mention','ambient'],function(bot,message) {
 
   // do something to respond to message
   // all of the fields available in a normal Slack message object are available
@@ -124,12 +126,9 @@ bot.hears(['keyword','^pattern$'],['direct_message','direct_mention','mention','
 });
 ```
 
+## Sending Messages
 
-## Saying Things
-
-There are two ways for a bot to say something. `bot.say()` allows the bot to say something spontaneously,
-while `bot.reply()` causes the bot to respond to a message it received.
-
+### Replying to Incoming Messages
 
 ### bot.reply()
 
@@ -157,6 +156,8 @@ bot.hears(['keyword','^pattern$'],['direct_message','direct_mention','mention','
 ```
 
 
+### Originating Messages
+
 ### bot.say()
 
 | Argument | Description
@@ -182,6 +183,8 @@ bot.say(
 );
 ```
 
+See also [sending incoming webhooks]().
+
 ## Starting a Conversation
 
 Once your bot gets talking, it is going to want to ask some questions.
@@ -202,8 +205,6 @@ messages into a cohesive experience.
 | message   | incoming message to which the conversation is in response
 | callback  | a callback function in the form of  function(err,conversation) { ... }
 
-
-
 ### conversation.say()
 
 | Argument | Description
@@ -213,7 +214,7 @@ messages into a cohesive experience.
 Call convo.say() several times in a row to queue messages inside the conversation. Only one message will be sent at a time, in the order they are queued.
 
 ```
-bot.hears(['hello world'],['direct_message','direct_mention','mention','ambient'],function(message) {
+connection.hears(['hello world'],['direct_message','direct_mention','mention','ambient'],function(bot,message) {
 
   // start a conversation to handle this response.
   bot.startConversation(message,function(err,convo) {
@@ -258,7 +259,7 @@ Botkit comes pre-built with several useful patterns which can be used with this 
 #### Using conversation.ask with a callback:
 
 ```
-bot.hears(['question me'],['direct_message','direct_mention','mention','ambient'],function(message) {
+controller.hears(['question me'],['direct_message','direct_mention','mention','ambient'],function(bot,message) {
 
   // start a conversation to handle this response.
   bot.startConversation(message,function(err,convo) {
@@ -280,7 +281,7 @@ bot.hears(['question me'],['direct_message','direct_mention','mention','ambient'
 #### Using conversation.ask with an array of callbacks:
 
 ```
-bot.hears(['question me'],['direct_message','direct_mention','mention','ambient'],function(message) {
+controller.hears(['question me'],['direct_message','direct_mention','mention','ambient'],function(bot,message) {
 
   // start a conversation to handle this response.
   bot.startConversation(message,function(err,convo) {
@@ -404,27 +405,27 @@ whatever data you like to any of these, as long as it has an
 ID field, which should be a Slack unique id.
 
 ```
-var bot = botkit.slackbot({
+var controller = botkit.slackbot({
   json_file_store: 'path_to_json_database'
 })
 
-bot.storage.teams.get(id,function(err,team) {
+controller.storage.teams.get(id,function(err,team) {
 
 })
 
-bot.storage.teams.save(team_data,function(err) { ... })
+controller.storage.teams.save(team_data,function(err) { ... })
 
 bot.storage.users.get(id,function(err,user) {
 
 })
 
-bot.storage.users.save(user_data,function(err) { ... })
+controller.storage.users.save(user_data,function(err) { ... })
 
-bot.storage.channels.get(id,function(err,channel) {
+controller.storage.channels.get(id,function(err,channel) {
 
 })
 
-bot.storage.channels.save(channel_data,function(err) { ... })
+controller.storage.channels.save(channel_data,function(err) { ... })
 
 ```
 
@@ -437,7 +438,7 @@ Make sure your module returns an object with all the methods. See simple_storage
 
 Then, use it when you create your bot:
 ```
-var bot = botkit.slackbot({
+var controller = botkit.slackbot({
   storage: my_storage_provider
 })
 ```
@@ -452,25 +453,31 @@ These can just be manually configured by putting info into the script or environ
 
 ```
 var botkit = require('botkit');
-var bot = botkit.slackbot({});
+var controller = botkit.slackbot({})
+
+var bot = controller.spawn({
+  token: my_slack_bot_token
+});
 
 // send webhooks
 bot.configureIncomingWebhook({url: webhook_url});
-bot.api.webhooks.send({
+bot.sendWebhook({
   text: 'Hey!',
   channel: '#testing',
 },function(err,res) {
-
+  // handle error
 });
 
 // use RTM
-bot.startRTM({token: process.env.token},function(err,connection,payload) {});
+bot.startRTM(function(err,bot,payload) {
+  // handle errors...
+});
 
 // receive outgoing or slash commands
 // if you are already using Express, you can use your own server instance...
-bot.setupWebserver(process.env.port,function(err,webserver) {
+controller.setupWebserver(process.env.port,function(err,webserver) {
 
-  bot.createWebhookEndpoints(bot.webserver);
+  controller.createWebhookEndpoints(controller.webserver);
 
 });
 ```
@@ -488,7 +495,7 @@ Incoming webhooks allow you to send data from your application into Slack.
 ```
 bot.configureIncomingWebhook({url: webhook_url});
 
-bot.api.webhooks.send({
+bot.sendWebhook({
   text: 'This is an incoming webhook',
   channel: '#general',
 },function(err,res) {
@@ -506,17 +513,17 @@ Outgoing webhooks and slash commands allow you to send data out of Slack.
 
 
 ```
-bot.setupWebserver(function(err,express_webserver) {
-  createWebhookEndpoints(express_webserver)
+controller.setupWebserver(function(err,express_webserver) {
+  controller.createWebhookEndpoints(express_webserver)
 });
 
-bot.on('slash_command',function(message) {
+controller.on('slash_command',function(bot,message) {
 
 
 
 })
 
-bot.on('outgoing_webhook',function(message) {
+controller.on('outgoing_webhook',function(bot,message) {
 
 
 
@@ -545,7 +552,11 @@ bot.replyPrivateDelayed()
 ## Real Time API
 
 ```
-bot.startRTM({token: my_slack_bot_token},function(err,connection,payload) { });
+var bot = controller.spawn({
+  token: my_slack_bot_token
+})
+
+bot.startRTM(function(err,connection,payload) { });
 ```
 
 ### Responding to events
@@ -553,7 +564,7 @@ bot.startRTM({token: my_slack_bot_token},function(err,connection,payload) { });
 You can receive and handle any of the [native events thrown by slack](https://api.slack.com/events).  
 
 ```
-bot.on('channel_joined',function(message) {
+controller.on('channel_joined',function(bot,message) {
 
   // message contains data sent by slack
   // in this case:
@@ -566,7 +577,7 @@ You can also receive and handle a long list of additional events caused
 by messages that contain a subtype field, [as listed here](https://api.slack.com/events/message)
 
 ```
-bot.on('channel_leave',function(message) {
+controller.on('channel_leave',function(bot,message) {
 
   // message format matches this:
   // https://api.slack.com/events/message/channel_leave
@@ -604,10 +615,9 @@ bot.api.channels.list({},function(err,response) {
 
 # Other stuff
 
-#### How to identify what team a message came from
+#### How to identify what team your message came from
 ```
-bot.identifyTeam(message,function(err,team_id) {
-
+bot.identifyTeam(function(err,team_id) {
 
 })
 ```
@@ -615,18 +625,18 @@ bot.identifyTeam(message,function(err,team_id) {
 
 #### How to identify the bot itself (for RTM only)
 ```
-bot.identifyBot(message,function(err,identity) {
+bot.identifyBot(function(err,identity) {
   // identity contains...
   // {name, id, team_id}
 })
 ```
 
 ```
-bot.on('message_received',function(message) {
+controller.on('message_received',function(bot,message) {
 
 })
 
-bot.on('group_leave',function(message) {
+controller.on('group_leave',function(bot,message) {
 
 
 })
@@ -640,22 +650,22 @@ also requires storing provisioning info for teams!
 
 
 ```
-var bot = Botkit.slackbot();
+var controller = Botkit.slackbot();
 
-bot.configureSlackApp({
+controller.configureSlackApp({
   clientId: process.env.clientId,
   clientSecret: process.env.clientSecret,
   redirect_uri: 'http://localhost:3002',
   scopes: ['incoming-webhook','team:read','users:read','channels:read','im:read','im:write','groups:read','emoji:read','chat:write:bot']
 });
 
-bot.setupWebserver(process.env.port,function(err,webserver) {
+controller.setupWebserver(process.env.port,function(err,webserver) {
 
   // set up web endpoints for oauth, receiving webhooks, etc.
-  bot
-    .createHomepageEndpoint(bot.webserver)
-    .createOauthEndpoints(bot.webserver,function(err,req,res) { ... })
-    .createWebhookEndpoints(bot.webserver);
+  controller
+    .createHomepageEndpoint(controller.webserver)
+    .createOauthEndpoints(controller.webserver,function(err,req,res) { ... })
+    .createWebhookEndpoints(controller.webserver);
 
 });
 
