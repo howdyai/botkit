@@ -12,7 +12,6 @@ developers to build both custom integrations for their
 team as well as public Slack applications that can be
 run from a central location, but be used by many teams.
 
-
 ## Installation
 
 Botkit is available via npm.
@@ -415,7 +414,7 @@ controller.storage.teams.get(id,function(err,team) {
 
 controller.storage.teams.save(team_data,function(err) { ... })
 
-bot.storage.users.get(id,function(err,user) {
+controller.storage.users.get(id,function(err,user) {
 
 })
 

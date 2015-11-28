@@ -23,6 +23,41 @@ controller.setupWebserver(process.env.port,function(err,webserver) {
 });
 
 
+controller.on('create_user',function(bot,user_info) {
+
+  console.log('HOLY COW I JUST CREATED A USER!');
+
+})
+
+controller.on('update_user',function(bot,user_info) {
+
+  console.log('HOLY COW I JUST UPDATED A USER!');
+
+})
+
+controller.on('create_team',function(bot,team_info) {
+
+  console.log('HOLY COW I JUST CREATED A TEAM!');
+
+})
+
+controller.on('update_team',function(bot,team_info) {
+
+  console.log('HOLY COW I JUST UPDATED A TEAM!');
+
+})
+
+controller.on('create_incoming_webhook',function(bot,webhook) {
+
+  console.log('HOLY COW I JUST CREATED AN INCOMING WEBHOOK!');
+  bot.sendWebhook({
+    text: 'Hey, this is a newly configured webhook!'
+  })
+
+})
+
+
+
 controller.on('slash_command',function(bot,message) {
 
   if (message.command=='/botkit') {

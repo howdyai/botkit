@@ -5,12 +5,12 @@ module.exports = function(botkit,config) {
 
   var bot = {};
   bot.botkit = botkit;
-  bot.config = config;
+  bot.config = config||{};
 
   // make these available at the bot level where they will be used by developers
   bot.utterances = botkit.utterances;
 
-  
+
 
   bot.api = require(__dirname + '/Slack_web_api.js')(bot.botkit,bot.config);
 

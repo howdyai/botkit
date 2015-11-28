@@ -8,23 +8,9 @@ module.exports = function(bot,config) {
       // this is a simple function used to call the slack web API
       callAPI: function(command,options,cb) {
         bot.log('** API CALL: ' + slack_api.api_url+command);
-        options.token = config.token;
-        bot.debug(command,options);
-        request.post(this.api_url+command,function (error, response, body) {
-         bot.debug('Got response',error,body);
-         if (!error && response.statusCode == 200) {
-           var json = JSON.parse(body);
-           if (json.ok) {
-             if (cb) cb(null,json);
-           } else {
-             if (cb) cb(json.error,json);
-           }
-         } else {
-           if (cb) cb(error);
-         }
-        }).form(options);
-      },
-      callAPIWithoutToken: function(command,options,cb) {
+        if (!options.token) {
+          options.token = config.token;
+        }
         bot.debug(command,options);
         request.post(this.api_url+command,function (error, response, body) {
          bot.debug('Got response',error,body);

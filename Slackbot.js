@@ -1,4 +1,5 @@
 var Botkit = require(__dirname+'/CoreBot.js');
+var request = require('request');
 var express = require('express'),
     bodyParser = require("body-parser");
 
@@ -72,7 +73,9 @@ function Slackbot(configuration) {
         message.channel = message.channel_id;
 
         slack_botkit.findTeamById(message.team_id,function(err,team) {
-
+          // FIX THIS
+          // this won't work for single team bots because the team info
+          // might not be in a db
           if (err || !team) {
             slack_botkit.log('Received slash command, but could not load team');
 
@@ -110,6 +113,9 @@ function Slackbot(configuration) {
 
         slack_botkit.findTeamById(message.team_id,function(err,team) {
 
+          // FIX THIS
+          // this won't work for single team bots because the team info
+          // might not be in a db
           if (err || !team) {
             slack_botkit.log('Received outgoing webhook but could not load team');
           } else {
@@ -214,6 +220,32 @@ function Slackbot(configuration) {
       throw new Error('Cannot create oauth endpoints without calling configureSlackApp() with a list of scopes first');
     }
 
+    var call_api = function(command,options,cb) {
+        slack_botkit.log('** API CALL: ' + 'https://slack.com/api/'+command);
+        request.post('https://slack.com/api/'+command,function (error, response, body) {
+         slack_botkit.debug('Got response',error,body);
+         if (!error && response.statusCode == 200) {
+           var json = JSON.parse(body);
+           if (json.ok) {
+             if (cb) cb(null,json);
+           } else {
+             if (cb) cb(json.error,json);
+           }
+         } else {
+           if (cb) cb(error);
+         }
+        }).form(options);
+      }
+
+
+    var oauth_access=function(options,cb) {
+      call_api('oauth.access',options,cb);
+    }
+
+    var auth_test=function(options,cb) {
+      call_api('auth.test',options,cb);
+    }
+
     webserver.get('/login',function(req,res) {
 
         res.redirect(slack_botkit.getAuthorizeURL())
@@ -228,7 +260,7 @@ function Slackbot(configuration) {
       var code = req.query.code;
       var state = req.query.state;
 
-      slack_botkit.api.oauth.access({
+      oauth_access({
         client_id: slack_botkit.config.clientId,
         client_secret: slack_botkit.config.clientSecret,
         code: code
@@ -242,6 +274,9 @@ function Slackbot(configuration) {
           }
           slack_botkit.trigger('oauth_error',[err]);
         } else {
+
+
+          console.log(auth);
 
           // auth contains at least:
           // { access_token, scope, team_name}
@@ -258,8 +293,10 @@ function Slackbot(configuration) {
           // temporarily use the token we got from the oauth
           // we need to call auth.test to make sure the token is valid
           // but also so that we reliably have the team_id field!
-          slack_botkit.config.token = auth.access_token;
-          slack_botkit.api.auth.test({},function(err,identity) {
+          //slack_botkit.config.token = auth.access_token;
+          auth_test({token: auth.access_token},function(err,identity) {
+
+            console.log(identity);
 
             if (err) {
               if (callback) {
@@ -272,53 +309,92 @@ function Slackbot(configuration) {
 
             } else {
 
-              slack_botkit.findTeamById(identity.team_id,function(err,team) {
+              // we need to deal with any team-level provisioning info
+              // like incoming webhooks and bot users
+              // and also with the personal access token from the user
 
-                // define the connection to this team
-                var connection = {};
-                if (team) {
-                  connection = {
-                    team: team
-                  }
-                } else {
-                  connection = {
-                    team: {
+
+
+                slack_botkit.findTeamById(identity.team_id,function(err,team) {
+
+                  var isnew = false;
+                  if (!team) {
+                    isnew = true;
+                    team = {
                       id: identity.team_id,
                       createdBy: identity.user_id,
-                      team_url: identity.url,
-                      team_name: identity.team,
+                      url: identity.url,
+                      name: identity.team,
                     }
                   }
-                }
 
-                if (auth.incoming_webhook) {
-                  auth.incoming_webhook.token = auth.access_token;
-                  auth.incoming_webhook.createdBy = identity.user_id;
-                  connection.team.incoming_webhook = auth.incoming_webhook;
-                  slack_botkit.trigger('create_incoming_webhook',[connection,connection.team.incoming_webhook]);
-                }
+                  var bot = slack_botkit.spawn(team);
 
-                slack_botkit.saveTeam(connection.team,function(err,id) {
-                  if (err) {
-                    slack_botkit.log('An error occurred while saving a team: ',err);
-                    if (callback) {
-                      callback(err,req,res);
-                    } else {
-                      res.status(500).send(err);
-                    }
-                    slack_botkit.trigger('error',[err]);
-                  } else {
-                    if (callback) {
-                      callback(null,req,res);
-                    } else {
-                      res.redirect('/');
-                    }
+                  if (auth.incoming_webhook) {
+                    auth.incoming_webhook.token = auth.access_token;
+                    auth.incoming_webhook.createdBy = identity.user_id;
+                    team.incoming_webhook = auth.incoming_webhook;
+                    bot.configureIncomingWebhook(team.incoming_webhook);
+                    slack_botkit.trigger('create_incoming_webhook',[bot,team.incoming_webhook]);
                   }
+
+                  slack_botkit.saveTeam(team,function(err,id) {
+                    if (err) {
+                      slack_botkit.log('An error occurred while saving a team: ',err);
+                      if (callback) {
+                        callback(err,req,res);
+                      } else {
+                        res.status(500).send(err);
+                      }
+                      slack_botkit.trigger('error',[err]);
+                    } else {
+                      if (isnew) {
+                        slack_botkit.trigger('create_team',[bot,team]);
+                      } else {
+                        slack_botkit.trigger('update_team',[bot,team]);
+                      }
+
+                      slack_botkit.storage.users.get(identity.user_id,function(err,user) {
+                        isnew=false;
+                        if (!user) {
+                          isnew=true;
+                          user = {
+                            id: identity.user_id,
+                            access_token: auth.access_token,
+                            scopes: scopes,
+                            team_id: identity.team_id,
+                            user: identity.user,
+                          }
+                        }
+                        slack_botkit.storage.users.save(user,function(err,id) {
+
+                          if (err) {
+                            slack_botkit.log('An error occurred while saving a user: ',err);
+                            if (callback) {
+                              callback(err,req,res);
+                            } else {
+                              res.status(500).send(err);
+                            }
+                            slack_botkit.trigger('error',[err]);
+                          } else {
+                            if (isnew) {
+                              slack_botkit.trigger('create_user',[bot,user]);
+                            } else {
+                              slack_botkit.trigger('update_user',[bot,user]);
+                            }
+                            if (callback) {
+                              callback(null,req,res);
+                            } else {
+                              res.redirect('/');
+                            }
+                          }
+                        });
+                      });
+                    }
+                  });
                 });
-
-              });
-            }
-          })
+              }
+            });
 
         }
 
