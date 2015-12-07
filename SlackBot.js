@@ -338,6 +338,16 @@ function Slackbot(configuration) {
                     slack_botkit.trigger('create_incoming_webhook',[bot,team.incoming_webhook]);
                   }
 
+                  if (auth.bot) {
+                    team.bot = {
+                      token: auth.bot.bot_api_token,
+                      user_id: auth.bot.bot_user_id,
+                      createdBy: identity.user_id,
+                    }
+                    bot.configureRTM(team.bot);
+                    slack_botkit.trigger('create_bot',[bot,team.bot]);
+                  }
+
                   slack_botkit.saveTeam(team,function(err,id) {
                     if (err) {
                       slack_botkit.log('An error occurred while saving a team: ',err);

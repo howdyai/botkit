@@ -44,6 +44,11 @@ module.exports = function(botkit,config) {
     }
   }
 
+  bot.configureRTM = function(config) {
+    bot.config.token = config.token;
+    return bot;
+  }
+
   bot.closeRTM = function() {
 
     if (bot.rtm) {
