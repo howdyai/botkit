@@ -557,6 +557,8 @@ var bot = controller.spawn({
 bot.startRTM(function(err,connection,payload) { });
 ```
 
+You may also at some point want to close the websocket. You can do this with the `closeRTM()` function.
+
 ### Responding to events
 
 You can receive and handle any of the [native events thrown by slack](https://api.slack.com/events).  
@@ -583,18 +585,13 @@ controller.on('channel_leave',function(bot,message) {
 })
 ```
 
+Finally, Botkit throws a handful of its own events!
 
-events
----
-rtm_open
-rtm_close
-tick
-direct_mention
-direct_message
-mention
-ambient
-message_received
-* all the normal slack events
+| Event | Description
+|--- |---
+| rtm_open | a connection has been made to the RTM api
+| rtm_close | a connection to the RTM api has closed
+
 
 
 ### Incoming webhooks
@@ -713,12 +710,16 @@ the Slack Button to offer a bot integration.
 
 ### Use built in JSON file storage
 
-This is great for simple uses and quick prototypes.
+Botkit has a built in storage system used to keep data
+on behalf of users and teams between sessions. Botkit uses this system automatically when storing information for Slack Button applications.
+
+By default, Botkit will use [json-file-store](https://github.com/flosse/json-file-store) to keep data in JSON files in the filesystem of the computer where the bot is executed. (Note this will not work on Heroku or other hosting systems that do not let node applications write to the file system.)
 
 Support for freeform storage for teams, users and channels.
 Basically this is a key value store. You can pass in
 whatever data you like to any of these, as long as it has an
 ID field, which should be a Slack unique id.
+
 
 ```
 var controller = botkit.slackbot({
@@ -747,10 +748,10 @@ controller.storage.channels.save(channel_data,function(err) { ... })
 
 ### Write your own storage provider
 
-If you want to use a database or do somethign else with your data,
+If you want to use a database or do something else with your data,
 you can write your own storage module and pass it in.
 
-Make sure your module returns an object with all the methods. See simple_storage.js for an example of how it is done!
+Make sure your module returns an object with all the methods. See [simple_storage.js](../simple_storage.js) for an example of how it is done!
 
 Then, use it when you create your bot:
 ```
