@@ -587,12 +587,39 @@ controller.on('channel_leave',function(bot,message) {
 
 Finally, Botkit throws a handful of its own events!
 
+#### Message/User Activity Events:
+
+| Event | Description
+|--- |---
+| direct_message |
+| direct_mention |
+| mention |
+| ambient |
+| message_received |
+| bot_channel_join |
+| user_channel_join |
+| bot_group_join |
+| user_group_join |
+
+
+#### Websocket Events:
+
 | Event | Description
 |--- |---
 | rtm_open | a connection has been made to the RTM api
 | rtm_close | a connection to the RTM api has closed
 
+#### Slack Button specific events:
 
+| Event | Description
+|--- |---
+| create_incoming_webhook |
+| create_bot |
+| update_team |
+| create_team |
+| create_user |
+| update_user |
+| oauth_error |
 
 ### Incoming webhooks
 
