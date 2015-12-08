@@ -699,6 +699,16 @@ bot.api.channels.list({},function(err,response) {
 })
 ```
 
+## Included Examples
+
+[team_bot.js](../examples/team_bot.js) an example bot that can be connected to a single team. super useful for connecting internal tools and APIs to slack!
+
+[slackbutton_bot.js](../examples/slackbutton_bot.js) an example of using
+the Slack Button to offer a bot integration.
+
+[slackbutton_incomingwebhooks.js](../examples/slackbutton_incomingwebhooks.js) an example of using the Slack Button to offer an incoming webhook integration. This example also includes a simple form which allows you to broadcast a message to  any team who adds the integration.
+
+
 ## Storing Information
 
 ### Use built in JSON file storage
