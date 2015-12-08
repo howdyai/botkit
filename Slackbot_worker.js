@@ -393,5 +393,13 @@ module.exports = function(botkit,config) {
 
   }
 
+  if (bot.config.incoming_webhook) {
+    bot.configureIncomingWebhook(config.incoming_webhook);
+  }
+
+  if (bot.config.bot) {
+    bot.configureRTM(config.bot);
+  }
+
     return bot;
 }
