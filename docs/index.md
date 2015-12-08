@@ -834,9 +834,3 @@ controller.setupWebserver(process.env.port,function(err,webserver) {
 });
 
 ```
-
-events
----
-create_incoming_webhook
-update_team
-create_team
