@@ -1,6 +1,11 @@
 /* Uses the slack button feature to offer a real time bot to multiple teams */
 var Botkit = require('../Botkit.js');
 
+if (!process.env.clientId || !process.env.clientSecret || !process.env.port) {
+  console.log('Error: Specify clientId clientSecret and port in environment');
+  process.exit(1);
+}
+
 
 var controller = Botkit.slackbot({
   json_file_store: './db_slackbutton_bot/',
