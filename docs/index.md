@@ -658,7 +658,8 @@ When used with slash commands, this function has the same functionality. However
 slash commands also support private, and delayed messages. See below.
 [View Slack's docs here](https://api.slack.com/slash-commands)
 
-bot.replyPrivate()
+#### bot.replyPrivate()
+
 | Argument | Description
 |---  |---
 | src | source message as received from slash or webhook
@@ -666,14 +667,16 @@ bot.replyPrivate()
 | callback | optional callback
 
 
-bot.replyPublicDelayed()
+#### bot.replyPublicDelayed()
+
 | Argument | Description
 |---  |---
 | src | source message as received from slash or webhook
 | reply | reply message (string or object)
 | callback | optional callback
 
-bot.replyPrivateDelayed()
+#### bot.replyPrivateDelayed()
+
 | Argument | Description
 |---  |---
 | src | source message as received from slash or webhook
