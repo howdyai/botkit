@@ -25,14 +25,12 @@ controller.setupWebserver(process.env.port,function(err,webserver) {
 });
 
 
+// just a simple way to make sure we don't
+// connect to the RTM twice for the same team
 var _bots = {};
-
 function trackBot(bot) {
-
   _bots[bot.config.token] = bot;
-
 }
-
 
 controller.on('create_bot',function(bot,config) {
 
@@ -59,18 +57,16 @@ controller.on('create_bot',function(bot,config) {
 
 })
 
+
+// Handle events related to the websocket connection to Slack
 controller.on('rtm_open',function(bot) {
-
   console.log('** The RTM api just connected!');
-
 });
 
 controller.on('rtm_close',function(bot) {
-
   console.log('** The RTM api just closed');
-
+  // you may want to attempt to re-open
 });
-
 
 controller.hears('hello','direct_message',function(bot,message) {
   bot.reply(message,'Hello!');
@@ -79,13 +75,18 @@ controller.hears('hello','direct_message',function(bot,message) {
 controller.hears('^stop','direct_message',function(bot,message) {
   bot.reply(message,'Goodbye');
   bot.rtm.close();
+});
 
+controller.on('direct_message,mention,direct_mention',function(bot,message) {
+  bot.api.reactions.add({
+    timestamp: message.ts,
+    channel: message.channel,
+    name: 'robot_face',
+  },function(err) {
+    if (err) { console.log(err) }
+    bot.reply(message,'I heard you loud and clear boss.')
+  })
 })
-
-
-
-
-
 
 controller.storage.teams.all(function(err,teams) {
 
