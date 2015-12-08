@@ -56,14 +56,14 @@ Bots built with botkit have a few key capabilities, which can be used
 to create clever, conversational applications. These capabilities
 map to the way real human people talk to each other.
 
-Bots can [hear things](). Bots can [say things and reply]() to what they hear.
+Bots can [hear things](#receiving-messages). Bots can [say things and reply](sending-messages) to what they hear.
 
 With these two building blocks, almost any type of conversation can be created.
 
-To organize the things a bot says and does into useful units, botkit bots have a subsystem available for managing [multi-message conversations](). Conversations add features like the ability to ask a question, queue several messages at once, and track when an interaction has ended.  Handy!
+To organize the things a bot says and does into useful units, botkit bots have a subsystem available for managing [multi-message conversations](multi-message-replies-to-incoming-messages). Conversations add features like the ability to ask a question, queue several messages at once, and track when an interaction has ended.  Handy!
 
 After a bot has been told what to listen for and how to respond,
-it is ready to be connected to a stream of incoming messages. Currently, botkit can handle [3 different types of incoming messages from Slack].
+it is ready to be connected to a stream of incoming messages. Currently, botkit can handle [3 different types of incoming messages from Slack](#connecting-your-bot-to-slack).
 
 
 ## Basic Usage
@@ -174,7 +174,7 @@ can be sent using the `bot.startConversation()` function and the related convers
 
 Bots can originate messages - that is, send a message based on some internal logic or external stimulus -
 using `bot.say()` method.  Note that bots that do not need to respond to messages or hold conversations
-may be better served by using Slack's [Incoming Webhooks]() feature.
+may be better served by using Slack's [Incoming Webhooks](#incoming-webhooks) feature.
 
 ### Single Message Replies to Incoming Messages
 
@@ -187,7 +187,7 @@ and may be difficult for the user to process. We recommend using `bot.startConve
 if more than one message needs to be sent.
 
 You may pass either a string, or a message object to the function. Message objects may contain
-any of the fields supported by [Slack's chat.postMessage]() API.
+any of the fields supported by [Slack's chat.postMessage](https://api.slack.com/methods/chat.postMessage) API.
 
 ### bot.reply()
 
@@ -236,7 +236,7 @@ multiple API calls into a single function.
 
 Messages sent as part of a conversation are sent no faster than one message per second,
 which roughly simulates the time it would take for the bot to "type" the message.
-(It is possible to adjust this delay - see [special behaviors]())
+(It is possible to adjust this delay - see [special behaviors](#special-behaviors))
 
 ### Start a Conversation
 
@@ -297,7 +297,7 @@ manner it needs to.
 When passed an array, the bot will look first for a matching pattern, and execute only the callback whose
 pattern is matched. This allows the bot to present multiple choice options, or to proceed
 only when a valid response has been received. At least one of the patterns in the array must be marked as the default option,
-which will be called should no other option match. Botkit comes pre-built with several useful patterns which can be used with this function. See [included utterances]()
+which will be called should no other option match. Botkit comes pre-built with several useful patterns which can be used with this function. See [included utterances](#included-utterances)
 
 Callback functions passed to `ask()` receive two parameters - the first is a standard message object containing
 the user's response to the question. The second is a reference to the conversation itself.
@@ -468,7 +468,7 @@ var value  = convo.extractResponse('key');
 | callback | _Optional_ Callback in the form function(err,response) { ... }
 
 Note: If your primary need is to spontaneously send messages rather than
-respond to incoming messages, you may want to use [Slack's incoming webhooks feature]() rather than the real time API.
+respond to incoming messages, you may want to use [Slack's incoming webhooks feature](#incoming-webhooks) rather than the real time API.
 
 ```
 bot.say(
@@ -542,7 +542,7 @@ and receives a constant stream of JSON events - everything from the normal messa
 would expect to typing notifications and presence change events.
 
 Botkit's message parsing and event system does a great deal of filtering on this
-real time stream so developers do not need to parse every message.  See [Receiving Messages]()
+real time stream so developers do not need to parse every message.  See [Receiving Messages](#receiving-messages)
 for more information about listening for and responding to messages.
 
 It is also possible to bind event handlers directly to any of the enormous number of native Slack events, as well as a handful of custom events emitted by Botkit.
