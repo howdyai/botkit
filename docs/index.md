@@ -591,15 +591,15 @@ Finally, Botkit throws a handful of its own events!
 
 | Event | Description
 |--- |---
-| direct_message |
-| direct_mention |
-| mention |
-| ambient |
-| message_received |
-| bot_channel_join |
-| user_channel_join |
-| bot_group_join |
-| user_group_join |
+| message_received | a message was received by the bot
+| bot_channel_join | the bot has joined a channel 
+| user_channel_join | a user has joined a channel
+| bot_group_join | the bot has joined a group
+| user_group_join | a user has joined a group
+| direct_message | the bot received a direct message from a user
+| direct_mention | the bot was addressed directly in a channel 
+| mention | the bot was mentioned by someone in a message
+| ambient | the message received had no mention of the bot
 
 
 #### Websocket Events:
