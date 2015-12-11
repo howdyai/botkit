@@ -1,8 +1,8 @@
 {
   "name": "botkit",
   "version": "0.0.1",
-  "description": "See the main readme file for operation of the BotKit bot system.",
-  "main": "Bot.js",
+  "description": "A toolkit for making bot applications for Slack",
+  "main": "Botkit.js",
   "dependencies": {
     "body-parser": "^1.13.3",
     "express": "^4.13.3",
@@ -17,12 +17,12 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/xoxco/botkit.git"
+    "url": "https://github.com/howdyai/botkit.git"
   },
   "bugs": {
-    "url": "https://github.com/xoxco/botkit/issues"
+    "url": "https://github.com/howdyai/botkit/issues"
   },
-  "homepage": "https://github.com/xoxco/botkit",
+  "homepage": "http://howdy.ai/botkit",
   "keywords": [
     "bots",
     "chatbots",
