@@ -276,8 +276,6 @@ function Slackbot(configuration) {
         } else {
 
 
-          console.log(auth);
-
           // auth contains at least:
           // { access_token, scope, team_name}
           // May also contain:
@@ -295,8 +293,6 @@ function Slackbot(configuration) {
           // but also so that we reliably have the team_id field!
           //slack_botkit.config.token = auth.access_token;
           auth_test({token: auth.access_token},function(err,identity) {
-
-            console.log(identity);
 
             if (err) {
               if (callback) {

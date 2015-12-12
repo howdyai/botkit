@@ -718,7 +718,6 @@ function Botkit(configuration) {
   botkit.startTask = function(bot,message,cb) {
 
 
-    console.log(message);
     var task = new Task(bot,message,this);
 
     task.id = botkit.taskCount++;
