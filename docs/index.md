@@ -1,53 +1,68 @@
 # Botkit
 
 Botkit is a Node module for use in creating bots (and other types
-of applications) that live inside chat rooms like Slack!
+of applications) that live inside [Slack](http://slack.com)!
+
 It provides a semantic interface to sending and receiving messages
 so that developers can focus on creating novel applications and experiences
 instead of dealing with API endpoints.
 
 Botkit features a comprehensive set of tools
-to deal with Slack's integration platform, and allows
+to deal with [Slack's integration platform](http://api.slack.com), and allows
 developers to build both custom integrations for their
-team as well as public Slack applications that can be
-run from a central location, but be used by many teams.
+team, as well as public "Slack Button" applications that can be
+run from a central location, and be used by many teams at the same time.
 
 ## Installation
 
-Botkit is available via npm.
-
-Though botkit has several internal dependencies, it contains everything you need to get a bot online.
+Botkit is available via NPM.
 
 ```
 npm install --save botkit
 ```
 
+You can also check out Botkit directly from Git.
+If you want to use the example code and included bots, it may be preferable to use Github over NPM.
+
+```
+git clone git@github.com:howdyai/botkit.git
+```
+
 ## Getting Started
 ​
-1) Install botkit
+1) Install Botkit
 
 2) First make a bot integration inside of your Slack channel. Go here:
 
 https://my.slack.com/services/new/bot
 
-Enter a name for your bot. Make it something fun and friendly, but avoid a single task specific name. Bots can do lots! Let's not pidgeonhole them.
+Enter a name for your bot.
+Make it something fun and friendly, but avoid a single task specific name.
+Bots can do lots! Let's not pidgeonhole them.
 
 3) When you click "Add Bot Integration", you are taken to a page where you can add additional details about your bot, like an avatar, as well as customize its name & description.
 
-Copy the token. You'll need it.
+Copy the API token that Slack gives you. You'll need it.
 
-4) Run one of the example scripts
+4) Run the example bot app, using the token you just copied:
 ​
 ```
-token=REPLACE_THIS_WITH_YOUR_TOKEN node hello_world_rtm.js
+token=REPLACE_THIS_WITH_YOUR_TOKEN node bot.js
 ```
 ​
-5). Your bot should be online! Within Slack, send it a quick message to say hello. It should say hello back!
+5) Your bot should be online! Within Slack, send it a quick direct message to say hello. It should say hello back!
+
+Try:
+  * who are you?
+  * call me Bob
+  * shutdown
 ​
+
 ### Things to note
 ​
 Much like a vampire, a bot has to be invited into a channel. DO NOT WORRY bots are not vampires.
 
+Type: `/invite @<my bot>` to invite your bot into another channel.
 
 
 ## Core Concepts
@@ -73,22 +88,16 @@ Here's an example of using Botkit with Slack's [real time API](https://api.slack
 This sample bot listens for the word "hello" to be said to it -- either as a direct mention ("@bot hello") or an indirect mention ("hello @bot") or a direct message (a private message inside Slack between the user and the bot).
 
 ```
-var botkit = require('botkit');
+var Botkit = require('botkit');
 
-var controller = botkit.slackbot({
+var controller = Botkit.slackbot({
   debug: false
 });
 
 // connect the bot to a stream of messages
 controller.spawn({
-  token: my_slack_bot_token,
-}).startRTM(function(err,connection,payload) {
-
-  if (!err) {
-    console.log("This bot is online!");
-  }
-
-})
+  token: <my_slack_bot_token>,
+}).startRTM()
 
 // give the bot something to listen for.
 controller.hears('hello','direct_message,direct_mention,mention',function(bot,message) {
@@ -592,12 +601,12 @@ Finally, Botkit throws a handful of its own events!
 | Event | Description
 |--- |---
 | message_received | a message was received by the bot
-| bot_channel_join | the bot has joined a channel 
+| bot_channel_join | the bot has joined a channel
 | user_channel_join | a user has joined a channel
 | bot_group_join | the bot has joined a group
 | user_group_join | a user has joined a group
 | direct_message | the bot received a direct message from a user
-| direct_mention | the bot was addressed directly in a channel 
+| direct_mention | the bot was addressed directly in a channel
 | mention | the bot was mentioned by someone in a message
 | ambient | the message received had no mention of the bot
 
