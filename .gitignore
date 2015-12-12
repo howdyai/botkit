@@ -1,7 +1,9 @@
 node_modules/
-teams/
 start.sh
 db/
+examples/db_slackbutton_bot/
+examples/db_slackbutton_incomingwebhook/
+examples/db_slackbutton_slashcommand/
+examples/db_team_bot/
 .DS_Store
 */.DS_Store
-
