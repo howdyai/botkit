@@ -1,5 +1,6 @@
 # Botkit
-## Developer Friendly Tools For Building Bots
+*Developer Friendly Tools For Building Bots*
+---
 
 Botkit is a Node module created by the bot makers at [Howdy.ai](http://howdy.ai) for use in creating bots (and other types of applications) that live inside [Slack](http://slack.com)!
 
