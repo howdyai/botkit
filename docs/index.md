@@ -87,6 +87,17 @@ Here's an example of using Botkit with Slack's [real time API](https://api.slack
 
 This sample bot listens for the word "hello" to be said to it -- either as a direct mention ("@bot hello") or an indirect mention ("hello @bot") or a direct message (a private message inside Slack between the user and the bot).
 
+The Botkit constructor returns a `controller` object. By attaching event handlers
+to the controller object, developers can specify what their bot should look for and respond to,
+including keywords, patterns and various [messaging and status events](#responding-to-events).
+These event handlers can be thought of metaphorically as skills or features the robot brain has -- each event handler defines a new "When a human say THIS the bot does THAT."
+
+The `controller` object is then used to `spawn()` bot instances that represent
+a specific bot identity and connection to Slack. Once spawned and connected to
+the API, the bot user will appear online in Slack, and can then be used to
+send messages and conduct conversations with users. They are called into action by the `controller` when firing event handlers.
+
+
 ```
 var Botkit = require('botkit');
 
@@ -107,6 +118,150 @@ controller.hears('hello','direct_message,direct_mention,mention',function(bot,me
 });
 
 ```
+
+## Included Examples
+
+These examples are included in the Botkit Github repo.
+
+[bot.js](https://github.com/howdai/botkit/blob/master/bot.js) An example bot that can be connected to your team. Useful as a basis for creating your first bot!
+
+[examples/slackbutton_bot.js](https://github.com/howdai/botkit/blob/master/examples/slackbutton_bot.js) an example of using the Slack Button to offer a bot integration.
+
+[examples/slackbutton_incomingwebhooks.js](https://github.com/howdai/botkit/blob/master/examples/slackbutton_incomingwebhooks.js) an example of using the Slack Button to offer an incoming webhook integration. This example also includes a simple form which allows you to broadcast a message to any team who adds the integration.
+
+
+## Connecting Your Bot to Slack
+
+Bot users connect to Slack using a real time API based on web sockets.
+The bot connects to Slack using the same protocol that the native Slack clients use!
+
+To connect a bot to Slack, [get a Bot API token from the Slack integrations page](https://my.slack.com/services/new/bot).
+
+Note: Since API tokens can be used to connect to your team's Slack, it is best practices to handle API tokens with caution. For example, pass tokens in to your application via evironment variable or command line parameter rather than include it in the code itself.
+This is particularly true if you store and use API tokens on behalf of users other than yourself!
+
+[Read Slack's Bot User documentation](https://api.slack.com/bot-users)
+
+### controller.spawn()
+| Argument | Description
+|--- |---
+| config | Incoming message object
+
+Spawn an instance of your bot and connect it to Slack.
+This function takes a configuration object which should contain
+at least one method of talking to the Slack API.
+
+To use the real time / bot user API, pass in a token, preferably via
+an environment variable.
+
+Controllers can also spawn bots that use [incoming webhooks](#incoming-webhooks).
+
+### bot.startRTM()
+| Argument | Description
+|--- |---
+| callback | _Optional_ Callback in the form function(err,bot,payload) { ... }
+
+Opens a connection to Slack's real time API. This connection will remain
+open until it fails or is closed using `closeRTM()`.
+
+The optional callback function receives:
+
+* Any error that occurred while connecting to Slack
+* An updated bot object
+* The resulting JSON payload of the Slack API command [rtm.start](https://api.slack.com/methods/rtm.start)
+
+The payload that this callback function receives contains a wealth of information
+about the bot and its environment, including a complete list of the users
+and channels visible to the bot. This information should be cached and used
+when possible instead of calling Slack's API.
+
+A successful connection the API will also cause a `rtm_open` event to be
+fired on the `controller` object.
+
+
+### bot.closeRTM()
+
+Close the connection to the RTM. Once closed, an `rtm_close` event is fired
+on the `controller` object.
+
+
+```
+var Botkit = require('Botkit');
+
+var controller = Botkit.slackbot();
+
+var bot = controller.spawn({
+  token: my_slack_bot_token
+})
+
+bot.startRTM(function(err,bot,payload) {
+  if (err) {
+    throw new Error('Could not connect to Slack');
+  }
+});
+```
+
+### Responding to events
+
+Once connected to Slack, bots receive a constant stream of events - everything from the normal messages you would expect to typing notifications and presence change events.
+
+Botkit's message parsing and event system does a great deal of filtering on this
+real time stream so developers do not need to parse every message.  See [Receiving Messages](#receiving-messages)
+for more information about listening for and responding to messages.
+
+It is also possible to bind event handlers directly to any of the enormous number of native Slack events, as well as a handful of custom events emitted by Botkit.
+
+You can receive and handle any of the [native events thrown by slack](https://api.slack.com/events).  
+
+```
+controller.on('channel_joined',function(bot,message) {
+
+  // message contains data sent by slack
+  // in this case:
+  // https://api.slack.com/events/channel_joined
+
+});
+```
+
+You can also receive and handle a long list of additional events caused
+by messages that contain a subtype field, [as listed here](https://api.slack.com/events/message)
+
+```
+controller.on('channel_leave',function(bot,message) {
+
+  // message format matches this:
+  // https://api.slack.com/events/message/channel_leave
+
+})
+```
+
+Finally, Botkit throws a handful of its own events!
+Events related to the general operation of bots are below.
+When used in conjunction with the Slack Button, Botkit also fires
+a [few additional events](#using-the-slack-button).
+
+#### Message/User Activity Events:
+
+| Event | Description
+|--- |---
+| message_received | a message was received by the bot
+| bot_channel_join | the bot has joined a channel
+| user_channel_join | a user has joined a channel
+| bot_group_join | the bot has joined a group
+| user_group_join | a user has joined a group
+| direct_message | the bot received a direct message from a user
+| direct_mention | the bot was addressed directly in a channel
+| mention | the bot was mentioned by someone in a message
+| ambient | the message received had no mention of the bot
+
+
+#### Websocket Events:
+
+| Event | Description
+|--- |---
+| rtm_open | a connection has been made to the RTM api
+| rtm_close | a connection to the RTM api has closed
+
 
 ## Receiving Messages
 
@@ -279,7 +434,7 @@ the user and the bot.
 Call convo.say() several times in a row to queue messages inside the conversation. Only one message will be sent at a time, in the order they are queued.
 
 ```
-connection.hears(['hello world'],['direct_message','direct_mention','mention','ambient'],function(bot,message) {
+controller.hears(['hello world'],['direct_message','direct_mention','mention','ambient'],function(bot,message) {
 
   // start a conversation to handle this response.
   bot.startConversation(message,function(err,convo) {
@@ -472,8 +627,7 @@ var value  = convo.extractResponse('key');
 ### bot.say()
 | Argument | Description
 |--- |---
-| connection | Slack configuration in the form {team: {token: some_valid_token}}
-| message | Incoming message object in the form { text: "" channel: ""}
+| message | A message object
 | callback | _Optional_ Callback in the form function(err,response) { ... }
 
 Note: If your primary need is to spontaneously send messages rather than
@@ -482,22 +636,24 @@ respond to incoming messages, you may want to use [Slack's incoming webhooks fea
 ```
 bot.say(
   {
-    team: {
-      token: my_slack_bot_token
-    }
-  },
-  {
     text: 'my message text',
     channel: '#channel'
   }
 );
 ```
 
-## Connecting Your Bot to Slack
+## Working with Slack Integrations
 
-Use botkit to build a bot that will connect to your team (one team at a time).
+There are a dizzying number of ways to integrate your application into Slack.
+Up to this point, this document has mainly dealt with the real time / bot user
+integration.  In addition to this type of integration, Botkit also supports:
 
-These can just be manually configured by putting info into the script or environment variables!
+* Incoming Webhooks - a way to send (but not receive) messages to Slack
+* Outgoing Webhooks - a way to receive messages from Slack based on a keyword or phrase
+* Slash Command - a way to add /slash commands to Slack
+* Slack Web API - a full set of RESTful API tools to deal with Slack
+* The Slack Button - a way to build Slack applications that can be used by multiple teams
+
 
 ```
 var botkit = require('botkit');
@@ -540,105 +696,43 @@ controller.on('slash_command',function(bot,message) {
 });
 ```
 
-## Working with Slack Integrations
 
-
-## Bot User / Real Time API
-
-Bot users connect to Slack using a real time API based on web sockets.
-The bot connects to Slack using the same protocol that the native Slack clients use,
-and receives a constant stream of JSON events - everything from the normal messages you
-would expect to typing notifications and presence change events.
-
-Botkit's message parsing and event system does a great deal of filtering on this
-real time stream so developers do not need to parse every message.  See [Receiving Messages](#receiving-messages)
-for more information about listening for and responding to messages.
-
-It is also possible to bind event handlers directly to any of the enormous number of native Slack events, as well as a handful of custom events emitted by Botkit.
-
-[Read Slack's Bot User documentation](https://api.slack.com/bot-users)
-
-```
-var bot = controller.spawn({
-  token: my_slack_bot_token
-})
-
-bot.startRTM(function(err,connection,payload) { });
-```
-
-You may also at some point want to close the websocket. You can do this with the `closeRTM()` function.
-
-### Responding to events
-
-You can receive and handle any of the [native events thrown by slack](https://api.slack.com/events).  
-
-```
-controller.on('channel_joined',function(bot,message) {
-
-  // message contains data sent by slack
-  // in this case:
-  // https://api.slack.com/events/channel_joined
-
-});
-```
-
-You can also receive and handle a long list of additional events caused
-by messages that contain a subtype field, [as listed here](https://api.slack.com/events/message)
-
-```
-controller.on('channel_leave',function(bot,message) {
-
-  // message format matches this:
-  // https://api.slack.com/events/message/channel_leave
-
-})
-```
-
-Finally, Botkit throws a handful of its own events!
-
-#### Message/User Activity Events:
-
-| Event | Description
-|--- |---
-| message_received | a message was received by the bot
-| bot_channel_join | the bot has joined a channel
-| user_channel_join | a user has joined a channel
-| bot_group_join | the bot has joined a group
-| user_group_join | a user has joined a group
-| direct_message | the bot received a direct message from a user
-| direct_mention | the bot was addressed directly in a channel
-| mention | the bot was mentioned by someone in a message
-| ambient | the message received had no mention of the bot
-
-
-#### Websocket Events:
-
-| Event | Description
-|--- |---
-| rtm_open | a connection has been made to the RTM api
-| rtm_close | a connection to the RTM api has closed
-
-#### Slack Button specific events:
-
-| Event | Description
-|--- |---
-| create_incoming_webhook |
-| create_bot |
-| update_team |
-| create_team |
-| create_user |
-| update_user |
-| oauth_error |
 
 ### Incoming webhooks
 
 Incoming webhooks allow you to send data from your application into Slack.
+To configure Botkit to send an incoming webhook, first set one up
+via [Slack's integration page](https://my.slack.com/services/new/incoming-webhook/).
+
+Once configured, use the `sendWebhook` function to send messages to Slack.
 
 [Read official docs](https://api.slack.com/incoming-webhooks)
-[Setup an integration](https://my.slack.com/services/new/incoming-webhook/)
+
+#### bot.configureIncomingWebhook()
+| Argument | Description
+|--- |---
+| config | Configure a bot to send webhooks
+
+Add a webhook configuration to an already spawned bot.
+It is preferable to spawn the bot pre-configured, but hey, sometimes
+you need to do it later.
+
+#### bot.sendWebhook()
+| Argument | Description
+|--- |---
+| message | A message object
+| callback | _Optional_ Callback in the form function(err,response) { ... }
+
+Pass `sendWebhook` an object that contains at least a `text` field.
+ This object may also contain other fields defined [by Slack](https://api.slack.com/incoming-webhooks) which can alter the
+ appearance of your message.
 
 ```
-bot.configureIncomingWebhook({url: webhook_url});
+var bot = controller.spawn({
+  incoming_webhook: {
+    url: <my_webhook_url>
+  }
+})
 
 bot.sendWebhook({
   text: 'This is an incoming webhook',
@@ -649,16 +743,31 @@ bot.sendWebhook({
   }
 });
 ```
+
+
 ### Outgoing Webhooks and Slash commands
 
-Outgoing webhooks and slash commands allow you to send data out of Slack.
+Outgoing webhooks and Slash commands allow you to send data out of Slack.
 
-[Official Outgoing Webhooks docs](https://api.slack.com/outgoing-webhooks)
-[Official Slash Command docs](https://api.slack.com/slash-commands)
+Outgoing webhooks are used to match keywords or phrases in Slack. [Read Slack's official documentation here.](https://api.slack.com/outgoing-webhooks)
 
+Slash commands are special commands triggered by typing a "/" then a command.
+[Read Slack's official documentation here.](https://api.slack.com/slash-commands)
+
+Though these integrations are subtly different, Botkit normalizes the details
+so developers may focus on providing useful functionality rather than peculiarities
+of the Slack API parameter names.
+
+Note that since these integrations use send webhooks from Slack to your application,
+your application will have to be hosted at a public IP address or domain name,
+and properly configured within Slack.
+
+[Set up an outgoing webhook](https://xoxco.slack.com/services/new/outgoing-webhook)
+
+[Set up a Slash command](https://xoxco.slack.com/services/new/slash-commands)
 
 ```
-controller.setupWebserver(function(err,express_webserver) {
+controller.setupWebserver(port,function(err,express_webserver) {
   controller.createWebhookEndpoints(express_webserver)
 });
 
@@ -678,6 +787,33 @@ controller.on('outgoing_webhook',function(bot,message) {
 })
 ```
 
+#### controller.setupWebserver()
+| Argument | Description
+|---  |---
+| port | port for webserver
+| callback | callback function
+
+Setup an [Express webserver](http://expressjs.com/en/index.html) for
+use with `createwWebhookEndpoints()`
+
+If you need more than a simple webserver to receive webhooks,
+you should by all means create your own Express webserver!
+
+The callback function receives the Express object as a parameter,
+which may be used to add further web server routes.
+
+#### controller.createWebhookEndpoints()
+
+This function configures the route `http://_your_server_/slack/receive`
+to receive webhooks from Slack.
+
+This url should be used when configuring Slack.
+
+When a slash command is received from Slack, Botkit fires the `slash_command` event.
+
+When an outgoing webhook is recieved from Slack, Botkit fires the `outgoing_webhook` event.
+
+
 #### bot.replyPublic()
 | Argument | Description
 |---  |---
@@ -695,7 +831,7 @@ slash commands also support private, and delayed messages. See below.
 
 | Argument | Description
 |---  |---
-| src | source message as received from slash or webhook
+| src | source message as received from slash
 | reply | reply message (string or object)
 | callback | optional callback
 
@@ -704,7 +840,7 @@ slash commands also support private, and delayed messages. See below.
 
 | Argument | Description
 |---  |---
-| src | source message as received from slash or webhook
+| src | source message as received from slash
 | reply | reply message (string or object)
 | callback | optional callback
 
@@ -712,7 +848,7 @@ slash commands also support private, and delayed messages. See below.
 
 | Argument | Description
 |---  |---
-| src | source message as received from slash or webhook
+| src | source message as received from slash
 | reply | reply message (string or object)
 | callback | optional callback
 
@@ -720,7 +856,7 @@ slash commands also support private, and delayed messages. See below.
 
 ## Using the Slack Web API
 
-All (or nearly all) of Slack's current web api methods are supported
+All (or nearly all - they change constantly!) of Slack's current web api methods are supported
 using a syntax designed to match the endpoints themselves.
 
 If your bot has the appropriate scope, it may call [any of these method](https://api.slack.com/methods) using this syntax:
@@ -732,14 +868,8 @@ bot.api.channels.list({},function(err,response) {
 })
 ```
 
-## Included Examples
 
-[team_bot.js](../examples/team_bot.js) an example bot that can be connected to a single team. super useful for connecting internal tools and APIs to slack!
-
-[slackbutton_bot.js](../examples/slackbutton_bot.js) an example of using
-the Slack Button to offer a bot integration.
-
-[slackbutton_incomingwebhooks.js](../examples/slackbutton_incomingwebhooks.js) an example of using the Slack Button to offer an incoming webhook integration. This example also includes a simple form which allows you to broadcast a message to  any team who adds the integration.
+# Advanced Topics
 
 
 ## Storing Information
@@ -747,7 +877,7 @@ the Slack Button to offer a bot integration.
 ### Use built in JSON file storage
 
 Botkit has a built in storage system used to keep data
-on behalf of users and teams between sessions. Botkit uses this system automatically when storing information for Slack Button applications.
+on behalf of users and teams between sessions. Botkit uses this system automatically when storing information for Slack Button applications (see below).
 
 By default, Botkit will use [json-file-store](https://github.com/flosse/json-file-store) to keep data in JSON files in the filesystem of the computer where the bot is executed. (Note this will not work on Heroku or other hosting systems that do not let node applications write to the file system.)
 
@@ -796,30 +926,71 @@ var controller = botkit.slackbot({
 })
 ```
 
-# Other stuff
-
-#### How to identify what team your message came from
-```
-bot.identifyTeam(function(err,team_id) {
-
-})
-```
-
-
-#### How to identify the bot itself (for RTM only)
-```
-bot.identifyBot(function(err,identity) {
-  // identity contains...
-  // {name, id, team_id}
-})
-```
-
 
 ## Use the Slack Button
 
-This requires using oauth and the add to slack features.
+The [Slack Button](https://api.slack.com/docs/slack-button) is a way to offer a Slack
+integration as a service available to multiple teams. Botkit includes a framework
+on top of which Slack Button applications can be built.
 
-also requires storing provisioning info for teams!
+Slack button applications can use one or more of the [real time API](),
+[incoming webhook]() and [slash command]() integrations, which can be
+added *automatically* to a team using a special oauth scope.
+
+If special oauth scopes sounds scary, this is probably not for you!
+The Slack Button is useful for developers who want to offer a service
+to multiple teams.
+
+How many teams can a Slack button app built using Botkit handle?
+This will largely be dependent on the environment it is hosted in and the
+type of integrations used.  A reasonably well equipped host server should
+be able to easily handle _at least one hundred_ real time connections at once.
+
+To handle more than one hundred bots at once, [consider speaking to the
+creators of Botkit at Howdy.ai](http://howdy.ai)
+
+For Slack button applications, Botkit provides:
+
+* A simple webserver
+* OAuth Endpoints for login via Slack
+* Storage of API tokens and team data via built-in Storage
+* Events for when a team joins, a new integration is added, and others...
+
+See the [included examples](#included-examples) for several ready to use example apps.
+
+#### controller.configureSlackApp()
+
+| Argument | Description
+|---  |---
+| config | configuration object containing clientId, clientSecret, redirect_uri and scopes
+
+Configure Botkit to work with a Slack application.
+
+Get a clientId and clientSecret from [Slack's API site](https://api.slack.com/applications).
+Configure Slash command, incoming webhook, or bot user integrations on this site as well.
+
+Configuration must include:
+
+* clientId - Application clientId from Slack
+* clientSecret - Application clientSecret from Slack
+* redirect_uri - the base url of your application
+* scopes - an array of oauth permission scopes
+
+Slack has [_many, many_ oauth scopes](https://api.slack.com/docs/oauth-scopes)
+that can be combined in different ways. There are also [_special oauth scopes_
+used when requesting Slack Button integrations](https://api.slack.com/docs/slack-button).
+It is important to understand which scopes your application will need to function,
+as without the proper permission, your API calls will fail.
+
+#### controller.createOauthEndpoints()
+| Argument | Description
+|---  |---
+| webserver | an Express webserver Object
+| error_callback | function to handle errors that may occur during oauth
+
+Call this function to create two web urls that handle login via Slack.
+Once called, the resulting webserver will have two new routes: `http://_your_server_/login` and `http://_your_server_/oauth`. The second url will be used when configuring
+the "Redirect URI" field of your application on Slack's API site.
 
 
 ```
@@ -843,3 +1014,33 @@ controller.setupWebserver(process.env.port,function(err,webserver) {
 });
 
 ```
+
+
+#### How to identify what team your message came from
+```
+bot.identifyTeam(function(err,team_id) {
+
+})
+```
+
+
+#### How to identify the bot itself (for RTM only)
+```
+bot.identifyBot(function(err,identity) {
+  // identity contains...
+  // {name, id, team_id}
+})
+```
+
+
+#### Slack Button specific events:
+
+| Event | Description
+|--- |---
+| create_incoming_webhook |
+| create_bot |
+| update_team |
+| create_team |
+| create_user |
+| update_user |
+| oauth_error |
