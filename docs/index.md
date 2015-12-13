@@ -1,5 +1,5 @@
 # Botkit
-*Developer Friendly Tools For Building Bots*
+*Developer Friendly Tools For Building Bots* /
 *Your Plastic Pal Who's Fun to Be With*
 
 ---
