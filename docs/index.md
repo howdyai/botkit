@@ -128,6 +128,15 @@ These examples are included in the Botkit Github repo.
 
 [examples/slackbutton_incomingwebhooks.js](https://github.com/howdai/botkit/blob/master/examples/slackbutton_incomingwebhooks.js) an example of using the Slack Button to offer an incoming webhook integration. This example also includes a simple form which allows you to broadcast a message to any team who adds the integration.
 
+# Developing with Botkit
+
+Table of Contents
+
+* [Connecting Your Bot To Slack](#connecting-your-bot-to-slack)
+* [Receiving Messages](#receiving-messages)
+* [Sending Messages](#sending-messages)
+* [Working with Slack Integrations](#working-with-slack-integrations)
+* [Advanced Topics](#advanced-topics)
 
 ## Connecting Your Bot to Slack
 
@@ -141,7 +150,7 @@ This is particularly true if you store and use API tokens on behalf of users oth
 
 [Read Slack's Bot User documentation](https://api.slack.com/bot-users)
 
-### controller.spawn()
+#### controller.spawn()
 | Argument | Description
 |--- |---
 | config | Incoming message object
@@ -155,7 +164,7 @@ an environment variable.
 
 Controllers can also spawn bots that use [incoming webhooks](#incoming-webhooks).
 
-### bot.startRTM()
+#### bot.startRTM()
 | Argument | Description
 |--- |---
 | callback | _Optional_ Callback in the form function(err,bot,payload) { ... }
@@ -178,7 +187,7 @@ A successful connection the API will also cause a `rtm_open` event to be
 fired on the `controller` object.
 
 
-### bot.closeRTM()
+#### bot.closeRTM()
 
 Close the connection to the RTM. Once closed, an `rtm_close` event is fired
 on the `controller` object.
@@ -352,7 +361,7 @@ if more than one message needs to be sent.
 You may pass either a string, or a message object to the function. Message objects may contain
 any of the fields supported by [Slack's chat.postMessage](https://api.slack.com/methods/chat.postMessage) API.
 
-### bot.reply()
+#### bot.reply()
 
 | Argument | Description
 |--- |---
@@ -425,7 +434,7 @@ the user and the bot.
 
 ### Control Conversation Flow
 
-### conversation.say()
+#### conversation.say()
 | Argument | Description
 |---  |---
 | message   | String or message object
@@ -446,7 +455,7 @@ controller.hears(['hello world'],['direct_message','direct_mention','mention','a
 });
 ```
 
-### conversation.ask()
+#### conversation.ask()
 | Argument | Description
 |---  |---
 | message   | String or message object containing the question
@@ -477,7 +486,7 @@ This object can contain the following fields:
 | key | _String_ If set, the response will be stored and can be referenced using this key
 | multiple | _Boolean_ if true, support multi-line responses from the user (allow the user to respond several times and aggregate the response into a single multi-line value)
 
-#### Using conversation.ask with a callback:
+##### Using conversation.ask with a callback:
 
 ```
 controller.hears(['question me'],['direct_message','direct_mention','mention','ambient'],function(bot,message) {
@@ -497,7 +506,7 @@ controller.hears(['question me'],['direct_message','direct_mention','mention','a
 });
 ```
 
-#### Using conversation.ask with an array of callbacks:
+##### Using conversation.ask with an array of callbacks:
 
 ```
 controller.hears(['question me'],['direct_message','direct_mention','mention','ambient'],function(bot,message) {
@@ -552,7 +561,7 @@ controller.hears(['question me'],['direct_message','direct_mention','mention','a
 | bot.utterances.yes | Matches phrasess like yes, yeah, yup, ok and sure.
 | bot.utterances.no | Matches phrases like no, nah, nope
 
-##### Conversation Helper Functions
+##### Conversation Control Functions
 
 In order to direct the flow of the conversation, several helper functions
 are provided.  These functions should only be called from within a convo.ask
@@ -567,16 +576,9 @@ so that it is sent immediately, before any other queued messages.
 
 `convo.silentRepeat()` simply wait for another response without saying anything.
 
-`convo.next()` proceed to the next message in the conversatio.  *This must be called* at the end of each handler.
+`convo.next()` proceed to the next message in the conversation.  *This must be called* at the end of each handler.
 
-
-### Special Behaviors
-
-Delaying a Message
-
-Timeouts -- not currently exposed!
-
-### Handling End of Conversation
+##### Handling End of Conversation
 
 Conversations trigger events during the course of their life.  Currently,
 only two events are fired, and only one is very useful: end.
@@ -604,7 +606,7 @@ convo.on('end',function(convo) {
 });
 ```
 
-### convo.extractResponses()
+#### convo.extractResponses()
 
 Returns an object containing all of the responses a user sent during the course of a conversation.
 
@@ -613,7 +615,7 @@ var values = convo.extractResponses();
 var value = values.key;
 ```
 
-### convo.extractResponse()
+#### convo.extractResponse()
 
 Return one specific user response, identified by its key.
 
@@ -623,7 +625,7 @@ var value  = convo.extractResponse('key');
 
 ### Originating Messages
 
-### bot.say()
+#### bot.say()
 | Argument | Description
 |--- |---
 | message | A message object
@@ -853,7 +855,7 @@ slash commands also support private, and delayed messages. See below.
 
 
 
-## Using the Slack Web API
+### Using the Slack Web API
 
 All (or nearly all - they change constantly!) of Slack's current web api methods are supported
 using a syntax designed to match the endpoints themselves.
@@ -872,8 +874,6 @@ bot.api.channels.list({},function(err,response) {
 
 
 ## Storing Information
-
-### Use built in JSON file storage
 
 Botkit has a built in storage system used to keep data
 on behalf of users and teams between sessions. Botkit uses this system automatically when storing information for Slack Button applications (see below).
@@ -1014,8 +1014,7 @@ controller.setupWebserver(process.env.port,function(err,webserver) {
 
 ```
 
-
-#### How to identify what team your message came from
+### How to identify what team your message came from
 ```
 bot.identifyTeam(function(err,team_id) {
 
@@ -1023,7 +1022,7 @@ bot.identifyTeam(function(err,team_id) {
 ```
 
 
-#### How to identify the bot itself (for RTM only)
+### How to identify the bot itself (for RTM only)
 ```
 bot.identifyBot(function(err,identity) {
   // identity contains...
@@ -1032,7 +1031,7 @@ bot.identifyBot(function(err,identity) {
 ```
 
 
-#### Slack Button specific events:
+### Slack Button specific events:
 
 | Event | Description
 |--- |---
