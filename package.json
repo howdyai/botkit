@@ -2,7 +2,7 @@
   "name": "botkit",
   "version": "0.0.2",
   "description": "A toolkit for making bot applications for Slack",
-  "main": "Botkit.js",
+  "main": "lib/Botkit.js",
   "dependencies": {
     "body-parser": "^1.13.3",
     "express": "^4.13.3",
