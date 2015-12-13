@@ -67,7 +67,7 @@ Type: `/invite @<my bot>` to invite your bot into another channel.
 
 ## Core Concepts
 
-Bots built with botkit have a few key capabilities, which can be used
+Bots built with Botkit have a few key capabilities, which can be used
 to create clever, conversational applications. These capabilities
 map to the way real human people talk to each other.
 
@@ -75,10 +75,10 @@ Bots can [hear things](#receiving-messages). Bots can [say things and reply](#se
 
 With these two building blocks, almost any type of conversation can be created.
 
-To organize the things a bot says and does into useful units, botkit bots have a subsystem available for managing [multi-message conversations](#multi-message-replies-to-incoming-messages). Conversations add features like the ability to ask a question, queue several messages at once, and track when an interaction has ended.  Handy!
+To organize the things a bot says and does into useful units, Botkit bots have a subsystem available for managing [multi-message conversations](#multi-message-replies-to-incoming-messages). Conversations add features like the ability to ask a question, queue several messages at once, and track when an interaction has ended.  Handy!
 
 After a bot has been told what to listen for and how to respond,
-it is ready to be connected to a stream of incoming messages. Currently, botkit can handle [3 different types of incoming messages from Slack](#connecting-your-bot-to-slack).
+it is ready to be connected to a stream of incoming messages. Currently, Botkit can handle [3 different types of incoming messages from Slack](#connecting-your-bot-to-slack).
 
 
 ## Basic Usage
@@ -656,7 +656,7 @@ integration.  In addition to this type of integration, Botkit also supports:
 
 
 ```
-var botkit = require('botkit');
+var Botkit = require('botkit');
 var controller = botkit.slackbot({})
 
 var bot = controller.spawn({

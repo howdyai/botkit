@@ -1,6 +1,6 @@
 controller object
 
-  controller.spawn
+  * controller.spawn
 
   * controller.on
   * controller.hears
@@ -45,19 +45,19 @@ slack bot object:
   * bot.startRTM
   * bot.closeRTM
 
-  bot.sendWebhook
-  bot.configureIncomingWebhook
+  * bot.sendWebhook
+  * bot.configureIncomingWebhook
 
-  bot.api
+  * bot.api
 
 slack app controller:
 
   controller.configureSlackApp
 
-  controller.setupWebserver
+  * controller.setupWebserver
   controller.createHomepageEndpoint
-  controller.createWebhookEndpoints
-  controller.createOauthEndpoints
+  * controller.createWebhookEndpoints
+  * controller.createOauthEndpoints
   controller.getAuthorizeURL
 
   controller.saveTeam
