@@ -1,5 +1,54 @@
-/* Uses the slack button feature to offer incoming webhooks to multiple teams */
-var Botkit = require('../Botkit.js');
+/*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+          ______     ______     ______   __  __     __     ______
+          /\  == \   /\  __ \   /\__  _\ /\ \/ /    /\ \   /\__  _\
+          \ \  __<   \ \ \/\ \  \/_/\ \/ \ \  _"-.  \ \ \  \/_/\ \/
+          \ \_____\  \ \_____\    \ \_\  \ \_\ \_\  \ \_\    \ \_\
+           \/_____/   \/_____/     \/_/   \/_/\/_/   \/_/     \/_/
+
+
+This is a sample Slack Button application that allows the application
+to post messages into Slack.
+
+This bot demonstrates many of the core features of Botkit:
+
+* Authenticate users with Slack using OAuth
+* Receive messages using the slash_command event
+* Reply to Slash command both publicly and privately
+
+# RUN THE APP:
+
+  Create a Slack app. Make sure to configure at least one Slash command!
+
+    -> https://api.slack.com/applications/new
+
+  Run your bot from the command line:
+
+    clientId=<my client id> clientSecret=<my client secret> port=3000 node bot.js
+
+# USE THE APP
+
+  Add the app to your Slack by visiting the login page:
+
+    -> http://localhost:3000/login
+
+  After you've added the app, send a message using the SUPER INSECURE FORM.
+  This form is included as an example only, and should definitely not be
+  left in place if you use this code to start your own project.
+
+  Send a message to every team who has added your sample app:
+
+    -> http://localhost:3000/
+
+
+# EXTEND THE APP:
+
+  Botkit is has many features for building cool and useful bots!
+
+  Read all about it here:
+
+    -> http://howdy.ai/botkit
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/var Botkit = require('../lib/Botkit.js');
 
 if (!process.env.clientId || !process.env.clientSecret || !process.env.port) {
   console.log('Error: Specify clientId clientSecret and port in environment');

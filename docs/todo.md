@@ -14,9 +14,7 @@ These items still need to be addressed!
 # Docs
 ---
 * document token replacement (identity, responses, origin, vars)
-
 * how to create your own custom storage
-* What functions need to be overridden to handle the multi team stuff?
 
 
 
@@ -29,3 +27,4 @@ These items still need to be addressed!
 * how to identify the team a message is from
 * can bot.say be made to have 1 param?
 * how to identify the bot itself
+* What functions need to be overridden to handle the multi team stuff?
