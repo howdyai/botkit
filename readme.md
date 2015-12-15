@@ -123,13 +123,13 @@ controller.hears('hello','direct_message,direct_mention,mention',function(bot,me
 
 These examples are included in the Botkit [Github repo](https://github.com/howdyai/botkit).
 
-[bot.js](https://github.com/howdai/botkit/blob/master/bot.js) An example bot that can be connected to your team. Useful as a basis for creating your first bot!
+[bot.js](https://github.com/howdyai/botkit/blob/master/bot.js) An example bot that can be connected to your team. Useful as a basis for creating your first bot!
 
-[examples/demo_bot.js](https://github.com/howdai/botkit/blob/master/examples/demo_bot.js) another example bot that uses different ways to send and receive messages.
+[examples/demo_bot.js](https://github.com/howdyai/botkit/blob/master/examples/demo_bot.js) another example bot that uses different ways to send and receive messages.
 
-[examples/slackbutton_bot.js](https://github.com/howdai/botkit/blob/master/examples/slackbutton_bot.js) an example of using the Slack Button to offer a bot integration.
+[examples/slackbutton_bot.js](https://github.com/howdyai/botkit/blob/master/examples/slackbutton_bot.js) an example of using the Slack Button to offer a bot integration.
 
-[examples/slackbutton_incomingwebhooks.js](https://github.com/howdai/botkit/blob/master/examples/slackbutton_incomingwebhooks.js) an example of using the Slack Button to offer an incoming webhook integration. This example also includes a simple form which allows you to broadcast a message to any team who adds the integration.
+[examples/slackbutton_incomingwebhooks.js](https://github.com/howdyai/botkit/blob/master/examples/slackbutton_incomingwebhooks.js) an example of using the Slack Button to offer an incoming webhook integration. This example also includes a simple form which allows you to broadcast a message to any team who adds the integration.
 
 # Developing with Botkit
 
@@ -919,7 +919,7 @@ controller.storage.channels.save(channel_data,function(err) { ... })
 If you want to use a database or do something else with your data,
 you can write your own storage module and pass it in.
 
-Make sure your module returns an object with all the methods. See [simple_storage.js](https://github.com/howdai/botkit/blob/master/lib/simple_storage.js) for an example of how it is done!
+Make sure your module returns an object with all the methods. See [simple_storage.js](https://github.com/howdyai/botkit/blob/master/lib/simple_storage.js) for an example of how it is done!
 
 Then, use it when you create your bot:
 ```
