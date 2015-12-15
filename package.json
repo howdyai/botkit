@@ -1,0 +1,33 @@
+{
+  "name": "botkit",
+  "version": "0.0.4",
+  "description": "Building blocks for Building Bots",
+  "main": "lib/Botkit.js",
+  "dependencies": {
+    "body-parser": "^1.13.3",
+    "express": "^4.13.3",
+    "jfs": "^0.2.6",
+    "mustache": "^2.1.3",
+    "request": "^2.60.0",
+    "ws": "^0.7.2"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/howdyai/botkit.git"
+  },
+  "bugs": {
+    "url": "https://github.com/howdyai/botkit/issues"
+  },
+  "homepage": "http://howdy.ai/botkit",
+  "keywords": [
+    "bots",
+    "chatbots",
+    "slack"
+  ],
+  "author": "ben@xoxco.com",
+  "license": "MIT"
+}
