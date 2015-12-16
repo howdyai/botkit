@@ -17,14 +17,14 @@ run from a central location, and be used by many teams at the same time.
 
 Botkit is available via NPM.
 
-```
+```bash
 npm install --save botkit
 ```
 
 You can also check out Botkit directly from Git.
 If you want to use the example code and included bots, it may be preferable to use Github over NPM.
 
-```
+```bash
 git clone git@github.com:howdyai/botkit.git
 ```
 
@@ -98,7 +98,7 @@ the API, the bot user will appear online in Slack, and can then be used to
 send messages and conduct conversations with users. They are called into action by the `controller` when firing event handlers.
 
 
-```
+```javascript
 var Botkit = require('botkit');
 
 var controller = Botkit.slackbot({
@@ -196,7 +196,7 @@ Close the connection to the RTM. Once closed, an `rtm_close` event is fired
 on the `controller` object.
 
 
-```
+```javascript
 var Botkit = require('Botkit');
 
 var controller = Botkit.slackbot();
@@ -224,7 +224,7 @@ It is also possible to bind event handlers directly to any of the enormous numbe
 
 You can receive and handle any of the [native events thrown by slack](https://api.slack.com/events).  
 
-```
+```javascript
 controller.on('channel_joined',function(bot,message) {
 
   // message contains data sent by slack
@@ -237,7 +237,7 @@ controller.on('channel_joined',function(bot,message) {
 You can also receive and handle a long list of additional events caused
 by messages that contain a subtype field, [as listed here](https://api.slack.com/events/message)
 
-```
+```javascript
 controller.on('channel_leave',function(bot,message) {
 
   // message format matches this:
@@ -293,7 +293,7 @@ These message events can be handled using by attaching an event handler to the m
 These event handlers take two parameters: the name of the event, and a callback function which is invoked whenever the event occurs.
 The callback function receives a bot object, which can be used to respond to the message, and a message object.
 
-```
+```javascript
 // reply to @bot hello
 controller.on('direct_mention',function(bot,message) {
 
@@ -325,7 +325,7 @@ specifies the keywords to match.
 | types  | An _array_ or a _comma separated string_ of the message events in which to look for the patterns
 | callback | callback function that receives a message object
 
-```
+```javascript
 controller.hears(['keyword','^pattern$'],['direct_message','direct_mention','mention','ambient'],function(bot,message) {
 
   // do something to respond to message
@@ -372,7 +372,7 @@ any of the fields supported by [Slack's chat.postMessage](https://api.slack.com/
 | reply | _String_ or _Object_ Outgoing response
 | callback | _Optional_ Callback in the form function(err,response) { ... }
 
-```
+```javascript
 controller.hears(['keyword','^pattern$'],['direct_message','direct_mention','mention'],function(bot,message) {
 
   // do something to respond to message
@@ -444,7 +444,7 @@ the user and the bot.
 
 Call convo.say() several times in a row to queue messages inside the conversation. Only one message will be sent at a time, in the order they are queued.
 
-```
+```javascript
 controller.hears(['hello world'],['direct_message','direct_mention','mention','ambient'],function(bot,message) {
 
   // start a conversation to handle this response.
@@ -491,7 +491,7 @@ This object can contain the following fields:
 
 ##### Using conversation.ask with a callback:
 
-```
+```javascript
 controller.hears(['question me'],['direct_message','direct_mention','mention','ambient'],function(bot,message) {
 
   // start a conversation to handle this response.
@@ -511,7 +511,7 @@ controller.hears(['question me'],['direct_message','direct_mention','mention','a
 
 ##### Using conversation.ask with an array of callbacks:
 
-```
+```javascript
 controller.hears(['question me'],['direct_message','direct_mention','mention','ambient'],function(bot,message) {
 
   // start a conversation to handle this response.
@@ -590,7 +590,7 @@ Conversations end naturally when the last message has been sent and no messages 
 In this case, the value of `convo.status` will be `completed`. Other values for this field include `active`, `stopped`, and
 `timeout`.
 
-```
+```javascript
 convo.on('end',function(convo) {
 
   if (convo.status=='completed') {
@@ -613,7 +613,7 @@ convo.on('end',function(convo) {
 
 Returns an object containing all of the responses a user sent during the course of a conversation.
 
-```
+```javascript
 var values = convo.extractResponses();
 var value = values.key;
 ```
@@ -622,7 +622,7 @@ var value = values.key;
 
 Return one specific user response, identified by its key.
 
-```
+```javascript
 var value  = convo.extractResponse('key');
 ```
 
@@ -637,7 +637,7 @@ var value  = convo.extractResponse('key');
 Note: If your primary need is to spontaneously send messages rather than
 respond to incoming messages, you may want to use [Slack's incoming webhooks feature](#incoming-webhooks) rather than the real time API.
 
-```
+```javascript
 bot.say(
   {
     text: 'my message text',
@@ -659,7 +659,7 @@ integration.  In addition to this type of integration, Botkit also supports:
 * The Slack Button - a way to build Slack applications that can be used by multiple teams
 
 
-```
+```javascript
 var Botkit = require('botkit');
 var controller = Botkit.slackbot({})
 
@@ -731,7 +731,7 @@ Pass `sendWebhook` an object that contains at least a `text` field.
  This object may also contain other fields defined [by Slack](https://api.slack.com/incoming-webhooks) which can alter the
  appearance of your message.
 
-```
+```javascript
 var bot = controller.spawn({
   incoming_webhook: {
     url: <my_webhook_url>
@@ -770,7 +770,7 @@ and properly configured within Slack.
 
 [Set up a Slash command](https://xoxco.slack.com/services/new/slash-commands)
 
-```
+```javascript
 controller.setupWebserver(port,function(err,express_webserver) {
   controller.createWebhookEndpoints(express_webserver)
 });
@@ -865,7 +865,7 @@ using a syntax designed to match the endpoints themselves.
 
 If your bot has the appropriate scope, it may call [any of these method](https://api.slack.com/methods) using this syntax:
 
-```
+```javascript
 bot.api.channels.list({},function(err,response) {
 
 
@@ -889,7 +889,7 @@ whatever data you like to any of these, as long as it has an
 ID field, which should be a Slack unique id.
 
 
-```
+```javascript
 var controller = Botkit.slackbot({
   json_file_store: 'path_to_json_database'
 })
@@ -922,7 +922,7 @@ you can write your own storage module and pass it in.
 Make sure your module returns an object with all the methods. See [simple_storage.js](https://github.com/howdyai/botkit/blob/master/lib/simple_storage.js) for an example of how it is done!
 
 Then, use it when you create your bot:
-```
+```javascript
 var controller = Botkit.slackbot({
   storage: my_storage_provider
 })
@@ -995,7 +995,7 @@ Once called, the resulting webserver will have two new routes: `http://_your_ser
 the "Redirect URI" field of your application on Slack's API site.
 
 
-```
+```javascript
 var Botkit = require('botkit');
 var controller = Botkit.slackbot();
 
@@ -1019,7 +1019,7 @@ controller.setupWebserver(process.env.port,function(err,webserver) {
 ```
 
 ### How to identify what team your message came from
-```
+```javascript
 bot.identifyTeam(function(err,team_id) {
 
 })
@@ -1027,7 +1027,7 @@ bot.identifyTeam(function(err,team_id) {
 
 
 ### How to identify the bot itself (for RTM only)
-```
+```javascript
 bot.identifyBot(function(err,identity) {
   // identity contains...
   // {name, id, team_id}
