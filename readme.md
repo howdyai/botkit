@@ -561,7 +561,7 @@ controller.hears(['question me'],['direct_message','direct_mention','mention','a
 
 | Pattern Name | Description
 |--- |---
-| bot.utterances.yes | Matches phrasess like yes, yeah, yup, ok and sure.
+| bot.utterances.yes | Matches phrases like yes, yeah, yup, ok and sure.
 | bot.utterances.no | Matches phrases like no, nah, nope
 
 ##### Conversation Control Functions
