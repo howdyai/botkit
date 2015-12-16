@@ -29,7 +29,7 @@ git clone git@github.com:howdyai/botkit.git
 ```
 
 ## Getting Started
-​
+
 1) Install Botkit
 
 2) First make a bot integration inside of your Slack channel. Go here:
