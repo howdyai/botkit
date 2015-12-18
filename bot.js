@@ -86,7 +86,7 @@ controller.hears(['hello','hi'],'direct_message,direct_mention,mention',function
     name: 'robot_face',
   },function(err,res) {
     if (err) {
-      bot.log("Failed to add emoji reaction :(",err);
+      bot.botkit.log("Failed to add emoji reaction :(",err);
     }
   });
 
