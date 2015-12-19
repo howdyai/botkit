@@ -895,17 +895,17 @@ var controller = Botkit.slackbot({
 });
 
 controller.storage.teams.save(team_data,function(err) { ... });
-controller.storage.teams.get(id,function(err,team) {
+controller.storage.teams.get(id,function(err,team_data) {
  ...
 });
 
 controller.storage.users.save(user_data,function(err) { ... });
-controller.storage.users.get(id,function(err,user) {
+controller.storage.users.get(id,function(err,user_data) {
  ...
 });
 
 controller.storage.channels.save(channel_data,function(err) { ... });
-controller.storage.channels.get(id,function(err,channel) {
+controller.storage.channels.get(id,function(err,channel_data) {
  ...
 });
 ```
