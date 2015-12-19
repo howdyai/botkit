@@ -892,26 +892,22 @@ ID field, which should be a Slack unique id.
 ```javascript
 var controller = Botkit.slackbot({
   json_file_store: 'path_to_json_database'
-})
+});
 
+controller.storage.teams.save(team_data,function(err) { ... });
 controller.storage.teams.get(id,function(err,team) {
+ ...
+});
 
-})
-
-controller.storage.teams.save(team_data,function(err) { ... })
-
+controller.storage.users.save(user_data,function(err) { ... });
 controller.storage.users.get(id,function(err,user) {
+ ...
+});
 
-})
-
-controller.storage.users.save(user_data,function(err) { ... })
-
+controller.storage.channels.save(channel_data,function(err) { ... });
 controller.storage.channels.get(id,function(err,channel) {
-
-})
-
-controller.storage.channels.save(channel_data,function(err) { ... })
-
+ ...
+});
 ```
 
 ### Write your own storage provider
