@@ -900,7 +900,6 @@ controller.storage.channels.get(id,function(err,channel_data) {...});
 ```
 
 Note that save must be passed an object with an id. It is recommended to use the team/user/channel id for this purpose.
-You can pass in whatever data you like to any of these, as long as it has an ID field, which should be a Slack unique id.
 
 ### Writing your own storage provider
 
