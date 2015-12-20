@@ -881,33 +881,46 @@ bot.api.channels.list({},function(err,response) {
 Botkit has a built in storage system used to keep data
 on behalf of users and teams between sessions. Botkit uses this system automatically when storing information for Slack Button applications (see below).
 
-By default, Botkit will use [json-file-store](https://github.com/flosse/json-file-store) to keep data in JSON files in the filesystem of the computer where the bot is executed. (Note this will not work on Heroku or other hosting systems that do not let node applications write to the file system.)
+By default, Botkit will use [json-file-store](https://github.com/flosse/json-file-store) to keep data in JSON files in the filesystem of the computer where the bot is executed. (Note this will not work on Heroku or other hosting systems that do not let node applications write to the file system.) Initialize this system when you create the bot:
 
-Support for freeform storage for teams, users and channels.
-Basically this is a key value store. You can pass in
+
+Support for freeform storage on a team-by-team, user-by-user, and channel-by-channel basis.
+Basically this is a key value store. 
+
+These objects must include an id by which they can be looked up.
+It is recommended to use the team/user/channel id for this purpose.
+You can pass in
 whatever data you like to any of these, as long as it has an
 ID field, which should be a Slack unique id.
 
+Storage module for bots.
+Supports storage of data on a team-by-team, user-by-user, and chnnel-by-channel basis.
+save can be used to store arbitrary object.
+
+Example usage of save:
+controller.storage.teams.save({id: message.team, foo:"bar"}, function(err){
+  if (err)
+    console.log(err)
+});
+get looks up an object by id.
+Example usage of get:
+controller.storage.teams.get(message.team, function(err, team_data){
+  if (err)
+    console.log(err)
+  else
+    console.log(team_data)
+});
+```
 
 ```javascript
-var controller = Botkit.slackbot({
-  json_file_store: 'path_to_json_database'
-});
-
 controller.storage.teams.save(team_data,function(err) { ... });
-controller.storage.teams.get(id,function(err,team_data) {
- ...
-});
+controller.storage.teams.get(id,function(err,team_data) {...});
 
 controller.storage.users.save(user_data,function(err) { ... });
-controller.storage.users.get(id,function(err,user_data) {
- ...
-});
+controller.storage.users.get(id,function(err,user_data) {...});
 
 controller.storage.channels.save(channel_data,function(err) { ... });
-controller.storage.channels.get(id,function(err,channel_data) {
- ...
-});
+controller.storage.channels.get(id,function(err,channel_data) {...});
 ```
 
 ### Write your own storage provider
