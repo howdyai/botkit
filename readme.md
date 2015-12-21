@@ -890,7 +890,23 @@ bot.api.channels.list({},function(err,response) {
 
 ## Storing Information
 
+<<<<<<< b008d5213f9ba6affac44fdeeffde2014ce8c337
 Botkit has a built in storage system used to keep data on behalf of users and teams between sessions. Botkit uses this system automatically when storing information for Slack Button applications (see below).
+=======
+Botkit has a built in storages systems used to keep data
+on behalf of users and teams between sessions. Botkit uses this system automatically when storing information for Slack Button applications (see below).
+
+By default, Botkit will use [json-file-store](https://github.com/flosse/json-file-store) to keep data in JSON files in the filesystem of the computer where the bot is executed. (Note this will not work on Heroku or other hosting systems that do not let node applications write to the file system.)
+
+There is also a simple Redis storage to keep data in Redis hashes sets.
+
+Support for freeform storage for teams, users and channels.
+Basically this is a key value store. You can pass in
+whatever data you like to any of these, as long as it has an
+ID field, which should be a Slack unique id.
+
+- json-file-store
+>>>>>>> added simple Redis storage. Moved storage classes to storages/ subdir
 
 By default, Botkit will use [json-file-store](https://github.com/flosse/json-file-store) to keep data in JSON files in the filesystem of the computer where the bot is executed. (Note this will not work on Heroku or other hosting systems that do not let node applications write to the file system.) Initialize this system when you create the bot:
 ```javascript
