@@ -222,7 +222,7 @@ for more information about listening for and responding to messages.
 
 It is also possible to bind event handlers directly to any of the enormous number of native Slack events, as well as a handful of custom events emitted by Botkit.
 
-You can receive and handle any of the [native events thrown by slack](https://api.slack.com/events).  
+You can receive and handle any of the [native events thrown by slack](https://api.slack.com/events).
 
 ```javascript
 controller.on('channel_joined',function(bot,message) {
@@ -522,7 +522,7 @@ controller.hears(['question me'],['direct_message','direct_mention','mention','a
         pattern: 'done',
         callback: function(response,convo) {
           convo.say('OK you are done!');
-          convo.next();          
+          convo.next();
         }
       },
       {
@@ -960,7 +960,7 @@ See the [included examples](#included-examples) for several ready to use example
 
 | Argument | Description
 |---  |---
-| config | configuration object containing clientId, clientSecret, redirect_uri and scopes
+| config | configuration object containing clientId, clientSecret, clientRedirectUri and scopes
 
 Configure Botkit to work with a Slack application.
 
@@ -971,7 +971,7 @@ Configuration must include:
 
 * clientId - Application clientId from Slack
 * clientSecret - Application clientSecret from Slack
-* redirect_uri - the base url of your application
+* clientRedirectUri - the base url of your application
 * scopes - an array of oauth permission scopes
 
 Slack has [_many, many_ oauth scopes](https://api.slack.com/docs/oauth-scopes)
@@ -998,7 +998,7 @@ var controller = Botkit.slackbot();
 controller.configureSlackApp({
   clientId: process.env.clientId,
   clientSecret: process.env.clientSecret,
-  redirect_uri: 'http://localhost:3002',
+  clientRedirectUri: 'http://localhost:3002',
   scopes: ['incoming-webhook','team:read','users:read','channels:read','im:read','im:write','groups:read','emoji:read','chat:write:bot']
 });
 
