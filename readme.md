@@ -336,6 +336,16 @@ controller.hears(['keyword','^pattern$'],['direct_message','direct_mention','men
 });
 ```
 
+```javascript
+controller.hears('open the (.*) doors',['direct_message','direct_mention','mention','ambient'],function(bot,message) {
+  var doorType = message.match[1];
+  if (doorType === 'back') {
+    return bot.reply(message, 'I cannot do that');
+  }
+  return bot.reply(message, 'Okay');
+});
+```
+
 ## Sending Messages
 
 Bots have to send messages to deliver information and present an interface for their
