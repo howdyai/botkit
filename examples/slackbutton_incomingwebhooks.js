@@ -23,7 +23,7 @@ This bot demonstrates many of the core features of Botkit:
 
   Run your bot from the command line:
 
-    clientId=<my client id> clientSecret=<my client secret> port=3000 node bot.js
+    clientId=<my client id> clientSecret=<my client secret> clientRedirectUri=<my client redirect uri> port=3000 node bot.js
 
 # USE THE APP
 
@@ -51,7 +51,7 @@ This bot demonstrates many of the core features of Botkit:
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 var Botkit = require('../lib/Botkit.js');
 
-if (!process.env.clientId || !process.env.clientSecret || !process.env.port) {
+if (!process.env.clientId || !process.env.clientSecret || !process.env.port || !process.env.clientRedirectUri) {
   console.log('Error: Specify clientId clientSecret and port in environment');
   process.exit(1);
 }
@@ -62,6 +62,7 @@ var controller = Botkit.slackbot({
   {
     clientId: process.env.clientId,
     clientSecret: process.env.clientSecret,
+    clientRedirectUri: process.env.clientRedirectUri,
     scopes: ['incoming-webhook'],
   }
 );
