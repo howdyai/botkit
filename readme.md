@@ -222,7 +222,7 @@ for more information about listening for and responding to messages.
 
 It is also possible to bind event handlers directly to any of the enormous number of native Slack events, as well as a handful of custom events emitted by Botkit.
 
-You can receive and handle any of the [native events thrown by slack](https://api.slack.com/events).  
+You can receive and handle any of the [native events thrown by slack](https://api.slack.com/events).
 
 ```javascript
 controller.on('channel_joined',function(bot,message) {
@@ -333,6 +333,16 @@ controller.hears(['keyword','^pattern$'],['direct_message','direct_mention','men
   // https://api.slack.com/events/message
   bot.reply(message,'You used a keyword!');
 
+});
+```
+
+```javascript
+controller.hears('open the (.*) doors',['direct_message','direct_mention','mention','ambient'],function(bot,message) {
+  var doorType = message.match[1];
+  if (doorType === 'back') {
+    return bot.reply(message, 'I cannot do that');
+  }
+  return bot.reply(message, 'Okay');
 });
 ```
 
@@ -522,7 +532,7 @@ controller.hears(['question me'],['direct_message','direct_mention','mention','a
         pattern: 'done',
         callback: function(response,convo) {
           convo.say('OK you are done!');
-          convo.next();          
+          convo.next();
         }
       },
       {
