@@ -4,12 +4,12 @@
   "description": "Building blocks for Building Bots",
   "main": "lib/Botkit.js",
   "dependencies": {
-    "body-parser": "^1.13.3",
+    "body-parser": "^1.14.2",
     "express": "^4.13.3",
     "jfs": "^0.2.6",
-    "mustache": "^2.1.3",
-    "request": "^2.60.0",
-    "ws": "^0.7.2"
+    "mustache": "^2.2.1",
+    "request": "^2.67.0",
+    "ws": "^0.8.1"
   },
   "devDependencies": {
     "node-env-file": "^0.1.8",
