@@ -103,6 +103,7 @@ var Botkit = require('botkit');
 
 var controller = Botkit.slackbot({
   debug: false
+  //include "log: false" to disable logging
 });
 
 // connect the bot to a stream of messages
@@ -222,7 +223,7 @@ for more information about listening for and responding to messages.
 
 It is also possible to bind event handlers directly to any of the enormous number of native Slack events, as well as a handful of custom events emitted by Botkit.
 
-You can receive and handle any of the [native events thrown by slack](https://api.slack.com/events).  
+You can receive and handle any of the [native events thrown by slack](https://api.slack.com/events).
 
 ```javascript
 controller.on('channel_joined',function(bot,message) {
@@ -522,7 +523,7 @@ controller.hears(['question me'],['direct_message','direct_mention','mention','a
         pattern: 'done',
         callback: function(response,convo) {
           convo.say('OK you are done!');
-          convo.next();          
+          convo.next();
         }
       },
       {
