@@ -878,39 +878,30 @@ bot.api.channels.list({},function(err,response) {
 
 ## Storing Information
 
-Botkit has a built in storage system used to keep data
-on behalf of users and teams between sessions. Botkit uses this system automatically when storing information for Slack Button applications (see below).
+Botkit has a built in storage system used to keep data on behalf of users and teams between sessions. Botkit uses this system automatically when storing information for Slack Button applications (see below).
 
-By default, Botkit will use [json-file-store](https://github.com/flosse/json-file-store) to keep data in JSON files in the filesystem of the computer where the bot is executed. (Note this will not work on Heroku or other hosting systems that do not let node applications write to the file system.)
-
-Support for freeform storage for teams, users and channels.
-Basically this is a key value store. You can pass in
-whatever data you like to any of these, as long as it has an
-ID field, which should be a Slack unique id.
-
-
+By default, Botkit will use [json-file-store](https://github.com/flosse/json-file-store) to keep data in JSON files in the filesystem of the computer where the bot is executed. (Note this will not work on Heroku or other hosting systems that do not let node applications write to the file system.) Initialize this system when you create the bot:
 ```javascript
 var controller = Botkit.slackbot({
   json_file_store: 'path_to_json_database'
 });
-
-controller.storage.teams.save(team_data,function(err) { ... });
-controller.storage.teams.get(id,function(err,team_data) {
- ...
-});
-
-controller.storage.users.save(user_data,function(err) { ... });
-controller.storage.users.get(id,function(err,user_data) {
- ...
-});
-
-controller.storage.channels.save(channel_data,function(err) { ... });
-controller.storage.channels.get(id,function(err,channel_data) {
- ...
-});
 ```
 
-### Write your own storage provider
+This system supports freeform storage on a team-by-team, user-by-user, and channel-by-channel basis. All access to this system is through ```controller.storage.[teams/users/channels].save``` and ```controller.storage.[teams/users/channels].get```. Basically it is a key value store. Example usage:
+```javascript
+controller.storage.teams.save({id: message.team, foo:"bar"},function(err) { ... });
+controller.storage.teams.get(id,function(err,team_data) {...});
+
+controller.storage.users.save({id: message.user, foo:"bar"},function(err) { ... });
+controller.storage.users.get(id,function(err,user_data) {...});
+
+controller.storage.channels.save({id: message.channel, foo:"bar"},function(err) { ... });
+controller.storage.channels.get(id,function(err,channel_data) {...});
+```
+
+Note that save must be passed an object with an id. It is recommended to use the team/user/channel id for this purpose.
+
+### Writing your own storage provider
 
 If you want to use a database or do something else with your data,
 you can write your own storage module and pass it in.
