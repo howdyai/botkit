@@ -887,26 +887,31 @@ var controller = Botkit.slackbot({
 });
 ```
 
-This system supports freeform storage on a team-by-team, user-by-user, and channel-by-channel basis. All access to this system is through ```controller.storage.[teams/users/channels].save``` and ```controller.storage.[teams/users/channels].get```. Basically it is a key value store. Example usage:
+This system supports freeform storage on a team-by-team, user-by-user, and channel-by-channel basis. Basically ```controller.storage``` is a key value store. All access to this system is through the following nine functions. Example usage:
 ```javascript
-controller.storage.teams.save({id: message.team, foo:"bar"},function(err) { ... });
-controller.storage.teams.get(id,function(err,team_data) {...});
+controller.storage.users.save({id: message.user, foo:"bar"}, function(err) { ... });
+controller.storage.users.get(id, function(err, user_data) {...});
+controller.storage.users.all(function(err, all_user_data) {...});
 
-controller.storage.users.save({id: message.user, foo:"bar"},function(err) { ... });
-controller.storage.users.get(id,function(err,user_data) {...});
+controller.storage.channels.save({id: message.channel, foo:"bar"}, function(err) { ... });
+controller.storage.channels.get(id, function(err, channel_data) {...});
+controller.storage.channels.all(function(err, all_channel_data) {...});
 
-controller.storage.channels.save({id: message.channel, foo:"bar"},function(err) { ... });
-controller.storage.channels.get(id,function(err,channel_data) {...});
+controller.storage.teams.save({id: message.team, foo:"bar"}, function(err) { ... });
+controller.storage.teams.get(id, function(err, team_data) {...});
+controller.storage.teams.all(function(err, all_team_data) {...});
 ```
 
 Note that save must be passed an object with an id. It is recommended to use the team/user/channel id for this purpose.
+```[user/channel/team]_data``` will always be an object while ```all_[user/channel/team]_data``` will always be a list of objects.
 
-### Writing your own storage provider
+### Writing your own storage module
 
 If you want to use a database or do something else with your data,
 you can write your own storage module and pass it in.
 
-Make sure your module returns an object with all the methods. See [simple_storage.js](https://github.com/howdyai/botkit/blob/master/lib/simple_storage.js) for an example of how it is done!
+Make sure your module returns an object with all the methods. See [simple_storage.js](https://github.com/howdyai/botkit/blob/master/lib/storage/simple_storage.js) for an example of how it is done!
+Make sure your module passes the test in [storage_test.js](https://github.com/howdyai/botkit/blob/master/lib/storage/storage_test.js).
 
 Then, use it when you create your bot:
 ```javascript
