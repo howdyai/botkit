@@ -103,6 +103,7 @@ var Botkit = require('botkit');
 
 var controller = Botkit.slackbot({
   debug: false
+  //include "log: false" to disable logging
 });
 
 // connect the bot to a stream of messages
