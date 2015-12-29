@@ -19,6 +19,21 @@ test('sanity', t=> {
 test('can start and then stop a bot', t=> {
 
   var controller = Botkit.slackbot({debug:false})
+  t.plan(3);
+
+  controller.on('rtm_open',function(bot) {
+    t.ok(bot,'rtm_open fired');
+  });
+
+  controller.on('rtm_close',function(bot) {
+
+    t.ok(bot,'disconnected successfully');
+
+    controller.shutdown()
+    t.end()
+
+  });
+
   var bot = controller.spawn(token).startRTM((err, bot, payload)=> {
 
     if (err) {
@@ -27,13 +42,27 @@ test('can start and then stop a bot', t=> {
     else {
       t.ok(bot, 'got the bot')
       console.log(Object.keys(bot))
+      bot.closeRTM()
+
     }
 
-    // does not exit!
-    bot.rtm.terminate()
-    bot.closeRTM()
-    controller.shutdown()
-
-    t.end()
   })
+})
+
+test('failed bot properly fails',t=>{
+
+  var controller = Botkit.slackbot({debug:false})
+  var bot = controller.spawn('1231').startRTM((err,bot,payload)=>{
+
+    if (err) {
+      t.ok(err,'got an error');
+      console.log(err);
+    } else {
+      t.fail('Should have errored!','Should have errored!');
+    }
+    controller.shutdown();
+    t.end();
+
+  });
+
 })
