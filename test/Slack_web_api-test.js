@@ -18,7 +18,7 @@ test('sanity', t=> {
 
 test('can start and then stop a bot', t=> {
 
-  var controller = Botkit.slackbot({debug:false}) 
+  var controller = Botkit.slackbot({debug:false})
   var bot = controller.spawn(token).startRTM((err, bot, payload)=> {
 
     if (err) {
@@ -26,14 +26,14 @@ test('can start and then stop a bot', t=> {
     }
     else {
       t.ok(bot, 'got the bot')
-      console.log(Object.keys(bot), payload)
+      console.log(Object.keys(bot))
     }
 
     // does not exit!
     bot.rtm.terminate()
     bot.closeRTM()
+    controller.shutdown()
 
     t.end()
   })
 })
-
