@@ -63,6 +63,7 @@ if (!process.env.token) {
 
 var controller = Botkit.slackbot({
  debug: false,
+ log: false
 });
 
 controller.spawn({
