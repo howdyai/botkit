@@ -968,7 +968,7 @@ See the [included examples](#included-examples) for several ready to use example
 
 | Argument | Description
 |---  |---
-| config | configuration object containing clientId, clientSecret, redirect_uri and scopes
+| config | configuration object containing clientId, clientSecret, redirectUri and scopes
 
 Configure Botkit to work with a Slack application.
 
@@ -979,7 +979,7 @@ Configuration must include:
 
 * clientId - Application clientId from Slack
 * clientSecret - Application clientSecret from Slack
-* redirect_uri - the base url of your application
+* redirectUri - the base url of your application
 * scopes - an array of oauth permission scopes
 
 Slack has [_many, many_ oauth scopes](https://api.slack.com/docs/oauth-scopes)
@@ -1006,7 +1006,7 @@ var controller = Botkit.slackbot();
 controller.configureSlackApp({
   clientId: process.env.clientId,
   clientSecret: process.env.clientSecret,
-  redirect_uri: 'http://localhost:3002',
+  redirectUri: 'http://localhost:3002',
   scopes: ['incoming-webhook','team:read','users:read','channels:read','im:read','im:write','groups:read','emoji:read','chat:write:bot']
 });
 
