@@ -339,10 +339,10 @@ controller.hears(['keyword','^pattern$'],['direct_message','direct_mention','men
 For example,
 
 ```javascript
-controller.hears('open the (.*) doors',['direct_message','direct_mention','mention','ambient'],function(bot,message) {
+controller.hears('open the (.*) doors',['direct_message','mention'],function(bot,message) {
   var doorType = message.match[1]; //match[1] is the (.*) group. match[0] is the entire group (open the (.*) doors).
-  if (doorType === 'back') {
-    return bot.reply(message, 'I cannot do that');
+  if (doorType === 'pod bay') {
+    return bot.reply(message, 'I\'m sorry, Dave. I\'m afraid I can\'t do that.');
   }
   return bot.reply(message, 'Okay');
 });
