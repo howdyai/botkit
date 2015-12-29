@@ -6,7 +6,7 @@ var path = require('path')
 env(path.join(__dirname, '..', '.env'))
 var token = {token:process.env.TOKEN}
 
-test('sanity', t=> {
+test('sanity', function (t) {
   t.plan(4)
   t.ok(token, '.env sets TOKEN')
   console.log(token)
@@ -16,7 +16,7 @@ test('sanity', t=> {
   console.log(Botkit)
 })
 
-test('can start and then stop a bot', t=> {
+test('can start and then stop a bot', function (t) {
 
   var controller = Botkit.slackbot({debug:false})
   t.plan(3);
@@ -34,7 +34,7 @@ test('can start and then stop a bot', t=> {
 
   });
 
-  var bot = controller.spawn(token).startRTM((err, bot, payload)=> {
+  var bot = controller.spawn(token).startRTM(function(err, bot, payload) {
 
     if (err) {
       t.fail(err, err)
@@ -49,10 +49,10 @@ test('can start and then stop a bot', t=> {
   })
 })
 
-test('failed bot properly fails',t=>{
+test('failed bot properly fails',function (t){
 
   var controller = Botkit.slackbot({debug:false})
-  var bot = controller.spawn('1231').startRTM((err,bot,payload)=>{
+  var bot = controller.spawn('1231').startRTM(function(err,bot,payload){
 
     if (err) {
       t.ok(err,'got an error');
