@@ -3,6 +3,7 @@
     "disallowKeywords": ["with"],
     "disallowMultipleLineBreaks": null,
     "disallowMultipleVarDecl": null,
+    "maximumLineLength": 120,
     "disallowSpacesInsideObjectBrackets": null,
     "requireCamelCaseOrUpperCaseIdentifiers": null,
     "requireCurlyBraces": null,
