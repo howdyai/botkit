@@ -76,7 +76,7 @@ controller.spawn({
 
 controller.hears(['hello','hi'],['direct_message','direct_mention','mention'],function(bot,message) {
     bot.reply(message,"Hello.");
-})
+});
 
 controller.hears(['attach'],['direct_message','direct_mention'],function(bot,message) {
 
@@ -85,25 +85,25 @@ controller.hears(['attach'],['direct_message','direct_mention'],function(bot,mes
     title: 'This is an attachment',
     color: '#FFCC99',
     fields: [],
-  }
+  };
 
   attachment.fields.push({
     label: 'Field',
     value: 'A longish value',
     short: false,
-  })
+  });
 
   attachment.fields.push({
     label: 'Field',
     value: 'Value',
     short: true,
-  })
+  });
 
   attachment.fields.push({
     label: 'Field',
     value: 'Value',
     short: true,
-  })
+  });
 
   attachments.push(attachment);
 
@@ -122,6 +122,6 @@ controller.hears(['dm me'],['direct_message','direct_mention'],function(bot,mess
 
   bot.startPrivateConversation(message,function(err,dm) {
     dm.say('Private reply!');
-  })
+  });
 
 });
