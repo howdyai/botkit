@@ -57,10 +57,10 @@ controller.on('create_bot',function(bot,config) {
         }
       });
 
-    })
+    });
   }
 
-})
+});
 
 
 // Handle events related to the websocket connection to Slack
@@ -75,7 +75,7 @@ controller.on('rtm_close',function(bot) {
 
 controller.hears('hello','direct_message',function(bot,message) {
   bot.reply(message,'Hello!');
-})
+});
 
 controller.hears('^stop','direct_message',function(bot,message) {
   bot.reply(message,'Goodbye');
@@ -89,9 +89,9 @@ controller.on(['direct_message','mention','direct_mention'],function(bot,message
     name: 'robot_face',
   },function(err) {
     if (err) { console.log(err) }
-    bot.reply(message,'I heard you loud and clear boss.')
-  })
-})
+    bot.reply(message,'I heard you loud and clear boss.');
+  });
+});
 
 controller.storage.teams.all(function(err,teams) {
 
