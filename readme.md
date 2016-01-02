@@ -1050,3 +1050,6 @@ bot.identifyBot(function(err,identity) {
 | create_user |
 | update_user |
 | oauth_error |
+
+# Chat with us at dev4slack.slack.com
+You can get an invite here: http://dev4slack.xoxco.com/.

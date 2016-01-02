@@ -1,0 +1,10 @@
+{
+    "preset": "google",
+    "disallowKeywords": ["with"],
+    "disallowMultipleLineBreaks": null,
+    "disallowMultipleVarDecl": null,
+    "disallowSpacesInsideObjectBrackets": null,
+    "requireCamelCaseOrUpperCaseIdentifiers": null,
+    "requireCurlyBraces": null,
+    "validateIndentation": 4
+}
