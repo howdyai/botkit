@@ -48,13 +48,11 @@ if (!process.env.clientId || !process.env.clientSecret || !process.env.port) {
 
 var controller = Botkit.slackbot({
   json_file_store: './db_slackbutton_slashcommand/',
-}).configureSlackApp(
-  {
+}).configureSlackApp({
     clientId: process.env.clientId,
     clientSecret: process.env.clientSecret,
     scopes: ['commands'],
-  }
-);
+  });
 
 
 controller.setupWebserver(process.env.port,function(err,webserver) {
@@ -76,4 +74,4 @@ controller.on('slash_command',function(bot,message) {
   bot.replyPublic(message,'<@' + message.user + '> is cool!');
   bot.replyPrivate(message,'*nudge nudge wink wink*');
 
-})
+});
