@@ -100,8 +100,8 @@ controller.setupWebserver(process.env.port,function(err,webserver) {
         }
       }
 
-      res.send('Message sent to ' + count + ' teams!')
-    })
+      res.send('Message sent to ' + count + ' teams!');
+    });
   });
 
   controller.createOauthEndpoints(controller.webserver,function(err,req,res) {
