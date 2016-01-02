@@ -1053,4 +1053,3 @@ bot.identifyBot(function(err,identity) {
 
 # Chat with us at dev4slack.slack.com
 You can get an invite here: http://dev4slack.xoxco.com/.
-We don't yet have a CONTRIBUTING.md but you're welcome to ping me (@rafaelcosman) if you have any questions about contriuting to this repo.
