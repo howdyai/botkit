@@ -82,7 +82,7 @@ controller.hears('^stop','direct_message',function(bot,message) {
   bot.rtm.close();
 });
 
-controller.on('direct_message,mention,direct_mention',function(bot,message) {
+controller.on(['direct_message','mention','direct_mention'],function(bot,message) {
   bot.api.reactions.add({
     timestamp: message.ts,
     channel: message.channel,
