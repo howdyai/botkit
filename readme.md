@@ -653,7 +653,7 @@ respond to incoming messages, you may want to use [Slack's incoming webhooks fea
 bot.say(
   {
     text: 'my message text',
-    channel: 'G0GRHT83Z'
+    channel: 'C0H338YH4'
   }
 );
 ```
