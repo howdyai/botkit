@@ -1,1 +1,1 @@
-/* demonstrate using slack on behalf of a user */
+/* TODO bot that demonstrates using slack on behalf of a user */
