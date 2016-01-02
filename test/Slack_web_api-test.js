@@ -2,6 +2,9 @@ var test = require('tape')
 var Botkit = require('../')
 var env = require('node-env-file')
 var path = require('path')
+var tmpdir = require('os').tmpdir();
+var fs = require('fs');
+var winston = require('winston');
 
 env(path.join(__dirname, '..', '.env'))
 var token = {token:process.env.TOKEN}
@@ -66,3 +69,33 @@ test('failed bot properly fails',function (t){
   });
 
 })
+
+test('uses external logging provider', function(t) {
+    var logFile = path.join(tmpdir, 'botkit.log');
+    var logger = new winston.Logger({
+      transports: [
+        // new (winston.transports.Console)(),
+        new (winston.transports.File)({ filename: logFile })
+      ]
+    });
+    logger.cli();
+    var controller = Botkit.slackbot({
+      debug: true,
+      logger: logger
+    });
+    var bot = controller.spawn('1231').startRTM(function(err,bot,payload){
+
+      if (err) {
+        t.ok(err,'got an error');
+        console.log(err);
+      } else {
+        t.fail('Should have errored!','Should have errored!');
+      }
+      controller.shutdown();
+      fs.readFile(logFile, 'utf8', function(err, res) {
+        if (err) t.fail('Could not read expected log file', err);
+        t.ok(res, 'Log file was saved');
+        t.end();
+      });
+    });
+});
