@@ -113,7 +113,7 @@ controller.spawn({
 }).startRTM()
 
 // give the bot something to listen for.
-controller.hears('hello','direct_message,direct_mention,mention',function(bot,message) {
+controller.hears('hello',['direct_message','direct_mention','mention'],function(bot,message) {
 
   bot.reply(message,'Hello yourself.');
 
@@ -654,7 +654,7 @@ respond to incoming messages, you may want to use [Slack's incoming webhooks fea
 bot.say(
   {
     text: 'my message text',
-    channel: 'G0GRHT83Z'
+    channel: 'C0H338YH4'
   }
 );
 ```
@@ -1078,3 +1078,6 @@ bot.identifyBot(function(err,identity) {
 | create_user |
 | update_user |
 | oauth_error |
+
+# Chat with us at dev4slack.slack.com
+You can get an invite here: http://dev4slack.xoxco.com/.
