@@ -569,7 +569,9 @@ controller.hears(['question me'],['direct_message','direct_mention','mention','a
 });
 ```
 
-##### Multi-stage conversation example
+##### Multi-stage conversations
+
+![multi-stage convo example](https://www.evernote.com/shard/s321/sh/7243cadf-be40-49cf-bfa2-b0f524176a65/f9257e2ff5ee6869/res/bc778282-64a5-429c-9f45-ea318c729225/screenshot.png?resizeSmall&width=832)
 
 The recommended way to have multi-stage conversations is with multiple functions
 which call eachother. Each function asks just one question. Example:
