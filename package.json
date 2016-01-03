@@ -19,7 +19,7 @@
     "winston": "^2.1.1"
   },
   "scripts": {
-    "pretest": "jscs .",
+    "pretest": "jscs ./lib/",
     "test": "node test/*-test.js | tap-spec"
   },
   "repository": {
