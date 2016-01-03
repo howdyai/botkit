@@ -21,7 +21,7 @@
   },
   "scripts": {
     "pretest": "jscs ./lib/",
-    "test": "node test/*-test.js | tap-spec"
+    "test": "mocha tests/*.js"
   },
   "repository": {
     "type": "git",
