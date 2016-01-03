@@ -6,7 +6,7 @@ var fs = require('fs');
 var winston = require('winston');
 
 
-var token = process.env.TOKEN || 'xoxb-17065016470-hFTAT0RNh0NkRSLBRStDZ7Nn';
+var token = process.env.TOKEN;
 
 describe('Test', function() {
     it('should have a token', function(done) {
