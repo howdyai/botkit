@@ -5,7 +5,6 @@ var tmpdir = require('os').tmpdir();
 var fs = require('fs');
 var winston = require('winston');
 
-
 var token = process.env.TOKEN;
 
 describe('Test', function() {
@@ -71,7 +70,7 @@ describe('Botkit', function() {
 });
 
 describe('Log', function() {
-    it('should use an external loggin provider', function(done) {
+    it('should use an external logging provider', function(done) {
         var logFile = path.join(tmpdir, 'botkit.log');
         var logger = new winston.Logger({
             transports: [
