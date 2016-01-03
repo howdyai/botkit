@@ -569,6 +569,40 @@ controller.hears(['question me'],['direct_message','direct_mention','mention','a
 });
 ```
 
+##### Multi-stage conversation example
+
+The recommended way to have multi-stage conversations is with multiple functions
+which call eachother. Each function asks just one question. Example:
+
+```javascript
+controller.hears(['pizzatime'],['ambient'],function(bot,message) {
+  bot.startConversation(message, askFlavor);
+});
+
+askFlavor = function(response, convo) {
+  convo.ask("What flavor of pizza do you want?", function(response, convo) {
+    convo.say("Awesome.");
+    askSize(response, convo);
+    convo.next();
+  });
+}
+askSize = function(response, convo) {
+  convo.ask("What size do you want?", function(response, convo) {
+    convo.say("Ok.")
+    askWhereDeliver(response, convo);
+    convo.next();
+  });
+}
+askWhereDeliver = function(response, convo) { 
+  convo.ask("So where do you want it delivered?", function(response, convo) {
+    convo.say("Ok! Good by.");
+    convo.next();
+  });
+}
+```
+
+The full code for this example can be found in ```examples/convo_bot.js```.
+
 ##### Included Utterances
 
 | Pattern Name | Description
