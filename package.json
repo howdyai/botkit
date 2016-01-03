@@ -14,7 +14,8 @@
   "devDependencies": {
     "node-env-file": "^0.1.8",
     "tap-spec": "^4.1.1",
-    "tape": "^4.4.0"
+    "tape": "^4.4.0",
+    "winston": "^2.1.1"
   },
   "scripts": {
     "test": "node test/*-test.js | tap-spec"
