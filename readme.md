@@ -968,6 +968,26 @@ var controller = Botkit.slackbot({
 })
 ```
 
+## Logging
+
+Slackbot uses `log` and `debug` methods to logs things. By default, its uses `console.log`.
+You can implement your own logging mechanism by giving a custom logger:
+
+```javascript
+var controller = Botkit.slackbot({
+  logger: my_logger_provider
+})
+```
+
+Your logger provider must implement a single `provider.log` method. Example with [winston](https://www.npmjs.com/package/winston):
+
+```javascript
+var logger = require('winston');
+
+var controller = Botkit.slackbot({
+  logger: logger
+})
+```
 
 ## Use the Slack Button
 
