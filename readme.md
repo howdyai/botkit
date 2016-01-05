@@ -33,6 +33,12 @@ After cloning the Git repository, you have to install the node dependencies. Nav
 npm install
 ```
 
+Use the `--production` flag to skip the installation of devDependencies from Botkit. Useful if you just wish to run the example bot.
+```bash
+npm install --production
+```
+
+
 ## Getting Started
 
 1) Install Botkit. See [Installation](#installation) instructions.
