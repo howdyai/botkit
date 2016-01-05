@@ -28,9 +28,14 @@ If you want to use the example code and included bots, it may be preferable to u
 git clone git@github.com:howdyai/botkit.git
 ```
 
+After cloning the Git repository, you have to install the node dependencies. Navigate to the root of your cloned repository and use npm to install all necessary dependencies.
+```bash
+npm install
+```
+
 ## Getting Started
 
-1) Install Botkit
+1) Install Botkit. See [Installation](#installation) instructions.
 
 2) First make a bot integration inside of your Slack channel. Go here:
 
