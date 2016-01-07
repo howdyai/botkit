@@ -26,6 +26,8 @@ If you want to use the example code and included bots, it may be preferable to u
 
 ```bash
 git clone git@github.com:howdyai/botkit.git
+cd botkit
+npm install
 ```
 
 ## Getting Started
