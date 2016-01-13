@@ -1,24 +1,26 @@
 "use strict";
 
-let RiveScript = require("riveScript");
+const RiveScript = require("riveScript");
+const path = require("path");
+const BotLoader = {};
 
-var bot = new RiveScript();
-let path = require("path");
-
-console.log("loading SimpleBot bot");
 
 // Load a directory full of RiveScript documents (.rive files). This is for
 // Node.JS only: it doesn't work on the web!
 const brainsDir = path.join(__dirname, "simplebot");
 
-bot.loadDirectory(brainsDir, loading_done, loading_error);
+BotLoader.reload = function() {
+    console.log("loading simplebot brain");
+    BotLoader.brain = new RiveScript();
+    BotLoader.brain.loadDirectory(brainsDir, loading_done, loading_error);
+}
 
 // Load an individual file.
-// bot.loadFile("brain/testsuite.rive", loading_done, loading_error);
+// brain.loadFile("brain/testsuite.rive", loading_done, loading_error);
 
 // Load a list of files all at once (the best alternative to loadDirectory
 // for the web!)
-// bot.loadFile([
+// brain.loadFile([
 //     "brain/begin.rive",
 //     "brain/admin.rive",
 //     "brain/clients.rive"
@@ -32,11 +34,11 @@ function loading_done (batch_num) {
     console.log("Batch #" + batch_num + " has finished loading!");
 
     // Now the replies must be sorted!
-    bot.sortReplies();
+    BotLoader.brain.sortReplies();
 
     // And now we're free to get a reply from the brain!
-    var reply = bot.reply("local-user", "status");
-    console.log("ribot status: " + reply);
+    var reply = BotLoader.brain.reply("local-user", "status");
+    console.log("ribrain status: " + reply);
 }
 
 // It's good to catch errors too!
@@ -44,4 +46,5 @@ function loading_error (batch_num, error) {
     console.log("Error when loading files: " + error);
 }
 
-module.exports = bot;
+BotLoader.reload();
+module.exports = BotLoader;

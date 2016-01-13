@@ -1,4 +1,4 @@
-// global commands are included in other scripts
+// global commands are inherited in other scripts
 ! local concat = newline
 
 > topic global_commands

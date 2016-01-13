@@ -4,34 +4,47 @@
 
 > topic random inherits global_commands
 
-  // convention is for each topic to have a start point
-  + start
-  @ gambit
+    // convention is for each topic to have a start point
+    + start
+    @ gambit
 
-  + [*] movies [*]
-  - OK, lets talk movies! {topic=movies}{@start}
+    + (@hello)
+    - Well, <star> to you too!
+    ^ {@gambit}
 
-  + [*] colors [*]
-  - OK, lets talk colors! {topic=colors}{@start}
+    + [*] movies [*]
+    - OK, lets talk movies! {topic=movies}{@start}
 
-  // only ask username if we dont know it.
-  // otherwise just ask about movies (again and again...)
-  + gambit
-  * <get username> == undefined => {topic=username}{@start}
-  * <get favecolor> == undefined => {topic=colors}{@start}
-  * <get favemovie> == undefined => {topic=movies}{@start}
-  - Ok, I ran out of things to ask you. You ask me a question!
+    + [*] colors [*]
+    - OK, lets talk colors! {topic=colors}{@start}
 
-  // example of conditionals and variables
-  + test
-  - test to you too.
+    // only ask username if we dont know it.
+    // otherwise just ask about movies (again and again...)
+    + gambit
+    * <get username> == undefined => {topic=username}{@start}
+    * <get favecolor> == undefined => {topic=colors}{@start}
+    * <get favemovie> == undefined => {topic=movies}{@start}
+    - Ok, I ran out of things to ask you. You ask me a question!
+    - Any more questions?
+    - What's new?
 
-  + whoami
-  * <get username> == undefined => I don't know!
-  - you are <get username>
+    // example of conditionals and variables
+    + test
+    - test to you too.
 
-  + *
-  - <person>?
-  ^ {@gambit}
+    + (whoami|who am i)
+    * <get username> == undefined => I don't know!
+    - you are <get username>.
+
+    + *
+    - <person>? {@dumbreply}
+    ^ {@gambit}
+
+    + dumbreply
+    - That's a secret :)
+    - I forget.
+    - What do you think?
+    - How should I know!
+    - Ha! I'm not telling you :P
 
 < topic

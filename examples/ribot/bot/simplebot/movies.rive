@@ -22,6 +22,7 @@
   - <set favemovie=<star>>
   ^ {@respond <star>}
 
+  // 1 in 3 chance of asking about the actor too.
   + respond *
   - <star1>! I love that movie! {@back}
   - oh <star>? I dont think i've seen that! {@back}

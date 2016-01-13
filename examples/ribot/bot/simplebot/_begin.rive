@@ -1,4 +1,4 @@
-// chat about movies and actors
+// begin file by convention is where you add substitutions arrays etc.
 ! local concat = newline
 
 // substitutions for an eliza type thing
@@ -11,3 +11,5 @@
 ! person you     = I
 ! person i       = you
 ! person are you = am I
+
+! array hello = hi|hello|howdy|wassup|whats up|what's up|hey|ohai|hola|yo
