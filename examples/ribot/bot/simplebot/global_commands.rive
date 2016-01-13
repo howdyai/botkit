@@ -5,7 +5,15 @@
 
   // this will get looked for first
   + status{weight=20}
-  - the topic is <get topic>
+  - here's what I know so far:
   ^ your name is <get username>
+  ^ your favemovie is <get favemovie>
+  ^ your favecolor is <get favecolor>
+
+  + topic
+  - the topic is <get topic>
+
+  + topic *
+  - {topic=<star>}{@start}
 
 < topic

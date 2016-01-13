@@ -19,6 +19,10 @@
 
  // multiple replies with - will get picked at random
   + *
+  - <set favemovie=<star>>
+  ^ {@respond <star>}
+
+  + respond *
   - <star1>! I love that movie! {@back}
   - oh <star>? I dont think i've seen that! {@back}
   - <star>? Who was in that? {topic=actors}

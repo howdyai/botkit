@@ -35,8 +35,8 @@ function loading_done (batch_num) {
     bot.sortReplies();
 
     // And now we're free to get a reply from the brain!
-    var reply = bot.reply("local-user", "Hello, bot!");
-    console.log("The bot says: " + reply);
+    var reply = bot.reply("local-user", "status");
+    console.log("ribot status: " + reply);
 }
 
 // It's good to catch errors too!

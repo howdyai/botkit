@@ -1,0 +1,13 @@
+// chat about movies and actors
+! local concat = newline
+
+// substitutions for an eliza type thing
+! person i am    = you are
+! person you are = i am
+! person i'm     = you're
+! person you're  = I'm
+! person my      = your
+! person your    = my
+! person you     = I
+! person i       = you
+! person are you = am I

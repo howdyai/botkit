@@ -1,4 +1,4 @@
-// every bot needs a "random" topic as a fallback
+// every bot needs a "random" topic as an entry point and fallback
 ! local concat = newline
 
 
@@ -11,22 +11,27 @@
   + [*] movies [*]
   - OK, lets talk movies! {topic=movies}{@start}
 
+  + [*] colors [*]
+  - OK, lets talk colors! {topic=colors}{@start}
+
   // only ask username if we dont know it.
   // otherwise just ask about movies (again and again...)
   + gambit
   * <get username> == undefined => {topic=username}{@start}
-  - ask me a question!
-  - {topic=movies}{@start}
+  * <get favecolor> == undefined => {topic=colors}{@start}
+  * <get favemovie> == undefined => {topic=movies}{@start}
+  - Ok, I ran out of things to ask you. You ask me a question!
 
   // example of conditionals and variables
   + test
   - test to you too.
 
   + whoami
+  * <get username> == undefined => I don't know!
   - you are <get username>
 
   + *
-  - you said <star>.
+  - <person>?
   ^ {@gambit}
 
 < topic

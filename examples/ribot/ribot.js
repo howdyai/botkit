@@ -5,7 +5,7 @@ if (!process.env.token) {
     process.exit(1);
 }
 
-var Botkit = require('../lib/Botkit.js');
+var Botkit = require('../../lib/Botkit.js');
 var os = require('os');
 
 var Ribot = require('./bot/simplebot.js')
@@ -69,8 +69,13 @@ controller.hears(['what is my name','who am i'],'direct_message,direct_mention,m
 });
 
 
+controller.hears(['/r', 'reload'],'ambient',function(bot, message) {
+    var Ribot = require('./bot/simplebot.js')
+    bot.reply(message, "reloading");
+});
+
+
 controller.hears(['.*'],'ambient',function(bot, message) {
-    console.log("heard", message);
     let reply = Ribot.reply(message.username, message.text)
     console.log("reply", reply);
     bot.reply(message, reply);

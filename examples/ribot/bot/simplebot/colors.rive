@@ -1,0 +1,22 @@
+// chat about colors
+! local concat = newline
+
+! array colors = black|blue|brown|gray|green|orange|pink|purple|red|white|yellow
+
+> topic colors inherits global_commands
+
+    + start
+    - whats your favorite color?
+
+    + (@colors)
+    - oh you like <star>?
+    ^ <set favecolor=<star>>
+    ^ {@back}
+
+    + *
+    - sorry, I don't know <star>
+
+    + back
+    - {topic=random}{@start}
+
+< topic
