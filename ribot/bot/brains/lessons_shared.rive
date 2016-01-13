@@ -1,0 +1,147 @@
+! local concat = newline
+
+//--------- LESSONS_SHARED ---------------------
+
+> topic lessons_shared inherits global_commands
+
+  // catchall
+
+  + (*|wrong)
+  - {@saywhat}
+  ^ {@hints}
+  ^ who: teacher1
+  // ^ who: <get lessonbot>
+  // hints has to come last as it has a gogo init to skip
+
+  // generic what but each lesson should provide this with the right image
+  + saywhat
+  - ❌ That's not right!
+  - ❌Try again!
+  - ❌Hmm, not quite!
+
+  + score
+  - score is [ <get score> ]
+  ^ hintcount <get hintcount>
+
+  // choose right level of hint
+  + hints
+  - <add hintcount=1>
+  ^ <sub lessonscore=1>
+  ^ helpFlag: true
+  ^ {@showhint}
+
+  + showhint
+  * <get hintcount> == 0 => type 'hints' for a hint!
+  * <get hintcount> == 1 => 👉 {@hint1}
+  * <get hintcount> == 2 => 👉 {@hint2}
+  * <get hintcount> == 3 => 👉 {@hint3}
+  * <get hintcount> == 4 => {@skip}
+  - too many hints - <get hintcount> {@skip}
+
+  + rightanswer
+  - <add lessonscore=5>
+  ^ {@resethints}
+  ^ {@next}
+
+  + jumptopic *
+  - <star2>?
+  ^ {topic=<star2>}{@start}
+  ^ {@scoreup 2 <star>}
+
+  // increase the score
+  // TODO - remember this topic so you cant score for it again
+  + scoreup * *{weight=20}
+  - 🌟<star2> pts
+  ^ <set action=asked_<star1>>
+  ^ <add lessonscore=<star>>
+
+//  ^ you asked about <get action>
+
+  + resethints
+  - <set hintcount=0>
+
+  + hint
+  - [hint] {@showhint}
+
+  + hint1
+  - [hint1] type help if you're not sure.
+
+  + hint2
+  - [hint2] Let me explain again - {@hint1}
+
+  + hint3
+  - [hint3] Let me explain again - {@hint1}
+
+  + answer
+  - [answer]
+
+  + score
+  - <add lessonscore=5>
+
+  + skip
+  - OK lets move ahead.<sub lessonscore=5><set hintcount=0>
+  ^ 💡[answer] {@answer}
+  ^ score is <get lessonscore>
+  ^ {@resethints}
+  ^ who: teacher1
+  ^ goto: next
+
+  + newlesson *
+  - new lesson is <star>
+  ^ <set lessonscore=0>
+
+  + endlesson{weight=20}
+  - type: image
+  ^ media_id: #{lessons-end-lesson}
+  ^ goto: showscore
+
+  + showscore
+  - Let's see how you did.
+  ^ You scored <get lessonscore>
+  ^ {@scorefeedback}
+  ^ goto: exitlesson
+
+  + vocab
+  - It seems the current lesson doesn't have any vocab help :(
+  ^ helpFlag: true
+
+  + scorefeedback
+  * <get lessonscore> < -5 => You need to study a lot more.
+  * <get lessonscore> < -2 => Hmm, not great.
+  * <get lessonscore> <= 1 => Hmm, not too bad
+  * <get lessonscore>  > 1 => Good work!
+  * <get lessonscore>  > 3 => Great job!
+
+  + quit
+  - you want to quit the lesson?
+
+  + (yes)
+  % you want to quit *
+  - OK, lets check your score. {@endlesson}
+
+  + help{weight=20}
+  - Help is on the way!
+  ^ you can also type:
+  ^ - hint
+  ^ - vocab
+  ^ - grammar
+  ^ - explain *****
+  ^ - teacher
+  ^ - skip - question but lose 5 points
+  ^ - quit - the whole lesson
+  ^ long press on the hint to get a translation
+  ^ {@lessonhelp}
+  ^ helpFlag: true
+
+  + endhelp
+  - type ok to continue
+
+  + ok
+  - {@start}
+
+
+  + exitlesson{weight=20}
+  - Let's see what else there is to do!
+  ^ {topic=mainmenu}{@start}
+
+< topic

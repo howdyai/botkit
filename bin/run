@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+
+source bin/local.env
+node ribot/ribot.js

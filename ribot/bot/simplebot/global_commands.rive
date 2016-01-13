@@ -1,0 +1,11 @@
+// global commands are included in other scripts
+! local concat = newline
+
+> topic global_commands
+
+  // this will get looked for first
+  + status{weight=20}
+  - the topic is <get topic>
+  ^ your name is <get username>
+
+< topic

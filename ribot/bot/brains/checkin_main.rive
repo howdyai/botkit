@@ -1,0 +1,230 @@
+// -----------------------------------------------------
+// checkin.rive
+// at a hotel
+// -----------------------------------------------------
+// refs http://www.eslfast.com/robot/topics/hotel/hotel.htm
+
+! local concat = newline
+
+! array nonsmoking = non smoking|non-smoking|no smoking|no-smoking
+! array checkin = check in|checkin
+
+
+
+// -----------------------------------------------------
+
+> topic checkin_intro inherits checkin_shared
+
+	+ start
+	- This lesson is about checking into a hotel.
+  ^ <set lessonbot=hotelman>
+  ^ {@resethints}
+  ^ who: teacher1
+  ^ goto: lesson card inline
+
+  + lesson card inline
+  - kbase: checkin
+  ^ goto: waitready
+
+  + waitready
+  - are you ready?
+  ^ who: teacher1
+
+  + sign
+  - type: image
+  ^ media_id: #{hotel-sign}
+  ^ goto: waitready
+
+  + (@yes|ready)
+  @ next
+
+  + (@no|hint1|hint2)
+  - OK, just type 'ready' when you are ready to start.
+  ^ who: teacher1
+
+  + next
+  - OK, let's start the lesson!
+  ^ {topic=checkin_manager}
+  ^ goto: start
+
+< topic
+
+// -----------------------------------------------------
+
+> topic checkin_manager inherits checkin_shared
+
+  + start
+  - {@resethints}
+  ^ {@manpic}
+  ^ goto: voice
+
+  + voice
+  - welcome
+  ^ type: voice
+  ^ media_id: #{hotel-welcome}
+
+  + hint1
+  - 说：我想入住贵
+
+  + hint2
+  - say you would like to check in
+
+  + answer
+  - I would like to check in please
+
+  + (@yes)
+  - make a full sentence!
+  ^ who: teacher1
+
+  + (@yes) i would like to check in
+  @ right
+
+  + i (@want) [to] (@checkin)
+  @ right
+
+  + right
+  - Certainly. Let me see about your room. {@rightanswer}
+  ^ who: hotelman
+
+  + next
+  - {topic=checkin_room}{@resethints}
+  ^ goto: start
+
+< topic
+
+// -----------------------------------------------------
+
+> topic checkin_room inherits checkin_shared
+
+  + start
+  - {@manpic}
+  ^ goto: room voice intro
+
+  + room voice intro
+  - type: voice
+  ^ media_id: #{hotel-smoking-room}
+  ^ who: hotelman
+
+  + hint1
+  - he said they have a smoking room, but you don't smoke.
+  ^ who: hint
+
+  + hint2
+  - say you want a non-smoking room
+  ^ who: hint
+
+  + (@no)
+  - hmm, ok. Can you tell me what type of room you would like?
+  ^ who: hotelman
+
+  + answer
+  - I would like a non-smoking room please.
+
+  // you can combine matchers defined as arrays above
+  + i (@want) a (@nonsmoking) room [please]
+  @ right
+
+  + i want (@nonsmoking) room
+  - you mean 'a' non-smoking room?
+  ^ who: teacher1
+  ^ goto: right
+
+  + i do not smoke
+  - And so what should I do?
+  ^ who: hotelman
+  ^ goto: hint1
+
+  + i want a nonsmoking room [please]
+  @ right
+
+  + (@nonsmoking)
+  - non-smoking what? can you make a sentence please?
+  ^ who: teacher
+
+  + right
+  - No problem, I'll change it for you. {@rightanswer}
+
+  + next
+  - {topic=checkin_nights}{@resethints}{@start}
+
+< topic
+
+// -----------------------------------------------------
+
+> topic checkin_nights inherits checkin_shared
+
+  + start
+  - We have a non-smoking room, I've booked it for you.
+  ^ {@resethints}
+  ^ who: hotelman
+  ^ goto: roompic
+
+  + roompic
+  - type: image
+  ^ meta: roompic
+  ^ media_id: #{hotel-your-room}
+  ^ goto: how many nights
+
+  + how many nights
+  - type: voice
+  ^ meta: how-many-nights
+  ^ media_id: #{hotel-how-many-nights}
+
+  + hint1
+  - How many nights will you be staying?
+  ^ who: hotelman
+
+  + hint2
+  - say you'll stay for three nights
+
+  + (@number) [nights] [please]{weight=10}
+  @ fullsentence
+
+  + (@number){weight=10}
+  @ fullsentence
+
+  + fullsentence
+  - try to make a full sentence!
+  ^ who: teacher1
+
+  + answer
+  - I'd like to stay for three nights
+
+  + i (@want) to stay for (@number) nights
+  @ right
+
+  // corrections
+  + i (@want) to stay (@number) nights
+  - don't forget 'for' ! try again.
+  ^ who: hint
+
+  + i will (be staying|stay) (@number) nights
+  - don't forget 'for'!
+
+  + i want stay *
+  - want TO! try again.
+  ^ who: hint
+
+  // right answers
+  + i (@want) to stay (@number) nights
+  - For <star2> nights? {@right}
+
+  + i will (be staying|stay) for (@number) nights
+  - For <star2> nights? {@right}
+
+  + i will stay for three nights
+  @ right
+
+  + right
+  - Thanks, I will register you now. Here's your key.
+  ^ who: hotelman
+  ^ {@rightanswer}
+  ^ goto: next
+
+  + next
+  - You're all set!
+  ^ {@resethints}
+  ^ {topic=checkin_else}
+  ^ goto: start
+
+< topic

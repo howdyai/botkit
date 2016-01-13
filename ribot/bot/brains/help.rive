@@ -1,0 +1,17 @@
+! local concat = newline
+
+> topic help inherits global_commands
+
+  + start
+  - Here are some things you can type:
+  ^ menu - list of features
+  ^ lessons - list of lessons
+  ^ score - track your progress
+  ^ teacher - call your teacher
+  ^ helpFlag: true
+  ^ who: hint
+
+  + *
+  - hope that helps! {topic=random}
+
+< topic

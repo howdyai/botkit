@@ -1,0 +1,32 @@
+// every bot needs a "random" topic as a fallback
+! local concat = newline
+
+
+> topic random inherits global_commands
+
+  // convention is for each topic to have a start point
+  + start
+  @ gambit
+
+  + [*] movies [*]
+  - OK, lets talk movies! {topic=movies}{@start}
+
+  // only ask username if we dont know it.
+  // otherwise just ask about movies (again and again...)
+  + gambit
+  * <get username> == undefined => {topic=username}{@start}
+  - ask me a question!
+  - {topic=movies}{@start}
+
+  // example of conditionals and variables
+  + test
+  - test to you too.
+
+  + whoami
+  - you are <get username>
+
+  + *
+  - you said <star>.
+  ^ {@gambit}
+
+< topic

@@ -1,0 +1,40 @@
+//--------------------------------------------
+// --- admin and debugging tools
+//--------------------------------------------
+
+> topic admin
+
+  // this is for testing so i dont have to
+  // type a long topic name every time
+  // short topic name so it needs a weighting
+  + rs{weight=20}
+  - resetting
+  ^ set topic {topic=checkin_manager} done
+  ^ going to checkin_else/start
+  ^ goto: start
+
+  // ^ reset hints {@resethints} done
+
+  // go topic and run from start
+  + (runtopic|rt) *{weight=20}
+  - runtopic> <star2>
+  ^ {topic=<star2>}
+  ^ goto: start
+
+  + status{weight=20}
+  - we were talking about <get topic>
+
+  + gotopic{weight=20}
+  - {topic=gotopic}{@start}
+
+  + gotopic *{weight=20}
+  - going to topic <star> {topic=<star>}
+
+  + gotopic * t *{weight=20}
+  - going to topic <star1> trigger <star2>
+  ^ {topic=<star1>}{@<star2>}
+
+  + ss{weight=50}
+  @ start
+
+< topic
