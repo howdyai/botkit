@@ -7,5 +7,6 @@
     "disallowSpacesInsideObjectBrackets": null,
     "requireCamelCaseOrUpperCaseIdentifiers": null,
     "requireCurlyBraces": null,
-    "validateIndentation": 4
+    "validateIndentation": 4,
+    "requireSpaceAfterComma": true
 }
