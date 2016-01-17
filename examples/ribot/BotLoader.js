@@ -10,7 +10,7 @@ const BotLoader = {};
 const brainsDir = path.join(__dirname, "scripts");
 
 BotLoader.reload = function() {
-    console.log("loading simplebot brain");
+    console.log("loading rivescripts brain");
     BotLoader.brain = new RiveScript();
     BotLoader.brain.loadDirectory(brainsDir, loading_done, loading_error);
 }
