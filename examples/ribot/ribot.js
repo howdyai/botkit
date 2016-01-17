@@ -8,7 +8,7 @@ if (!process.env.token) {
 var Botkit = require('../../lib/Botkit.js');
 var os = require('os');
 
-var Ribot = require('./bot/BotLoader.js')
+var Ribot = require('./BotLoader.js')
 
 var controller = Botkit.slackbot({
     debug: true,
@@ -69,8 +69,8 @@ controller.hears(['what is my name','who am i'],'direct_message,direct_mention,m
 });
 
 
-var BotLoader = require('./bot/BotLoader.js');
-controller.hears(['/r', 'reload'],'ambient',function(bot, message) {
+var BotLoader = require('./BotLoader.js');
+controller.hears(['reload'],'ambient',function(bot, message) {
     BotLoader.reload();
     bot.reply(message, 'reloaded');
 });

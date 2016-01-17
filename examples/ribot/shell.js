@@ -7,7 +7,7 @@
  ******************************************************************************/
 
 var readline = require("readline"),
-	RiveScript = require("./lib/rivescript");
+	RiveScript = require("riveScript");
 
 //------------------------------------------------------------------------------
 // Accept command line parameters.

@@ -7,7 +7,7 @@ const BotLoader = {};
 
 // Load a directory full of RiveScript documents (.rive files). This is for
 // Node.JS only: it doesn't work on the web!
-const brainsDir = path.join(__dirname, "simplebot");
+const brainsDir = path.join(__dirname, "scripts");
 
 BotLoader.reload = function() {
     console.log("loading simplebot brain");

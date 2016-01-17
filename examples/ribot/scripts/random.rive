@@ -37,7 +37,7 @@
     - you are <get username>.
 
     + *
-    - <person>? {@dumbreply}
+    - <person>?
     ^ {@gambit}
 
     + dumbreply
