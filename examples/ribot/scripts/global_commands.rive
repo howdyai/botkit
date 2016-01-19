@@ -16,4 +16,7 @@
     + topic *
     - {topic=<star>}{@start}
 
+    + menu{weight=20}
+    - {topic=menu}{@start}
+
 < topic

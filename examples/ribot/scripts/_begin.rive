@@ -1,6 +1,8 @@
 // begin file by convention is where you add substitutions arrays etc.
 ! local concat = newline
 
+
+
 // substitutions for an eliza type thing
 ! person i am    = you are
 ! person you are = i am

@@ -1,5 +1,17 @@
 # Example bot using Rivescript
-https://github.com/aichaos/rivescript-js/
+
+RiveScript docs here: https://github.com/aichaos/rivescript-js/
+
+this uses some extra packages so install them with
+
+    cd examples/ribot
+    npm install
+
+
+then start the bot same as usual
+
+    token=YOURTOKEN node examples/ribot/ribot.js
+
 
 full tutorial is here:
 https://www.rivescript.com/docs/tutorial

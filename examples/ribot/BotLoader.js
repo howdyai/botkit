@@ -4,10 +4,9 @@ const RiveScript = require("riveScript");
 const path = require("path");
 const BotLoader = {};
 
-
-// Load a directory full of RiveScript documents (.rive files). This is for
-// Node.JS only: it doesn't work on the web!
+// Load a directory full of RiveScript documents (.rive files)
 const brainsDir = path.join(__dirname, "scripts");
+
 
 BotLoader.reload = function() {
     console.log("loading rivescripts brain");
