@@ -1,0 +1,31 @@
+// text menu
+// also shows composing replies with {@trigger}
+
+! local concat = newline
+
+> topic media inherits global_commands
+
+    + start
+    - pick something!
+    ^ 1) image
+    ^ 2) video
+    ^ 3) title
+
+    + (1|s|image)
+    - http://placehold.it/350x150/ffff00/000000?text=image!
+
+    + (2|v|video)
+    - https://www.youtube.com/watch?v=BMUiFMZr7vk
+
+    + (3|L|title)
+    - what do you want to say?
+
+    + *
+    - http://placehold.it/350x150/ffff00/000000?text=<star>
+
+    + deliver
+    - coming your way!
+    - coming over!
+    - as you like!
+
+< topic

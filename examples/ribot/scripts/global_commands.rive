@@ -3,6 +3,9 @@
 
 > topic global_commands
 
+    + start
+    - well, lets talk about something!
+
     // this will get looked for first
     + status{weight=20}
     - here's what I know so far:
@@ -13,10 +16,29 @@
     + topic
     - the topic is <get topic>
 
-    + topic *
+    + topic *{weight=20}
     - {topic=<star>}{@start}
+
+    + reset{weight=10}
+    - resetting! {topic=random}
+
+    + (demo|media|menu){weight=10}
+    - going to topic <star>
+    ^ {topic=<star>}{@start}
+
+    + test
+    - all systems go!
+
+< topic
+
+
+
+> topic notused
 
     + menu{weight=20}
     - {topic=menu}{@start}
+
+    + media{weight=20}
+    - {topic=media}{@start}
 
 < topic

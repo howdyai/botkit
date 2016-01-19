@@ -29,9 +29,6 @@
     - What's new?
 
     // example of conditionals and variables
-    + test
-    - test to you too.
-
     + (whoami|who am i)
     * <get username> == undefined => I don't know!
     - you are <get username>.

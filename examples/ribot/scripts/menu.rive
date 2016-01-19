@@ -12,17 +12,22 @@
     ^ 3) Large
 
     + (1|s|small)
-    - itsy bitsy {@deliver}
+    - {@wanted} *{random}itsy bitsy|tiny|small{/random}* {@deliver}
 
     + (2|m|medium)
-    - middling {@deliver}
+    - {@wanted} middling {@deliver}
 
     + (3|L|large)
-    - yuuuge! {@deliver}
+    - {@wanted} yuuuge! {@deliver}
+
+    + wanted
+    - you asked for
+    - Here's the
+    - Well OK, here is the
 
     + deliver
     - coming your way!
-    - coming over!
-    - as you like!
+    - - are you ready?!
+    - oh yes it is!
 
 < topic

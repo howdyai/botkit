@@ -1,0 +1,21 @@
+// various features demo
+
+// keep linefeeds
+! local concat = newline
+
+> topic demo inherits global_commands
+
+    + start
+    - lets do the demos!
+    ^ triggers and replies
+    ^ topics
+    ^ navigating triggers
+    ^ simplified regex parser
+    ^ capturing input
+    ^ arrays
+    ^ variables
+
+    + you say *
+    - I say <star>...♪♪ :saxophone: :notes:
+
+< topic

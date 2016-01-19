@@ -21,7 +21,7 @@ var bot = controller.spawn({
 }).startRTM();
 
 // reload the scripts without restart
-controller.hears(['reload'],'ambient',function(bot, message) {
+controller.hears(['reload', '.r'],'ambient',function(bot, message) {
     BotLoader.reload();
     bot.reply(message, 'reloaded');
 });
@@ -33,4 +33,25 @@ controller.hears(['.*'],'ambient',function(bot, message) {
     console.log("bot >", reply);
     console.log("--");
     bot.reply(message, reply);
+});
+
+
+controller.hears(['.*'],['direct_message','direct_mention'],function(bot,message) {
+    bot.startConversation(message,function(err,convo) {
+        let reply = BotLoader.brain.reply(message.username, message.text)
+        console.log("user dm>", message.text);
+        console.log("bot >", reply);
+        console.log("--");
+        bot.reply(message, reply);
+    });
+
+    bot.startPrivateConversation(message,function(err,dm) {
+        let reply = BotLoader.brain.reply(message.username, message.text)
+        console.log("user>", message.text);
+        console.log("bot >", reply);
+        console.log("--");
+        //   bot.reply(message, reply);
+        dm.say('Private reply!');
+    });
+
 });
