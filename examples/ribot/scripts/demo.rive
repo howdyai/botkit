@@ -6,6 +6,10 @@
 > topic demo inherits global_commands
 
     + start
+    - DEMO time!
+    ^ type `menu` for a list of stuff.
+
+    + menu
     - lets do the demos!
     ^ triggers and replies
     ^ topics

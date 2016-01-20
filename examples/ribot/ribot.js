@@ -55,3 +55,27 @@ controller.hears(['.*'],['direct_message','direct_mention'],function(bot,message
     });
 
 });
+
+
+// receive outgoing or slash commands
+// if you are already using Express, you can use your own server instance...
+controller.setupWebserver(process.env.PORT,function(err,webserver) {
+
+    console.log("starting webserver on PORT", process.env.PORT);
+    controller.createWebhookEndpoints(controller.webserver);
+
+});
+
+// https://github.com/howdyai/botkit/blob/master/readme.md#outgoing-webhooks-and-slash-commands
+
+controller.on('slash_command',function(bot,message) {
+
+    console.log('slash command', message);
+    if (message.command == '/reset') {
+        BotLoader.reload();
+    }
+
+    // reply to slash command
+    // bot.replyPublic(message,'Everyone can see the results of this slash command');
+
+});
