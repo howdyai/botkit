@@ -5,10 +5,14 @@
 > topic random inherits global_commands
 
     + start
-    @ gambit
+    - welcome to ribot Rivescript demo
+    ^ I have some things like `asl` or building a `menu`
+    ^ also I can display `media`.
 
     + gambit
-    - {topic=asl}{@start}
+    - {@demo}
+
+    // - {topic=asl}{@start}
 
     + *
     - <star>? {@gambit}
