@@ -20,10 +20,10 @@ var bot = controller.spawn({
     token: process.env.token
 }).startRTM();
 
-// reload the scripts without restart
-controller.hears(['reload', '.r'],'ambient',function(bot, message) {
-    BotLoader.reload();
-    bot.reply(message, 'reloaded');
+// reset the scripts without restart
+controller.hears(['reset'],'ambient',function(bot, message) {
+    BotLoader.reset();
+    bot.reply(message, 'reseted');
 });
 
 // send everything to the ribot
@@ -72,10 +72,11 @@ controller.on('slash_command',function(bot,message) {
 
     console.log('slash command', message);
     if (message.command == '/reset') {
-        BotLoader.reload();
+        BotLoader.reset();
+        bot.replyPublic(message,'reset!');
     }
 
     // reply to slash command
-    // bot.replyPublic(message,'Everyone can see the results of this slash command');
+    bot.replyPublic(message,'Everyone can see the results of this slash command');
 
 });

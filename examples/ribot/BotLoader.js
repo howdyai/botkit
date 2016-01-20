@@ -8,7 +8,7 @@ const BotLoader = {};
 const brainsDir = path.join(__dirname, "scripts");
 
 
-BotLoader.reload = function() {
+BotLoader.reset = function() {
     console.log("loading rivescripts brain");
     BotLoader.brain = new RiveScript();
     BotLoader.brain.loadDirectory(brainsDir, loading_done, loading_error);
@@ -45,5 +45,5 @@ function loading_error (batch_num, error) {
     console.log("Error when loading files: " + error);
 }
 
-BotLoader.reload();
+BotLoader.reset();
 module.exports = BotLoader;

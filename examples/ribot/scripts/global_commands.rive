@@ -8,7 +8,7 @@
 
     // this will get looked for first
     + status{weight=20}
-    - here's what I know so far:
+    - topic is <get topic>
     ^ your name is <get username>
     ^ your favemovie is <get favemovie>
     ^ your favecolor is <get favecolor>
@@ -19,10 +19,7 @@
     + topic *{weight=20}
     - {topic=<star>}{@start}
 
-    + reset{weight=10}
-    - resetting! {topic=random}
-
-    + (demo|media|menu){weight=10}
+    + (demo|media|menu|colors|asl){weight=10}
     - going to topic <star>
     ^ {topic=<star>}{@start}
 

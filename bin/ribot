@@ -1,4 +1,7 @@
 #!/usr/bin/env bash
 
 source bin/local.env
-node examples/ribot/ribot.js
+
+# node examples/ribot/ribot.js
+
+nodemon -w examples examples/ribot/ribot.js

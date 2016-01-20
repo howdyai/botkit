@@ -9,13 +9,29 @@
     + start
     - whats your favorite color?
 
+    // longer matches get prioritized
+    + (red|orange|pink)
+    - <star>. Oh, you like warm colors!
+    ^ {@back}
+
+    + (blue|white)
+    - ooh, <star>. A little cold.
+    ^ {@back}
+
+    + (purple|violet)
+    - http://placehold.it/450x150/800080/FFFFFF?text=prince
+    ^ {random}The color of madness they say. | Do you like Prince?{/random}
+    ^ {@back}
+
+    // fall through to here
     + (@colors)
     - oh you like <star>?
     ^ <set favecolor=<star>>
     ^ {@back}
 
     + *
-    - sorry, I don't know <star> {@back}
+    - are you sure <star> is a color?
+    ^ I only know the basic colors, can you try again!
 
     + back
     - {topic=random}{@start}
