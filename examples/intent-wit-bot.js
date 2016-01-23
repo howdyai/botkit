@@ -8,12 +8,7 @@
 
 This is a sample Slack bot built with Botkit.
 
-This bot demonstrates many of the core features of Botkit:
-
-* Connect to Slack using the real time API
-* Receive messages based on "spoken" patterns
-* Send a message with attachments
-* Send a message via direct message (instead of in a public channel)
+This bot demonstrates usage of the `hearsIntent()` function.
 
 # RUN THE BOT:
 
@@ -23,25 +18,13 @@ This bot demonstrates many of the core features of Botkit:
 
   Run your bot from the command line:
 
-    token=<MY TOKEN> node demo_bot.js
+    token=<MY TOKEN> node intent-wit-bot.js
 
 # USE THE BOT:
 
-  Find your bot inside Slack to send it a direct message.
+  Say: "@intent-wit-bot: hi"
 
-  Say: "Hello"
-
-  The bot will reply "Hello!"
-
-  Say: "Attach"
-
-  The bot will send a message with a multi-field attachment.
-
-  Send: "dm"
-
-  The bot will reply with a direct message.
-
-  Make sure to invite your bot into other channels using /invite @<my bot>!
+  You greeted me! Here is the outcome from wit.ai: {"_text":"hi","confidence":0.54,"intent":"greeting","entities":{}}
 
 # EXTEND THE BOT:
 
