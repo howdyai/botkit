@@ -167,7 +167,6 @@ controller.hears(['uptime','identify yourself','who are you','what is your name'
 
 });
 
-
 function formatUptime(uptime) {
     var unit = 'second';
     if (uptime > 60) {
