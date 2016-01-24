@@ -19,7 +19,7 @@
     + topic *{weight=20}
     - {topic=<star>}{@start}
 
-    + (demo|media|menu|colors|asl){weight=10}
+    + (demo|media|menu|colors|asl|music){weight=10}
     - going to topic <star>
     ^ {topic=<star>}{@start}
 
