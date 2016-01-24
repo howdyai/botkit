@@ -1,9 +1,9 @@
 // various features demo
 
 // keep linefeeds
-! local concat = newline
 
-| array musics = jazz|pop|rock|country|western
+! local concat = newline
+! array musics = country|western
 
 > topic demo inherits global_commands
 
@@ -21,12 +21,14 @@
     ^ inherits
     ^ simplified regex parser
 
+    + ran
+    - one
+    - two
+    - three
+
     + you say *
     - I say <star>...♪♪ :saxophone: :notes:
-    ^ {topic=music}{@start}
-
-    + music
-    - {topic=music}{@start}
+    ^ do you like music? {topic=music}{@start}
 
     + *
     - hmm, not sure what you mean.
@@ -34,51 +36,18 @@
 < topic
 
 
-
-> topic music
-
-    + start
-    - you like jazz?
-
-    + yes
-    - cool, me too!
-    ^ {@yesback}
-
-    + yes i like jazz
-    - xlnt
-    ^ {@yesback}
-
-    + (@yes)
-    - aw right!
-    ^ {@yesback}
-
-    + (@no)
-    - no? sour puss! {topic=askmusic}{@start}
-
-    + yesback
-    - <set likesjazz=true>
-
-    + back
-    - {topic=demo}{@start}
-
-< topic
-
-> topic askmusic
+> topic music inherits global_commands
 
     + start
-    - what kind of music do you like then?
+    - what kind of music do you like?
 
-    + (@musics)
-    - you like <star>? cool.
-    ^ <set favemusic=<star>>
-    ^ {@back}
+    + (@musics){weight=20}
+    - you like <star>?
 
     + *
-    - <star>? thats new.
-    ^ <set favemusic=<star>>
-    ^ {@back}
+    - thats not music! cool
 
-    + back
-    - {topic=demo}{@start}
+    + simple_smile
+    - eh
 
 < topic
