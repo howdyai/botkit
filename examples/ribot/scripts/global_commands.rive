@@ -1,0 +1,41 @@
+// global commands are inherited in other scripts
+! local concat = newline
+
+> topic global_commands
+
+    + start
+    - well, lets talk about something!
+
+    // this will get looked for first
+    + status{weight=20}
+    - topic is <get topic>
+    ^ your name is <get username>
+    ^ your favemovie is <get favemovie>
+    ^ your favecolor is <get favecolor>
+
+    + topic
+    - the topic is <get topic>
+
+    + gotopic *{weight=20}
+    - {topic=<star>}{@start}
+
+    + (demo|media|menu|colors|asl|music){weight=10}
+    - going to topic <star>
+    ^ {topic=<star>}{@start}
+
+    + test
+    - all systems go!
+
+< topic
+
+
+
+> topic notused
+
+    + menu{weight=20}
+    - {topic=menu}{@start}
+
+    + media{weight=20}
+    - {topic=media}{@start}
+
+< topic

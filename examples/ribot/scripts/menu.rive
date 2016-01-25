@@ -1,0 +1,33 @@
+// text menu
+// also shows composing replies with {@trigger}
+
+! local concat = newline
+
+> topic menu inherits global_commands
+
+    + start
+    - Choose a size:
+    ^ 1) Small
+    ^ 2) Medium
+    ^ 3) Large
+
+    + (1|s|small)
+    - {@wanted} *{random}itsy bitsy|tiny|small{/random}* {@deliver}
+
+    + (2|m|medium)
+    - {@wanted} middling {@deliver}
+
+    + (3|L|large)
+    - {@wanted} yuuuge! {@deliver}
+
+    + wanted
+    - you asked for
+    - Here's the
+    - Well OK, here is the
+
+    + deliver
+    - coming your way!
+    - - are you ready?!
+    - oh yes it is!
+
+< topic

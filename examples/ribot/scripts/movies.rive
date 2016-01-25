@@ -1,0 +1,47 @@
+// chat about movies and actors
+! local concat = newline
+
+> topic movies inherits global_commands
+
+    + start
+    - {@opening}
+
+    + opening
+    - whats your favorite movie?
+
+    + (@yes)
+    % do you like movies
+    - cool, {@opening}
+
+    + (@no)
+    % do you like movies
+    - Oh, ok. {@back}
+
+    // multiple replies with - will get picked at random
+    + *
+    - <set favemovie=<star>>
+    ^ {@respond <star>}
+
+    // 1 in 3 chance of asking about the actor too.
+    + respond *
+    - <star1>! I love that movie! {@back}
+    - oh <star>? I dont think i've seen that! {@back}
+    - <star>? Who was in that? {topic=actors}
+
+    // making @back a separate trigger means we can cleanly exit this topic
+    // from differnet answers and make sure any needed closings are called
+    + back
+    - {topic=random}{@start}
+
+< topic
+
+
+> topic actors inherits global_commands
+
+    + *
+    - oh, <star>. {@back}
+
+    + back
+    - {topic=random}{@start}
+
+< topic

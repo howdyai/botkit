@@ -1,0 +1,26 @@
+// demonstrating using variables
+
+! local concat = newline
+
+
+> topic username inherits global_commands
+
+    // only ask if we dont know
+    + start
+    * <get username> != undefined => Hi <get username>! {@back}
+    - whats your name?
+
+    + *
+    - <star>? nice name.
+    ^ <set username=<star>>
+    ^ {@back}
+
+    // check if we know their name or else ask
+    + whoami
+    * <get username> != undefined => you are <get name>.
+    - I don't know your name. {@start}
+
+    + back
+    - {topic=random}{@start}
+
+< topic

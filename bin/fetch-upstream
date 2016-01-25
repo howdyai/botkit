@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+
+set -x
+git pull git@github.com:howdyai/botkit.git master

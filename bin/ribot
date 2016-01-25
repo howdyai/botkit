@@ -1,0 +1,8 @@
+#!/usr/bin/env bash
+
+# this assumes you have a local.env file with your slack token in it
+source bin/local.env
+
+# node examples/ribot/ribot.js
+
+nodemon -w examples examples/ribot/ribot.js
