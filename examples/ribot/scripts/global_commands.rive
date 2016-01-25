@@ -16,7 +16,7 @@
     + topic
     - the topic is <get topic>
 
-    + topic *{weight=20}
+    + gotopic *{weight=20}
     - {topic=<star>}{@start}
 
     + (demo|media|menu|colors|asl|music){weight=10}

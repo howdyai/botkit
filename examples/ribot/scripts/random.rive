@@ -1,17 +1,16 @@
 // every bot needs a "random" topic as an entry point and fallback
 ! local concat = newline
 
-
 > topic random inherits global_commands
 
     + start
-    - welcome to ribot Rivescript demo
-    ^ I have some things like `asl` or building a `menu`
-    ^ also I can display `media`.
+    - Ribot Rivescript demo
+    ^ `demo` for various demo features.
+    ^ `asl` for basic examples.
+    ^ building a `menu` or  displaying `media`.
 
     // choose something at random
     + gambit
-    - {@demo}
     - {topic=asl}{@start}
 
     + *
