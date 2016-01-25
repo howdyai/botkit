@@ -9,9 +9,12 @@ var BotLoader = {};
 // Load a directory full of RiveScript documents (.rive files)
 var brainsDir = path.join(__dirname, 'scripts');
 
+function log(msg) {
+  console.log(msg);
+}
 
 BotLoader.reset = function() {
-    bot.botkit.log('loading rivescripts brain');
+    log('loading rivescripts brain');
     BotLoader.brain = new RiveScript();
     BotLoader.brain.loadDirectory(brainsDir, loading_done, loading_error);
 };
@@ -32,19 +35,19 @@ BotLoader.reset = function() {
 // with multiple file names), the success function is called only when ALL
 // the files have finished loading.
 function loading_done(batch_num) {
-    bot.botkit.log('Batch #' + batch_num + ' has finished loading!');
+    log('Batch #' + batch_num + ' has finished loading!');
 
     // Now the replies must be sorted!
     BotLoader.brain.sortReplies();
 
     // And now we're free to get a reply from the brain!
     var reply = BotLoader.brain.reply('local-user', 'status');
-    bot.botkit.log('ribrain status: ' + reply);
+    log('ribrain status: ' + reply);
 }
 
 // It's good to catch errors too!
 function loading_error(batch_num, error) {
-    bot.botkit.log('Error when loading files: ' + error);
+    log('Error when loading files: ' + error);
 }
 
 BotLoader.reset();

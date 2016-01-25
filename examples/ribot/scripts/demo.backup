@@ -1,0 +1,54 @@
+// various features demo
+
+// keep linefeeds
+
+! local concat = newline
+! array musics = country|western
+
+> topic demo inherits global_commands
+
+    + start
+    - demo menu
+    ^ type `list` for a list of stuff.
+
+    + list
+    - lets do the demos!
+    ^ triggers and replies
+    ^ topics
+    ^ navigating triggers
+    ^ arrays
+    ^ capturing input to variables
+    ^ inherits
+    ^ simplified regex parser
+
+    + ran
+    - one
+    - two
+    - three
+
+    + you say *
+    - I say <star>...♪♪ :saxophone: :notes:
+    ^ do you like music? {topic=music}{@start}
+
+    + *
+    - hmm, not sure what you mean.
+    - what?
+
+< topic
+
+
+> topic music inherits global_commands
+
+    + start
+    - what kind of music do you like?
+
+    + (@musics){weight=20}
+    - you like <star>?
+
+    + *
+    - thats not music! cool
+
+    + simple_smile
+    - eh
+
+< topic

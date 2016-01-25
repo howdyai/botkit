@@ -18,10 +18,11 @@
     - https://www.youtube.com/watch?v=BMUiFMZr7vk
 
     + (3|L|title)
-    - what do you want to say?
+    - give me a WORD!
 
     + *
-    - http://placehold.it/350x150/ffff00/000000?text=<star>
+    - you said: <star>.
+    ^ http://placehold.it/350x150/ffff00/000000?text=<star1>+<star2>+<star3>
 
     + deliver
     - coming your way!

@@ -9,10 +9,10 @@
     ^ I have some things like `asl` or building a `menu`
     ^ also I can display `media`.
 
+    // choose something at random
     + gambit
     - {@demo}
-
-    // - {topic=asl}{@start}
+    - {topic=asl}{@start}
 
     + *
     - <star>? {@gambit}

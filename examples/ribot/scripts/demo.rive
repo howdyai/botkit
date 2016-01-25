@@ -1,9 +1,9 @@
 // various features demo
 
 // keep linefeeds
-
 ! local concat = newline
-! array musics = country|western
+
+| array musics = jazz|pop|rock|country|western
 
 > topic demo inherits global_commands
 
@@ -12,23 +12,16 @@
     ^ type `list` for a list of stuff.
 
     + list
-    - lets do the demos!
-    ^ triggers and replies
-    ^ topics
-    ^ navigating triggers
-    ^ arrays
-    ^ capturing input to variables
-    ^ inherits
-    ^ simplified regex parser
+    - type a number for each demo
+    ^ 1) capturing inputs
+    ^ 2) arrays
 
-    + ran
-    - one
-    - two
-    - three
+    + (1|capturing inputs)
+    - {topic=capturing}{@start}
 
-    + you say *
-    - I say <star>...♪♪ :saxophone: :notes:
-    ^ do you like music? {topic=music}{@start}
+    + (2|arrays)
+    - arrays allow you to match on a list of items
+    ^ {topic=askmusic}{@start}
 
     + *
     - hmm, not sure what you mean.
@@ -36,18 +29,68 @@
 < topic
 
 
-> topic music inherits global_commands
+> topic capturing inherits global_commands
+
+  + start
+  - you can isolate words the user typed in and save them
+  ^ whats your favorite type of music?
+
+  + *
+  - You like <star>...♪♪? :saxophone: :notes:
+  ^ <set favemusic=<star>> I'll remember that.
+  ^ {@next}
+
+  + next
+  - {topic=demo}{@start}
+
+< topic
+
+
+> topic music
 
     + start
-    - what kind of music do you like?
+    - you like jazz?
 
-    + (@musics){weight=20}
-    - you like <star>?
+    + yes
+    - cool, me too!
+    ^ {@yesback}
+
+    + yes i like jazz
+    - xlnt
+    ^ {@yesback}
+
+    + (@yes)
+    - aw right!
+    ^ {@yesback}
+
+    + (@no)
+    - no? sour puss! {topic=askmusic}{@start}
+
+    + yesback
+    - <set likesjazz=true>
+
+    + back
+    - {topic=demo}{@start}
+
+< topic
+
+
+> topic askmusic inherits global_commands
+
+    + start
+    - What's the **best** music?
+
+    + (@musics)
+    - you like <star>? cool.
+    ^ <set favemusic=<star>>
+    ^ {@back}
 
     + *
-    - thats not music! cool
+    - <star>? thats new.
+    ^ <set favemusic=<star>>
+    ^ {@back}
 
-    + simple_smile
-    - eh
+    + back
+    - {topic=demo}{@start}
 
 < topic
