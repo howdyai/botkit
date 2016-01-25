@@ -241,11 +241,11 @@ controller.hears(['uptime', 'identify yourself', 'who are you', 'what is your na
     }
 );
 
-controller.on(['direct_message','direct_mention'], function(bot, message) {
-    if (!message.heard) {
-        bot.reply(message, ':robot_face:?');
-    }
-});
+// controller.on(['direct_message', 'direct_mention'], function(bot, message) {
+//     if (!message.heard) {
+//         bot.reply(message, ':robot_face:?');
+//     }
+// });
 
 function formatUptime(uptime) {
     var unit = 'second';
