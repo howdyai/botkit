@@ -16,7 +16,7 @@ This bot demonstrates many of the core features of Botkit:
 * Receive messages using the slash_command event
 * Reply to Slash command both publicly and privately
 
-# RUN THE BOT:
+//RUN THE BOT:
 
   Create a Slack app. Make sure to configure at least one Slash command!
 
@@ -30,7 +30,7 @@ This bot demonstrates many of the core features of Botkit:
     in Slack, the app must be hosted at a publicly reachable IP or host.
 
 
-# EXTEND THE BOT:
+//EXTEND THE BOT:
 
   Botkit is has many features for building cool and useful bots!
 
@@ -42,36 +42,36 @@ This bot demonstrates many of the core features of Botkit:
 var Botkit = require('../lib/Botkit.js');
 
 if (!process.env.clientId || !process.env.clientSecret || !process.env.port) {
-  console.log('Error: Specify clientId clientSecret and port in environment');
-  process.exit(1);
+    console.log('Error: Specify clientId clientSecret and port in environment');
+    process.exit(1);
 }
 
 var controller = Botkit.slackbot({
-  json_file_store: './db_slackbutton_slashcommand/',
+    json_file_store: './db_slackbutton_slashcommand/',
 }).configureSlackApp({
     clientId: process.env.clientId,
     clientSecret: process.env.clientSecret,
     scopes: ['commands'],
-  });
-
-
-controller.setupWebserver(process.env.port,function(err,webserver) {
-
-  controller.createWebhookEndpoints(controller.webserver);
-
-  controller.createOauthEndpoints(controller.webserver,function(err,req,res) {
-    if (err) {
-      res.status(500).send('ERROR: ' + err);
-    } else {
-      res.send('Success!');
-    }
-  });
 });
 
 
-controller.on('slash_command',function(bot,message) {
+controller.setupWebserver(process.env.port, function(err, webserver) {
 
-  bot.replyPublic(message,'<@' + message.user + '> is cool!');
-  bot.replyPrivate(message,'*nudge nudge wink wink*');
+    controller.createWebhookEndpoints(controller.webserver);
+
+    controller.createOauthEndpoints(controller.webserver, function(err, req, res) {
+        if (err) {
+            res.status(500).send('ERROR: ' + err);
+        } else {
+            res.send('Success!');
+        }
+    });
+});
+
+
+controller.on('slash_command', function(bot, message) {
+
+    bot.replyPublic(message, '<@' + message.user + '> is cool!');
+    bot.replyPrivate(message, '*nudge nudge wink wink*');
 
 });
