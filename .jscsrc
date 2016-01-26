@@ -8,5 +8,13 @@
     "requireCamelCaseOrUpperCaseIdentifiers": null,
     "requireCurlyBraces": null,
     "validateIndentation": 4,
-    "requireSpaceAfterComma": true
+    "requireSpaceAfterComma": true,
+    "jsDoc": {
+        "checkAnnotations": {
+            "preset": "jsdoc3",
+            "extra": {
+                "callback": true
+            }
+        }
+    }
 }

@@ -10,7 +10,7 @@ This is a sample Slack bot built with Botkit.
 
 This bot demonstrates a multi-stage conversation
 
-# RUN THE BOT:
+//RUN THE BOT:
 
   Get a Bot token from Slack:
 
@@ -20,7 +20,7 @@ This bot demonstrates a multi-stage conversation
 
     token=<MY TOKEN> node demo_bot.js
 
-# USE THE BOT:
+//USE THE BOT:
 
   Find your bot inside Slack
 
@@ -29,20 +29,20 @@ This bot demonstrates a multi-stage conversation
   The bot will reply "What flavor of pizza do you want?"
 
   Say what flavor you want.
-  
+
   The bot will reply "Awesome" "What size do you want?"
 
   Say what size you want.
 
   The bot will reply "Ok." "So where do you want it delivered?"
-  
+
   Say where you want it delivered.
-  
+
   The bot will reply "Ok! Good by."
-  
+
   ...and will refrain from billing your card because this is just a demo :P
 
-# EXTEND THE BOT:
+//EXTEND THE BOT:
 
   Botkit is has many features for building cool and useful bots!
 
@@ -55,43 +55,43 @@ This bot demonstrates a multi-stage conversation
 var Botkit = require('../lib/Botkit.js');
 
 if (!process.env.token) {
-  console.log('Error: Specify token in environment');
-  process.exit(1);
+    console.log('Error: Specify token in environment');
+    process.exit(1);
 }
 
 var controller = Botkit.slackbot({
- debug: false
+    debug: false
 });
 
 controller.spawn({
-  token: process.env.token
+    token: process.env.token
 }).startRTM(function(err) {
-  if (err) {
-    throw new Error(err);
-  }
+    if (err) {
+        throw new Error(err);
+    }
 });
 
-controller.hears(['pizzatime'],['ambient'],function(bot,message) {
-  bot.startConversation(message, askFlavor);
+controller.hears(['pizzatime'], ['ambient'], function(bot, message) {
+    bot.startConversation(message, askFlavor);
 });
 
 askFlavor = function(response, convo) {
-  convo.ask("What flavor of pizza do you want?", function(response, convo) {
-    convo.say("Awesome.");
-    askSize(response, convo);
-    convo.next();
-  });
-}
+    convo.ask('What flavor of pizza do you want?', function(response, convo) {
+        convo.say('Awesome.');
+        askSize(response, convo);
+        convo.next();
+    });
+};
 askSize = function(response, convo) {
-  convo.ask("What size do you want?", function(response, convo) {
-    convo.say("Ok.")
-    askWhereDeliver(response, convo);
-    convo.next();
-  });
-}
-askWhereDeliver = function(response, convo) { 
-  convo.ask("So where do you want it delivered?", function(response, convo) {
-    convo.say("Ok! Good by.");
-    convo.next();
-  });
-}
+    convo.ask('What size do you want?', function(response, convo) {
+        convo.say('Ok.');
+        askWhereDeliver(response, convo);
+        convo.next();
+    });
+};
+askWhereDeliver = function(response, convo) {
+    convo.ask('So where do you want it delivered?', function(response, convo) {
+        convo.say('Ok! Good by.');
+        convo.next();
+    });
+};
