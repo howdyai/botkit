@@ -9,6 +9,9 @@
     + gmenu{weight=10}
     - {topic=gmenu}{@start}
 
+    + testing{weight=10}
+    - {topic=testing}{@start}
+
     // this will get looked for first
     + status{weight=20}
     - topic is <get topic>

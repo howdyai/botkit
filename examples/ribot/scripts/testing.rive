@@ -1,0 +1,14 @@
+! local concat = newline
+
+// every bot needs a "random" topic as an entry point and fallback
+
+> topic testing inherits global_commands
+
+    + start
+    - testing utils
+
+    // res = "hello to you".match(/(hello|world) [to] (you|me)/)
+    + (hello|hi|yo) [to] (you|me)
+    - echo <star1> to <star2>
+
+< topic
