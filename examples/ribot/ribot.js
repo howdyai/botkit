@@ -1,4 +1,4 @@
-"use strict";
+'use strict';
 
 var BotLoader = require('./BotLoader.js');
 
@@ -18,38 +18,39 @@ var controller = Botkit.slackbot({
 
 var bot = controller.spawn({
     token: process.env.token
-}).startRTM();
+});
+bot.startRTM();
 
 // reset the scripts without restart
-controller.hears(['reset'],'ambient',function(bot, message) {
+controller.hears(['reset'], 'ambient', function(bot, message) {
     BotLoader.reset();
     bot.reply(message, 'reseted');
 });
 
 // send everything to the ribot
-controller.hears(['.*'],'ambient',function(bot, message) {
-    let reply = BotLoader.brain.reply(message.username, message.text)
-    console.log("user>", message.text);
-    console.log("bot >", reply);
-    console.log("--");
+controller.hears(['.*'], 'ambient', function(bot, message) {
+    let reply = BotLoader.brain.reply(message.username, message.text);
+    console.log('user>', message.text);
+    console.log('bot >', reply);
+    console.log('--');
     bot.reply(message, reply);
 });
 
 
-controller.hears(['.*'],['direct_message','direct_mention'],function(bot,message) {
-    bot.startConversation(message,function(err,convo) {
-        let reply = BotLoader.brain.reply(message.username, message.text)
-        console.log("user dm>", message.text);
-        console.log("bot >", reply);
-        console.log("--");
+controller.hears(['.*'], ['direct_message', 'direct_mention'], function(bot, message) {
+    bot.startConversation(message, function(err, convo) {
+        let reply = BotLoader.brain.reply(message.username, message.text);
+        console.log('user dm>', message.text);
+        console.log('bot >', reply);
+        console.log('--');
         bot.reply(message, reply);
     });
 
-    bot.startPrivateConversation(message,function(err,dm) {
-        let reply = BotLoader.brain.reply(message.username, message.text)
-        console.log("user>", message.text);
-        console.log("bot >", reply);
-        console.log("--");
+    bot.startPrivateConversation(message, function(err, dm) {
+        let reply = BotLoader.brain.reply(message.username, message.text);
+        console.log('user>', message.text);
+        console.log('bot >', reply);
+        console.log('--');
         //   bot.reply(message, reply);
         dm.say('Private reply!');
     });
@@ -59,24 +60,24 @@ controller.hears(['.*'],['direct_message','direct_mention'],function(bot,message
 
 // receive outgoing or slash commands
 // if you are already using Express, you can use your own server instance...
-controller.setupWebserver(process.env.PORT,function(err,webserver) {
+controller.setupWebserver(process.env.PORT, function(err, webserver) {
 
-    console.log("starting webserver on PORT", process.env.PORT);
+    console.log('starting webserver on PORT', process.env.PORT);
     controller.createWebhookEndpoints(controller.webserver);
 
 });
 
 // https://github.com/howdyai/botkit/blob/master/readme.md#outgoing-webhooks-and-slash-commands
 
-controller.on('slash_command',function(bot,message) {
+controller.on('slash_command', function(bot, message) {
 
     console.log('slash command', message);
     if (message.command == '/reset') {
         BotLoader.reset();
-        bot.replyPublic(message,'reset!');
+        bot.replyPublic(message, 'reset!');
     }
 
     // reply to slash command
-    bot.replyPublic(message,'Everyone can see the results of this slash command');
+    bot.replyPublic(message, 'Everyone can see the results of this slash command');
 
 });

@@ -3,7 +3,7 @@
 // keep linefeeds
 ! local concat = newline
 
-| array musics = jazz|pop|rock|country|western
+! array musics = jazz|pop|rock|country|western
 
 > topic demo inherits global_commands
 
@@ -46,7 +46,7 @@
 < topic
 
 
-> topic music
+> topic music inherits global_commands
 
     + start
     - you like jazz?

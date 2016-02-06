@@ -1,7 +1,7 @@
 // every bot needs a "random" topic as an entry point and fallback
 ! local concat = newline
 
-> topic asl
+> topic asl inherits global_commands
 
     + (@hello)
     - Well, <star> to you too!

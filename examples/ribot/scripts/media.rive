@@ -17,7 +17,7 @@
     + (2|v|video)
     - https://www.youtube.com/watch?v=BMUiFMZr7vk
 
-    + (3|L|title)
+    + (3|l|title)
     - give me a WORD!
 
     + *

@@ -1,0 +1,105 @@
+// chat about
+! local concat = newline
+
+
+// -----------------------------------------------------
+
+> topic gmenu inherits global_commands
+
+  + start
+    * <get lesson_number> == undefined => <set lesson_number=1>Choose a lesson by typing a number: 1-1? <set currq=lesson_number>
+    - goto: {topic=grammar} <get lesson_number>
+
+//  + *
+//  - <get lesson_number> == undefined => <set lesson_number=1>Choose a lesson by typing a number: 1-1? <set currq=lesson_number>
+//    - {topic=grammar}{@start}
+
+    // {@q<get lesson_number>}
+    // - {topic=grammar} <get lesson_number>
+
+  + gstatus
+    - grammar status
+    ^ lesson_number = <get lesson_number>
+    ^ currq = <get currq>
+
+< topic
+
+
+> topic grammar inherits global_commands
+
+  + usually
+    * <get question_number> == q12 => Correct! Try again:
+    ^ {@<get lesson_number>}
+
+  + sometimes
+    * <get question_number> == q11 => Correct! Try again:
+    ^ {@<get lesson_number>}
+
+  + seldom
+    * <get question_number> == q9 => Correct! Try again:
+    * <get question_number> == q6 => Correct! Try again:
+    ^ {@<get lesson_number>}
+
+  + rarely
+    * <get question_number> == q12 => Correct! Try again:
+    * <get question_number> == q10 => Correct! Try again:
+    * <get question_number> == q7 => Correct! Try again:
+    ^ {@<get lesson_number>}
+
+  + once in a while
+    * <get question_number> == q4 => Correct! Try again:
+    ^ {@<get lesson_number>}
+
+  + often
+    * <get question_number> == q8 => Correct! Try again:
+    * <get question_number> == q5 => Correct! Try again:
+    ^ {@<get lesson_number>}
+
+  + never
+    * <get question_number> == q11 => Correct! Try again:
+    * <get question_number> == q8 => Correct! Try again:
+    * <get question_number> == q5 => Correct! Try again:
+    * <get question_number> == q4 => Correct! Try again:
+    * <get question_number> == q1 => Correct! Try again:
+    ^ {@<get lesson_number>}
+
+  + frequently
+    * <get question_number> == q3 => Correct! Try again:
+    * <get question_number> == q1 => Correct! Try again:
+    ^ {@<get lesson_number>}
+
+  + every day
+    * <get question_number> == q3 => Correct! Try again:
+    * <get question_number> == q2 => Correct! Try again:
+    ^ {@<get lesson_number>}
+
+  + always
+    * <get question_number> == q10 => Correct! Try again:
+    * <get question_number> == q9 => Correct! Try again:
+    * <get question_number> == q7 => Correct! Try again:
+    ^ {@<get lesson_number>}
+
+  + almost never
+    * <get question_number> == q2 => Correct! Try again:
+    ^ {@<get lesson_number>}
+
+  + almost always
+    * <get question_number> == q6 => Correct! Try again:
+    ^ {@<get lesson_number>}
+
+
+  + start
+    * <get question_number> == q11 => <set question_number=q12>The doctor says, "I go to the hospital." [rarely|usually]
+    * <get question_number> == q10 => <set question_number=q11>The police officer says, "I arrest people." [sometimes|never]
+    * <get question_number> == q9 => <set question_number=q10>The football player says, "I practice in the middle of the night." [always|rarely]
+    * <get question_number> == q8 => <set question_number=q9>The salesperson says, "I fight with customers." [always|seldom]
+    * <get question_number> == q7 => <set question_number=q8>The taxi driver says, "I drive at night." [never|often]
+    * <get question_number> == q6 => <set question_number=q7>The pharmacist says, "I'm careful." [always|rarely]
+    * <get question_number> == q5 => <set question_number=q6>The mechanic says, "I find the problem with the car." [almost always|seldom]
+    * <get question_number> == q4 => <set question_number=q5>The chef says, "I put lemon in milk." [never|often]
+    * <get question_number> == q3 => <set question_number=q4>The factory worker says, "I'm bored." [once in a while|never]
+    * <get question_number> == q2 => <set question_number=q3>The nurse says, "The hospital is open." [every day|frequently]
+    * <get question_number> == q1 => <set question_number=q2>The firefighter says, "I wear a suit and tie to work ." [every day|almost never]
+    * <get question_number> == undefined => <set question_number=q1>The flight attendant says, "We're away from home for three or four days." [frequently|never]
+
+< topic
