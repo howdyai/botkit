@@ -78,7 +78,12 @@ var controller = Botkit.slackbot({
 
 var bot = controller.spawn({
     token: process.env.token
-}).startRTM();
+}).startRTM(function(err) {
+
+    if (err) {
+        console.log('** RTM ERROR: ',err);
+    }
+});
 
 
 
@@ -144,6 +149,20 @@ controller.middleware.send.use(function(bot, message, next) {
             message.text = 'OH HELLOOOOOOO';
         }
     }
+    next();
+
+});
+
+controller.middleware.pre_api.use(function(command, options, next) {
+
+    console.log("PRE API: " + command);
+    next();
+
+});
+
+controller.middleware.post_api.use(function(command, options, json, next) {
+
+    console.log("POST API: ", json);
     next();
 
 });
