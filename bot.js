@@ -153,14 +153,14 @@ controller.middleware.send.use(function(bot, message, next) {
 
 });
 
-controller.middleware.pre_api.use(function(command, options, next) {
+controller.middleware.pre_api.use(function(command, options, cb, next) {
 
     console.log("PRE API: " + command);
     next();
 
 });
 
-controller.middleware.post_api.use(function(command, options, json, next) {
+controller.middleware.post_api.use(function(command, options, cb, json, next) {
 
     console.log("POST API: ", json);
     next();

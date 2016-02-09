@@ -12,6 +12,8 @@ Botkit currently supports middleware insertion in three places:
 * When receiving a message, before triggering any events
 * When hearing a message, before triggering any events
 * When sending a message, before the message is sent to the API
+* Before making a call to an external API
+* After making a call to an external API
 
 Middleware functions are added to Botkit using an Express-style "use" syntax.
 Each function receives (at least) a bot parameter, a message parameter, and
@@ -95,6 +97,36 @@ controller.middleware.send.use(function(bot, message, next) {
     if (message.intent == 'hi') {
         message.text = 'Hello!!!';
     }
+    next();
+
+});
+```
+
+# Pre_API Middleware
+
+```
+controller.middleware.pre_api.use(function(command, options, cb, next) {
+
+    // do something useful...
+    // like check a cache and call cb with that version instead of  
+    // continuing
+    // if (cached) {
+    // cb(null,cached_version);
+    // } else {
+    // next();
+    // }
+
+});
+```
+
+# Post_API Middleware
+
+
+```
+controller.middleware.post_api.use(function(command, options, cb, response_payload, next) {
+
+    // do something useful...
+    // like stuff response_payload into the cache
     next();
 
 });
