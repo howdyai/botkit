@@ -63,7 +63,6 @@ This bot demonstrates many of the core features of Botkit:
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 
-
 if (!process.env.token) {
     console.log('Error: Specify token in environment');
     process.exit(1);
@@ -79,7 +78,6 @@ var controller = Botkit.slackbot({
 var bot = controller.spawn({
     token: process.env.token
 }).startRTM();
-
 
 controller.hears(['hello','hi'],'direct_message,direct_mention,mention',function(bot, message) {
 
@@ -157,7 +155,6 @@ controller.hears(['shutdown'],'direct_message,direct_mention,mention',function(b
     });
 });
 
-
 controller.hears(['uptime','identify yourself','who are you','what is your name'],'direct_message,direct_mention,mention',function(bot, message) {
 
     var hostname = os.hostname();
@@ -166,6 +163,108 @@ controller.hears(['uptime','identify yourself','who are you','what is your name'
     bot.reply(message,':robot_face: I am a bot named <@' + bot.identity.name + '>. I have been running for ' + uptime + ' on ' + hostname + '.');
 
 });
+
+// Custom watches
+
+controller.hears(['lunch'],'direct_message,direct_mention,mention',function(bot, message) {
+  bot.api.reactions.add({
+      timestamp: message.ts,
+      channel: message.channel,
+      name: 'robot_face',
+  },function(err, res) {
+      if (err) {
+          bot.botkit.log('Failed to add emoji reaction :(',err);
+      }
+  });
+    
+  bot.startConversation(message, askOrderType);
+});
+
+
+askOrderType = function(response, convo){
+  convo.ask("Do you want to sit down or get it to go?", function(response, convo){
+    isToGo = false;
+    switch(response.text.toLowerCase()){
+      case 'get it to go':
+      case 'togo':
+      case 'to go':
+        isToGo = true;
+        break;
+      case 'sit down':
+      case 'sit':
+      case 'i just want to chill':
+        isToGo = false;
+        break;
+      default:
+        askUnknownReponse(response, convo);
+        convo.next();
+        break;
+    }
+
+    sendConfirmResponse(convo);
+    askToGoSpendAmount(response, convo);
+
+    convo.next();
+  });
+}
+
+askToGoSpendAmount = function(response, convo){
+  convo.ask("How much do you want to spend?", function(response, convo){
+    priceRange = 0;
+
+    try{
+      desiredPrice = parseInt(response.text.replace(/(\$)|(\.\d\d)|(\.\d)/g, ''));
+      makeDecision(response, convo);
+    }catch(e){
+        console.log(e);
+        convo.say("Hrmm... that's not a number I recognize.\r\n");
+        convo.repeat();
+    }
+
+    convo.next();
+  });
+}
+
+makeDecision = function(response, convo){
+  var response;
+
+  if(isToGo){
+    if(desiredPrice < 10){
+        response = "You're going to Potbelly."
+    } else if(desiredPrice < 20){
+        response = "Sushi it is!"
+    } else {
+        response = defaultLunchMsg;
+    }
+  } else {
+    if(desiredPrice < 10){
+        response = "Go to Pizza Pros"
+    } else if(desiredPrice < 20){
+        response = "Collins Pub comes highly recommended.";
+    } else if(desiredPrice >= 20){
+        response = "Since you're so fancy, might as well go to the Met.";
+    } else {
+        response = defaultLunchMsg;
+    }
+  }
+
+  convo.say(response);
+  convo.next();
+}
+
+askUnknownReponse = function(response, convo){
+  convo.say("Since I'm a pretty dumb robot, I didn't understand what you just said...\r\n");
+  convo.repeat();
+  convo.next();
+}
+
+function sendConfirmResponse(convo){
+  convo.say(getResponseConfirm());
+}
+
+function getResponseConfirm(){
+  return arrConfirmResponses[getRandomInt(0,arrConfirmResponses.length - 1)];
+}
 
 function formatUptime(uptime) {
     var unit = 'second';
@@ -184,3 +283,19 @@ function formatUptime(uptime) {
     uptime = uptime + ' ' + unit;
     return uptime;
 }
+
+function getRandomInt(min, max) {
+    return Math.floor(Math.random() * (max - min + 1)) + min;
+}
+
+var arrConfirmResponses = [
+  'Cool',
+  'Alright',
+  'Nice',
+  'Sounds good',
+  'Right on!'
+]; 
+
+var desiredPrice = 0,
+    isToGo = false,
+    defaultLunchMsg = "Lunchbot ran into an error. You should just go to Potbelly.";
