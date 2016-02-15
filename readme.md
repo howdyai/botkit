@@ -419,6 +419,25 @@ controller.on('ambient',function(bot,message) {
 
 })
 
+//Using attachements
+controller.hears('another_keyword','direct_message,direct_mention',function(bot,message) {
+  var message_with_attachements = {
+    "username": "My bot" ,
+    "text": "This is a pre-text",
+    "attachments": [
+      {
+        "fallback": "To be useful, I need your to invite me in a channel.",
+        "title": "How can I help you?",
+        "text": "To be useful, I need your to invite me in a channel ",
+        "color": "#7CD197"
+      }
+    ],
+    "icon_url": "http://lorempixel.com/48/48"
+    }
+
+  bot.reply(message, message_with_attachements)
+});
+
 ```
 
 ### Multi-message Replies to Incoming Messages
@@ -459,6 +478,16 @@ Only the user who sent the original incoming message will be able to respond to 
 conversation that is created will occur in a private direct message channel between
 the user and the bot.
 
+It is possible to initiate a private conversation by passing a message object, containing the user's Slack ID.
+
+```javascript
+//assume var user_id has been defined
+bot.startPrivateConversation({user: user_id}, function(response, convo){
+  convo.say("Hello, I am your bot.")
+})
+```
+
+
 ### Control Conversation Flow
 
 #### conversation.say()
@@ -477,8 +506,25 @@ controller.hears(['hello world'],['direct_message','direct_mention','mention','a
     convo.say('Hello!');
     convo.say('Have a nice day!');
 
-  })
+    //Using attachements
+    var message_with_attachements = {
+      "username": " My bot " ,
+      "text": " this is a pre-text", //Note that convo.say requires a non-null text field, even "text": ""
+      "attachments": [
+        {
+          "fallback": "To be useful, I need your to invite me in a channel.",
+          "title": "How can I help you?",
+          "text": " To be useful, I need your to invite me in a channel ",
+          "color": "#7CD197"
+        }
+      ],
+      "icon_url": "http://lorempixel.com/48/48"
+      }
 
+      convo.say(message_with_attachements)
+    });
+
+  })
 });
 ```
 
@@ -607,7 +653,7 @@ askSize = function(response, convo) {
     convo.next();
   });
 }
-askWhereDeliver = function(response, convo) { 
+askWhereDeliver = function(response, convo) {
   convo.ask("So where do you want it delivered?", function(response, convo) {
     convo.say("Ok! Good by.");
     convo.next();
@@ -732,8 +778,6 @@ bot.startRTM(function(err,bot,payload) {
   // handle errors...
 });
 
-
-
 // send webhooks
 bot.configureIncomingWebhook({url: webhook_url});
 bot.sendWebhook({
@@ -742,7 +786,6 @@ bot.sendWebhook({
 },function(err,res) {
   // handle error
 });
-
 
 // receive outgoing or slash commands
 // if you are already using Express, you can use your own server instance...
@@ -927,11 +970,37 @@ If your bot has the appropriate scope, it may call [any of these method](https:/
 
 ```javascript
 bot.api.channels.list({},function(err,response) {
-
-
+  //Do something...
 })
 ```
 
+If you use the chat.postMessage web API endpoint, attachements needs to be stringified like this:
+
+```javascript
+var attachements = [
+  {
+    "fallback": "Hello, I am your new bot. Please invite me in a channel.",
+    "title": "Hello, I am a new bot for your team.",
+    "text": " To be useful, I need your to invite me in a channel ",
+    "color": "#7CD197"
+  }
+]
+
+var message_with_attachements = {
+  "username": " My bot " ,
+  "attachments": JSON.stringify(attachements),
+  "icon_url": "http://lorempixel.com/48/48"
+}
+
+bot.api.chat.postMessage(message_with_attachements,function(err) {
+  if(err){
+    console.log(err)
+  }
+  else{
+    //Do something
+  }
+})
+```
 
 # Advanced Topics
 
@@ -991,7 +1060,7 @@ where you may want a more sophisticated logging solution. You can write your
 own logging module that uses a third-party tool, like
 [winston](https://github.com/winstonjs/winston) or
 [Bristol](https://github.com/TomFrost/Bristol). Just create an object with a
-`log` method. That method should take a severity level (such as `'error'` or 
+`log` method. That method should take a severity level (such as `'error'` or
 `'debug'`) as its first argument, and then any number of other arguments that
 will be logged as messages. (Both Winston and Bristol create objects of this
 description; it's a common interface.)
