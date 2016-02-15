@@ -520,7 +520,7 @@ controller.hears(['hello world'],['direct_message','direct_mention','mention','a
       'icon_url': 'http://lorempixel.com/48/48'
       }
 
-      convo.say(message_with_attachments)
+      convo.say(message_with_attachments);
     });
 
   })
@@ -973,33 +973,6 @@ bot.api.channels.list({},function(err,response) {
 })
 ```
 
-If you use the chat.postMessage web API endpoint, attachments needs to be stringified like this:
-
-```javascript
-var attachments = [
-  {
-    'fallback': 'Hello, I am your new bot. Please invite me in a channel.',
-    'title': 'Hello, I am a new bot for your team.',
-    'text': ' To be useful, I need your to invite me in a channel ',
-    'color': '#7CD197'
-  }
-]
-
-var message_with_attachments = {
-  'username': ' My bot ' ,
-  'attachments': JSON.stringify(attachments),
-  'icon_url': 'http://lorempixel.com/48/48'
-}
-
-bot.api.chat.postMessage(message_with_attachments,function(err) {
-  if(err){
-    console.log(err)
-  }
-  else{
-    //Do something
-  }
-})
-```
 
 # Advanced Topics
 
