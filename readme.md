@@ -422,8 +422,8 @@ controller.on('ambient',function(bot,message) {
 //Using attachements
 controller.hears('another_keyword','direct_message,direct_mention',function(bot,message) {
   var message_with_attachements = {
-    "username": " My bot " ,
-    " text": " this is a pre-text",
+    "username": "My bot" ,
+    "text": "This is a pre-text",
     "attachments": [
       {
         "fallback": "To be useful, I need your to invite me in a channel.",
@@ -483,8 +483,8 @@ It is possible to initiate a private conversation by passing a message object, c
 ```javascript
 //assume var user_id has been defined
 bot.startPrivateConversation({user: user_id}, function(response, convo){
-    convo.say("Hello, I am your bot.")
-  })
+  convo.say("Hello, I am your bot.")
+})
 ```
 
 
@@ -778,8 +778,6 @@ bot.startRTM(function(err,bot,payload) {
   // handle errors...
 });
 
-
-
 // send webhooks
 bot.configureIncomingWebhook({url: webhook_url});
 bot.sendWebhook({
@@ -788,7 +786,6 @@ bot.sendWebhook({
 },function(err,res) {
   // handle error
 });
-
 
 // receive outgoing or slash commands
 // if you are already using Express, you can use your own server instance...
@@ -973,8 +970,7 @@ If your bot has the appropriate scope, it may call [any of these method](https:/
 
 ```javascript
 bot.api.channels.list({},function(err,response) {
-
-
+  //Do something...
 })
 ```
 
