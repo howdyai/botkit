@@ -4,17 +4,17 @@
           \ \  __<   \ \ \/\ \  \/_/\ \/ \ \  _"-.  \ \ \  \/_/\ \/
            \ \_____\  \ \_____\    \ \_\  \ \_\ \_\  \ \_\    \ \_\
             \/_____/   \/_____/     \/_/   \/_/\/_/   \/_/     \/_/
-This is a sample Slack Button application that adds a bot to one or many slack teams. 
+This is a sample Slack Button application that adds a bot to one or many slack teams.
 
 # RUN THE APP:
   Create a Slack app. Make sure to configure the bot user!
     -> https://api.slack.com/applications/new
   Run your bot from the command line:
-    clientId=<my client id> clientSecret=<my client secret> port=3000 node bot.js
+    clientId=<my client id> clientSecret=<my client secret> port=3000 node slackbutton_bot.js
 # USE THE APP
   Add the app to your Slack by visiting the login page:
     -> http://localhost:3000/login
-  After you've added the app, try talking to your bot! 
+  After you've added the app, try talking to your bot!
 # EXTEND THE APP:
   Botkit is has many features for building cool and useful bots!
   Read all about it here:
