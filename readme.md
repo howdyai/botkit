@@ -1,7 +1,6 @@
 # [Botkit](http://howdy.ai/botkit) - Building Blocks for Building Bots
 
-Botkit designed to ease the process of designing and running useful, creative or
-just plain weird bots (and other types of applications) that live inside [Slack](http://slack.com)!
+Botkit designed to ease the process of designing and running useful, creative or just plain weird bots (and other types of applications) that live inside [Slack](http://slack.com)!
 
 It provides a semantic interface to sending and receiving messages
 so that developers can focus on creating novel applications and experiences
@@ -419,23 +418,23 @@ controller.on('ambient',function(bot,message) {
 
 })
 
-//Using attachements
+//Using attachments
 controller.hears('another_keyword','direct_message,direct_mention',function(bot,message) {
-  var message_with_attachements = {
-    "username": "My bot" ,
-    "text": "This is a pre-text",
-    "attachments": [
+  var reply_with_attachments = {
+    'username': 'My bot' ,
+    'text': 'This is a pre-text',
+    'attachments': [
       {
-        "fallback": "To be useful, I need your to invite me in a channel.",
-        "title": "How can I help you?",
-        "text": "To be useful, I need your to invite me in a channel ",
-        "color": "#7CD197"
+        'fallback': 'To be useful, I need your to invite me in a channel.',
+        'title': 'How can I help you?',
+        'text': 'To be useful, I need your to invite me in a channel ',
+        'color': '#7CD197'
       }
     ],
-    "icon_url": "http://lorempixel.com/48/48"
+    'icon_url': 'http://lorempixel.com/48/48'
     }
 
-  bot.reply(message, message_with_attachements)
+  bot.reply(message, reply_with_attachments);
 });
 
 ```
@@ -483,7 +482,7 @@ It is possible to initiate a private conversation by passing a message object, c
 ```javascript
 //assume var user_id has been defined
 bot.startPrivateConversation({user: user_id}, function(response, convo){
-  convo.say("Hello, I am your bot.")
+  convo.say('Hello, I am your bot.')
 })
 ```
 
@@ -506,22 +505,22 @@ controller.hears(['hello world'],['direct_message','direct_mention','mention','a
     convo.say('Hello!');
     convo.say('Have a nice day!');
 
-    //Using attachements
-    var message_with_attachements = {
-      "username": " My bot " ,
-      "text": " this is a pre-text", //Note that convo.say requires a non-null text field, even "text": ""
-      "attachments": [
+    //Using attachments
+    var message_with_attachments = {
+      'username': 'My bot' ,
+      'text': 'this is a pre-text',
+      'attachments': [
         {
-          "fallback": "To be useful, I need your to invite me in a channel.",
-          "title": "How can I help you?",
-          "text": " To be useful, I need your to invite me in a channel ",
-          "color": "#7CD197"
+          'fallback': 'To be useful, I need your to invite me in a channel.',
+          'title': 'How can I help you?',
+          'text': ' To be useful, I need your to invite me in a channel ',
+          'color': '#7CD197'
         }
       ],
-      "icon_url": "http://lorempixel.com/48/48"
+      'icon_url': 'http://lorempixel.com/48/48'
       }
 
-      convo.say(message_with_attachements)
+      convo.say(message_with_attachments);
     });
 
   })
@@ -640,22 +639,22 @@ controller.hears(['pizzatime'],['ambient'],function(bot,message) {
 });
 
 askFlavor = function(response, convo) {
-  convo.ask("What flavor of pizza do you want?", function(response, convo) {
-    convo.say("Awesome.");
+  convo.ask('What flavor of pizza do you want?', function(response, convo) {
+    convo.say('Awesome.');
     askSize(response, convo);
     convo.next();
   });
 }
 askSize = function(response, convo) {
-  convo.ask("What size do you want?", function(response, convo) {
-    convo.say("Ok.")
+  convo.ask('What size do you want?', function(response, convo) {
+    convo.say('Ok.')
     askWhereDeliver(response, convo);
     convo.next();
   });
 }
 askWhereDeliver = function(response, convo) {
-  convo.ask("So where do you want it delivered?", function(response, convo) {
-    convo.say("Ok! Good by.");
+  convo.ask('So where do you want it delivered?', function(response, convo) {
+    convo.say('Ok! Good by.');
     convo.next();
   });
 }
@@ -974,33 +973,6 @@ bot.api.channels.list({},function(err,response) {
 })
 ```
 
-If you use the chat.postMessage web API endpoint, attachements needs to be stringified like this:
-
-```javascript
-var attachements = [
-  {
-    "fallback": "Hello, I am your new bot. Please invite me in a channel.",
-    "title": "Hello, I am a new bot for your team.",
-    "text": " To be useful, I need your to invite me in a channel ",
-    "color": "#7CD197"
-  }
-]
-
-var message_with_attachements = {
-  "username": " My bot " ,
-  "attachments": JSON.stringify(attachements),
-  "icon_url": "http://lorempixel.com/48/48"
-}
-
-bot.api.chat.postMessage(message_with_attachements,function(err) {
-  if(err){
-    console.log(err)
-  }
-  else{
-    //Do something
-  }
-})
-```
 
 # Advanced Topics
 
@@ -1018,15 +990,15 @@ var controller = Botkit.slackbot({
 
 This system supports freeform storage on a team-by-team, user-by-user, and channel-by-channel basis. Basically ```controller.storage``` is a key value store. All access to this system is through the following nine functions. Example usage:
 ```javascript
-controller.storage.users.save({id: message.user, foo:"bar"}, function(err) { ... });
+controller.storage.users.save({id: message.user, foo:'bar'}, function(err) { ... });
 controller.storage.users.get(id, function(err, user_data) {...});
 controller.storage.users.all(function(err, all_user_data) {...});
 
-controller.storage.channels.save({id: message.channel, foo:"bar"}, function(err) { ... });
+controller.storage.channels.save({id: message.channel, foo:'bar'}, function(err) { ... });
 controller.storage.channels.get(id, function(err, channel_data) {...});
 controller.storage.channels.all(function(err, all_channel_data) {...});
 
-controller.storage.teams.save({id: message.team, foo:"bar"}, function(err) { ... });
+controller.storage.teams.save({id: message.team, foo:'bar'}, function(err) { ... });
 controller.storage.teams.get(id, function(err, team_data) {...});
 controller.storage.teams.all(function(err, all_team_data) {...});
 ```
