@@ -134,6 +134,7 @@ controller.hears(['what is my name','who am i'],'direct_message,direct_mention,m
 controller.hears(['shutdown'],'direct_message,direct_mention,mention',function(bot, message) {
 
     bot.startConversation(message,function(err, convo) {
+
         convo.ask('Are you sure you want me to shutdown?',[
             {
                 pattern: bot.utterances.yes,
