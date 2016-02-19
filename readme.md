@@ -367,7 +367,7 @@ on the type and number of messages that will be sent.
 
 Single message replies to incoming commands can be sent using the `bot.reply()` function.
 
-Multi-message replies, particulary those that present questions for the end user to respond to,
+Multi-message replies, particularly those that present questions for the end user to respond to,
 can be sent using the `bot.startConversation()` function and the related conversation sub-functions.
 
 Bots can originate messages - that is, send a message based on some internal logic or external stimulus -
@@ -654,7 +654,7 @@ askSize = function(response, convo) {
 }
 askWhereDeliver = function(response, convo) {
   convo.ask('So where do you want it delivered?', function(response, convo) {
-    convo.say('Ok! Good by.');
+    convo.say('Ok! Good bye.');
     convo.next();
   });
 }
