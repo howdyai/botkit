@@ -4,11 +4,13 @@
   "description": "Building blocks for Building Bots",
   "main": "lib/Botkit.js",
   "dependencies": {
+    "babel-runtime": "^6.3.19",
     "body-parser": "^1.14.2",
     "express": "^4.13.3",
     "jfs": "^0.2.6",
     "mustache": "^2.2.1",
     "request": "^2.67.0",
+    "smooch-core": "0.0.14",
     "ws": "^1.0.0"
   },
   "devDependencies": {
