@@ -1,7 +1,10 @@
 # [Botkit](http://howdy.ai/botkit) - Building Blocks for Building Bots
 
-Botkit designed to ease the process of designing and running useful, creative or
-just plain weird bots (and other types of applications) that live inside [Slack](http://slack.com)!
+[![npm](https://img.shields.io/npm/v/botkit.svg)](https://www.npmjs.com/package/botkit)
+[![David](https://img.shields.io/david/howdyai/botkit.svg)](https://david-dm.org/howdyai/botkit)
+[![npm](https://img.shields.io/npm/l/botkit.svg)](https://spdx.org/licenses/MIT)
+
+Botkit designed to ease the process of designing and running useful, creative or just plain weird bots (and other types of applications) that live inside [Slack](http://slack.com)!
 
 It provides a semantic interface to sending and receiving messages
 so that developers can focus on creating novel applications and experiences
@@ -28,9 +31,20 @@ If you want to use the example code and included bots, it may be preferable to u
 git clone git@github.com:howdyai/botkit.git
 ```
 
+After cloning the Git repository, you have to install the node dependencies. Navigate to the root of your cloned repository and use npm to install all necessary dependencies.
+```bash
+npm install
+```
+
+Use the `--production` flag to skip the installation of devDependencies from Botkit. Useful if you just wish to run the example bot.
+```bash
+npm install --production
+```
+
+
 ## Getting Started
 
-1) Install Botkit
+1) Install Botkit. See [Installation](#installation) instructions.
 
 2) First make a bot integration inside of your Slack channel. Go here:
 
@@ -103,6 +117,8 @@ var Botkit = require('botkit');
 
 var controller = Botkit.slackbot({
   debug: false
+  //include "log: false" to disable logging
+  //or a "logLevel" integer from 0 to 7 to adjust logging verbosity
 });
 
 // connect the bot to a stream of messages
@@ -111,7 +127,7 @@ controller.spawn({
 }).startRTM()
 
 // give the bot something to listen for.
-controller.hears('hello','direct_message,direct_mention,mention',function(bot,message) {
+controller.hears('hello',['direct_message','direct_mention','mention'],function(bot,message) {
 
   bot.reply(message,'Hello yourself.');
 
@@ -222,7 +238,7 @@ for more information about listening for and responding to messages.
 
 It is also possible to bind event handlers directly to any of the enormous number of native Slack events, as well as a handful of custom events emitted by Botkit.
 
-You can receive and handle any of the [native events thrown by slack](https://api.slack.com/events).  
+You can receive and handle any of the [native events thrown by slack](https://api.slack.com/events).
 
 ```javascript
 controller.on('channel_joined',function(bot,message) {
@@ -335,6 +351,17 @@ controller.hears(['keyword','^pattern$'],['direct_message','direct_mention','men
 
 });
 ```
+For example,
+
+```javascript
+controller.hears('open the (.*) doors',['direct_message','mention'],function(bot,message) {
+  var doorType = message.match[1]; //match[1] is the (.*) group. match[0] is the entire group (open the (.*) doors).
+  if (doorType === 'pod bay') {
+    return bot.reply(message, 'I\'m sorry, Dave. I\'m afraid I can\'t do that.');
+  }
+  return bot.reply(message, 'Okay');
+});
+```
 
 ## Sending Messages
 
@@ -344,7 +371,7 @@ on the type and number of messages that will be sent.
 
 Single message replies to incoming commands can be sent using the `bot.reply()` function.
 
-Multi-message replies, particulary those that present questions for the end user to respond to,
+Multi-message replies, particularly those that present questions for the end user to respond to,
 can be sent using the `bot.startConversation()` function and the related conversation sub-functions.
 
 Bots can originate messages - that is, send a message based on some internal logic or external stimulus -
@@ -395,6 +422,25 @@ controller.on('ambient',function(bot,message) {
 
 })
 
+//Using attachments
+controller.hears('another_keyword','direct_message,direct_mention',function(bot,message) {
+  var reply_with_attachments = {
+    'username': 'My bot' ,
+    'text': 'This is a pre-text',
+    'attachments': [
+      {
+        'fallback': 'To be useful, I need your to invite me in a channel.',
+        'title': 'How can I help you?',
+        'text': 'To be useful, I need your to invite me in a channel ',
+        'color': '#7CD197'
+      }
+    ],
+    'icon_url': 'http://lorempixel.com/48/48'
+    }
+
+  bot.reply(message, reply_with_attachments);
+});
+
 ```
 
 ### Multi-message Replies to Incoming Messages
@@ -435,6 +481,16 @@ Only the user who sent the original incoming message will be able to respond to 
 conversation that is created will occur in a private direct message channel between
 the user and the bot.
 
+It is possible to initiate a private conversation by passing a message object, containing the user's Slack ID.
+
+```javascript
+//assume var user_id has been defined
+bot.startPrivateConversation({user: user_id}, function(response, convo){
+  convo.say('Hello, I am your bot.')
+})
+```
+
+
 ### Control Conversation Flow
 
 #### conversation.say()
@@ -453,8 +509,25 @@ controller.hears(['hello world'],['direct_message','direct_mention','mention','a
     convo.say('Hello!');
     convo.say('Have a nice day!');
 
-  })
+    //Using attachments
+    var message_with_attachments = {
+      'username': 'My bot' ,
+      'text': 'this is a pre-text',
+      'attachments': [
+        {
+          'fallback': 'To be useful, I need your to invite me in a channel.',
+          'title': 'How can I help you?',
+          'text': ' To be useful, I need your to invite me in a channel ',
+          'color': '#7CD197'
+        }
+      ],
+      'icon_url': 'http://lorempixel.com/48/48'
+      }
 
+      convo.say(message_with_attachments);
+    });
+
+  })
 });
 ```
 
@@ -522,7 +595,7 @@ controller.hears(['question me'],['direct_message','direct_mention','mention','a
         pattern: 'done',
         callback: function(response,convo) {
           convo.say('OK you are done!');
-          convo.next();          
+          convo.next();
         }
       },
       {
@@ -556,6 +629,42 @@ controller.hears(['question me'],['direct_message','direct_mention','mention','a
 
 });
 ```
+
+##### Multi-stage conversations
+
+![multi-stage convo example](https://www.evernote.com/shard/s321/sh/7243cadf-be40-49cf-bfa2-b0f524176a65/f9257e2ff5ee6869/res/bc778282-64a5-429c-9f45-ea318c729225/screenshot.png?resizeSmall&width=832)
+
+The recommended way to have multi-stage conversations is with multiple functions
+which call eachother. Each function asks just one question. Example:
+
+```javascript
+controller.hears(['pizzatime'],['ambient'],function(bot,message) {
+  bot.startConversation(message, askFlavor);
+});
+
+askFlavor = function(response, convo) {
+  convo.ask('What flavor of pizza do you want?', function(response, convo) {
+    convo.say('Awesome.');
+    askSize(response, convo);
+    convo.next();
+  });
+}
+askSize = function(response, convo) {
+  convo.ask('What size do you want?', function(response, convo) {
+    convo.say('Ok.')
+    askWhereDeliver(response, convo);
+    convo.next();
+  });
+}
+askWhereDeliver = function(response, convo) {
+  convo.ask('So where do you want it delivered?', function(response, convo) {
+    convo.say('Ok! Good bye.');
+    convo.next();
+  });
+}
+```
+
+The full code for this example can be found in ```examples/convo_bot.js```.
 
 ##### Included Utterances
 
@@ -641,7 +750,7 @@ respond to incoming messages, you may want to use [Slack's incoming webhooks fea
 bot.say(
   {
     text: 'my message text',
-    channel: '#channel'
+    channel: 'C0H338YH4'
   }
 );
 ```
@@ -672,8 +781,6 @@ bot.startRTM(function(err,bot,payload) {
   // handle errors...
 });
 
-
-
 // send webhooks
 bot.configureIncomingWebhook({url: webhook_url});
 bot.sendWebhook({
@@ -682,7 +789,6 @@ bot.sendWebhook({
 },function(err,res) {
   // handle error
 });
-
 
 // receive outgoing or slash commands
 // if you are already using Express, you can use your own server instance...
@@ -867,8 +973,7 @@ If your bot has the appropriate scope, it may call [any of these method](https:/
 
 ```javascript
 bot.api.channels.list({},function(err,response) {
-
-
+  //Do something...
 })
 ```
 
@@ -878,44 +983,40 @@ bot.api.channels.list({},function(err,response) {
 
 ## Storing Information
 
-Botkit has a built in storage system used to keep data
-on behalf of users and teams between sessions. Botkit uses this system automatically when storing information for Slack Button applications (see below).
+Botkit has a built in storage system used to keep data on behalf of users and teams between sessions. Botkit uses this system automatically when storing information for Slack Button applications (see below).
 
-By default, Botkit will use [json-file-store](https://github.com/flosse/json-file-store) to keep data in JSON files in the filesystem of the computer where the bot is executed. (Note this will not work on Heroku or other hosting systems that do not let node applications write to the file system.)
-
-Support for freeform storage for teams, users and channels.
-Basically this is a key value store. You can pass in
-whatever data you like to any of these, as long as it has an
-ID field, which should be a Slack unique id.
-
-
+By default, Botkit will use [json-file-store](https://github.com/flosse/json-file-store) to keep data in JSON files in the filesystem of the computer where the bot is executed. (Note this will not work on Heroku or other hosting systems that do not let node applications write to the file system.) Initialize this system when you create the bot:
 ```javascript
 var controller = Botkit.slackbot({
   json_file_store: 'path_to_json_database'
 });
-
-controller.storage.teams.save(team_data,function(err) { ... });
-controller.storage.teams.get(id,function(err,team_data) {
- ...
-});
-
-controller.storage.users.save(user_data,function(err) { ... });
-controller.storage.users.get(id,function(err,user_data) {
- ...
-});
-
-controller.storage.channels.save(channel_data,function(err) { ... });
-controller.storage.channels.get(id,function(err,channel_data) {
- ...
-});
 ```
 
-### Write your own storage provider
+This system supports freeform storage on a team-by-team, user-by-user, and channel-by-channel basis. Basically ```controller.storage``` is a key value store. All access to this system is through the following nine functions. Example usage:
+```javascript
+controller.storage.users.save({id: message.user, foo:'bar'}, function(err) { ... });
+controller.storage.users.get(id, function(err, user_data) {...});
+controller.storage.users.all(function(err, all_user_data) {...});
+
+controller.storage.channels.save({id: message.channel, foo:'bar'}, function(err) { ... });
+controller.storage.channels.get(id, function(err, channel_data) {...});
+controller.storage.channels.all(function(err, all_channel_data) {...});
+
+controller.storage.teams.save({id: message.team, foo:'bar'}, function(err) { ... });
+controller.storage.teams.get(id, function(err, team_data) {...});
+controller.storage.teams.all(function(err, all_team_data) {...});
+```
+
+Note that save must be passed an object with an id. It is recommended to use the team/user/channel id for this purpose.
+```[user/channel/team]_data``` will always be an object while ```all_[user/channel/team]_data``` will always be a list of objects.
+
+### Writing your own storage module
 
 If you want to use a database or do something else with your data,
 you can write your own storage module and pass it in.
 
-Make sure your module returns an object with all the methods. See [simple_storage.js](https://github.com/howdyai/botkit/blob/master/lib/simple_storage.js) for an example of how it is done!
+Make sure your module returns an object with all the methods. See [simple_storage.js](https://github.com/howdyai/botkit/blob/master/lib/storage/simple_storage.js) for an example of how it is done!
+Make sure your module passes the test in [storage_test.js](https://github.com/howdyai/botkit/blob/master/lib/storage/storage_test.js).
 
 Then, use it when you create your bot:
 ```javascript
@@ -924,6 +1025,33 @@ var controller = Botkit.slackbot({
 })
 ```
 
+### Writing your own logging module
+
+By default, your bot will log to the standard JavaScript `console` object
+available in Node.js. This will synchronously print logging messages to stdout
+of the running process.
+
+There may be some cases, such as remote debugging or rotating of large logs,
+where you may want a more sophisticated logging solution. You can write your
+own logging module that uses a third-party tool, like
+[winston](https://github.com/winstonjs/winston) or
+[Bristol](https://github.com/TomFrost/Bristol). Just create an object with a
+`log` method. That method should take a severity level (such as `'error'` or
+`'debug'`) as its first argument, and then any number of other arguments that
+will be logged as messages. (Both Winston and Bristol create objects of this
+description; it's a common interface.)
+
+Then, use it when you create your bot:
+```javascript
+var controller = Botkit.slackbot({
+  logger: new winston.Logger({
+    transports: [
+      new (winston.transports.Console)(),
+      new (winston.transports.File)({ filename: './bot.log' })
+    ]
+  })
+});
+```
 
 ## Use the Slack Button
 
@@ -960,7 +1088,7 @@ See the [included examples](#included-examples) for several ready to use example
 
 | Argument | Description
 |---  |---
-| config | configuration object containing clientId, clientSecret, redirect_uri and scopes
+| config | configuration object containing clientId, clientSecret, redirectUri and scopes
 
 Configure Botkit to work with a Slack application.
 
@@ -971,7 +1099,7 @@ Configuration must include:
 
 * clientId - Application clientId from Slack
 * clientSecret - Application clientSecret from Slack
-* redirect_uri - the base url of your application
+* redirectUri - the base url of your application
 * scopes - an array of oauth permission scopes
 
 Slack has [_many, many_ oauth scopes](https://api.slack.com/docs/oauth-scopes)
@@ -998,7 +1126,7 @@ var controller = Botkit.slackbot();
 controller.configureSlackApp({
   clientId: process.env.clientId,
   clientSecret: process.env.clientSecret,
-  redirect_uri: 'http://localhost:3002',
+  redirectUri: 'http://localhost:3002',
   scopes: ['incoming-webhook','team:read','users:read','channels:read','im:read','im:write','groups:read','emoji:read','chat:write:bot']
 });
 
@@ -1042,3 +1170,6 @@ bot.identifyBot(function(err,identity) {
 | create_user |
 | update_user |
 | oauth_error |
+
+# Chat with us at dev4slack.slack.com
+You can get an invite here: http://dev4slack.xoxco.com/.

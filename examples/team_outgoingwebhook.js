@@ -1,1 +1,1 @@
-/* a bot that responds to outgoing webhooks for a team */
+/* TODO a bot that responds to outgoing webhooks for a team */

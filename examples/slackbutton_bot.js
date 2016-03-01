@@ -1,3 +1,28 @@
+/*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+           ______     ______     ______   __  __     __     ______
+          /\  == \   /\  __ \   /\__  _\ /\ \/ /    /\ \   /\__  _\
+          \ \  __<   \ \ \/\ \  \/_/\ \/ \ \  _"-.  \ \ \  \/_/\ \/
+           \ \_____\  \ \_____\    \ \_\  \ \_\ \_\  \ \_\    \ \_\
+            \/_____/   \/_____/     \/_/   \/_/\/_/   \/_/     \/_/
+
+
+This is a sample Slack Button application that adds a bot to one or many slack teams.
+
+# RUN THE APP:
+  Create a Slack app. Make sure to configure the bot user!
+    -> https://api.slack.com/applications/new
+  Run your bot from the command line:
+    clientId=<my client id> clientSecret=<my client secret> port=3000 node slackbutton_bot.js
+# USE THE APP
+  Add the app to your Slack by visiting the login page:
+    -> http://localhost:3000/login
+  After you've added the app, try talking to your bot!
+# EXTEND THE APP:
+  Botkit is has many features for building cool and useful bots!
+  Read all about it here:
+    -> http://howdy.ai/botkit
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
+
 /* Uses the slack button feature to offer a real time bot to multiple teams */
 var Botkit = require('../lib/Botkit.js');
 
@@ -57,10 +82,10 @@ controller.on('create_bot',function(bot,config) {
         }
       });
 
-    })
+    });
   }
 
-})
+});
 
 
 // Handle events related to the websocket connection to Slack
@@ -75,23 +100,23 @@ controller.on('rtm_close',function(bot) {
 
 controller.hears('hello','direct_message',function(bot,message) {
   bot.reply(message,'Hello!');
-})
+});
 
 controller.hears('^stop','direct_message',function(bot,message) {
   bot.reply(message,'Goodbye');
   bot.rtm.close();
 });
 
-controller.on('direct_message,mention,direct_mention',function(bot,message) {
+controller.on(['direct_message','mention','direct_mention'],function(bot,message) {
   bot.api.reactions.add({
     timestamp: message.ts,
     channel: message.channel,
     name: 'robot_face',
   },function(err) {
     if (err) { console.log(err) }
-    bot.reply(message,'I heard you loud and clear boss.')
-  })
-})
+    bot.reply(message,'I heard you loud and clear boss.');
+  });
+});
 
 controller.storage.teams.all(function(err,teams) {
 

@@ -1,9 +1,9 @@
 /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-          ______     ______     ______   __  __     __     ______
+           ______     ______     ______   __  __     __     ______
           /\  == \   /\  __ \   /\__  _\ /\ \/ /    /\ \   /\__  _\
           \ \  __<   \ \ \/\ \  \/_/\ \/ \ \  _"-.  \ \ \  \/_/\ \/
-          \ \_____\  \ \_____\    \ \_\  \ \_\ \_\  \ \_\    \ \_\
-           \/_____/   \/_____/     \/_/   \/_/\/_/   \/_/     \/_/
+           \ \_____\  \ \_____\    \ \_\  \ \_\ \_\  \ \_\    \ \_\
+            \/_____/   \/_____/     \/_/   \/_/\/_/   \/_/     \/_/
 
 
 This is a sample Slack bot built with Botkit.
@@ -23,7 +23,7 @@ This bot demonstrates many of the core features of Botkit:
 
   Run your bot from the command line:
 
-    token=<MY TOKEN> node team_bot.js
+    token=<MY TOKEN> node demo_bot.js
 
 # USE THE BOT:
 
@@ -62,7 +62,7 @@ if (!process.env.token) {
 }
 
 var controller = Botkit.slackbot({
- debug: false,
+ debug: false
 });
 
 controller.spawn({
@@ -74,36 +74,36 @@ controller.spawn({
 });
 
 
-controller.hears(['hello','hi'],'direct_message,direct_mention,mention',function(bot,message) {
+controller.hears(['hello','hi'],['direct_message','direct_mention','mention'],function(bot,message) {
     bot.reply(message,"Hello.");
-})
+});
 
-controller.hears(['attach'],'direct_message,direct_mention',function(bot,message) {
+controller.hears(['attach'],['direct_message','direct_mention'],function(bot,message) {
 
   var attachments = [];
   var attachment = {
     title: 'This is an attachment',
     color: '#FFCC99',
     fields: [],
-  }
+  };
 
   attachment.fields.push({
     label: 'Field',
     value: 'A longish value',
     short: false,
-  })
+  });
 
   attachment.fields.push({
     label: 'Field',
     value: 'Value',
     short: true,
-  })
+  });
 
   attachment.fields.push({
     label: 'Field',
     value: 'Value',
     short: true,
-  })
+  });
 
   attachments.push(attachment);
 
@@ -115,13 +115,13 @@ controller.hears(['attach'],'direct_message,direct_mention',function(bot,message
   });
 });
 
-controller.hears(['dm me'],'direct_message,direct_mention',function(bot,message) {
+controller.hears(['dm me'],['direct_message','direct_mention'],function(bot,message) {
   bot.startConversation(message,function(err,convo) {
     convo.say('Heard ya');
   });
 
   bot.startPrivateConversation(message,function(err,dm) {
     dm.say('Private reply!');
-  })
+  });
 
 });
