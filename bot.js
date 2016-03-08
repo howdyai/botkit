@@ -133,6 +133,10 @@ function formatUptime(uptime) {
 		uptime = uptime / 60;
 		unit = 'uren';
 	}
+	if (uptime > 24) {
+	    uptime = uptime / 24;
+	    unit = 'dagen';
+	}
 	uptime = Math.round(uptime) + ' ' + unit;
 	return uptime;
 }
