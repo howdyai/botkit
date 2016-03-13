@@ -188,7 +188,7 @@ wanneerKlaar = function(response,convo){
     		date.setDate(date.getDate() + 1);
 		}
 		var current_date = new Date();
-		if(date != "Invalid Date" && date.getTime()>current_date.getTime()-86400000){
+		if(date != "Invalid Date" && date.getDate()>current_date.getDate()){
 			response.text = date;
 			convo.say("Ik zal het onthouden.");
 			if(convo.task.source_message.event=="direct_message"){
