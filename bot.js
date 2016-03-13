@@ -7,7 +7,7 @@ var Botkit = require('./lib/Botkit.js');
 var os = require('os');
 
 var controller = Botkit.slackbot({
-	json_file_store: '/media/usb/www/botkit/storage',
+	json_file_store: '/media/usb/www/elsje/storage',
 	debug: true,
 });
 
