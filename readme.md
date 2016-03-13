@@ -794,6 +794,7 @@ bot.sendWebhook({
 
 // receive outgoing or slash commands
 // if you are already using Express, you can use your own server instance...
+// see "Use BotKit with an Express web server"
 controller.setupWebserver(process.env.port,function(err,webserver) {
 
   controller.createWebhookEndpoints(controller.webserver);
@@ -1172,6 +1173,11 @@ bot.identifyBot(function(err,identity) {
 | create_user |
 | update_user |
 | oauth_error |
+
+##Use BotKit with an Express web server
+Instead of controller.setupWebserver(), it is possible to use a different web server to manage authentication flows, as well as serving web pages.
+
+Here is an example of [using an Express web server alongside BotKit](https://github.com/mvaragnat/botkit-express-demo).
 
 # Chat with us at dev4slack.slack.com
 You can get an invite here: http://dev4slack.xoxco.com/.
