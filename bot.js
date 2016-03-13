@@ -172,6 +172,9 @@ wanneerKlaar = function(response,convo){
 		var datetext = response.text;
 		if (datetext == "vandaag"){
 		    var date = new Date();
+		}else if(datetext == "morgen"){
+			var date = new Date();
+			date.setDate(date.getDate() + 1);
 		}else{
     		datetext = datetext.replace(/-/g,"/");
     		var split = datetext.split('/');
