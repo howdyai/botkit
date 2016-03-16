@@ -175,26 +175,26 @@ voorWie = function(reponse,convo){
 wanneerKlaar = function(response,convo){
 	convo.ask("Wanneer moet het klaar zijn?",function(response,convo){
 		var datetext = response.text;
-if (datetext == "vandaag" || datetext == "Vandaag"){
-  var date = new Date();
-}else if(datetext == "morgen" || datetext == "Morgen"){
-  var date = new Date();
-  date.setDate(date.getDate() + 1);
-}else{
-  datetext = datetext.replace(/-/g,"/");
-  var split = datetext.split('/');
-  if(typeof split[1] != "undefined" && typeof split[2] != "undefined"){
-    datetext = split[1]+'/'+split[0]+'/'+split[2];
-  }
-  datetext = datetext.replace("maa","mar");
-  datetext = datetext.replace("mei","may");
-  datetext = datetext.replace("okt","oct");
-  var date = new Date(Date.parse(datetext));
-//  date.setDate(date.getDate() + 0);
-}
-var current_date = new Date();
-current_date= new Date(Date.parse(current_date.toDateString()));
-if(date != "Invalid Date" && date.getTime()>=current_date.getTime()){
+		if (datetext == "vandaag" || datetext == "Vandaag"){
+		  var date = new Date();
+		}else if(datetext == "morgen" || datetext == "Morgen"){
+			var date = new Date();
+			date.setDate(date.getDate() + 1);
+		}else{
+			datetext = datetext.replace(/-/g,"/");
+			var split = datetext.split('/');
+			if(typeof split[1] != "undefined" && typeof split[2] != "undefined"){
+				datetext = split[1]+'/'+split[0]+'/'+split[2];
+			}
+			datetext = datetext.replace("maa","mar");
+			datetext = datetext.replace("mei","may");
+			datetext = datetext.replace("okt","oct");
+			var date = new Date(Date.parse(datetext));
+			//date.setDate(date.getDate() + 0);
+		}
+		var current_date = new Date();
+		current_date= new Date(Date.parse(current_date.toDateString()));
+		if(date != "Invalid Date" && date.getTime()>=current_date.getTime()){
 			response.text = date;
 			convo.say("Ik zal het onthouden.");
 			if(convo.task.source_message.event=="direct_message"){
@@ -209,10 +209,12 @@ if(date != "Invalid Date" && date.getTime()>=current_date.getTime()){
 }
 welkKanaal = function(response,convo){
 	convo.ask("In welke lijst zal ik dit zetten?",function(response,convo){
-		if(true){ //check if input is existing channel
-			opslaanVanTaak(response,convo);
-			convo.next();
-		}
+		controller.storage.channels.get(response.text,function(err,channel_tasks){
+			if(err.code==0){ //check if inputted channel has an initialized database
+				opslaanVanTaak(response,convo);
+				convo.next();
+			}
+		});
 	});
 }
 opslaanVanTaak = function(response,convo){
