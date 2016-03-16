@@ -142,7 +142,13 @@ function formatUptime(uptime) {
 }
 
 controller.hears(['takenlijst','lijst'],'mention,direct_mention,ambient',function(bot,message){
+    if(message.event=="direct_message"){
+        //Somthing like this:
+        //var toUser = message.user;
+        //sendReminder(toUser);   
+    }else{
 		showTaskList(message);	
+    }
 });
 	
 controller.hears(['nieuwe taak','voeg toe','taak (.*)voegen'],'direct_mention,mention,direct_message,ambient',function(bot,message){
