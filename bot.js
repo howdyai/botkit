@@ -144,8 +144,7 @@ function formatUptime(uptime) {
 controller.hears(['takenlijst','lijst'],'mention,direct_mention,ambient',function(bot,message){
     if(message.event=="direct_message"){
         //Somthing like this:
-        //var toUser = message.user;
-        //sendReminder(toUser);   
+        sendReminder(message.user);   
     }else{
 		showTaskList(message);	
     }
@@ -317,6 +316,10 @@ TaskDone = function(response,convo){
 }
 
 controller.hears(['sendreminder'],'direct_message',function(bot,message){
+    sendReminder("all");
+});
+
+sendReminder = function(toUser){
 	bot.identifyBot(function(err,identity) {
 		var botid = identity.id;
 		bot.api.users.info({"user":botid},function(err,reply){
@@ -329,12 +332,14 @@ controller.hears(['sendreminder'],'direct_message',function(bot,message){
 							channel_tasks.tasks.forEach(function(task){
 								if(task.status=="new"){
 									var user = task.responsible;
-									bot.api.im.open({user},function(err,response){
-										var channel = response.channel.id;
-										var deadline = new Date(task.deadline);
-										var text = 'Herinnering uit <#'+channelinfo.id+'>: '+task.task+' | deadline: '+deadline.toUTCString().substr(5,11);
-										bot.api.chat.postMessage({channel,text,"username":"elsje","icon_url":image});
-									});
+									if(toUser == user || toUser == "all"){
+    									bot.api.im.open({user},function(err,response){
+    										var channel = response.channel.id;
+    										var deadline = new Date(task.deadline);
+    										var text = 'Herinnering uit <#'+channelinfo.id+'>: '+task.task+' | deadline: '+deadline.toUTCString().substr(5,11);
+    										bot.api.chat.postMessage({channel,text,"username":"elsje","icon_url":image});
+    									});
+									}
 								}
 							});
 						}
@@ -343,4 +348,4 @@ controller.hears(['sendreminder'],'direct_message',function(bot,message){
 			});
 		});
 	});
-});
+}
