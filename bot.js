@@ -190,7 +190,7 @@ wanneerKlaar = function(response,convo){
 			datetext = datetext.replace("mei","may");
 			datetext = datetext.replace("okt","oct");
 			var date = new Date(Date.parse(datetext));
-			//date.setDate(date.getDate() + 0);
+			date.setDate(date.getDate() + 1);
 		}
 		var current_date = new Date();
 		current_date= new Date(Date.parse(current_date.toDateString()));
