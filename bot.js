@@ -321,7 +321,7 @@ controller.hears(['sendreminder'],'direct_message',function(bot,message){
 					controller.storage.channels.get(channelinfo.id,function(err,channel_tasks){
 						if(typeof channel_tasks!="undefined"){
 							channel_tasks.tasks.forEach(function(task){
-								if(task.status=="new"){
+								if(task.status=="new" && task.responsible!=botid){
 									var user = task.responsible;
 									bot.api.im.open({user},function(err,response){
 										var channel = response.channel.id;
