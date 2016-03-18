@@ -144,13 +144,11 @@ function formatUptime(uptime) {
 
 controller.hears(['takenlijst','lijst'],'mention,direct_mention,ambient,direct_message',function(bot,message){
     if(message.event=="direct_message"){
-        //Somthing like this:
 		var patern = /<#.{9}>/;
 		var channelid = patern.exec(message.text);
 		if(!channelid){
 			channelid = "all";
 		}else{
-			console.log(channelid);
 			channelid = channelid[0].substr(2,9);
 		}
         sendReminder(message.user,channelid);   
@@ -218,7 +216,8 @@ wanneerKlaar = function(response,convo){
 }
 welkKanaal = function(response,convo){
 	convo.ask("In welke lijst zal ik dit zetten?",function(response,convo){
-		controller.storage.channels.get(response.text,function(err,channel_tasks){
+//		controller.storage.channels.get(response.text,function(err,channel_tasks){
+//			console.log(err);
 //			if(err.code==0){ //check if inputted channel has an initialized database
 				opslaanVanTaak(response,convo);
 				convo.next();
