@@ -142,10 +142,18 @@ function formatUptime(uptime) {
 	return uptime;
 }
 
-controller.hears(['takenlijst','lijst'],'mention,direct_mention,ambient',function(bot,message){
+controller.hears(['takenlijst','lijst'],'mention,direct_mention,ambient,direct_message',function(bot,message){
     if(message.event=="direct_message"){
         //Somthing like this:
-        sendReminder(message.user);   
+		var patern = /<#.{9}>/;
+		var channelid = patern.exec(message.text);
+		if(!channelid){
+			channelid = "all";
+		}else{
+			console.log(channelid);
+			channelid = channelid[0].substr(2,9);
+		}
+        sendReminder(message.user,channelid);   
     }else{
 		showTaskList(message);	
     }
@@ -211,10 +219,10 @@ wanneerKlaar = function(response,convo){
 welkKanaal = function(response,convo){
 	convo.ask("In welke lijst zal ik dit zetten?",function(response,convo){
 		controller.storage.channels.get(response.text,function(err,channel_tasks){
-			if(err.code==0){ //check if inputted channel has an initialized database
+//			if(err.code==0){ //check if inputted channel has an initialized database
 				opslaanVanTaak(response,convo);
 				convo.next();
-			}
+//			}
 		});
 	});
 }
@@ -319,10 +327,10 @@ TaskDone = function(response,convo){
 }
 
 controller.hears(['sendreminder'],'direct_message',function(bot,message){
-    sendReminder("all");
+    sendReminder("all","all");
 });
 
-sendReminder = function(toUser){
+sendReminder = function(toUser,showChannel){
 	bot.identifyBot(function(err,identity) {
 		var botid = identity.id;
 		bot.api.users.info({"user":botid},function(err,reply){
@@ -330,23 +338,28 @@ sendReminder = function(toUser){
 			bot.api.channels.list({},function(err,response) {
 				var channels = response.channels;
 				channels.forEach(function(channelinfo){
-					controller.storage.channels.get(channelinfo.id,function(err,channel_tasks){
-						if(typeof channel_tasks!="undefined"){
-							channel_tasks.tasks.forEach(function(task){
-								if(task.status=="new" && task.responsible!=botid){
-									var user = task.responsible;
-									if(toUser == user || toUser == "all"){
-    									bot.api.im.open({user},function(err,response){
-    										var channel = response.channel.id;
-    										var deadline = new Date(task.deadline);
-    										var text = 'Herinnering uit <#'+channelinfo.id+'>: '+task.task+' | deadline: '+deadline.toUTCString().substr(5,11);
-    										bot.api.chat.postMessage({channel,text,"username":"elsje","icon_url":image});
-    									});
+					if(channelinfo.id == showChannel || showChannel == "all"){
+						controller.storage.channels.get(channelinfo.id,function(err,channel_tasks){
+							if(typeof channel_tasks!="undefined"){
+								channel_tasks.tasks.forEach(function(task){
+									if(task.status=="new" && task.responsible!=botid){
+										var user = task.responsible;
+										if(toUser == user || toUser == "all"){
+    										bot.api.im.open({user},function(err,response){
+    											var channel = response.channel.id;
+    											var deadline = new Date(task.deadline);
+												var text = '<#'+channelinfo.id+'>: '+task.task+' | deadline: '+deadline.toUTCString().substr(5,11);
+												if(toUser == "all"){
+													text = 'Herinnering uit '+text;
+												}
+    											bot.api.chat.postMessage({channel,text,"username":"elsje","icon_url":image});
+    										});
+										}
 									}
-								}
-							});
-						}
-					});
+								});
+							}
+						});
+					}
 				});
 			});
 		});
