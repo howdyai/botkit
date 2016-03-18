@@ -181,27 +181,8 @@ voorWie = function(reponse,convo){
 }
 wanneerKlaar = function(response,convo){
 	convo.ask("Wanneer moet het klaar zijn?",function(response,convo){
-		var datetext = response.text;
-		if (datetext == "vandaag" || datetext == "Vandaag"){
-		  var date = new Date();
-		}else if(datetext == "morgen" || datetext == "Morgen"){
-			var date = new Date();
-			date.setDate(date.getDate() + 1);
-		}else{
-			datetext = datetext.replace(/-/g,"/");
-			var split = datetext.split('/');
-			if(typeof split[1] != "undefined" && typeof split[2] != "undefined"){
-				datetext = split[1]+'/'+split[0]+'/'+split[2];
-			}
-			datetext = datetext.replace("maa","mar");
-			datetext = datetext.replace("mei","may");
-			datetext = datetext.replace("okt","oct");
-			var date = new Date(Date.parse(datetext));
-			date.setDate(date.getDate() + 1);
-		}
-		var current_date = new Date();
-		current_date= new Date(Date.parse(current_date.toDateString()));
-		if(date != "Invalid Date" && date.getTime()>=current_date.getTime()){
+		date = verifyDate(response.text);
+		if(date!=false){
 			response.text = date;
 			convo.say("Ik zal het onthouden.");
 			if(convo.task.source_message.event=="direct_message"){
@@ -383,27 +364,8 @@ DeadlineNumber = function(response,convo){
 }
 NewDeadline = function(response,convo){
 	convo.ask("Wat is de nieuwe deadline?",function(response,convo){
-		var datetext = response.text;
-		if (datetext == "vandaag" || datetext == "Vandaag"){
-		  var date = new Date();
-		}else if(datetext == "morgen" || datetext == "Morgen"){
-			var date = new Date();
-			date.setDate(date.getDate() + 1);
-		}else{
-			datetext = datetext.replace(/-/g,"/");
-			var split = datetext.split('/');
-			if(typeof split[1] != "undefined" && typeof split[2] != "undefined"){
-				datetext = split[1]+'/'+split[0]+'/'+split[2];
-			}
-			datetext = datetext.replace("maa","mar");
-			datetext = datetext.replace("mei","may");
-			datetext = datetext.replace("okt","oct");
-			var date = new Date(Date.parse(datetext));
-			date.setDate(date.getDate() + 1);
-		}
-		var current_date = new Date();
-		current_date= new Date(Date.parse(current_date.toDateString()));
-		if(date != "Invalid Date" && date.getTime()>=current_date.getTime()){
+		date = verifyDate(response.text);
+		if(date!=false){
 			response.text = date;
 			convo.say("Ik zal het onthouden.");
 				UpdateDeadline(response,convo);
@@ -426,4 +388,31 @@ UpdateDeadline = function(response,convo){
 			bot.reply(response,"Ok, nieuwe deadline genoteerd.");
 		}
 	});
+}
+
+function verifyDate(text) {
+	if (text == "vandaag" || text == "Vandaag"){
+		var date = new Date();
+	}else if(text == "morgen" || text == "Morgen"){
+		var date = new Date();
+		date.setDate(date.getDate() + 1);
+	}else{
+		text = text.replace(/-/g,"/");
+		var split = text.split('/');
+		if(typeof split[1] != "undefined" && typeof split[2] != "undefined"){
+			text = split[1]+'/'+split[0]+'/'+split[2];
+		}
+		text = text.replace("maa","mar");
+		text = text.replace("mei","may");
+		text = text.replace("okt","oct");
+		var date = new Date(Date.parse(text));
+		date.setDate(date.getDate() + 1);
+	}
+	var current_date = new Date();
+	current_date= new Date(Date.parse(current_date.toDateString()));
+	if(date != "Invalid Date" && date.getTime()>=current_date.getTime()){
+		return false;
+	}else{
+		return date;
+	}
 }
