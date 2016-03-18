@@ -368,3 +368,62 @@ sendReminder = function(toUser,showChannel){
 		});
 	});
 }
+
+controller.hears(['update deadline','deadline veranderen','andere deadline'],'direct_mention,mention',function(bot,message){
+	bot.startConversation(message,DeadlineNumber);
+});
+DeadlineNumber = function(response,convo){
+	showTaskList(convo.source_message);	
+	convo.ask("Kan je mij het nummer geven van de taak waarvan je de deadline wilt wijzigen?",function(response,convo){
+		if(!isNaN(parseInt(response.text))){
+			NewDeadline(response,convo);
+			convo.next();
+		}
+	});
+}
+NewDeadline = function(response,convo){
+	convo.ask("Wat is de nieuwe deadline?",function(response,convo){
+		var datetext = response.text;
+		if (datetext == "vandaag" || datetext == "Vandaag"){
+		  var date = new Date();
+		}else if(datetext == "morgen" || datetext == "Morgen"){
+			var date = new Date();
+			date.setDate(date.getDate() + 1);
+		}else{
+			datetext = datetext.replace(/-/g,"/");
+			var split = datetext.split('/');
+			if(typeof split[1] != "undefined" && typeof split[2] != "undefined"){
+				datetext = split[1]+'/'+split[0]+'/'+split[2];
+			}
+			datetext = datetext.replace("maa","mar");
+			datetext = datetext.replace("mei","may");
+			datetext = datetext.replace("okt","oct");
+			var date = new Date(Date.parse(datetext));
+			date.setDate(date.getDate() + 1);
+		}
+		var current_date = new Date();
+		current_date= new Date(Date.parse(current_date.toDateString()));
+		if(date != "Invalid Date" && date.getTime()>=current_date.getTime()){
+			response.text = date;
+			convo.say("Ik zal het onthouden.");
+				UpdateDeadline(response,convo);
+				convo.next();
+		}
+	});
+}
+UpdateDeadline = function(response,convo){
+	convo.on('end',function(convo){
+		if(convo.status=='completed'){
+			var res = convo.extractResponses();
+			controller.storage.channels.get(response.channel, function(err, channel_data){
+				channel_data['tasks'].forEach(function(value,index,array){
+					if(value.taskid==parseInt(res['Kan je mij het nummer geven van de taak waarvan je de deadline wilt wijzigen?'])){
+						value.deadline = res['Wat is de nieuwe deadline?'];
+					}
+				});
+				controller.storage.channels.save(channel_data);
+			});
+			bot.reply(response,"Ok, nieuwe deadline genoteerd.");
+		}
+	});
+}
