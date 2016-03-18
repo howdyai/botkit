@@ -64,34 +64,39 @@ This bot demonstrates many of the core features of Botkit:
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 
 
-if (!process.env.token) {
-    console.log('Error: Specify token in environment');
-    process.exit(1);
-}
+// if (!process.env.token) {
+//     console.log('Error: Specify token in environment');
+//     process.exit(1);
+// }
 
 var Botkit = require('./lib/Botkit.js');
 var os = require('os');
 
-var controller = Botkit.slackbot({
+var controller = Botkit.facebookbot({
     debug: true,
+    access_token: 'CAAXyynmDLlIBAPQtDiOEUEsrDEX1DdQ0uVMRMjf9uzOaClZBj8ZAEduy2wDmKyYpEjqzRKEKeW4BUoSfsPChjFWXZABMNsKUkO1DDBxXqQPkD8CrGnyLwnbdfOqyNdzSEgIaOO94FfoSDPgpvlZCgKf3jPbAOyP3LwpFkBHB96HuLNZADhSlF2QE6jai72LgziwRDn0IZBvwZDZD',
+    verify_token: '1234',
 });
 
 var bot = controller.spawn({
-    token: process.env.token
-}).startRTM();
+//    token: process.env.token
+});
 
+controller.setupWebserver(3002, function(err,webserver) {
 
-controller.hears(['hello','hi'],'direct_message,direct_mention,mention',function(bot, message) {
+    controller.createWebhookEndpoints(webserver, bot, function() {
 
-    bot.api.reactions.add({
-        timestamp: message.ts,
-        channel: message.channel,
-        name: 'robot_face',
-    },function(err, res) {
-        if (err) {
-            bot.botkit.log('Failed to add emoji reaction :(',err);
-        }
+        console.log('ONLINE!');
+
     });
+});
+
+
+controller.on('message_received', function(bot, message) {
+	console.log('RECEIVED ',message);
+});
+
+controller.hears(['hello','hi'],'message_received',function(bot, message) {
 
 
     controller.storage.users.get(message.user,function(err, user) {
@@ -103,7 +108,7 @@ controller.hears(['hello','hi'],'direct_message,direct_mention,mention',function
     });
 });
 
-controller.hears(['call me (.*)'],'direct_message,direct_mention,mention',function(bot, message) {
+controller.hears(['call me (.*)'],'message_received',function(bot, message) {
     var matches = message.text.match(/call me (.*)/i);
     var name = matches[1];
     controller.storage.users.get(message.user,function(err, user) {
@@ -119,7 +124,7 @@ controller.hears(['call me (.*)'],'direct_message,direct_mention,mention',functi
     });
 });
 
-controller.hears(['what is my name','who am i'],'direct_message,direct_mention,mention',function(bot, message) {
+controller.hears(['what is my name','who am i'],'message_received',function(bot, message) {
 
     controller.storage.users.get(message.user,function(err, user) {
         if (user && user.name) {
@@ -131,7 +136,7 @@ controller.hears(['what is my name','who am i'],'direct_message,direct_mention,m
 });
 
 
-controller.hears(['shutdown'],'direct_message,direct_mention,mention',function(bot, message) {
+controller.hears(['shutdown'],'message_received',function(bot, message) {
 
     bot.startConversation(message,function(err, convo) {
 
@@ -159,7 +164,7 @@ controller.hears(['shutdown'],'direct_message,direct_mention,mention',function(b
 });
 
 
-controller.hears(['uptime','identify yourself','who are you','what is your name'],'direct_message,direct_mention,mention',function(bot, message) {
+controller.hears(['uptime','identify yourself','who are you','what is your name'],'message_received',function(bot, message) {
 
     var hostname = os.hostname();
     var uptime = formatUptime(process.uptime());
