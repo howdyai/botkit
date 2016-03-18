@@ -125,21 +125,6 @@ controller.hears(['ken ik jou','wie ben jij','hoe lang ben je al wakker','uptime
 	bot.reply(message,':robot_face: Ik ben een bot genaamd <@' + bot.identity.name + '>. Ik draai al  ' + uptime + ' op  ' + hostname + '.');
 });
 
-controller.hears(['takenlijst','lijst'],'mention,direct_mention,ambient,direct_message',function(bot,message){
-    if(message.event=="direct_message"){
-		var patern = /<#.{9}>/;
-		var channelid = patern.exec(message.text);
-		if(!channelid){
-			channelid = "all";
-		}else{
-			channelid = channelid[0].substr(2,9);
-		}
-        sendReminder(message.user,channelid);   
-    }else{
-		showTaskList(message);	
-    }
-});
-	
 controller.hears(['nieuwe taak','voeg toe','taak (.*)voegen'],'direct_mention,mention,direct_message,ambient',function(bot,message){
 	bot.startConversation(message,voegTaakToe);
 });
@@ -226,28 +211,6 @@ opslaanVanTaak = function(response,convo){
 	});
 }
 
-showTaskList = function(message){
-	controller.storage.channels.get(message.channel,function(err,channel_data){
-		var string = "\nTakenlijst van <#"+channel_data.id+">\n```";
-		channel_data['tasks'].forEach(function(value,index,array){
-			var addtostring ="";
-			var deadline = new Date(value.deadline);
-			if(value.status != "done"){
-				addtostring = 	value.taskid+
-						functions.addSpaces(4-value.taskid.toString().length)+
-						'<@'+value.responsible+'>'+
-						functions.addSpaces(16-value.responsible_name.length)+
-						deadline.toUTCString().substr(5,11)+
-						functions.addSpaces(4)+
-						value.task+
-						"\n";
-			}
-			return string+=addtostring;
-		});	
-		bot.reply(message,string+"```");
-	});
-}
-
 controller.hears(['taak (.*)afronden','taak (.*)afvinken','ik ben klaar','taak (.*)gedaan'],'direct_mention,mention,ambient,direct_message',function(bot,message){
 	if(message.event == "direct_message"){
 		bot.reply(message,"Je kan een taak alleen afronden in het kanaal van je taak");
@@ -285,10 +248,44 @@ TaskDone = function(response,convo){
 	});
 }
 
+controller.hears(['takenlijst','lijst'],'mention,direct_mention,ambient,direct_message',function(bot,message){
+    if(message.event=="direct_message"){
+		var patern = /<#.{9}>/;
+		var channelid = patern.exec(message.text);
+		if(!channelid){
+			channelid = "all";
+		}else{
+			channelid = channelid[0].substr(2,9);
+		}
+        sendReminder(message.user,channelid);   
+    }else{
+		showTaskList(message);	
+    }
+});
 controller.hears(['sendreminder'],'direct_message',function(bot,message){
     sendReminder("all","all");
 });
-
+showTaskList = function(message){
+	controller.storage.channels.get(message.channel,function(err,channel_data){
+		var string = "\nTakenlijst van <#"+channel_data.id+">\n```";
+		channel_data['tasks'].forEach(function(value,index,array){
+			var addtostring ="";
+			var deadline = new Date(value.deadline);
+			if(value.status != "done"){
+				addtostring = 	value.taskid+
+						functions.addSpaces(4-value.taskid.toString().length)+
+						'<@'+value.responsible+'>'+
+						functions.addSpaces(16-value.responsible_name.length)+
+						deadline.toUTCString().substr(5,11)+
+						functions.addSpaces(4)+
+						value.task+
+						"\n";
+			}
+			return string+=addtostring;
+		});	
+		bot.reply(message,string+"```");
+	});
+}
 sendReminder = function(toUser,showChannel){
 	bot.identifyBot(function(err,identity) {
 		var botid = identity.id;
