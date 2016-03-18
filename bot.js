@@ -1,4 +1,5 @@
-if (!process.env.token) {
+require('./env.js');
+if (!process.env.TOKEN) {
 	console.log('Error: Specify token in environment');
     process.exit(1);
 }
@@ -12,7 +13,7 @@ var controller = Botkit.slackbot({
 });
 
 var bot = controller.spawn({
-    token: process.env.token
+    token: process.env.TOKEN
 }).startRTM();
 
 controller.on('channel_joined',function(bot,message) {
@@ -332,7 +333,7 @@ sendReminder = function(toUser){
 					controller.storage.channels.get(channelinfo.id,function(err,channel_tasks){
 						if(typeof channel_tasks!="undefined"){
 							channel_tasks.tasks.forEach(function(task){
-								if(task.status=="new"){
+								if(task.status=="new" && task.responsible!=botid){
 									var user = task.responsible;
 									if(toUser == user || toUser == "all"){
     									bot.api.im.open({user},function(err,response){
