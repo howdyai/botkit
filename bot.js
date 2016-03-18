@@ -234,11 +234,11 @@ showTaskList = function(message){
 			var deadline = new Date(value.deadline);
 			if(value.status != "done"){
 				addtostring = 	value.taskid+
-						addSpaces(4-value.taskid.toString().length)+
+						functions.addSpaces(4-value.taskid.toString().length)+
 						'<@'+value.responsible+'>'+
-						addSpaces(16-value.responsible_name.length)+
+						functions.addSpaces(16-value.responsible_name.length)+
 						deadline.toUTCString().substr(5,11)+
-						addSpaces(4)+
+						functions.addSpaces(4)+
 						value.task+
 						"\n";
 			}
@@ -246,14 +246,6 @@ showTaskList = function(message){
 		});	
 		bot.reply(message,string+"```");
 	});
-
-}
-addSpaces = function(numberOfSpaces){
-	var spaces = "";
-	for(i=0; i<numberOfSpaces;i++){
-		spaces+=" ";
-	}
-	return spaces;
 }
 
 controller.hears(['taak (.*)afronden','taak (.*)afvinken','ik ben klaar','taak (.*)gedaan'],'direct_mention,mention,ambient,direct_message',function(bot,message){

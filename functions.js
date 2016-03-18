@@ -41,5 +41,12 @@ module.exports = {
 		}else{
 			return date;
 		}
+	},
+	addSpaces: function(numberOfSpaces){
+	var spaces = "";
+	for(i=0; i<numberOfSpaces;i++){
+		spaces+=" ";
 	}
+	return spaces;
+}
 };
