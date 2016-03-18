@@ -150,7 +150,7 @@ voorWie = function(reponse,convo){
 wanneerKlaar = function(response,convo){
 	convo.ask("Wanneer moet het klaar zijn?",function(response,convo){
 		date = functions.verifyDate(response.text);
-		if(date!=false){
+		if(date){
 			response.text = date;
 			convo.say("Ik zal het onthouden.");
 			if(convo.task.source_message.event=="direct_message"){
@@ -337,7 +337,7 @@ DeadlineNumber = function(response,convo){
 NewDeadline = function(response,convo){
 	convo.ask("Wat is de nieuwe deadline?",function(response,convo){
 		date = functions.verifyDate(response.text);
-		if(date!=false){
+		if(date){
 			response.text = date;
 			convo.say("Ik zal het onthouden.");
 				UpdateDeadline(response,convo);
