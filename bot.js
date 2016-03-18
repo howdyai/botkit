@@ -1,5 +1,5 @@
 require('./env.js');
-require('./functions.js');
+var functions = require('./functions');
 if (!process.env.TOKEN) {
 	console.log('Error: Specify token in environment');
     process.exit(1);
@@ -121,7 +121,7 @@ controller.hears(['shutdown'],'direct_message,direct_mention,mention',function(b
 
 controller.hears(['ken ik jou','wie ben jij','hoe lang ben je al wakker','uptime','identify yourself','who are you','what is your name'],'direct_message,direct_mention,mention',function(bot, message) {
 	var hostname = os.hostname();
-	var uptime = formatUptime(process.uptime());
+	var uptime = functions.formatUptime(process.uptime());
 	bot.reply(message,':robot_face: Ik ben een bot genaamd <@' + bot.identity.name + '>. Ik draai al  ' + uptime + ' op  ' + hostname + '.');
 });
 
@@ -164,7 +164,7 @@ voorWie = function(reponse,convo){
 }
 wanneerKlaar = function(response,convo){
 	convo.ask("Wanneer moet het klaar zijn?",function(response,convo){
-		date = verifyDate(response.text);
+		date = functions.verifyDate(response.text);
 		if(date!=false){
 			response.text = date;
 			convo.say("Ik zal het onthouden.");
@@ -347,7 +347,7 @@ DeadlineNumber = function(response,convo){
 }
 NewDeadline = function(response,convo){
 	convo.ask("Wat is de nieuwe deadline?",function(response,convo){
-		date = verifyDate(response.text);
+		date = functions.verifyDate(response.text);
 		if(date!=false){
 			response.text = date;
 			convo.say("Ik zal het onthouden.");
