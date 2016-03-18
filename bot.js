@@ -216,12 +216,16 @@ wanneerKlaar = function(response,convo){
 }
 welkKanaal = function(response,convo){
 	convo.ask("In welke lijst zal ik dit zetten?",function(response,convo){
-//		controller.storage.channels.get(response.text,function(err,channel_tasks){
-//			console.log(err);
-//			if(err.code==0){ //check if inputted channel has an initialized database
+		var patern = /<#.{9}>/;
+		var channelid = patern.exec(response.text);
+		channelid = channelid[0].substr(2,9);
+		controller.storage.channels.get(channelid,function(err,channel_tasks){
+			console.log(err);
+			if(!err){
+				convo.say('Kijk in het kanaal voor de lijst.');
 				opslaanVanTaak(response,convo);
 				convo.next();
-//			}
+			}
 		});
 	});
 }
