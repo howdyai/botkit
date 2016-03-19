@@ -37,9 +37,9 @@ module.exports = {
 		var current_date = new Date();
 		current_date= new Date(Date.parse(current_date.toDateString()));
 		if(date != "Invalid Date" && date.getTime()>=current_date.getTime()){
-			return false;
-		}else{
 			return date;
+		}else{
+			return false;
 		}
 	},
 	addSpaces: function(numberOfSpaces){
