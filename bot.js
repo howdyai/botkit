@@ -139,7 +139,7 @@ voorWie = function(reponse,convo){
 	convo.ask("Wie gaat dit doen? (@naam graag)", function(response,convo){
 		var patern = /<@.{9}>/;
 		var userid = patern.exec(response.text);
-		if(userid !== null){
+		if(!!userid){
 			response.text = userid[0].substr(2,9);
 			convo.say("Ha, gesjaakt!");
 			wanneerKlaar(response,convo);
