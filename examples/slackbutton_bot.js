@@ -11,6 +11,7 @@ This is a sample Slack Button application that adds a bot to one or many slack t
 # RUN THE APP:
   Create a Slack app. Make sure to configure the bot user!
     -> https://api.slack.com/applications/new
+    -> Add the Redirect URI: http://localhost:3000/oauth
   Run your bot from the command line:
     clientId=<my client id> clientSecret=<my client secret> port=3000 node slackbutton_bot.js
 # USE THE APP
