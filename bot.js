@@ -137,10 +137,9 @@ voegTaakToe = function(response, convo){
 }
 voorWie = function(reponse,convo){
 	convo.ask("Wie gaat dit doen? (@naam graag)", function(response,convo){
-		var patern = /<@.{9}>/;
-		var userid = patern.exec(response.text);
-		if(!!userid){
-			response.text = userid[0].substr(2,9);
+		var userid = functions.verifyUserid(response.text);
+		if(userid){
+			response.text = userid;
 			convo.say("Ha, gesjaakt!");
 			wanneerKlaar(response,convo);
 			convo.next();
@@ -165,9 +164,7 @@ wanneerKlaar = function(response,convo){
 }
 welkKanaal = function(response,convo){
 	convo.ask("In welke lijst zal ik dit zetten?",function(response,convo){
-		var patern = /<#.{9}>/;
-		var channelid = patern.exec(response.text);
-		channelid = channelid[0].substr(2,9);
+		var channelid = functions.verifyChannelid(response.text);
 		controller.storage.channels.get(channelid,function(err,channel_tasks){
 			console.log(err);
 			if(!err){
@@ -182,8 +179,9 @@ opslaanVanTaak = function(response,convo){
 	convo.on('end',function(convo){
 		if(convo.status=='completed'){
 			var res = convo.extractResponses();
-			if(res['In welke lijst zal ik dit zetten?']){
-					response.channel = res['In welke lijst zal ik dit zetten?'].substr(2,9);
+			var channelid = functions.verifyChannelid(res['In welke lijst zal ik dit zetten?']);
+			if(channelid){
+					response.channel = channelid;
 			}
 			controller.storage.channels.get(response.channel, function(err, channel_data){
 				var list = channel_data;
@@ -250,12 +248,9 @@ TaskDone = function(response,convo){
 
 controller.hears(['takenlijst','lijst'],'mention,direct_mention,ambient,direct_message',function(bot,message){
     if(message.event=="direct_message"){
-		var patern = /<#.{9}>/;
-		var channelid = patern.exec(message.text);
+		var channelid = functions.verifyChannelid(message.text);
 		if(!channelid){
 			channelid = "all";
-		}else{
-			channelid = channelid[0].substr(2,9);
 		}
         sendReminder(message.user,channelid);   
     }else{

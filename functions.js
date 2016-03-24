@@ -48,5 +48,21 @@ module.exports = {
 		spaces+=" ";
 	}
 	return spaces;
-}
+	},
+	verifyUserid: function(input){
+		var patern = /<@.{9}>/;
+		var userid = patern.exec(input);
+		if(userid){
+			userid = userid.substr(2,9);
+		}
+		return userid;
+	},
+	verifyChannelid:function(input){
+		var patern = /<#.{9}>/;
+		var channelidid = patern.exec(input);
+		if(channelid){
+			channelid = channelid.substr(2,9);
+		}
+		return channelid;
+	}
 };
