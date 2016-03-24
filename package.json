@@ -10,7 +10,8 @@
     "mustache": "^2.2.1",
     "request": "^2.67.0",
     "ws": "^1.0.1",
-    "https-proxy-agent": "^1.0.0"
+    "https-proxy-agent": "^1.0.0",
+    "back": "^1.0.1"
   },
   "devDependencies": {
     "jscs": "^2.7.0",
