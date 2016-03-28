@@ -147,7 +147,7 @@ These examples are included in the Botkit [Github repo](https://github.com/howdy
 
 [examples/slackbutton_incomingwebhooks.js](https://github.com/howdyai/botkit/blob/master/examples/slackbutton_incomingwebhooks.js) an example of using the Slack Button to offer an incoming webhook integration. This example also includes a simple form which allows you to broadcast a message to any team who adds the integration.
 
-[example/sentiment_analysis.js](https://github.com/howdyai/botkit/blob/master/examples/sentiment_analysis.js) a simple example of a chatbot using sentiment analysis. Keeps a running score of each user based on positive and negative keywords. Messages and thresholds can be configured. 
+[example/sentiment_analysis.js](https://github.com/howdyai/botkit/blob/master/examples/sentiment_analysis.js) a simple example of a chatbot using sentiment analysis. Keeps a running score of each user based on positive and negative keywords. Messages and thresholds can be configured.
 
 # Developing with Botkit
 
@@ -156,6 +156,7 @@ Table of Contents
 * [Connecting Your Bot To Slack](#connecting-your-bot-to-slack)
 * [Receiving Messages](#receiving-messages)
 * [Sending Messages](#sending-messages)
+* [Middleware](#middleware)
 * [Working with Slack Integrations](#working-with-slack-integrations)
 * [Advanced Topics](#advanced-topics)
 
@@ -180,10 +181,18 @@ Spawn an instance of your bot and connect it to Slack.
 This function takes a configuration object which should contain
 at least one method of talking to the Slack API.
 
-To use the real time / bot user API, pass in a token, preferably via
-an environment variable.
+To use the real time / bot user API, pass in a token.
 
 Controllers can also spawn bots that use [incoming webhooks](#incoming-webhooks).
+
+Spawn `config` object accepts these properties:
+
+| Name | Value | Description
+|--- |--- |---
+| token | String | Slack bot token
+| retry | Positive integer or `Infinity` | Maximum number of reconnect attempts after failed connection to Slack's real time messaging API. Retry is disabled by default
+
+
 
 #### bot.startRTM()
 | Argument | Description
@@ -227,7 +236,35 @@ bot.startRTM(function(err,bot,payload) {
   if (err) {
     throw new Error('Could not connect to Slack');
   }
+
+  // close the RTM for the sake of it in 5 seconds
+  setTimeout(function() {
+      bot.closeRTM();
+  }, 5000);
 });
+```
+
+#### bot.destroy()
+
+Completely shutdown and cleanup the spawned worker. Use `bot.closeRTM()` only to disconnect
+but not completely tear down the worker.
+
+
+```javascript
+var Botkit = require('Botkit');
+var controller = Botkit.slackbot();
+var bot = controller.spawn({
+  token: my_slack_bot_token
+})
+
+bot.startRTM(function(err, bot, payload) {
+  if (err) {
+    throw new Error('Could not connect to Slack');
+  }
+});
+
+// some time later (e.g. 10s) when finished with the RTM connection and worker
+setTimeout(bot.destroy.bind(bot), 10000)
 ```
 
 ### Responding to events
@@ -290,6 +327,7 @@ a [few additional events](#using-the-slack-button).
 |--- |---
 | rtm_open | a connection has been made to the RTM api
 | rtm_close | a connection to the RTM api has closed
+| rtm_reconnect_failed | if retry enabled, retry attempts have been exhausted
 
 
 ## Receiving Messages
@@ -756,6 +794,98 @@ bot.say(
   }
 );
 ```
+
+## Middleware
+
+The functionality of Botkit can be extended using middleware
+functions. These functions can plugin to the core bot running processes at
+several useful places and make changes to both a bot's configuration and
+the incoming or outgoing message.
+
+### Middleware Endpoints
+
+Botkit currently supports middleware insertion in three places:
+
+* When receiving a message, before triggering any events
+* When sending a message, before the message is sent to the API
+* When hearing a message
+
+Send and Receive middleware functions are added to Botkit using an Express-style "use" syntax.
+Each function receives a bot parameter, a message parameter, and
+a next function which must be called to continue processing the middleware stack.
+
+Hear middleware functions are passed in to the `controller.hears` function,
+and override the built in regular expression matching.
+
+### Receive Middleware
+
+Receive middleware can be used to do things like preprocess the message
+content using external natural language processing services like Wit.ai.  
+Additional information can be added to the message object for use down the chain.
+
+```
+controller.middleware.receive.use(function(bot, message, next) {
+
+    // do something...
+    // message.extrainfo = 'foo';
+    next();
+
+});
+```
+
+
+### Send Middleware
+
+Send middleware can be used to do things like preprocess the message
+content before it gets sent out to the messaging client.  
+
+```
+controller.middleware.send.use(function(bot, message, next) {
+
+    // do something useful...
+    if (message.intent == 'hi') {
+        message.text = 'Hello!!!';
+    }
+    next();
+
+});
+```
+
+
+### Hear Middleware
+
+Hear middleware can be used to change the way Botkit bots "hear" triggers.
+It can be used to look for values in fields other than message.text, or use comparison methods other than regular expression matching. For example, a middleware function
+could enable Botkit to "hear" intents added by an NLP classifier instead of string patterns.
+
+Hear middleware is enabled by passing a function into the `hears()` method on the Botkit controller.
+When specified, the middleware function will be used instead of the built in regular expression match.
+
+These functions receive 2 parameters - `patterns` an array of patterns, and `message` the incoming
+message. This function will be called _after_ any receive middlewares, so may use any additional
+information that may have been added. A return value of `true` indicates the pattern has been
+matched and the bot should respond.
+
+```
+// this example does a simple string match instead of using regular expressions
+function custom_hear_middleware(patterns, message) {
+
+    for (var p = 0; p < patterns.length; p++) {
+        if (patterns[p] == message.text) {
+            return true;
+        }
+    }
+    return false;
+}
+
+
+controller.hears(['hello'],'direct_message',custom_hear_middleware,function(bot, message) {
+
+    bot.reply(message, 'I heard the EXACT string match for "hello"');
+
+});
+```
+
 
 ## Working with Slack Integrations
 

@@ -24,6 +24,7 @@ possible with your report. If you can, please include:
 * Include screenshots and animated GIFs in your pull request whenever possible.
 * Follow the JavaScript coding style with details from `.jscsrc` and `.editorconfig` files and use necessary plugins for your text editor.
 * Write documentation in [Markdown](https://daringfireball.net/projects/markdown).
+* Please follow, [JSDoc](http://usejsdoc.org/) for proper documentation.
 * Use short, present tense commit messages. See [Commit Message Styleguide](#git-commit-messages).
 
 ## Styleguides
