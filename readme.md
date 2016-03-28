@@ -180,10 +180,18 @@ Spawn an instance of your bot and connect it to Slack.
 This function takes a configuration object which should contain
 at least one method of talking to the Slack API.
 
-To use the real time / bot user API, pass in a token, preferably via
-an environment variable.
+To use the real time / bot user API, pass in a token.
 
 Controllers can also spawn bots that use [incoming webhooks](#incoming-webhooks).
+
+Spawn `config` object accepts these properties:
+
+| Name | Value | Description
+|--- |---
+| token | String | Slack bot token
+| retry | Positive integer or `Infinity` | Maximum number of reconnect attempts after failed connection to Slack's real time messaging API. Retry is disabled by default
+
+
 
 #### bot.startRTM()
 | Argument | Description
@@ -318,6 +326,7 @@ a [few additional events](#using-the-slack-button).
 |--- |---
 | rtm_open | a connection has been made to the RTM api
 | rtm_close | a connection to the RTM api has closed
+| rtm_reconnect_failed | if retry enabled, retry attempts have been exhausted
 
 
 ## Receiving Messages
