@@ -168,6 +168,13 @@ controller.hears(['structured'],'message_received',function(bot, message) {
 
 });
 
+controller.on('facebook_postback', function(bot, message) {
+
+    bot.reply(message, message.payload);
+
+
+});
+
 controller.hears(['call me (.*)'],'message_received',function(bot, message) {
     var matches = message.text.match(/call me (.*)/i);
     var name = matches[1];
