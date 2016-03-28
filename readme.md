@@ -147,7 +147,7 @@ These examples are included in the Botkit [Github repo](https://github.com/howdy
 
 [examples/slackbutton_incomingwebhooks.js](https://github.com/howdyai/botkit/blob/master/examples/slackbutton_incomingwebhooks.js) an example of using the Slack Button to offer an incoming webhook integration. This example also includes a simple form which allows you to broadcast a message to any team who adds the integration.
 
-[example/sentiment_analysis.js](https://github.com/howdyai/botkit/blob/master/examples/sentiment_analysis.js) a simple example of a chatbot using sentiment analysis. Keeps a running score of each user based on positive and negative keywords. Messages and thresholds can be configured. 
+[example/sentiment_analysis.js](https://github.com/howdyai/botkit/blob/master/examples/sentiment_analysis.js) a simple example of a chatbot using sentiment analysis. Keeps a running score of each user based on positive and negative keywords. Messages and thresholds can be configured.
 
 # Developing with Botkit
 
@@ -187,7 +187,7 @@ Controllers can also spawn bots that use [incoming webhooks](#incoming-webhooks)
 Spawn `config` object accepts these properties:
 
 | Name | Value | Description
-|--- |---
+|--- |--- |---
 | token | String | Slack bot token
 | retry | Positive integer or `Infinity` | Maximum number of reconnect attempts after failed connection to Slack's real time messaging API. Retry is disabled by default
 
