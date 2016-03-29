@@ -517,7 +517,7 @@ Only the user who sent the original incoming message will be able to respond to 
 | message   | incoming message to which the conversation is in response
 | callback  | a callback function in the form of  function(err,conversation) { ... }
 
-`startPrivateConversation()` works juts like `startConversation()`, but the resulting
+`startPrivateConversation()` works just like `startConversation()`, but the resulting
 conversation that is created will occur in a private direct message channel between
 the user and the bot.
 
