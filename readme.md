@@ -1014,6 +1014,18 @@ controller.setupWebserver(port,function(err,express_webserver) {
   controller.createWebhookEndpoints(express_webserver)
 });
 
+You can optionally protect your application with authentication of the requests
+from Slack.  Slack will generate a unique request token for each Slash command and
+outgoing webhook.  You can configure the web server to validate that incoming requests
+contain a valid api token by adding an express middleware authentication module.
+
+``javascript
+controller.setupWebserver(port,function(err,express_webserver) {
+  controller.secureWebhookEndpoints(express_webserver, [AUTH_TOKEN, ANOTHER_AUTH_TOKEN]);
+  controller.createWebhookEndpoints(express_webserver);
+});
+``
+
 controller.on('slash_command',function(bot,message) {
 
     // reply to slash command
@@ -1029,6 +1041,8 @@ controller.on('outgoing_webhook',function(bot,message) {
 
 })
 ```
+
+
 
 #### controller.setupWebserver()
 | Argument | Description
