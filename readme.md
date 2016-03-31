@@ -304,7 +304,7 @@ controller.on('channel_leave',function(bot,message) {
 Finally, Botkit throws a handful of its own events!
 Events related to the general operation of bots are below.
 When used in conjunction with the Slack Button, Botkit also fires
-a [few additional events](#using-the-slack-button).
+a [few additional events](#use-the-slack-button).
 
 #### Message/User Activity Events:
 
