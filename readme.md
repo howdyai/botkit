@@ -517,7 +517,7 @@ Only the user who sent the original incoming message will be able to respond to 
 | message   | incoming message to which the conversation is in response
 | callback  | a callback function in the form of  function(err,conversation) { ... }
 
-`startPrivateConversation()` works juts like `startConversation()`, but the resulting
+`startPrivateConversation()` works just like `startConversation()`, but the resulting
 conversation that is created will occur in a private direct message channel between
 the user and the bot.
 
@@ -562,12 +562,11 @@ controller.hears(['hello world'],['direct_message','direct_mention','mention','a
         }
       ],
       'icon_url': 'http://lorempixel.com/48/48'
-      }
+    }
 
-      convo.say(message_with_attachments);
-    });
+    convo.say(message_with_attachments);
 
-  })
+  });
 });
 ```
 
@@ -886,6 +885,18 @@ controller.hears(['hello'],'direct_message',custom_hear_middleware,function(bot,
 });
 ```
 
+It is possible to completely replace the built in regular expression match with
+a middleware function by calling `controller.changeEars()`. This will replace the matching function used in `hears()`
+as well as inside `convo.ask().` This would, for example, enable your bot to
+hear only intents instead of strings.
+
+```
+controller.changeEars(function(patterns, message) {
+
+    // ... do something
+    // return true or false
+});
+```
 
 ## Working with Slack Integrations
 
