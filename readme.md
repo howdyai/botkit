@@ -562,12 +562,11 @@ controller.hears(['hello world'],['direct_message','direct_mention','mention','a
         }
       ],
       'icon_url': 'http://lorempixel.com/48/48'
-      }
+    }
 
-      convo.say(message_with_attachments);
-    });
+    convo.say(message_with_attachments);
 
-  })
+  });
 });
 ```
 
