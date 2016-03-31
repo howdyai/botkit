@@ -14,3 +14,7 @@ way Botkit matches patterns.
 Add new middleware hooks. Developers can now change affect a message
 as it is received or sent, and can also change the way Botkit matches
 patterns in the `hears()` handler.
+
+## 0.0.~
+
+Next time I promise to start a change log at v0.0.0
