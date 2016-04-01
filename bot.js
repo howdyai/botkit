@@ -55,7 +55,7 @@ This bot demonstrates many of the core features of Botkit:
 
 # EXTEND THE BOT:
 
-  Botkit is has many features for building cool and useful bots!
+  Botkit has many features for building cool and useful bots!
 
   Read all about it here:
 
