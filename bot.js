@@ -79,12 +79,10 @@ var controller = Botkit.facebookbot({
 });
 
 var bot = controller.spawn({
-//    token: process.env.token
 });
 
 controller.setupWebserver(4000, function(err,webserver) {
     controller.createWebhookEndpoints(webserver, bot, function() {
-
         console.log('ONLINE!');
     });
 });
@@ -133,7 +131,7 @@ controller.hears(['structured'],'message_received',function(bot, message) {
                        {
                          'type':'postback',
                          'title':'Bookmark Item',
-                         'payload':'USER_DEFINED_PAYLOAD_FOR_ITEM100'
+                         'payload':'White T-Shirt'
                        }
                      ]
                    },
@@ -155,7 +153,7 @@ controller.hears(['structured'],'message_received',function(bot, message) {
                        {
                          'type':'postback',
                          'title':'Bookmark Item',
-                         'payload':'USER_DEFINED_PAYLOAD_FOR_ITEM101'
+                         'payload':'Grey T-Shirt'
                        }
                      ]
                    }
@@ -168,8 +166,7 @@ controller.hears(['structured'],'message_received',function(bot, message) {
 
 controller.on('facebook_postback', function(bot, message) {
 
-    bot.reply(message, message.payload);
-
+    bot.reply(message, 'Great Choice!!!! (' + message.payload + ')');
 
 });
 
