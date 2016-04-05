@@ -136,14 +136,10 @@ specifies the keywords to match.
 | types  | An _array_ or a _comma separated string_ of the message events in which to look for the patterns
 | callback | callback function that receives a message object
 
-<!-- Is this example too Slack-specfic?
-
 ```javascript
-controller.hears(['keyword','^pattern$'],['direct_message','direct_mention','mention','ambient'],function(bot,message) {
+controller.hears(['keyword','^pattern$'],['message_received'],function(bot,message) {
 
   // do something to respond to message
-  // all of the fields available in a normal message object are available
-  // https://api.slack.com/events/message
   bot.reply(message,'You used a keyword!');
 
 });
@@ -153,7 +149,7 @@ controller.hears(['keyword','^pattern$'],['direct_message','direct_mention','men
 For example,
 
 ```javascript
-controller.hears('open the (.*) doors',['direct_message','mention'],function(bot,message) {
+controller.hears('open the (.*) doors',['message_received'],function(bot,message) {
   var doorType = message.match[1]; //match[1] is the (.*) group. match[0] is the entire group (open the (.*) doors).
   if (doorType === 'pod bay') {
     return bot.reply(message, 'I\'m sorry, Dave. I\'m afraid I can\'t do that.');
