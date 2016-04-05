@@ -17,6 +17,9 @@ team, as well as public "Slack Button" applications that can be
 run from a central location, and be used by many teams at the same time.
 
 ---
+## Getting Started
+
+1) Install Botkit [more info here](readme.md#installation)
 
 2) First make a bot integration inside of your Slack channel. Go here:
 
@@ -102,7 +105,103 @@ This is particularly true if you store and use API tokens on behalf of users oth
 
 [Read Slack's Bot User documentation](https://api.slack.com/bot-users)
 
-### Responding to events
+
+#### controller.spawn()
+| Argument | Description
+|--- |---
+| config | Incoming message object
+
+Spawn an instance of your bot and connect it to Slack.
+This function takes a configuration object which should contain
+at least one method of talking to the Slack API.
+
+To use the real time / bot user API, pass in a token.
+
+Controllers can also spawn bots that use [incoming webhooks](#incoming-webhooks).
+
+Spawn `config` object accepts these properties:
+
+| Name | Value | Description
+|--- |--- |---
+| token | String | Slack bot token
+| retry | Positive integer or `Infinity` | Maximum number of reconnect attempts after failed connection to Slack's real time messaging API. Retry is disabled by default
+
+
+
+#### bot.startRTM()
+| Argument | Description
+|--- |---
+| callback | _Optional_ Callback in the form function(err,bot,payload) { ... }
+
+Opens a connection to Slack's real time API. This connection will remain
+open until it fails or is closed using `closeRTM()`.
+
+The optional callback function receives:
+
+* Any error that occurred while connecting to Slack
+* An updated bot object
+* The resulting JSON payload of the Slack API command [rtm.start](https://api.slack.com/methods/rtm.start)
+
+The payload that this callback function receives contains a wealth of information
+about the bot and its environment, including a complete list of the users
+and channels visible to the bot. This information should be cached and used
+when possible instead of calling Slack's API.
+
+A successful connection the API will also cause a `rtm_open` event to be
+fired on the `controller` object.
+
+
+#### bot.closeRTM()
+
+Close the connection to the RTM. Once closed, an `rtm_close` event is fired
+on the `controller` object.
+
+
+```javascript
+var Botkit = require('Botkit');
+
+var controller = Botkit.slackbot();
+
+var bot = controller.spawn({
+  token: my_slack_bot_token
+})
+
+bot.startRTM(function(err,bot,payload) {
+  if (err) {
+    throw new Error('Could not connect to Slack');
+  }
+
+  // close the RTM for the sake of it in 5 seconds
+  setTimeout(function() {
+      bot.closeRTM();
+  }, 5000);
+});
+```
+
+#### bot.destroy()
+
+Completely shutdown and cleanup the spawned worker. Use `bot.closeRTM()` only to disconnect
+but not completely tear down the worker.
+
+
+```javascript
+var Botkit = require('Botkit');
+var controller = Botkit.slackbot();
+var bot = controller.spawn({
+  token: my_slack_bot_token
+})
+
+bot.startRTM(function(err, bot, payload) {
+  if (err) {
+    throw new Error('Could not connect to Slack');
+  }
+});
+
+// some time later (e.g. 10s) when finished with the RTM connection and worker
+setTimeout(bot.destroy.bind(bot), 10000)
+```
+
+### Slack-Specific Events
 
 Once connected to Slack, bots receive a constant stream of events - everything from the normal messages you would expect to typing notifications and presence change events.
 
@@ -140,6 +239,29 @@ Finally, Botkit throws a handful of its own events!
 Events related to the general operation of bots are below.
 When used in conjunction with the Slack Button, Botkit also fires
 a [few additional events](#using-the-slack-button).
+
+
+#### Message/User Activity Events:
+
+| Event | Description
+|--- |---
+| message_received | a message was received by the bot
+| bot_channel_join | the bot has joined a channel
+| user_channel_join | a user has joined a channel
+| bot_group_join | the bot has joined a group
+| user_group_join | a user has joined a group
+| direct_message | the bot received a direct message from a user
+| direct_mention | the bot was addressed directly in a channel
+| mention | the bot was mentioned by someone in a message
+| ambient | the message received had no mention of the bot
+
+#### Websocket Events:
+
+| Event | Description
+|--- |---
+| rtm_open | a connection has been made to the RTM api
+| rtm_close | a connection to the RTM api has closed
+| rtm_reconnect_failed | if retry enabled, retry attempts have been exhausted
 
 
 ## Receiving Messages

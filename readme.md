@@ -1,10 +1,10 @@
 # [Botkit](http://howdy.ai/botkit) - Building Blocks for Building Bots
 
-[![npm](https://img.shields.io/npm/v/botkit.svg)](https://www.npmjs.com/package/botkit)
+<!-- [![npm](https://img.shields.io/npm/v/botkit.svg)](https://www.npmjs.com/package/botkit)
 [![David](https://img.shields.io/david/howdyai/botkit.svg)](https://david-dm.org/howdyai/botkit)
-[![npm](https://img.shields.io/npm/l/botkit.svg)](https://spdx.org/licenses/MIT)
+[![npm](https://img.shields.io/npm/l/botkit.svg)](https://spdx.org/licenses/MIT) -->
 
-Botkit designed to ease the process of designing and running useful, creative or just plain weird bots (and other types of applications) that live inside [Slack](http://slack.com), [Facebook](http://facebook.com) and other messaging platforms.
+Botkit designed to ease the process of designing and running useful, creative or just plain weird bots (and other types of applications) that live inside [Slack](http://slack.com), [Facebook Messenger](http://facebook.com) and other messaging platforms.
 
 It provides a semantic interface to sending and receiving messages so that developers can focus on creating novel applications and experiences instead of dealing with API endpoints.
 
@@ -12,8 +12,7 @@ Botkit features a comprehensive set of tools to deal with the following messagin
 
 <!-- links need to be changed -->
 * [Slack](http://api.slack.com)
-* [Facebook](http://api.facebook.com)
-* [Twilio](http://api.twilio.com)
+* [Facebook Messenger](http://developers.facebook.com)
 
 ## Installation
 
@@ -44,8 +43,10 @@ npm install --production
 
 ## Getting Started
 
-1) Install Botkit. See [Installation](#installation) instructions.
+If you intend to create a bot that
+lives in Slack, [follow these instructions for attaining a Bot Token](readme-slack.md#getting-started).
 
+If you intend to create a bot that lives in Facebook Messenger, [follow these instructions for configuring your Facebook page](readme-facebook.md#getting-started).
 
 ## Core Concepts
 
@@ -58,9 +59,14 @@ With these two building blocks, almost any type of conversation can be created.
 To organize the things a bot says and does into useful units, Botkit bots have a subsystem available for managing [multi-message conversations](#multi-message-replies-to-incoming-messages). Conversations add features like the ability to ask a question, queue several messages at once, and track when an interaction has ended.  Handy!
 
 After a bot has been told what to listen for and how to respond,
-it is ready to be connected to a stream of incoming messages. <!--Currently, Botkit can handle [3 different types of incoming messages from Slack](#connecting-your-bot-to-slack).
+it is ready to be connected to a stream of incoming messages. Currently, Botkit supports receiving messages from a variety of sources:
 
-Make bullet points here describing three ways your bot can handle messages -->
+* [Slack Real Time Messaging (RTM)](http://api.slack.com/rtm)
+* [Slack Incoming Webhooks](http://api.slack.com/incoming-webhooks)
+* [Slack Slash Commands](http://api.slack.com/slash-commands)
+* [Facebook Messenger Webhooks](https://developers.facebook.com/docs/messenger-platform/implementation)
+
+Read more about [connecting your bot to Slack](readme-slack.md#connecting-your-bot-to-slack) or [connecting your bot to Facebook](readme-facebook.md#getting-started)
 
 ## Included Examples
 
@@ -84,142 +90,29 @@ These examples are included in the Botkit [Github repo](https://github.com/howdy
 
 Table of Contents
 
-* [Connecting Your Bot](#connecting-your-bot)
 * [Receiving Messages](#receiving-messages)
 * [Sending Messages](#sending-messages)
 * [Middleware](#middleware)
 * [Advanced Topics](#advanced-topics)
 
-## Connecting Your Bot
-
-<!-- Removed Slack-specific bits here -->
-
-#### controller.spawn()
-| Argument | Description
-|--- |---
-| config | Incoming message object
-
-Spawn an instance of your bot and connect it to Slack.
-This function takes a configuration object which should contain
-at least one method of talking to the Slack API.
-
-To use the real time / bot user API, pass in a token.
-
-Controllers can also spawn bots that use [incoming webhooks](#incoming-webhooks).
-
-Spawn `config` object accepts these properties:
-
-| Name | Value | Description
-|--- |--- |---
-| token | String | Slack bot token
-| retry | Positive integer or `Infinity` | Maximum number of reconnect attempts after failed connection to Slack's real time messaging API. Retry is disabled by default
-
-
-
-#### bot.startRTM()
-| Argument | Description
-|--- |---
-| callback | _Optional_ Callback in the form function(err,bot,payload) { ... }
-
-Opens a connection to Slack's real time API. This connection will remain
-open until it fails or is closed using `closeRTM()`.
-
-The optional callback function receives:
-
-* Any error that occurred while connecting to Slack
-* An updated bot object
-* The resulting JSON payload of the Slack API command [rtm.start](https://api.slack.com/methods/rtm.start)
-
-The payload that this callback function receives contains a wealth of information
-about the bot and its environment, including a complete list of the users
-and channels visible to the bot. This information should be cached and used
-when possible instead of calling Slack's API.
-
-A successful connection the API will also cause a `rtm_open` event to be
-fired on the `controller` object.
-
-
-#### bot.closeRTM()
-
-Close the connection to the RTM. Once closed, an `rtm_close` event is fired
-on the `controller` object.
-
-
-```javascript
-var Botkit = require('Botkit');
-
-var controller = Botkit.slackbot();
-
-var bot = controller.spawn({
-  token: my_slack_bot_token
-})
-
-bot.startRTM(function(err,bot,payload) {
-  if (err) {
-    throw new Error('Could not connect to Slack');
-  }
-
-  // close the RTM for the sake of it in 5 seconds
-  setTimeout(function() {
-      bot.closeRTM();
-  }, 5000);
-});
-```
-
-#### bot.destroy()
-
-Completely shutdown and cleanup the spawned worker. Use `bot.closeRTM()` only to disconnect
-but not completely tear down the worker.
-
-
-```javascript
-var Botkit = require('Botkit');
-var controller = Botkit.slackbot();
-var bot = controller.spawn({
-  token: my_slack_bot_token
-})
-
-bot.startRTM(function(err, bot, payload) {
-  if (err) {
-    throw new Error('Could not connect to Slack');
-  }
-});
-
-// some time later (e.g. 10s) when finished with the RTM connection and worker
-setTimeout(bot.destroy.bind(bot), 10000)
-```
 
 ### Responding to events
 
-<!-- Removed Slack-specific stuff here -->
-<!-- Need Facebook-specific text with FB events -->
+Once connected to a messaging platform, bots receive a constant stream of events - everything from the normal messages you would expect to typing notifications and presence change events. The set of events your bot will receive will depend on what messsaging platform it is connected to.
 
-#### Message/User Activity Events:
+Botkit's message parsing and event system does a great deal of filtering on this
+real time stream so developers do not need to parse every message.  See [Receiving Messages](#receiving-messages)
+for more information about listening for and responding to messages.
 
-| Event | Description
-|--- |---
-| message_received | a message was received by the bot
-| bot_channel_join | the bot has joined a channel
-| user_channel_join | a user has joined a channel
-| bot_group_join | the bot has joined a group
-| user_group_join | a user has joined a group
-| direct_message | the bot received a direct message from a user
-| direct_mention | the bot was addressed directly in a channel
-| mention | the bot was mentioned by someone in a message
-| ambient | the message received had no mention of the bot
+All platforms will receive at least the `messsage_received` event.
 
-#### Websocket Events:
+[Slack-specific Events](readme-slack.md#slack-specific-events)
 
-| Event | Description
-|--- |---
-| rtm_open | a connection has been made to the RTM api
-| rtm_close | a connection to the RTM api has closed
-| rtm_reconnect_failed | if retry enabled, retry attempts have been exhausted
-
+[Facebook-specific Events](readme-facebook.md#facebook-specific-events)
 
 ## Receiving Messages
 
-Botkit bots receive messages through a system of event handlers. Handlers can be set up to respond to specific types of messages,or to messages that match a given keyword or pattern.
+Botkit bots receive messages through a system of event handlers. Handlers can be set up to respond to specific types of messages, or to messages that match a given keyword or pattern.
 
 
 <!-- Removed Slack-specific bits -->
