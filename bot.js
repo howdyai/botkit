@@ -88,10 +88,6 @@ controller.setupWebserver(4000, function(err,webserver) {
 });
 
 
-controller.on('message_received', function(bot, message) {
-	console.log('RECEIVED ',message);
-});
-
 controller.hears(['hello','hi'],'message_received',function(bot, message) {
 
 
@@ -290,6 +286,15 @@ controller.hears(['uptime','identify yourself','who are you','what is your name'
              '>. I have been running for ' + uptime + ' on ' + hostname + '.');
 
     });
+
+
+
+    controller.on('message_received', function(bot, message) {
+    	console.log('RECEIVED ',message);
+        bot.reply(message, 'Try: `what is my name` or `structured` or `call me captain`');
+        return false;
+    });
+
 
 function formatUptime(uptime) {
     var unit = 'second';
