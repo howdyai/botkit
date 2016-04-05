@@ -82,7 +82,7 @@ var bot = controller.spawn({
 //    token: process.env.token
 });
 
-controller.setupWebserver(3002, function(err,webserver) {
+controller.setupWebserver(4000, function(err,webserver) {
     controller.createWebhookEndpoints(webserver, bot, function() {
 
         console.log('ONLINE!');
@@ -173,7 +173,7 @@ controller.on('facebook_postback', function(bot, message) {
 
 });
 
-controller.hears(['call me (.*)', 'my name is (.*)'], 'direct_message,direct_mention,mention', function(bot, message) {
+controller.hears(['call me (.*)', 'my name is (.*)'], 'message_received', function(bot, message) {
     var name = message.match[1];
     controller.storage.users.get(message.user, function(err, user) {
         if (!user) {
@@ -188,8 +188,7 @@ controller.hears(['call me (.*)', 'my name is (.*)'], 'direct_message,direct_men
     });
 });
 
-controller.hears(['what is my name', 'who am i'], 'direct_message,direct_mention,mention', function(bot, message) {
-
+controller.hears(['what is my name', 'who am i'], 'message_received', function(bot, message) {
     controller.storage.users.get(message.user, function(err, user) {
         if (user && user.name) {
             bot.reply(message, 'Your name is ' + user.name);
