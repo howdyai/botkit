@@ -469,9 +469,9 @@ controller.hears('another_keyword','direct_message,direct_mention',function(bot,
     'text': 'This is a pre-text',
     'attachments': [
       {
-        'fallback': 'To be useful, I need your to invite me in a channel.',
+        'fallback': 'To be useful, I need you to invite me in a channel.',
         'title': 'How can I help you?',
-        'text': 'To be useful, I need your to invite me in a channel ',
+        'text': 'To be useful, I need you to invite me in a channel ',
         'color': '#7CD197'
       }
     ],
@@ -555,9 +555,9 @@ controller.hears(['hello world'],['direct_message','direct_mention','mention','a
       'text': 'this is a pre-text',
       'attachments': [
         {
-          'fallback': 'To be useful, I need your to invite me in a channel.',
+          'fallback': 'To be useful, I need you to invite me in a channel.',
           'title': 'How can I help you?',
-          'text': ' To be useful, I need your to invite me in a channel ',
+          'text': ' To be useful, I need you to invite me in a channel ',
           'color': '#7CD197'
         }
       ],
