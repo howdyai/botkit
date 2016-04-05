@@ -1,3 +1,8 @@
+# Botkit and Facebook
+
+Botkit features a comprehensive set of tools for developing chat bots
+and applications inside Facebook Messenger.
+
 ## Getting Started
 
 fill this out after talking with Ben.

@@ -1,14 +1,4 @@
-# [Botkit](http://howdy.ai/botkit) - Building Blocks for Building Bots
-
-[![npm](https://img.shields.io/npm/v/botkit.svg)](https://www.npmjs.com/package/botkit)
-[![David](https://img.shields.io/david/howdyai/botkit.svg)](https://david-dm.org/howdyai/botkit)
-[![npm](https://img.shields.io/npm/l/botkit.svg)](https://spdx.org/licenses/MIT)
-
-Botkit designed to ease the process of designing and running useful, creative or just plain weird bots (and other types of applications) that live inside [Slack](http://slack.com)!
-
-It provides a semantic interface to sending and receiving messages
-so that developers can focus on creating novel applications and experiences
-instead of dealing with API endpoints.
+# Botkit and Slack
 
 Botkit features a comprehensive set of tools
 to deal with [Slack's integration platform](http://api.slack.com), and allows
