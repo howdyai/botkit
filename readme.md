@@ -1024,7 +1024,27 @@ and properly configured within Slack.
 controller.setupWebserver(port,function(err,express_webserver) {
   controller.createWebhookEndpoints(express_webserver)
 });
+```
 
+### Securing Outgoing Webhooks and Slash commands
+
+You can optionally protect your application with authentication of the requests
+from Slack.  Slack will generate a unique request token for each Slash command and
+outgoing webhook (see [Slack documentation](https://api.slack.com/slash-commands#validating_the_command)).
+You can configure the web server to validate that incoming requests contain a valid api token
+by adding an express middleware authentication module.
+
+```javascript
+controller.setupWebserver(port,function(err,express_webserver) {
+  controller.createWebhookEndpoints(express_webserver, ['AUTH_TOKEN', 'ANOTHER_AUTH_TOKEN']);
+  // you can pass the tokens as an array, or variable argument list
+  //controller.createWebhookEndpoints(express_webserver, 'AUTH_TOKEN_1', 'AUTH_TOKEN_2');
+  // or
+  //controller.createWebhookEndpoints(express_webserver, 'AUTH_TOKEN');
+});
+```
+
+```
 controller.on('slash_command',function(bot,message) {
 
     // reply to slash command
@@ -1040,6 +1060,8 @@ controller.on('outgoing_webhook',function(bot,message) {
 
 })
 ```
+
+
 
 #### controller.setupWebserver()
 | Argument | Description
