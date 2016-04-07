@@ -104,7 +104,6 @@ a specific bot identity and connection to Slack. Once spawned and connected to
 the API, the bot user will appear online in Slack, and can then be used to
 send messages and conduct conversations with users. They are called into action by the `controller` when firing event handlers.
 
-
 ```javascript
 var Botkit = require('botkit');
 
@@ -141,14 +140,23 @@ Table of Contents
 
 Once connected to a messaging platform, bots receive a constant stream of events - everything from the normal messages you would expect to typing notifications and presence change events. The set of events your bot will receive will depend on what messaging platform it is connected to.
 
-Botkit's message parsing and event system does a great deal of filtering on this
-real time stream so developers do not need to parse every message.  See [Receiving Messages](#receiving-messages) for more information about listening for and responding to messages.
+Botkit's message parsing and event system does a great deal of filtering on this real time stream so developers do not need to parse every message.  See [Receiving Messages](#receiving-messages) for more information about listening for and responding to messages.
 
-All platforms will receive at least the `messsage_received` event.
+All platforms will receive the `message_received` event. This event is the first event fired for every message of any type received - before any platform specific events are fired. T
+
+```javascript
+controller.on('message_received', function(bot, message) {
+
+    // carefully examine and
+    // handle the message here!
+    // Note: Platforms such as Slack send many kinds of messages, not all of which contain a text field!
+});
+```
 
 [Slack-specific Events](readme-slack.md#slack-specific-events)
 
 [Facebook-specific Events](readme-facebook.md#facebook-specific-events)
+
 
 ## Receiving Messages
 
