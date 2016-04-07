@@ -192,7 +192,7 @@ When used in conjunction with the Slack Button, Botkit also fires
 a [few additional events](#using-the-slack-button).
 
 
-#### Message/User Activity Events:
+#### User Activity Events:
 
 | Event | Description
 |--- |---
@@ -201,6 +201,10 @@ a [few additional events](#using-the-slack-button).
 | user_channel_join | a user has joined a channel
 | bot_group_join | the bot has joined a group
 | user_group_join | a user has joined a group
+
+#### Message Received Events
+| Event | Description
+|--- |---
 | direct_message | the bot received a direct message from a user
 | direct_mention | the bot was addressed directly in a channel
 | mention | the bot was mentioned by someone in a message
@@ -214,97 +218,6 @@ a [few additional events](#using-the-slack-button).
 | rtm_close | a connection to the RTM api has closed
 | rtm_reconnect_failed | if retry enabled, retry attempts have been exhausted
 
-
-## Receiving Messages
-
-Botkit bots receive messages through a system of event handlers. Handlers can be set up to respond to specific types of messages,or to messages that match a given keyword or pattern.
-
-For Slack, Botkit supports five type of message event:
-
-| Event | Description
-|--- |---
-| message_received  | This event is fired for any message of any kind that is received and can be used as a catch all
-| ambient | Ambient messages are messages that the bot can hear in a channel, but that do not mention the bot in any way
-| direct_mention| Direct mentions are messages that begin with the bot's name, as in "@bot hello"
-| mention | Mentions are messages that contain the bot's name, but not at the beginning, as in "hello @bot"
-| direct_message | Direct messages are sent via private 1:1 direct message channels
-
-
-
-## Single message Replies
-
-controller.on('ambient',function(bot,message) {
-
-    // do something...
-
-    // then respond with a message object
-    bot.reply(message,{
-      text: "A more complex response",
-      username: "ReplyBot",
-      icon_emoji: ":dash:",
-    });
-
-})
-
-//Using attachments
-
-``
-controller.hears('another_keyword','direct_message,direct_mention',function(bot,message) {
-  var reply_with_attachments = {
-    'username': 'My bot' ,
-    'text': 'This is a pre-text',
-    'attachments': [
-      {
-        'fallback': 'To be useful, I need your to invite me in a channel.',
-        'title': 'How can I help you?',
-        'text': 'To be useful, I need your to invite me in a channel ',
-        'color': '#7CD197'
-      }
-    ],
-    'icon_url': 'http://lorempixel.com/48/48'
-    }
-
-  bot.reply(message, reply_with_attachments);
-});
-``
-
-### Multi-message Replies to Incoming Messages
-
-#### bot.startPrivateConversation()
-| Argument | Description
-|---  |---
-| message   | incoming message to which the conversation is in response
-| callback  | a callback function in the form of  function(err,conversation) { ... }
-
-`startPrivateConversation()` works just like `startConversation()`, but the resulting
-conversation that is created will occur in a private direct message channel between
-the user and the bot.
-
-It is possible to initiate a private conversation by passing a message object, containing the user's Slack ID.
-
-```javascript
-//assume var user_id has been defined
-bot.startPrivateConversation({user: user_id}, function(response, convo){
-  convo.say('Hello, I am your bot.')
-})
-```
-
-### Control Conversation Flow
-
-//Using attachments
-var message_with_attachments = {
-  'username': 'My bot' ,
-  'text': 'this is a pre-text',
-  'attachments': [
-    {
-      'fallback': 'To be useful, I need your to invite me in a channel.',
-      'title': 'How can I help you?',
-      'text': ' To be useful, I need your to invite me in a channel ',
-      'color': '#7CD197'
-    }
-  ],
-  'icon_url': 'http://lorempixel.com/48/48'
-}
 
 ## Working with Slack Integrations
 
@@ -358,8 +271,6 @@ controller.on('slash_command',function(bot,message) {
 });
 ```
 
-
-
 ### Incoming webhooks
 
 Incoming webhooks allow you to send data from your application into Slack.
@@ -371,6 +282,7 @@ Once configured, use the `sendWebhook` function to send messages to Slack.
 [Read official docs](https://api.slack.com/incoming-webhooks)
 
 #### bot.configureIncomingWebhook()
+
 | Argument | Description
 |--- |---
 | config | Configure a bot to send webhooks
@@ -380,6 +292,7 @@ It is preferable to spawn the bot pre-configured, but hey, sometimes
 you need to do it later.
 
 #### bot.sendWebhook()
+
 | Argument | Description
 |--- |---
 | message | A message object
@@ -423,9 +336,9 @@ Note that since these integrations use send webhooks from Slack to your applicat
 your application will have to be hosted at a public IP address or domain name,
 and properly configured within Slack.
 
-[Set up an outgoing webhook](https://xoxco.slack.com/services/new/outgoing-webhook)
+[Set up an outgoing webhook](https://my.slack.com/services/new/outgoing-webhook)
 
-[Set up a Slash command](https://xoxco.slack.com/services/new/slash-commands)
+[Set up a Slash command](https://my.slack.com/services/new/slash-commands)
 
 ```javascript
 controller.setupWebserver(port,function(err,express_webserver) {
@@ -476,6 +389,7 @@ When an outgoing webhook is recieved from Slack, Botkit fires the `outgoing_webh
 
 
 #### bot.replyPublic()
+
 | Argument | Description
 |---  |---
 | src | source message as received from slash or webhook
