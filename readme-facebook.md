@@ -11,10 +11,9 @@ This document covers the Facebook-specific implementation details only. [Start h
 Table of Contents
 
 * [Getting Started](#getting-started)
-* [Connecting Your Bot To Slack](#connecting-your-bot-to-slack)
-* [Slack-specific Events](#slack-specific-events)
-* [Working with Slack Custom Integrations](#working-with-slack-integrations)
-* [Using the Slack Button](#use-the-slack-button)
+* [Facebook-specific Events](#facebook-specific-events)
+* [Working with Facebook Webhooks](#working-with-facebook-messenger)
+* [Using Structured Messages and Postbacks](#using-structured-messages-and-postbacks)
 
 ## Getting Started
 
@@ -71,3 +70,125 @@ All incoming events will contain the fields `user` and `channel`, both of which 
 `facebook_postback` events will contain a `payload` field.
 
 More information about the data found in these fields can be found [here](https://developers.facebook.com/docs/messenger-platform/webhook-reference).
+
+## Working with Facebook Messenger
+
+Botkit receives messages from Facebook using webhooks, and sends messages using Facebook's APIs. This means that your bot application must present a web server that is publicly addressable. Everything you need to get started is already included in Botkit.
+
+To connect your bot to Facebook, [follow the instructions here](https://developers.facebook.com/docs/messenger-platform/implementation). You will need to collect your `page token` as well as a `verify token` that you define yourself and configure inside Facebook's app settings. A step by step guide [can be found here](#getting-started). Since you must *already be running* your Botkit app to configure your Facebook app, there is a bit of back-and-forth. It's ok! You can do it.
+
+Here is the complete code for a basic Facebook bot:
+
+```javascript
+var Botkit = require('botkit');
+var controller = Botkit.facebookbot({
+        access_token: process.env.access_token,
+        verify_token: process.env.verify_token,
+})
+
+var bot = controller.spawn({
+});
+
+// if you are already using Express, you can use your own server instance...
+// see "Use BotKit with an Express web server"
+controller.setupWebserver(process.env.port,function(err,webserver) {
+  controller.createWebhookEndpoints(controller.webserver, bot, function() {
+      console.log('This bot is online!!!');
+  });
+});
+
+// this is triggered when a user clicks the send-to-messenger plugin
+controller.on('facebook_optin', function(bot, message) {
+
+    bot.reply(message, 'Welcome to my app!');
+
+});
+
+// user said hello
+controller.hears(['hello'], 'message_received', function(bot, message) {
+
+    bot.reply(message, 'Hey there.');
+
+});
+
+controller.hears(['cookies'], 'message_received', function(bot, message) {
+
+    bot.startConversation(message, function(err, convo) {
+
+        convo.say('Did someone say cookies!?!!');
+        convo.ask('What is your favorite type of cookie?', function(response, convo) {
+            convo.say('Golly, I love ' + response.text ' too!!!');
+            convo.next();
+        });
+    });
+});
+```
+
+
+#### controller.setupWebserver()
+| Argument | Description
+|---  |---
+| port | port for webserver
+| callback | callback function
+
+Setup an [Express webserver](http://expressjs.com/en/index.html) for
+use with `createWebhookEndpoints()`
+
+If you need more than a simple webserver to receive webhooks,
+you should by all means create your own Express webserver!
+
+The callback function receives the Express object as a parameter,
+which may be used to add further web server routes.
+
+#### controller.createWebhookEndpoints()
+
+This function configures the route `https://_your_server_/facebook/receive`
+to receive webhooks from Facebook.
+
+This url should be used when configuring Facebook.
+
+## Using Structured Messages and Postbacks
+
+You can attach little bubbles
+
+And in those bubbles can be buttons
+and when a user clicks the button, it sends a postback with the value.
+
+```javascript
+controller.hears('test', 'message_received', function(bot, message) {
+
+    var attachment = {
+        'type':'template',
+        'payload':{
+            'template_type':'generic',
+            'elements':[
+                {
+                    'title':'Chocolate Cookie',
+                    'image_url':'http://cookies.com/cookie.png',
+                    'subtitle':'A delicious chocolate cookie',
+                    'buttons':[
+                        {
+                        'type':'postback',
+                        'title':'Eat Cookie',
+                        'payload':'chocolate'
+                        }
+                    ]
+                },
+            ]
+        }
+    };
+
+    bot.reply(message, {
+        attachment: attachment,
+    });
+
+});
+
+controller.on('facebook_postback', function(bot, message) {
+
+    if (message.payload == 'chocolate') {
+        bot.reply(message, 'You ate the chocolate cookie!')
+    }
+
+});
+```

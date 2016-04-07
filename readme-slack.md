@@ -380,7 +380,7 @@ controller.on('outgoing_webhook',function(bot,message) {
 | callback | callback function
 
 Setup an [Express webserver](http://expressjs.com/en/index.html) for
-use with `createwWebhookEndpoints()`
+use with `createWebhookEndpoints()`
 
 If you need more than a simple webserver to receive webhooks,
 you should by all means create your own Express webserver!
