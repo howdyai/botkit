@@ -1,10 +1,14 @@
 # Botkit and Slack
 
+Botkit designed to ease the process of designing and running useful, creative or just plain weird bots (and other types of applications) that live inside [Slack](http://slack.com), [Facebook Messenger](http://facebook.com) and other messaging platforms.
+
 Botkit features a comprehensive set of tools
 to deal with [Slack's integration platform](http://api.slack.com), and allows
 developers to build both custom integrations for their
 team, as well as public "Slack Button" applications that can be
 run from a central location, and be used by many teams at the same time.
+
+This document covers the Slack-specific implementation details only. [Start here](readme.md) if you want to learn about to develop with Botkit.
 
 Table of Contents
 

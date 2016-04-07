@@ -652,7 +652,7 @@ Facebook-specific Example:
 bot.say(
     {
         text: 'my message_text',
-        channel: '+1(415)218-5766' // a valid facebook user id or phone number
+        channel: '+1(###)###-####' // a valid facebook user id or phone number
     }
 );
 ```

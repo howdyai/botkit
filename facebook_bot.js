@@ -19,17 +19,21 @@ This bot demonstrates many of the core features of Botkit:
 
 # RUN THE BOT:
 
-  Get a Bot token from Slack:
+  Follow the instructions here to set up your Facebook app and page:
 
-    -> http://my.slack.com/services/new/bot
+    -> https://developers.facebook.com/docs/messenger-platform/implementation
 
   Run your bot from the command line:
 
-    token=<MY TOKEN> node bot.js
+    page_token=<MY PAGE TOKEN> verify_token=<MY_VERIFY_TOKEN> node facebook_bot.js
+
+  Use localtunnel.me to make your bot available on the web:
+
+    lt --port 3000
 
 # USE THE BOT:
 
-  Find your bot inside Slack to send it a direct message.
+  Find your bot inside Facebook to send it a direct message.
 
   Say: "Hello"
 
