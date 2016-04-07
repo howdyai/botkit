@@ -6,6 +6,14 @@ developers to build both custom integrations for their
 team, as well as public "Slack Button" applications that can be
 run from a central location, and be used by many teams at the same time.
 
+Table of Contents
+
+* [Getting Started](#getting-started)
+* [Connecting Your Bot To Slack](#connecting-your-bot-to-slack)
+* [Slack-specific Events](#slack-specific-events)
+* [Working with Slack Custom Integrations](#working-with-slack-integrations)
+* [Using the Slack Button](#use-the-slack-button)
+
 ---
 ## Getting Started
 
