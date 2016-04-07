@@ -19,4 +19,7 @@ messaging permissions
 
 # Facebook-specific Events
 
-what events does facebook throw??
+| Event | Description
+|--- |---
+| message_received | a message was received by the bot
+| facebook_postback | user clicked a button in an attachment and triggered a webhook postback

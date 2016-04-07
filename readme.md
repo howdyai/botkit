@@ -8,9 +8,8 @@ Botkit designed to ease the process of designing and running useful, creative or
 
 It provides a semantic interface to sending and receiving messages so that developers can focus on creating novel applications and experiences instead of dealing with API endpoints.
 
-Botkit features a comprehensive set of tools to deal with the following messaging services:
+Botkit features a comprehensive set of tools to deal with the following messaging platforms:
 
-<!-- links need to be changed -->
 * [Slack](http://api.slack.com)
 * [Facebook Messenger](http://developers.facebook.com)
 
@@ -43,10 +42,15 @@ npm install --production
 
 ## Getting Started
 
+After you've installed Botkit, the first thing you'll need to do is register your bot with a messaging platform, and get a few configuration options set. This will allow your bot to connect, send and receive messages.
+
+The fastest way to get a bot online and get to work is to start from one of the [examples included in the repo](#included-examples).
+
 If you intend to create a bot that
 lives in Slack, [follow these instructions for attaining a Bot Token](readme-slack.md#getting-started).
 
 If you intend to create a bot that lives in Facebook Messenger, [follow these instructions for configuring your Facebook page](readme-facebook.md#getting-started).
+
 
 ## Core Concepts
 
@@ -84,9 +88,47 @@ These examples are included in the Botkit [Github repo](https://github.com/howdy
 
 <!-- Need a Facebook example here -->
 
-# Developing with Botkit
+## Basic Usage
 
-<!-- Need a "connect to FB" example and possibly move to front of doc -->
+Here's an example of using Botkit with Slack's [real time API](https://api.slack.com/rtm), which is the coolest one because your bot will look and act like a real user inside Slack.
+
+This sample bot listens for the word "hello" to be said to it -- either as a direct mention ("@bot hello") or an indirect mention ("hello @bot") or a direct message (a private message inside Slack between the user and the bot).
+
+The Botkit constructor returns a `controller` object. By attaching event handlers
+to the controller object, developers can specify what their bot should look for and respond to,
+including keywords, patterns and various [messaging and status events](#responding-to-events).
+These event handlers can be thought of metaphorically as skills or features the robot brain has -- each event handler defines a new "When a human say THIS the bot does THAT."
+
+The `controller` object is then used to `spawn()` bot instances that represent
+a specific bot identity and connection to Slack. Once spawned and connected to
+the API, the bot user will appear online in Slack, and can then be used to
+send messages and conduct conversations with users. They are called into action by the `controller` when firing event handlers.
+
+
+```javascript
+var Botkit = require('botkit');
+
+var controller = Botkit.slackbot({
+  debug: false
+  //include "log: false" to disable logging
+  //or a "logLevel" integer from 0 to 7 to adjust logging verbosity
+});
+
+// connect the bot to a stream of messages
+controller.spawn({
+  token: <my_slack_bot_token>,
+}).startRTM()
+
+// give the bot something to listen for.
+controller.hears('hello',['direct_message','direct_mention','mention'],function(bot,message) {
+
+  bot.reply(message,'Hello yourself.');
+
+});
+
+```
+
+# Developing with Botkit
 
 Table of Contents
 
@@ -95,14 +137,12 @@ Table of Contents
 * [Middleware](#middleware)
 * [Advanced Topics](#advanced-topics)
 
-
 ### Responding to events
 
-Once connected to a messaging platform, bots receive a constant stream of events - everything from the normal messages you would expect to typing notifications and presence change events. The set of events your bot will receive will depend on what messsaging platform it is connected to.
+Once connected to a messaging platform, bots receive a constant stream of events - everything from the normal messages you would expect to typing notifications and presence change events. The set of events your bot will receive will depend on what messaging platform it is connected to.
 
 Botkit's message parsing and event system does a great deal of filtering on this
-real time stream so developers do not need to parse every message.  See [Receiving Messages](#receiving-messages)
-for more information about listening for and responding to messages.
+real time stream so developers do not need to parse every message.  See [Receiving Messages](#receiving-messages) for more information about listening for and responding to messages.
 
 All platforms will receive at least the `messsage_received` event.
 
@@ -112,8 +152,7 @@ All platforms will receive at least the `messsage_received` event.
 
 ## Receiving Messages
 
-Botkit bots receive messages through a system of event handlers. Handlers can be set up to respond to specific types of messages, or to messages that match a given keyword or pattern.
-
+Botkit bots receive messages through a system of specialized event handlers. Handlers can be set up to respond to specific types of messages, or to messages that match a given keyword or pattern.
 
 <!-- Removed Slack-specific bits -->
 
@@ -134,6 +173,7 @@ specifies the keywords to match.
 |--- |---
 | patterns | An _array_ or a _comma separated string_ containing a list of regular expressions to match
 | types  | An _array_ or a _comma separated string_ of the message events in which to look for the patterns
+| middleware function | _optional_ function to redefine how patterns are matched. see [Botkit Middleware](#middleware)
 | callback | callback function that receives a message object
 
 ```javascript
@@ -144,7 +184,7 @@ controller.hears(['keyword','^pattern$'],['message_received'],function(bot,messa
 
 });
 ```
--->
+
 
 For example,
 

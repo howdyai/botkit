@@ -43,45 +43,6 @@ Much like a vampire, a bot has to be invited into a channel. DO NOT WORRY bots a
 
 Type: `/invite @<my bot>` to invite your bot into another channel.
 
-## Basic Usage
-
-Here's an example of using Botkit with Slack's [real time API](https://api.slack.com/rtm), which is the coolest one because your bot will look and act like a real user inside Slack.
-
-This sample bot listens for the word "hello" to be said to it -- either as a direct mention ("@bot hello") or an indirect mention ("hello @bot") or a direct message (a private message inside Slack between the user and the bot).
-
-The Botkit constructor returns a `controller` object. By attaching event handlers
-to the controller object, developers can specify what their bot should look for and respond to,
-including keywords, patterns and various [messaging and status events](#responding-to-events).
-These event handlers can be thought of metaphorically as skills or features the robot brain has -- each event handler defines a new "When a human say THIS the bot does THAT."
-
-The `controller` object is then used to `spawn()` bot instances that represent
-a specific bot identity and connection to Slack. Once spawned and connected to
-the API, the bot user will appear online in Slack, and can then be used to
-send messages and conduct conversations with users. They are called into action by the `controller` when firing event handlers.
-
-
-```javascript
-var Botkit = require('botkit');
-
-var controller = Botkit.slackbot({
-  debug: false
-  //include "log: false" to disable logging
-  //or a "logLevel" integer from 0 to 7 to adjust logging verbosity
-});
-
-// connect the bot to a stream of messages
-controller.spawn({
-  token: <my_slack_bot_token>,
-}).startRTM()
-
-// give the bot something to listen for.
-controller.hears('hello',['direct_message','direct_mention','mention'],function(bot,message) {
-
-  bot.reply(message,'Hello yourself.');
-
-});
-
-```
 
 ## Connecting Your Bot to Slack
 
