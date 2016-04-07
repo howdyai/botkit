@@ -229,28 +229,7 @@ For Slack, Botkit supports five type of message event:
 | mention | Mentions are messages that contain the bot's name, but not at the beginning, as in "hello @bot"
 | direct_message | Direct messages are sent via private 1:1 direct message channels
 
-These message events can be handled using by attaching an event handler to the main controller object.
-These event handlers take two parameters: the name of the event, and a callback function which is invoked whenever the event occurs.
-The callback function receives a bot object, which can be used to respond to the message, and a message object.
 
-```javascript
-// reply to @bot hello
-controller.on('direct_mention',function(bot,message) {
-
-  // reply to _message_ by using the _bot_ object
-  bot.reply(message,'I heard you mention me!');
-
-});
-
-// reply to a direct message
-controller.on('direct_message',function(bot,message) {
-
-  // reply to _message_ by using the _bot_ object
-  bot.reply(message,'You are talking directly to me');
-
-});
-
-```
 
 ## Single message Replies
 
@@ -548,3 +527,123 @@ bot.api.channels.list({},function(err,response) {
   //Do something...
 })
 ```
+
+
+
+## Use the Slack Button
+
+The [Slack Button](https://api.slack.com/docs/slack-button) is a way to offer a Slack
+integration as a service available to multiple teams. Botkit includes a framework
+on top of which Slack Button applications can be built.
+
+Slack button applications can use one or more of the [real time API](),
+[incoming webhook]() and [slash command]() integrations, which can be
+added *automatically* to a team using a special oauth scope.
+
+If special oauth scopes sounds scary, this is probably not for you!
+The Slack Button is useful for developers who want to offer a service
+to multiple teams.
+
+How many teams can a Slack button app built using Botkit handle?
+This will largely be dependent on the environment it is hosted in and the
+type of integrations used.  A reasonably well equipped host server should
+be able to easily handle _at least one hundred_ real time connections at once.
+
+To handle more than one hundred bots at once, [consider speaking to the
+creators of Botkit at Howdy.ai](http://howdy.ai)
+
+For Slack button applications, Botkit provides:
+
+* A simple webserver
+* OAuth Endpoints for login via Slack
+* Storage of API tokens and team data via built-in Storage
+* Events for when a team joins, a new integration is added, and others...
+
+See the [included examples](#included-examples) for several ready to use example apps.
+
+#### controller.configureSlackApp()
+
+| Argument | Description
+|---  |---
+| config | configuration object containing clientId, clientSecret, redirectUri and scopes
+
+Configure Botkit to work with a Slack application.
+
+Get a clientId and clientSecret from [Slack's API site](https://api.slack.com/applications).
+Configure Slash command, incoming webhook, or bot user integrations on this site as well.
+
+Configuration must include:
+
+* clientId - Application clientId from Slack
+* clientSecret - Application clientSecret from Slack
+* redirectUri - the base url of your application
+* scopes - an array of oauth permission scopes
+
+Slack has [_many, many_ oauth scopes](https://api.slack.com/docs/oauth-scopes)
+that can be combined in different ways. There are also [_special oauth scopes_
+used when requesting Slack Button integrations](https://api.slack.com/docs/slack-button).
+It is important to understand which scopes your application will need to function,
+as without the proper permission, your API calls will fail.
+
+#### controller.createOauthEndpoints()
+| Argument | Description
+|---  |---
+| webserver | an Express webserver Object
+| error_callback | function to handle errors that may occur during oauth
+
+Call this function to create two web urls that handle login via Slack.
+Once called, the resulting webserver will have two new routes: `http://_your_server_/login` and `http://_your_server_/oauth`. The second url will be used when configuring
+the "Redirect URI" field of your application on Slack's API site.
+
+
+```javascript
+var Botkit = require('botkit');
+var controller = Botkit.slackbot();
+
+controller.configureSlackApp({
+  clientId: process.env.clientId,
+  clientSecret: process.env.clientSecret,
+  redirectUri: 'http://localhost:3002',
+  scopes: ['incoming-webhook','team:read','users:read','channels:read','im:read','im:write','groups:read','emoji:read','chat:write:bot']
+});
+
+controller.setupWebserver(process.env.port,function(err,webserver) {
+
+  // set up web endpoints for oauth, receiving webhooks, etc.
+  controller
+    .createHomepageEndpoint(controller.webserver)
+    .createOauthEndpoints(controller.webserver,function(err,req,res) { ... })
+    .createWebhookEndpoints(controller.webserver);
+
+});
+
+```
+
+### How to identify what team your message came from
+```javascript
+bot.identifyTeam(function(err,team_id) {
+
+})
+```
+
+
+### How to identify the bot itself (for RTM only)
+```javascript
+bot.identifyBot(function(err,identity) {
+  // identity contains...
+  // {name, id, team_id}
+})
+```
+
+
+### Slack Button specific events:
+
+| Event | Description
+|--- |---
+| create_incoming_webhook |
+| create_bot |
+| update_team |
+| create_team |
+| create_user |
+| update_user |
+| oauth_error |

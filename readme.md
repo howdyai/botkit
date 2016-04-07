@@ -140,9 +140,7 @@ Table of Contents
 
 Once connected to a messaging platform, bots receive a constant stream of events - everything from the normal messages you would expect to typing notifications and presence change events. The set of events your bot will receive will depend on what messaging platform it is connected to.
 
-Botkit's message parsing and event system does a great deal of filtering on this real time stream so developers do not need to parse every message.  See [Receiving Messages](#receiving-messages) for more information about listening for and responding to messages.
-
-All platforms will receive the `message_received` event. This event is the first event fired for every message of any type received - before any platform specific events are fired. T
+All platforms will receive the `message_received` event. This event is the first event fired for every message of any type received - before any platform specific events are fired.
 
 ```javascript
 controller.on('message_received', function(bot, message) {
@@ -153,22 +151,39 @@ controller.on('message_received', function(bot, message) {
 });
 ```
 
-[Slack-specific Events](readme-slack.md#slack-specific-events)
+Due to the multi-channel, multi-user nature of Slack, Botkit does additional filtering on the messages (after firing message_recieved), and will fire more specific events based on the type of message - for example, `direct_message` events indicate a message has been sent directly to the bot, while `direct_mention` indicates that the bot has been mentioned in a multi-user channel.
+[List of Slack-specific Events](readme-slack.md#slack-specific-events)
 
-[Facebook-specific Events](readme-facebook.md#facebook-specific-events)
+Facebook messages are fairly straightforward. However, because Facebook supports inline buttons, there is an additional event fired when a user clicks a button.
+[List of Facebook-specific Events](readme-facebook.md#facebook-specific-events)
 
 
 ## Receiving Messages
 
 Botkit bots receive messages through a system of specialized event handlers. Handlers can be set up to respond to specific types of messages, or to messages that match a given keyword or pattern.
 
-<!-- Removed Slack-specific bits -->
+These message events can be handled using by attaching an event handler to the main controller object.
+These event handlers take two parameters: the name of the event, and a callback function which is invoked whenever the event occurs.
+The callback function receives a bot object, which can be used to respond to the message, and a message object.
 
-<!-- ADD: For Slack, Botkit supports X types of events [LINK] -->
+```javascript
+// reply to any incoming message
+controller.on('message_received', function(bot, message) {
+    bot.reply(message, 'I heard... something!');
+});
 
-<!-- ADD: For Facebook, Botkit supports X types of events [LINK] -->
+// reply to a direct mention - @bot hello
+controller.on('direct_mention',function(bot,message) {
+  // reply to _message_ by using the _bot_ object
+  bot.reply(message,'I heard you mention me!');
+});
 
-<!-- Should make these examples use things that will work for both Slack & Facebook -->
+// reply to a direct message
+controller.on('direct_message',function(bot,message) {
+  // reply to _message_ by using the _bot_ object
+  bot.reply(message,'You are talking directly to me');
+});
+```
 
 ### Matching Patterns and Keywords with `hears()`
 
@@ -193,8 +208,7 @@ controller.hears(['keyword','^pattern$'],['message_received'],function(bot,messa
 });
 ```
 
-
-For example,
+When using the built in regular expression matching, the results of the expression will be stored in the `message.match` field and will match the expected output of normal Javascript `string.match(/pattern/i)`. For example:
 
 ```javascript
 controller.hears('open the (.*) doors',['message_received'],function(bot,message) {
@@ -218,8 +232,7 @@ Multi-message replies, particularly those that present questions for the end use
 can be sent using the `bot.startConversation()` function and the related conversation sub-functions.
 
 Bots can originate messages - that is, send a message based on some internal logic or external stimulus -
-using `bot.say()` method.  Note that bots that do not need to respond to messages or hold conversations
-may be better served by using Slack's [Incoming Webhooks](#incoming-webhooks) feature.
+using `bot.say()` method.  
 
 ### Single Message Replies to Incoming Messages
 
@@ -231,8 +244,13 @@ Messages sent using `bot.reply()` are sent immediately. If multiple messages are
 and may be difficult for the user to process. We recommend using `bot.startConversation()`
 if more than one message needs to be sent.
 
-You may pass either a string, or a message object to the function. <!-- Message objects may contain
-any of the fields supported by [Slack's chat.postMessage](https://api.slack.com/methods/chat.postMessage) API. This is also true of Facebook too. You can send attachments with images, links and buttons. -->
+You may pass either a string, or a message object to the function.
+
+Message objects may also contain any additional fields supported by the messaging platform in use:
+
+[Slack's chat.postMessage](https://api.slack.com/methods/chat.postMessage) API accepts several additional fields. These fields can be used to adjust the message appearance, add attachments, or even change the displayed user name.
+
+This is also true of Facebook. Calls to [Facebook's Send API](https://developers.facebook.com/docs/messenger-platform/send-api-reference) can include attachments which result in interactive "structured messages" which can include images, links and action buttons.
 
 #### bot.reply()
 
@@ -242,8 +260,9 @@ any of the fields supported by [Slack's chat.postMessage](https://api.slack.com/
 | reply | _String_ or _Object_ Outgoing response
 | callback | _Optional_ Callback in the form function(err,response) { ... }
 
+Simple reply example:
 ```javascript
-controller.hears(['keyword','^pattern$'],['direct_message','direct_mention','mention'],function(bot,message) {
+controller.hears(['keyword','^pattern$'],['message_received'],function(bot,message) {
 
   // do something to respond to message
   // ...
@@ -251,14 +270,16 @@ controller.hears(['keyword','^pattern$'],['direct_message','direct_mention','men
   bot.reply(message,"Tell me more!");
 
 });
+```
 
-<!--
-
+Slack-specific fields and attachments:
+```javascript
 controller.on('ambient',function(bot,message) {
 
     // do something...
 
     // then respond with a message object
+    //
     bot.reply(message,{
       text: "A more complex response",
       username: "ReplyBot",
@@ -286,6 +307,69 @@ controller.hears('another_keyword','direct_message,direct_mention',function(bot,
   bot.reply(message, reply_with_attachments);
 });
 
+```
+
+
+Facebook-specific fields and attachments:
+```
+// listen for the phrase `shirt` and reply back with structured messages
+// containing images, links and action buttons
+controller.hears(['shirt'],'message_received',function(bot, message) {
+    bot.reply(message, {
+        attachment: {
+            'type':'template',
+            'payload':{
+                 'template_type':'generic',
+                 'elements':[
+                   {
+                     'title':'Classic White T-Shirt',
+                     'image_url':'http://petersapparel.parseapp.com/img/item100-thumb.png',
+                     'subtitle':'Soft white cotton t-shirt is back in style',
+                     'buttons':[
+                       {
+                         'type':'web_url',
+                         'url':'https://petersapparel.parseapp.com/view_item?item_id=100',
+                         'title':'View Item'
+                       },
+                       {
+                         'type':'web_url',
+                         'url':'https://petersapparel.parseapp.com/buy_item?item_id=100',
+                         'title':'Buy Item'
+                       },
+                       {
+                         'type':'postback',
+                         'title':'Bookmark Item',
+                         'payload':'USER_DEFINED_PAYLOAD_FOR_ITEM100'
+                       }
+                     ]
+                   },
+                   {
+                     'title':'Classic Grey T-Shirt',
+                     'image_url':'http://petersapparel.parseapp.com/img/item101-thumb.png',
+                     'subtitle':'Soft gray cotton t-shirt is back in style',
+                     'buttons':[
+                       {
+                         'type':'web_url',
+                         'url':'https://petersapparel.parseapp.com/view_item?item_id=101',
+                         'title':'View Item'
+                       },
+                       {
+                         'type':'web_url',
+                         'url':'https://petersapparel.parseapp.com/buy_item?item_id=101',
+                         'title':'Buy Item'
+                       },
+                       {
+                         'type':'postback',
+                         'title':'Bookmark Item',
+                         'payload':'USER_DEFINED_PAYLOAD_FOR_ITEM101'
+                       }
+                     ]
+                   }
+                 ]
+               }
+        }
+    });
+});
 ```
 
 ### Multi-message Replies to Incoming Messages
@@ -327,14 +411,13 @@ Only the user who sent the original incoming message will be able to respond to 
 Call convo.say() several times in a row to queue messages inside the conversation. Only one message will be sent at a time, in the order they are queued.
 
 ```javascript
-controller.hears(['hello world'],function(bot,message) {
+controller.hears(['hello world'], 'message_received', function(bot,message) {
 
   // start a conversation to handle this response.
   bot.startConversation(message,function(err,convo) {
 
     convo.say('Hello!');
     convo.say('Have a nice day!');
-    convo.say(message_with_attachments);
 
   });
 });
@@ -374,7 +457,7 @@ This object can contain the following fields:
 ##### Using conversation.ask with a callback:
 
 ```javascript
-controller.hears(['question me'],function(bot,message) {
+controller.hears(['question me'], 'message_received', function(bot,message) {
 
   // start a conversation to handle this response.
   bot.startConversation(message,function(err,convo) {
@@ -394,7 +477,7 @@ controller.hears(['question me'],function(bot,message) {
 ##### Using conversation.ask with an array of callbacks:
 
 ```javascript
-controller.hears(['question me'],function(bot,message) {
+controller.hears(['question me'], 'message_received', function(bot,message) {
 
   // start a conversation to handle this response.
   bot.startConversation(message,function(err,convo) {
@@ -443,34 +526,34 @@ controller.hears(['question me'],function(bot,message) {
 
 ![multi-stage convo example](https://www.evernote.com/shard/s321/sh/7243cadf-be40-49cf-bfa2-b0f524176a65/f9257e2ff5ee6869/res/bc778282-64a5-429c-9f45-ea318c729225/screenshot.png?resizeSmall&width=832)
 
-The recommended way to have multi-stage conversations is with multiple functions
-which call eachother. Each function asks just one question. Example:
+One way to have multi-stage conversations is with multiple functions
+which call each other. Each function asks just one question. Example:
 
 ```javascript
-controller.hears(['pizzatime'],function(bot,message) {
-  bot.startConversation(message, askFlavor);
-});
+controller.hears(['pizzatime'], 'message_recieved', function(bot,message) {
+    askFlavor = function(response, convo) {
+      convo.ask('What flavor of pizza do you want?', function(response, convo) {
+        convo.say('Awesome.');
+        askSize(response, convo);
+        convo.next();
+      });
+    }
+    askSize = function(response, convo) {
+      convo.ask('What size do you want?', function(response, convo) {
+        convo.say('Ok.')
+        askWhereDeliver(response, convo);
+        convo.next();
+      });
+    }
+    askWhereDeliver = function(response, convo) {
+      convo.ask('So where do you want it delivered?', function(response, convo) {
+        convo.say('Ok! Good bye.');
+        convo.next();
+      });
+    }
 
-askFlavor = function(response, convo) {
-  convo.ask('What flavor of pizza do you want?', function(response, convo) {
-    convo.say('Awesome.');
-    askSize(response, convo);
-    convo.next();
-  });
-}
-askSize = function(response, convo) {
-  convo.ask('What size do you want?', function(response, convo) {
-    convo.say('Ok.')
-    askWhereDeliver(response, convo);
-    convo.next();
-  });
-}
-askWhereDeliver = function(response, convo) {
-  convo.ask('So where do you want it delivered?', function(response, convo) {
-    convo.say('Ok! Good bye.');
-    convo.next();
-  });
-}
+    bot.startConversation(message, askFlavor);
+});
 ```
 
 The full code for this example can be found in ```examples/convo_bot.js```.
@@ -552,18 +635,25 @@ var value  = convo.extractResponse('key');
 | message | A message object
 | callback | _Optional_ Callback in the form function(err,response) { ... }
 
-<!-- SLACK SPECIFIC BIT HERE
-Note: If your primary need is to spontaneously send messages rather than
-respond to incoming messages, you may want to use [Slack's incoming webhooks feature](#incoming-webhooks) rather than the real time API. -->
-
-<!-- The following example is Slack-specific, needs to show FB example that uses UID or phone number -->
-
+Slack-specific Example:
 ```javascript
 bot.say(
   {
     text: 'my message text',
-    channel: 'C0H338YH4'
+    channel: 'C0H338YH4' // a valid slack channel, group, mpim, or im ID
   }
+);
+```
+Note: If your primary need is to spontaneously send messages rather than respond to incoming messages, you may want to use [Slack's incoming webhooks feature](readme-slack.md#incoming-webhooks) rather than the real time API.
+
+
+Facebook-specific Example:
+```javascript
+bot.say(
+    {
+        text: 'my message_text',
+        channel: '+1(415)218-5766' // a valid facebook user id or phone number
+    }
 );
 ```
 
@@ -746,123 +836,6 @@ var controller = Botkit.slackbot({
 });
 ```
 
-## Use the Slack Button
-
-The [Slack Button](https://api.slack.com/docs/slack-button) is a way to offer a Slack
-integration as a service available to multiple teams. Botkit includes a framework
-on top of which Slack Button applications can be built.
-
-Slack button applications can use one or more of the [real time API](),
-[incoming webhook]() and [slash command]() integrations, which can be
-added *automatically* to a team using a special oauth scope.
-
-If special oauth scopes sounds scary, this is probably not for you!
-The Slack Button is useful for developers who want to offer a service
-to multiple teams.
-
-How many teams can a Slack button app built using Botkit handle?
-This will largely be dependent on the environment it is hosted in and the
-type of integrations used.  A reasonably well equipped host server should
-be able to easily handle _at least one hundred_ real time connections at once.
-
-To handle more than one hundred bots at once, [consider speaking to the
-creators of Botkit at Howdy.ai](http://howdy.ai)
-
-For Slack button applications, Botkit provides:
-
-* A simple webserver
-* OAuth Endpoints for login via Slack
-* Storage of API tokens and team data via built-in Storage
-* Events for when a team joins, a new integration is added, and others...
-
-See the [included examples](#included-examples) for several ready to use example apps.
-
-#### controller.configureSlackApp()
-
-| Argument | Description
-|---  |---
-| config | configuration object containing clientId, clientSecret, redirectUri and scopes
-
-Configure Botkit to work with a Slack application.
-
-Get a clientId and clientSecret from [Slack's API site](https://api.slack.com/applications).
-Configure Slash command, incoming webhook, or bot user integrations on this site as well.
-
-Configuration must include:
-
-* clientId - Application clientId from Slack
-* clientSecret - Application clientSecret from Slack
-* redirectUri - the base url of your application
-* scopes - an array of oauth permission scopes
-
-Slack has [_many, many_ oauth scopes](https://api.slack.com/docs/oauth-scopes)
-that can be combined in different ways. There are also [_special oauth scopes_
-used when requesting Slack Button integrations](https://api.slack.com/docs/slack-button).
-It is important to understand which scopes your application will need to function,
-as without the proper permission, your API calls will fail.
-
-#### controller.createOauthEndpoints()
-| Argument | Description
-|---  |---
-| webserver | an Express webserver Object
-| error_callback | function to handle errors that may occur during oauth
-
-Call this function to create two web urls that handle login via Slack.
-Once called, the resulting webserver will have two new routes: `http://_your_server_/login` and `http://_your_server_/oauth`. The second url will be used when configuring
-the "Redirect URI" field of your application on Slack's API site.
-
-
-```javascript
-var Botkit = require('botkit');
-var controller = Botkit.slackbot();
-
-controller.configureSlackApp({
-  clientId: process.env.clientId,
-  clientSecret: process.env.clientSecret,
-  redirectUri: 'http://localhost:3002',
-  scopes: ['incoming-webhook','team:read','users:read','channels:read','im:read','im:write','groups:read','emoji:read','chat:write:bot']
-});
-
-controller.setupWebserver(process.env.port,function(err,webserver) {
-
-  // set up web endpoints for oauth, receiving webhooks, etc.
-  controller
-    .createHomepageEndpoint(controller.webserver)
-    .createOauthEndpoints(controller.webserver,function(err,req,res) { ... })
-    .createWebhookEndpoints(controller.webserver);
-
-});
-
-```
-
-### How to identify what team your message came from
-```javascript
-bot.identifyTeam(function(err,team_id) {
-
-})
-```
-
-
-### How to identify the bot itself (for RTM only)
-```javascript
-bot.identifyBot(function(err,identity) {
-  // identity contains...
-  // {name, id, team_id}
-})
-```
-
-
-### Slack Button specific events:
-
-| Event | Description
-|--- |---
-| create_incoming_webhook |
-| create_bot |
-| update_team |
-| create_team |
-| create_user |
-| update_user |
-| oauth_error |
 
 ##Use BotKit with an Express web server
 Instead of controller.setupWebserver(), it is possible to use a different web server to manage authentication flows, as well as serving web pages.
