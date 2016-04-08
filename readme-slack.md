@@ -1,6 +1,6 @@
 # Botkit and Slack
 
-Botkit designed to ease the process of designing and running useful, creative or just plain weird bots (and other types of applications) that live inside [Slack](http://slack.com), [Facebook Messenger](http://facebook.com) and other messaging platforms.
+Botkit designed to ease the process of designing and running useful, creative bots that live inside [Slack](http://slack.com), [Facebook Messenger](http://facebook.com) and other messaging platforms.
 
 Botkit features a comprehensive set of tools
 to deal with [Slack's integration platform](http://api.slack.com), and allows
@@ -169,7 +169,7 @@ setTimeout(bot.destroy.bind(bot), 10000)
 Once connected to Slack, bots receive a constant stream of events - everything from the normal messages you would expect to typing notifications and presence change events.
 
 Botkit's message parsing and event system does a great deal of filtering on this
-real time stream so developers do not need to parse every message.  See [Receiving Messages](#receiving-messages)
+real time stream so developers do not need to parse every message.  See [Receiving Messages](readme.md#receiving-messages)
 for more information about listening for and responding to messages.
 
 It is also possible to bind event handlers directly to any of the enormous number of native Slack events, as well as a handful of custom events emitted by Botkit.
@@ -201,7 +201,7 @@ controller.on('channel_leave',function(bot,message) {
 Finally, Botkit throws a handful of its own events!
 Events related to the general operation of bots are below.
 When used in conjunction with the Slack Button, Botkit also fires
-a [few additional events](#using-the-slack-button).
+a [few additional events](#use-the-slack-button).
 
 
 #### User Activity Events:
@@ -462,8 +462,8 @@ The [Slack Button](https://api.slack.com/docs/slack-button) is a way to offer a 
 integration as a service available to multiple teams. Botkit includes a framework
 on top of which Slack Button applications can be built.
 
-Slack button applications can use one or more of the [real time API](),
-[incoming webhook]() and [slash command]() integrations, which can be
+Slack button applications can use one or more of the [real time API](http://api.slack.com/rtm),
+[incoming webhook](http://api.slack.com/incoming-webhooks) and [slash command](http://api.slack.com/slash-commands) integrations, which can be
 added *automatically* to a team using a special oauth scope.
 
 If special oauth scopes sounds scary, this is probably not for you!
@@ -485,7 +485,7 @@ For Slack button applications, Botkit provides:
 * Storage of API tokens and team data via built-in Storage
 * Events for when a team joins, a new integration is added, and others...
 
-See the [included examples](#included-examples) for several ready to use example apps.
+See the [included examples](readme.md#included-examples) for several ready to use example apps.
 
 #### controller.configureSlackApp()
 

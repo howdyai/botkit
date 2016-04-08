@@ -4,14 +4,15 @@
 [![David](https://img.shields.io/david/howdyai/botkit.svg)](https://david-dm.org/howdyai/botkit)
 [![npm](https://img.shields.io/npm/l/botkit.svg)](https://spdx.org/licenses/MIT) -->
 
-Botkit designed to ease the process of designing and running useful, creative or just plain weird bots (and other types of applications) that live inside [Slack](http://slack.com), [Facebook Messenger](http://facebook.com) and other messaging platforms.
+Botkit designed to ease the process of designing and running useful, creative bots that live inside [Slack](http://slack.com), [Facebook Messenger](http://facebook.com) and other messaging platforms.
 
 It provides a semantic interface to sending and receiving messages so that developers can focus on creating novel applications and experiences instead of dealing with API endpoints.
 
-Botkit features a comprehensive set of tools to deal with the following messaging platforms:
+Botkit features a comprehensive set of tools to deal with popular messaging platforms, including:
 
 * [Slack](http://api.slack.com)
 * [Facebook Messenger](http://developers.facebook.com)
+* Yours? [info@howdy.ai](mailto:info@howdy.ai)
 
 ## Installation
 
@@ -386,7 +387,6 @@ multiple API calls into a single function.
 
 Messages sent as part of a conversation are sent no faster than one message per second,
 which roughly simulates the time it would take for the bot to "type" the message.
-(It is possible to adjust this delay - see [special behaviors](#special-behaviors))
 
 ### Start a Conversation
 
