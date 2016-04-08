@@ -1,8 +1,8 @@
 # [Botkit](http://howdy.ai/botkit) - Building Blocks for Building Bots
 
-<!-- [![npm](https://img.shields.io/npm/v/botkit.svg)](https://www.npmjs.com/package/botkit)
+[![npm](https://img.shields.io/npm/v/botkit.svg)](https://www.npmjs.com/package/botkit)
 [![David](https://img.shields.io/david/howdyai/botkit.svg)](https://david-dm.org/howdyai/botkit)
-[![npm](https://img.shields.io/npm/l/botkit.svg)](https://spdx.org/licenses/MIT) -->
+[![npm](https://img.shields.io/npm/l/botkit.svg)](https://spdx.org/licenses/MIT)
 
 Botkit designed to ease the process of designing and running useful, creative bots that live inside [Slack](http://slack.com), [Facebook Messenger](http://facebook.com) and other messaging platforms.
 
@@ -77,7 +77,9 @@ Read more about [connecting your bot to Slack](readme-slack.md#connecting-your-b
 
 These examples are included in the Botkit [Github repo](https://github.com/howdyai/botkit).
 
-[bot.js](https://github.com/howdyai/botkit/blob/master/bot.js) An example bot that can be connected to your team. Useful as a basis for creating your first bot!
+[slack_bot.js](https://github.com/howdyai/botkit/blob/master/slack_bot.js) An example bot that can be connected to your team. Useful as a basis for creating your first bot!
+
+[facebook_bot.js](https://github.com/howdyai/botkit/blob/master/facebook_bot.js) An example bot that can be connected to your Facebook pge. Useful as a basis for creating your first bot!
 
 [examples/demo_bot.js](https://github.com/howdyai/botkit/blob/master/examples/demo_bot.js) another example bot that uses different ways to send and receive messages.
 
@@ -87,7 +89,6 @@ These examples are included in the Botkit [Github repo](https://github.com/howdy
 
 [example/sentiment_analysis.js](https://github.com/howdyai/botkit/blob/master/examples/sentiment_analysis.js) a simple example of a chatbot using sentiment analysis. Keeps a running score of each user based on positive and negative keywords. Messages and thresholds can be configured.
 
-<!-- Need a Facebook example here -->
 
 ## Basic Usage
 
@@ -296,9 +297,9 @@ controller.hears('another_keyword','direct_message,direct_mention',function(bot,
     'text': 'This is a pre-text',
     'attachments': [
       {
-        'fallback': 'To be useful, I need your to invite me in a channel.',
+        'fallback': 'To be useful, I need you to invite me in a channel.',
         'title': 'How can I help you?',
-        'text': 'To be useful, I need your to invite me in a channel ',
+        'text': 'To be useful, I need you to invite me in a channel ',
         'color': '#7CD197'
       }
     ],
