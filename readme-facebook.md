@@ -117,7 +117,7 @@ controller.hears(['cookies'], 'message_received', function(bot, message) {
 
         convo.say('Did someone say cookies!?!!');
         convo.ask('What is your favorite type of cookie?', function(response, convo) {
-            convo.say('Golly, I love ' + response.text ' too!!!');
+            convo.say('Golly, I love ' + response.text + ' too!!!');
             convo.next();
         });
     });
