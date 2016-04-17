@@ -1,5 +1,17 @@
 # Change Log
 
+## 0.1.1
+
+Fix issue with over-zealous try/catch in Slack_web_api.js
+
+## 0.1.0
+
+Adds support for Facebook Messenger bots.
+
+Rename example bot: bot.js became slack_bot.js
+
+Add example bot: facebook_bot.js
+
 ## 0.0.15
 
 Changes conversation.ask to use the same pattern matching function as

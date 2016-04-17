@@ -25,7 +25,7 @@ This bot demonstrates many of the core features of Botkit:
 
   Run your bot from the command line:
 
-    token=<MY TOKEN> node bot.js
+    token=<MY TOKEN> node slack_bot.js
 
 # USE THE BOT:
 
@@ -55,7 +55,7 @@ This bot demonstrates many of the core features of Botkit:
 
 # EXTEND THE BOT:
 
-  Botkit is has many features for building cool and useful bots!
+  Botkit has many features for building cool and useful bots!
 
   Read all about it here:
 
