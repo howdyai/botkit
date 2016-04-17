@@ -164,7 +164,7 @@ Facebook messages are fairly straightforward. However, because Facebook supports
 
 Botkit bots receive messages through a system of specialized event handlers. Handlers can be set up to respond to specific types of messages, or to messages that match a given keyword or pattern.
 
-These message events can be handled using by attaching an event handler to the main controller object.
+These message events can be handled by attaching an event handler to the main controller object.
 These event handlers take two parameters: the name of the event, and a callback function which is invoked whenever the event occurs.
 The callback function receives a bot object, which can be used to respond to the message, and a message object.
 
