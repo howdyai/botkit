@@ -1,6 +1,9 @@
 require('dotenv').config();
 
 var Botkit = require('../lib/Botkit.js');
+var Promise = require('bluebird');
+var _ = require('underscore');
+
 var Reminder;
 var Survey;
 
@@ -28,9 +31,37 @@ var bot = controller.spawn({
 });
 
 setInterval(function(){
-    Reminder.getOutgoing();
+    // Reminder.get() returns a promise
+    Reminder.get()
+      .then(function(reminders){
+        console.log(reminders);
+        sendOut(reminders);
+      });
+    // console.log('reminders:');
+    // console.log(reminders);
+    // if(reminders)
+    //   sendOut(reminders);
 }, 30000);
 
-function sendReminders() {
-  
+
+function sendReminder(reminder){
+
+}
+
+// Message Slack User (Reminder || Surveys)
+function sendOut(tasks) {
+  _.each(tasks, function(task) {
+    bot.startPrivateConversation({user: task.user}, function(response, convo) {
+      convo.ask(task.message, function(response, convo) {
+        convo.next();
+      }, {key: "response"});
+      convo.on('end', function(convo) {
+          if(convo.status == 'completed') {
+            var response = convo.extractResponse('response');
+            Reminder.sendBackResponse(response, task.id);
+          }
+      });
+
+    });
+  });
 }

@@ -66,26 +66,27 @@ This bot demonstrates many of the core features of Botkit:
     -> http://howdy.ai/botkit
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
+require('dotenv').config();
 
 
-if (!process.env.page_token) {
+if (!process.env.PAGE_TOKEN) {
     console.log('Error: Specify page_token in environment');
     process.exit(1);
 }
 
-if (!process.env.verify_token) {
+if (!process.env.VERIFY_TOKEN) {
     console.log('Error: Specify verify_token in environment');
     process.exit(1);
 }
 
 
-var Botkit = require('./lib/Botkit.js');
+var Botkit = require('../lib/Botkit.js');
 var os = require('os');
 
 var controller = Botkit.facebookbot({
     debug: true,
-    access_token: process.env.page_token,
-    verify_token: process.env.verify_token,
+    access_token: process.env.PAGE_TOKEN,
+    verify_token: process.env.VERIFY_TOKEN,
 });
 
 var bot = controller.spawn({
