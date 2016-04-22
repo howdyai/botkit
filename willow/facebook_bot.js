@@ -84,7 +84,7 @@ var Botkit = require('../lib/Botkit.js');
 var os = require('os');
 
 var controller = Botkit.facebookbot({
-    debug: true,
+    debug: false,
     access_token: process.env.PAGE_TOKEN,
     verify_token: process.env.VERIFY_TOKEN,
 });
@@ -93,6 +93,7 @@ var bot = controller.spawn({
 });
 
 controller.setupWebserver(process.env.port || 3000, function(err, webserver) {
+    console.log('Setting Up Webserver');
     controller.createWebhookEndpoints(webserver, bot, function() {
         console.log('ONLINE!');
     });
@@ -101,6 +102,7 @@ controller.setupWebserver(process.env.port || 3000, function(err, webserver) {
 
 controller.hears(['hello', 'hi'], 'message_received', function(bot, message) {
 
+    console.log(message);
 
     controller.storage.users.get(message.user, function(err, user) {
         if (user && user.name) {
