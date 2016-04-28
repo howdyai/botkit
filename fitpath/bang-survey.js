@@ -10,6 +10,7 @@ var users = [];
 var clients_id = [];
 var clients_name = [];
 
+//set this flag to a process.env.debug flag prob
 var controller = Botkit.slackbot({
   json_file_store: '../db/',
   debug: false
@@ -26,7 +27,7 @@ var bot = controller.spawn({
 /*
  Activing the survey
 */
-controller.hears(['b4c-weekly-survey'],['direct_message'],function(bot,message) {
+controller.hears(['sendsurvey'],['direct_message'],function(bot,message) {
   console.log("Get Users");
   var options = {
     uri: 'https://slack.com/api/users.list',
@@ -102,70 +103,63 @@ function sendSurvey(id){
  Start of the survey conversation
 */
 start = function(response, convo) {
-  convo.ask("Hey, " + '<@' + convo.source_message.user + '> ' +  "time for your weekly survey!", function(response, convo){
-    week(response, convo);
+  convo.ask("Hey, " + '<@' + convo.source_message.user + '> ' +  "time for a survey!", function(response, convo){
+    convo.say("Goal is to figure out level of readiness in nutritional change!")
+    question_1(response, convo);
     convo.next();
   }, {key: "start"});
 }
 
-week = function(response, convo) {
-  convo.ask("What week are you evaluating?(1-6)", function(response, convo) {
+question_1 = function(response, convo) {
+  convo.ask("What does success look like to you? \n Examples - pounds on the bar \n\t Look better \n\t Feel better \n\t Have more energy", function(response, convo) {
 
-    rate(response, convo);
+    question_2(response, convo);
     convo.next();
-  }, {key:"week"});
+  }, {key:"success"});
 }
 
-rate = function(response, convo) {
-  convo.ask("Please rate the overall content for this week?(1-6)", function(response, convo) {
+question_2 = function(response, convo) {
+  convo.ask("Do you feel making changes to your nutrition will help you be happier with your results? (yes/no) \n Explain", function(response, convo) {
 
-    speaker(response, convo);
+    question_3(response, convo);
     convo.next();
-  }, {key:"rate"});
+  }, {key:"nutrition"});
 }
 
-speaker = function(response, convo) {
-  convo.ask("Please tell me which speakers/activities you preferred and why?", function(response, convo) {
+question_3 = function(response, convo) {
+  convo.ask("What is the most significant thing you could change about your nutrition to get the results you want?", function(response, convo) {
 
-    mean(response, convo);
+    question_4(response, convo);
     convo.next();
-  }, {key: "speaker"});
+  }, {key: "change"});
 }
 
-mean = function(response, convo) {
-  convo.ask("Was the content meaningful and relevant?", function(response, convo) {
+question_4 = function(response, convo) {
+  convo.ask("Are you willing to do that?", function(response, convo) {
 
-    topic(response, convo);
+    question_5(response, convo);
     convo.next();
   }, {key:"meaningful"});
 }
 
-topic = function(response, convo) {
-  convo.ask("Are the things you would have liked to have seen incorporated into the programming that is relevant to the topic of the week?", function(response, convo) {
+question_5 = function(response, convo) {
+  convo.ask("Would you like me to check in with you each day to help you make this change?", function(response, convo) {
 
-    time(response, convo);
+    question_6(response, convo);
     convo.next();
-  }, {key:"topic"});
+  }, {key:"check in"});
 }
 
-time = function(response, convo) {
-  convo.ask("Did you have enough time to work throughout the sessions?", function(response, convo) {
-
-    comments(response, convo);
-    convo.next();
-  }, {key:"time"});
-}
-
-comments = function(response, convo) {
-  convo.ask("Any other comments/questions/concerns?", function(response, convo) {
-
+question_6 = function(response, convo) {
+  convo.ask("What is the best time of day to check in?", function(response, convo) {
     convo.say("Thank You for doing your weekly survey!");
+
     var responses = convo.extractResponses();
     console.log(responses);
     console.log("here");
     convo.next();
     closeSurvey(response, convo);
-  }, {key:"comments"});
+  }, {key:"time"});
 }
 
 /*

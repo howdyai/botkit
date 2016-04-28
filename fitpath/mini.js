@@ -120,7 +120,7 @@ closeSurvey = function(response, convo) {
         console.log(res);
 
         // console.log(convo);
-        sendResponses(res, convo);
+        sendResponses(res, user);
 
       }
       else {
@@ -129,7 +129,7 @@ closeSurvey = function(response, convo) {
       }
 });
 }
-function sendResponses(response, id, convo){
+function sendResponses(response, id){
   var responses = surveyResponseToString(response);
   console.log('sned Responses');
   var attachments = {
