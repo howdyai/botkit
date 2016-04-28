@@ -44,7 +44,7 @@ controller.hears(['sendsurvey'],['direct_message'],function(bot,message) {
   rp(options)
     .then(function (repos) {
         users = repos.members;
-        //console.log(users);
+        console.log(users);
 
         /*
           Sorting out the bots and putting id's and name's in two different arrays
@@ -66,8 +66,8 @@ controller.hears(['sendsurvey'],['direct_message'],function(bot,message) {
           Comment this out when using every user in team
         */
         clients_id = [
-          //'T0M47BN9Z', //Matt
-          'U0M4AB3M0', //Thom
+          'U0M49UJ4V', //Matt
+          //'U0M4AB3M0', //Thom
           //'U0S68V5PX', //jo
           'U1457G26Q' //josh_tester
         ];
@@ -152,7 +152,7 @@ question_5 = function(response, convo) {
 
 question_6 = function(response, convo) {
   convo.ask("What is the best time of day to check in?", function(response, convo) {
-    convo.say("Thank You for doing your weekly survey!");
+    convo.say("Thank You for doing the survey!");
 
     var responses = convo.extractResponses();
     console.log(responses);
