@@ -7,26 +7,46 @@ var moment = require('moment');
 //var token ='xoxp-21143396339-21148553634-24144454581-f6d7e3347d';
 
 var recipients = [
-                    'U0P21DF34',
-                    'U0MHQ7ACE',
-                    'U0MHFGB7C',
-                    'U0NRFEY6Q',
-                    'U0MH3FE3X',
-                    'U0P2H7KL7',
-                    'U0MH319A7',
-                    'U0NR18WEB',
-                    'U0RNQNCNL',
-                    'U0N1Q6Y3E',
-                    'U0NR545GB',
-                    'U0M49UJ4V',
-                    'U0P7APG7L',
-                    'U0R8JF05D',
-                    'U0PG44EU8',
-                    'U0M4CG9JN',
-                    'U0M4AB3M0'
+  'U0M4AB3M0',
+  'U1457G26Q'
 
 ]
+/*
+'U0P21DF34',
+'U0MHQ7ACE',
+'U0MHFGB7C',
+'U0NRFEY6Q',
+'U0MH3FE3X',
+'U0P2H7KL7',
+'U0MH319A7',
+'U0NR18WEB',
+'U0RNQNCNL',
+'U0N1Q6Y3E',
+'U0NR545GB',
+'U0M49UJ4V',
+'U0P7APG7L',
+'U0R8JF05D',
+'U0PG44EU8',
+'U0M4CG9JN',
+'U0M4AB3M0'
+*/
+if (!process.env.token) {
+  console.log('Error: Specify token in environment');
+  process.exit(1);
+}
+var controller = Botkit.slackbot({
+    json_file_store: './db_slackbutton_incomingwebhook/',
+ debug: false
+});
+controller.spawn({
+  token: process.env.token
+}).startRTM(function(err) {
+  if (err) {
+    throw new Error(err);
+  }
+});
 
+/*
 var controller = Botkit.slackbot({
   json_file_store: '../db/',
   debug: false
@@ -39,10 +59,32 @@ var bot = controller.spawn({
   token: 'xoxb-25936133958-GUwHEhR9XPJgMOPZBrQblX4W',
   json_file_store: '../db/'
 }).startRTM()
-
+*/
 controller.hears('sendweeklysurvey', ['direct_message'], function(bot, message) {
-  init();
+  init(bot);
 });
+
+function initWeeklySurvey(bot) {
+    console.log('init surbey');
+  _.each(recipients, function(id) {
+    // init convo function
+    sendSurvey(id, bot);
+
+  }, recipients);
+
+}
+
+function sendSurvey(id, bot) {
+  console.log('sendSurvey');
+  bot.startPrivateConversation({user: id}, function(response, convo) {
+    askOverall(response, convo);
+    convo.next();
+  });
+}
+
+
+
+
 
 // init();
 
@@ -103,7 +145,7 @@ askQuestions = function(response, convo) {
         console.log(user);
         console.log(res);
         // console.log(convo);
-        sendResponses(res, user);
+        sendResponses(res, user, convo);
       }
    });
 
@@ -120,7 +162,7 @@ askQuestions = function(response, convo) {
 
 // }
 
-function sendResponses(response, id){
+function sendResponses(response, id, convo){
   var responses = surveyResponseToString(response);
   console.log('sned Responses');
   var attachments = {
@@ -146,23 +188,7 @@ function sendResponses(response, id){
 }
 
 
-function initWeeklySurvey() {
-    console.log('init surbey');
-  _.each(recipients, function(id) {
-    // init convo function
-    sendSurvey(id);
 
-  }, recipients);
-
-}
-
-function sendSurvey(id) {
-  console.log('sendSurvey');
-  bot.startPrivateConversation({user: id}, function(response, convo) {
-    askOverall(response, convo);
-    convo.next();
-  });
-}
 
 function dayCheck() {
   console.log('dayCheck');
@@ -172,7 +198,7 @@ function dayCheck() {
   }
 }
 // Checks every 1 hour
-function init() {
+function init(bot) {
   // console.log('init');
   // setInterval(
   //   function() {
@@ -180,7 +206,7 @@ function init() {
   //   },
   //   60 * 1000
   // );
-  initWeeklySurvey();
+  initWeeklySurvey(bot);
 }
 // convo.source_message.user
 

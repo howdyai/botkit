@@ -9,7 +9,7 @@ var usersSlack = [];
 
 var recipients = [
 
-                    'U0M4AB3M0'
+                    'U1457G26Q'
 
 ]
 
@@ -209,7 +209,7 @@ sendReminders = function(reminder){
 
 
 controller.hears('post', ['direct_message'], function(bot, message){
-
+  console.log("Test: 1");
   request.post('http://159.203.40.24:3000/willow/survey',{
     form: {
       responses : {
@@ -233,6 +233,7 @@ controller.hears('post', ['direct_message'], function(bot, message){
 });
 // init();
 postResponses = function(postData) {
+  console.log(postData.init);
   request.post('http://159.203.40.24:3000/willow/survey',{
       form: {
         responses : {
