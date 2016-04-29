@@ -12,8 +12,73 @@ var request = require('request');
 var rp = require('request-promise');
 var db = require('../lib/storage/simple_storage.js');
 
-//set this flag to a process.env.debug flag prob
+var joshFakeSID = 'ACff7725010f7d698d5ae355d8fa140218'
+var joshFakeToken = '50e0e7bdcc18a4bf9e7c769953125f01';
 
+var josh_SID = 'AC2d96f61546e749fc16919ab3ae82f860';
+var josh_token = 'a79605561452bd0c0b9e3a8cfff3c03c';
+//set this flag to a process.env.debug flag prob
+//require the Twilio module and create a REST client
+var client = require('twilio')(josh_SID, josh_token);
+console.log("HI");
+
+//Send an SMS text message
+var questions = ['What week are you evaluating?(1-6)', 'Please rate the overall content for this week?(1-6)', 'Please tell me which speakers/activities you preferred and why?']
+
+var counter = 0;
+var message = {};
+//'+15005550006'
+message.to = '+15064706220';
+message.from = '+15878011927';
+message.body = 'This is a weekly Survey!';
+
+client.sendMessage( message
+  /*
+    to:'+15064706220', // Any number Twilio can deliver to
+    from: '+15005550006', // A number you bought from Twilio and can use for outbound communication
+    body: 'This is a test from josh.' // body of the SMS message
+*/
+, function(err, responseData) { //this function is executed when a response is received from Twilio
+
+    if (err) {
+        console.log(err);
+    }
+    else {
+      console.log(responseData.from); // outputs "+14506667788"
+      console.log(responseData.body); // outputs "word to your mother."
+      //console.log(responseData.);
+      //message.boby = questions[counter];
+      //client.sendMessage(message)
+    }
+});
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/*
 var controller = Botkit.slackbot({
   json_file_store: '../db/',
   debug: false
@@ -26,8 +91,6 @@ var bot = controller.spawn({
   token: 'xoxb-37920661316-Umfkqk2AxA5glTiQS4vMqNdT',
   json_file_store: '../db/'
 }).startRTM()
-
-
 
 
 
@@ -166,3 +229,4 @@ function surveyResponseToString(surveyObj) {
   return result;
 
 }
+*/
