@@ -28,6 +28,8 @@ var questions = ['What week are you evaluating?(1-6)', 'Please rate the overall 
 var counter = 0;
 var message = {};
 //'+15005550006'
+
+
 message.to = '+15064706220';
 message.from = '+15878011927';
 message.body = 'This is a weekly Survey!';

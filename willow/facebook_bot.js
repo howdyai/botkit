@@ -94,6 +94,7 @@ var bot = controller.spawn({
 
 controller.setupWebserver(process.env.port || 3000, function(err, webserver) {
     console.log('Setting Up Webserver');
+    console.log("IM here");
     controller.createWebhookEndpoints(webserver, bot, function() {
         console.log('ONLINE!');
     });
