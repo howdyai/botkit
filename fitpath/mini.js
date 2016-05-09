@@ -1,13 +1,4 @@
 var Botkit = require('../lib/Botkit.js');
-var moment = require('moment');
-var responses = [];
-var _ = require('underscore');
-var index = 0;
-var dndStatus = [];
-var production = false;
-var users = [];
-var clients_id = [];
-var clients_name = [];
 var request = require('request');
 var rp = require('request-promise');
 var db = require('../lib/storage/simple_storage.js');
@@ -25,10 +16,7 @@ console.log("HI");
 //Send an SMS text message
 var questions = ['What week are you evaluating?(1-6)', 'Please rate the overall content for this week?(1-6)', 'Please tell me which speakers/activities you preferred and why?']
 
-var counter = 0;
-var message = {};
 //'+15005550006'
-
 
 message.to = '+15064706220';
 message.from = '+15878011927';
