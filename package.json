@@ -10,6 +10,7 @@
     "https-proxy-agent": "^1.0.0",
     "jfs": "^0.2.6",
     "mustache": "^2.2.1",
+    "promise": "^7.1.1",
     "request": "^2.67.0",
     "ware": "^1.3.0",
     "ws": "^1.0.1"
