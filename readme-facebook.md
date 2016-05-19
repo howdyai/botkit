@@ -33,7 +33,7 @@ Copy this token, you'll need it!
 page_token=<MY PAGE TOKEN> verify_token=<MY_VERIFY_TOKEN> node facebook_bot.js
 ```
 
-6) If you are _not_ running your bot at a public, SSL-enabled internet address, use [localtunnel.me](http://localtunnel.me) to make it available to Facebook. Note the URL it gives you.
+6) If you are _not_ running your bot at a public, SSL-enabled internet address, use [localtunnel.me](http://localtunnel.me) to make it available to Facebook. Note the URL it gives you. For example, it may say your url is `https://xyx.localtunnel.me/` In this case, the webhook URL for use in step 7 would be `https://xyx.localtunnel.me/facebook/receive`
 
 7) [Set up a webhook endpoint for your app](https://developers.facebook.com/docs/messenger-platform/implementation#setting_webhooks) that uses your public URL, or the URL that localtunnel gave you. Use the verify token you defined in step 4!
 
