@@ -1,0 +1,12 @@
+{
+    "preset": "google",
+    "disallowKeywords": ["with"],
+    "disallowMultipleLineBreaks": null,
+    "disallowMultipleVarDecl": null,
+    "maximumLineLength": 120,
+    "disallowSpacesInsideObjectBrackets": null,
+    "requireCamelCaseOrUpperCaseIdentifiers": null,
+    "requireCurlyBraces": null,
+    "validateIndentation": 4,
+    "requireSpaceAfterComma": true
+}
