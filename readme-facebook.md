@@ -27,7 +27,7 @@ Copy this token, you'll need it!
 
 4) Define your own "verify token" - this a string that you control that Facebook will use to verify your web hook endpoint.
 
-5) Run the example bot app, using the two tokens you just created. If you are _not_ running your bot at a public, SSL-enabled internet address, specify the --lt option. Note the URL it gives you.
+5) Run the example bot app, using the two tokens you just created. If you are _not_ running your bot at a public, SSL-enabled internet address, use the --lt option and note the URL it gives you.
 
 ```
 page_token=<MY PAGE TOKEN> verify_token=<MY_VERIFY_TOKEN> node facebook_bot.js [--lt [--ltsubdomain CUSTOM_SUBDOMAIN]]
