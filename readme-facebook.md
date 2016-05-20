@@ -33,7 +33,7 @@ Copy this token, you'll need it!
 page_token=<MY PAGE TOKEN> verify_token=<MY_VERIFY_TOKEN> node facebook_bot.js [--lt [--ltsubdomain CUSTOM_SUBDOMAIN]]
 ```
 
-6) [Set up a webhook endpoint for your app](https://developers.facebook.com/docs/messenger-platform/implementation#setting_webhooks) that uses your public URL, or the URL that localtunnel gave you. Use the verify token you defined in step 4!
+6) [Set up a webhook endpoint for your app](https://developers.facebook.com/docs/messenger-platform/implementation#setting_webhooks) that uses your public URL. Use the verify token you defined in step 4!
 
 7) Your bot should be online! Within Facebook, find your page, and click the "Message" button in the header.
 
