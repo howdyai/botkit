@@ -55,7 +55,6 @@ If you intend to create a bot that lives in Facebook Messenger, [follow these in
 
 If you intent to create a bot that lives inside a Twilio IP Messaging client, [follow these instructions for configuring your app](readme-twilioipm.md#getting-started).
 
-
 ## Core Concepts
 
 Bots built with Botkit have a few key capabilities, which can be used to create clever, conversational applications. These capabilities map to the way real human people talk to each other.
@@ -88,6 +87,10 @@ These examples are included in the Botkit [Github repo](https://github.com/howdy
 [twilio_ipm_bot.js](https://github.com/howdyai/botkit/blob/master/twilio_ipm_bot.js) An example bot that can be connected to your Twilio IP Messaging client. Useful as a basis for creating your first bot!
 
 [examples/demo_bot.js](https://github.com/howdyai/botkit/blob/master/examples/demo_bot.js) another example bot that uses different ways to send and receive messages.
+
+[examples/team_outgoingwebhook.js](https://github.com/howdyai/botkit/blob/master/examples/team_outgoingwebhook.js) an example of a Botkit app that receives and responds to outgoing webhooks from a single team.
+
+[examples/team_slashcommand.js](https://github.com/howdyai/botkit/blob/master/examples/team_slashcommand.js) an example of a Botkit app that receives slash commands from a single team.
 
 [examples/slackbutton_bot.js](https://github.com/howdyai/botkit/blob/master/examples/slackbutton_bot.js) an example of using the Slack Button to offer a bot integration.
 
@@ -244,6 +247,8 @@ can be sent using the `bot.startConversation()` function and the related convers
 
 Bots can originate messages - that is, send a message based on some internal logic or external stimulus -
 using `bot.say()` method.  
+
+All `message` objects must contain a `text` property, even if it's only an empty string.
 
 ### Single Message Replies to Incoming Messages
 
@@ -410,6 +415,13 @@ which roughly simulates the time it would take for the bot to "type" the message
 The conversation will occur _in the same channel_ in which the incoming message was received.
 Only the user who sent the original incoming message will be able to respond to messages in the conversation.
 
+#### bot.startPrivateConversation()
+| Argument | Description
+|---  |---
+| message   | message object containing {user: userId} of the user you would like to start a conversation with
+| callback  | a callback function in the form of  function(err,conversation) { ... }
+
+`startPrivateConversation()` is a function that initiates a conversation with a specific user. Note function is currently *Slack-only!*
 
 ### Control Conversation Flow
 
