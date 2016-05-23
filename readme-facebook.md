@@ -41,7 +41,7 @@ Try:
   * who are you?
   * call me Bob
   * shutdown
-​
+
 ### Things to note
 
 Since Facebook delivers messages via web hook, your application must be available at a public internet address.  Additionally, Facebook requires this address to use SSL.  Luckily, you can use the --lt option to make a process running locally or in your dev environment available in a Facebook-friendly way.
