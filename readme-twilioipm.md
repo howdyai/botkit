@@ -50,7 +50,7 @@ TWILIO_ACCOUNT_SID=<your account sid> TWILIO_AUTH_TOKEN=<your auth token> TWILIO
 
 6) If you are _not_ running your bot at a public, SSL-enabled internet address, use [localtunnel.me](http://localtunnel.me) to make it available to Twilio. Note the URL it gives you. For example, it may say your url is `https://xyx.localtunnel.me/` In this case, the webhook URL for use in step 7 would be `https://xyx.localtunnel.me/twilio/receive`
 
-7) Set up a webhook endpoint for your app that uses your public URL, or the URL that localtunnel gave you. This is done on [settings page for your IP Messaging service](https://www.twilio.com/user/account/ip-messaging/services). Enable *all* of the webhooks events!
+7) Set up a webhook endpoint for your app that uses your public URL, or the URL that localtunnel gave you. This is done on [settings page for your IP Messaging service](https://www.twilio.com/user/account/ip-messaging/services). Enable *all of the POST-event* webhooks events!
 
 6) Load your IP Messaging client, and talk to your bot!
 
