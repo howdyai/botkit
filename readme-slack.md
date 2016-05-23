@@ -378,6 +378,8 @@ controller.setupWebserver(port,function(err,express_webserver) {
 
 #### Handling `slash_command` and `outgoing_webhook` events
 
+
+```
 controller.on('slash_command',function(bot,message) {
 
     // reply to slash command
