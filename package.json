@@ -14,7 +14,8 @@
     "mustache": "^2.2.1",
     "request": "^2.67.0",
     "ware": "^1.3.0",
-    "ws": "^1.0.1"
+    "ws": "^1.0.1",
+    "lodash": "*"
   },
   "devDependencies": {
     "jscs": "^2.7.0",
