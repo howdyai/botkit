@@ -409,7 +409,7 @@ Only the user who sent the original incoming message will be able to respond to 
 | message   | message object containing {user: userId} of the user you would like to start a conversation with
 | callback  | a callback function in the form of  function(err,conversation) { ... }
 
-`startPrivateConversation()` is a function that initiates a conversation with a specific user.
+`startPrivateConversation()` is a function that initiates a conversation with a specific user. Note function is currently *Slack-only!*
 
 ### Control Conversation Flow
 
