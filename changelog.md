@@ -10,6 +10,11 @@ Improves support for direct_mentions of bots in Slack (Merged [PR #189](https://
 
 Make the oauth identity available to the user of the OAuth endpoint via `req.identity` (Merged [PR #174](https://github.com/howdyai/botkit/pull/174))
 
+Fix issue where single team apps had a hard time receiving slash command events without funky workaround. (closes [Issue #108](https://github.com/howdyai/botkit/issues/108))
+
+Add [team_slashcommand.js](/examples/team_slashcommand.js) and [team_outgoingwebhook.js](/examples/team_outgoingwebhook.js) to the examples folder.
+
+
 
 *Facebook changes:*
 

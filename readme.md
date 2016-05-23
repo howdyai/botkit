@@ -83,6 +83,10 @@ These examples are included in the Botkit [Github repo](https://github.com/howdy
 
 [examples/demo_bot.js](https://github.com/howdyai/botkit/blob/master/examples/demo_bot.js) another example bot that uses different ways to send and receive messages.
 
+[examples/team_outgoingwebhook.js](https://github.com/howdyai/botkit/blob/master/examples/team_outgoingwebhook.js) an example of a Botkit app that receives and responds to outgoing webhooks from a single team.
+
+[examples/team_slashcommand.js](https://github.com/howdyai/botkit/blob/master/examples/team_slashcommand.js) an example of a Botkit app that receives slash commands from a single team.
+
 [examples/slackbutton_bot.js](https://github.com/howdyai/botkit/blob/master/examples/slackbutton_bot.js) an example of using the Slack Button to offer a bot integration.
 
 [examples/slackbutton_incomingwebhooks.js](https://github.com/howdyai/botkit/blob/master/examples/slackbutton_incomingwebhooks.js) an example of using the Slack Button to offer an incoming webhook integration. This example also includes a simple form which allows you to broadcast a message to any team who adds the integration.
@@ -236,7 +240,7 @@ can be sent using the `bot.startConversation()` function and the related convers
 Bots can originate messages - that is, send a message based on some internal logic or external stimulus -
 using `bot.say()` method.  
 
-All `message` objects must contain a `text` property, even if it's only an empty string. 
+All `message` objects must contain a `text` property, even if it's only an empty string.
 
 ### Single Message Replies to Incoming Messages
 

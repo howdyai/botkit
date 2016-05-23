@@ -356,7 +356,7 @@ and properly configured within Slack.
 controller.setupWebserver(port,function(err,express_webserver) {
   controller.createWebhookEndpoints(express_webserver)
 });
-
+```
 
 #### Securing Outgoing Webhooks and Slash commands
 
