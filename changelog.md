@@ -1,12 +1,11 @@
 # Change Log
 
-<<<<<<< HEAD
 ## 0.2
 
 Adds support for Twilio IP Messenging bots
 
 Add example bot: twilio_ipm_bot.js
-=======
+
 ## 0.1.2
 
 *Slack changes:*
@@ -30,7 +29,6 @@ The `attachment` field may now be used by Facebook bots within a conversation fo
 Include attachments field in incoming Facebook messages (Merged [PR #231](https://github.com/howdyai/botkit/pull/231))
 
 Adds built-in support for opening a localtunnel.me tunnel to expose Facebook webhook endpoint while developing locally. (Merged [PR #234](https://github.com/howdyai/botkit/pull/234))
->>>>>>> 565c2583b97217aa66902782abee8df3ad27ac76
 
 ## 0.1.1
 
