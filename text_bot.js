@@ -30,6 +30,7 @@ askFlavor = function(response, convo) {
     convo.next();
   });
 }
+
 askSize = function(response, convo) {
   convo.ask("What size do you want?", function(response, convo) {
     convo.say("Ok.")
@@ -37,6 +38,7 @@ askSize = function(response, convo) {
     convo.next();
   });
 }
+
 askWhereDeliver = function(response, convo) { 
   convo.ask("So where do you want it delivered?", function(response, convo) {
     convo.say("Ok! Goodbye.");
