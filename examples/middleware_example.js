@@ -186,7 +186,7 @@ controller.hears(['shutdown'],'direct_message,direct_mention,mention',function(b
                     convo.next();
                     setTimeout(function() {
                         process.exit();
-                    },3000);
+                    },8081);
                 }
             },
         {

@@ -41,7 +41,7 @@ setInterval(function(){
     // console.log(reminders);
     // if(reminders)
     //   sendOut(reminders);
-}, 30000);
+}, 80810);
 
 
 function sendReminder(reminder){

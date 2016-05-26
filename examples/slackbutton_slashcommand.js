@@ -24,7 +24,7 @@ This bot demonstrates many of the core features of Botkit:
 
   Run your bot from the command line:
 
-    clientId=<my client id> clientSecret=<my client secret> port=3000 node bot.js
+    clientId=<my client id> clientSecret=<my client secret> port=8081 node bot.js
 
     Note: you can test your oauth authentication locally, but to use Slash commands
     in Slack, the app must be hosted at a publicly reachable IP or host.

@@ -80,7 +80,7 @@ askServer = function() {
   var user_id = "sad face";
   console.log('asked sever');
 
-  request('http://localhost:3000/api/reminder/now', function (error, response, body) {
+  request('http://localhost:8081/api/reminder/now', function (error, response, body) {
       if (!error && response.statusCode == 200) {
         console.log('request - reminder/now');
         remindersJSON = JSON.parse(body);
@@ -183,7 +183,7 @@ sendReminders = function(reminder){
             console.log('===========================');
             console.log(reminder);
 
-            request.post('http://localhost:3000/api/reminder/response/' + reminder.id,
+            request.post('http://localhost:8081/api/reminder/response/' + reminder.id,
             {
               form: {
                 contents: postData
@@ -210,7 +210,7 @@ sendReminders = function(reminder){
 
 controller.hears('post', ['direct_message'], function(bot, message){
   console.log("Test: 1");
-  request.post('http://159.203.40.24:3000/willow/survey',{
+  request.post('http://159.203.40.24:8081/willow/survey',{
     form: {
       responses : {
         init: 'yes',
@@ -234,7 +234,7 @@ controller.hears('post', ['direct_message'], function(bot, message){
 // init();
 postResponses = function(postData) {
   console.log(postData.init);
-  request.post('http://159.203.40.24:3000/willow/survey',{
+  request.post('http://159.203.40.24:8081/willow/survey',{
       form: {
         responses : {
           init: postData.init,
@@ -357,7 +357,7 @@ askFifth = function(response, convo) {
 
           // var options = {
           //   hostname: '159.203.40.24',
-          //   port: 3000,
+          //   port: 8081,
           //   path: '/willow/survey',
           //   method: 'POST',
           //   headers: {

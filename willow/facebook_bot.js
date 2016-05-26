@@ -29,7 +29,7 @@ This bot demonstrates many of the core features of Botkit:
 
   Use localtunnel.me to make your bot available on the web:
 
-    lt --port 3000
+    lt --port 8081
 
 # USE THE BOT:
 
@@ -69,7 +69,7 @@ This bot demonstrates many of the core features of Botkit:
 require('dotenv').config();
 
 
-if (!process.env.PAGE_TOKEN) {
+/*if (!process.env.PAGE_TOKEN) {
     console.log('Error: Specify page_token in environment');
     process.exit(1);
 }
@@ -77,7 +77,7 @@ if (!process.env.PAGE_TOKEN) {
 if (!process.env.VERIFY_TOKEN) {
     console.log('Error: Specify verify_token in environment');
     process.exit(1);
-}
+}*/
 
 
 var Botkit = require('../lib/Botkit.js');
@@ -85,14 +85,14 @@ var os = require('os');
 
 var controller = Botkit.facebookbot({
     debug: false,
-    access_token: process.env.PAGE_TOKEN,
-    verify_token: process.env.VERIFY_TOKEN,
+    access_token: 'EAADXmpOGmZBQBAFZBq02j4QbdEkEGp6G9bZAYjKJielJusP9zkeXHPyEOXqiCLXQUZCZClGxEeBL5n1ZA5ybAJFChpUfRZARZCZAMBvXM25zvQxP3vpUS8eZA5Oo3m8qtyfQLFfflyyIG1H0L89OIBTKJUZCeuNrNFDqNqo0c3KWiFcPQZDZD',//process.env.PAGE_TOKEN,
+    verify_token: 'fishisokay'//process.env.VERIFY_TOKEN,
 });
 
 var bot = controller.spawn({
 });
 
-controller.setupWebserver(process.env.port || 8080, function(err, webserver) {
+controller.setupWebserver(process.env.port || 3003, function(err, webserver) {
     console.log('Setting Up Webserver');
     console.log("Im here");
     controller.createWebhookEndpoints(webserver, bot, function() {
@@ -273,7 +273,7 @@ controller.hears(['shutdown'], 'message_received', function(bot, message) {
                     convo.next();
                     setTimeout(function() {
                         process.exit();
-                    }, 3000);
+                    }, 8081);
                 }
             },
         {
