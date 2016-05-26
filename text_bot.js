@@ -1,3 +1,8 @@
+/*
+Simple text bot to run from console. Simply run node text_bot.js and test the bot flow.
+Ctrl-C to kill the bot
+*/
+
 var Botkit = require('./lib/Botkit.js');
 var os = require('os');
 
