@@ -15,6 +15,7 @@ Table of Contents
 * [Facebook-specific Events](#facebook-specific-events)
 * [Working with Facebook Webhooks](#working-with-facebook-messenger)
 * [Using Structured Messages and Postbacks](#using-structured-messages-and-postbacks)
+* [Running Botkit with an Express server](#use-botkit-for-facebook-messenger-with-an-express-web-server)
 
 ## Getting Started
 
@@ -135,7 +136,7 @@ Setup an [Express webserver](http://expressjs.com/en/index.html) for
 use with `createWebhookEndpoints()`
 
 If you need more than a simple webserver to receive webhooks,
-you should by all means create your own Express webserver!
+you should by all means create your own Express webserver! Here is a [boilerplate demo](https://github.com/mvaragnat/botkit-messenger-express-demo).
 
 The callback function receives the Express object as a parameter,
 which may be used to add further web server routes.
@@ -192,3 +193,9 @@ controller.on('facebook_postback', function(bot, message) {
 
 });
 ```
+
+## Use BotKit for Facebook Messenger with an Express web server
+Instead of the web server generated with setupWebserver(), it is possible to use a different web server to receive webhooks, as well as serving web pages.
+
+Here is an example of [using an Express web server alongside BotKit for Facebook Messenger](https://github.com/mvaragnat/botkit-messenger-express-demo).
+
