@@ -4,11 +4,14 @@
           \ \  __<   \ \ \/\ \  \/_/\ \/ \ \  _"-.  \ \ \  \/_/\ \/
            \ \_____\  \ \_____\    \ \_\  \ \_\ \_\  \ \_\    \ \_\
             \/_____/   \/_____/     \/_/   \/_/\/_/   \/_/     \/_/
+
+
 This is a sample Slack Button application that adds a bot to one or many slack teams.
 
 # RUN THE APP:
   Create a Slack app. Make sure to configure the bot user!
     -> https://api.slack.com/applications/new
+    -> Add the Redirect URI: http://localhost:3000/oauth
   Run your bot from the command line:
     clientId=<my client id> clientSecret=<my client secret> port=3000 node slackbutton_bot.js
 # USE THE APP
@@ -16,7 +19,7 @@ This is a sample Slack Button application that adds a bot to one or many slack t
     -> http://localhost:3000/login
   After you've added the app, try talking to your bot!
 # EXTEND THE APP:
-  Botkit is has many features for building cool and useful bots!
+  Botkit has many features for building cool and useful bots!
   Read all about it here:
     -> http://howdy.ai/botkit
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
@@ -125,7 +128,7 @@ controller.storage.teams.all(function(err,teams) {
   // connect all teams with bots up to slack!
   for (var t  in teams) {
     if (teams[t].bot) {
-      var bot = controller.spawn(teams[t]).startRTM(function(err) {
+      controller.spawn(teams[t]).startRTM(function(err, bot) {
         if (err) {
           console.log('Error connecting bot to Slack:',err);
         } else {

@@ -1,9 +1,9 @@
 /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-          ______     ______     ______   __  __     __     ______
+           ______     ______     ______   __  __     __     ______
           /\  == \   /\  __ \   /\__  _\ /\ \/ /    /\ \   /\__  _\
           \ \  __<   \ \ \/\ \  \/_/\ \/ \ \  _"-.  \ \ \  \/_/\ \/
-          \ \_____\  \ \_____\    \ \_\  \ \_\ \_\  \ \_\    \ \_\
-           \/_____/   \/_____/     \/_/   \/_/\/_/   \/_/     \/_/
+           \ \_____\  \ \_____\    \ \_\  \ \_\ \_\  \ \_\    \ \_\
+            \/_____/   \/_____/     \/_/   \/_/\/_/   \/_/     \/_/
 
 
 This is a sample Slack bot built with Botkit.
@@ -55,7 +55,7 @@ This bot demonstrates many of the core features of Botkit:
 
 # EXTEND THE BOT:
 
-  Botkit is has many features for building cool and useful bots!
+  Botkit has many features for building cool and useful bots!
 
   Read all about it here:
 
@@ -69,7 +69,7 @@ if (!process.env.token) {
     process.exit(1);
 }
 
-var Botkit = require('./lib/Botkit.js');
+var Botkit = require('../lib/Botkit.js');
 var os = require('os');
 
 var controller = Botkit.slackbot({
@@ -81,7 +81,49 @@ var bot = controller.spawn({
 }).startRTM();
 
 
-controller.hears(['hello','hi'],'direct_message,direct_mention,mention',function(bot, message) {
+// Example receive middleware.
+// for example, recognize several common variations on "hello" and add an intent field to the message
+// see below for example hear_intent function
+controller.middleware.receive.use(function(bot, message, next) {
+
+    console.log('Receive middleware!');
+    // make changes to bot or message here before calling next
+    if (message.text == 'hello' || message.text == 'hi' || message.text == 'howdy' || message.text == 'hey') {
+        message.intent = 'hello';
+    }
+
+    next();
+
+});
+
+// Example send middleware
+// make changes to bot or message here before calling next
+// for example, do formatting or add additional information to the message
+controller.middleware.send.use(function(bot, message, next) {
+
+    console.log('Send middleware!');
+    next();
+
+});
+
+
+// Example hear middleware
+// Return true if one of [patterns] matches message
+// In this example, listen for an intent field, and match using that instead of the text field
+function hear_intent(patterns, message) {
+
+    for (var p = 0; p < patterns.length; p++) {
+        if (message.intent == patterns[p]) {
+            return true;
+        }
+    }
+
+    return false;
+}
+
+
+/* note this uses example middlewares defined above */
+controller.hears(['hello'],'direct_message,direct_mention,mention',hear_intent, function(bot, message) {
 
     bot.api.reactions.add({
         timestamp: message.ts,
@@ -96,16 +138,17 @@ controller.hears(['hello','hi'],'direct_message,direct_mention,mention',function
 
     controller.storage.users.get(message.user,function(err, user) {
         if (user && user.name) {
-            bot.reply(message,'Hello ' + user.name + '!!');
+            bot.reply(message, 'Hello ' + user.name + '!!');
         } else {
-            bot.reply(message,'Hello.');
+            bot.reply(message, 'Hello.');
         }
     });
 });
 
-controller.hears(['call me (.*)'],'direct_message,direct_mention,mention',function(bot, message) {
-    var matches = message.text.match(/call me (.*)/i);
-    var name = matches[1];
+controller.hears(['call me (.*)','my name is (.*)'],'direct_message,direct_mention,mention',function(bot, message) {
+
+    // the name will be stored in the message.match field
+    var name = message.match[1];
     controller.storage.users.get(message.user,function(err, user) {
         if (!user) {
             user = {
