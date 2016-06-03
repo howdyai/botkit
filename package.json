@@ -19,6 +19,7 @@
     "ws": "^1.0.1"
   },
   "devDependencies": {
+    "debug": "^2.2.0",
     "jscs": "^2.7.0",
     "mocha": "^2.4.5",
     "should": "^8.0.2",
