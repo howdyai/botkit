@@ -150,7 +150,7 @@ var controller = Botkit.facebookbot({
 })
 ```
 
-* Note that one of access_token or access_tokens configuration settings must be given.
+\* Note that one of access_token or access_tokens configuration settings must be given.
 
 #### controller.setupWebserver()
 | Argument | Description
