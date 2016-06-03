@@ -132,18 +132,21 @@ configuration object. The configuration object has the following keys:
 | Key | Required | Description
 |---  |---  |---
 | access_token | optional* | If your script is handling a single Facebook page, enter the Page Access Token from the Facebook App Settings.
-| access_tokens | optional* | If your script is handling more than one Facebook page, use this configuration setting to provide an object hash of Facebook Page Id to Page Access Token.
+| access_tokens | optional* | If your script is handling more than one Facebook page, use this configuration setting to provide an array of objects, each of which has a `page_id` key for the Facebook Page Id and an `access_token` key for the Page Access Token from the Facebook App Settings.
 | verify_token | required | This is Verify Token that is used to setup your webhooks on your Facebook App Settings.
 
 Below is an example of initiating the controller using multiple page id's:
 
 ```javascript
 var controller = Botkit.facebookbot({
-        access_tokens: {
-          process.env.page_id_foo: process.env.access_token_foo,
-          process.env.page_id_bar: process.env.access_token_bar,
-        },
-        verify_token: process.env.verify_token,
+    access_tokens: [{
+        page_id: process.env.page_id_foo,
+        access_token: process.env.access_token_foo,
+    }, {
+        page_id: process.env.page_id_bar,
+        access_token: process.env.access_token_bar,
+    }],
+    verify_token: process.env.verify_token,
 })
 ```
 
