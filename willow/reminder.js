@@ -32,7 +32,7 @@ function Reminder(bot) {
 
   function get() {
     return new Promise(function(resolve, reject) {
-      request.get('http://localhost:8081/api/reminder/now', function(err, res, body){
+      request.get('http://107.170.21.178:8081/api/reminder/now', function(err, res, body){
         var outgoing = [];
         if(body) {
           var reminders = JSON.parse(body);
@@ -57,7 +57,7 @@ function Reminder(bot) {
 
     // var options = {
     //   method: 'GET',
-    //   uri: 'http://localhost:8081/api/reminder/now',
+    //   uri: 'http://107.170.21.178:8081/api/reminder/now',
     //   json: true
     // }
     // var outgoing = [];
@@ -101,7 +101,7 @@ function Reminder(bot) {
   // Slack -> Dashboard
   function sendBackResponse(response, id) {
     return new Promise(function(resolve, reject) {
-      request.post('http://localhost:8081/api/reminder/response/' + id,
+      request.post('http://107.170.21.178:8081/api/reminder/response/' + id,
       {
         form: {
           contents: response

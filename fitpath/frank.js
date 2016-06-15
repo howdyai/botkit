@@ -80,7 +80,7 @@ askServer = function() {
   var user_id = "sad face";
   console.log('asked sever');
 
-  request('http://localhost:8081/api/reminder/now', function (error, response, body) {
+  request('http://107.170.21.178:8081/api/reminder/now', function (error, response, body) {
       if (!error && response.statusCode == 200) {
         console.log('request - reminder/now');
         remindersJSON = JSON.parse(body);
@@ -183,7 +183,7 @@ sendReminders = function(reminder){
             console.log('===========================');
             console.log(reminder);
 
-            request.post('http://localhost:8081/api/reminder/response/' + reminder.id,
+            request.post('http://107.170.21.178:8081/api/reminder/response/' + reminder.id,
             {
               form: {
                 contents: postData

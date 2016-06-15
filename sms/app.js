@@ -4,7 +4,7 @@ var app = express();
 var port = 8000;
 
 
-var db = mongoose.connect('mongodb://localhost/smsAPI');
+var db = mongoose.connect('mongodb://107.170.21.178/smsAPI');
 
 var sms = require('./models/smsModel');
 var smsRouter = express.Router();

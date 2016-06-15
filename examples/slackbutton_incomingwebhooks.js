@@ -29,7 +29,7 @@ This bot demonstrates many of the core features of Botkit:
 
   Add the app to your Slack by visiting the login page:
 
-    -> http://localhost:8081/login
+    -> http://107.170.21.178:8081/login
 
   After you've added the app, send a message using the SUPER INSECURE FORM.
   This form is included as an example only, and should definitely not be
@@ -37,7 +37,7 @@ This bot demonstrates many of the core features of Botkit:
 
   Send a message to every team who has added your sample app:
 
-    -> http://localhost:8081/
+    -> http://107.170.21.178:8081/
 
 
 # EXTEND THE APP:
