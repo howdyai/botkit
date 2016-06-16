@@ -1,5 +1,10 @@
 # Change Log
 
+## 0.2.1
+
+Improves Slack RTM reconnects thanks to @selfcontained [PR #274](https://github.com/howdyai/botkit/pull/274)
+
+
 ## 0.2
 
 Adds support for Twilio IP Messenging bots
