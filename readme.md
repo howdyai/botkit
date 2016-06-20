@@ -4,14 +4,15 @@
 [![David](https://img.shields.io/david/howdyai/botkit.svg)](https://david-dm.org/howdyai/botkit)
 [![npm](https://img.shields.io/npm/l/botkit.svg)](https://spdx.org/licenses/MIT)
 
-Botkit is designed to ease the process of designing and running useful, creative bots that live inside [Slack](http://slack.com), [Facebook Messenger](http://facebook.com) and other messaging platforms.
+Botkit is designed to ease the process of designing and running useful, creative bots that live inside [Slack](http://slack.com), [Facebook Messenger](http://facebook.com), [Twilio IP Messaging](https://www.twilio.com/docs/api/ip-messaging), and other messaging platforms.
 
 It provides a semantic interface to sending and receiving messages so that developers can focus on creating novel applications and experiences instead of dealing with API endpoints.
 
 Botkit features a comprehensive set of tools to deal with popular messaging platforms, including:
 
-* [Slack](http://api.slack.com)
-* [Facebook Messenger](http://developers.facebook.com)
+* [Slack](readme-slack.md)
+* [Facebook Messenger](readme-facebook.md)
+* [Twilio IP Messaging](readme-twilioipm.md)
 * Yours? [info@howdy.ai](mailto:info@howdy.ai)
 
 ## Installation
@@ -52,6 +53,7 @@ lives in Slack, [follow these instructions for attaining a Bot Token](readme-sla
 
 If you intend to create a bot that lives in Facebook Messenger, [follow these instructions for configuring your Facebook page](readme-facebook.md#getting-started).
 
+If you intent to create a bot that lives inside a Twilio IP Messaging client, [follow these instructions for configuring your app](readme-twilioipm.md#getting-started).
 
 ## Core Concepts
 
@@ -70,8 +72,9 @@ it is ready to be connected to a stream of incoming messages. Currently, Botkit 
 * [Slack Incoming Webhooks](http://api.slack.com/incoming-webhooks)
 * [Slack Slash Commands](http://api.slack.com/slash-commands)
 * [Facebook Messenger Webhooks](https://developers.facebook.com/docs/messenger-platform/implementation)
+* [Twilio IP Messaging](https://www.twilio.com/user/account/ip-messaging/getting-started)
 
-Read more about [connecting your bot to Slack](readme-slack.md#connecting-your-bot-to-slack) or [connecting your bot to Facebook](readme-facebook.md#getting-started)
+Read more about [connecting your bot to Slack](readme-slack.md#connecting-your-bot-to-slack), [connecting your bot to Facebook](readme-facebook.md#getting-started), or [connecting your bot to Twilio](readme-twilioipm.md#getting-started).
 
 ## Included Examples
 
@@ -81,7 +84,13 @@ These examples are included in the Botkit [Github repo](https://github.com/howdy
 
 [facebook_bot.js](https://github.com/howdyai/botkit/blob/master/facebook_bot.js) An example bot that can be connected to your Facebook page. Useful as a basis for creating your first bot!
 
+[twilio_ipm_bot.js](https://github.com/howdyai/botkit/blob/master/twilio_ipm_bot.js) An example bot that can be connected to your Twilio IP Messaging client. Useful as a basis for creating your first bot!
+
 [examples/demo_bot.js](https://github.com/howdyai/botkit/blob/master/examples/demo_bot.js) another example bot that uses different ways to send and receive messages.
+
+[examples/team_outgoingwebhook.js](https://github.com/howdyai/botkit/blob/master/examples/team_outgoingwebhook.js) an example of a Botkit app that receives and responds to outgoing webhooks from a single team.
+
+[examples/team_slashcommand.js](https://github.com/howdyai/botkit/blob/master/examples/team_slashcommand.js) an example of a Botkit app that receives slash commands from a single team.
 
 [examples/slackbutton_bot.js](https://github.com/howdyai/botkit/blob/master/examples/slackbutton_bot.js) an example of using the Slack Button to offer a bot integration.
 
@@ -155,6 +164,9 @@ controller.on('message_received', function(bot, message) {
 
 Due to the multi-channel, multi-user nature of Slack, Botkit does additional filtering on the messages (after firing message_recieved), and will fire more specific events based on the type of message - for example, `direct_message` events indicate a message has been sent directly to the bot, while `direct_mention` indicates that the bot has been mentioned in a multi-user channel.
 [List of Slack-specific Events](readme-slack.md#slack-specific-events)
+
+Twilio IPM bots can also exist in a multi-channel, multi-user environmnet. As a result, there are many additional events that will fire. In addition, Botkit will filter some messages, so that the bot will not receive it's own messages or messages outside of the channels in which it is present.
+[List of Twilio IPM-specific Events](readme-twilioipm.md#twilio-ipm-specific-events)
 
 Facebook messages are fairly straightforward. However, because Facebook supports inline buttons, there is an additional event fired when a user clicks a button.
 [List of Facebook-specific Events](readme-facebook.md#facebook-specific-events)
@@ -235,6 +247,8 @@ can be sent using the `bot.startConversation()` function and the related convers
 
 Bots can originate messages - that is, send a message based on some internal logic or external stimulus -
 using `bot.say()` method.  
+
+All `message` objects must contain a `text` property, even if it's only an empty string.
 
 ### Single Message Replies to Incoming Messages
 
@@ -401,6 +415,13 @@ which roughly simulates the time it would take for the bot to "type" the message
 The conversation will occur _in the same channel_ in which the incoming message was received.
 Only the user who sent the original incoming message will be able to respond to messages in the conversation.
 
+#### bot.startPrivateConversation()
+| Argument | Description
+|---  |---
+| message   | message object containing {user: userId} of the user you would like to start a conversation with
+| callback  | a callback function in the form of  function(err,conversation) { ... }
+
+`startPrivateConversation()` is a function that initiates a conversation with a specific user. Note function is currently *Slack-only!*
 
 ### Control Conversation Flow
 

@@ -1,6 +1,6 @@
 # Botkit and Slack
 
-Botkit designed to ease the process of designing and running useful, creative bots that live inside [Slack](http://slack.com), [Facebook Messenger](http://facebook.com) and other messaging platforms.
+Botkit is designed to ease the process of designing and running useful, creative bots that live inside [Slack](http://slack.com), [Facebook Messenger](http://facebook.com), [Twilio IP Messaging](https://www.twilio.com/docs/api/ip-messaging), and other messaging platforms.
 
 Botkit features a comprehensive set of tools
 to deal with [Slack's integration platform](http://api.slack.com), and allows
@@ -38,7 +38,7 @@ Copy the API token that Slack gives you. You'll need it.
 4) Run the example bot app, using the token you just copied:
 ​
 ```
-token=REPLACE_THIS_WITH_YOUR_TOKEN node bot.js
+token=REPLACE_THIS_WITH_YOUR_TOKEN node slack_bot.js
 ```
 ​
 5) Your bot should be online! Within Slack, send it a quick direct message to say hello. It should say hello back!
@@ -356,7 +356,29 @@ and properly configured within Slack.
 controller.setupWebserver(port,function(err,express_webserver) {
   controller.createWebhookEndpoints(express_webserver)
 });
+```
 
+#### Securing Outgoing Webhooks and Slash commands
+
+You can optionally protect your application with authentication of the requests
+from Slack.  Slack will generate a unique request token for each Slash command and
+outgoing webhook (see [Slack documentation](https://api.slack.com/slash-commands#validating_the_command)).
+You can configure the web server to validate that incoming requests contain a valid api token
+by adding an express middleware authentication module.
+
+```javascript
+controller.setupWebserver(port,function(err,express_webserver) {
+  controller.createWebhookEndpoints(express_webserver, ['AUTH_TOKEN', 'ANOTHER_AUTH_TOKEN']);
+  // you can pass the tokens as an array, or variable argument list
+  //controller.createWebhookEndpoints(express_webserver, 'AUTH_TOKEN_1', 'AUTH_TOKEN_2');
+  // or
+  //controller.createWebhookEndpoints(express_webserver, 'AUTH_TOKEN');
+});
+```
+
+#### Handling `slash_command` and `outgoing_webhook` events
+
+```
 controller.on('slash_command',function(bot,message) {
 
     // reply to slash command
