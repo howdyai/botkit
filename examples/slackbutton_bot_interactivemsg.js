@@ -75,7 +75,7 @@ controller.on('interactive_message_callback', function(bot, message) {
 
         if (!user) {
             user = {
-                id: message.user,
+                id: user_id,
                 list: []
             }
         }
@@ -100,7 +100,7 @@ controller.on('interactive_message_callback', function(bot, message) {
         for (var x = 0; x < user.list.length; x++) {
             reply.attachments.push({
                 title: user.list[x].text + (user.list[x].flagged? ' *FLAGGED*' : ''),
-                callback_id: message.user + '-' + user.list[x].id,
+                callback_id: user_id + '-' + user.list[x].id,
                 attachment_type: 'default',
                 actions: [
                     {
