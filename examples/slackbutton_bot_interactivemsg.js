@@ -266,6 +266,33 @@ controller.hears(['list','tasks'],'direct_mention,direct_message',function(bot,m
 
 });
 
+controller.hears('interactive', 'direct_message', function(bot, message) {
+
+    bot.reply(message, {
+        attachments:[
+            {
+                title: 'Do you want to interact with my buttons?',
+                callback_id: '123',
+                attachment_type: 'default',
+                actions: [
+                    {
+                        "name":"yes",
+                        "text": "Yes",
+                        "value": "yes",
+                        "type": "button",
+                    },
+                    {
+                        "name":"no",
+                        "text": "No",
+                        "value": "no",
+                        "type": "button",
+                    }
+                ]
+            }
+        ]
+    });
+});
+
 
 controller.hears('^stop','direct_message',function(bot,message) {
   bot.reply(message,'Goodbye');
