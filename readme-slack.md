@@ -17,6 +17,7 @@ Table of Contents
 * [Slack-specific Events](#slack-specific-events)
 * [Working with Slack Custom Integrations](#working-with-slack-integrations)
 * [Using the Slack Button](#use-the-slack-button)
+* [Message Buttons](#message-buttons)
 
 ---
 ## Getting Started
@@ -595,3 +596,168 @@ bot.identifyBot(function(err,identity) {
 | create_user |
 | update_user |
 | oauth_error |
+
+
+## Message Buttons
+
+Slack applications can use "message buttons" or "interactive messages" to include buttons inside attachments. [Read the official Slack documentation here](https://api.slack.com/docs/message-buttons)
+
+Interactive messages can be sent via any of Botkit's built in functions by passing in
+the appropriate attachment as part of the message. When users click the buttons in Slack,
+Botkit triggers an `interactive_message_callback` event.
+
+When an `interactive_message_callback` is received, your bot can either reply with a new message, or use the special `bot.replyInteractive` function which will result in the original message in Slack being _replaced_ by the reply. Using `replyInteractive`, bots can present dynamic interfaces inside a single message.
+
+In order to use interactive messages, your bot will have to be [registered as a Slack application](https://api.slack.com/apps), and will have to use the Slack button authentication system.
+To receive callbacks, register a callback url as part of applications configuration. Botkit's built in support for the Slack Button system supports interactive message callbacks at the url `https://_your_server_/slack/receive` Note that Slack requires this url to be secured with https.
+
+During development, a tool such as [localtunnel.me](http://localtunnel.me) is useful for temporarily exposing a compatible webhook url to Slack while running Botkit privately.
+
+```
+// set up a botkit app to expose oauth and webhook endpoints
+controller.setupWebserver(process.env.port,function(err,webserver) {
+
+  // set up web endpoints for oauth, receiving webhooks, etc.
+  controller
+    .createHomepageEndpoint(controller.webserver)
+    .createOauthEndpoints(controller.webserver,function(err,req,res) { ... })
+    .createWebhookEndpoints(controller.webserver);
+
+});
+```
+
+### Send an interactive message
+```
+controller.hears('interactive', 'direct_message', function(bot, message) {
+
+    bot.reply(message, {
+        attachments:[
+            {
+                title: 'Do you want to interact with my buttons?',
+                callback_id: '123',
+                attachment_type: 'default',
+                actions: [
+                    {
+                        "name":"yes",
+                        "text": "Yes",
+                        "value": "yes",
+                        "type": "button",
+                    },
+                    {
+                        "name":"no",
+                        "text": "No",
+                        "value": "no",
+                        "type": "button",
+                    }
+                ]
+            }
+        ]
+    });    
+});
+```
+
+### Receive an interactive message callback
+
+```
+// receive an interactive message, and reply with a message that will replace the original
+controller.on('interactive_message_callback', function(bot, message) {
+
+    // check message.actions and message.callback_id to see what action to take...
+
+    bot.replyInteractive(message, {
+        text: '...',
+        attachments: [
+            {
+                title: 'My buttons',
+                callback_id: '123',
+                attachment_type: 'default',
+                actions: [
+                    {
+                        "name":"yes",
+                        "text": "Yes!",
+                        "value": "yes",
+                        "type": "button",
+                    },
+                    {
+                       "text": "No!",
+                        "name": "no",
+                        "value": "delete",
+                        "style": "danger",
+                        "type": "button",
+                        "confirm": {
+                          "title": "Are you sure?",
+                          "text": "This will do something!",
+                          "ok_text": "Yes",
+                          "dismiss_text": "No"
+                        }
+                    }
+                ]
+            }
+        ]
+    });
+
+});
+```
+
+### Using Interactive Messages in Conversations
+
+It is possible to use interactive messages in conversations, with the `convo.ask` function.
+In order to do this, you must instantiate your Botkit controller with the `interactive_replies` option set to `true`:
+
+```
+var controller = Botkit.slackbot({interactive_replies: true});
+```
+
+This will cause Botkit to pass all interactive_message_callback messages into the normal conversation
+system. When used in conjunction with `convo.ask`, expect the response text to match the button `value` field.
+
+```
+bot.startConversation(message, function(err, convo) {
+
+    convo.ask({
+        attachments:[
+            {
+                title: 'Do you want to proceed?',
+                callback_id: '123',
+                attachment_type: 'default',
+                actions: [
+                    {
+                        "name":"yes",
+                        "text": "Yes",
+                        "value": "yes",
+                        "type": "button",
+                    },
+                    {
+                        "name":"no",
+                        "text": "No",
+                        "value": "no",
+                        "type": "button",
+                    }
+                ]
+            }
+        ]
+    },[
+        {
+            pattern: "yes",
+            callback: function(reply, convo) {
+                convo.say('FABULOUS!');
+                convo.next();
+                // do something awesome here.
+            }
+        },
+        {
+            pattern: "no",
+            callback: function(reply, convo) {
+                convo.say('Too bad');
+                convo.next();
+            }
+        },
+        {   
+            default: true,
+            callback: function(reply, convo) {
+                // do nothing
+            }
+        }
+    ]);
+});
+```
