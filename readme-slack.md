@@ -626,8 +626,8 @@ controller.setupWebserver(process.env.port,function(err,webserver) {
 });
 ```
 
+### Send an interactive message
 ```
-// send an interactive message
 controller.hears('interactive', 'direct_message', function(bot, message) {
 
     bot.reply(message, {
@@ -656,9 +656,13 @@ controller.hears('interactive', 'direct_message', function(bot, message) {
 });
 ```
 
+### Receive an interactive message callback
+
 ```
 // receive an interactive message, and reply with a message that will replace the original
 controller.on('interactive_message_callback', function(bot, message) {
+
+    // check message.actions and message.callback_id to see what action to take...
 
     bot.replyInteractive(message, {
         text: '...',
@@ -694,7 +698,6 @@ controller.on('interactive_message_callback', function(bot, message) {
 
 });
 ```
-
 
 ### Using Interactive Messages in Conversations
 
