@@ -78,8 +78,8 @@ var controller = Botkit.slackbot({
 
 var bot = controller.spawn({
     token: process.env.token,
-    howdy_key: process.env.key,
-    howdy_secret: process.env.secret
+    howdy_token: process.env.howdy_token,
+    howdy_bot_id: process.env.howdy_bot_id
 }).startRTM();
 
 // controller.loginToHowdy(bot,{
