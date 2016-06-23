@@ -1,6 +1,7 @@
 # Botkit and Facebook
 
-Botkit designed to ease the process of designing and running useful, creative bots that live inside [Slack](http://slack.com), [Facebook Messenger](http://facebook.com) and other messaging platforms.
+Botkit is designed to ease the process of designing and running useful, creative bots that live inside [Slack](http://slack.com), [Facebook Messenger](http://facebook.com), [Twilio IP Messaging](https://www.twilio.com/docs/api/ip-messaging), and other messaging platforms.
+
 
 Botkit features a comprehensive set of tools
 to deal with [Facebooks's Messenger platform](https://developers.facebook.com/docs/messenger-platform/implementation), and allows
@@ -27,23 +28,22 @@ Copy this token, you'll need it!
 
 4) Define your own "verify token" - this a string that you control that Facebook will use to verify your web hook endpoint.
 
-5) Run the example bot app, using the two tokens you just created:
+5) Run the example bot app, using the two tokens you just created. If you are _not_ running your bot at a public, SSL-enabled internet address, use the --lt option and note the URL it gives you.
 
 ```
-page_token=<MY PAGE TOKEN> verify_token=<MY_VERIFY_TOKEN> node facebook_bot.js
+page_token=<MY PAGE TOKEN> verify_token=<MY_VERIFY_TOKEN> node facebook_bot.js [--lt [--ltsubdomain CUSTOM_SUBDOMAIN]]
 ```
 
-6) If you are _not_ running your bot at a public, SSL-enabled internet address, use [localtunnel.me](http://localtunnel.me) to make it available to Facebook. Note the URL it gives you.
+6) [Set up a webhook endpoint for your app](https://developers.facebook.com/docs/messenger-platform/implementation#setting_webhooks) that uses your public URL. Use the verify token you defined in step 4!
 
-7) [Set up a webhook endpoint for your app](https://developers.facebook.com/docs/messenger-platform/implementation#setting_webhooks) that uses your public URL, or the URL that localtunnel gave you. Use the verify token you defined in step 4!
-
-8) Your bot should be online! Within Facebook, find your page, and click the "Message" button in the header.
+7) Your bot should be online! Within Facebook, find your page, and click the "Message" button in the header.
 
 Try:
   * who are you?
   * call me Bob
   * shutdown
-​
+
+
 ### Things to note
 
 Since Facebook delivers messages via web hook, your application must be available at a public internet address.  Additionally, Facebook requires this address to use SSL.  Luckily, you can use [LocalTunnel](https://localtunnel.me/) to make a process running locally or in your dev environment available in a Facebook-friendly way.
