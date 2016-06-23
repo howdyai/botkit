@@ -25,11 +25,15 @@ This bot demonstrates many of the core features of Botkit:
 
   Run your bot from the command line:
 
-    page_token=<MY PAGE TOKEN> verify_token=<MY_VERIFY_TOKEN> node facebook_bot.js
+    page_token=<MY PAGE TOKEN> verify_token=<MY_VERIFY_TOKEN> node facebook_bot.js [--lt [--ltsubdomain LOCALTUNNEL_SUBDOMAIN]]
 
+<<<<<<< HEAD:willow/facebook_bot.js
   Use localtunnel.me to make your bot available on the web:
 
     lt --port 8081
+=======
+  Use the --lt option to make your bot available on the web through localtunnel.me.
+>>>>>>> 002da9c82b1333cdbe964ed874bd29403f3d9124:facebook_bot.js
 
 # USE THE BOT:
 
@@ -79,9 +83,29 @@ if (!process.env.VERIFY_TOKEN) {
     process.exit(1);
 }*/
 
+<<<<<<< HEAD:willow/facebook_bot.js
 
 var Botkit = require('../lib/Botkit.js');
+=======
+var Botkit = require('./lib/Botkit.js');
+>>>>>>> 002da9c82b1333cdbe964ed874bd29403f3d9124:facebook_bot.js
 var os = require('os');
+var commandLineArgs = require('command-line-args');
+var localtunnel = require('localtunnel');
+
+const cli = commandLineArgs([
+      {name: 'lt', alias: 'l', args: 1, description: 'Use localtunnel.me to make your bot available on the web.',
+      type: Boolean, defaultValue: false},
+      {name: 'ltsubdomain', alias: 's', args: 1,
+      description: 'Custom subdomain for the localtunnel.me URL. This option can only be used together with --lt.',
+      type: String, defaultValue: null},
+   ]);
+
+const ops = cli.parse();
+if(ops.lt === false && ops.ltsubdomain !== null) {
+    console.log("error: --ltsubdomain can only be used together with --lt.");
+    process.exit();
+}
 
 var controller = Botkit.facebookbot({
     debug: false,
@@ -97,14 +121,31 @@ controller.setupWebserver(process.env.port || 3003, function(err, webserver) {
     console.log("Im here");
     controller.createWebhookEndpoints(webserver, bot, function() {
         console.log('ONLINE!');
+        if(ops.lt) {
+            var tunnel = localtunnel(process.env.port || 3000, {subdomain: ops.ltsubdomain}, function(err, tunnel) {
+                if (err) {
+                    console.log(err);
+                    process.exit();
+                }
+                console.log("Your bot is available on the web at the following URL: " + tunnel.url + '/facebook/receive');
+            });
+
+            tunnel.on('close', function() {
+                console.log("Your bot is no longer available on the web at the localtunnnel.me URL.");
+                process.exit();
+            });
+        }
     });
 });
 
 
 controller.hears(['hello', 'hi'], 'message_received', function(bot, message) {
+<<<<<<< HEAD:willow/facebook_bot.js
 
     console.log(message);
 
+=======
+>>>>>>> 002da9c82b1333cdbe964ed874bd29403f3d9124:facebook_bot.js
     controller.storage.users.get(message.user, function(err, user) {
         if (user && user.name) {
             bot.reply(message, 'Hello ' + user.name + '!!');
@@ -117,59 +158,64 @@ controller.hears(['hello', 'hi'], 'message_received', function(bot, message) {
 
 controller.hears(['structured'], 'message_received', function(bot, message) {
 
-    bot.reply(message, {
-        attachment: {
-            'type': 'template',
-            'payload': {
-                'template_type': 'generic',
-                'elements': [
-                    {
-                        'title': 'Classic White T-Shirt',
-                        'image_url': 'http://petersapparel.parseapp.com/img/item100-thumb.png',
-                        'subtitle': 'Soft white cotton t-shirt is back in style',
-                        'buttons': [
-                            {
-                                'type': 'web_url',
-                                'url': 'https://petersapparel.parseapp.com/view_item?item_id=100',
-                                'title': 'View Item'
-                            },
-                            {
-                                'type': 'web_url',
-                                'url': 'https://petersapparel.parseapp.com/buy_item?item_id=100',
-                                'title': 'Buy Item'
-                            },
-                            {
-                                'type': 'postback',
-                                'title': 'Bookmark Item',
-                                'payload': 'White T-Shirt'
-                            }
-                        ]
-                    },
-                    {
-                        'title': 'Classic Grey T-Shirt',
-                        'image_url': 'http://petersapparel.parseapp.com/img/item101-thumb.png',
-                        'subtitle': 'Soft gray cotton t-shirt is back in style',
-                        'buttons': [
-                            {
-                                'type': 'web_url',
-                                'url': 'https://petersapparel.parseapp.com/view_item?item_id=101',
-                                'title': 'View Item'
-                            },
-                            {
-                                'type': 'web_url',
-                                'url': 'https://petersapparel.parseapp.com/buy_item?item_id=101',
-                                'title': 'Buy Item'
-                            },
-                            {
-                                'type': 'postback',
-                                'title': 'Bookmark Item',
-                                'payload': 'Grey T-Shirt'
-                            }
-                        ]
-                    }
-                ]
+    bot.startConversation(message, function(err, convo) {
+        convo.ask({
+            attachment: {
+                'type': 'template',
+                'payload': {
+                    'template_type': 'generic',
+                    'elements': [
+                        {
+                            'title': 'Classic White T-Shirt',
+                            'image_url': 'http://petersapparel.parseapp.com/img/item100-thumb.png',
+                            'subtitle': 'Soft white cotton t-shirt is back in style',
+                            'buttons': [
+                                {
+                                    'type': 'web_url',
+                                    'url': 'https://petersapparel.parseapp.com/view_item?item_id=100',
+                                    'title': 'View Item'
+                                },
+                                {
+                                    'type': 'web_url',
+                                    'url': 'https://petersapparel.parseapp.com/buy_item?item_id=100',
+                                    'title': 'Buy Item'
+                                },
+                                {
+                                    'type': 'postback',
+                                    'title': 'Bookmark Item',
+                                    'payload': 'White T-Shirt'
+                                }
+                            ]
+                        },
+                        {
+                            'title': 'Classic Grey T-Shirt',
+                            'image_url': 'http://petersapparel.parseapp.com/img/item101-thumb.png',
+                            'subtitle': 'Soft gray cotton t-shirt is back in style',
+                            'buttons': [
+                                {
+                                    'type': 'web_url',
+                                    'url': 'https://petersapparel.parseapp.com/view_item?item_id=101',
+                                    'title': 'View Item'
+                                },
+                                {
+                                    'type': 'web_url',
+                                    'url': 'https://petersapparel.parseapp.com/buy_item?item_id=101',
+                                    'title': 'Buy Item'
+                                },
+                                {
+                                    'type': 'postback',
+                                    'title': 'Bookmark Item',
+                                    'payload': 'Grey T-Shirt'
+                                }
+                            ]
+                        }
+                    ]
+                }
             }
-        }
+        }, function(response, convo) {
+            // whoa, I got the postback payload as a response to my convo.ask!
+            convo.next();
+        });
     });
 });
 
@@ -178,6 +224,7 @@ controller.on('facebook_postback', function(bot, message) {
     bot.reply(message, 'Great Choice!!!! (' + message.payload + ')');
 
 });
+
 
 controller.hears(['call me (.*)', 'my name is (.*)'], 'message_received', function(bot, message) {
     var name = message.match[1];
@@ -296,8 +343,7 @@ controller.hears(['uptime', 'identify yourself', 'who are you', 'what is your na
         var uptime = formatUptime(process.uptime());
 
         bot.reply(message,
-            ':robot_face: I am a bot named <@' + bot.identity.name +
-             '>. I have been running for ' + uptime + ' on ' + hostname + '.');
+            ':|] I am a bot. I have been running for ' + uptime + ' on ' + hostname + '.');
     });
 
 
