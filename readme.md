@@ -108,7 +108,7 @@ This sample bot listens for the word "hello" to be said to it -- either as a dir
 The Botkit constructor returns a `controller` object. By attaching event handlers
 to the controller object, developers can specify what their bot should look for and respond to,
 including keywords, patterns and various [messaging and status events](#responding-to-events).
-These event handlers can be thought of metaphorically as skills or features the robot brain has -- each event handler defines a new "When a human say THIS the bot does THAT."
+These event handlers can be thought of metaphorically as skills or features the robot brain has -- each event handler defines a new "When a human says THIS the bot does THAT."
 
 The `controller` object is then used to `spawn()` bot instances that represent
 a specific bot identity and connection to Slack. Once spawned and connected to
