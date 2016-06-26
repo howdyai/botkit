@@ -4,6 +4,8 @@ var moment = require('moment');
 var request = require('request');
 var rp = require('request-promise');
 var usersSlack = [];
+//var sb = require('')
+
 // var checkIn = 'Thursday';
 //var token ='xoxp-21143396339-21148553634-24144454581-f6d7e3347d';
 
@@ -12,6 +14,9 @@ var recipients = [
                     'U1457G26Q'
 
 ]
+console.log
+var exports = module.exports = {};
+
 
 var reminder = {"_id":"57150d7579252b2e9cc3bc2b", "title": "Drink Lots Of water"};
 
@@ -59,6 +64,14 @@ controller.hears('fire it up', ['direct_message'], function(bot, message) {
     });
 
 });
+
+exports.sayHi = function(scheduleBot) {
+  console.log("hi");
+  var sb = scheduleBot;
+  sb.done();
+};
+
+
 
 startQuery = function(){
   var d = new Date();
