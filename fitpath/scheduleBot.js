@@ -1,14 +1,24 @@
+//schedule bot creates the req bots to have convos, then uses them to send the convos
+//
+
 var Botkit = require('../lib/Botkit.js');
 
 var request = require('request');
 
+
+var Promise = require('promise');
+
+
 //get the bots we need to say the things we want to say
 
-var frank = require('./frank.js');
+//specifically add twilio, fb and slack
+
+
+
+
+/**
 
 var exports = module.exports = {};
-
-
 
 
 
@@ -20,15 +30,15 @@ var controller = Botkit.slackbot({
 //ok so build
 
 
-// controller.setupWebserver(3000, function(err, webserver) {
-//     controller.createWebhookEndpoints(webserver);
-// });
-//
-// controller.on('outgoing_webhook', function(bot, message) {
-//
-//     bot.replyPublic(message, 'This is a public reply to the outgoing webhook!');
-//
-// });
+controller.setupWebserver(3000, function(err, webserver) {
+    controller.createWebhookEndpoints(webserver);
+});
+
+controller.on('outgoing_webhook', function(bot, message) {
+
+    bot.replyPublic(message, 'This is a public reply to the outgoing webhook!');
+
+});
 
 exports.done = function() {
   //testing some stuff
@@ -43,11 +53,15 @@ init(); //kick things off
 */
 
 function init() {
-  //create a console.log that checks every minute
+  //create a console.log that checks everysweet dreams minute
 
   //should prob figure out a way to persist this
 
   var activeConvoList = [];
+
+  //TESTING promises
+
+  dispatchConvo();
 
   //make sure it starts on the minmute
 
@@ -57,9 +71,7 @@ function init() {
   console.log("seconds are " + seconds);
   var timeout = (60 - seconds) * 1000;
   console.log("timeout is " + timeout);
-  frank.sayHi(function(convo){
-    console.log("this worked" )
-  });
+
 
 
   setTimeout(startScheduler(), timeout);
@@ -78,11 +90,8 @@ function doSomething(){
       console.log(body);  // just print out evertything we get back from this api call
       console.log("we didn't completely fuck up yet");
       scheduleConvos(body); //send all the convo object to be scheduled
-
-
-      //createConvos();
-    } else {
-      console.log(error);
+      } else {
+      //console.log(error);
     }
   })
 
@@ -103,17 +112,35 @@ function scheduleConvos(convos) {
     } else {
       console.log("dispatching convo");
       dispatchConvo(convo);
-      userNowInConvo(userId);
-      console.log("dispacthing convo");
-    }
+
+      }
   }
   // then it
 }
+function dispatchConvo(){
+  //merge the questions thing from twilio sms bot and frank
 
-function dispatchConvo(convo, cb){
+  //figure out what bot to send the convo to then update the fact that the user is in a convo
 
-  cb
 }
+
+
+
+exports.saySomething = function() {
+  console.log("finally fucking working");
+  //console.log(userId);
+
+
+}
+exports.sayHi = function(scheduleBot) {
+  console.log("hi this worked ");
+  //var sb = scheduleBot;
+  //sb.done();
+};
+  //figure out which
+
+
+
 //returns a boolean wethher the user is currently in a convo
 
 //TODO make this a private constructor inside of the bot so we don't have to worry about someone touching the variables
