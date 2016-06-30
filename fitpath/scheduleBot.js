@@ -2,6 +2,7 @@
 //
 
 var Botkit = require('../lib/Botkit.js');
+var serverIp = require('./env.js').serverIp;
 
 var request = require('request');
 
@@ -91,7 +92,7 @@ function startScheduler(){
 function doSomething(){
   console.log("Check one");
   //now hit the api and ask if we have a survey or a reminder we can send
-  request('http://localhost:12557/api/assignment/convosNow', function (error, response, body) {
+  request('http://' + serverIp + '/api/assignment/convosNow', function (error, response, body) {
     if (!error && response.statusCode == 200) {
       console.log(JSON.parse(body));  // just print out evertything we get back from this api call
       console.log("we didn't completely fuck up yet");
