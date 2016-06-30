@@ -6,13 +6,17 @@ var Botkit = require('../lib/Botkit.js');
 var request = require('request');
 
 
-var Promise = require('promise');
+//var Promise = require('promise');
 
 
 //get the bots we need to say the things we want to say
 
 //specifically add twilio, fb and slack
 
+var bots = {
+  sms: require('./survey_sms_bot.js'),
+  fb: require('./survey_messenger_bot.js')
+};
 
 
 
@@ -52,16 +56,18 @@ init(); //kick things off
 
 */
 
+init();
+
+var activeConvoList = [];
 function init() {
   //create a console.log that checks everysweet dreams minute
 
   //should prob figure out a way to persist this
 
-  var activeConvoList = [];
 
   //TESTING promises
 
-  dispatchConvo();
+  //dispatchConvo();
 
   //make sure it starts on the minmute
 
@@ -79,7 +85,7 @@ function init() {
 }
 
 function startScheduler(){
-    var myVar = setInterval(doSomething, 6*1000);
+    var myVar = setInterval(doSomething, 60*1000);
 
 }
 function doSomething(){
@@ -87,9 +93,9 @@ function doSomething(){
   //now hit the api and ask if we have a survey or a reminder we can send
   request('http://localhost:12557/api/assignment/convosNow', function (error, response, body) {
     if (!error && response.statusCode == 200) {
-      console.log(body);  // just print out evertything we get back from this api call
+      console.log(JSON.parse(body));  // just print out evertything we get back from this api call
       console.log("we didn't completely fuck up yet");
-      scheduleConvos(body); //send all the convo object to be scheduled
+      scheduleConvos(JSON.parse(body)); //send all the convo object to be scheduled
       } else {
       //console.log(error);
     }
@@ -97,12 +103,14 @@ function doSomething(){
 
 }
 function scheduleConvos(convos) {
+  console.log('scheduling');
   //first this function checks if the user is already in a convo,
 
   //for( go thru all the convos)
   //get user for each convo
   for (var i = 0; i < convos.length; i++) {
     var convo = convos[i];
+    console.log(convo);
     var userId = convo.userId;
 
     if(isUserInConvo(userId)){
@@ -117,10 +125,13 @@ function scheduleConvos(convos) {
   }
   // then it
 }
-function dispatchConvo(){
+function dispatchConvo(convo){
   //merge the questions thing from twilio sms bot and frank
 
   //figure out what bot to send the convo to then update the fact that the user is in a convo
+  if (convo.userMedium == 'sms') {
+    bots.sms.receiveConvo(convo);
+  }
 
 }
 

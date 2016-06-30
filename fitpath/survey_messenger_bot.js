@@ -67,7 +67,7 @@ module.exports.receiveConvo = function (convoObject) {
   bot.startPrivateConversation(authMessage, function (err, convo) {
     convo.say('Hi! Here\'s a survey your coach wanted me to send you.');
     for (var i = 0; i < convoObject.questions.length; i++) {
-      convo.ask(convoObject.questions[i], function (res, convo) {
+      convo.ask(convoObject.questions[i].question, function (res, convo) {
         console.log(res.text);
         convo.next();
       });
@@ -80,7 +80,7 @@ module.exports.receiveConvo = function (convoObject) {
         var responseArray = [];
         // In order to send responses back as an array in the right order, loop through questions array
         for (var i = 0; i < convoObject.questions.length; i++) {
-          var question = convoObject.questions[i];
+          var question = convoObject.questions[i].question;
           // Responses are indexed by the question as a key
           var response = responses[question];
           // Push the response onto the responseArray

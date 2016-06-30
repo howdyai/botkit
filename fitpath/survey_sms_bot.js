@@ -66,11 +66,13 @@ controller.hears('.*', 'message_received', function (bot, message) {
 
 
 module.exports.receiveConvo = function (convoObject) {
+  console.log('received convo');
   console.log(JSON.stringify(convoObject));
   bot.startPrivateConversation({user: convoObject.userContactInfo.phoneNumber, text: ''}, function (err, convo) {
     convo.say('Hi! Here\'s a survey your coach wanted me to send you.');
     for (var i = 0; i < convoObject.questions.length; i++) {
-      convo.ask(convoObject.questions[i], function (res, convo) {
+      console.log(convoObject.questions[i].question);
+      convo.ask(convoObject.questions[i].question, function (res, convo) {
         console.log(res.text);
         convo.next();
       });
@@ -78,25 +80,30 @@ module.exports.receiveConvo = function (convoObject) {
     convo.say('Thanks for answering my questions. Enjoy the rest of your day ' + String.fromCodePoint(128578));
     convo.on('end', function (convo) {
       if (convo.status == 'completed') {
+        console.log();
+        console.log('ended');
+        console.log();
         var responses = convo.extractResponses();
+        console.log('Responses: ' + responses);
 
         var responseArray = [];
         // In order to send responses back as an array in the right order, loop through questions array
         for (var i = 0; i < convoObject.questions.length; i++) {
-          var question = convoObject.questions[i];
+          var question = convoObject.questions[i].question;
+          console.log('Question: ' + question);
           // Responses are indexed by the question as a key
           var response = responses[question];
+          console.log('Response: ' + response);
           // Push the response onto the responseArray
           responseArray.push(response);
         }
-        console.log(convo);
         console.log(responseArray);
       }
     })
   });
 };
 
-for (var i = 0; i < ConvoObjects.length; i++) {
+/*for (var i = 0; i < ConvoObjects.length; i++) {
   var ConvoObject = ConvoObjects[i];
   module.exports.receiveConvo(ConvoObject);
-}
+}*/
