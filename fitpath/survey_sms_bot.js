@@ -1,4 +1,5 @@
 var Botkit = require('../lib/Botkit.js');
+var request = require('request');
 
 var ConvoObjects = [
   {
@@ -88,16 +89,26 @@ module.exports.receiveConvo = function (convoObject) {
 
         var responseArray = [];
         // In order to send responses back as an array in the right order, loop through questions array
+        var response = {};
+        response.assignment = convoObject.assignmentId;
+        response.userId = convoObject.userId;
+        response.surveyTemplateId = convoObject.surveyId;
+        response.questions = [];
         for (var i = 0; i < convoObject.questions.length; i++) {
           var question = convoObject.questions[i].question;
           console.log('Question: ' + question);
           // Responses are indexed by the question as a key
-          var response = responses[question];
           console.log('Response: ' + response);
           // Push the response onto the responseArray
-          responseArray.push(response);
+          //responseArray.push(response);
+          response.questions[i] = convoObject.questions[i];
+          response.questions[i].answer = responses[question];
         }
-        console.log(responseArray);
+        request.post({url: 'http://localhost:12557/api/response/create', json: true, body: response}, function (err, response, body) {
+          console.log(err);
+          console.log(response);
+          console.log(body);
+        });
       }
     })
   });
