@@ -1,4 +1,5 @@
 var Botkit = require('../lib/Botkit.js');
+var serverIp = require('./env.js').serverIp;
 var request = require('request');
 
 var ConvoObjects = [
@@ -104,7 +105,7 @@ module.exports.receiveConvo = function (convoObject) {
           response.questions[i] = convoObject.questions[i];
           response.questions[i].answer = responses[question];
         }
-        request.post({url: 'http://localhost:12557/api/response/create', json: true, body: response}, function (err, response, body) {
+        request.post({url: 'http://' + serverIp + '/api/response/create', json: true, body: response}, function (err, response, body) {
           console.log(err);
           console.log(response);
           console.log(body);
