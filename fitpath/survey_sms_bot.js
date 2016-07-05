@@ -38,6 +38,7 @@ var ConvoObjects = [
   }
 ];
 
+console.log(config.phoneNumber);
 
 var controller = Botkit.twiliosmsbot({
   account_sid: 'ACf83693e222a7ade08080159c4871c9e3',
