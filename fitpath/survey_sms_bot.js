@@ -1,5 +1,5 @@
 var Botkit = require('../lib/Botkit.js');
-var serverIp = require('./env.js').serverIp;
+var config = require('./env.js');
 var request = require('request');
 
 var ConvoObjects = [
@@ -42,7 +42,7 @@ var ConvoObjects = [
 var controller = Botkit.twiliosmsbot({
   account_sid: 'ACf83693e222a7ade08080159c4871c9e3',
   auth_token: '20b36bd42a33cd249e0079a6a1e8e0dd',
-  twilio_number: '+12044005478'
+  twilio_number: config.phoneNumber
 });
 
 var bot = controller.spawn({});
@@ -105,7 +105,7 @@ module.exports.receiveConvo = function (convoObject) {
           response.questions[i] = convoObject.questions[i];
           response.questions[i].answer = responses[question];
         }
-        request.post({url: 'http://' + serverIp + ':12557/api/response/create', json: true, body: response}, function (err, response, body) {
+        request.post({url: 'http://' + config.serverIp + ':12557/api/response/create', json: true, body: response}, function (err, response, body) {
           console.log(err);
           console.log(response);
           console.log(body);
