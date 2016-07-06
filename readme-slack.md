@@ -469,7 +469,7 @@ slash commands also support private, and delayed messages. See below.
 All (or nearly all - they change constantly!) of Slack's current web api methods are supported
 using a syntax designed to match the endpoints themselves.
 
-If your bot has the appropriate scope, it may call [any of these method](https://api.slack.com/methods) using this syntax:
+If your bot has the appropriate scope, it may call [any of these methods](https://api.slack.com/methods) using this syntax:
 
 ```javascript
 bot.api.channels.list({},function(err,response) {
