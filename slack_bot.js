@@ -25,7 +25,7 @@ This bot demonstrates many of the core features of Botkit:
 
   Run your bot from the command line:
 
-    token=<MY TOKEN> node slack_bot.js
+    token=<xoxb-57721466259-pb13IiyiKEfFXIfPaDM5Aoe8> node slack_bot.js
 
 # USE THE BOT:
 
