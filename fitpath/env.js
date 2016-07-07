@@ -1,1 +1,4 @@
-exports.serverIp = '107.170.21.178';
+module.exports = {
+  serverIp: 'localhost',
+  phoneNumber: '+12045002308'
+};
