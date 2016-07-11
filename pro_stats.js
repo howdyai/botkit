@@ -107,7 +107,7 @@ function randomCommand() {
 
 function randomUser() {
 
-    return 'U' + Math.floor(Math.random()*10);
+    return 'U' + Math.floor(Math.random()*100);
 
 }
 
@@ -117,12 +117,12 @@ function commandStat() {
 
     var now = new Date().getTime();
 
-    now = now - Math.floor(Math.random() * (86400 * 1000 * 30));
+    now = now - Math.floor(Math.random() * (86400 * 1000 * 90));
 
     controller.trigger('command_triggered', [bot, {channel: randomChannel(), user: randomUser(), now: new Date(now)}, {timestamp: now, command: randomCommand()}]);
 
 }
 
-for (var i = 0; i < 1000; i++) {
+for (var i = 0; i < 5000; i++) {
     commandStat();
 }
