@@ -46,7 +46,7 @@ var controller = Botkit.facebookbot({
 
 var bot = controller.spawn({});
 
-controller.setupWebserver(33521, function (err, webserver) {
+controller.setupWebserver(27182, function (err, webserver) {
   controller.createWebhookEndpoints(controller.webserver, bot, function () {
     console.log('TwilioMessengerBot is online!');
   });
@@ -57,22 +57,29 @@ controller.on('facebook_optin', function (bot, message) {
   console.log(authMessage);
 });
 
-controller.hears('.*', 'message_received', function (bot, message) {
-  bot.reply(message, 'Sorry, my programmer was too lazy to come up with a response for that.');
+controller.hears(['hi', 'hey', 'hello', 'heya', 'ello', 'howdy'], 'message_received', function (bot, message) {
+  bot.reply(message, 'Hi! I\'ll be sending a survey to you shortly.');
+  authMessage = message;
   console.log(message);
+});
+
+controller.hears('remind me to (.*) at (.*)', 'message_received', function (bot, message) {
+  bot.reply(message, 'Sure, I\'ll remind you to ' + message.match[1].replace('me', 'you') +  ' at ' + message.match[2]);
 });
 
 module.exports.receiveConvo = function (convoObject) {
   console.log(authMessage);
   bot.startPrivateConversation(authMessage, function (err, convo) {
-    convo.say('Hi! Here\'s a survey your coach wanted me to send you.');
+    convo.say('Here\'s a survey your coach wanted me to send you:');
     for (var i = 0; i < convoObject.questions.length; i++) {
-      convo.ask(convoObject.questions[i].question, function (res, convo) {
+      convo.ask(convoObject.questions[i], function (res, convo) {
         console.log(res.text);
-        convo.next();
+        setTimeout(function () {
+          convo.next();
+        }, 2000);
       });
     }
-    convo.say('Thanks for answering my questions. Enjoy the rest of your day ' + String.fromCodePoint(128578));
+    convo.say('Thanks for answering my questions. Enjoy the rest of your day!');
     convo.on('end', function (convo) {
       if (convo.status == 'completed') {
         var responses = convo.extractResponses();
@@ -80,7 +87,7 @@ module.exports.receiveConvo = function (convoObject) {
         var responseArray = [];
         // In order to send responses back as an array in the right order, loop through questions array
         for (var i = 0; i < convoObject.questions.length; i++) {
-          var question = convoObject.questions[i].question;
+          var question = convoObject.questions[i];
           // Responses are indexed by the question as a key
           var response = responses[question];
           // Push the response onto the responseArray
@@ -100,4 +107,4 @@ function trySendingSurvey () {
   }
 }
 
-var interval = setInterval(trySendingSurvey, 500);
+var interval = setInterval(trySendingSurvey, 10000);
