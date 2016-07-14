@@ -1,0 +1,269 @@
+! version = 2.0
+
+! array greetings = hey hi hello howdy yo heya heyo ello
+
+! array positivesayings = yes yeah yee yep ya yea y sure okay ok k yeppers
+! array negativesayings = no nope negative n nah na
+! array quit = q quit exit stop
+! array swearwords = fuck shit ass cunt dumbass hell arse asshole bitch fucker fucking
+
+! var numbertoguess = 42
+! var age = 23
+! var weight = 19
+! var numberofusers = 453
+! var coach = Shane
+! var color = blue
+! var season = summer
+
+// This is taken from eg/begin.rive, but it's so small and obvious that it's probably fine to copy verbatim
+! person i am = you are
+! person you are = I am
+! person i'm = you're
+! person you're = I'm
+! person my = your
+! person your = my
+! person you = I
+! person i = you
+
+> object rot13 javascript
+  var textToRot13 = args.shift()
+  return  textToRot13.replace(/[a-zA-Z]/g, function(c){return String.fromCharCode((c <= "Z" ? 90 : 122) >= (c = c.charCodeAt(0) + 13) ? c : c - 26);});
+< object
+
+> object guessNumber javascript
+  var lowerBound = parseInt(rs.getUservar(rs.currentUser(), 'lowerbound'), 10)
+  var upperBound = parseInt(rs.getUservar(rs.currentUser(), 'upperbound'), 10)
+  var guess = lowerBound + Math.ceil((upperBound - lowerBound)/2)
+  rs.setUservar(rs.currentUser(), 'guess', guess)
+  rs.setUservar(rs.currentUser(), 'previousGuess', parseInt(rs.getUservar(rs.currentUser(), 'guess'), 10))
+  return guess
+< object
+
+//> object getWeather javascript
+//  console.log('Bot> Hold on, I\'m taking a look outside. This might take a while...')
+//  var request = require('sync-request')
+//  var weather = request('GET', 'https://api.forecast.io/forecast/705f57040eb4e3f04c351b1377b8d19c/37.8267,-122.423')
+//  weather = JSON.parse(weather.body);
+//  return 'It\'s currently ' + weather.currently.summary.toLowerCase() + ' and ' + weather.currently.temperature + ' degrees'
+//< object
+
++ (@greetings)
+- Hi! Do you want to play a quick game?
+
++ [*] what game [*]
+- It's a simple guessing game.
+
++ [*] (@positivesayings) [*]
+- Okay! Let's play a guessing game. Would you like to guess first?
+
++ [*] would you like to play a game [*]
+- Okay! Let's play a guessing game. Would you like to guess first?
+
++ [*] (@negativesayings) [*]
+- Okay, maybe some other time then.
+
++ (@positivesayings) [*]
+% okay lets play a guessing game would you like to guess first
+- Great! I'm thinking of a number between 1 and 100. (Please enter your guess below, or 'q' to quit.)
+
++ [*] # [*]
+% [*] im thinking of [*]
+* <star> == <bot numbertoguess> => You guessed my number, nice! Would you like to play again?
+* <star> < <bot numbertoguess> => The number I'm thinking of is higher than <star>
+* <star> > <bot numbertoguess> => The number I'm thinking of is lower than <star>
+
++ [*] (@quit) [*]
+% [*] im thinking of [*]
+- See you next time!
+
++ [*] (@positivesayings) [*]
+% you guessed my number nice would you like to play again
+@ <star>
+
++ [*] (@negativesayings) [*]
+% you guessed my number nice would you like to play again
+- Okay, maybe some other time then!
+
+
++ *
+% great im thinking of a number between 1 and 100
+- Please enter a number between 1 and 100, or 'q' to quit.
+
++ (@negativesayings) [*]
+% okay lets play a guessing game would you like to guess first
+- Alrighty, I'll guess first then. What is the lowest number you might be thinking of?
+
++ #
+% alrighty ill guess first then what is the lowest number you might be thinking of
+- <set lowerbound=<star>>Okay, and what's the highest number you might be thinking of?
+
++ #
+% okay and whats the highest number you might be thinking of
+- <set upperbound=<star>>Is the number you are thinking of <call>guessNumber</call> (Higher/Lower/Yes)?
+
++ [*] higher [*]
+- <set lowerbound=<get previousGuess>>Is the number you are thinking of <call>guessNumber</call>? (Higher/Lower/Yes)
+
++ [*] lower [*]
+- <set upperbound=<get previousGuess>>Is the number you are thinking of <call>guessNumber</call>? (Higher/Lower/Yes)
+
++ [*] (@positivesayings) [*]
+% is the number you are thinking of *
+- Awesome! Would you like to play again?
+
++ (@positivesayings) [*]
+% awesome would you like to play again
+@ <star>
+
++ (@negativesayings) [*]
+% awesome would you like to play again
+- Okay, maybe another time!
+
++ [*] whats your name [*]
+- I'm Willow, the Habit Hound!{topic=willow}
+
++ (who|what) are you
+- I'm Willow, the Habit Hound!{topic=willow}
+
+> topic willow
+
+  + [*] habit hound [*]
+  - Habit Hounds help people just like you to develop better habits.
+
+  + [*] how [*]
+  - I help out by occasionally sending you surveys and reminders from your coach, and being here to answer whatever questions you may have.
+
+  + [*] cool [*]
+  - I try to be!{topic=random}
+
+< topic
+
++ [*] thats funny [*]
+- I try to be!
+
++ [*] hah* [*]
+- Hahahahaha.
+
++ [*] ha [*]
+- Haha.
+
++ [*] whats up [*]
+- Oh not much, just helping <bot numberofusers> people develop better habits.
+
++ [*] created you [*]
+- I'm not really sure, as far as I can tell I've always been helping people with their habits.
+
++ rot13 *
+- <call>rot13 <star></call>
+
++ [*] the answer to life the universe and everything [*]
+- The answer is 42. But what is the question?
+
++ [*] (@swearwords) [*]
+- Is there something wrong?
+
++ [*] pi [*]
+- Pi is 3.141592653589793238462, or so.
+
++ [*] e [*]
+- e is 2.71828459045
+
++ [*] weather [*]
+- <call>getWeather</call>
+
++ [*] how many heads [*]
+- Just the one.
+
++ [*] (favourite|favorite) food [*]
+- Tacos, definitely.
+
++ [*] where do you live [*]
+- I live in New Brunswick, Canada's capital city, Fredericton.
+
++ [*] old are you [*]
+- I am <bot age> years old.
+
++ [*] do you have a (boyfriend|girlfriend) [*]
+- Nope, I'm more single than -(e^(i*pi))
+
++ [*] you have any kids [*]
+- Nope, do you?{topic=kids}
+
+> topic kids
+  + [*] (@positivesayings) [*]
+  - Cool, I hope to have kids too some day.
+
+  + [*] (@negativesayings) [*]
+  - Do you want kids?
+
+  + [*] (@positivesayings) [*]
+  % do you want kids
+  - I hope you can get your wish some day!{topic=random}
+
+  + [*] (@negativesayings) [*]
+  % do you want kids
+  - That's fine too, to each their own!
+< topic
+
++ [*] how much do you weigh [*]
+- I weigh <bot weight> pounds
+
++ (thanks|thank you) [*]
+- You're welcome.
+
++ [*] what [*] can you do [*]
+- I can remind you to do things, tell you jokes, and more.
+
++ [*] me a joke [*]
+- Why did the swimmer cross the ocean?\nTo get to the other tide.
+// Should probably add a lookup to a joke service to always grab a new joke
+
++ [*] remind me [to] * at *
+- Okay, I'll remind you at <star2> to {person}<star1>{/person}
+// Add db storage for reminders
+
++ [*] you a bot [*]
+- Yes, although I strive to someday be just as helpful as your coach.
+
++ [*] call me * [*]
+- <set name={formal}<star>{/formal}>Nice to meet you, {formal}<star>{/formal}.
+
++ [*] my name is * [*]
+- <set name={formal}<star>{/formal}>Nice to meet you, {formal}<star>{/formal}.
+
++ [*] (whats my name | who am i) [*]
+* <get name> == undefined => I don't know your name yet.
+- Your name is <get name>.
+
++ [*] named you willow [*]
+- I chose my own name! Who named you <get name>?{topic=name}
+
++ [*] why [*] you named willow [*]
+- I chose my own name! Why were you named <get name>?{topic=name}
+
+> topic name
+< topic
+
++ [*] whos my coach [*]
+- Your coach is <bot coach>
+
++ [*] do you think im * [*]
+- Do you think you're <star>?
+
++ [*] (favourite | favorite) (colour | color) is * [*]
+- My favourite colour is <star> too!
+
++ [*] whats your (favourite | favorite) (colour | color) [*]
+- My favourite colour is <bot color>.
+
++ [*] whats your (favourite | favorite) number [*]
+- My favourite number is <bot numbertoguess>
+
++ [*] whats your (favourite | favorite) season [*]
+- My favourite season is <bot season>
+
++ [*] how are you [*]
+- I'm feeling great, thanks for asking!
+
++ [*]
+- I'm sorry, I'm not sure I understand.
