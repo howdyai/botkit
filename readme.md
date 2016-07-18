@@ -552,7 +552,7 @@ One way to have multi-stage conversations is with multiple functions
 which call each other. Each function asks just one question. Example:
 
 ```javascript
-controller.hears(['pizzatime'], 'message_recieved', function(bot,message) {
+controller.hears(['pizzatime'], 'message_received', function(bot,message) {
     askFlavor = function(response, convo) {
       convo.ask('What flavor of pizza do you want?', function(response, convo) {
         convo.say('Awesome.');
