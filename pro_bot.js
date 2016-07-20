@@ -101,3 +101,24 @@ controller.on('direct_message,direct_mention,mention', function(bot, message) {
         bot.reply(message, 'I experienced an error: ' + err);
     });
 });
+
+
+controller.before('hello', function(convo, next) {
+
+    console.log('RUNNING BEFORE HOOK!');
+    convo.setVar('hook', 'FOO!!!');
+    next();
+
+}).before('hello', function(convo, next) {
+
+    console.log('RUNNING BEFORE HOOK!');
+    convo.setVar('hook2', 'BAR!!!');
+    next();
+
+}).after('hello', function(convo, next) {
+
+    console.log('run after hook');
+    console.log(convo.extractResponses());
+    next();
+
+});
