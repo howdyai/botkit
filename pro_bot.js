@@ -113,6 +113,8 @@ controller.before('hello', function(convo, next) {
 
     console.log('RUNNING BEFORE HOOK!');
     convo.setVar('hook2', 'BAR!!!');
+    convo.setVar('list', [{name: 'foo'},{name:'bar'}]);
+
     next();
 
 }).after('hello', function(convo, next) {
