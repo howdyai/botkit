@@ -75,6 +75,7 @@ var os = require('os');
 var controller = Botkit.slackbot({
     debug: false,
     howdy_token: process.env.howdy_token,
+    json_file_store: './db'
 });
 
 controller.configureSlackApp({
@@ -113,6 +114,54 @@ controller.on('create_bot',function(bot,config) {
 //     howdy_token: process.env.howdy_token,
 //     howdy_bot_id: process.env.howdy_bot_id
 // }).startRTM();
+
+
+
+
+
+function getListOfEntitiesInMessage(bot, message, cb) {
+        var list = [];
+        var text = message.text;
+
+        function uniq(a) {
+            var seen = {};
+            return a.filter(function(item) {
+                return seen.hasOwnProperty(item) ? false : (seen[item] = true);
+            });
+        }
+
+
+        while (matches = text.match(/\<(.*?)\>/i)) {
+            user = matches[1];
+            text = text.replace(new RegExp('\<' + user + '\>'), '');
+            text = text.replace(/\s*$/, '');
+            // sometimes it includes a printable name...
+            user = user.split('|')[0];
+            list.push(user);
+        }
+
+        while (matches = text.match(/\b(me|myself)\b/i)) {
+            user = matches[1].toLowerCase();
+            text = text.replace(new RegExp('\\b' + user + '\\b','i'),'');
+            text = text.replace(/\s*$/, '');
+            list.push(user);
+        }
+
+
+        // find !channel or !group and translate them into message.channel
+        for (var i = 0; i < list.length; i++) {
+            if (list[i] == '!channel' || list[i] == '!group') {
+                list[i] = '#' + message.channel;
+            } else if (list[i] == 'me' || list[i] == 'myself') {
+                list[i] = '@' + message.user;
+            }
+        }
+
+        cb(uniq(list));
+    };
+
+
+
 
 controller.on('interactive_message_callback', function(bot, trigger) {
 
@@ -155,20 +204,84 @@ controller.on('direct_message,direct_mention,mention', function(bot, message) {
 
 controller.before('run', function(convo, next) {
 
-    // see if the user has already added a script name
-    if (matches = convo.source_message.text.match(/run (.*)/)) {
-        console.log(matches);
-        convo.collectResponse('script',{text: matches[1]});
-        convo.changeTopic('participants');
+    controller.getRemoteCommands(convo.task.bot).then(function(commands) {
+
+        convo.setVar('scripts',commands);
+
+        next();
+
+    }).catch(function(err) {
+
+        convo.changeTopic('error_loading_scripts');
+        next();
+
+    });
+
+}).human('run', function(convo, next) {
+
+    console.log('Validate script selection');
+    var responses = convo.extractResponses();
+
+    if (responses.script) {
+        // validate this script
+        var found = false;
+        var matches = [];
+        for (var s = 0; s < convo.vars.scripts.length; s++) {
+            if (responses.script == convo.vars.scripts[s].command) {
+                found = true;
+            } else if (convo.vars.scripts[s].command.match(new RegExp(responses.script,'i'))) {
+                matches.push(convo.vars.scripts[s]);
+            }
+        }
+
+
+        if (!found) {
+            if (matches.length) {
+                convo.setVar('possible_matches',matches);
+                convo.changeTopic('choose_script');
+            } else {
+                convo.changeTopic('bad_script');
+            }
+            return next();
+        }
+    } else {
+        console.log('no script set yet');
     }
+
     next();
+
+}).human('run', function(convo, next) {
+
+    console.log('Validating participants');
+    var responses = convo.extractResponses();
+    if (responses.participants) {
+
+        getListOfEntitiesInMessage(convo.task.bot, {
+            text: responses.participants,
+            user: convo.source_message.user,
+            channel: convo.source_message.channel,
+        }, function(list) {
+
+            console.log('GOT A LIST OF ENTITIES', list);
+
+            if (!list || !list.length) {
+
+                convo.changeTopic('bad_participants');
+                return next();
+
+            } else {
+                next();
+            }
+
+        });
+
+    } else {
+        next();
+    }
 
 }).before('run', function(convo, next) {
 
-    // check to see if there are participants in the original message
-    if (found_users) {
-
-    }
+    next();
 
 });
 
@@ -192,5 +305,26 @@ controller.before('hello', function(convo, next) {
     console.log('run after hook');
     console.log(convo.extractResponses());
     next();
+
+});
+
+
+
+controller.storage.teams.all(function(err,teams) {
+
+  if (err) {
+    throw new Error(err);
+  }
+
+  // connect all teams with bots up to slack!
+  for (var t  in teams) {
+    if (teams[t].bot) {
+      controller.spawn(teams[t]).startRTM(function(err, bot) {
+        if (err) {
+          console.log('Error connecting bot to Slack:',err);
+        }
+      });
+    }
+  }
 
 });
