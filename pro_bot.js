@@ -74,32 +74,102 @@ var os = require('os');
 
 var controller = Botkit.slackbot({
     debug: false,
+    howdy_token: process.env.howdy_token,
 });
 
-var bot = controller.spawn({
-    token: process.env.token,
-    howdy_token: process.env.howdy_token,
-    howdy_bot_id: process.env.howdy_bot_id
-}).startRTM();
+controller.configureSlackApp({
+    clientId: '2151250279.61939261125',
+    clientSecret: '4a80e469c74d387c6fa2285079f683d6',
+    redirectUri: 'https://botkit.localtunnel.me/oauth',
+    scopes: ['bot'],
+});
 
-// controller.loginToHowdy(bot,{
-//     username: 'John',
-//     password: 'robco',
-// }).then(function(session) {
+
+
+controller.setupWebserver(4000,function(err,webserver) {
+  controller.createWebhookEndpoints(controller.webserver);
+
+  controller.createOauthEndpoints(controller.webserver,function(err,req,res) {
+    if (err) {
+      res.status(500).send('ERROR: ' + err);
+    } else {
+      res.send('Success!');
+    }
+  });
+});
+
+controller.on('create_bot',function(bot,config) {
+
+    bot.startRTM(function(err) {
+
+
+    });
+
+});
+
 //
-//     console.log('GOT A SESSION', session);
-//
-// }).catch(function(err) {
-//     console.log('ERROR LOGGING IN ', err);
-//     throw new Error(err);
-// });
+// var bot = controller.spawn({
+//     token: process.env.token,
+//     howdy_token: process.env.howdy_token,
+//     howdy_bot_id: process.env.howdy_bot_id
+// }).startRTM();
+
+controller.on('interactive_message_callback', function(bot, trigger) {
+
+    if (trigger.actions[0].name.match(/^action\:/)) {
+        controller.trigger(trigger.actions[0].name, [bot, trigger]);
+    } else if (trigger.actions[0].name.match(/^say\:/)) {
+        var message = {
+            user: trigger.user,
+            channel: trigger.channel,
+            text: trigger.actions[0].value,
+            type: 'message',
+        };
+
+        var reply = trigger.original_message;
+
+        reply.attachments = [
+            {
+                text: 'You said, ' + message.text,
+            }
+        ];
+
+        bot.replyInteractive(trigger, reply)
+
+        controller.receiveMessage(bot, message);
+    } else {
+        console.log('GOT BUTTON CLICK', trigger);
+    }
+
+});
+
 
 controller.on('direct_message,direct_mention,mention', function(bot, message) {
-    controller.triggerConversation(bot,message).then(function(convo) {
+    controller.triggerConversation(bot, message).then(function(convo) {
         console.log(convo.status);
     }).catch(function(err) {
         bot.reply(message, 'I experienced an error: ' + err);
     });
+});
+
+
+controller.before('run', function(convo, next) {
+
+    // see if the user has already added a script name
+    if (matches = convo.source_message.text.match(/run (.*)/)) {
+        console.log(matches);
+        convo.collectResponse('script',{text: matches[1]});
+        convo.changeTopic('participants');
+    }
+    next();
+
+}).before('run', function(convo, next) {
+
+    // check to see if there are participants in the original message
+    if (found_users) {
+
+    }
+
 });
 
 
