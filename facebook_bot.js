@@ -6,11 +6,11 @@
             \/_____/   \/_____/     \/_/   \/_/\/_/   \/_/     \/_/
 
 
-This is a sample Slack bot built with Botkit.
+This is a sample Facebook bot built with Botkit.
 
 This bot demonstrates many of the core features of Botkit:
 
-* Connect to Slack using the real time API
+* Connect to Facebook's Messenger APIs
 * Receive messages based on "spoken" patterns
 * Reply to messages
 * Use the conversation system to ask questions
@@ -19,17 +19,19 @@ This bot demonstrates many of the core features of Botkit:
 
 # RUN THE BOT:
 
-  Get a Bot token from Slack:
+  Follow the instructions here to set up your Facebook app and page:
 
-    -> http://my.slack.com/services/new/bot
+    -> https://developers.facebook.com/docs/messenger-platform/implementation
 
   Run your bot from the command line:
 
-    token=<MY TOKEN> node bot.js
+    page_token=<MY PAGE TOKEN> verify_token=<MY_VERIFY_TOKEN> node facebook_bot.js [--lt [--ltsubdomain LOCALTUNNEL_SUBDOMAIN]]
+
+  Use the --lt option to make your bot available on the web through localtunnel.me.
 
 # USE THE BOT:
 
-  Find your bot inside Slack to send it a direct message.
+  Find your bot inside Facebook to send it a direct message.
 
   Say: "Hello"
 
@@ -55,7 +57,7 @@ This bot demonstrates many of the core features of Botkit:
 
 # EXTEND THE BOT:
 
-  Botkit is has many features for building cool and useful bots!
+  Botkit has many features for building cool and useful bots!
 
   Read all about it here:
 
@@ -64,36 +66,66 @@ This bot demonstrates many of the core features of Botkit:
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 
 
-if (!process.env.token) {
-    console.log('Error: Specify token in environment');
+if (!process.env.page_token) {
+    console.log('Error: Specify page_token in environment');
+    process.exit(1);
+}
+
+if (!process.env.verify_token) {
+    console.log('Error: Specify verify_token in environment');
     process.exit(1);
 }
 
 var Botkit = require('./lib/Botkit.js');
 var os = require('os');
+var commandLineArgs = require('command-line-args');
+var localtunnel = require('localtunnel');
 
-var controller = Botkit.slackbot({
+const cli = commandLineArgs([
+      {name: 'lt', alias: 'l', args: 1, description: 'Use localtunnel.me to make your bot available on the web.',
+      type: Boolean, defaultValue: false},
+      {name: 'ltsubdomain', alias: 's', args: 1,
+      description: 'Custom subdomain for the localtunnel.me URL. This option can only be used together with --lt.',
+      type: String, defaultValue: null},
+   ]);
+
+const ops = cli.parse();
+if(ops.lt === false && ops.ltsubdomain !== null) {
+    console.log("error: --ltsubdomain can only be used together with --lt.");
+    process.exit();
+}
+
+var controller = Botkit.facebookbot({
     debug: true,
+    access_token: process.env.page_token,
+    verify_token: process.env.verify_token,
 });
 
 var bot = controller.spawn({
-    token: process.env.token
-}).startRTM();
+});
 
+controller.setupWebserver(process.env.port || 3000, function(err, webserver) {
+    controller.createWebhookEndpoints(webserver, bot, function() {
+        console.log('ONLINE!');
+        if(ops.lt) {
+            var tunnel = localtunnel(process.env.port || 3000, {subdomain: ops.ltsubdomain}, function(err, tunnel) {
+                if (err) {
+                    console.log(err);
+                    process.exit();
+                }
+                console.log("Your bot is available on the web at the following URL: " + tunnel.url + '/facebook/receive');
+            });
 
-controller.hears(['hello', 'hi'], 'direct_message,direct_mention,mention', function(bot, message) {
-
-    bot.api.reactions.add({
-        timestamp: message.ts,
-        channel: message.channel,
-        name: 'robot_face',
-    }, function(err, res) {
-        if (err) {
-            bot.botkit.log('Failed to add emoji reaction :(', err);
+            tunnel.on('close', function() {
+                console.log("Your bot is no longer available on the web at the localtunnnel.me URL.");
+                process.exit();
+            });
         }
     });
+});
 
 
+controller.hears(['hello', 'hi'], 'message_received', function(bot, message) {
     controller.storage.users.get(message.user, function(err, user) {
         if (user && user.name) {
             bot.reply(message, 'Hello ' + user.name + '!!');
@@ -103,7 +135,78 @@ controller.hears(['hello', 'hi'], 'direct_message,direct_mention,mention', funct
     });
 });
 
-controller.hears(['call me (.*)', 'my name is (.*)'], 'direct_message,direct_mention,mention', function(bot, message) {
+
+controller.hears(['structured'], 'message_received', function(bot, message) {
+
+    bot.startConversation(message, function(err, convo) {
+        convo.ask({
+            attachment: {
+                'type': 'template',
+                'payload': {
+                    'template_type': 'generic',
+                    'elements': [
+                        {
+                            'title': 'Classic White T-Shirt',
+                            'image_url': 'http://petersapparel.parseapp.com/img/item100-thumb.png',
+                            'subtitle': 'Soft white cotton t-shirt is back in style',
+                            'buttons': [
+                                {
+                                    'type': 'web_url',
+                                    'url': 'https://petersapparel.parseapp.com/view_item?item_id=100',
+                                    'title': 'View Item'
+                                },
+                                {
+                                    'type': 'web_url',
+                                    'url': 'https://petersapparel.parseapp.com/buy_item?item_id=100',
+                                    'title': 'Buy Item'
+                                },
+                                {
+                                    'type': 'postback',
+                                    'title': 'Bookmark Item',
+                                    'payload': 'White T-Shirt'
+                                }
+                            ]
+                        },
+                        {
+                            'title': 'Classic Grey T-Shirt',
+                            'image_url': 'http://petersapparel.parseapp.com/img/item101-thumb.png',
+                            'subtitle': 'Soft gray cotton t-shirt is back in style',
+                            'buttons': [
+                                {
+                                    'type': 'web_url',
+                                    'url': 'https://petersapparel.parseapp.com/view_item?item_id=101',
+                                    'title': 'View Item'
+                                },
+                                {
+                                    'type': 'web_url',
+                                    'url': 'https://petersapparel.parseapp.com/buy_item?item_id=101',
+                                    'title': 'Buy Item'
+                                },
+                                {
+                                    'type': 'postback',
+                                    'title': 'Bookmark Item',
+                                    'payload': 'Grey T-Shirt'
+                                }
+                            ]
+                        }
+                    ]
+                }
+            }
+        }, function(response, convo) {
+            // whoa, I got the postback payload as a response to my convo.ask!
+            convo.next();
+        });
+    });
+});
+
+controller.on('facebook_postback', function(bot, message) {
+
+    bot.reply(message, 'Great Choice!!!! (' + message.payload + ')');
+
+});
+
+
+controller.hears(['call me (.*)', 'my name is (.*)'], 'message_received', function(bot, message) {
     var name = message.match[1];
     controller.storage.users.get(message.user, function(err, user) {
         if (!user) {
@@ -118,8 +221,7 @@ controller.hears(['call me (.*)', 'my name is (.*)'], 'direct_message,direct_men
     });
 });
 
-controller.hears(['what is my name', 'who am i'], 'direct_message,direct_mention,mention', function(bot, message) {
-
+controller.hears(['what is my name', 'who am i'], 'message_received', function(bot, message) {
     controller.storage.users.get(message.user, function(err, user) {
         if (user && user.name) {
             bot.reply(message, 'Your name is ' + user.name);
@@ -186,8 +288,7 @@ controller.hears(['what is my name', 'who am i'], 'direct_message,direct_mention
     });
 });
 
-
-controller.hears(['shutdown'], 'direct_message,direct_mention,mention', function(bot, message) {
+controller.hears(['shutdown'], 'message_received', function(bot, message) {
 
     bot.startConversation(message, function(err, convo) {
 
@@ -215,17 +316,23 @@ controller.hears(['shutdown'], 'direct_message,direct_mention,mention', function
 });
 
 
-controller.hears(['uptime', 'identify yourself', 'who are you', 'what is your name'],
-    'direct_message,direct_mention,mention', function(bot, message) {
+controller.hears(['uptime', 'identify yourself', 'who are you', 'what is your name'], 'message_received',
+    function(bot, message) {
 
         var hostname = os.hostname();
         var uptime = formatUptime(process.uptime());
 
         bot.reply(message,
-            ':robot_face: I am a bot named <@' + bot.identity.name +
-             '>. I have been running for ' + uptime + ' on ' + hostname + '.');
-
+            ':|] I am a bot. I have been running for ' + uptime + ' on ' + hostname + '.');
     });
+
+
+
+controller.on('message_received', function(bot, message) {
+    bot.reply(message, 'Try: `what is my name` or `structured` or `call me captain`');
+    return false;
+});
+
 
 function formatUptime(uptime) {
     var unit = 'second';
