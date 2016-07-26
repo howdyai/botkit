@@ -74,184 +74,257 @@ var os = require('os');
 
 var controller = Botkit.slackbot({
     debug: false,
+    howdy_token: process.env.howdy_token,
+    json_file_store: './db'
 });
 
-var bot = controller.spawn({
-    token: process.env.token,
-    BOTKIT_API_KEY: '56fdd76241544ea3c848a385',
-}).startRTM();
-
-
-controller.hears(['test'], 'direct_message,direct_mention,mention', function(bot, message) {
-    bot.reply(message,'yeah');
-    controller.triggerConversation(bot,message).then(function(convo) {
-        console.log(convo.status);
-
-    });
+controller.configureSlackApp({
+    clientId: '2151250279.61939261125',
+    clientSecret: '4a80e469c74d387c6fa2285079f683d6',
+    redirectUri: 'https://botkit.localtunnel.me/oauth',
+    scopes: ['bot'],
 });
 
 
-controller.hears(['hello', 'hi'], 'direct_message,direct_mention,mention', function(bot, message) {
 
+controller.setupWebserver(4000,function(err,webserver) {
+  controller.createWebhookEndpoints(controller.webserver);
 
-    bot.api.reactions.add({
-        timestamp: message.ts,
-        channel: message.channel,
-        name: 'robot_face',
-    }, function(err, res) {
-        if (err) {
-            bot.botkit.log('Failed to add emoji reaction :(', err);
-        }
-    });
-
-
-    controller.storage.users.get(message.user, function(err, user) {
-        if (user && user.name) {
-            bot.reply(message, 'Hello ' + user.name + '!!');
-        } else {
-            bot.reply(message, 'Hello.');
-        }
-    });
+  controller.createOauthEndpoints(controller.webserver,function(err,req,res) {
+    if (err) {
+      res.status(500).send('ERROR: ' + err);
+    } else {
+      res.send('Success!');
+    }
+  });
 });
 
-controller.hears(['call me (.*)', 'my name is (.*)'], 'direct_message,direct_mention,mention', function(bot, message) {
-    var name = message.match[1];
-    controller.storage.users.get(message.user, function(err, user) {
-        if (!user) {
-            user = {
-                id: message.user,
-            };
-        }
-        user.name = name;
-        controller.storage.users.save(user, function(err, id) {
-            bot.reply(message, 'Got it. I will call you ' + user.name + ' from now on.');
-        });
+controller.on('create_bot',function(bot,config) {
+
+    bot.startRTM(function(err) {
+
+
     });
+
 });
 
-controller.hears(['what is my name', 'who am i'], 'direct_message,direct_mention,mention', function(bot, message) {
-
-    controller.storage.users.get(message.user, function(err, user) {
-        if (user && user.name) {
-            bot.reply(message, 'Your name is ' + user.name);
-        } else {
-            bot.startConversation(message, function(err, convo) {
-                if (!err) {
-                    convo.say('I do not know your name yet!');
-                    convo.ask('What should I call you?', function(response, convo) {
-                        convo.ask('You want me to call you `' + response.text + '`?', [
-                            {
-                                pattern: 'yes',
-                                callback: function(response, convo) {
-                                    // since no further messages are queued after this,
-                                    // the conversation will end naturally with status == 'completed'
-                                    convo.next();
-                                }
-                            },
-                            {
-                                pattern: 'no',
-                                callback: function(response, convo) {
-                                    // stop the conversation. this will cause it to end with status == 'stopped'
-                                    convo.stop();
-                                }
-                            },
-                            {
-                                default: true,
-                                callback: function(response, convo) {
-                                    convo.repeat();
-                                    convo.next();
-                                }
-                            }
-                        ]);
-
-                        convo.next();
-
-                    }, {'key': 'nickname'}); // store the results in a field called nickname
-
-                    convo.on('end', function(convo) {
-                        if (convo.status == 'completed') {
-                            bot.reply(message, 'OK! I will update my dossier...');
-
-                            controller.storage.users.get(message.user, function(err, user) {
-                                if (!user) {
-                                    user = {
-                                        id: message.user,
-                                    };
-                                }
-                                user.name = convo.extractResponse('nickname');
-                                controller.storage.users.save(user, function(err, id) {
-                                    bot.reply(message, 'Got it. I will call you ' + user.name + ' from now on.');
-                                });
-                            });
+//
+// var bot = controller.spawn({
+//     token: process.env.token,
+//     howdy_token: process.env.howdy_token,
+//     howdy_bot_id: process.env.howdy_bot_id
+// }).startRTM();
 
 
 
-                        } else {
-                            // this happens if the conversation ended prematurely for some reason
-                            bot.reply(message, 'OK, nevermind!');
-                        }
-                    });
-                }
+
+
+function getListOfEntitiesInMessage(bot, message, cb) {
+        var list = [];
+        var text = message.text;
+
+        function uniq(a) {
+            var seen = {};
+            return a.filter(function(item) {
+                return seen.hasOwnProperty(item) ? false : (seen[item] = true);
             });
         }
-    });
-});
 
 
-controller.hears(['shutdown'], 'direct_message,direct_mention,mention', function(bot, message) {
+        while (matches = text.match(/\<(.*?)\>/i)) {
+            user = matches[1];
+            text = text.replace(new RegExp('\<' + user + '\>'), '');
+            text = text.replace(/\s*$/, '');
+            // sometimes it includes a printable name...
+            user = user.split('|')[0];
+            list.push(user);
+        }
 
-    bot.startConversation(message, function(err, convo) {
+        while (matches = text.match(/\b(me|myself)\b/i)) {
+            user = matches[1].toLowerCase();
+            text = text.replace(new RegExp('\\b' + user + '\\b','i'),'');
+            text = text.replace(/\s*$/, '');
+            list.push(user);
+        }
 
-        convo.ask('Are you sure you want me to shutdown?', [
-            {
-                pattern: bot.utterances.yes,
-                callback: function(response, convo) {
-                    convo.say('Bye!');
-                    convo.next();
-                    setTimeout(function() {
-                        process.exit();
-                    }, 3000);
-                }
-            },
-        {
-            pattern: bot.utterances.no,
-            default: true,
-            callback: function(response, convo) {
-                convo.say('*Phew!*');
-                convo.next();
+
+        // find !channel or !group and translate them into message.channel
+        for (var i = 0; i < list.length; i++) {
+            if (list[i] == '!channel' || list[i] == '!group') {
+                list[i] = '#' + message.channel;
+            } else if (list[i] == 'me' || list[i] == 'myself') {
+                list[i] = '@' + message.user;
             }
         }
-        ]);
+
+        cb(uniq(list));
+    };
+
+
+
+
+controller.on('interactive_message_callback', function(bot, trigger) {
+
+    if (trigger.actions[0].name.match(/^action\:/)) {
+        controller.trigger(trigger.actions[0].name, [bot, trigger]);
+    } else if (trigger.actions[0].name.match(/^say\:/)) {
+        var message = {
+            user: trigger.user,
+            channel: trigger.channel,
+            text: trigger.actions[0].value,
+            type: 'message',
+        };
+
+        var reply = trigger.original_message;
+
+        reply.attachments = [
+            {
+                text: 'You said, ' + message.text,
+            }
+        ];
+
+        bot.replyInteractive(trigger, reply)
+
+        controller.receiveMessage(bot, message);
+    } else {
+        console.log('GOT BUTTON CLICK', trigger);
+    }
+
+});
+
+
+controller.on('direct_message,direct_mention,mention', function(bot, message) {
+    controller.triggerConversation(bot, message).then(function(convo) {
+        console.log(convo.status);
+    }).catch(function(err) {
+        bot.reply(message, 'I experienced an error: ' + err);
     });
 });
 
 
-controller.hears(['uptime', 'identify yourself', 'who are you', 'what is your name'],
-    'direct_message,direct_mention,mention', function(bot, message) {
+controller.before('run', function(convo, next) {
 
-        var hostname = os.hostname();
-        var uptime = formatUptime(process.uptime());
+    controller.getRemoteCommands(convo.task.bot).then(function(commands) {
 
-        bot.reply(message,
-            ':robot_face: I am a bot named <@' + bot.identity.name +
-             '>. I have been running for ' + uptime + ' on ' + hostname + '.');
+        convo.setVar('scripts',commands);
+
+        next();
+
+    }).catch(function(err) {
+
+        convo.changeTopic('error_loading_scripts');
+        next();
 
     });
 
-function formatUptime(uptime) {
-    var unit = 'second';
-    if (uptime > 60) {
-        uptime = uptime / 60;
-        unit = 'minute';
-    }
-    if (uptime > 60) {
-        uptime = uptime / 60;
-        unit = 'hour';
-    }
-    if (uptime != 1) {
-        unit = unit + 's';
+}).human('run', function(convo, next) {
+
+    console.log('Validate script selection');
+    var responses = convo.extractResponses();
+
+    if (responses.script) {
+        // validate this script
+        var found = false;
+        var matches = [];
+        for (var s = 0; s < convo.vars.scripts.length; s++) {
+            if (responses.script == convo.vars.scripts[s].command) {
+                found = true;
+            } else if (convo.vars.scripts[s].command.match(new RegExp(responses.script,'i'))) {
+                matches.push(convo.vars.scripts[s]);
+            }
+        }
+
+
+        if (!found) {
+            if (matches.length) {
+                convo.setVar('possible_matches',matches);
+                convo.changeTopic('choose_script');
+            } else {
+                convo.changeTopic('bad_script');
+            }
+            return next();
+        }
+    } else {
+        console.log('no script set yet');
     }
 
-    uptime = uptime + ' ' + unit;
-    return uptime;
-}
+    next();
+
+}).human('run', function(convo, next) {
+
+    console.log('Validating participants');
+    var responses = convo.extractResponses();
+    if (responses.participants) {
+
+        getListOfEntitiesInMessage(convo.task.bot, {
+            text: responses.participants,
+            user: convo.source_message.user,
+            channel: convo.source_message.channel,
+        }, function(list) {
+
+            console.log('GOT A LIST OF ENTITIES', list);
+
+            if (!list || !list.length) {
+
+                convo.changeTopic('bad_participants');
+                return next();
+
+            } else {
+                next();
+            }
+
+        });
+
+    } else {
+        next();
+    }
+
+}).before('run', function(convo, next) {
+
+    next();
+
+});
+
+
+controller.before('hello', function(convo, next) {
+
+    console.log('RUNNING BEFORE HOOK!');
+    convo.setVar('hook', 'FOO!!!');
+    next();
+
+}).before('hello', function(convo, next) {
+
+    console.log('RUNNING BEFORE HOOK!');
+    convo.setVar('hook2', 'BAR!!!');
+    convo.setVar('list', [{name: 'foo'},{name:'bar'}]);
+
+    next();
+
+}).after('hello', function(convo, next) {
+
+    console.log('run after hook');
+    console.log(convo.extractResponses());
+    next();
+
+});
+
+
+
+controller.storage.teams.all(function(err,teams) {
+
+  if (err) {
+    throw new Error(err);
+  }
+
+  // connect all teams with bots up to slack!
+  for (var t  in teams) {
+    if (teams[t].bot) {
+      controller.spawn(teams[t]).startRTM(function(err, bot) {
+        if (err) {
+          console.log('Error connecting bot to Slack:',err);
+        }
+      });
+    }
+  }
+
+});
