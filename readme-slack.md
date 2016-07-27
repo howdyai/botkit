@@ -578,7 +578,7 @@ var controller = Botkit.slackbot();
 controller.configureSlackApp({
   clientId: process.env.clientId,
   clientSecret: process.env.clientSecret,
-  redirectUri: 'http://localhost:3002',
+  redirectUri: 'http://107.170.21.178:3002',
   scopes: ['incoming-webhook','team:read','users:read','channels:read','im:read','im:write','groups:read','emoji:read','chat:write:bot']
 });
 

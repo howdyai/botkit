@@ -27,7 +27,13 @@ This bot demonstrates many of the core features of Botkit:
 
     page_token=<MY PAGE TOKEN> verify_token=<MY_VERIFY_TOKEN> node facebook_bot.js [--lt [--ltsubdomain LOCALTUNNEL_SUBDOMAIN]]
 
+<<<<<<< HEAD:willow/facebook_bot.js
+  Use localtunnel.me to make your bot available on the web:
+
+    lt --port 8081
+=======
   Use the --lt option to make your bot available on the web through localtunnel.me.
+>>>>>>> 002da9c82b1333cdbe964ed874bd29403f3d9124:facebook_bot.js
 
 # USE THE BOT:
 
@@ -64,19 +70,25 @@ This bot demonstrates many of the core features of Botkit:
     -> http://howdy.ai/botkit
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
+require('dotenv').config();
 
 
-if (!process.env.page_token) {
+/*if (!process.env.PAGE_TOKEN) {
     console.log('Error: Specify page_token in environment');
     process.exit(1);
 }
 
-if (!process.env.verify_token) {
+if (!process.env.VERIFY_TOKEN) {
     console.log('Error: Specify verify_token in environment');
     process.exit(1);
-}
+}*/
 
+<<<<<<< HEAD:willow/facebook_bot.js
+
+var Botkit = require('../lib/Botkit.js');
+=======
 var Botkit = require('./lib/Botkit.js');
+>>>>>>> 002da9c82b1333cdbe964ed874bd29403f3d9124:facebook_bot.js
 var os = require('os');
 var commandLineArgs = require('command-line-args');
 var localtunnel = require('localtunnel');
@@ -96,15 +108,17 @@ if(ops.lt === false && ops.ltsubdomain !== null) {
 }
 
 var controller = Botkit.facebookbot({
-    debug: true,
-    access_token: process.env.page_token,
-    verify_token: process.env.verify_token,
+    debug: false,
+    access_token: 'EAADXmpOGmZBQBAFZBq02j4QbdEkEGp6G9bZAYjKJielJusP9zkeXHPyEOXqiCLXQUZCZClGxEeBL5n1ZA5ybAJFChpUfRZARZCZAMBvXM25zvQxP3vpUS8eZA5Oo3m8qtyfQLFfflyyIG1H0L89OIBTKJUZCeuNrNFDqNqo0c3KWiFcPQZDZD',//process.env.PAGE_TOKEN,
+    verify_token: 'fishisokay'//process.env.VERIFY_TOKEN,
 });
 
 var bot = controller.spawn({
 });
 
-controller.setupWebserver(process.env.port || 3000, function(err, webserver) {
+controller.setupWebserver(process.env.port || 3003, function(err, webserver) {
+    console.log('Setting Up Webserver');
+    console.log("Im here");
     controller.createWebhookEndpoints(webserver, bot, function() {
         console.log('ONLINE!');
         if(ops.lt) {
@@ -126,6 +140,12 @@ controller.setupWebserver(process.env.port || 3000, function(err, webserver) {
 
 
 controller.hears(['hello', 'hi'], 'message_received', function(bot, message) {
+<<<<<<< HEAD:willow/facebook_bot.js
+
+    console.log(message);
+
+=======
+>>>>>>> 002da9c82b1333cdbe964ed874bd29403f3d9124:facebook_bot.js
     controller.storage.users.get(message.user, function(err, user) {
         if (user && user.name) {
             bot.reply(message, 'Hello ' + user.name + '!!');
@@ -300,7 +320,7 @@ controller.hears(['shutdown'], 'message_received', function(bot, message) {
                     convo.next();
                     setTimeout(function() {
                         process.exit();
-                    }, 3000);
+                    }, 8081);
                 }
             },
         {

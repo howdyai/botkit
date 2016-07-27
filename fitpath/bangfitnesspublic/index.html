@@ -1,0 +1,34 @@
+<!doctype html>
+<html>
+<body>
+  <script>
+    window.fbAsyncInit = function () {
+      FB.init({
+        appId: '268481786868048',
+        xfbml: true,
+        version: 'v2.7'
+      });
+    };
+
+    (function (d, s, id) {
+      var js, fjs = d.getElementsByTagName(s)[0];
+      if (d.getElementById(id)) { return; }
+      js = d.createElement(s); js.id = id;
+      js.src = "//connect.facebook.net/en_US/sdk.js";
+      fjs.parentNode.insertBefore(js, fjs);
+    }(document, 'script', 'facebook-jssdk'));
+  </script>
+
+  <h1>Bang Fitness</h1>
+  <p>
+    Lorem ipsum stuff and things
+  </p>
+
+  <div class="fb-send-to-messenger"
+    messenger_app_id="268481786868048"
+    page_id="1121892414523868"
+    color="blue"
+    size="standard">
+  </div>
+</body>
+</html>

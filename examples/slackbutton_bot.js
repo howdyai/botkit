@@ -11,12 +11,12 @@ This is a sample Slack Button application that adds a bot to one or many slack t
 # RUN THE APP:
   Create a Slack app. Make sure to configure the bot user!
     -> https://api.slack.com/applications/new
-    -> Add the Redirect URI: http://localhost:3000/oauth
+    -> Add the Redirect URI: http://107.170.21.178:8081/oauth
   Run your bot from the command line:
-    clientId=<my client id> clientSecret=<my client secret> port=3000 node slackbutton_bot.js
+    clientId=<my client id> clientSecret=<my client secret> port=8081 node slackbutton_bot.js
 # USE THE APP
   Add the app to your Slack by visiting the login page:
-    -> http://localhost:3000/login
+    -> http://107.170.21.178:8081/login
   After you've added the app, try talking to your bot!
 # EXTEND THE APP:
   Botkit has many features for building cool and useful bots!

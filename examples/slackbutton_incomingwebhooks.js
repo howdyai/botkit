@@ -23,13 +23,13 @@ This bot demonstrates many of the core features of Botkit:
 
   Run your bot from the command line:
 
-    clientId=<my client id> clientSecret=<my client secret> port=3000 node bot.js
+    clientId=<my client id> clientSecret=<my client secret> port=8081 node bot.js
 
 # USE THE APP
 
   Add the app to your Slack by visiting the login page:
 
-    -> http://localhost:3000/login
+    -> http://107.170.21.178:8081/login
 
   After you've added the app, send a message using the SUPER INSECURE FORM.
   This form is included as an example only, and should definitely not be
@@ -37,7 +37,7 @@ This bot demonstrates many of the core features of Botkit:
 
   Send a message to every team who has added your sample app:
 
-    -> http://localhost:3000/
+    -> http://107.170.21.178:8081/
 
 
 # EXTEND THE APP:

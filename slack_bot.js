@@ -199,7 +199,7 @@ controller.hears(['shutdown'], 'direct_message,direct_mention,mention', function
                     convo.next();
                     setTimeout(function() {
                         process.exit();
-                    }, 3000);
+                    }, 8081);
                 }
             },
         {

@@ -14,7 +14,7 @@ var mongodb = require('mongodb');
 var sentiment = require('sentiment');
 
 function connectToDb() {
-    mongodb.MongoClient.connect('mongodb://localhost:27017/sentiment', function (err, db) {
+    mongodb.MongoClient.connect('mongodb://107.170.21.178:27017/sentiment', function (err, db) {
         if (err) {
             throw err;
         }
