@@ -462,6 +462,32 @@ slash commands also support private, and delayed messages. See below.
 | reply | reply message (string or object)
 | callback | optional callback
 
+#### bot.replyAndUpdate()
+
+| Argument | Description
+|---  |---
+| src | source message as received from slash or webhook
+| reply | reply message that might get updated (string or object)
+| callback | optional asynchronous callback that performs a task and updates the reply message
+
+Sending a message, performing a task and then updating the sent message based on the result of that task is made simple with this method:
+
+> **Note**: For the best user experience, try not to use this method to indicate bot activity. Instead, use `bot.startTyping`.
+
+```javascript
+// fixing a typo
+controller.hears('hello', ['ambient'], function(bot, msg) {
+  // send a message back: "hellp"
+  bot.replyAndUpdate(msg, 'hellp', function(err, updateResponse) {
+    if (error) console.error(err);
+    // oh no, "hellp" is a typo - let's update the message to "hello"
+    updateResponse('hello', function(err) {
+      console.error(err)
+    });
+  });
+});
+```
+
 
 
 ### Using the Slack Web API
@@ -652,7 +678,7 @@ controller.hears('interactive', 'direct_message', function(bot, message) {
                 ]
             }
         ]
-    });    
+    });
 });
 ```
 
@@ -752,7 +778,7 @@ bot.startConversation(message, function(err, convo) {
                 convo.next();
             }
         },
-        {   
+        {
             default: true,
             callback: function(reply, convo) {
                 // do nothing
