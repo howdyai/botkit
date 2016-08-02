@@ -122,7 +122,7 @@ on the `controller` object.
 
 
 ```javascript
-var Botkit = require('Botkit');
+var Botkit = require('botkit');
 
 var controller = Botkit.slackbot();
 
@@ -149,7 +149,7 @@ but not completely tear down the worker.
 
 
 ```javascript
-var Botkit = require('Botkit');
+var Botkit = require('botkit');
 var controller = Botkit.slackbot();
 var bot = controller.spawn({
   token: my_slack_bot_token
