@@ -596,18 +596,13 @@ controller.setupWebserver(process.env.port,function(err,webserver) {
 
 ### How to identify what team your message came from
 ```javascript
-bot.identifyTeam(function(err,team_id) {
-
-})
+var team = bot.identifyTeam() // returns team id
 ```
 
 
 ### How to identify the bot itself (for RTM only)
 ```javascript
-bot.identifyBot(function(err,identity) {
-  // identity contains...
-  // {name, id, team_id}
-})
+var identity = bot.identifyBot() // returns object with {name, id, team_id}
 ```
 
 
