@@ -862,7 +862,7 @@ var controller = Botkit.slackbot({
 ##Use BotKit with an Express web server
 Instead of controller.setupWebserver(), it is possible to use a different web server to manage authentication flows, as well as serving web pages.
 
-Here is an example of [using an Express web server alongside BotKit](https://github.com/mvaragnat/botkit-express-demo).
+Here is an example of [using an Express web server alongside Botkit](https://github.com/mvaragnat/botkit-express-demo).
 
 # Chat with us at dev4slack.slack.com
 You can get an invite here: http://dev4slack.xoxco.com/.
