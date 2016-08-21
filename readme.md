@@ -58,7 +58,7 @@ If you intent to create a bot that lives inside a Twilio IP Messaging client, [f
 
 Bots built with Botkit have a few key capabilities, which can be used to create clever, conversational applications. These capabilities map to the way real human people talk to each other.
 
-Bots can [hear things](#receiving-messages). Bots can [say things and reply](#sending-messages) to what they hear.
+Bots can [hear things](#receiving-messages), [say things and reply](#sending-messages) to what they hear.
 
 With these two building blocks, almost any type of conversation can be created.
 
@@ -863,7 +863,7 @@ Note: with Winston, we must use the syslog.levels over the default or else some 
 ##Use Botkit with an Express web server
 Instead of controller.setupWebserver(), it is possible to use a different web server to manage authentication flows, as well as serving web pages.
 
-Here is an example of [using an Express web server alongside BotKit](https://github.com/mvaragnat/botkit-express-demo).
+Here is an example of [using an Express web server alongside Botkit](https://github.com/mvaragnat/botkit-express-demo).
 
 # Chat with us at dev4slack.slack.com
 You can get an invite here: http://dev4slack.xoxco.com/.
