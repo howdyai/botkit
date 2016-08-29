@@ -15,6 +15,7 @@ Table of Contents
 * [Facebook-specific Events](#facebook-specific-events)
 * [Working with Facebook Webhooks](#working-with-facebook-messenger)
 * [Using Structured Messages and Postbacks](#using-structured-messages-and-postbacks)
+* [Simulate typing](#simulate-typing)
 * [Running Botkit with an Express server](#use-botkit-for-facebook-messenger-with-an-express-web-server)
 
 ## Getting Started
@@ -194,8 +195,22 @@ controller.on('facebook_postback', function(bot, message) {
 });
 ```
 
+## Simulate typing
+To make it a bit more realistic, you can trigger a "user is typing" signal (shown in Messenger as a bubble with 3 animated dots) by using the following convenience methods.
+
+```javascript
+bot.startTyping(message, function () {
+  // do something here, the "is typing" animation is visible
+});
+
+bot.stopTyping(message, function () {
+  // do something here, the "is typing" animation is not visible
+});
+
+bot.replyWithTyping(message, 'Hello there, my friend!');
+```
+
 ## Use BotKit for Facebook Messenger with an Express web server
 Instead of the web server generated with setupWebserver(), it is possible to use a different web server to receive webhooks, as well as serving web pages.
 
 Here is an example of [using an Express web server alongside BotKit for Facebook Messenger](https://github.com/mvaragnat/botkit-messenger-express-demo).
-
