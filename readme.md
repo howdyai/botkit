@@ -19,8 +19,7 @@ Botkit features a comprehensive set of tools to deal with popular messaging plat
 
 Botkit is available via NPM.
 
-```
-bash
+```bash
 npm install --save botkit
 ```
 
@@ -59,7 +58,7 @@ If you intent to create a bot that lives inside a Twilio IP Messaging client, [f
 
 Bots built with Botkit have a few key capabilities, which can be used to create clever, conversational applications. These capabilities map to the way real human people talk to each other.
 
-Bots can [hear things](#receiving-messages). Bots can [say things and reply](#sending-messages) to what they hear.
+Bots can [hear things](#receiving-messages), [say things and reply](#sending-messages) to what they hear.
 
 With these two building blocks, almost any type of conversation can be created.
 
@@ -108,7 +107,7 @@ This sample bot listens for the word "hello" to be said to it -- either as a dir
 The Botkit constructor returns a `controller` object. By attaching event handlers
 to the controller object, developers can specify what their bot should look for and respond to,
 including keywords, patterns and various [messaging and status events](#responding-to-events).
-These event handlers can be thought of metaphorically as skills or features the robot brain has -- each event handler defines a new "When a human say THIS the bot does THAT."
+These event handlers can be thought of metaphorically as skills or features the robot brain has -- each event handler defines a new "When a human says THIS the bot does THAT."
 
 The `controller` object is then used to `spawn()` bot instances that represent
 a specific bot identity and connection to Slack. Once spawned and connected to
@@ -552,7 +551,7 @@ One way to have multi-stage conversations is with multiple functions
 which call each other. Each function asks just one question. Example:
 
 ```javascript
-controller.hears(['pizzatime'], 'message_recieved', function(bot,message) {
+controller.hears(['pizzatime'], 'message_received', function(bot,message) {
     askFlavor = function(response, convo) {
       convo.ask('What flavor of pizza do you want?', function(response, convo) {
         convo.say('Awesome.');
@@ -850,6 +849,7 @@ Then, use it when you create your bot:
 ```javascript
 var controller = Botkit.slackbot({
   logger: new winston.Logger({
+    levels: winston.config.syslog.levels
     transports: [
       new (winston.transports.Console)(),
       new (winston.transports.File)({ filename: './bot.log' })
@@ -858,11 +858,12 @@ var controller = Botkit.slackbot({
 });
 ```
 
+Note: with Winston, we must use the syslog.levels over the default or else some botkit log messages (like 'notice') will not be logged properly.  
 
-##Use BotKit with an Express web server
+##Use Botkit with an Express web server
 Instead of controller.setupWebserver(), it is possible to use a different web server to manage authentication flows, as well as serving web pages.
 
-Here is an example of [using an Express web server alongside BotKit](https://github.com/mvaragnat/botkit-express-demo).
+Here is an example of [using an Express web server alongside Botkit](https://github.com/mvaragnat/botkit-express-demo).
 
 # Chat with us at dev4slack.slack.com
 You can get an invite here: http://dev4slack.xoxco.com/.

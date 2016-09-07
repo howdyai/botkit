@@ -17,6 +17,7 @@ Table of Contents
 * [Slack-specific Events](#slack-specific-events)
 * [Working with Slack Custom Integrations](#working-with-slack-integrations)
 * [Using the Slack Button](#use-the-slack-button)
+* [Message Buttons](#message-buttons)
 
 ---
 ## Getting Started
@@ -121,7 +122,7 @@ on the `controller` object.
 
 
 ```javascript
-var Botkit = require('Botkit');
+var Botkit = require('botkit');
 
 var controller = Botkit.slackbot();
 
@@ -148,7 +149,7 @@ but not completely tear down the worker.
 
 
 ```javascript
-var Botkit = require('Botkit');
+var Botkit = require('botkit');
 var controller = Botkit.slackbot();
 var bot = controller.spawn({
   token: my_slack_bot_token
@@ -461,6 +462,32 @@ slash commands also support private, and delayed messages. See below.
 | reply | reply message (string or object)
 | callback | optional callback
 
+#### bot.replyAndUpdate()
+
+| Argument | Description
+|---  |---
+| src | source message as received from slash or webhook
+| reply | reply message that might get updated (string or object)
+| callback | optional asynchronous callback that performs a task and updates the reply message
+
+Sending a message, performing a task and then updating the sent message based on the result of that task is made simple with this method:
+
+> **Note**: For the best user experience, try not to use this method to indicate bot activity. Instead, use `bot.startTyping`.
+
+```javascript
+// fixing a typo
+controller.hears('hello', ['ambient'], function(bot, msg) {
+  // send a message back: "hellp"
+  bot.replyAndUpdate(msg, 'hellp', function(err, src, updateResponse) {
+    if (error) console.error(err);
+    // oh no, "hellp" is a typo - let's update the message to "hello"
+    updateResponse('hello', function(err) {
+      console.error(err)
+    });
+  });
+});
+```
+
 
 
 ### Using the Slack Web API
@@ -468,7 +495,7 @@ slash commands also support private, and delayed messages. See below.
 All (or nearly all - they change constantly!) of Slack's current web api methods are supported
 using a syntax designed to match the endpoints themselves.
 
-If your bot has the appropriate scope, it may call [any of these method](https://api.slack.com/methods) using this syntax:
+If your bot has the appropriate scope, it may call [any of these methods](https://api.slack.com/methods) using this syntax:
 
 ```javascript
 bot.api.channels.list({},function(err,response) {
@@ -569,18 +596,13 @@ controller.setupWebserver(process.env.port,function(err,webserver) {
 
 ### How to identify what team your message came from
 ```javascript
-bot.identifyTeam(function(err,team_id) {
-
-})
+var team = bot.identifyTeam() // returns team id
 ```
 
 
 ### How to identify the bot itself (for RTM only)
 ```javascript
-bot.identifyBot(function(err,identity) {
-  // identity contains...
-  // {name, id, team_id}
-})
+var identity = bot.identifyBot() // returns object with {name, id, team_id}
 ```
 
 
@@ -595,3 +617,168 @@ bot.identifyBot(function(err,identity) {
 | create_user |
 | update_user |
 | oauth_error |
+
+
+## Message Buttons
+
+Slack applications can use "message buttons" or "interactive messages" to include buttons inside attachments. [Read the official Slack documentation here](https://api.slack.com/docs/message-buttons)
+
+Interactive messages can be sent via any of Botkit's built in functions by passing in
+the appropriate attachment as part of the message. When users click the buttons in Slack,
+Botkit triggers an `interactive_message_callback` event.
+
+When an `interactive_message_callback` is received, your bot can either reply with a new message, or use the special `bot.replyInteractive` function which will result in the original message in Slack being _replaced_ by the reply. Using `replyInteractive`, bots can present dynamic interfaces inside a single message.
+
+In order to use interactive messages, your bot will have to be [registered as a Slack application](https://api.slack.com/apps), and will have to use the Slack button authentication system.
+To receive callbacks, register a callback url as part of applications configuration. Botkit's built in support for the Slack Button system supports interactive message callbacks at the url `https://_your_server_/slack/receive` Note that Slack requires this url to be secured with https.
+
+During development, a tool such as [localtunnel.me](http://localtunnel.me) is useful for temporarily exposing a compatible webhook url to Slack while running Botkit privately.
+
+```
+// set up a botkit app to expose oauth and webhook endpoints
+controller.setupWebserver(process.env.port,function(err,webserver) {
+
+  // set up web endpoints for oauth, receiving webhooks, etc.
+  controller
+    .createHomepageEndpoint(controller.webserver)
+    .createOauthEndpoints(controller.webserver,function(err,req,res) { ... })
+    .createWebhookEndpoints(controller.webserver);
+
+});
+```
+
+### Send an interactive message
+```
+controller.hears('interactive', 'direct_message', function(bot, message) {
+
+    bot.reply(message, {
+        attachments:[
+            {
+                title: 'Do you want to interact with my buttons?',
+                callback_id: '123',
+                attachment_type: 'default',
+                actions: [
+                    {
+                        "name":"yes",
+                        "text": "Yes",
+                        "value": "yes",
+                        "type": "button",
+                    },
+                    {
+                        "name":"no",
+                        "text": "No",
+                        "value": "no",
+                        "type": "button",
+                    }
+                ]
+            }
+        ]
+    });
+});
+```
+
+### Receive an interactive message callback
+
+```
+// receive an interactive message, and reply with a message that will replace the original
+controller.on('interactive_message_callback', function(bot, message) {
+
+    // check message.actions and message.callback_id to see what action to take...
+
+    bot.replyInteractive(message, {
+        text: '...',
+        attachments: [
+            {
+                title: 'My buttons',
+                callback_id: '123',
+                attachment_type: 'default',
+                actions: [
+                    {
+                        "name":"yes",
+                        "text": "Yes!",
+                        "value": "yes",
+                        "type": "button",
+                    },
+                    {
+                       "text": "No!",
+                        "name": "no",
+                        "value": "delete",
+                        "style": "danger",
+                        "type": "button",
+                        "confirm": {
+                          "title": "Are you sure?",
+                          "text": "This will do something!",
+                          "ok_text": "Yes",
+                          "dismiss_text": "No"
+                        }
+                    }
+                ]
+            }
+        ]
+    });
+
+});
+```
+
+### Using Interactive Messages in Conversations
+
+It is possible to use interactive messages in conversations, with the `convo.ask` function.
+In order to do this, you must instantiate your Botkit controller with the `interactive_replies` option set to `true`:
+
+```
+var controller = Botkit.slackbot({interactive_replies: true});
+```
+
+This will cause Botkit to pass all interactive_message_callback messages into the normal conversation
+system. When used in conjunction with `convo.ask`, expect the response text to match the button `value` field.
+
+```
+bot.startConversation(message, function(err, convo) {
+
+    convo.ask({
+        attachments:[
+            {
+                title: 'Do you want to proceed?',
+                callback_id: '123',
+                attachment_type: 'default',
+                actions: [
+                    {
+                        "name":"yes",
+                        "text": "Yes",
+                        "value": "yes",
+                        "type": "button",
+                    },
+                    {
+                        "name":"no",
+                        "text": "No",
+                        "value": "no",
+                        "type": "button",
+                    }
+                ]
+            }
+        ]
+    },[
+        {
+            pattern: "yes",
+            callback: function(reply, convo) {
+                convo.say('FABULOUS!');
+                convo.next();
+                // do something awesome here.
+            }
+        },
+        {
+            pattern: "no",
+            callback: function(reply, convo) {
+                convo.say('Too bad');
+                convo.next();
+            }
+        },
+        {
+            default: true,
+            callback: function(reply, convo) {
+                // do nothing
+            }
+        }
+    ]);
+});
+```
