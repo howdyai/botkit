@@ -37,7 +37,7 @@ This bot demonstrates many of the core features of Botkit:
 
   Say: "who are you?"
 
-  The bot will tell you its name, where it running, and for how long.
+  The bot will tell you its name, where it is running, and for how long.
 
   Say: "Call me <nickname>"
 
@@ -73,7 +73,7 @@ var Botkit = require('./lib/Botkit.js');
 var os = require('os');
 
 var controller = Botkit.slackbot({
-    debug: true,
+    debug: true
 });
 
 var bot = controller.spawn({

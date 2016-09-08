@@ -1,5 +1,17 @@
 # Change Log
 
+## 0.2.2
+
+Add support for Slack Interactive Messages.
+
+Add example of Slack button application that provides a bot that uses interactive messages.
+
+New functionality in Slack bot: Botkit will track spawned Slack bots and route incoming webhooks to pre-existing RTM bots. This enables RTM bots to reply to interactive messages and slash commands.
+
+## 0.2.1
+
+Improves Slack RTM reconnects thanks to @selfcontained [PR #274](https://github.com/howdyai/botkit/pull/274)
+
 ## 0.2
 
 Adds support for Twilio IP Messenging bots
