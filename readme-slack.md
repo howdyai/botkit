@@ -122,7 +122,7 @@ on the `controller` object.
 
 
 ```javascript
-var Botkit = require('Botkit');
+var Botkit = require('botkit');
 
 var controller = Botkit.slackbot();
 
@@ -149,7 +149,7 @@ but not completely tear down the worker.
 
 
 ```javascript
-var Botkit = require('Botkit');
+var Botkit = require('botkit');
 var controller = Botkit.slackbot();
 var bot = controller.spawn({
   token: my_slack_bot_token
@@ -462,6 +462,32 @@ slash commands also support private, and delayed messages. See below.
 | reply | reply message (string or object)
 | callback | optional callback
 
+#### bot.replyAndUpdate()
+
+| Argument | Description
+|---  |---
+| src | source message as received from slash or webhook
+| reply | reply message that might get updated (string or object)
+| callback | optional asynchronous callback that performs a task and updates the reply message
+
+Sending a message, performing a task and then updating the sent message based on the result of that task is made simple with this method:
+
+> **Note**: For the best user experience, try not to use this method to indicate bot activity. Instead, use `bot.startTyping`.
+
+```javascript
+// fixing a typo
+controller.hears('hello', ['ambient'], function(bot, msg) {
+  // send a message back: "hellp"
+  bot.replyAndUpdate(msg, 'hellp', function(err, src, updateResponse) {
+    if (error) console.error(err);
+    // oh no, "hellp" is a typo - let's update the message to "hello"
+    updateResponse('hello', function(err) {
+      console.error(err)
+    });
+  });
+});
+```
+
 
 
 ### Using the Slack Web API
@@ -469,7 +495,7 @@ slash commands also support private, and delayed messages. See below.
 All (or nearly all - they change constantly!) of Slack's current web api methods are supported
 using a syntax designed to match the endpoints themselves.
 
-If your bot has the appropriate scope, it may call [any of these method](https://api.slack.com/methods) using this syntax:
+If your bot has the appropriate scope, it may call [any of these methods](https://api.slack.com/methods) using this syntax:
 
 ```javascript
 bot.api.channels.list({},function(err,response) {
@@ -570,18 +596,13 @@ controller.setupWebserver(process.env.port,function(err,webserver) {
 
 ### How to identify what team your message came from
 ```javascript
-bot.identifyTeam(function(err,team_id) {
-
-})
+var team = bot.identifyTeam() // returns team id
 ```
 
 
 ### How to identify the bot itself (for RTM only)
 ```javascript
-bot.identifyBot(function(err,identity) {
-  // identity contains...
-  // {name, id, team_id}
-})
+var identity = bot.identifyBot() // returns object with {name, id, team_id}
 ```
 
 
@@ -652,7 +673,7 @@ controller.hears('interactive', 'direct_message', function(bot, message) {
                 ]
             }
         ]
-    });    
+    });
 });
 ```
 
@@ -752,7 +773,7 @@ bot.startConversation(message, function(err, convo) {
                 convo.next();
             }
         },
-        {   
+        {
             default: true,
             callback: function(reply, convo) {
                 // do nothing
