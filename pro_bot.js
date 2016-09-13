@@ -194,7 +194,7 @@ controller.on('interactive_message_callback', function(bot, trigger) {
 
 
 controller.on('direct_message,direct_mention,mention', function(bot, message) {
-    controller.runTrigger(bot, message).then(function(convo) {
+    controller.studio.runTrigger(bot, message).then(function(convo) {
         console.log(convo.status);
     }).catch(function(err) {
         bot.reply(message, 'I experienced an error: ' + err);
@@ -202,7 +202,7 @@ controller.on('direct_message,direct_mention,mention', function(bot, message) {
 });
 
 
-controller.before('run', function(convo, next) {
+controller.studio.before('run', function(convo, next) {
 
     controller.getScripts(convo.task.bot).then(function(commands) {
 
@@ -286,7 +286,7 @@ controller.before('run', function(convo, next) {
 });
 
 
-controller.before('hello', function(convo, next) {
+controller.studio.before('hello', function(convo, next) {
 
     console.log('RUNNING BEFORE HOOK!');
     convo.setVar('hook', 'FOO!!!');
@@ -309,22 +309,22 @@ controller.before('hello', function(convo, next) {
 });
 
 
-
-controller.storage.teams.all(function(err,teams) {
-
-  if (err) {
-    throw new Error(err);
-  }
-
-  // connect all teams with bots up to slack!
-  for (var t  in teams) {
-    if (teams[t].bot) {
-      controller.spawn(teams[t]).startRTM(function(err, bot) {
-        if (err) {
-          console.log('Error connecting bot to Slack:',err);
-        }
-      });
-    }
-  }
-
-});
+//
+// controller.storage.teams.all(function(err,teams) {
+//
+//   if (err) {
+//     throw new Error(err);
+//   }
+//
+//   // connect all teams with bots up to slack!
+//   for (var t  in teams) {
+//     if (teams[t].bot) {
+//       controller.spawn(teams[t]).startRTM(function(err, bot) {
+//         if (err) {
+//           console.log('Error connecting bot to Slack:',err);
+//         }
+//       });
+//     }
+//   }
+//
+// });
