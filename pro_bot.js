@@ -78,42 +78,42 @@ var controller = Botkit.slackbot({
     json_file_store: './db'
 });
 
-controller.configureSlackApp({
-    clientId: '2151250279.61939261125',
-    clientSecret: '4a80e469c74d387c6fa2285079f683d6',
-    redirectUri: 'https://botkit.localtunnel.me/oauth',
-    scopes: ['bot'],
-});
-
-
-
-controller.setupWebserver(4000,function(err,webserver) {
-  controller.createWebhookEndpoints(controller.webserver);
-
-  controller.createOauthEndpoints(controller.webserver,function(err,req,res) {
-    if (err) {
-      res.status(500).send('ERROR: ' + err);
-    } else {
-      res.send('Success!');
-    }
-  });
-});
-
-controller.on('create_bot',function(bot,config) {
-
-    bot.startRTM(function(err) {
-
-
-    });
-
-});
+// controller.configureSlackApp({
+//     clientId: '2151250279.61939261125',
+//     clientSecret: '4a80e469c74d387c6fa2285079f683d6',
+//     redirectUri: 'https://botkit.localtunnel.me/oauth',
+//     scopes: ['bot'],
+// });
+//
+//
+//
+// controller.setupWebserver(4000,function(err,webserver) {
+//   controller.createWebhookEndpoints(controller.webserver);
+//
+//   controller.createOauthEndpoints(controller.webserver,function(err,req,res) {
+//     if (err) {
+//       res.status(500).send('ERROR: ' + err);
+//     } else {
+//       res.send('Success!');
+//     }
+//   });
+// });
+//
+// controller.on('create_bot',function(bot,config) {
+//
+//     bot.startRTM(function(err) {
+//
+//
+//     });
+//
+// });
 
 //
-// var bot = controller.spawn({
-//     token: process.env.token,
-//     howdy_token: process.env.howdy_token,
-//     howdy_bot_id: process.env.howdy_bot_id
-// }).startRTM();
+var bot = controller.spawn({
+    token: process.env.token,
+    howdy_token: process.env.howdy_token,
+    howdy_bot_id: process.env.howdy_bot_id
+}).startRTM();
 
 
 
@@ -194,7 +194,7 @@ controller.on('interactive_message_callback', function(bot, trigger) {
 
 
 controller.on('direct_message,direct_mention,mention', function(bot, message) {
-    controller.triggerConversation(bot, message).then(function(convo) {
+    controller.runTrigger(bot, message).then(function(convo) {
         console.log(convo.status);
     }).catch(function(err) {
         bot.reply(message, 'I experienced an error: ' + err);
@@ -204,7 +204,7 @@ controller.on('direct_message,direct_mention,mention', function(bot, message) {
 
 controller.before('run', function(convo, next) {
 
-    controller.getRemoteCommands(convo.task.bot).then(function(commands) {
+    controller.getScripts(convo.task.bot).then(function(commands) {
 
         convo.setVar('scripts',commands);
 
@@ -217,7 +217,7 @@ controller.before('run', function(convo, next) {
 
     });
 
-}).human('run', function(convo, next) {
+}).validate('run', function(convo, next) {
 
     console.log('Validate script selection');
     var responses = convo.extractResponses();
@@ -250,7 +250,7 @@ controller.before('run', function(convo, next) {
 
     next();
 
-}).human('run', function(convo, next) {
+}).validate('run', function(convo, next) {
 
     console.log('Validating participants');
     var responses = convo.extractResponses();
