@@ -552,26 +552,26 @@ which call each other. Each function asks just one question. Example:
 
 ```javascript
 controller.hears(['pizzatime'], 'message_received', function(bot,message) {
-    askFlavor = function(response, convo) {
+    var askFlavor = function(err, convo) {
       convo.ask('What flavor of pizza do you want?', function(response, convo) {
         convo.say('Awesome.');
         askSize(response, convo);
         convo.next();
       });
-    }
-    askSize = function(response, convo) {
+    };
+    var askSize = function(response, convo) {
       convo.ask('What size do you want?', function(response, convo) {
         convo.say('Ok.')
         askWhereDeliver(response, convo);
         convo.next();
       });
-    }
-    askWhereDeliver = function(response, convo) {
+    };
+    var askWhereDeliver = function(response, convo) {
       convo.ask('So where do you want it delivered?', function(response, convo) {
         convo.say('Ok! Good bye.');
         convo.next();
       });
-    }
+    };
 
     bot.startConversation(message, askFlavor);
 });
