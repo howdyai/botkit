@@ -74,7 +74,7 @@ var os = require('os');
 
 var controller = Botkit.slackbot({
     debug: false,
-    howdy_token: process.env.howdy_token,
+    studio_token: process.env.studio_token,
     json_file_store: './db'
 });
 
@@ -111,8 +111,10 @@ var controller = Botkit.slackbot({
 //
 var bot = controller.spawn({
     token: process.env.token,
-    howdy_token: process.env.howdy_token,
-    howdy_bot_id: process.env.howdy_bot_id
+    studio_token: process.env.studio_token,
+    howdy_bot_id: process.env.howdy_bot_id,
+    studio_command_uri: process.env.cmd_uri || 'https://api.botkit.ai',
+    studio_stats_uri: process.env.stat_uri || 'https://stats.botkit.ai'
 }).startRTM();
 
 
