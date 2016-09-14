@@ -75,7 +75,9 @@ var os = require('os');
 var controller = Botkit.slackbot({
     debug: false,
     studio_token: process.env.studio_token,
-    json_file_store: './db'
+    json_file_store: './db',
+    studio_command_uri: process.env.cmd_uri || 'https://api.botkit.ai',
+    studio_stats_uri: process.env.stat_uri || 'https://stats.botkit.ai'
 });
 
 // controller.configureSlackApp({
