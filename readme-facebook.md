@@ -194,6 +194,18 @@ controller.on('facebook_postback', function(bot, message) {
 });
 ```
 
+## Typing indicator
+
+Use a message with a sender_action field with "typing_on" to create a typing indicator. The typing indicator lasts 20 seconds, unless you send another message with "typing_off"
+
+```
+var reply_message = {
+  sender_action: "typing_on"
+}
+
+bot.reply(message, reply_message)
+```
+
 ## Use BotKit for Facebook Messenger with an Express web server
 Instead of the web server generated with setupWebserver(), it is possible to use a different web server to receive webhooks, as well as serving web pages.
 
