@@ -78,7 +78,9 @@ var controller = Botkit.slackbot({
 
 var bot = controller.spawn({
     token: process.env.token,
-    howdy_token: process.env.howdy_token,
+    studio_token: process.env.studio_token,
+    studio_command_uri: process.env.cmd_uri || 'https://api.botkit.ai',
+    studio_stats_uri: process.env.stat_uri || 'https://stats.botkit.ai'
     howdy_bot_id: process.env.howdy_bot_id
 });
 
