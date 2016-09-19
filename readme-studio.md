@@ -12,7 +12,7 @@ Select or create a bot you wish to modify, you get one by default.
 Click the 'API' link on the left.
 Copy the contents in the field to the right of 'Use this with Botkit!'.
 Open a Terminal and paste the contents of that field into it.
-Replace _MY SLACK TOKEN_  with the API Token you got from Slack.
+Replace '_MY SLACK TOKEN_'  with the API Token you got from Slack.
 it should look something like this:
 ```
 studio_token=fcfItRK5RtbGzBpnEVO8ygEwse2sOFBmkdkQTAEASNeoYDXQ5heP8pmkHERptvaz token=xoxb-53054538583-GO2vZLYk8qDKmuo8pMzuztKz node .
