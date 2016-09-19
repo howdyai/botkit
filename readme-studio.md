@@ -48,7 +48,7 @@ ___
 ### Using the Before Middleware
 
 The thread begins with a command to your bot: @soupme soup. Using Before Middleware we can fetch the data that will be presented to your user from an external resource. For example, if we want to display a list of soup options, along with a dynamic soup of the day option.
-* Step 1: Create the Command in Botkit Studio
+* Step 1: Create the 'soup' command in Botkit Studio
 * Step 2: write the code in your bot that wraps it. You can use the example:
 ```
 controller.studio.before('soup', function(convo, next){
@@ -61,11 +61,11 @@ controller.studio.before('soup', function(convo, next){
   next();
 });
 ```
-* Assuming we have functions called getDailySpecial, and getMenu, that return some JSON formated menu items we can use ```convo.setvars``` to set it as a variable available to the command.
-* The templating engine uses [mustache](https://mustache.github.io/) and any variables set are accessible in the script editor via vars.
+  * Assuming we have functions called getDailySpecial, and getMenu, that return some JSON formated menu items we can use ```convo.setvars``` to set it as a variable available to the command.
+  * The templating engine uses [mustache](https://mustache.github.io/) and any variables set are accessible in the script editor via vars.
     * For instance those two variables would now be accessible in the script editor as ```{{vars.daily_special}}``` and ```{{vars.soup_menu}}```
     * You can display them using this code in your script.
-The user will be presented with a list of options for the soup of their choice.
+* Step 3: Edit the 'soup' command in the Botkit Studio Script Editor.The user will be presented with a list of options for the soup of their choice.
 
 ### Using the Validate Middleware
 Once a user selects their soup, you will want to validate their choice:
