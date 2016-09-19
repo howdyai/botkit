@@ -90,9 +90,6 @@ blah put more stuff here
 ### convo.changeTopic('target_topic')
 blah put more stuff here
 
-### controller.studio.evaluateTrigger(bot, input_text)
-blah put more stuff here
-
 ### controller.studio.get(bot, text)
 description here
 
