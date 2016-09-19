@@ -62,7 +62,8 @@ controller.studio.before('soup', function(convo, next){
 });
 ```
     * Assuming we have functions called getDailySpecial, and getMenu,
-    that return some JSON formated menu items we can use ```convo.setvars``` to set it as a variable available to the command.
+    that return some JSON formated menu items we can use ```convo.setvars``` to set it as a variable
+    available to the command.
     * The templating engine uses [mustache](https://mustache.github.io/) and any variables set are
     accessible in the script editor via vars.
         * For instance those two variables would now be accessible in the script editor
