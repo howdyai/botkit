@@ -39,20 +39,33 @@ It should respond with the text you changed that script to
 For more on editing scripts see: [link to wherever we are going to have directions on script editor.]
 
 ## Developing with Botkit Studio
+Now that you have your development enviroment setup, you can begin with the task of developing your bot. Soupme is a simple bot that can
+-Read an external list of menu items
+-Ask the praticipant to select from a list of dynamic options 
+-Confirm their choice and provide instructions on how to receive their item.
+
 ___
 ### Using the Before Middleware
-If you wanted to pre-load some data or do something before before a script runs you can use the Before Middleware.
-Below is a simple example:
+
+The thread begins with a command to your bot: @soupme soup. Using Before Middleware we can fetch the data that will be presented to your user from an external resource. For example, if we want to display a list of soup options, along with a dynamic soup of the day option, you can use the example:
+
 ```
 controller.studio.before('run', function(convo, next){
 
   next();
 });
 ```
+Once retrieved, you can display the options using:
+
+The user will be presented with a list of options for the soup of their choice.
 
 ### Using the Validate Middleware
+Once a user selects their soup, you will want to validate their choice:
+
+And present a list of sub-options to determine size:
 
 ### Using the After Middleware
+Then we can confirm with the user that the script has their correct order, and provide instructions on how to retrieve their physical order, using following code:
 
 Should we cover any of the other functionality here?
 
