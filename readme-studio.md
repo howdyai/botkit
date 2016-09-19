@@ -35,17 +35,19 @@ If so you have successfully launched your Slack bot. In Slack send it a direct m
 ___
 Go to https://studio.botkit.ai and log in.
 Click the appropriate bot.
-On the left under 'Commands' click 'hello'.
-On the right where it says 'Hello! This is my hello script. You can edit it to customize my behaviors.' Click there. Edit the text and click 'Save'.
-Now send your bot a direct message saying 'hi'.
-It should respond with the text you changed that script to
+- On the left under 'Commands' click 'hello'.
+- On the right where it says 'Hello! This is my hello script. You can edit it to customize my behaviors.' Click there. Edit the text and click 'Save'.
+- Now send your bot a direct message saying 'hi'.
+- It should respond with the text you changed that script to
 For more on editing scripts see: [link to wherever we are going to have directions on script editor.]
 
 ## Developing with Botkit Studio
-Now that you have your development environment setup, you can begin with the task of developing your bot. Soupme is a simple bot that can
--Read an external list of menu items
--Ask the participant to select from a list of dynamic options
--Confirm their choice and provide instructions on how to receive their item.
+Now that you have your development environment setup, you can begin with the task of developing your bot.
+
+Soupme is a simple bot that can
+- Read an external list of menu items
+- Ask the participant to select from a list of dynamic options
+- Confirm their choice and provide instructions on how to receive their item.
 
 ___
 ### Using the Before Middleware
