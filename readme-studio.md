@@ -15,7 +15,7 @@ Open a Terminal and paste the contents of that field into it.
 Replace _MY SLACK TOKEN_  with the API Token you got from Slack.
 it should look something like this:
 ```
-studio_token=fcfItRK5RtbGzBpnEVO8ygEwse2sOFBmkdkQTAEASNeoYDXQ5heP8pmkHERptvaz token=xoxb-53054538583-GO2vZLYk8qDKmuo8pMzuztKz node pro_bot.js
+studio_token=fcfItRK5RtbGzBpnEVO8ygEwse2sOFBmkdkQTAEASNeoYDXQ5heP8pmkHERptvaz token=xoxb-53054538583-GO2vZLYk8qDKmuo8pMzuztKz node .
 ```
 Execute the Terminal command line.
 You should recieve some feedback that looks like this
@@ -63,7 +63,7 @@ controller.studio.before('soup', function(convo, next){
 ```
 * Assuming we have functions called getDailySpecial, and getMenu, that return some JSON formated menu items we can use ```convo.setvars``` to set it as a variable available to the command.
 * The templating engine uses [mustache](https://mustache.github.io/) and any variables set are accessible in the script editor via vars.
-** For instance those two variables would now be accessible in the script editor as ```{{vars.daily_special}}``` and ```{{vars.soup_menu}}```
+.. For instance those two variables would now be accessible in the script editor as ```{{vars.daily_special}}``` and ```{{vars.soup_menu}}```
 You can display them using this code in your script.
 The user will be presented with a list of options for the soup of their choice.
 
