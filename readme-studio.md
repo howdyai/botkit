@@ -5,6 +5,7 @@ ___
 First go to https://api.slack.com/bot-users and follow the prompts for 'new bot user integration'.
 When you are done you should have a bot that you can give a name and it should provide you with an API Token.
 That API Token is your Slack Token
+
 Download the Botkit Studio Starter Kit at: https://github.com/xoxco/botkit-studio-starter
 Register for access to Botkit Studio at: https://studio.botkit.ai/signup
 Confirm your access via email.
@@ -13,11 +14,13 @@ Click the 'API' link on the left.
 Copy the contents in the field to the right of 'Use this with Botkit!'.
 Open a Terminal and paste the contents of that field into it.
 Replace '_MY SLACK TOKEN_'  with the API Token you got from Slack.
+
 it should look something like this:
 ```
 studio_token=fcfItRK5RtbGzBpnEVO8ygEwse2sOFBmkdkQTAEASNeoYDXQ5heP8pmkHERptvaz token=xoxb-53054538583-GO2vZLYk8qDKmuo8pMzuztKz node .
 ```
 Execute the Terminal command line.
+
 You should recieve some feedback that looks like this
 ```
 info: ** Using simple storage. Saving data to ./db
