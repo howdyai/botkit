@@ -48,8 +48,8 @@ ___
 ### Using the Before Middleware
 
 The thread begins with a command to your bot: @soupme soup. Using Before Middleware we can fetch the data that will be presented to your user from an external resource. For example, if we want to display a list of soup options, along with a dynamic soup of the day option.
-Step 1: Create the Command in Botkit Studio
-Step 2: write the code in your bot that wraps it. You can use the example:
+* Step 1: Create the Command in Botkit Studio
+* Step 2: write the code in your bot that wraps it. You can use the example:
 ```
 controller.studio.before('soup', function(convo, next){
   // get soup of the day
@@ -61,8 +61,9 @@ controller.studio.before('soup', function(convo, next){
   next();
 });
 ```
-Assuming we have functions called getDailySpecial, and getMenu, that return some JSON formated menu items we can use ```convo.setvars``` to set it as a variable available to the command.
-The templating engine uses [mustache](https://mustache.github.io/) and any variables set are accessible in the script editor via vars. For instance those two variables would now be accessible in the script editor as ```{{vars.daily_special}}``` and ```{{vars.soup_menu}}```
+* Assuming we have functions called getDailySpecial, and getMenu, that return some JSON formated menu items we can use ```convo.setvars``` to set it as a variable available to the command.
+* The templating engine uses [mustache](https://mustache.github.io/) and any variables set are accessible in the script editor via vars.
+** For instance those two variables would now be accessible in the script editor as ```{{vars.daily_special}}``` and ```{{vars.soup_menu}}```
 You can display them using this code in your script.
 The user will be presented with a list of options for the soup of their choice.
 
@@ -76,6 +77,10 @@ Then we can confirm with the user that the script has their correct order, and p
 
 Should we cover any of the other functionality here?
 
+## Useful functions
+___
+### convo.setVar('variable_name', variable)
+blah put more stuff here
 ## Hosting
 ___
 We suggest Digital Ocean
