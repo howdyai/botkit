@@ -64,6 +64,7 @@ controller.studio.before('soup', function(convo, next){
 Assuming we have functions called getDailySpecial, and getMenu, that return some JSON formated menu items we can use ```convo.setvars``` to set it as a variable available to the command.
 The templating engine uses [mustache](https://mustache.github.io/) and any variables set are accessible in the script editor via vars. For instance those two variables would now be accessible in the script editor as ```{{vars.daily_special}}``` and ```{{vars.soup_menu}}``` You can display them using this code in your script.
 * Step 3: Edit the 'soup' command in the Botkit Studio Script Editor.The user will be presented with a list of options for the soup of their choice.
+* Step 4: Test it by direct messaging 'soup' at soupme. It should return menu of possible soups
 
 ### Using the Validate Middleware
 Once a user selects their soup, you will want to validate their choice:
@@ -79,6 +80,34 @@ Should we cover any of the other functionality here?
 ___
 ### convo.setVar('variable_name', variable)
 blah put more stuff here
+
+### convo.changeTopic('target_topic')
+blah put more stuff here
+
+### controller.studio.evaluateTrigger(bot, input_text)
+blah put more stuff here
+
+### controller.studio.get(bot, text)
+description here
+
+### controller.studio.validate(command_name, key, func)
+description here
+
+### controller.studio.before(command_name, func)
+description here
+
+### controller.studio.after(command_name, func)
+description here
+
+### controller.studio.run(bot, message)
+description here
+
+### controller.studio.runTrigger(bot, message)
+description here
+
+### controller.studio.compileScript(bot, message, command_name, topics, vars)
+description here
+
 ## Hosting
 ___
 We suggest Digital Ocean
