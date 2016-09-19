@@ -39,7 +39,8 @@ Click the appropriate bot.
 - On the right where it says 'Hello! This is my hello script. You can edit it to customize my behaviors.' Click there. Edit the text and click 'Save'.
 - Now send your bot a direct message saying 'hi'.
 - It should respond with the text you changed that script to
-For more on editing scripts see: [link to wherever we are going to have directions on script editor.]
+
+For more on editing scripts see: [link to wherever we are going to have directions on script editor.]()
 
 ## Developing with Botkit Studio
 Now that you have your development environment setup, you can begin with the task of developing your bot.
