@@ -69,11 +69,39 @@ controller.studio.before('soup', function(convo, next){
 ```
 Assuming we have functions called getDailySpecial, and getMenu, that return some JSON formated menu items we can use ```convo.setvars``` to set it as a variable available to the command.
 The templating engine uses [mustache](https://mustache.github.io/) and any variables set are accessible in the script editor via vars. For instance those two variables would now be accessible in the script editor as ```{{vars.daily_special}}``` and ```{{vars.soup_menu}}``` You can display them using this code in your script.
-* Step 3: Edit the 'soup' command in the Botkit Studio Script Editor.The user will be presented with a list of options for the soup of their choice.
-* Step 4: Test it by direct messaging 'soup' at soupme. It should return menu of possible soups
+* Step 3: Edit the 'soup' command in the Botkit Studio Script Editor.The user will be presented with a list of options for the soup of their choice. Add a variable called 'selected_soup' using the right collapsible menu. At the end of the last question set the response to that variable. While we are here go ahead and make a branch for when the soup is selected called 'soup_selected'. and lets make two error states while we are at it, 'invalid_soup' and 'ambiguous_soup'
+we should have a screen-shot here of what the mustache template looks like in the editor.
+* Step 4: Test it by direct messaging 'soup' at soupme. It should return menu of possible soups. this should also have a screen-shot.
 
 ### Using the Validate Middleware
-Once a user selects their soup, you will want to validate their choice:
+Now that a user has been presented with a menu we want to validate their response to the question 'What would you like to order?'.
+We also want to validate it against the menu, and if we find one store it for later in the conversation. Also we want to handle any human input errors here by guiding them to hopefully helpful error states. We do this with code that looks something like this:
+```
+controller.studio.validate('soup','selected_soup', function(convo, next) {
+  var soup_selection, input = convo.extractResponse('selected_soup');
+  console.log('input: ', input);
+  if(convo.vars.daily_special.name.toLowerCase() === input.toLowerCase()){
+    console.log('selected the dailt special!');
+    soup_selection = convo.vars.daily_special;
+    convo.setVar('soup_selection', soup_selection);
+    convo.changeTopic('soup_selected');
+  }else{
+    var filtered_menu = convo.vars.soup_menu.filter(function(s){
+      return s.name.toLowerCase() === input.toLowerCase();
+    });
+    if(filtered_menu.length === 0){
+      convo.changeTopic('invalid_soup');
+    }else if (filtered_menu.length > 1) {
+      convo.changeTopic('ambiguous_soup');
+    }else {
+      soup_selection = filtered_menu[0];
+      convo.setVar('soup_selection', soup_selection);
+      convo.changeTopic('soup_selected');
+    }
+  }
+  next();
+});
+```
 
 And present a list of sub-options to determine size:
 
@@ -84,12 +112,6 @@ Should we cover any of the other functionality here?
 
 ## Useful functions
 ___
-### convo.setVar('variable_name', variable)
-blah put more stuff here
-
-### convo.changeTopic('target_topic')
-blah put more stuff here
-
 ### controller.studio.get(bot, text)
 description here
 
@@ -108,8 +130,6 @@ description here
 ### controller.studio.runTrigger(bot, message)
 description here
 
-### controller.studio.compileScript(bot, message, command_name, topics, vars)
-description here
 
 ## Hosting
 ___
