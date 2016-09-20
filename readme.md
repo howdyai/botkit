@@ -543,6 +543,11 @@ controller.hears(['question me'], 'message_received', function(bot,message) {
 });
 ```
 
+##### Conversation Threads
+
+While conversations with only a few questions can be managed by writing callback functions,
+more complex conversations that require branching, repeating or looping sections of dialog,
+
 ##### Multi-stage conversations
 
 ![multi-stage convo example](https://www.evernote.com/shard/s321/sh/7243cadf-be40-49cf-bfa2-b0f524176a65/f9257e2ff5ee6869/res/bc778282-64a5-429c-9f45-ea318c729225/screenshot.png?resizeSmall&width=832)
