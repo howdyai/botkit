@@ -59,10 +59,10 @@ The thread begins with a command to your bot: @soupme soup. Using Before Middlew
 ```
 controller.studio.before('soup', function(convo, next){
   // get soup of the day
-  var daily_special = getDailySpecial();
+  var daily_special = controller.tutorial.getDailySpecial();
   convo.setVar('daily_special', daily_special);
   // get soup options
-  var soup_menu = getMenu();
+  var soup_menu = controller.tutorial.getMenu();
   convo.setVar('soup_menu', soup_menu);
   next();
 });
