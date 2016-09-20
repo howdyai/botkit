@@ -342,6 +342,23 @@ controller.studio.validate('soup','selected_soup', function(convo, next) {
   next();
 });
 
+controller.studio.validate('soup','soup_size', function(convo, next) {
+  var selected_soup_size, valid_sizes = ['small', 'medium', 'epic'], input = convo.extractResponse('soup_size');
+  console.log('soup_size: ', input);
+  var filtered_input = valid_sizes.filter(function(s){
+    return s.toLowerCase() === input.toLowerCase();
+  });
+  if(filtered_input.length === 0){
+    convo.changeTopic('invalid_size');
+  }else if (filtered_input.length > 1) {
+    convo.changeTopic('ambiguous_size');
+  }else {
+    selected_soup_size = filtered_input[0];
+    convo.setVar('selected_soup_size', selected_soup_size);
+    convo.changeTopic('soup_order_complete');
+  }
+  next();
+});
 
 //
 // controller.storage.teams.all(function(err,teams) {
