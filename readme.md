@@ -578,7 +578,7 @@ If you've used the conversation system at all, you've used threads - you just di
 | Argument | Description
 |---  |---
 | message   | String or message object
-| thread_name   | String defining the name of a thread_name
+| thread_name   | String defining the name of a thread
 
 This function works identically to `convo.say()` except that it takes a second parameter which defines the thread to which the message will be added rather than being queued to send immediately, as is the case when using convo.say().
 
@@ -588,29 +588,47 @@ This function works identically to `convo.say()` except that it takes a second p
 | message   | String or message object containing the question
 | callback _or_ array of callbacks   | callback function in the form function(response_message,conversation), or array of objects in the form ``{ pattern: regular_expression, callback: function(response_message,conversation) { ... } }``
 | capture_options | _Optional_ Object defining options for capturing the response
-| thread_name   | String defining the name of a thread_name
+| thread_name   | String defining the name of a thread
 
-This function works identically to `convo.ask()` except that it takes second parameter which defines the thread to which the message will be added rather than being queued to send immediately, as is the case when using convo.say().
+This function works identically to `convo.ask()` except that it takes second parameter which defines the thread to which the message will be added rather than being queued to send immediately, as is the case when using convo.ask().
 
 
 #### convo.gotoThread
+| Argument | Description
+|---  |---
+| thread_name   | String defining the name of a thread
+
+Cause the bot to immediately jump to the named thread.
+All conversations start in a thread called `default`, but you may switch to another existing thread before the conversation has been activated, or in a question callback.
+
+Threads are created by adding messages to them using `addMessage()` and `addQuestion()`
+
+```
+// create the validation_error thread
+convo.addMessage('This is a validation error.', 'validation_error');
+convo.addMessage('I am sorry, your data is wrong!', 'validation_error');
+
+// switch to the validation thread immediately
+convo.gotoThread('validation_error');
+```
 
 #### Automatically Switch Threads using Actions
 
 You can direct a conversation to switch from one thread to another automatically
-by including the `.action` field on a message object. Botkit will switch threads immediately after sending the message.
+by including the `action` field on a message object. Botkit will switch threads immediately after sending the message.
 
 ```
-// send a message, then immediately go to the next_step thread
+// first, define a thread called `next_step` that we'll route to...
+convo.addMessage({
+    text: 'This is the next step...',
+},'next_step');
+
+
+// send a message, and tell botkit to immediately go to the next_step thread
 convo.addMessage({
     text: 'Anyways, moving on...',
     action: 'next_step'
 });
-
-// define the next_step thread
-convo.addMessage({
-    text: 'This is the next step...',
-},'next_step');
 ```
 
 Developers can create fairly complex conversational systems by combining these message actions with conditionals in `ask()` and `addQuestion()`.  Actions can be used to specify
