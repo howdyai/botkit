@@ -684,17 +684,69 @@ convo.createConversation(message, function(err, convo) {
 
 #### Special Actions
 
-`completed` - end immediately and mark as success
+In addition to routing from one thread to another using actions, you can also use
+one of a few reserved words to control the conversation flow.
 
-`stop` - end immediately but mark as fail
+Set the action field of a message to `completed` to end the conversation immediately and mark as success.
 
-`timeout` - end immediately and mark as timed out
+Set the action field of a message to `stop` end immediately, but mark as failed.
+
+Set the action field of a message to `timeout` to end immediately and indicate that the conversation has timed out.
 
 ### Using Variable Tokens and Templates in Conversation Threads
 
-#### Built-in Variables
+Pre-defined conversation threads are great, but many times developers will need to inject dynamic content into a conversation.
+Botkit achieves this by processing the text of every message using the [Mustache template language](https://mustache.github.io/).
+Mustache offers token replacement, as well as access to basic iterators and conditionals.
+
+Variables can be added to a conversation at any point after the conversation object has been created using the function `convo.setVar()`. See the example below.
+
+```
+convo.createConversation(message, function(err, convo) {
+
+    // .. define threads which will use variables...
+    // .. and then, set variable values:
+    convo.setVar('foo','bar');
+    convo.setVar('list',[{value:'option 1'},{value:'option 2'}]);
+    convo.setVar('object',{'name': 'Chester', 'type': 'imaginary'});
+
+    // now set the conversation in motion...
+    convo.activate();
+});
+```
+
+Given the variables defined in this code sample, `foo`, a simple string, `list`, an array, and `object`, a JSON-style object,
+the following Mustache tokens and patterns would be available:
+
+```
+The value of foo is {{vars.foo}}
+
+The items in this list include {{#vars.list}}{{value}}{{/vars.list}}
+
+The object's name is {{vars.object.name}}.
+
+{{#foo}}If foo is set, I will say this{{/foo}}{{^foo}}If foo is not set, I will say this other thing.{{/foo}}
+```
+Botkit ensures that your template is a valid Mustache template, and passes the variables you specify directly to the Mustache template rendering system.
+Our philosophy is that it is OK to stuff whatever type of information your conversation needs into these variables and use them as you please!
 
 #### convo.setVar
+| Argument | Description
+|---  |---
+| variable_name   | The name of a variable to be made available to message text templates.
+| value | The value of the variable, which can be any type of normal Javascript variable
+
+Create or update a variable that is available as a Mustache template token to all the messages in all the threads contained in the conversation.
+
+The variable will be available in the template as `{{vars.variable_name}}`
+
+#### Built-in Variables
+
+Botkit provides several built in variables that are automatically available to all messages:
+
+{{origin}} - a message object that represents the initial triggering message that caused the conversation.
+
+{{responses}} - an object that contains all of the responses a user has given during the course of the conversation. This can be used to make references to previous responses. This requires that `convo.ask()` questions include a keyname, making responses available at `{{responses.keyname}}`
 
 ##### Multi-stage conversations
 
