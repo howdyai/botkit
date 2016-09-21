@@ -307,6 +307,10 @@ controller.studio.before('hello', function(convo, next) {
 
 });
 
+
+var randomstring = require("randomstring");
+
+
 controller.studio.before('soup', function(convo, next){
   // get soup of the day
   var daily_special = controller.tutorial.getDailySpecial();
@@ -314,30 +318,39 @@ controller.studio.before('soup', function(convo, next){
   // get soup options
   var soup_menu = controller.tutorial.getMenu();
   convo.setVar('soup_menu', soup_menu);
+  // cleanse the pallet
+  convo.setVar('soup_selection', null);
+  convo.setVar('selected_soup_size', null);
   next();
 });
 
 controller.studio.validate('soup','selected_soup', function(convo, next) {
-  var soup_selection, input = convo.extractResponse('selected_soup');
-  console.log('input: ', input);
-  if(convo.vars.daily_special.name.toLowerCase() === input.toLowerCase()){
-    console.log('selected the dailt special!');
-    soup_selection = convo.vars.daily_special;
-    convo.setVar('soup_selection', soup_selection);
-    convo.changeTopic('soup_selected');
-  }else{
-    var filtered_menu = convo.vars.soup_menu.filter(function(s){
-      return s.name.toLowerCase() === input.toLowerCase();
-    });
-    if(filtered_menu.length === 0){
-      convo.changeTopic('invalid_soup');
-    }else if (filtered_menu.length > 1) {
-      convo.changeTopic('ambiguous_soup');
-    }else {
-      soup_selection = filtered_menu[0];
-      convo.setVar('soup_selection', soup_selection);
-      convo.changeTopic('soup_selected');
+  var found_soup = [], possible_matches = [], soup_selection, input = convo.extractResponse('selected_soup');
+  possible_matches.push(convo.vars.daily_special.name);
+  convo.vars.soup_menu.forEach(function(m){
+    possible_matches.push(m.name);
+  });
+  possible_matches.forEach(function(pm){
+    var re = new RegExp('^' + input.toLowerCase() + '\\b' , 'igm');
+    var found = pm.match(re);
+    if(found){
+      found_soup = convo.vars.soup_menu.filter(function(s){
+        return s.name.toLowerCase() === pm.toLowerCase();
+      });
+      if(found_soup.length === 0){
+        console.log(convo.vars.daily_special.name.toLowerCase(), '|', pm.toLowerCase());
+        if(convo.vars.daily_special.name.toLowerCase() === pm.toLowerCase()){
+          found_soup = [];
+          found_soup.push(convo.vars.daily_special);
+        }
+      }
     }
+  });
+  if(found_soup.length > 0) {
+    convo.setVar('soup_selection', found_soup[0]);
+    convo.changeTopic('soup_selected');
+  }else {
+    convo.changeTopic('invalid_soup');
   }
   next();
 });
@@ -355,12 +368,29 @@ controller.studio.validate('soup','soup_size', function(convo, next) {
   }else {
     selected_soup_size = filtered_input[0];
     convo.setVar('selected_soup_size', selected_soup_size);
+    var order_confirmation = randomstring.generate(5);
+    convo.setVar('order_confirmation', order_confirmation);
     convo.changeTopic('soup_order_complete');
   }
   next();
 });
 
-//
+
+
+controller.studio.after('soup', function(convo, next) {
+  if (convo.status == 'completed' && convo.vars.soup_selection && convo.vars.selected_soup_size) {
+    console.log('--------------------------- soup order finished ----------------------------------');
+    console.log('Generated a soup order for', convo.context.user, ' who ordered a', convo.vars.selected_soup_size, ' sized ', convo.vars.soup_selection.name, ' with a confirmation number of ', convo.vars.order_confirmation);
+    console.log('Get started with the soup!');
+    next();
+  }else {
+    next();
+  }
+
+});
+
+
+
 // controller.storage.teams.all(function(err,teams) {
 //
 //   if (err) {
