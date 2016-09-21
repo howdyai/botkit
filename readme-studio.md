@@ -67,9 +67,9 @@ controller.studio.before('soup', function(convo, next){
   next();
 });
 ```
-Assuming we have functions called getDailySpecial, and getMenu, that return some JSON formated menu items we can use ```convo.setvars``` to set it as a variable available to the command.
+Assuming we have functions called getDailySpecial, and getMenu, that return some JSON formated menu items we can use ```convo.setVar()``` to set it as a variable available to the command.
 The templating engine uses [mustache](https://mustache.github.io/) and any variables set are accessible in the script editor via vars. For instance those two variables would now be accessible in the script editor as ```{{vars.daily_special}}``` and ```{{vars.soup_menu}}``` You can display them using this code in your script.
-* Step 3: Edit the 'soup' command in the Botkit Studio Script Editor.The user will be presented with a list of options for the soup of their choice. Add a variable called 'selected_soup' using the right collapsible menu. While we are here we should also make a 'soup_size' variable. At the end of the last question set the response to 'selected_soup'. While we are here go ahead and make a branch for when the soup is selected called 'soup_selected'. and lets make two error states while we are at it, 'invalid_soup' and 'ambiguous_soup'
+* Step 3: Edit the 'soup' command in the Botkit Studio Script Editor.The user will be presented with a list of options for the soup of their choice. Add a variable called 'selected_soup' using the right collapsible menu. While we are here we should also make a 'soup_size' variable. At the end of the last question set the response to 'selected_soup'. While we are here go ahead and make a branch for when the soup is selected called 'soup_selected'. and lets make an error states while we are at it, 'invalid_soup'
 we should have a screen-shot here of what the mustache template looks like in the editor.
 * Step 4: Test it by direct messaging 'soup' at soupme. It should return menu of possible soups. this should also have a screen-shot.
 
@@ -110,10 +110,18 @@ Then we can confirm with the user that the script has their correct order, and p
 
 Should we cover any of the other functionality here?
 
-## Useful functions
+## Accessing Botkit Studio from your bot
 ___
+
+### controller.studio.run(bot, message)
+description here
+
+### controller.studio.runTrigger(bot, message)
+description here
+
 ### controller.studio.get(bot, text)
 description here
+
 
 ### controller.studio.validate(command_name, key, func)
 description here
@@ -124,11 +132,6 @@ description here
 ### controller.studio.after(command_name, func)
 description here
 
-### controller.studio.run(bot, message)
-description here
-
-### controller.studio.runTrigger(bot, message)
-description here
 
 
 ## Hosting
