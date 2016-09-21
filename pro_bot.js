@@ -307,6 +307,58 @@ controller.studio.before('hello', function(convo, next) {
 
 });
 
+controller.studio.before('soup', function(convo, next){
+  // get soup of the day
+  var daily_special = controller.tutorial.getDailySpecial();
+  convo.setVar('daily_special', daily_special);
+  // get soup options
+  var soup_menu = controller.tutorial.getMenu();
+  convo.setVar('soup_menu', soup_menu);
+  next();
+});
+
+controller.studio.validate('soup','selected_soup', function(convo, next) {
+  var soup_selection, input = convo.extractResponse('selected_soup');
+  console.log('input: ', input);
+  if(convo.vars.daily_special.name.toLowerCase() === input.toLowerCase()){
+    console.log('selected the dailt special!');
+    soup_selection = convo.vars.daily_special;
+    convo.setVar('soup_selection', soup_selection);
+    convo.changeTopic('soup_selected');
+  }else{
+    var filtered_menu = convo.vars.soup_menu.filter(function(s){
+      return s.name.toLowerCase() === input.toLowerCase();
+    });
+    if(filtered_menu.length === 0){
+      convo.changeTopic('invalid_soup');
+    }else if (filtered_menu.length > 1) {
+      convo.changeTopic('ambiguous_soup');
+    }else {
+      soup_selection = filtered_menu[0];
+      convo.setVar('soup_selection', soup_selection);
+      convo.changeTopic('soup_selected');
+    }
+  }
+  next();
+});
+
+controller.studio.validate('soup','soup_size', function(convo, next) {
+  var selected_soup_size, valid_sizes = ['small', 'medium', 'epic'], input = convo.extractResponse('soup_size');
+  console.log('soup_size: ', input);
+  var filtered_input = valid_sizes.filter(function(s){
+    return s.toLowerCase() === input.toLowerCase();
+  });
+  if(filtered_input.length === 0){
+    convo.changeTopic('invalid_size');
+  }else if (filtered_input.length > 1) {
+    convo.changeTopic('ambiguous_size');
+  }else {
+    selected_soup_size = filtered_input[0];
+    convo.setVar('selected_soup_size', selected_soup_size);
+    convo.changeTopic('soup_order_complete');
+  }
+  next();
+});
 
 //
 // controller.storage.teams.all(function(err,teams) {
