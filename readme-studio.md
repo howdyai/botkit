@@ -40,8 +40,6 @@ Click the appropriate bot.
 - Now send your bot a direct message saying 'hi'.
 - It should respond with the text you changed that script to
 
-For more on editing scripts see: [link to wherever we are going to have directions on script editor.]()
-
 ## Developing with Botkit Studio
 Now that you have your development environment setup, you can begin with the task of developing your bot.
 
@@ -339,4 +337,5 @@ controller.studio.validate('tacos', 'sauce', function(convo, next) {
 
 ## Hosting
 ___
-We suggest Digital Ocean
+
+We suggest <a href="https://m.do.co/c/bbaa5ae4d0c8">Digital Ocean</a>
