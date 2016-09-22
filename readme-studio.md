@@ -284,7 +284,7 @@ controller.studio.before('tacos', function(convo, next) {
 ```
 
 
-### controller.studio.after(command_name, function)
+### controller.studio.after()
 | Argument | Description
 |---  |---
 | script_name   | The name of a script defined in Botkit Studio
@@ -306,7 +306,7 @@ controller.studio.after('tacos', function(convo, next) {
 ```
 
 
-### controller.studio.validate(command_name, variable_name, function)
+### controller.studio.validate()
 | Argument | Description
 |---  |---
 | script_name   | The name of a script defined in Botkit Studio
