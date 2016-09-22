@@ -193,8 +193,8 @@ This enables developers to add template variables to the conversation object bef
 
 ```
 controller.studio.run(bot, 'hello', message.user, message.channel).then(function(convo) {
-    convo.setVar('date', new Date());
-    convo.setVar('news', 'This is a news item!');
+    convo.setVar('date', new Date()); // available in message text as {{vars.date}}
+    convo.setVar('news', 'This is a news item!'); // ailable as {{vars.news}}
 
     // crucial! call convo.activate to set it in motion
     convo.activate();
@@ -210,16 +210,67 @@ controller.studio.run(bot, 'hello', message.user, message.channel).then(function
 | user | the user id of the user having the conversation
 | channel | the channel id where the conversation is occurring
 
+In addition to storing the content and structure of conversation threads, developers can also use Botkit Studio to define and maintain the trigger phrases and patterns that cause the bot to take actions. `controller.studio.runTrigger()` takes _arbitrary input text_ and evaluates it against all existing triggers configured in a bot's account. If a trigger is matched, the script data is returned, compiled, and executed by the bot.
 
+This is different than `studio.run()` and `studio.get()` in that the input text may include _additional text_ other than an the exact name of a script. In most cases, `runTrigger()` will be configured to receive all messages addressed to the bot that were not otherwise handled, allowing Botkit Studio to be catch-all. See below:
 
-### controller.studio.validate(command_name, variable_name, function)
-description here
+```
+// set up a catch-all handler that will send all messages directed to the bot
+// through Botkit Studio's trigger evaluation system
+controller.on('direct_message,direct_mention,mention', function(bot, message) {
+    controller.studio.runTrigger(bot, message.text, message.user, message.channel).catch(function(err) {
+        bot.reply(message, 'I experienced an error with a request to Botkit Studio: ' + err);
+    });
+});
+```
+
+In order to customize the behavior of scripts triggered using `runTrigger()`, developers define `before`, `after` and `validate` hooks for each script. See docs for these functions below.
+
+Another potential scenario for using `runTrigger()` would be to trigger a script that includes additional parameters that would normally be provided by a user, but are being provided instead by the bot. For example, it is sometimes useful to trigger another script to start when another script has ended.
+
+```
+controller.hears(['checkin'], 'direct_message', function(bot, message) {
+
+    // when a user says checkin, we're going to pass in a more complex command to be evaluated
+
+    // send off a string to be evaluated for triggers
+    // assuming a trigger is setup to respond to `run`, this will work!
+    controller.studio.runTrigger(bot, 'run checkin with ' + message.user, message.user, message.channel);
+});
+```
+
+#### A note about handling parameters to a trigger
+
+While Botkit does not currently provide any built-in mechanisms for extracting entities or parameters from the input text, that input text remains available in the `before` and `after` hooks, and can be used by developers to process this information.
+
+The original user input text is available in the field `convo.source_message.text`. An example of its use can be see in the [Botkit Studio Starter bot](https://github.com/howdyai/botkit-studio-starter), which extracts a parameter from the help command.
+
+```
+controller.studio.before('help', function(convo, next) {
+
+    // is there a parameter on the help command?
+    // if so, change topic.
+    if (matches = convo.source_message.text.match(/^help (.*)/i)) {
+        if (convo.hasThread(matches[1])) {
+            convo.gotoThread(matches[1]);
+        }
+    }
+
+    next();
+
+});
+```
+
 
 ### controller.studio.before(command_name, function)
 description here
 
 ### controller.studio.after(command_name, function)
 description here
+
+### controller.studio.validate(command_name, variable_name, function)
+description here
+
 
 ## Hosting
 ___
