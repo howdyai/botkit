@@ -153,7 +153,7 @@ This will also leave an order in the terminal. That could be piped to a database
 ## Accessing Botkit Studio from your bot
 ___
 
-### controller.studio.run(bot, input_text, user, channel)
+### controller.studio.run()
 | Argument | Description
 |---  |---
 | bot   | A bot instance
@@ -177,7 +177,7 @@ controller.studio.run(bot, 'hello', message.user, message.channel).then(function
 });
 ```
 
-### controller.studio.get(bot, input_text, user, channel)
+### controller.studio.get()
 | Argument | Description
 |---  |---
 | bot   | A bot instance
@@ -202,7 +202,7 @@ controller.studio.run(bot, 'hello', message.user, message.channel).then(function
 ```
 
 
-### controller.studio.runTrigger(bot, input_text, user, channel)
+### controller.studio.runTrigger()
 | Argument | Description
 |---  |---
 | bot   | A bot instance
@@ -261,16 +261,81 @@ controller.studio.before('help', function(convo, next) {
 });
 ```
 
+### controller.studio.before()
+| Argument | Description
+|---  |---
+| script_name   | The name of a script defined in Botkit Studio
+| hook_function | A function that accepts (convo, next) as parameters
 
-### controller.studio.before(command_name, function)
-description here
+Define `before` hooks to add data or modify the behavior of a Botkit Studio script _before_ it is activated. Multiple before hooks can be defined for any script - they will be executed in the order they are defined.
+
+Note: hook functions _must_ call next() before ending, or the script will stop executing and the bot will be confused!
+
+```
+// Before the "tacos" script runs, set some extra template tokens like "special" and "extras"
+controller.studio.before('tacos', function(convo, next) {
+
+    convo.setVar('special', 'Taco Boats');
+    convo.setVar('extras', [{'name': 'Cheese'}, {'name': 'Lettuce'}]);
+
+    next();
+
+});
+```
+
 
 ### controller.studio.after(command_name, function)
-description here
+| Argument | Description
+|---  |---
+| script_name   | The name of a script defined in Botkit Studio
+| hook_function | A function that accepts (convo, next) as parameters
+
+Define `after` hooks capture the results, or take action _after_ a Botkit Studio script has finished executing. Multiple after hooks can be defined for any script - they will be executed in the order they are defined.
+
+Note: hook functions _must_ call next() before ending, or the script will stop executing and the bot will be confused!
+
+```
+// After the "tacos" command is finished, collect the order data
+controller.studio.after('tacos', function(convo, next) {
+    if (convo.status == 'completed') {
+        var responses = convo.extractResponses();
+        // store in a database
+    }
+    next();
+});
+```
+
 
 ### controller.studio.validate(command_name, variable_name, function)
-description here
+| Argument | Description
+|---  |---
+| script_name   | The name of a script defined in Botkit Studio
+| variable_name | The name of a variable defined in Botkit Studio
+| hook_function | A function that accepts (convo, next) as parameters
 
+`validate` hooks are called whenever a Botkit Studio script sets or changes the value of a variable that has been defined as part of the script.
+
+Note: hook functions _must_ call next() before ending, or the script will stop executing and the bot will be confused!
+
+```
+// Validate a "sauce" variable in the "taco" script
+// this will run whenever the sauce variable is set and can be used to
+// alter the course of the conversation
+controller.studio.validate('tacos', 'sauce', function(convo, next) {
+
+    var sauce = convo.extractResponse('sauce');
+    sauce = sauce.toLowerCase();
+
+    if (sauce == 'red' || sauce == 'green' || sauce == 'cheese') {
+        convo.setVar('valid_sauce', true);
+        next();
+    } else {
+        convo.gotoThread('wrong_sauce');
+        next();
+    }
+
+});
+```
 
 ## Hosting
 ___
