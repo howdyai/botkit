@@ -693,6 +693,8 @@ Set the action field of a message to `stop` end immediately, but mark as failed.
 
 Set the action field of a message to `timeout` to end immediately and indicate that the conversation has timed out.
 
+After the conversation ends, these values will be available in the `convo.status` field. This field can then be used to check the final outcome of a conversation. See [handling the end of conversations](#handling-the-end-of-conversation).
+
 ### Using Variable Tokens and Templates in Conversation Threads
 
 Pre-defined conversation threads are great, but many times developers will need to inject dynamic content into a conversation.
@@ -814,8 +816,7 @@ Conversations trigger events during the course of their life.  Currently,
 only two events are fired, and only one is very useful: end.
 
 Conversations end naturally when the last message has been sent and no messages remain in the queue.
-In this case, the value of `convo.status` will be `completed`. Other values for this field include `active`, `stopped`, and
-`timeout`.
+In this case, the value of `convo.status` will be `completed`. Other values for this field include `active`, `stopped`, and `timeout`.
 
 ```javascript
 convo.on('end',function(convo) {
