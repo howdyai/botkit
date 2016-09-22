@@ -193,7 +193,7 @@ controller.on('interactive_message_callback', function(bot, trigger) {
 
 
 controller.on('direct_message,direct_mention,mention', function(bot, message) {
-    controller.studio.runTrigger(bot, message).then(function(convo) {
+    controller.studio.runTrigger(bot, message.text, message.user, message.channel).then(function(convo) {
         console.log(convo.status);
     }).catch(function(err) {
         bot.reply(message, 'I experienced an error: ' + err);
