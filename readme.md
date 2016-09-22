@@ -637,7 +637,7 @@ default or next step actions, while conditionals can be used to route between th
 From inside a callback function, use `convo.gotoThread()` to instantly switch to a different pre-defined part of the conversation. Botkit can be set to automatically navigate between threads based on user input, such as in the example below.
 
 ```
-convo.createConversation(message, function(err, convo) {
+bot.createConversation(message, function(err, convo) {
 
     // create a path for when a user says YES
     convo.addMessage({

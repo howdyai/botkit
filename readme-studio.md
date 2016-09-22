@@ -154,13 +154,62 @@ This will also leave an order in the terminal. That could be piped to a database
 ___
 
 ### controller.studio.run(bot, input_text, user, channel)
-description here
+| Argument | Description
+|---  |---
+| bot   | A bot instance
+| input_text | The name of a script defined in Botkit Studio
+| user | the user id of the user having the conversation
+| channel | the channel id where the conversation is occurring
 
-### controller.studio.runTrigger(bot, input_text, user, channel)
-description here
+`controller.studio.run()` will load a script defined in the Botkit Studio authoring tool, convert it into a Botkit conversation, and perform the conversation to it's completion.
+
+Developers may tap into the conversation as it is conducted using the [before](#controllerstudiobefore), [after](#controllerstudioafter), and [validate](#controllerstudiovalidate) hooks. It is also possible to bind to the normal `convo.on('end')` event because this function also returns the resulting conversation object via a promise:
+
+```
+controller.studio.run(bot, 'hello', message.user, message.channel).then(function(convo) {
+    convo.on('end', function(convo) {
+        if (convo.status=='completed') {
+            // handle successful conversation
+        } else {
+            // handle failed conversation
+        }
+    });
+});
+```
 
 ### controller.studio.get(bot, input_text, user, channel)
-description here
+| Argument | Description
+|---  |---
+| bot   | A bot instance
+| input_text | The name of a script defined in Botkit Studio
+| user | the user id of the user having the conversation
+| channel | the channel id where the conversation is occurring
+
+`controller.studio.get()` is nearly identical to `controller.studio.run()`, except that instead of automatically and immediately starting the conversation, the function returns it in a dormant state.  
+
+While developers may still tap into the conversation as it is conducted using the [before](#controllerstudiobefore), [after](#controllerstudioafter), and [validate](#controllerstudiovalidate) hooks, it must first be activated using `convo.activate()` in the results of the promise returned by the function.
+
+This enables developers to add template variables to the conversation object before it sends its first message. Read about [using variables in messages](readme.md#using-variable-tokens-and-templates-in-conversation-threads)
+
+```
+controller.studio.run(bot, 'hello', message.user, message.channel).then(function(convo) {
+    convo.setVar('date', new Date());
+    convo.setVar('news', 'This is a news item!');
+
+    // crucial! call convo.activate to set it in motion
+    convo.activate();
+});
+```
+
+
+### controller.studio.runTrigger(bot, input_text, user, channel)
+| Argument | Description
+|---  |---
+| bot   | A bot instance
+| input_text | The name of a script defined in Botkit Studio
+| user | the user id of the user having the conversation
+| channel | the channel id where the conversation is occurring
+
 
 
 ### controller.studio.validate(command_name, variable_name, function)
