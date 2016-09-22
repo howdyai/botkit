@@ -6,7 +6,7 @@ First go to https://api.slack.com/bot-users and follow the prompts for 'new bot 
 When you are done you should have a bot that you can give a name and it should provide you with an API Token.
 That API Token is your Slack Token
 
-Download the Botkit Studio Starter Kit at: https://github.com/xoxco/botkit-studio-starter
+Download the Botkit Studio Starter Kit at: https://github.com/howdyai/botkit-studio-starter
 Register for access to Botkit Studio at: https://studio.botkit.ai/signup
 Confirm your access via email.
 Select or create a bot you wish to modify, you get one by default.
