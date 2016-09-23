@@ -17,11 +17,11 @@ The goal of Botkit Studio is to make building bots with Botkit easier than ever 
 The tools and this SDK are based on feedback from dozens of Botkit developers and more than a year of building and operating our flagship bot, [Howdy](https://howdy.ai).
 However, our intent is not to cover every base needed for building a successful bot. Rather, we focus on several key problem areas:
 
-* Botkit Studio provides a cloud-based development environment for creating and maintaining multi-thread conversations and scripts. Scripts managed in Studio can be changed without changing the underlying application code, allowing for content updates, feature additions and product development without code deploys.
+* Botkit Studio provides a cloud-based *authoring tool for creating and maintaining multi-thread conversations and scripts*. Scripts managed in Studio can be changed without changing the underlying application code, allowing for content updates, feature additions and product development without code deploys.
 
-* Botkit Studio also provides cloud-based trigger management: developers may define trigger words and patterns externally from their code, allowing those triggers to expand and adapt as humans use the bot.
+* Botkit Studio also provides cloud-based *trigger management*: developers may define trigger words and patterns externally from their code, allowing those triggers to expand and adapt as humans use the bot.
 
-* The Botkit Studio SDK provides simple mechanisms for accessing these features from within your application.  With only a few new functions: [studio.get](#controllerstudioget), [studio.run](#controllerstudiorun), and [studio.runTrigger](#controllerruntrigger), your bot has full access to all of the content managed by the cloud service. These functions can be used to build light weight integrations with Studio, or turn over complete control to the cloud brain.
+* The *Botkit Studio SDK* provides simple mechanisms for accessing these features from within your application.  With only a few new functions: [studio.get](#controllerstudioget), [studio.run](#controllerstudiorun), and [studio.runTrigger](#controllerruntrigger), your bot has full access to all of the content managed by the cloud service. These functions can be used to build light weight integrations with Studio, or turn over complete control to the cloud brain.
 
 ## Getting Started
 
