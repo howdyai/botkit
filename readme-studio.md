@@ -13,7 +13,7 @@ Table of Contents
 * Tutorial
 
 ## Key Features
-
+### Why use Botkit Studio?
 The goal of Botkit Studio is to make building bots with Botkit easier than ever before.
 The tools and this SDK are based on feedback from dozens of Botkit developers and more than a year of building and operating our flagship bot, [Howdy](https://howdy.ai).
 However, our intent is not to cover every base needed for building a successful bot. Rather, we focus on several key problem areas:
