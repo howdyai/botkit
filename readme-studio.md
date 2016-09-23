@@ -86,7 +86,8 @@ controller.on('direct_message,direct_mention,mention', function(bot, message) {
 });
 ```
 
-## The Botkit Studio Application Flow
+## The Botkit Studio Data Flow
+### Keep your bot secure and your user messages private!
 
 How do the Botkit tools handle your messages? Where do messages come from and go to?
 
