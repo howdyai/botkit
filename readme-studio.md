@@ -103,6 +103,8 @@ How do the Botkit tools handle your messages? Where do messages come from and go
 
 Our recommended best practices for the security and performance of your bot and the privacy of your users is to send as few messages to be interpreted by the trigger APIs as possible. As described above, a normal Botkit Studio bot should _only_ send messages to the API that can reasonably be expected to contain trigger words.
 
+The bottom line is, Botkit Studio does _not_ put itself between your users and your application. All messages are delivered _first_ and directly to your application, and only sent to our APIs once specific criteria are met. This is notably different than some other bot building services that actually receive and process messages on your behalf.
+
 ## Function Index
 
 ### controller.studio.run()
