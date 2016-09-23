@@ -25,6 +25,9 @@ However, our intent is not to cover every base needed for building a successful 
 
 ![Botkit Studio authoring tool](docs/studio_script_author.png)
 
+The screenshot above shows the script authoring tool, where bot developers can write dialog,
+manage [conversation threads](readme.md#conversation-threads), define variables to capture user input, and set triggers that will automatically activate the bot.
+
 ## Getting Started
 
 Before you get started, it is important to note that Botkit Studio is a extra set of features
