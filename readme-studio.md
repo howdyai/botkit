@@ -18,11 +18,11 @@ The goal of Botkit Studio is to make building bots with Botkit easier than ever 
 The tools and this SDK are based on feedback from dozens of Botkit developers and more than a year of building and operating our flagship bot, [Howdy](https://howdy.ai).
 However, our intent is not to cover every base needed for building a successful bot. Rather, we focus on several key problem areas:
 
-* Botkit Studio provides a cloud-based *authoring tool for creating and maintaining multi-thread conversations and scripts*. Scripts managed in Studio can be changed without changing the underlying application code, allowing for content updates, feature additions and product development without code deploys.
+* **Script Authoring**: Botkit Studio provides a cloud-based authoring tool for creating and maintaining multi-thread conversations and scripts. Scripts managed in Studio can be changed without changing the underlying application code, allowing for content updates, feature additions and product development without code deploys. Many types of conversation will _no longer require code_ to function.
 
-* Botkit Studio also provides cloud-based *trigger management*: developers may define trigger words and patterns externally from their code, allowing those triggers to expand and adapt as humans use the bot.
+* **Trigger Management**: Developers may define trigger words and patterns externally from their code, allowing those triggers to expand and adapt as humans use the bot.
 
-* The *Botkit Studio SDK* provides simple mechanisms for accessing these features from within your application.  With only a few new functions: [studio.get](#controllerstudioget), [studio.run](#controllerstudiorun), and [studio.runTrigger](#controllerruntrigger), your bot has full access to all of the content managed by the cloud service. These functions can be used to build light weight integrations with Studio, or turn over complete control to the cloud brain.
+* **Easy to use SDK**: Our open source SDK provides simple mechanisms for accessing these features from within your application.  With only a few new functions: [studio.get](#controllerstudioget), [studio.run](#controllerstudiorun), and [studio.runTrigger](#controllerruntrigger), your bot has full access to all of the content managed by the cloud service. These functions can be used to build light weight integrations with Studio, or turn over complete control to the cloud brain.
 
 ![Botkit Studio authoring tool](docs/studio_script_author.png)
 
@@ -66,7 +66,7 @@ token=REPLACE_THIS_WITH_YOUR_TOKEN studio_token=REPLACE_WITH_YOUR_BOTKIT_TOKEN n
 
 5) Your bot should be online! Within Slack, send it a quick direct message to say hello. It should say hello back!
 
-6) Create new scripts, triggers and behaviors within your Botkit Studio developer account, while connecting it to the application logic present in your bot code by using the features described [in the function index](#function-index)
+6) Create new scripts, triggers and behaviors within your Botkit Studio developer account, while connecting it to the application logic present in your bot code by using the features described [in the function index](#function-index).
 
 ### Adding Studio Features to an Existing Bot
 
