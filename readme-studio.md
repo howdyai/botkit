@@ -99,7 +99,7 @@ How do the Botkit tools handle your messages? Where do messages come from and go
 
     The trigger system (using [studio.runTrigger](#controllerstudioruntrigger)) will evaluate the input message against all configured triggers, and, should one be matched, return the full content of the script to your application.
 
-4. Botkit will _compile_ the script received from the API into a [conversation object](readme.md#multi-message-replies-to-incoming-messages) and conduct the resulting conversation. During the course of the conversation, *no messages* are sent to the Botkit Studio APIs. Said another way, while a bot is conducting a scripted conversation, all messages are sent and received directly between the application and the messaging platform.  This projects your user's messages, reduces network traffic, and ensures that your bot share information unnecessarily.
+4. Botkit will _compile_ the script received from the API into a [conversation object](readme.md#multi-message-replies-to-incoming-messages) and conduct the resulting conversation. During the course of the conversation, *no messages* are sent to the Botkit Studio APIs. Said another way, while a bot is conducting a scripted conversation, all messages are sent and received directly between the application and the messaging platform.  This projects your user's messages, reduces network traffic, and ensures that your bot will not share information unnecessarily.
 
 Our recommended best practices for the security and performance of your bot and the privacy of your users is to send as few messages to be interpreted by the trigger APIs as possible. As described above, a normal Botkit Studio bot should _only_ send messages to the API that can reasonably be expected to contain trigger words.
 
