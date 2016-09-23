@@ -11,22 +11,96 @@ Table of Contents
 * Function Index
 * Tutorial
 
+## Key Features
+
+The goal of Botkit Studio is to make building bots with Botkit easier than ever before.
+The tools and this SDK are based on feedback from dozens of Botkit developers and more than a year of building and operating our flagship bot, [Howdy](https://howdy.ai).
+However, our intent is not to cover every base needed for building a successful bot. Rather, we focus on several key problem areas:
+
+* Botkit Studio provides a cloud-based development environment for creating and maintaining multi-thread conversations and scripts. Scripts managed in Studio can be changed without changing the underlying application code, allowing for content updates, feature additions and product development without code deploys.
+
+* Botkit Studio also provides cloud-based trigger management: developers may define trigger words and patterns externally from their code, allowing those triggers to expand and adapt as humans use the bot.
+
+* The Botkit Studio SDK provides simple mechanisms for accessing these features from within your application.  With only a few new functions: [studio.get](#controllerstudioget), [studio.run](#controllerstudiorun), and [studio.runTrigger](#controllerruntrigger), your bot has full access to all of the content managed by the cloud service. These functions can be used to build light weight integrations with Studio, or turn over complete control to the cloud brain.
+
 ## Getting Started
+
+Before you get started, it is important to note that Botkit Studio is a extra set of features
+built on top of [all of the other existing Botkit features and plugins](readme.md), and all of the documentation and tutorials for those features applies to bots built with Studio as well.
+
+If you already have a Botkit bot, you may want to start [here](#adding-studio-features-to-an-existing-bot).
+
+The instructions below cover setting up a bot on a Slack team. However, you may also use any of the other Botkit connectors to operate a bot on [Facebook](readme-facebook.md), [Twilio](readme-twilioipm.md), or any other supported platform. Follow the instructions for configuring Botkit on those dedicated pages, then pick up below with the additional Studio configuration steps.
+
+### Start with the Starter Kit
 
 1) [Register for a developer account at Botkit Studio](https://studio.botkit.ai/signup)
 
 2) Download the Botkit Studio Starter Kit at [https://github.com/howdyai/botkit-studio-starter](https://github.com/howdyai/botkit-studio-starter). This code repository contains a fully functioning bot configured to work with Botkit Studio, and code examples demonstrating all of the key features. It also contains supporting material for the [tutorial included here](#tutorial).
 
-3) Collect your API tokens.
+3) Make a bot integration inside of your Slack channel. Go here:
 
+https://my.slack.com/services/new/bot
 
-## Adding Studio Features to an Existing Bot
+Enter a name for your bot.
+Make it something fun and friendly, but avoid a single task specific name.
+Bots can do lots! Let's not pigeonhole them.
+
+When you click "Add Bot Integration", you are taken to a page where you can add additional details about your bot, like an avatar, as well as customize its name & description.
+
+Copy the API token that Slack gives you. You'll need it.
+
+4) Inside Botkit Studio, locate the "API Keys" tab for your bot account, and copy the token.  Now you've got everything you need!
+
+4) With both tokens in hand, run the starter kit bot application from your command line:
+
+```
+token=REPLACE_THIS_WITH_YOUR_TOKEN studio_token=REPLACE_WITH_YOUR_BOTKIT_TOKEN node .
+```
+
+5) Your bot should be online! Within Slack, send it a quick direct message to say hello. It should say hello back!
+
+6) Create new scripts, triggers and behaviors within your Botkit Studio developer account, while connecting it to the application logic present in your bot code by using the features described [in the function index](#function-index)
+
+### Adding Studio Features to an Existing Bot
 
 If you've already got a bot built with Botkit, you can get started with new Studio features with only a few extra lines of code.
 
-Once you've received a Botkit Studio API token for your bot...
+After you've registered for a Botkit Studio developer account, you will receive an API token that grants your bot access to the content and features managed by the Studio cloud service.  You can add this to your existing Botkit app by passing in the Studio token to the Botkit constructor using the `studio_token` field:
 
+```
+// Create the Botkit controller that has access to Botkit Studio
+var controller = Botkit.slackbot({
+    debug: false,
+    studio_token: 'MY_BOTKIT_STUDIO_TOKEN'
+});
+```
 
+In order to add the Botkit Studio "catch all" handler that will activate the cloud script triggering service into your bot, add the following code to your application below all other Botkit `hears()` events. This will pass any un-handled direct message or direct mention through Botkit Studio's trigger service, and, should a matching trigger be found, execute the script.
+
+```
+controller.on('direct_message,direct_mention,mention', function(bot, message) {
+    controller.studio.runTrigger(bot, message.text, message.user, message.channel).catch(function(err) {
+        bot.reply(message, 'I experienced an error with a request to Botkit Studio: ' + err);
+    });
+});
+```
+
+## The Botkit Studio Application Flow
+
+How do the Botkit tools handle your messages? Where do messages come from and go to?
+
+1. The Botkit-powered application you build (and host yourself) receives messages directly from a messaging platform such as Slack or Facebook.
+
+2. Botkit will evaluate this message locally (within your application) to match it to internally defined triggers (using `hears()` or `on()` handlers).
+
+3. If and only if a message matches the conditions for being analyzed remotely -- by default, only messages sent directly to the bot that are not already part of an ongoing interaction -- the message is sent over an encrypted SSL channel to the Botkit Studio trigger system.
+
+The trigger system (using [studio.runTrigger](#controllerstudioruntrigger)) will evaluate the input message against all configured triggers, and, should one be matched, return the full content of the script to your application.
+
+4. Botkit will _compile_ the script received from the API into a [conversation object](readme.md#multi-message-replies-to-incoming-messages) and conduct the resulting conversation. During the course of the conversation, *no messages* are sent to the Botkit Studio APIs. Said another way, while a bot is conducting a scripted conversation, all messages are sent and received directly between the application and the messaging platform.  This projects your user's messages, reduces network traffic, and ensures that your bot share information unnecessarily.
+
+Our recommended best practices for the security and performance of your bot and the privacy of your users is to send as few messages to be interpreted by the trigger APIs as possible. As described above, a normal Botkit Studio bot should _only_ send messages to the API that can reasonably be expected to contain trigger words.
 
 ## Function Index
 
