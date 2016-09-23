@@ -23,6 +23,8 @@ However, our intent is not to cover every base needed for building a successful 
 
 * The *Botkit Studio SDK* provides simple mechanisms for accessing these features from within your application.  With only a few new functions: [studio.get](#controllerstudioget), [studio.run](#controllerstudiorun), and [studio.runTrigger](#controllerruntrigger), your bot has full access to all of the content managed by the cloud service. These functions can be used to build light weight integrations with Studio, or turn over complete control to the cloud brain.
 
+![Botkit Studio authoring tool](docs/studio_script_author.png)
+
 ## Getting Started
 
 Before you get started, it is important to note that Botkit Studio is a extra set of features
