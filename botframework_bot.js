@@ -19,19 +19,17 @@ This bot demonstrates many of the core features of Botkit:
 
 # RUN THE BOT:
 
-  Follow the instructions here to set up your Facebook app and page:
-
-    -> https://developers.facebook.com/docs/messenger-platform/implementation
+  Follow the instructions in the "Getting Started" section of the readme-botframework.md file to register your bot.
 
   Run your bot from the command line:
 
-    page_token=<MY PAGE TOKEN> verify_token=<MY_VERIFY_TOKEN> node facebook_bot.js [--lt [--ltsubdomain LOCALTUNNEL_SUBDOMAIN]]
+    app_id=<MY APP ID> app_password=<MY APP PASSWORD> node botframework_bot.js [--lt [--ltsubdomain LOCALTUNNEL_SUBDOMAIN]]
 
   Use the --lt option to make your bot available on the web through localtunnel.me.
 
 # USE THE BOT:
 
-  Find your bot inside Facebook to send it a direct message.
+  Find your bot inside Skype to send it a direct message.
 
   Say: "Hello"
 
