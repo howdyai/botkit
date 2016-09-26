@@ -15,7 +15,9 @@ Table of Contents
 
 * [Getting Started](#getting-started)
 * [Bot Framework Specific Events](#bot-framework-specific-events)
-* [Working with the Bot Framework IPM](#working-with-the-bot-framework)
+* [Working with the Bot Framework](#working-with-the-bot-framework)
+* [Sending Cards and Attachments](#sending-cards-and-attachments)
+* [Typing Indicator](#typing-indicator)
 
 ## Getting Started
 
@@ -91,13 +93,6 @@ controller.setupWebserver(process.env.port,function(err,webserver) {
   });
 });
 
-// this is triggered when a user adds a bot to their contact list
-controller.on('contactRelationUpdate', function(bot, message) {
-
-    bot.reply(message, 'Welcome to my app!');
-
-});
-
 // user said hello
 controller.hears(['hello'], 'message_received', function(bot, message) {
 
@@ -122,7 +117,9 @@ controller.hears(['cookies'], 'message_received', function(bot, message) {
 |---  |---
 | settings | Options used to configure the bot.  Supports fields from [IChatConnectorSettings](https://docs.botframework.com/en-us/node/builder/chat-reference/interfaces/_botbuilder_d_.ichatconnectorsettings.html).
 
-Creates a new instance of the bots controller.  The controller will create a new [ChatConnector](https://docs.botframework.com/en-us/node/builder/chat-reference/classes/_botbuilder_d_.chatconnector.html) so any options needed to configure the chat connector should be passed in via the _settings_ argument.
+Creates a new instance of the bots controller.  The controller will create a new [ChatConnector](https://docs.botframework.com/en-us/node/builder/chat-reference/classes/_botbuilder_d_.chatconnector.html) so any options needed to configure the chat connector should be passed in via the `settings` argument.
+
+Generally speaking your bot needs to be configured with both an [appId](https://docs.botframework.com/en-us/node/builder/chat-reference/interfaces/_botbuilder_d_.ichatconnectorsettings.html#appid) and [appPassword](https://docs.botframework.com/en-us/node/builder/chat-reference/interfaces/_botbuilder_d_.ichatconnectorsettings.html#apppassword). You can leave these blank but then your bot can only be called by the [Bot Framework Emulator](https://docs.botframework.com/en-us/tools/bot-framework-emulator/#navtitle).
 
 #### controller.setupWebserver()
 | Argument | Description
@@ -145,3 +142,66 @@ This function configures the route `https://_your_server_/botframework/receive`
 to receive webhooks from the Bot Framework.
 
 This url should be used when configuring Facebook.
+
+## Sending Cards and Attachments
+
+One of the more complicated aspects of building a bot that supports multiple chat platforms is dealing with all the various schemes these platforms support.  To help ease this development burden, the Bot Framework supports a cross platform card & attachment schema which lets you use a single JSON schema to express cards and attachments for any platform.  The Bot Frameworks channel adapters will do their best to render a card on a given platform which sometimes result in a card being broken up into multiple messages.
+
+#### Sending Images & Files
+
+The frameworks [attachment schema](https://docs.botframework.com/en-us/node/builder/chat-reference/interfaces/_botbuilder_d_.iattachment.html) lets you send a single image/file using `contentType` and `contentUrl` fields:
+ 
+```javascript
+    bot.reply(message, {
+        attachments: [
+            {
+                contentType: 'image/png',
+                contentUrl: 'https://upload.wikimedia.org/wikipedia/en/a/a6/Bender_Rodriguez.png',
+                name: 'Bender_Rodriguez.png'
+            }
+        ]
+    });
+```
+
+#### Sending Cards
+
+Rich cards can be expressed as attachments by changing the `contentType` and using the `content` field to pass a JSON object defining the card:
+
+```javascript
+    bot.reply(message, {
+        attachments: [
+            {
+                contentType: 'application/vnd.microsoft.card.hero',
+                content: {
+                    title: "I'm a hero card",
+                    subtitle: "Pig Latin Wikipedia Page",
+                    images: [
+                        { url: "https://<ImageUrl1>" },
+                        { url: "https://<ImageUrl2>" }
+                    ],
+                    buttons: [
+                        {
+                            type: "openUrl",
+                            title: "WikiPedia Page",
+                            value: "https://en.wikipedia.org/wiki/Pig_Latin"
+                        }
+                    ]
+                }
+            }
+        ]
+    });
+```
+
+The full list of supported card types and relevant schema can be found [here](https://docs.botframework.com/en-us/csharp/builder/sdkreference/attachments.html)
+
+#### Using the Platforms Native Schema
+
+There may be times where the Bot Frameworks cross platform attachment schema doesn’t cover your needs. For instance, you may be trying to send a card type not directly supported by the framework.  In those cases you can pass a message using the platforms native schema to the `sourceEvent` field on the message.  Examples of this can be found [here](https://docs.botframework.com/en-us/csharp/builder/sdkreference/channels.html) (note: you should use `sourceEvent` instead of `channelData` and you don’t need to worry about the from & to fields, these will be populated for you when you call `bot.reply()`.) 
+
+## Typing Indicator
+
+You can easily turn on the typing indicator on platforms that support that behaviour by sending an empty message of type "typing":
+
+```javascript
+    bot.reply(message, { type: "typing" });
+```

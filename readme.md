@@ -13,6 +13,7 @@ Botkit features a comprehensive set of tools to deal with popular messaging plat
 * [Slack](readme-slack.md)
 * [Facebook Messenger](readme-facebook.md)
 * [Twilio IP Messaging](readme-twilioipm.md)
+* [Microsoft Bot Framework](readme-botframework.md)
 * Yours? [info@howdy.ai](mailto:info@howdy.ai)
 
 ## Installation
