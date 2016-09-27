@@ -83,12 +83,12 @@ if(ops.lt === false && ops.ltsubdomain !== null) {
 }
 
 var controller = Botkit.botframeworkbot({
-    debug: true,
-    appId: process.env.app_id,
-    appPassword: process.env.app_password,
+    debug: true
 });
 
 var bot = controller.spawn({
+    appId: process.env.app_id,
+    appPassword: process.env.app_password
 });
 
 controller.setupWebserver(process.env.port || 3000, function(err, webserver) {
