@@ -1,5 +1,26 @@
 # Change Log
 
+## 0.4
+
+Add support for Botkit Studio APIs. [More Info](readme-studio.md)
+
+Add support for Microsoft Bot Framework. [More Info](readme-botframework.md)
+
+Merged numerous pull requests:
+[PR #358](https://github.com/howdyai/botkit/pull/358)
+[PR #361](https://github.com/howdyai/botkit/pull/361)
+[PR #353](https://github.com/howdyai/botkit/pull/353)
+[PR #363](https://github.com/howdyai/botkit/pull/363)
+[PR #320](https://github.com/howdyai/botkit/pull/320)
+[PR #319](https://github.com/howdyai/botkit/pull/319)
+[PR #317](https://github.com/howdyai/botkit/pull/317)
+[PR #299](https://github.com/howdyai/botkit/pull/299)
+[PR #298](https://github.com/howdyai/botkit/pull/298)
+[PR #293](https://github.com/howdyai/botkit/pull/293)
+[PR #256](https://github.com/howdyai/botkit/pull/256)
+
+Botkit now sends basic, anonymous usage stats to stats.botkit.ai
+
 ## 0.2.2
 
 Add support for Slack Interactive Messages.
