@@ -4,7 +4,7 @@
 [![David](https://img.shields.io/david/howdyai/botkit.svg)](https://david-dm.org/howdyai/botkit)
 [![npm](https://img.shields.io/npm/l/botkit.svg)](https://spdx.org/licenses/MIT)
 
-Botkit is designed to ease the process of designing and running useful, creative bots that live inside [Slack](http://slack.com), [Facebook Messenger](http://facebook.com), [Twilio IP Messaging](https://www.twilio.com/docs/api/ip-messaging), and other messaging platforms.
+Botkit is designed to ease the process of designing and running useful, creative bots that live inside [Slack](http://slack.com), [Facebook Messenger](http://facebook.com), [Twilio IP Messaging](https://www.twilio.com/docs/api/ip-messaging), and other messaging platforms. Support for new platforms is added regularly!
 
 It provides a semantic interface to sending and receiving messages so that developers can focus on creating novel applications and experiences instead of dealing with API endpoints.
 
@@ -16,7 +16,32 @@ Botkit features a comprehensive set of tools to deal with popular messaging plat
 * [Microsoft Bot Framework](readme-botframework.md)
 * Yours? [info@howdy.ai](mailto:info@howdy.ai)
 
-## Installation
+## Botkit Studio
+
+Based on feedback from the Botkit developer community, as well as experience running our flagship Botkit-powered bot, [Howdy](http://howdy.ai)
+
+## Getting Started
+
+There are two ways to start a Botkit project:
+
+[Install Botkit directly from NPM or Github](#install-botkit-from-npm-or-github) and build a new app from scratch, or use one of the [included examples](#included-examples) as a starting point.
+
+[Install the Botkit Studio Starter Kit](https://github.com/howdyai/botkit-studio-starter) and build on top of an already fully functioning bot
+that comes pre-configured with popular middleware plug-ins and components.
+
+After you've installed Botkit using one of these methods, the first thing you'll need to do is register your bot with a messaging platform, and get a few configuration options set. This will allow your bot to connect, send and receive messages.
+
+If you intend to create a bot that
+lives in Slack, [follow these instructions for attaining a Bot Token](readme-slack.md#getting-started).
+
+If you intend to create a bot that lives in Facebook Messenger, [follow these instructions for configuring your Facebook page](readme-facebook.md#getting-started).
+
+If you intend to create a bot that lives inside a Twilio IP Messaging client, [follow these instructions for configuring your app](readme-twilioipm.md#getting-started).
+
+If you intend to create a bot that uses Microsoft Bot Framework to send and receive messages, [follow these instructions for configuring your app](readme-botframework.md#getting-started).
+
+
+## Install Botkit from NPM or Github
 
 Botkit is available via NPM.
 
@@ -42,19 +67,6 @@ npm install --production
 ```
 
 
-## Getting Started
-
-After you've installed Botkit, the first thing you'll need to do is register your bot with a messaging platform, and get a few configuration options set. This will allow your bot to connect, send and receive messages.
-
-The fastest way to get a bot online and get to work is to start from one of the [examples included in the repo](#included-examples).
-
-If you intend to create a bot that
-lives in Slack, [follow these instructions for attaining a Bot Token](readme-slack.md#getting-started).
-
-If you intend to create a bot that lives in Facebook Messenger, [follow these instructions for configuring your Facebook page](readme-facebook.md#getting-started).
-
-If you intent to create a bot that lives inside a Twilio IP Messaging client, [follow these instructions for configuring your app](readme-twilioipm.md#getting-started).
-
 ## Core Concepts
 
 Bots built with Botkit have a few key capabilities, which can be used to create clever, conversational applications. These capabilities map to the way real human people talk to each other.
@@ -73,8 +85,10 @@ it is ready to be connected to a stream of incoming messages. Currently, Botkit 
 * [Slack Slash Commands](http://api.slack.com/slash-commands)
 * [Facebook Messenger Webhooks](https://developers.facebook.com/docs/messenger-platform/implementation)
 * [Twilio IP Messaging](https://www.twilio.com/user/account/ip-messaging/getting-started)
+* [Microsoft Bot Framework](http://botframework.com/)
 
-Read more about [connecting your bot to Slack](readme-slack.md#connecting-your-bot-to-slack), [connecting your bot to Facebook](readme-facebook.md#getting-started), or [connecting your bot to Twilio](readme-twilioipm.md#getting-started).
+Read more about [connecting your bot to Slack](readme-slack.md#connecting-your-bot-to-slack), [connecting your bot to Facebook](readme-facebook.md#getting-started), [connecting your bot to Twilio](readme-twilioipm.md#getting-started),
+or [connecting your bot to Microsoft Bot Framework](readme-botframework.md#getting-started)
 
 ## Included Examples
 
@@ -85,6 +99,8 @@ These examples are included in the Botkit [Github repo](https://github.com/howdy
 [facebook_bot.js](https://github.com/howdyai/botkit/blob/master/facebook_bot.js) An example bot that can be connected to your Facebook page. Useful as a basis for creating your first bot!
 
 [twilio_ipm_bot.js](https://github.com/howdyai/botkit/blob/master/twilio_ipm_bot.js) An example bot that can be connected to your Twilio IP Messaging client. Useful as a basis for creating your first bot!
+
+[botframework_bot.js](https://github.com/howdyai/botkit/blob/master/botframework_bot.js) An example bot that can be connected to the Microssoft Bot Framework network. Useful as a basis for creating your first bot!
 
 [examples/demo_bot.js](https://github.com/howdyai/botkit/blob/master/examples/demo_bot.js) another example bot that uses different ways to send and receive messages.
 

@@ -4,9 +4,10 @@
 
 Add support for Botkit Studio APIs. [More Info](readme-studio.md)
 
-Add support for Microsoft Bot Framework. [More Info](readme-botframework.md)
+Add support for Microsoft Bot Framework.  The [Microsoft Bot Framework](https://botframework.com) makes it easy to create a single bot that can run across a variety of messaging channels including [Skype](https://skype.com), [Group.me](https://groupme.com), [Facebook Messenger](https://messenger.com), [Slack](https://slack.com),
+[Telegram](https://telegram.org/), [Kik](https://www.kik.com/), [SMS](https://www.twilio.com/), and [email](https://microsoft.office.com). [More Info](readme-botframework.md)
 
-Merged numerous pull requests:
+Merged numerous pull requests from the community: 
 [PR #358](https://github.com/howdyai/botkit/pull/358)
 [PR #361](https://github.com/howdyai/botkit/pull/361)
 [PR #353](https://github.com/howdyai/botkit/pull/353)
