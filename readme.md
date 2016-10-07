@@ -477,7 +477,7 @@ This works just like `startConversation()`, with one main difference - the conve
 object passed into the callback will be in a dormant state. No messages will be sent,
 and the conversation will not collect responses until it is activated using [convo.activate()](#conversationactivate).
 
-Use `createConversation()` instead of `startConversation()` when you plan on creating more complex conversation structures using [threads](#) or [variables and templates](#using-variable-tokens-and-templates-in-conversation-threads) in your messages.
+Use `createConversation()` instead of `startConversation()` when you plan on creating more complex conversation structures using [threads](#conversation-threads) or [variables and templates](#using-variable-tokens-and-templates-in-conversation-threads) in your messages.
 
 ### Control Conversation Flow
 
