@@ -423,6 +423,18 @@ When a slash command is received from Slack, Botkit fires the `slash_command` ev
 When an outgoing webhook is recieved from Slack, Botkit fires the `outgoing_webhook` event.
 
 
+#### bot.replyAcknowledge
+
+| Argument | Description
+|---  |---
+| callback | optional callback
+
+When used with slash commands, this function responds with a 200 OK response
+with an empty response body.
+[View Slack's docs here](https://api.slack.com/slash-commands)
+
+
+
 #### bot.replyPublic()
 
 | Argument | Description
