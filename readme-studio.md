@@ -7,9 +7,9 @@ This document covers the Botkit Studio SDK details only. [Start here](readme.md)
 
 Table of Contents
 
-* Key Features
-* Getting Started
-* Function Index
+* [Key Features](#key-features)
+* [Getting Started](#getting-started)
+* [Function Index](#function-index)
 
 ## Key Features
 ### Why use Botkit Studio?
