@@ -107,7 +107,7 @@ These examples are included in the Botkit [Github repo](https://github.com/howdy
 
 [twilio_ipm_bot.js](https://github.com/howdyai/botkit/blob/master/twilio_ipm_bot.js) An example bot that can be connected to your Twilio IP Messaging client. Useful as a basis for creating your first bot!
 
-[botframework_bot.js](https://github.com/howdyai/botkit/blob/master/botframework_bot.js) An example bot that can be connected to the Microssoft Bot Framework network. Useful as a basis for creating your first bot!
+[botframework_bot.js](https://github.com/howdyai/botkit/blob/master/botframework_bot.js) An example bot that can be connected to the Microsoft Bot Framework network. Useful as a basis for creating your first bot!
 
 [examples/demo_bot.js](https://github.com/howdyai/botkit/blob/master/examples/demo_bot.js) another example bot that uses different ways to send and receive messages.
 
