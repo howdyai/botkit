@@ -161,7 +161,7 @@ controller.hears('hello',['direct_message','direct_mention','mention'],function(
 
 ```
 
-### Opt Out of Stats
+### Botkit Statistics Gathering
 
 As of version 0.4, Botkit records anonymous usage statistics about Botkit bots in the wild.
 These statistics are used by the Botkit team at [Howdy](http://howdy.ai) to measure and
@@ -171,6 +171,8 @@ We take the privacy of Botkit developers and their users very seriously. Botkit 
 or transmit any message content, user data, or personally identifiable information to our statistics system.
 The information that is collected is anonymized inside Botkit and converted using one-way encryption
 into a hash before being transmitted.
+
+#### Opt Out of Stats
 
 To opt out of the stats collection, pass in the `stats_optout` parameter when initializing Botkit,
 as seen in the example below:
