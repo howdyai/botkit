@@ -24,6 +24,8 @@ Merged numerous pull requests from the community:
 [PR #293](https://github.com/howdyai/botkit/pull/293)
 [PR #256](https://github.com/howdyai/botkit/pull/256)
 [PR #403](https://github.com/howdyai/botkit/pull/403)
+[PR #392](https://github.com/howdyai/botkit/pull/392)
+
 
 
 In order to learn about and better serve our user community, Botkit now sends anonymous usage stats to stats.botkit.ai. To learn about opting out of stats collection, [read here](readme.md#opt-out-of-stats).
