@@ -4,10 +4,12 @@
 
 Add support for Botkit Studio APIs. [More Info](readme-studio.md)
 
+Substantially expanded the documentation regarding Botkit's [conversation thread system](readme.md#conversation-threads).
+
 Add support for Microsoft Bot Framework.  The [Microsoft Bot Framework](https://botframework.com) makes it easy to create a single bot that can run across a variety of messaging channels including [Skype](https://skype.com), [Group.me](https://groupme.com), [Facebook Messenger](https://messenger.com), [Slack](https://slack.com),
 [Telegram](https://telegram.org/), [Kik](https://www.kik.com/), [SMS](https://www.twilio.com/), and [email](https://microsoft.office.com). [More Info](readme-botframework.md)
 
-Merged numerous pull requests from the community: 
+Merged numerous pull requests from the community:
 [PR #358](https://github.com/howdyai/botkit/pull/358)
 [PR #361](https://github.com/howdyai/botkit/pull/361)
 [PR #353](https://github.com/howdyai/botkit/pull/353)
@@ -20,7 +22,7 @@ Merged numerous pull requests from the community:
 [PR #293](https://github.com/howdyai/botkit/pull/293)
 [PR #256](https://github.com/howdyai/botkit/pull/256)
 
-Botkit now sends basic, anonymous usage stats to stats.botkit.ai
+In order to learn about and better serve our user community, Botkit now sends anonymous usage stats to stats.botkit.ai. To learn about opting out of stats collection, [read here](readme.md#opt-out-of-stats).
 
 ## 0.2.2
 

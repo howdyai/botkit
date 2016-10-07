@@ -18,15 +18,22 @@ Botkit features a comprehensive set of tools to deal with popular messaging plat
 
 ## Botkit Studio
 
-Based on feedback from the Botkit developer community, as well as experience running our flagship Botkit-powered bot, [Howdy](http://howdy.ai)
+[Botkit Studio](https://studio.botkit.ai) is a hosted development environment for bots from the same team that built Botkit.
+Based on feedback from the developer community, as well as experience running our flagship Botkit-powered bot, [Howdy](http://howdy.ai),
+the tools in Botkit Studio allow bot designers and developers to manage many aspects of bot behavior without writing additional code.
+
+[Start building your bot with Botkit Studio](readme-studio.md) and you'll start from day one with extra tools and features that
+help you create and manage a successful bot application. It is also possible to add Studio features to your existing Botkit application. [With a few lines of code](readme-studio.md#adding-studio-features-to-an-existing-bot), you can add access new features and APIs.
+
+Botkit Studio is built on top of Botkit, so everything that works with Botkit continues to just work. All of the available plugins and middleware are compatible!
 
 ## Getting Started
 
 There are two ways to start a Botkit project:
 
-[Install Botkit directly from NPM or Github](#install-botkit-from-npm-or-github) and build a new app from scratch, or use one of the [included examples](#included-examples) as a starting point.
+1) [Install Botkit directly from NPM or Github](#install-botkit-from-npm-or-github) and build a new app from scratch, or use one of the [included examples](#included-examples) as a starting point.
 
-[Install the Botkit Studio Starter Kit](https://github.com/howdyai/botkit-studio-starter) and build on top of an already fully functioning bot
+2) [Install the Botkit Studio Starter Kit](https://github.com/howdyai/botkit-studio-starter) and build on top of an already fully functioning bot
 that comes pre-configured with popular middleware plug-ins and components.
 
 After you've installed Botkit using one of these methods, the first thing you'll need to do is register your bot with a messaging platform, and get a few configuration options set. This will allow your bot to connect, send and receive messages.
@@ -153,6 +160,27 @@ controller.hears('hello',['direct_message','direct_mention','mention'],function(
 });
 
 ```
+
+### Opt Out of Stats
+
+As of version 0.4, Botkit records anonymous usage statistics about Botkit bots in the wild.
+These statistics are used by the Botkit team at [Howdy](http://howdy.ai) to measure and
+analyze the Botkit community, and help to direct resources to the appropriate parts of the project.
+
+We take the privacy of Botkit developers and their users very seriously. Botkit does not collect,
+or transmit any message content, user data, or personally identifiable information to our statistics system.
+The information that is collected is anonymized inside Botkit and converted using one-way encryption
+into a hash before being transmitted.
+
+To opt out of the stats collection, pass in the `stats_optout` parameter when initializing Botkit,
+as seen in the example below:
+
+```
+var controller = Botkit.slackbot({
+    stats_optout: true
+});
+```
+
 
 # Developing with Botkit
 
