@@ -1,5 +1,35 @@
 # Change Log
 
+## 0.4
+
+Add support for Botkit Studio APIs. [More Info](readme-studio.md)
+
+Substantially expanded the documentation regarding Botkit's [conversation thread system](readme.md#conversation-threads).
+
+Add support for Microsoft Bot Framework.  The [Microsoft Bot Framework](https://botframework.com) makes it easy to create a single bot that can run across a variety of messaging channels including [Skype](https://skype.com), [Group.me](https://groupme.com), [Facebook Messenger](https://messenger.com), [Slack](https://slack.com),
+[Telegram](https://telegram.org/), [Kik](https://www.kik.com/), [SMS](https://www.twilio.com/), and [email](https://microsoft.office.com). [More Info](readme-botframework.md)
+
+Updates to Facebook Messenger connector to support features like message echoes, read receipts, and quick replies.
+
+Merged numerous pull requests from the community:
+[PR #358](https://github.com/howdyai/botkit/pull/358)
+[PR #361](https://github.com/howdyai/botkit/pull/361)
+[PR #353](https://github.com/howdyai/botkit/pull/353)
+[PR #363](https://github.com/howdyai/botkit/pull/363)
+[PR #320](https://github.com/howdyai/botkit/pull/320)
+[PR #319](https://github.com/howdyai/botkit/pull/319)
+[PR #317](https://github.com/howdyai/botkit/pull/317)
+[PR #299](https://github.com/howdyai/botkit/pull/299)
+[PR #298](https://github.com/howdyai/botkit/pull/298)
+[PR #293](https://github.com/howdyai/botkit/pull/293)
+[PR #256](https://github.com/howdyai/botkit/pull/256)
+[PR #403](https://github.com/howdyai/botkit/pull/403)
+[PR #392](https://github.com/howdyai/botkit/pull/392)
+
+
+
+In order to learn about and better serve our user community, Botkit now sends anonymous usage stats to stats.botkit.ai. To learn about opting out of stats collection, [read here](readme.md#opt-out-of-stats).
+
 ## 0.2.2
 
 Add support for Slack Interactive Messages.
