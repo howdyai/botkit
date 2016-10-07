@@ -78,11 +78,11 @@ Here is the complete code for a basic Bot Framework bot:
 ```javascript
 var Botkit = require('botkit');
 var controller = Botkit.botframeworkbot({
-        appId: process.env.app_id,
-        appPassword: process.env.app_password,
 });
 
 var bot = controller.spawn({
+        appId: process.env.app_id,
+        appPassword: process.env.app_password
 });
 
 // if you are already using Express, you can use your own server instance...
