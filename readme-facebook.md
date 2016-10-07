@@ -62,6 +62,7 @@ Normal messages will be sent to your bot using the `message_received` event.  In
 | message_received | a message was received by the bot
 | facebook_postback | user clicked a button in an attachment and triggered a webhook postback
 | message_delivered | a confirmation from Facebook that a message has been received
+| message_read | a confirmation from Facebook that a message has been read
 | facebook_optin | a user has clicked the [Send-to-Messenger plugin](https://developers.facebook.com/docs/messenger-platform/implementation#send_to_messenger_plugin)
 
 All incoming events will contain the fields `user` and `channel`, both of which represent the Facebook user's ID, and a `timestamp` field.
