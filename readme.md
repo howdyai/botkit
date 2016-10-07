@@ -31,10 +31,10 @@ Botkit Studio is built on top of Botkit, so everything that works with Botkit co
 
 There are two ways to start a Botkit project:
 
-1) [Install Botkit directly from NPM or Github](#install-botkit-from-npm-or-github) and build a new app from scratch, or use one of the [included examples](#included-examples) as a starting point.
-
-2) [Install the Botkit Studio Starter Kit](https://github.com/howdyai/botkit-studio-starter) and build on top of an already fully functioning bot
+1) [Install the Botkit Studio Starter Kit](https://github.com/howdyai/botkit-studio-starter) and build on top of an already fully functioning bot
 that comes pre-configured with popular middleware plug-ins and components.
+
+2) [Install Botkit directly from NPM or Github](#install-botkit-from-npm-or-github) and build a new app from scratch, or use one of the [included examples](#included-examples) as a starting point.
 
 After you've installed Botkit using one of these methods, the first thing you'll need to do is register your bot with a messaging platform, and get a few configuration options set. This will allow your bot to connect, send and receive messages.
 
