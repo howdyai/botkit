@@ -13,7 +13,7 @@ var bot = controller.spawn({
     autojoin: true
 });
 
-controller.setupWebserver(process.env.port || 3000, function(err, server) {
+controller.setupWebserver(process.env.PORT || 3000, function(err, server) {
 
     server.get('/', function(req, res) {
         res.send(':)');

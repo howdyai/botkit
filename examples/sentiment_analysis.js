@@ -55,7 +55,7 @@ function startBot(db) {
     });
 
     botkitController.spawn({
-        token: process.env.token
+        token: process.env.TOKEN
     }).startRTM(function (err) {
         if (err) {
             throw err;
@@ -145,8 +145,8 @@ function startBot(db) {
     });
 }
 
-if (!process.env.token) {
-    console.log('Error: Specify token in environment');
+if (!process.env.TOKEN) {
+    console.log('Error: Specify TOKEN in environment');
     process.exit(1);
 }
 

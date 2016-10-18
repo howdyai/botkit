@@ -23,7 +23,7 @@ This bot demonstrates many of the core features of Botkit:
 
   Run your bot from the command line:
 
-    app_id=<MY APP ID> app_password=<MY APP PASSWORD> node botframework_bot.js [--lt [--ltsubdomain LOCALTUNNEL_SUBDOMAIN]]
+    APP_ID=<MY APP ID> APP_PASSWORD=<MY APP PASSWORD> node botframework_bot.js [--lt [--ltsubdomain LOCALTUNNEL_SUBDOMAIN]]
 
   Use the --lt option to make your bot available on the web through localtunnel.me.
 
@@ -87,15 +87,15 @@ var controller = Botkit.botframeworkbot({
 });
 
 var bot = controller.spawn({
-    appId: process.env.app_id,
-    appPassword: process.env.app_password
+    appId: process.env.APP_ID,
+    appPassword: process.env.APP_PASSWORD
 });
 
-controller.setupWebserver(process.env.port || 3000, function(err, webserver) {
+controller.setupWebserver(process.env.PORT || 3000, function(err, webserver) {
     controller.createWebhookEndpoints(webserver, bot, function() {
         console.log('ONLINE!');
         if(ops.lt) {
-            var tunnel = localtunnel(process.env.port || 3000, {subdomain: ops.ltsubdomain}, function(err, tunnel) {
+            var tunnel = localtunnel(process.env.PORT || 3000, {subdomain: ops.ltsubdomain}, function(err, tunnel) {
                 if (err) {
                     console.log(err);
                     process.exit();

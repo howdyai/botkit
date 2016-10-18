@@ -270,7 +270,7 @@ bot.sendWebhook({
 // receive outgoing or slash commands
 // if you are already using Express, you can use your own server instance...
 // see "Use BotKit with an Express web server"
-controller.setupWebserver(process.env.port,function(err,webserver) {
+controller.setupWebserver(process.env.PORT,function(err,webserver) {
 
   controller.createWebhookEndpoints(controller.webserver);
 
@@ -588,13 +588,13 @@ var Botkit = require('botkit');
 var controller = Botkit.slackbot();
 
 controller.configureSlackApp({
-  clientId: process.env.clientId,
-  clientSecret: process.env.clientSecret,
+  clientId: process.env.CLIENT_ID,
+  clientSecret: process.env.CLIENT_SECRET,
   redirectUri: 'http://localhost:3002',
   scopes: ['incoming-webhook','team:read','users:read','channels:read','im:read','im:write','groups:read','emoji:read','chat:write:bot']
 });
 
-controller.setupWebserver(process.env.port,function(err,webserver) {
+controller.setupWebserver(process.env.PORT,function(err,webserver) {
 
   // set up web endpoints for oauth, receiving webhooks, etc.
   controller
@@ -648,7 +648,7 @@ During development, a tool such as [localtunnel.me](http://localtunnel.me) is us
 
 ```
 // set up a botkit app to expose oauth and webhook endpoints
-controller.setupWebserver(process.env.port,function(err,webserver) {
+controller.setupWebserver(process.env.PORT,function(err,webserver) {
 
   // set up web endpoints for oauth, receiving webhooks, etc.
   controller

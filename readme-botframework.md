@@ -34,7 +34,7 @@ Table of Contents
 4) Run the example bot using the App ID & Password you were assigned. If you are _not_ running your bot at a public, SSL-enabled internet address, use the --lt option and update your bots endpoint in the developer portal to use the URL assigned to your bot.
 
 ```
-app_id=<MY_APP_ID> app_password=<MY_APP_PASSWORD> node botframework_bot.js [--lt [--ltsubdomain CUSTOM_SUBDOMAIN]]
+APP_ID=<MY_APP_ID> APP_PASSWORD=<MY_APP_PASSWORD> node botframework_bot.js [--lt [--ltsubdomain CUSTOM_SUBDOMAIN]]
 ```    
 
 5) Your bot should be online! Within Skype, find the bot in your contacts list, and send it a message.
@@ -81,13 +81,13 @@ var controller = Botkit.botframeworkbot({
 });
 
 var bot = controller.spawn({
-        appId: process.env.app_id,
-        appPassword: process.env.app_password
+        appId: process.env.APP_ID,
+        appPassword: process.env.APP_PASSWORD
 });
 
 // if you are already using Express, you can use your own server instance...
 // see "Use BotKit with an Express web server"
-controller.setupWebserver(process.env.port,function(err,webserver) {
+controller.setupWebserver(process.env.PORT,function(err,webserver) {
   controller.createWebhookEndpoints(controller.webserver, bot, function() {
       console.log('This bot is online!!!');
   });
