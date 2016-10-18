@@ -85,8 +85,8 @@ Here is the complete code for a basic Facebook bot:
 ```javascript
 var Botkit = require('botkit');
 var controller = Botkit.facebookbot({
-        access_token: process.env.access_token,
-        verify_token: process.env.verify_token,
+        access_token: process.env.ACCESS_TOKEN,
+        verify_token: process.env.VERIFY_TOKEN,
 })
 
 var bot = controller.spawn({
@@ -94,7 +94,7 @@ var bot = controller.spawn({
 
 // if you are already using Express, you can use your own server instance...
 // see "Use BotKit with an Express web server"
-controller.setupWebserver(process.env.port,function(err,webserver) {
+controller.setupWebserver(process.env.PORT,function(err,webserver) {
   controller.createWebhookEndpoints(controller.webserver, bot, function() {
       console.log('This bot is online!!!');
   });
