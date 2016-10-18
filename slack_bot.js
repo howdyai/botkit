@@ -76,6 +76,24 @@ var controller = Botkit.slackbot({
     debug: true,
 });
 
+
+controller.configureSlackApp({
+    clientId: process.env.clientId,
+    clientSecret: process.env.clientSecret,
+    redirectUri: process.env.redirectUrl,
+    scopes: ['bot']
+});
+
+controller.setupWebserver(process.env.port,function(err,webserver) {
+
+    // set up web endpoints for oauth, receiving webhooks, etc.
+    controller
+        .createHomepageEndpoint(controller.webserver)
+        .createOauthEndpoints(controller.webserver,function(err,req,res) { if (err) { console.log('Error setting up oAuth Endpoints:', err)}})
+        .createWebhookEndpoints(controller.webserver);
+
+});
+
 var bot = controller.spawn({
     token: process.env.token
 }).startRTM();
