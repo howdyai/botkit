@@ -135,13 +135,17 @@ controller.on('interactive_message_callback', function(bot, message) {
 });
 
 
+controller.on('message_received', function(bot, message) {
+  controller.debug('=================Someone sent a message!!')
+})
+
 controller.on('create_bot',function(bot,config) {
 
   if (_bots[bot.config.token]) {
     // already online! do nothing.
   } else {
     bot.startRTM(function(err) {
-
+    // bot.identity =
       if (!err) {
         trackBot(bot);
       }
@@ -293,6 +297,18 @@ controller.hears('interactive', 'direct_message', function(bot, message) {
     });
 });
 
+controller.on('message_received', function(bot, message) {
+  if (message.type ==='event_callback') {
+  bot.reply(message, ':lacroix:')
+}
+})
+
+controller.hears('pizza', 'direct_message', function(bot, message) {
+  if (message.type ==='event_callback') {
+    bot.reply(message, ':pizza:')
+
+}
+})
 
 controller.hears('^stop','direct_message',function(bot,message) {
   bot.reply(message,'Goodbye');
@@ -323,6 +339,7 @@ controller.storage.teams.all(function(err,teams) {
         if (err) {
           console.log('Error connecting bot to Slack:',err);
         } else {
+          // bot.identity =
           trackBot(bot);
         }
       });
