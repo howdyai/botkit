@@ -36,6 +36,7 @@ if (!process.env.clientId || !process.env.clientSecret || !process.env.port) {
 var controller = Botkit.slackbot({
   // interactive_replies: true, // tells botkit to send button clicks into conversations
   json_file_store: './db_slackbutton_bot/',
+  debug: true,
 }).configureSlackApp(
   {
     clientId: process.env.clientId,
@@ -64,6 +65,13 @@ function trackBot(bot) {
   _bots[bot.config.token] = bot;
 }
 
+
+controller.on('message_received', function(bot, message) {
+  controller.debug('==========\n==========message_received!!!!!!!')
+
+  if (message.events_api){
+}
+})
 
 controller.on('interactive_message_callback', function(bot, message) {
 
@@ -318,7 +326,7 @@ controller.on('reaction_added', function(bot, message) {
   console.log('=========REACTION ADDED MESSAGE:\n', message)
 })
 
-controller.on(['direct_message','mention','direct_mention'],function(bot,message) {
+controller.on('direct_message, message_received',function(bot,message) {
   if (message.events_api) {
   bot.api.reactions.add({
     timestamp: message.ts,
@@ -341,14 +349,14 @@ controller.storage.teams.all(function(err,teams) {
   for (var t  in teams) {
     if (teams[t].bot) {
       controller.spawn(teams[t])
-      // .startRTM(function(err, bot) {
-      //   if (err) {
-      //     console.log('Error connecting bot to Slack:',err);
-      //   } else {
-      //     // bot.identity =
-      //     trackBot(bot);
-      //   }
-      // });
+    //   .startRTM(function(err, bot) {
+    //     if (err) {
+    //       console.log('Error connecting bot to Slack:',err);
+    //     } else {
+    //       // bot.identity =
+    //       trackBot(bot);
+    //     }
+    //   });
     }
   }
 
