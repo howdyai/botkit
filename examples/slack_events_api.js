@@ -25,6 +25,7 @@ controller.setupWebserver(process.env.port, function(err, webserver) {
     });
 });
 
+controller.startTicking()
 
 controller.on('reaction_added', function(bot, message) {
     if (message.item.type === 'message') {
