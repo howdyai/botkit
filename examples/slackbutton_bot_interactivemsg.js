@@ -135,34 +135,30 @@ controller.on('interactive_message_callback', function(bot, message) {
 });
 
 
-controller.on('message_received', function(bot, message) {
-  controller.debug('=================Someone sent a message!!')
-})
-
-controller.on('create_bot',function(bot,config) {
-
-  if (_bots[bot.config.token]) {
-    // already online! do nothing.
-  } else {
-    bot.startRTM(function(err) {
-    // bot.identity =
-      if (!err) {
-        trackBot(bot);
-      }
-
-      bot.startPrivateConversation({user: config.createdBy},function(err,convo) {
-        if (err) {
-          console.log(err);
-        } else {
-          convo.say('I am a bot that has just joined your team');
-          convo.say('You must now /invite me to a channel so that I can be of use!');
-        }
-      });
-
-    });
-  }
-
-});
+// controller.on('create_bot',function(bot,config) {
+//
+//   if (_bots[bot.config.token]) {
+//     // already online! do nothing.
+//   } else {
+//     bot.startRTM(function(err) {
+//     // bot.identity =
+//       if (!err) {
+//         trackBot(bot);
+//       }
+//
+//       bot.startPrivateConversation({user: config.createdBy},function(err,convo) {
+//         if (err) {
+//           console.log(err);
+//         } else {
+//           convo.say('I am a bot that has just joined your team');
+//           convo.say('You must now /invite me to a channel so that I can be of use!');
+//         }
+//       });
+//
+//     });
+//   }
+//
+// });
 
 
 // Handle events related to the websocket connection to Slack
@@ -297,16 +293,18 @@ controller.hears('interactive', 'direct_message', function(bot, message) {
     });
 });
 
-controller.on('message_received', function(bot, message) {
-  if (message.type ==='event_callback') {
-  bot.reply(message, ':lacroix:')
-}
-})
+// controller.on('message_received', ['direct_message'], function(bot, message) {
+//   console.log('========= Message was received!')
+//
+//   if (message.events_api) {
+//     console.log('========= Message was received!')
+//   bot.reply(message, ':lacroix:')
+// }
+// })
 
 controller.hears('pizza', 'direct_message', function(bot, message) {
   if (message.events_api) {
     bot.reply(message, ':pizza:')
-
 }
 })
 
@@ -315,12 +313,17 @@ controller.hears('^stop','direct_message',function(bot,message) {
   bot.rtm.close();
 });
 
+
+controller.on('reaction_added', function(bot, message) {
+  console.log('=========REACTION ADDED MESSAGE:\n', message)
+})
+
 controller.on(['direct_message','mention','direct_mention'],function(bot,message) {
   if (message.events_api) {
   bot.api.reactions.add({
     timestamp: message.ts,
     channel: message.channel,
-    name: 'robot_face',
+    name: 'lacroix',
   },function(err) {
     if (err) { console.log(err) }
     bot.reply(message,'I heard you loud and clear boss.');
@@ -337,14 +340,15 @@ controller.storage.teams.all(function(err,teams) {
   // connect all teams with bots up to slack!
   for (var t  in teams) {
     if (teams[t].bot) {
-      controller.spawn(teams[t]).startRTM(function(err, bot) {
-        if (err) {
-          console.log('Error connecting bot to Slack:',err);
-        } else {
-          // bot.identity =
-          trackBot(bot);
-        }
-      });
+      controller.spawn(teams[t])
+      // .startRTM(function(err, bot) {
+      //   if (err) {
+      //     console.log('Error connecting bot to Slack:',err);
+      //   } else {
+      //     // bot.identity =
+      //     trackBot(bot);
+      //   }
+      // });
     }
   }
 
