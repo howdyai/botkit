@@ -67,10 +67,25 @@ function trackBot(bot) {
 
 
 controller.on('message_received', function(bot, message) {
-  controller.debug('==========\n==========message_received!!!!!!!')
 
   if (message.events_api){
+    controller.debug('===================\n================\n========message_received!!!!!!!')
+
 }
+})
+
+controller.on('reaction_added', function(bot, message) {
+  controller.debug('=======Reaction Added Message:\n', message)
+  if (message.item.type === 'message') {
+    bot.api.reactions.add({
+      timestamp: message.item.ts,
+      channel: message.item.channel,
+      name: message.reaction
+    }, function(err) {
+      if (err) { console.log(err)}
+    })
+  }
+
 })
 
 controller.on('interactive_message_callback', function(bot, message) {
@@ -311,13 +326,13 @@ controller.hears('interactive', 'direct_message', function(bot, message) {
 // })
 
 controller.hears('pizza', 'direct_message', function(bot, message) {
-  if (!message.events_api) {
-    controller.debug('=================RTM message!\n', message)
+  if (message.events_api) {
+    controller.debug('=================Events API message!\n', message)
 
     bot.reply(message, ':pizza:')
 }
 else {
-  controller.debug('=================Events API message!\n', message)
+  controller.debug('=================RTM message!\n', message)
 
 }
 })
@@ -355,14 +370,14 @@ controller.storage.teams.all(function(err,teams) {
   for (var t  in teams) {
     if (teams[t].bot) {
       controller.spawn(teams[t])
-      .startRTM(function(err, bot) {
-        if (err) {
-          console.log('Error connecting bot to Slack:',err);
-        } else {
-          // bot.identity =
-          trackBot(bot);
-        }
-      });
+      // .startRTM(function(err, bot) {
+      //   if (err) {
+      //     console.log('Error connecting bot to Slack:',err);
+      //   } else {
+      //     // bot.identity =
+      //     trackBot(bot);
+      //   }
+      // });
     }
   }
 
