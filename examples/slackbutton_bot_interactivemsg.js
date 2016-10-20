@@ -325,7 +325,7 @@ controller.hears('interactive', 'direct_message', function(bot, message) {
 // }
 // })
 
-controller.hears('pizza', 'direct_message', function(bot, message) {
+controller.hears('pizza', 'direct_message, ambient, direct_mention, mention', function(bot, message) {
   if (message.events_api) {
     controller.debug('=================Events API message!\n', message)
 
@@ -370,14 +370,7 @@ controller.storage.teams.all(function(err,teams) {
   for (var t  in teams) {
     if (teams[t].bot) {
       controller.spawn(teams[t])
-      // .startRTM(function(err, bot) {
-      //   if (err) {
-      //     console.log('Error connecting bot to Slack:',err);
-      //   } else {
-      //     // bot.identity =
-      //     trackBot(bot);
-      //   }
-      // });
+
     }
   }
 
