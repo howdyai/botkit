@@ -12,7 +12,7 @@ var controller = Botkit.slackbot({
     clientId: process.env.clientId,
     clientSecret: process.env.clientSecret,
     // Request bot scope to get all the bot events you have signed up for
-    scopes: ['bot'],
+    scopes: ['bot', 'stars:read'],
 });
 
 // Setup the webhook which will receive Slack Event API requests
@@ -31,21 +31,51 @@ controller.setupWebserver(process.env.port, function(err, webserver) {
 // Start ticking to enable conversations
 controller.startTicking()
 
+controller.on('message_received', function(bot, message) {
+  console.log('====================== message_received fired!!!')
+})
+
 // Watch for Events API reaction_added event
 controller.on('reaction_added', function(bot, message) {
-    // If reaction was added to a message
-    // add the same reaction to the same message as your bot
+    // If reaction was added to a message, add another reaction to the same message
     if (message.item.type === 'message') {
         bot.api.reactions.add({
             timestamp: message.item.ts,
             channel: message.item.channel,
-            name: message.reaction
+            name: 'robot_face'
         }, function(err) {
             if (err) {
                 console.log(err)
             }
         })
     }
+
+})
+controller.on('reaction_removed', function(bot, message) {
+    // If reaction was added to a message, add another reaction to the same message
+    if (message.item.type === 'message') {
+        bot.api.reactions.add({
+            timestamp: message.item.ts,
+            channel: message.item.channel,
+            name: 'tada'
+        }, function(err) {
+            if (err) {
+                console.log(err)
+            }
+        })
+    }
+
+})
+
+controller.on('pin_added', function(bot, message) {
+  console.log('===============Item Pinned!\n', message)
+})
+controller.on('file_comment_added', function(bot, message) {
+  console.log('===============file_comment_added!\n', message)
+})
+
+controller.on('star_added', function(bot, message) {
+  console.log('starred message:', message)
 
 })
 
@@ -57,7 +87,7 @@ controller.on('emoji_changed', function(bot, message) {
         if (err) {
           console.log(err)
         }
-        var name = 'bot-sandbox'
+        var name = 'general'
         var obj = list.channels.filter(function(obj) {
           return obj.name === name
         })[0]
