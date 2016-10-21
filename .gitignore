@@ -11,3 +11,4 @@ examples/db_team_bot/
 .env
 config/
 certs/
+local_storage/
