@@ -6,13 +6,16 @@ if (!process.env.clientId || !process.env.clientSecret || !process.env.port) {
 }
 
 var controller = Botkit.slackbot({
+    // Setup a local JSON database to store teams that have added your bot
     json_file_store: './db_slack_events_api/',
 }).configureSlackApp({
     clientId: process.env.clientId,
     clientSecret: process.env.clientSecret,
-    scopes: ['bot'],
+    // Request bot scope to get all the bot events you have signed up for
+    scopes: ['bot', 'stars:read'],
 });
 
+// Setup the webhook which will receive Slack Event API requests
 controller.setupWebserver(process.env.port, function(err, webserver) {
     controller.createWebhookEndpoints(controller.webserver);
 
@@ -25,14 +28,36 @@ controller.setupWebserver(process.env.port, function(err, webserver) {
     });
 });
 
+// Start ticking to enable conversations
 controller.startTicking()
 
+controller.on('message_received', function(bot, message) {
+  console.log('====================== message_received fired!!!')
+})
+
+// Watch for Events API reaction_added event
 controller.on('reaction_added', function(bot, message) {
+    // If reaction was added to a message, add another reaction to the same message
     if (message.item.type === 'message') {
         bot.api.reactions.add({
             timestamp: message.item.ts,
             channel: message.item.channel,
-            name: message.reaction
+            name: 'robot_face'
+        }, function(err) {
+            if (err) {
+                console.log(err)
+            }
+        })
+    }
+
+})
+controller.on('reaction_removed', function(bot, message) {
+    // If reaction was added to a message, add another reaction to the same message
+    if (message.item.type === 'message') {
+        bot.api.reactions.add({
+            timestamp: message.item.ts,
+            channel: message.item.channel,
+            name: 'tada'
         }, function(err) {
             if (err) {
                 console.log(err)
@@ -42,31 +67,68 @@ controller.on('reaction_added', function(bot, message) {
 
 })
 
-
-controller.hears('pizza', ['direct_mention', 'direct_message'], function(bot, message) {
-    bot.reply(message, ':pizza:')
+controller.on('pin_added', function(bot, message) {
+  console.log('===============Item Pinned!\n', message)
+})
+controller.on('file_comment_added', function(bot, message) {
+  console.log('===============file_comment_added!\n', message)
 })
 
-controller.hears('start', ['direct_message'], function(bot,message){
-  // bot.startTicking()
-  bot.startConversation(message, function(err, convo) {
-    convo.ask('Would you like to continue?', [
-      {
-        pattern: bot.utterances.yes,
-        callback: function(response, convo) {
-          convo.say('Okay Great!')
-          convo.next()
-      }
-      },
-      {
-          pattern: bot.utterances.no,
-          callback: function(response, convo) {
-            convo.say('I understand')
-            convo.next()
-          }
-      }])
+controller.on('star_added', function(bot, message) {
+  console.log('starred message:', message)
 
-  })}
+})
+
+controller.on('emoji_changed', function(bot, message) {
+    console.log('============== OOOOOH LOOK AN EMOJI CHANGE!\n', message)
+    if (message.subtype === 'add') {
+      let targetChannel
+      bot.api.channels.list({}, function(err, list) {
+        if (err) {
+          console.log(err)
+        }
+        var name = 'general'
+        var obj = list.channels.filter(function(obj) {
+          return obj.name === name
+        })[0]
+        targetChannel = obj.id
+        console.log('===============CHANNEL', targetChannel)
+        bot.say({
+          text: 'Hey neat I like this one a lot!\n:' + message.name + ':',
+        channel: targetChannel
+      }
+    )
+      })
+
+
+    }
+
+})
+
+
+controller.hears('pizza', ['direct_mention', 'direct_message'], function(bot, message) {
+  bot.reply(message, ':pizza:')
+})
+
+controller.hears('start', ['direct_message'], function(bot, message) {
+        bot.startConversation(message, function(err, convo) {
+            convo.ask('Would you like to continue?', [{
+                pattern: bot.utterances.yes,
+                callback: function(response, convo) {
+                    convo.say('Okay Great!')
+                    convo.repeat()
+                    convo.next()
+                }
+            }, {
+                pattern: bot.utterances.no,
+                callback: function(response, convo) {
+                    convo.say('I understand')
+                    convo.next()
+                }
+            }])
+
+        })
+    }
 
 )
 
