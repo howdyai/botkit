@@ -8,11 +8,12 @@ if (!process.env.clientId || !process.env.clientSecret || !process.env.port) {
 var controller = Botkit.slackbot({
     // Setup a local JSON database to store teams that have added your bot
     json_file_store: './db_slack_events_api/',
+    // debug: true,
 }).configureSlackApp({
     clientId: process.env.clientId,
     clientSecret: process.env.clientSecret,
     // Request bot scope to get all the bot events you have signed up for
-    scopes: ['bot', 'stars:read'],
+    scopes: ['bot'],
 });
 
 // Setup the webhook which will receive Slack Event API requests
@@ -34,6 +35,8 @@ controller.startTicking()
 controller.on('message_received', function(bot, message) {
   console.log('====================== message_received fired!!!')
 })
+
+// console.log(controller.listenerCount('message_received'))
 
 // Watch for Events API reaction_added event
 controller.on('reaction_added', function(bot, message) {
