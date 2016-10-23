@@ -35,9 +35,6 @@ controller.startTicking()
 controller.on('message_received', function(bot, message) {
   console.log('====================== message_received fired!!!')
 })
-
-// console.log(controller.listenerCount('message_received'))
-
 // Watch for Events API reaction_added event
 controller.on('reaction_added', function(bot, message) {
     // If reaction was added to a message, add another reaction to the same message
@@ -69,19 +66,6 @@ controller.on('reaction_removed', function(bot, message) {
     }
 
 })
-
-controller.on('pin_added', function(bot, message) {
-  console.log('===============Item Pinned!\n', message)
-})
-controller.on('file_comment_added', function(bot, message) {
-  console.log('===============file_comment_added!\n', message)
-})
-
-controller.on('star_added', function(bot, message) {
-  console.log('starred message:', message)
-
-})
-
 controller.on('emoji_changed', function(bot, message) {
     console.log('============== OOOOOH LOOK AN EMOJI CHANGE!\n', message)
     if (message.subtype === 'add') {
