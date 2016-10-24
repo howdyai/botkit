@@ -36,7 +36,6 @@ if (!process.env.clientId || !process.env.clientSecret || !process.env.port) {
 var controller = Botkit.slackbot({
   // interactive_replies: true, // tells botkit to send button clicks into conversations
   json_file_store: './db_slackbutton_bot/',
-  debug: true,
 }).configureSlackApp(
   {
     clientId: process.env.clientId,
@@ -65,28 +64,6 @@ function trackBot(bot) {
   _bots[bot.config.token] = bot;
 }
 
-
-controller.on('message_received', function(bot, message) {
-
-  if (message.events_api){
-    controller.debug('===================\n================\n========message_received!!!!!!!')
-
-}
-})
-
-controller.on('reaction_added', function(bot, message) {
-  controller.debug('=======Reaction Added Message:\n', message)
-  if (message.item.type === 'message') {
-    bot.api.reactions.add({
-      timestamp: message.item.ts,
-      channel: message.item.channel,
-      name: message.reaction
-    }, function(err) {
-      if (err) { console.log(err)}
-    })
-  }
-
-})
 
 controller.on('interactive_message_callback', function(bot, message) {
 
@@ -158,30 +135,30 @@ controller.on('interactive_message_callback', function(bot, message) {
 });
 
 
-// controller.on('create_bot',function(bot,config) {
-//
-//   if (_bots[bot.config.token]) {
-//     // already online! do nothing.
-//   } else {
-//     bot.startRTM(function(err) {
-//     // bot.identity =
-//       if (!err) {
-//         trackBot(bot);
-//       }
-//
-//       bot.startPrivateConversation({user: config.createdBy},function(err,convo) {
-//         if (err) {
-//           console.log(err);
-//         } else {
-//           convo.say('I am a bot that has just joined your team');
-//           convo.say('You must now /invite me to a channel so that I can be of use!');
-//         }
-//       });
-//
-//     });
-//   }
-//
-// });
+controller.on('create_bot',function(bot,config) {
+
+  if (_bots[bot.config.token]) {
+    // already online! do nothing.
+  } else {
+    bot.startRTM(function(err) {
+
+      if (!err) {
+        trackBot(bot);
+      }
+
+      bot.startPrivateConversation({user: config.createdBy},function(err,convo) {
+        if (err) {
+          console.log(err);
+        } else {
+          convo.say('I am a bot that has just joined your team');
+          convo.say('You must now /invite me to a channel so that I can be of use!');
+        }
+      });
+
+    });
+  }
+
+});
 
 
 // Handle events related to the websocket connection to Slack
@@ -316,48 +293,21 @@ controller.hears('interactive', 'direct_message', function(bot, message) {
     });
 });
 
-// controller.on('message_received', ['direct_message'], function(bot, message) {
-//   console.log('========= Message was received!')
-//
-//   if (message.events_api) {
-//     console.log('========= Message was received!')
-//   bot.reply(message, ':lacroix:')
-// }
-// })
-
-controller.hears('pizza', 'direct_message, ambient, direct_mention, mention', function(bot, message) {
-  if (message.events_api) {
-    controller.debug('=================Events API message!\n', message)
-
-    bot.reply(message, ':pizza:')
-}
-else {
-  controller.debug('=================RTM message!\n', message)
-
-}
-})
 
 controller.hears('^stop','direct_message',function(bot,message) {
   bot.reply(message,'Goodbye');
   bot.rtm.close();
 });
 
-
-controller.on('reaction_added', function(bot, message) {
-  console.log('=========REACTION ADDED MESSAGE:\n', message)
-})
-
-controller.on('direct_message, message_received',function(bot,message) {
-  if (message.events_api) {
+controller.on(['direct_message','mention','direct_mention'],function(bot,message) {
   bot.api.reactions.add({
     timestamp: message.ts,
     channel: message.channel,
-    name: 'lacroix',
+    name: 'robot_face',
   },function(err) {
     if (err) { console.log(err) }
     bot.reply(message,'I heard you loud and clear boss.');
   });
-  }
 });
 
 controller.storage.teams.all(function(err,teams) {
@@ -369,8 +319,13 @@ controller.storage.teams.all(function(err,teams) {
   // connect all teams with bots up to slack!
   for (var t  in teams) {
     if (teams[t].bot) {
-      controller.spawn(teams[t])
-
+      controller.spawn(teams[t]).startRTM(function(err, bot) {
+        if (err) {
+          console.log('Error connecting bot to Slack:',err);
+        } else {
+          trackBot(bot);
+        }
+      });
     }
   }
 
