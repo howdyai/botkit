@@ -67,10 +67,11 @@ controller.on('rtm_open',function(bot) {
 
 controller.on('rtm_close',function(bot) {
   console.log('** The RTM api just closed');
+
   bot.startRTM(function(err) {
     if (err) {
       console.log('***FAILED TO RESTART RTM');
-      exit(1);
+      process.exit(1);
     }
   })
 });
@@ -96,7 +97,4 @@ controller.storage.teams.all(function(err,teams) {
 });
 
 var soapbox = new Soapbox(controller);
-
-controller.hears('^create team$', ['direct_mention'], function(bot, message) {
-    soapbox.createTeam.create(bot, message);
-});
+soapbox.listen();

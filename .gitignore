@@ -9,6 +9,6 @@ examples/db_team_bot/
 .DS_Store
 */.DS_Store
 .env
-config/
+config/*.json
 certs/
 local_storage/
