@@ -33,9 +33,9 @@ controller.setupWebserver(process.env.port, function(err, webserver) {
 controller.startTicking()
 
 controller.on('message_received', function(bot, message) {
-  console.log('====================== message_received fired!!!')
-})
-// Watch for Events API reaction_added event
+        console.log('====================== message_received fired!!!')
+    })
+    // Watch for Events API reaction_added event
 controller.on('reaction_added', function(bot, message) {
     // If reaction was added to a message, add another reaction to the same message
     if (message.item.type === 'message') {
@@ -69,32 +69,34 @@ controller.on('reaction_removed', function(bot, message) {
 controller.on('emoji_changed', function(bot, message) {
     console.log('============== OOOOOH LOOK AN EMOJI CHANGE!\n', message)
     if (message.subtype === 'add') {
-      let targetChannel
-      bot.api.channels.list({}, function(err, list) {
-        if (err) {
-          console.log(err)
-        }
-        var name = 'general'
-        var obj = list.channels.filter(function(obj) {
-          return obj.name === name
-        })[0]
-        targetChannel = obj.id
-        console.log('===============CHANNEL', targetChannel)
-        bot.say({
-          text: 'Hey neat I like this one a lot!\n:' + message.name + ':',
-        channel: targetChannel
-      }
-    )
-      })
+        let targetChannel
+        bot.api.channels.list({}, function(err, list) {
+            if (err) {
+                console.log(err)
+            }
+            var name = 'general'
+            var obj = list.channels.filter(function(obj) {
+                return obj.name === name
+            })[0]
+            targetChannel = obj.id
+            console.log('===============CHANNEL', targetChannel)
+            bot.say({
+                text: 'Hey neat I like this one a lot!\n:' + message.name + ':',
+                channel: targetChannel
+            })
+        })
 
 
     }
 
 })
 
+controller.on('file_shared', function(bot, message) {
+  console.log('=============File Shared Message!:\n', message)
+})
 
 controller.hears('pizza', ['direct_mention', 'direct_message'], function(bot, message) {
-  bot.reply(message, ':pizza:')
+    bot.reply(message, ':pizza:')
 })
 
 controller.hears('start', ['direct_message'], function(bot, message) {
