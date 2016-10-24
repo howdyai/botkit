@@ -30,12 +30,9 @@ controller.setupWebserver(process.env.port, function(err, webserver) {
 });
 
 // Start ticking to enable conversations
-controller.startTicking()
+controller.startTicking();
 
-controller.on('message_received', function(bot, message) {
-        console.log('====================== message_received fired!!!')
-    })
-    // Watch for Events API reaction_added event
+// Watch for Events API reaction_added event
 controller.on('reaction_added', function(bot, message) {
     // If reaction was added to a message, add another reaction to the same message
     if (message.item.type === 'message') {
@@ -45,121 +42,59 @@ controller.on('reaction_added', function(bot, message) {
             name: 'robot_face'
         }, function(err) {
             if (err) {
-                console.log(err)
+                console.log(err);
             }
-        })
+        });
     }
 
-})
-controller.on('reaction_removed', function(bot, message) {
-    // If reaction was added to a message, add another reaction to the same message
-    if (message.item.type === 'message') {
-        bot.api.reactions.add({
-            timestamp: message.item.ts,
-            channel: message.item.channel,
-            name: 'tada'
-        }, function(err) {
-            if (err) {
-                console.log(err)
-            }
-        })
-    }
+});
 
-})
+// When custom emoji is added, post to #general to try it out
 controller.on('emoji_changed', function(bot, message) {
-    console.log('============== OOOOOH LOOK AN EMOJI CHANGE!\n', message)
     if (message.subtype === 'add') {
-        let targetChannel
+        var targetChannel;
         bot.api.channels.list({}, function(err, list) {
             if (err) {
-                console.log(err)
+                console.log(err);
             }
-            var name = 'general'
+            var name = 'general';
             var obj = list.channels.filter(function(obj) {
-                return obj.name === name
-            })[0]
-            targetChannel = obj.id
-            console.log('===============CHANNEL', targetChannel)
+                return obj.name === name;
+            })[0];
+            targetChannel = obj.id;
             bot.say({
                 text: 'Hey neat I like this one a lot!\n:' + message.name + ':',
                 channel: targetChannel
-            })
-        })
+            });
+        });
 
 
     }
 
-})
-
-controller.on('file_shared', function(bot, message) {
-  console.log('=============File Shared Message!:\n', message)
-})
+});
 
 controller.hears('pizza', ['direct_mention', 'direct_message'], function(bot, message) {
-    bot.reply(message, ':pizza:')
-})
+    bot.reply(message, ':pizza:');
+});
 
 controller.hears('start', ['direct_message'], function(bot, message) {
         bot.startConversation(message, function(err, convo) {
             convo.ask('Would you like to continue?', [{
                 pattern: bot.utterances.yes,
                 callback: function(response, convo) {
-                    convo.say('Okay Great!')
-                    convo.repeat()
-                    convo.next()
+                    convo.say('Okay Great!');
+                    convo.repeat();
+                    convo.next();
                 }
             }, {
                 pattern: bot.utterances.no,
                 callback: function(response, convo) {
-                    convo.say('I understand')
-                    convo.next()
+                    convo.say('I understand');
+                    convo.next();
                 }
-            }])
+            }]);
 
-        })
+        });
     }
 
-)
-
-// controller.on('create_bot',function(bot,config) {
-//
-//   if (_bots[bot.config.token]) {
-//     // already online! do nothing.
-//   } else {
-//     bot.startRTM(function(err) {
-//     // bot.identity =
-//       if (!err) {
-//         trackBot(bot);
-//       }
-//
-//       bot.startPrivateConversation({user: config.createdBy},function(err,convo) {
-//         if (err) {
-//           console.log(err);
-//         } else {
-//           convo.say('I am a bot that has just joined your team');
-//           convo.say('You must now /invite me to a channel so that I can be of use!');
-//         }
-//       });
-//
-//     });
-//   }
-//
-// });
-
-//
-//
-// controller.storage.teams.all(function(err,teams) {
-//
-//   if (err) {
-//     throw new Error(err);
-//   }
-//
-//   // connect all teams with bots up to slack!
-//   for (var t  in teams) {
-//     if (teams[t].bot) {
-//       controller.spawn(teams[t])
-//
-//     }
-//   }
-//
-// });
+);
