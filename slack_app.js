@@ -16,7 +16,7 @@ var controller = Botkit.slackbot({
 
 // Create secure web server and listen for when a team adds the app
 controller.setupSecureWebserver(config.port,function(err,webserver) {
-    controller.createWebhookEndpoints(controller.webserver);
+    controller.createWebhookEndpoints(controller.webserver, [config.super_secret_token]);
 
     controller.createOauthEndpoints(controller.webserver,function(error,request,response) {
         if(error) {
@@ -27,6 +27,9 @@ controller.setupSecureWebserver(config.port,function(err,webserver) {
             response.send("You've successfully installed this Slack app. Close the window!");
         }
     });
+
+    var soapbox = new Soapbox(controller, webserver);
+    soapbox.listen();
 });
 
 // just a simple way to make sure we don't
@@ -99,6 +102,3 @@ controller.storage.teams.all(function(err,teams) {
     }
   }
 });
-
-var soapbox = new Soapbox(controller);
-soapbox.listen();
