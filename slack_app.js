@@ -14,6 +14,7 @@ var controller = Botkit.slackbot({
     scopes: config.slack_app_scopes
 });
 
+// Create secure web server and listen for when a team adds the app
 controller.setupSecureWebserver(config.port,function(err,webserver) {
     controller.createWebhookEndpoints(controller.webserver);
 
@@ -35,6 +36,7 @@ function trackBot(bot) {
   _bots[bot.config.token] = bot;
 }
 
+// Listen for when Simone is created
 controller.on('create_bot',function(bot,config) {
 
   if (_bots[bot.config.token]) {
@@ -76,6 +78,8 @@ controller.on('rtm_close',function(bot) {
   })
 });
 
+// Load all the teams and set up the bots for them
+// right now it's local storage probably DB in the future?
 controller.storage.teams.all(function(err,teams) {
 
   if (err) {
