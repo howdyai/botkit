@@ -70,7 +70,9 @@ All incoming events will contain the fields `user` and `channel`, both of which 
 
 `message_received` events will also contain either a `text` field or an `attachment` field.
 
-`facebook_postback` events will contain a `payload` field.
+`facebook_postback` events will contain a `payload` field. 
+
+Notice also that `facebook_postback` events trigger the `message_received` event as well. That is why messages will have the `type` field as well. When the message is directly from the user (i.e. onlye `message_received` event) `type` will be set to `"user_message"` and when the message is originated in a `facebook_postback` then `type` will be set to `postback`.
 
 More information about the data found in these fields can be found [here](https://developers.facebook.com/docs/messenger-platform/webhook-reference).
 
