@@ -37,8 +37,18 @@ page_token=<MY PAGE TOKEN> verify_token=<MY_VERIFY_TOKEN> node facebook_bot.js [
 ```
 
 Notice:
-- By default the `lt` command uses port 8000 so when using `--lt` the command should be `..--lt 8000 [--ltsubdomain CUSTOM_SUBDOMAIN]`. Another option is to run `lt --port 443` and then you can just use `..--lt [--ltsubdomain CUSTOM_SUBDOMAIN]` when running the bot.
-- `CUSTOM_SUBDOMAIN` is **just the subdomain** you obtain from using the localtunnel.me service. Thus if you get something like `http://nwkdnhwzeb.localtunnel.me` from running `lt` then the command should be `..--lt --ltsubdomain nwkdnhwzeb`
+- By default the `lt` command uses port 8000 so when using `--lt` the command should be 
+ ```
+..--lt 8000 [--ltsubdomain CUSTOM_SUBDOMAIN]
+``` 
+Another option is to run `lt --port 443` and then when running the bot you can just use 
+```
+..--lt [--ltsubdomain CUSTOM_SUBDOMAIN]
+```
+- `CUSTOM_SUBDOMAIN` is **just the subdomain** you obtain from using the localtunnel.me service. Thus if you get something like `http://nwkdnhwzeb.localtunnel.me` from running `lt` then the command should be 
+```
+..--lt --ltsubdomain nwkdnhwzeb
+```
 
 6) [Set up a webhook endpoint for your app](https://developers.facebook.com/docs/messenger-platform/implementation#setting_webhooks) that uses your public URL. Use the verify token you defined in step 4!
 
