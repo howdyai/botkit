@@ -28,6 +28,15 @@ controller.setupWebserver(process.env.port || 3000, function(err, webserver){
     controller.createWebhookEndpoints(webserver, bot);
 });
 
+
+controller.on('slash_command', function(bot, message) {
+    console.log('Here is the actual slash command used: ', message.text);
+
+    bot.reply(message, 'This is a public reply to the ' + message.text + ' slash command!');
+
+});
+
+
 // Usage: weather SanFrancisco, CA
 controller.hears(["weather"],'message_received', function(bot, message){
     var txt = message.text;
