@@ -8,7 +8,8 @@ if (!process.env.clientId || !process.env.clientSecret || !process.env.port) {
 var controller = Botkit.slackbot({
     // Setup a local JSON database to store teams that have added your bot
     json_file_store: './db_slack_events_api/',
-    // debug: true,
+    debug: true,
+    eventsApi: true,
 }).configureSlackApp({
     clientId: process.env.clientId,
     clientSecret: process.env.clientSecret,
@@ -29,8 +30,6 @@ controller.setupWebserver(process.env.port, function(err, webserver) {
     });
 });
 
-// Start ticking to enable conversations
-controller.startTicking();
 
 // Watch for Events API reaction_added event
 controller.on('reaction_added', function(bot, message) {
@@ -98,3 +97,30 @@ controller.hears('start', ['direct_message'], function(bot, message) {
     }
 
 );
+
+
+var _bots = {};
+function trackBot(bot) {
+  _bots[bot.config.token] = bot;
+}
+
+controller.storage.teams.all(function(err,teams) {
+
+  if (err) {
+    throw new Error(err);
+  }
+
+  // connect all teams with bots up to slack!
+  for (var t  in teams) {
+    if (teams[t].bot) {
+      controller.spawn(teams[t]).startRTM(function(err, bot) {
+        if (err) {
+          console.log('Error connecting bot to Slack:',err);
+        } else {
+          trackBot(bot);
+        }
+      });
+    }
+  }
+
+});
