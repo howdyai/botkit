@@ -88,6 +88,7 @@ Spawn `config` object accepts these properties:
 | Name | Value | Description
 |--- |--- |---
 | token | String | Slack bot token
+| send_via_rtm  | Boolean   | Send outgoing messages via the RTM instead of using Slack's RESTful API which supports more features
 | retry | Positive integer or `Infinity` | Maximum number of reconnect attempts after failed connection to Slack's real time messaging API. Retry is disabled by default
 
 
@@ -873,6 +874,3 @@ Using the Api.ai middleware with Botkit causes every message sent to your bot to
         "errorType": "success"
       }
     }
-
-
-
