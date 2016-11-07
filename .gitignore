@@ -2,6 +2,7 @@ node_modules/
 start.sh
 start_button.sh
 db/
+db_slack_events_api/
 examples/db_slackbutton_bot/
 examples/db_slackbutton_incomingwebhook/
 examples/db_slackbutton_slashcommand/
@@ -9,3 +10,4 @@ examples/db_team_bot/
 .DS_Store
 */.DS_Store
 .env
+.idea
