@@ -134,6 +134,21 @@ controller.hears(['hello', 'hi'], 'message_received', function(bot, message) {
     });
 });
 
+controller.hears(['silent push reply'], 'message_received', function(bot, message) {
+    reply_message = {
+        text: "This message will have a push notification on a mobile phone, but no sound notification",
+        notification_type: "SILENT_PUSH"
+    }
+    bot.reply(message, reply_message)
+})
+
+controller.hears(['no push'], 'message_received', function(bot, message) {
+    reply_message = {
+        text: "This message will not have any push notification on a mobile phone",
+        notification_type: "NO_PUSH"
+    }
+    bot.reply(message, reply_message)
+})
 
 controller.hears(['structured'], 'message_received', function(bot, message) {
 

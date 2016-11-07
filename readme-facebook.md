@@ -223,6 +223,22 @@ bot.stopTyping(message, function () {
 bot.replyWithTyping(message, 'Hello there, my friend!');
 ```
 
+## Silent and No Notifications
+When sending a user a message you can make the message have either no notification or have a notification that doesn't play a sound. Both of these features are unique to the mobile application messenger. To do this add the `notification_type` field to message. Notification type must be one of the following:
+- REGULAR will emit a sound/vibration and a phone notification
+- SILENT_PUSH will just emit a phone notification
+- NO_PUSH will not emit either
+
+`notification_type` is optional. By default, messages will be REGULAR push notification type
+
+```
+reply_message = {
+    text: "Message text here",
+    notification_type: NOTIFICATION_TYPE
+}
+bot.reply(message, reply_message)
+```
+
 ## Use BotKit for Facebook Messenger with an Express web server
 Instead of the web server generated with setupWebserver(), it is possible to use a different web server to receive webhooks, as well as serving web pages.
 
