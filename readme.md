@@ -292,7 +292,7 @@ Multi-message replies, particularly those that present questions for the end use
 can be sent using the `bot.startConversation()` function and the related conversation sub-functions.
 
 Bots can originate messages - that is, send a message based on some internal logic or external stimulus -
-using `bot.say()` method.  
+using `bot.say()` method.
 
 All `message` objects must contain a `text` property, even if it's only an empty string.
 
@@ -956,7 +956,7 @@ and override the built in regular expression matching.
 ### Receive Middleware
 
 Receive middleware can be used to do things like preprocess the message
-content using external natural language processing services like Wit.ai.  
+content using external natural language processing services like Wit.ai.
 Additional information can be added to the message object for use down the chain.
 
 ```
@@ -973,7 +973,7 @@ controller.middleware.receive.use(function(bot, message, next) {
 ### Send Middleware
 
 Send middleware can be used to do things like preprocess the message
-content before it gets sent out to the messaging client.  
+content before it gets sent out to the messaging client.
 
 ```
 controller.middleware.send.use(function(bot, message, next) {
@@ -1053,14 +1053,17 @@ This system supports freeform storage on a team-by-team, user-by-user, and chann
 ```javascript
 controller.storage.users.save({id: message.user, foo:'bar'}, function(err) { ... });
 controller.storage.users.get(id, function(err, user_data) {...});
+controller.storage.users.delete(id, function(err) {...});
 controller.storage.users.all(function(err, all_user_data) {...});
 
 controller.storage.channels.save({id: message.channel, foo:'bar'}, function(err) { ... });
 controller.storage.channels.get(id, function(err, channel_data) {...});
+controller.storage.channels.delete(id, function(err) {...});
 controller.storage.channels.all(function(err, all_channel_data) {...});
 
 controller.storage.teams.save({id: message.team, foo:'bar'}, function(err) { ... });
 controller.storage.teams.get(id, function(err, team_data) {...});
+controller.storage.teams.delete(id, function(err) {...});
 controller.storage.teams.all(function(err, all_team_data) {...});
 ```
 
