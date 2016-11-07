@@ -4,13 +4,17 @@
 
 This release contains many small fixes and updates to keep up with the ever changing platforms!
 
+BIG CHANGES:
+
+Slack bots will now send messages via the Web API instead of the RTM. This behavior can be changed by passing `send_via_rtm: true` to `controller.spawn()`
+
 Adds [ConsoleBot](lib/ConsoleBot.js) for creating bots that work on the command line
 
 Adds a new [Middleware Readme](readme-middleware.md) for documenting the existing middleware modules
 
 Adds an example for using quick replies in the [Facebook Example Bot](facebook_bot.js)
 
-Adds additional fields to Facebook messages to specify if they are facebook_postbacks or normal messages.
+Adds additional fields to Facebook messages to specify if they are `facebook_postback`s or normal messages.
 
 Adds optional `hostname` field to constructor functions to bind Express to a specific IP.
 
