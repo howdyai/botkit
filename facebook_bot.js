@@ -123,6 +123,25 @@ controller.setupWebserver(process.env.port || 3000, function(err, webserver) {
     });
 });
 
+controller.hears(['quick'], 'message_received', function(bot, message) {
+
+    bot.reply(message, {
+        text: 'Hey! This message has some quick replies attached.',
+        quick_replies: [
+            {
+                "content_type": "text",
+                "title": "Yes",
+                "payload": "yes",
+            },
+            {
+                "content_type": "text",
+                "title": "No",
+                "payload": "no",
+            }
+        ]
+    });
+
+});
 
 controller.hears(['hello', 'hi'], 'message_received', function(bot, message) {
     controller.storage.users.get(message.user, function(err, user) {
