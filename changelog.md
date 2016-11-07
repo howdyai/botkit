@@ -10,7 +10,7 @@ Slack bots will now send messages via the Web API instead of the RTM. This behav
 
 Adds [ConsoleBot](lib/ConsoleBot.js) for creating bots that work on the command line
 
-Adds a new [Middleware Readme](readme-middleware.md) for documenting the existing middleware modules
+Adds a new [Middleware Readme](readme-middlewares.md) for documenting the existing middleware modules
 
 Adds an example for using quick replies in the [Facebook Example Bot](facebook_bot.js)
 
