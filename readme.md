@@ -634,7 +634,7 @@ This function works identically to `convo.say()` except that it takes a second p
 |---  |---
 | message   | String or message object containing the question
 | callback _or_ array of callbacks   | callback function in the form function(response_message,conversation), or array of objects in the form ``{ pattern: regular_expression, callback: function(response_message,conversation) { ... } }``
-| capture_options | _Optional_ Object defining options for capturing the response
+| capture_options |  Object defining options for capturing the response. Pass an empty object if capture options are not needed
 | thread_name   | String defining the name of a thread
 
 This function works identically to `convo.ask()` except that it takes second parameter which defines the thread to which the message will be added rather than being queued to send immediately, as is the case when using convo.ask().
