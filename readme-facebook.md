@@ -223,6 +223,15 @@ bot.stopTyping(message, function () {
 bot.replyWithTyping(message, 'Hello there, my friend!');
 ```
 
+## "Get Started" Button
+
+Facebook Bots have the ability to display a welcome screen before any message is sent. The Welcome Screen can display a Get Started button. When this button is tapped, Facebook will send a postback and in it deliver the person's page-scoped ID (PSID). You can then present a personalized message to greet the user or present buttons to prompt him or her to take an action.
+
+To use this ability `botkit` exposes two methods on facebook bots
+
+* `setGetStartedPayload(get_started_payload, callback_function)` - calling this will set `get_started_payload` as the payload (i.e. message) that the user will send as a message when clicking the "Get Started" button on the bot's screen in Facebook. It will also call `callback_function` on the response for the request to set the payload.
+* `deleteGetStartedPayload(callback_function)` - calling this will cancel any setting made for the welcome "Get Started" screen for the bot.
+
 ## Use BotKit for Facebook Messenger with an Express web server
 Instead of the web server generated with setupWebserver(), it is possible to use a different web server to receive webhooks, as well as serving web pages.
 
