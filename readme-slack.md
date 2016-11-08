@@ -244,6 +244,7 @@ integration.  In addition to this type of integration, Botkit also supports:
 * Slash Command - a way to add /slash commands to Slack
 * Slack Web API - a full set of RESTful API tools to deal with Slack
 * The Slack Button - a way to build Slack applications that can be used by multiple teams
+* Events API - webhook based alternative to RTM API for consuming slack events
 
 
 ```javascript
@@ -631,7 +632,7 @@ var team = bot.identifyTeam() // returns team id
 ```
 
 
-### How to identify the bot itself (for RTM only)
+### How to identify the bot itself
 ```javascript
 var identity = bot.identifyBot() // returns object with {name, id, team_id}
 ```
@@ -813,6 +814,49 @@ bot.startConversation(message, function(err, convo) {
     ]);
 });
 ```
+
+## Events Api
+The [Events API](https://api.slack.com/events-api) is a streamlined, easy way to build apps and bots that respond to activities in Slack. You must setup a [Slack App](https://api.slack.com/slack-apps) to use Events API. Slack events are delivered to a secure webhook, and allows you to connect to slack without the RTM websocket connection.
+
+During development, a tool such as [localtunnel.me](http://localtunnel.me) is useful for temporarily exposing a compatible webhook url to Slack while running Botkit privately.
+
+Note: Currently [presence](https://api.slack.com/docs/presence) is not supported by Slack Events API, so bot users will appear offline, but will still function normally.
+
+### To get started with the Events API:
+
+1. Create a [Slack App](https://api.slack.com/apps/new)
+2. Setup oauth url with Slack so teams can add your app with the slack button. Botkit creates an oAuth endpoint at `http://MY_HOST/oauth` if using localtunnel your url may look like this `https://example-134l123.localtunnel.me/oauth`
+3. Setup request URL under Events API to receive events at. Botkit will create webhooks for slack to send messages to at `http://MY_HOST/slack/recieve`. if using localtunnel your url may look like this `https://example-134l123.localtunnel.me/slack/receive`
+4. Select the specific events you would like to subscribe to with your bot. Slack only sends your webhook the events you subscribe to. Read more about Event Types [here](https://api.slack.com/events)
+5. When running your bot, you must configure the slack app, setup webhook endpoints, and oauth endpoints.
+
+```
+var controller = Botkit.slackbot({
+    debug: false,
+}).configureSlackApp({
+    clientId: process.env.clientId,
+    clientSecret: process.env.clientSecret,
+    // Enables receiving messages from Events API
+    eventsApi: true,
+    // Request bot scope to get all the bot events you have signed up for
+    scopes: ['bot'],
+});
+
+// Setup the webhook which will receive Slack Event API requests
+controller.setupWebserver(process.env.port, function(err, webserver) {
+    controller.createWebhookEndpoints(controller.webserver);
+
+    controller.createOauthEndpoints(controller.webserver, function(err, req, res) {
+        if (err) {
+            res.status(500).send('ERROR: ' + err);
+        } else {
+            res.send('Success!');
+        }
+    });
+});
+```
+
+> Note: When subscribed to message events through the Events API you will receive messages that correspond with other events. For example, subscribing to `file_shared` triggers an event when a file is shared, however subscribing to messages posted to channels with `message.channel` will trigger events on files being shared into a channel as well, but with the `file_share` event. What is happening is you get a `message` event that has subtype `file_share` and contains the full information about the shared file, that triggers a `file_share` event within Botkit.
 
 #Use Api.ai's natural language tools in your Botkit-powered Bot!
 
