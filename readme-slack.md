@@ -88,6 +88,7 @@ Spawn `config` object accepts these properties:
 | Name | Value | Description
 |--- |--- |---
 | token | String | Slack bot token
+| send_via_rtm  | Boolean   | Send outgoing messages via the RTM instead of using Slack's RESTful API which supports more features
 | retry | Positive integer or `Infinity` | Maximum number of reconnect attempts after failed connection to Slack's real time messaging API. Retry is disabled by default
 
 
@@ -606,6 +607,24 @@ controller.setupWebserver(process.env.port,function(err,webserver) {
 
 ```
 
+#### Custom auth flows
+In addition to the Slack Button, you can send users through an auth flow via a Slack interaction.
+The `getAuthorizeURL` provides the url. It requires the `team_id` and accepts an optional `redirect_params` argument.
+```javascript
+controller.getAuthorizeURL(team_id, redirect_params);
+```
+
+The `redirect_params` argument is passed back into the `create_user` and `update_user` events so you can handle
+auth flows in different ways. For example:
+```javascript
+controller.on('create_user', function(bot, user, redirect_params) {
+    if (redirect_params.slash_command_id) {
+        // continue processing the slash command for the user
+    }
+}
+```
+
+
 ### How to identify what team your message came from
 ```javascript
 var team = bot.identifyTeam() // returns team id
@@ -855,6 +874,3 @@ Using the Api.ai middleware with Botkit causes every message sent to your bot to
         "errorType": "success"
       }
     }
-
-
-

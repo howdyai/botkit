@@ -123,6 +123,25 @@ controller.setupWebserver(process.env.port || 3000, function(err, webserver) {
     });
 });
 
+controller.hears(['quick'], 'message_received', function(bot, message) {
+
+    bot.reply(message, {
+        text: 'Hey! This message has some quick replies attached.',
+        quick_replies: [
+            {
+                "content_type": "text",
+                "title": "Yes",
+                "payload": "yes",
+            },
+            {
+                "content_type": "text",
+                "title": "No",
+                "payload": "no",
+            }
+        ]
+    });
+
+});
 
 controller.hears(['hello', 'hi'], 'message_received', function(bot, message) {
     controller.storage.users.get(message.user, function(err, user) {
@@ -134,6 +153,21 @@ controller.hears(['hello', 'hi'], 'message_received', function(bot, message) {
     });
 });
 
+controller.hears(['silent push reply'], 'message_received', function(bot, message) {
+    reply_message = {
+        text: "This message will have a push notification on a mobile phone, but no sound notification",
+        notification_type: "SILENT_PUSH"
+    }
+    bot.reply(message, reply_message)
+})
+
+controller.hears(['no push'], 'message_received', function(bot, message) {
+    reply_message = {
+        text: "This message will not have any push notification on a mobile phone",
+        notification_type: "NO_PUSH"
+    }
+    bot.reply(message, reply_message)
+})
 
 controller.hears(['structured'], 'message_received', function(bot, message) {
 

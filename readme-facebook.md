@@ -72,6 +72,8 @@ All incoming events will contain the fields `user` and `channel`, both of which 
 
 `facebook_postback` events will contain a `payload` field.
 
+Notice also that `facebook_postback` events trigger the `message_received` event as well. That is why messages will have the `type` field as well. When the message is directly from the user (i.e. onlye `message_received` event) `type` will be set to `"user_message"` and when the message is originated in a `facebook_postback` then `type` will be set to `facebook_postback`.
+
 More information about the data found in these fields can be found [here](https://developers.facebook.com/docs/messenger-platform/webhook-reference).
 
 ## Working with Facebook Messenger
@@ -221,6 +223,22 @@ bot.stopTyping(message, function () {
 });
 
 bot.replyWithTyping(message, 'Hello there, my friend!');
+```
+
+## Silent and No Notifications
+When sending a user a message you can make the message have either no notification or have a notification that doesn't play a sound. Both of these features are unique to the mobile application messenger. To do this add the `notification_type` field to message. Notification type must be one of the following:
+- REGULAR will emit a sound/vibration and a phone notification
+- SILENT_PUSH will just emit a phone notification
+- NO_PUSH will not emit either
+
+`notification_type` is optional. By default, messages will be REGULAR push notification type
+
+```
+reply_message = {
+    text: "Message text here",
+    notification_type: NOTIFICATION_TYPE
+}
+bot.reply(message, reply_message)
 ```
 
 ## "Get Started" Button

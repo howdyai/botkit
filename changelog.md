@@ -1,5 +1,41 @@
 # Change Log
 
+## 0.4.1
+
+This release contains many small fixes and updates to keep up with the ever changing platforms!
+
+BIG CHANGES:
+
+Slack bots will now send messages via the Web API instead of the RTM. This behavior can be changed by passing `send_via_rtm: true` to `controller.spawn()`
+
+Adds [ConsoleBot](lib/ConsoleBot.js) for creating bots that work on the command line
+
+Adds a new [Middleware Readme](readme-middlewares.md) for documenting the existing middleware modules
+
+Adds an example for using quick replies in the [Facebook Example Bot](facebook_bot.js)
+
+Adds additional fields to Facebook messages to specify if they are `facebook_postback`s or normal messages.
+
+Adds optional `hostname` field to constructor functions to bind Express to a specific IP.
+
+Fixes for Slack's files.upload API
+
+Merge in numerous pull requests from the community:
+[PR #461](https://github.com/howdyai/botkit/pull/461)
+[PR #465](https://github.com/howdyai/botkit/pull/465)
+[PR #466](https://github.com/howdyai/botkit/pull/466)
+[PR #469](https://github.com/howdyai/botkit/pull/469)
+[PR #472](https://github.com/howdyai/botkit/pull/472)
+[PR #474](https://github.com/howdyai/botkit/pull/474)
+[PR #434](https://github.com/howdyai/botkit/pull/434)
+[PR #435](https://github.com/howdyai/botkit/pull/435)
+[PR #440](https://github.com/howdyai/botkit/pull/440)
+[PR #441](https://github.com/howdyai/botkit/pull/441)
+[PR #443](https://github.com/howdyai/botkit/pull/443)
+[PR #446](https://github.com/howdyai/botkit/pull/446)
+[PR #448](https://github.com/howdyai/botkit/pull/448)
+
+
 ## 0.4
 
 Add support for Botkit Studio APIs. [More Info](readme-studio.md)
