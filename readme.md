@@ -938,7 +938,7 @@ functions. These functions can plugin to the core bot running processes at
 several useful places and make changes to both a bot's configuration and
 the incoming or outgoing message.
 
-For information about existing middleware plugins, [see here](readme-middleware.md)
+For information about existing middleware plugins, [see here](readme-middlewares.md)
 
 ### Middleware Endpoints
 
