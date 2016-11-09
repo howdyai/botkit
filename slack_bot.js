@@ -85,7 +85,7 @@ var bot = controller.spawn({
 
 //run the scripts contained in the slackScripts folder
 var helpEntries = []
-var scriptDir = Path.resolve('.', 'slackScripts')
+var scriptDir = Path.resolve('.', '/')
 var scripts = Fs.readdirSync(scriptDir).sort()
 for (var i in scripts) {
     bot.botkit.log('============================= script: #'+i);
