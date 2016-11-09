@@ -45,7 +45,13 @@ Another option is to run `lt --port 443` and then when running the bot you can j
 ```
 --lt [--ltsubdomain CUSTOM_SUBDOMAIN]
 ```
-- `CUSTOM_SUBDOMAIN` is **just the subdomain** you obtain from using the localtunnel.me service. Thus if you get something like `http://nwkdnhwzeb.localtunnel.me` from running `lt` then the command should be 
+- `CUSTOM_SUBDOMAIN` is **just the subdomain** you obtain from using the localtunnel.me service. Thus after running the local tunnel command you should see something like 
+```
+$ lt --port 8000
+your url is: http://enltslehfx.localtunnel.me
+```
+
+Then you know the subdomain that you have been assigend by localtunnel.me is `enltslehfx`. Thus when running the bot you should request to use that subdomain with the following command:
 ```
 --lt --ltsubdomain nwkdnhwzeb
 ```
