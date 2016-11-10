@@ -30,12 +30,15 @@ controller.setupWebserver(process.env.port || 3000, function(err, webserver){
 
 
 controller.on('slash_command', function(bot, message) {
-    console.log('Here is the actual slash command used: ', message.text);
-
     bot.reply(message, 'This is a public reply to the ' + message.text + ' slash command!');
 
 });
 
+
+// reply to a direct mention - @bot hello
+controller.on('direct_mention',function(bot,message) {
+    bot.reply(message, message.text);
+});
 
 // Usage: weather SanFrancisco, CA
 controller.hears(["weather"],'message_received', function(bot, message){

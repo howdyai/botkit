@@ -18,6 +18,7 @@
     "md5": "^2.1.0",
     "mustache": "^2.2.1",
     "parent-require": "^1.0.0",
+    "paypal-rest-sdk": "^1.7.0",
     "promise": "^7.1.1",
     "randomstring": "^1.1.5",
     "request": "^2.67.0",
