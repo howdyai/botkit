@@ -200,6 +200,17 @@ controller.on('channel_leave',function(bot,message) {
 })
 ```
 
+To receive the raw RTM events that are of type `message`, you can listen for the `raw_message` event. This gets emitted in addition to Botkit's own events described below. This is useful if you want to collect all message events for a channel, or if you want to do your own event processing.
+
+```javascript
+controller.on('raw_message',function(bot,message) {
+
+  // message format matches this:
+  // https://api.slack.com/events/message
+
+})
+```
+
 Finally, Botkit throws a handful of its own events!
 Events related to the general operation of bots are below.
 When used in conjunction with the Slack Button, Botkit also fires
