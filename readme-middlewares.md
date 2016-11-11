@@ -9,7 +9,7 @@ Currently the following types of middleware are available for Botkit:
 
 * [Microsoft Luis](#microsoft-luis)
 * [Api.ai](#api.ai)
-* [IBM Watson](#watson) 
+* [IBM Watson](#ibm-watson) 
 
 
 ### [Storage Modules](#storage-modules)
