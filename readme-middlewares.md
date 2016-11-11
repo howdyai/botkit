@@ -8,7 +8,7 @@ Currently the following types of middleware are available for Botkit:
 ### [Natural language processing](#natural-language-processing)
 
 * [Microsoft Luis](#microsoft-luis)
-* [Api.ai](https://github.com/howdyai/botkit/blob/master/readme-middlewares.md#api)
+* [Api.ai](#apiai)
 * [IBM Watson](#ibm-watson) 
 
 
