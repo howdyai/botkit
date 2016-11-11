@@ -8,7 +8,7 @@ Currently the following types of middleware are available for Botkit:
 ### [Natural language processing](#natural-language-processing)
 
 * [Microsoft Luis](#microsoft-luis)
-* [Api.ai](#api.ai)
+* [Api.ai](#api ai)
 * [IBM Watson](#ibm-watson) 
 
 
@@ -93,7 +93,7 @@ controller.hears(['hello','hi'],['direct_message','direct_mention','mention'], l
     bot.reply(message,"Hello.");
 });
 ```
-## Api.ai 
+## Api
 ### [Project Page](https://github.com/abeai/botkit-middleware-apiai)
 This middleware plugin for Botkit allows you to utilize Api.ai, a natural language classifier service directly into the Botkit corebot.
 
