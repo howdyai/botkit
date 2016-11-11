@@ -8,7 +8,7 @@ Currently the following types of middleware are available for Botkit:
 ### [Natural language processing](#natural-language-processing)
 
 * [Microsoft Luis](#microsoft-luis)
-* [Api.ai](#api ai)
+* [Api.ai](https://github.com/howdyai/botkit/blob/master/readme-middlewares.md#api)
 * [IBM Watson](#ibm-watson) 
 
 
@@ -93,7 +93,7 @@ controller.hears(['hello','hi'],['direct_message','direct_mention','mention'], l
     bot.reply(message,"Hello.");
 });
 ```
-## Api
+## Api.ai
 ### [Project Page](https://github.com/abeai/botkit-middleware-apiai)
 This middleware plugin for Botkit allows you to utilize Api.ai, a natural language classifier service directly into the Botkit corebot.
 
@@ -237,47 +237,7 @@ middleware.before = function(message, conversationPayload, callback) {
     callback(null, conversationResponse);
   }
 ```
-
-### Hearing intents
-
-The Watson middleware also includes a `hears()` middleware which provides a mechanism to
-developers to fire handler functions based on the most likely intent of the user.
-This allows a developer to create handler functions for specific intents in addition
-to using the data provided by Watson to power the conversation.
-
-The `hears()` middleware can be used on individual handler functions, or can be used globally.
-
-Used on an individual handler:
-
-```js
-slackController.hears(['hello'], ['direct_message', 'direct_mention', 'mention'], watsonMiddleware.hear, function(bot, message) {
-
-    bot.reply(message, message.watsonData.output.text.join('\n'));
-
-    // now do something special related to the hello intent
-
-});
-```
-
-Used globally:
-
-```js
-slackController.changeEars(watsonMiddleware.hear);
-
-slackController.hears(['hello'], ['direct_message', 'direct_mention', 'mention'], function(bot, message) {
-
-    bot.reply(message, message.watsonData.output.text.join('\n'));
-
-    // now do something special related to the hello intent
-});
-```
-
-This comes in handy to:
-- Make database updates
-- Update the context in the payload
-- Call some external service before/after calling Conversation
-
-
+For more information on adding Watson to your Botkit check [this projects documentation](https://github.com/watson-developer-cloud/botkit-middleware/blob/master/README.md)
 
 #Storage Modules
 ## Mongo 
