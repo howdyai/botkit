@@ -176,68 +176,7 @@ If you have an existing Slack bot, then copy the Slack token from your Slack set
 
 Otherwise, follow [Botkit's instructions](https://github.com/howdyai/botkit/blob/master/readme-slack.md) to create your Slack bot from scratch. When your bot is ready, you are provided with a Slack token.
 
-### Bot setup
-
-This section walks you through code snippets to set up your Slack bot. If you want, you can jump straight to the [full example](/examples/simple-bot).
-
-In your app, add the following lines to create your Slack controller using Botkit:
-```js
-var slackController = Botkit.slackbot();
-```
-
-Spawn a Slack bot using the controller:
-```js
-var slackBot = slackController.spawn({
-    token: YOUR_SLACK_TOKEN
-});
-```
-
-Create the middleware object which you'll use to connect to the Conversation service:
-```js
-var watsonMiddleware = require('botkit-middleware-watson')({
-  username: YOUR_CONVERSATION_USERNAME,
-  password: YOUR_CONVERSATION_PASSWORD,
-  workspace_id: YOUR_WORKSPACE_ID,
-  version_date: '2016-09-20'
-});
-```
-
-Tell your Slackbot to use the _watsonMiddleware_ for incoming messages:
-```js
-slackController.middleware.receive.use(watsonMiddleware.receive);
-slackBot.startRTM();
-```
-
-Finally, make your bot _listen_ to incoming messages and respond with Watson Conversation:
-```js
-slackController.hears(['.*'], ['direct_message', 'direct_mention', 'mention'], function(bot, message) {
-    bot.reply(message, message.watsonData.output.text.join('\n'));
-});
-```
-The middleware attaches the `watsonData` object to _message_. This contains the text response from Conversation.
-
-Then you're all set!
-
-### Using `before` and `after` functions
-
-The _before_ and _after_ callbacks are available through the _watsonMiddleware_ object.
-
-These can be customized as follows:
-
-```js
-middleware.before = function(message, conversationPayload, callback) {
-    // Code here gets executed before making the call to Conversation.
-    callback(null, customizedPayload);
-  }
-```
-
-```js
-  middleware.after = function(message, conversationResponse, callback) {
-    // Code here gets executed after the call to Conversation.
-    callback(null, conversationResponse);
-  }
-```
-For more information on adding Watson to your Botkit check [this projects documentation](https://github.com/watson-developer-cloud/botkit-middleware/blob/master/README.md)
+For more information on adding Watson to your bot check [this projects documentation](https://github.com/watson-developer-cloud/botkit-middleware/blob/master/README.md)
 
 #Storage Modules
 ## Mongo 
