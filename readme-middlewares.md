@@ -6,6 +6,7 @@ the incoming or outgoing message. Anyone can add their own middleware to the Bot
 Currently the following types of middleware are available for Botkit:
 
 ### [Natural language processing](#natural-language-processing)
+ 
 
 * [Microsoft Luis](#microsoft-luis)
 * [Api.ai](#apiai)
@@ -13,10 +14,13 @@ Currently the following types of middleware are available for Botkit:
 
 
 ### [Storage Modules](#storage-modules)
+Storage middleware can be used for storing attributes about a user or channel or team. It is currently available for the following services:
+
 * [Mongo](#mongo)
 * [Redis](#redis)
 * [Datastore](#datastore)
 * [Firebase](#firebase)
+* [Postgres](#postgres)
 
 
 #Natural Language Processing
@@ -286,6 +290,35 @@ controller.storage.teams.save(beans);
 beans = controller.storage.teams.get('cool');
 
 ```
+
+## Postgres 
+### [Project Page](https://github.com/lixhq/botkit-storage-postgres)
+### What it does
+Postgres storage module for Botkit
+
+### Usage
+Install with npm
+
+```
+npm install botkit-storage-postgres --save
+```
+
+and require it and use it:
+
+```
+var botkitStoragePostgres = require('botkit-storage-postgres');
+var Botkit = require('botkit');
+
+var controller = Botkit.slackbot({
+  storage: botkitStoragePostgres({
+    host: 'localhost',
+    user: 'botkit',
+    password: 'botkit',
+    database: 'botkit'
+  })
+});
+```
+
 
 #Have you created middleware?
 We would love to hear about it! [Contact the Howdy team](https://howdy.ai/) to be included in Botkit documentation, or [submit a PR on this documentation](https://github.com/howdyai/botkit-storage-firebase/blob/master/CONTRIBUTING.md)!
