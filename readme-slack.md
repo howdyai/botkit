@@ -615,7 +615,7 @@ var team = bot.identifyTeam() // returns team id
 
 ### How to identify the bot itself
 ```javascript
-var identity = bot.identifyBot(function(err, identity){}) // returns object with {name, id, team_id}
+var identity = bot.identifyBot() // returns object with {name, id, team_id}
 ```
 
 
@@ -817,6 +817,8 @@ var controller = Botkit.slackbot({
 }).configureSlackApp({
     clientId: process.env.clientId,
     clientSecret: process.env.clientSecret,
+    // Enables receiving messages from Events API
+    eventsApi: true,
     // Request bot scope to get all the bot events you have signed up for
     scopes: ['bot'],
 });
@@ -834,9 +836,6 @@ controller.setupWebserver(process.env.port, function(err, webserver) {
     });
 });
 ```
-6. To enable conversations when not connecting to the RTM API, you must tell the controller to start ticking when the bot is first run.
-
-`controller.startTicking();`
 
 > Note: When subscribed to message events through the Events API you will receive messages that correspond with other events. For example, subscribing to `file_shared` triggers an event when a file is shared, however subscribing to messages posted to channels with `message.channel` will trigger events on files being shared into a channel as well, but with the `file_share` event. What is happening is you get a `message` event that has subtype `file_share` and contains the full information about the shared file, that triggers a `file_share` event within Botkit.
 
