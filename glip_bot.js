@@ -30,32 +30,32 @@ controller.setupWebserver(process.env.port || 3000, function(err, webserver){
 
 });
 
-controller.on('slash_command', function(bot, message) {
-    bot.reply(message, 'This is a public reply to the ' + message.text + ' slash command!');
-
-});
-
-// reply to a direct mention - @bot hello
-controller.on('direct_mention',function(bot,message) {
-   // bot.reply(message, message.text);
-    bot.startPrivateConversation(message, function(error, dm){
-        dm.say(message.text);
-    });
-});
-
-controller.on('create_incoming_webhook', function(bot, webhook_config){
-
-    var options = {
-        url: '/glip/receive'
-    }
-    bot.configureIncomingWebhook(options);
-
-    console.log('In send Webhook');
-
-    bot.sendWebhook({
-        text: ':thumbsup: Incoming webhook sucessfully configured'
-    })
-});
+// controller.on('slash_command', function(bot, message) {
+//     bot.reply(message, 'This is a public reply to the ' + message.text + ' slash command!');
+//
+// });
+//
+// // reply to a direct mention - @bot hello
+// controller.on('direct_mention',function(bot,message) {
+//    // bot.reply(message, message.text);
+//     bot.startPrivateConversation(message, function(error, dm){
+//         dm.say(message.text);
+//     });
+// });
+//
+// controller.on('create_incoming_webhook', function(bot, webhook_config){
+//
+//     var options = {
+//         url: '/glip/receive'
+//     }
+//     bot.configureIncomingWebhook(options);
+//
+//     console.log('In send Webhook');
+//
+//     bot.sendWebhook({
+//         text: ':thumbsup: Incoming webhook sucessfully configured'
+//     })
+// });
 
 // Usage: weather SanFrancisco, CA
 controller.hears(["weather"],'message_received', function(bot, message){
