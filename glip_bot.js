@@ -6,6 +6,7 @@
 var Botkit = require('./lib/Botkit.js');
 var os = require('os');
 var http = require('http');
+var request = require('request');
 
 
 var controller = Botkit.glipbot({
@@ -18,7 +19,7 @@ var bot = controller.spawn({
     email: process.env.HUBOT_GLIP_EMAIL,
     password: process.env.HUBOT_GLIP_PASSWORD,
     identity: 'Botkit'
-});
+}).startRTM();
 
 controller.setupWebserver(process.env.port || 3000, function(err, webserver){
     webserver.get('/', function (req ,res) {
@@ -26,18 +27,34 @@ controller.setupWebserver(process.env.port || 3000, function(err, webserver){
     });
 
     controller.createWebhookEndpoints(webserver, bot);
-});
 
+});
 
 controller.on('slash_command', function(bot, message) {
     bot.reply(message, 'This is a public reply to the ' + message.text + ' slash command!');
 
 });
 
-
 // reply to a direct mention - @bot hello
 controller.on('direct_mention',function(bot,message) {
-    bot.reply(message, message.text);
+   // bot.reply(message, message.text);
+    bot.startPrivateConversation(message, function(error, dm){
+        dm.say(message.text);
+    });
+});
+
+controller.on('create_incoming_webhook', function(bot, webhook_config){
+
+    var options = {
+        url: '/glip/receive'
+    }
+    bot.configureIncomingWebhook(options);
+
+    console.log('In send Webhook');
+
+    bot.sendWebhook({
+        text: ':thumbsup: Incoming webhook sucessfully configured'
+    })
 });
 
 // Usage: weather SanFrancisco, CA
@@ -80,11 +97,13 @@ controller.hears(["weather"],'message_received', function(bot, message){
 
 // Usage: uptime
 controller.hears(['uptime'],'message_received',function(bot, message) {
-    console.log('uptime in glipbot.js file');
+    console.log('uptime in glipbot.js file: ' + JSON.stringify(message));
+
     var hostname = os.hostname();
     var uptime = formatUptime(process.uptime());
 
     bot.reply(message,'I am a bot! I have been running for ' + uptime + ' on ' + hostname + '.');
+
 
 });
 
