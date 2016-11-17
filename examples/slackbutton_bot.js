@@ -35,6 +35,7 @@ if (!process.env.clientId || !process.env.clientSecret || !process.env.port || !
 
 var controller = Botkit.slackbot({
   json_file_store: './db_slackbutton_bot/',
+  // rtm_receive_messages: false, // disable rtm_receive_messages if you enable events api
 }).configureSlackApp(
   {
     clientId: process.env.clientId,
