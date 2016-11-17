@@ -5,6 +5,8 @@ a valuable management interface for the bot's dialog content and configuration. 
 
 This document covers the Botkit Studio SDK details only. [Start here](readme.md) if you want to learn about to develop with Botkit.
 
+For bot developers who have existing apps but would like to benefit from features like bot-specific content management without using Botkit, you can access the [Botkit Studio SDK here](https://github.com/howdyai/botkit-studio-sdk)
+
 Table of Contents
 
 * [Key Features](#key-features)
