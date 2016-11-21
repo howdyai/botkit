@@ -16,6 +16,7 @@ Table of Contents
 * [Working with Facebook Webhooks](#working-with-facebook-messenger)
 * [Using Structured Messages and Postbacks](#using-structured-messages-and-postbacks)
 * [Simulate typing](#simulate-typing)
+* [Silent and No Notifications](#silent-and-no-notifications)
 * [Running Botkit with an Express server](#use-botkit-for-facebook-messenger-with-an-express-web-server)
 
 ## Getting Started
