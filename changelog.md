@@ -1,5 +1,13 @@
 # Change Log
 
+## 0.4.2
+
+Support for Slack's [Events API](https://api.slack.com/events-api) is here, thanks to the Botkit contributor community. [Read documentation here](https://github.com/howdyai/botkit/blob/master/readme-slack.md#events-api)
+
+Bug fix:
+
+Fixes an issue with setting the default IP address for the Express server introduced in 0.4.1
+
 ## 0.4.1
 
 This release contains many small fixes and updates to keep up with the ever changing platforms!
