@@ -813,3 +813,85 @@ bot.startConversation(message, function(err, convo) {
     ]);
 });
 ```
+
+# Include NLP to your Bot :
+
+ Natural Language Processing is a field of computer science, artificial intelligence, and computational linguistics concerned with the interactions between computers and human (natural) languages. As such, NLP is related to the area of human–computer interaction. Many challenges in NLP involve: natural language understanding, enabling computers to derive meaning from human or natural language input; and others involve natural language generation.
+ 
+ Many plateforms offer their APIs to able developpers integrate NLP to their applications. 
+ One of the most famous platforms is : [Wit.ai](https://wit.ai). It belongs now to Facebook. 
+ 
+## Install
+
+```node-wit``` is the Node.js SDK for Wit.ai : 
+
+ ```
+ npm install --save node-wit
+ ```
+ 
+## Create your Wit.ai application : 
+ 
+ Wit.ai is simple to use. You create Intents and entities based on strategies. I advise you to read the documentation. 
+ 
+## Example : 
+ 
+ ```javascript
+var Botkit = require('./lib/Botkit.js');
+var Wit = require('node-wit').Wit;
+var request = require('request');
+var Fs = require('fs')
+var Path = require('path')
+
+if (!process.env.token) {
+    console.log('Error: Specify token in environment');
+    process.exit(1);
+}
+
+
+var controller = Botkit.slackbot({
+    debug: true
+});
+
+var bot = controller.spawn({
+    token: process.env.token
+}).startRTM(function () {
+
+});
+
+const contexts = ['direct_message', 'direct_mention', 'mention'];
+
+controller.hears("(.*)", contexts, function (bot, message) {
+    bot.startTyping(message);
+
+    const witServer = new Wit({accessToken: "YOURwitAccessToken"});
+    bot.botkit.log('[ASKBOT] Start calling Wit plateforme ...');
+    witServer.message(message.text, {}).then((data) => {
+        // bot.botkit.log('[ASKBOT] Got Wit response: \n', JSON.stringify(data));
+        const witEntities = data.entities;
+
+    bot.botkit.log(JSON.stringify(data));
+
+}).
+    catch(console.error);
+
+});
+```
+
+data contains the json response of wit.ai : 
+
+```
+ {"msg_id":"5c93bda4-0059-4bec-81c7-7d170983978a",
+ "_text":"hi",
+ "entities":
+        {"politeness":
+        [{  "confidence":0.9679439609682234,
+            "type":"value",
+            "value":"salutations"
+        }]
+    }
+}
+```
+The action to process is a log of your data response. It lights up the entities existing in the request (which is the text message), the confidence degree of wit.ai and the value of tghe entity. These entities should be defined in the wit.ai application that we refere to with an access token. 
+
+ 
+ 
