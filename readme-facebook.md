@@ -36,24 +36,17 @@ Copy this token, you'll need it!
 page_token=<MY PAGE TOKEN> verify_token=<MY_VERIFY_TOKEN> node facebook_bot.js [--lt [--ltsubdomain CUSTOM_SUBDOMAIN]]
 ```
 
-Notice:
-- By default the `lt` command uses port 8000 so when using `--lt` the command should be 
- ```
---lt 8000 [--ltsubdomain CUSTOM_SUBDOMAIN]
-``` 
-Another option is to run `lt --port 443` and then when running the bot you can just use 
-```
---lt [--ltsubdomain CUSTOM_SUBDOMAIN]
-```
-- `CUSTOM_SUBDOMAIN` is **just the subdomain** you obtain from using the localtunnel.me service. Thus after running the local tunnel command you should see something like 
-```
-$ lt --port 8000
-your url is: http://enltslehfx.localtunnel.me
-```
+#### localtunnel.me and the `lt` command
+[localtunnel.me](http://localtunnel.me) is a free service that according to their website will "allow you to easily share a web service on your local development machine without messing with DNS and firewall settings." Their website have the **very** simple instructions on how to install it. 
 
-Then you know the subdomain that you have been assigend by localtunnel.me is `enltslehfx`. Thus when running the bot you should request to use that subdomain with the following command:
+By using a few flags on their tool it is easy to integrate localtunnel with botkit. We will be using two flags from `lt`, the localtunnel commandline utility.
+* `-s` which allows us to obtain a custom subdomain name
+* `--port` which allows us to specifiy the port on our machine to which the bot will connect.
+
+So a simple connect will be:
 ```
---lt --ltsubdomain nwkdnhwzeb
+$ lt --port 8000 -s botkitexamplesubdomain
+your url is: http://botkitexamplesubdomain.localtunnel.me
 ```
 
 6) [Set up a webhook endpoint for your app](https://developers.facebook.com/docs/messenger-platform/implementation#setting_webhooks) that uses your public URL. Use the verify token you defined in step 4!
