@@ -15,6 +15,7 @@ This bot demonstrates many of the core features of Botkit:
 * Use the conversation system to ask questions
 * Use the built in storage system to store and retrieve information
   for a user.
+* Trigger events to test their listeners
 
 # RUN THE BOT:
 
@@ -45,6 +46,11 @@ This bot demonstrates many of the core features of Botkit:
   The bot will ask if you are sure, and then shut itself down.
 
   Make sure to invite your bot into other channels using /invite @<my bot>!
+
+# EVENTS:
+  Say: "trigger: bot_channel_join"
+
+  The event specified will be triggered by Botkit. It will not receive all the information the listener may need, but will trigger any code you have there.
 
 # EXTEND THE BOT:
 
