@@ -27,15 +27,16 @@ This is a sample Slack Button application that adds a bot to one or many slack t
 /* Uses the slack button feature to offer a real time bot to multiple teams */
 var Botkit = require('../lib/Botkit.js');
 
-if (!process.env.clientId || !process.env.clientSecret || !process.env.port || !process.env.redirectUri) {
-  console.log('Error: Specify clientId clientSecret redirectUri and port in environment');
+if (!process.env.clientId || !process.env.clientSecret || !process.env.port) {
+  console.log('Error: Specify clientId clientSecret and port in environment');
   process.exit(1);
 }
 
 
 var controller = Botkit.slackbot({
   json_file_store: './db_slackbutton_bot/',
-  // rtm_receive_messages: false, // disable rtm_receive_messages if you enable events api
+  debug: true,
+  rtm_receive_messages: false, // disable rtm_receive_messages if you enable events api
 }).configureSlackApp(
   {
     clientId: process.env.clientId,
@@ -89,6 +90,9 @@ controller.on('create_bot',function(bot,config) {
   }
 
 });
+controller.on('bot_channel_join', function(bot, message) {
+    console.log('================ BOT JOINED CHANNEL!: bot.id', bot.identity)
+})
 
 
 // Handle events related to the websocket connection to Slack
