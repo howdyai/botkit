@@ -66,7 +66,7 @@ var controller = Botkit.consolebot({
 var bot = controller.spawn();
 
 controller.on('bot_channel_join', function(bot, message) {
-    console.log('listener fired!')
+    // console.log('listener fired!');
     bot.send({text: 'Here I am in a channel now!'})
 });
 
