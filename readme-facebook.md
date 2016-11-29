@@ -71,7 +71,7 @@ All incoming events will contain the fields `user` and `channel`, both of which 
 
 `message_received` events will also contain either a `text` field or an `attachment` field.
 
-`facebook_postback` events will contain a `payload` field. 
+`facebook_postback` events will contain a `payload` field.
 
 Notice also that `facebook_postback` events trigger the `message_received` event as well. That is why messages will have the `type` field as well. When the message is directly from the user (i.e. onlye `message_received` event) `type` will be set to `"user_message"` and when the message is originated in a `facebook_postback` then `type` will be set to `facebook_postback`.
 
@@ -241,6 +241,15 @@ reply_message = {
 }
 bot.reply(message, reply_message)
 ```
+
+## "Get Started" Button
+
+Facebook Bots have the ability to display a welcome screen before any message is sent. The Welcome Screen can display a Get Started button. When this button is tapped, Facebook will send a postback and in it deliver the person's page-scoped ID (PSID). You can then present a personalized message to greet the user or present buttons to prompt him or her to take an action.
+
+To use this ability `botkit` exposes two methods on facebook bots
+
+* `setGetStartedPayload(get_started_payload, callback_function)` - calling this will set `get_started_payload` as the payload (i.e. message) that the user will send as a message when clicking the "Get Started" button on the bot's screen in Facebook. It will also call `callback_function` on the response for the request to set the payload.
+* `deleteGetStartedPayload(callback_function)` - calling this will cancel any setting made for the welcome "Get Started" screen for the bot.
 
 ## Use BotKit for Facebook Messenger with an Express web server
 Instead of the web server generated with setupWebserver(), it is possible to use a different web server to receive webhooks, as well as serving web pages.
