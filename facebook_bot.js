@@ -123,6 +123,9 @@ controller.setupWebserver(process.env.port || 3000, function(err, webserver) {
     });
 });
 
+controller.threadSettings.setupGreeting('Hello ! i\'m the awesome Botkit');
+controller.threadSettings.setupGetStarted('getStarted');
+
 controller.hears(['quick'], 'message_received', function(bot, message) {
 
     bot.reply(message, {
