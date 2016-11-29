@@ -4,6 +4,7 @@ declare module botkit {
         no: RegExp;
         quit: RegExp;
     }
+    type HearFunction = (patterns: string[] | RegExp[], message: Message) => boolean;
     class Controller {
         events: { [event: string]: Function };
         config: Configuration;
@@ -36,14 +37,15 @@ declare module botkit {
             info(...params: any[]): void;
             debug(...params: any[]): void;
         }
-        webserver: Express.Application;
+        webserver: any;
+        hears_test: HearFunction;
 
         constructor(configuration: Configuration);
         hears_regexp(tests: string[] | RegExp[], message: Message): boolean;
-        changeEars(new_test): never;
+        changeEars(new_test: HearFunction): never;
         spawn(team);
         hears(pattern: string | string[], modes: string | string[], callback: (bot: Bot, message: Message) => void);
-        hears(pattern: string | string[], modes: string | string[], middleware: () => void, callback: (bot: Bot, message: Message) => void);
+        hears(pattern: string | string[], modes: string | string[], middleware: HearFunction, callback: (bot: Bot, message: Message) => void);
         on(event: string, callback: (bot: Bot, message: Message) => void);
         trigger(event: string, data): void;
         startConversation(bot: Bot, message: Message, cb: (err: Error, convo: Conversation) => void): never;
@@ -57,14 +59,14 @@ declare module botkit {
         tick(): never;
 
         configureSlackApp(slack_app_config: { clientId: string, clientSecret: string, scopes: string[] }, cb: () => void): Controller;
-        createHomepageEndpoint(webserver: Express.Application): Controller;
+        createHomepageEndpoint(webserver: any): Controller;
         secureWebhookEndpoints();
-        createWebhookEndpoints(webserver: Express.Application, authenticationTokens?: string[]): Controller;
+        createWebhookEndpoints(webserver: any, authenticationTokens?: string[]): Controller;
         saveTeam(team: Team, cb?: (err: Error, data: any) => void): never;
         findTeamById(id: string, cb: (err: Error, data: Team) => void): never;
-        setupWebserver(port: number, cb: (err: Error, webserver: Express.Application) => void): Controller;
+        setupWebserver(port: number, cb: (err: Error, webserver: any) => void): Controller;
         getAuthorizeURL(team_id: string): string;
-        createOauthEndpoints(webserver: Express.Application, callback: (err: Error, req: any, res: any) => void): Controller;
+        createOauthEndpoints(webserver: any, callback: (err: Error, req: any, res: any) => void): Controller;
         handleSlackEvents(): never;
     }
     interface Attachment {
@@ -115,10 +117,17 @@ declare module botkit {
     interface Message {
         type: MessageType;
         subtype?: string;
-        channel: string;
+        // The text spoken
         text: string;
+        // The ID of the user speaking
         user: string;
+        // The ID of the channel, private group or DM channel this message is posted in
+        channel: string;
+        // The unique (per-channel) timestamp
         ts: string;
+        // custom botkit fields
+        event?: string;
+        match?: RegExpMatchArray;
     }
     interface User {
         id: string;
