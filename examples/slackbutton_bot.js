@@ -40,7 +40,7 @@ var controller = Botkit.slackbot({
   {
     clientId: process.env.clientId,
     clientSecret: process.env.clientSecret,
-    redirectUri: process.env.redirectUri,
+    // redirectUri: process.env.redirectUri, // optional part of Slack Button flow
     scopes: ['bot'],
   }
 );
