@@ -8,7 +8,7 @@ developers to build both custom integrations for their
 team, as well as public "Slack Button" applications that can be
 run from a central location, and be used by many teams at the same time.
 
-This document covers the Slack-specific implementation details only. [Start here](readme.md) if you want to learn about to develop with Botkit.
+This document covers the Slack-specific implementation details only. [Start here](readme.md) if you want to learn about how to develop with Botkit.
 
 Table of Contents
 
