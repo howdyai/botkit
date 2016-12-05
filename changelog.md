@@ -1,5 +1,20 @@
 # Change Log
 
+## 0.4.3
+
+Adds [convo.transitionTo()](readme.md#convotransitionto), a new feature for creating smoother transitions between conversation threads
+
+Adds support for new Facebook Messenger [thread settings APIs](readme-facebook.md#thread-settings-api)
+which enable developers to set and manage the 'getting started' screen and persistent menus.
+
+Adds support for Facebook Messenger attachment in [Botkit Studio](https://studio.botkit.ai)
+
+Adds a check to ensure messages are properly received by Facebook and Slack before proceeding to next message in a conversation.
+
+Adds optional `require_delivery` option for Facebook and Slack bots which tells Botkit to wait to receive a delivery confirmation from the platform before sending further messages. [Slack info](readme-slack.md#require-delivery-confirmation-for-rtm-messages) [Facebook info](readme-facebook.md#require-delivery-confirmation)
+
+Change: Receiving `facebook_postback` events as normal "spoken" messages now requires the `{receive_via_postback:true}` option be set on the controller. [Read more](readme-facebook.md#receive-postback-button-clicks-as-typed-messages)
+
 ## 0.4.2
 
 Support for Slack's [Events API](https://api.slack.com/events-api) is here, thanks to the Botkit contributor community. [Read documentation here](https://github.com/howdyai/botkit/blob/master/readme-slack.md#events-api)
