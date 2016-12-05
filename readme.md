@@ -659,6 +659,26 @@ convo.addMessage('I am sorry, your data is wrong!', 'validation_error');
 convo.gotoThread('validation_error');
 ```
 
+
+#### convo.transitionTo
+| Argument | Description
+|---  |---
+| thread_name   | String defining the name of a thread
+| message   | String or message object
+
+Like `gotoThread()`, jumps to the named thread. However, before doing so,
+Botkit will first send `message` to the user as a transition. This allows
+developers to specify dynamic transition messages to improve the flow of the
+conversation.
+
+```javascript
+// create an end state thread
+covo.addMessage('This is the end!', 'the_end');
+
+// now transition there with a nice message
+convo.transitionTo('the_end','Well I think I am all done.');
+```
+
 #### Automatically Switch Threads using Actions
 
 You can direct a conversation to switch from one thread to another automatically
