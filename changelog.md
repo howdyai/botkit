@@ -1,5 +1,17 @@
 # Change Log
 
+## 0.4.3
+
+Adds [convo.transitionTo()](readme.me#convotransitionto), a new feature for creating smoother transitions between conversation threads
+
+Adds support for new Facebook Messenger [thread settings APIs](readme-facebook.md#thread-settings-api)
+which enable developers to set and manage the 'getting started' screen and persistent menus.
+
+Change: Receiving `facebook_postback` events as normal "spoken" messages now requires the `{receive_via_postback:true}` option be set on the controller.
+
+
+
+
 ## 0.4.2
 
 Support for Slack's [Events API](https://api.slack.com/events-api) is here, thanks to the Botkit contributor community. [Read documentation here](https://github.com/howdyai/botkit/blob/master/readme-slack.md#events-api)

@@ -15,6 +15,7 @@ Table of Contents
 * [Facebook-specific Events](#facebook-specific-events)
 * [Working with Facebook Webhooks](#working-with-facebook-messenger)
 * [Using Structured Messages and Postbacks](#using-structured-messages-and-postbacks)
+* [Thread Settings](#thread-settings-api)
 * [Simulate typing](#simulate-typing)
 * [Silent and No Notifications](#silent-and-no-notifications)
 * [Running Botkit with an Express server](#use-botkit-for-facebook-messenger-with-an-express-web-server)
@@ -131,6 +132,28 @@ controller.hears(['cookies'], 'message_received', function(bot, message) {
 });
 ```
 
+### Receive Postback Button Clicks as "Typed" Messages
+
+Facebook Messenger supports including "postback" buttons, which, when clicked,
+send a specialized `facebook_postback` event.
+
+As an alternative to binding an event handler to the `facebook_postback` event,
+developers may find it useful if button clicks are treated as "typed" messages.
+This enables buttons to be more easily used as part of a conversation flow, and
+can reduce the complexity of the code necessary.
+
+Once enabled, the `payload` field of any postback button that is clicked will be
+treated as if the user typed the message, and will trigger any relevant `hears` triggers.
+
+To enable this option, pass in `{receive_via_postback: true}` to your Botkit Facebook controller, as below:
+
+```javascript
+var controller = Botkit.facebookbot({
+        access_token: process.env.access_token,
+        verify_token: process.env.verify_token,
+        receive_via_postback: true,
+})
+```
 
 #### controller.setupWebserver()
 | Argument | Description
