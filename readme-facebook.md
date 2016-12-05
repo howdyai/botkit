@@ -155,6 +155,25 @@ var controller = Botkit.facebookbot({
 })
 ```
 
+### Require Delivery Confirmation
+
+In order to guarantee the order in which your messages arrive, Botkit supports an optional
+delivery confirmation requirement. This will force Botkit to wait for a `message_delivered` events
+for each outgoing message before continuing to the next message in a conversation.
+
+Developers who send many messages in a row, particularly with payloads containing images or attachments,
+should consider enabling this option. Facebook's API sometimes experiences a delay delivering messages with large files attached, and this delay can cause messages to appear out of order.
+
+To enable this option, pass in `{require_delivery: true}` to your Botkit Facebook controller, as below:
+
+```javascript
+var controller = Botkit.facebookbot({
+        access_token: process.env.access_token,
+        verify_token: process.env.verify_token,
+        require_delivery: true,
+})
+```
+
 #### controller.setupWebserver()
 | Argument | Description
 |---  |---
