@@ -699,7 +699,7 @@ convo.addMessage({
 ```
 
 Developers can create fairly complex conversational systems by combining these message actions with conditionals in `ask()` and `addQuestion()`.  Actions can be used to specify
-default or next step actions, while conditionals can be used to route between threads.
+`default` or `next_step` actions, while conditionals can be used to route between threads.
 
 From inside a callback function, use `convo.gotoThread()` to instantly switch to a different pre-defined part of the conversation. Botkit can be set to automatically navigate between threads based on user input, such as in the example below.
 
