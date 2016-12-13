@@ -15,6 +15,7 @@ Table of Contents
 * [Facebook-specific Events](#facebook-specific-events)
 * [Working with Facebook Webhooks](#working-with-facebook-messenger)
 * [Using Structured Messages and Postbacks](#using-structured-messages-and-postbacks)
+* [Thread Settings](#thread-settings-api)
 * [Simulate typing](#simulate-typing)
 * [Silent and No Notifications](#silent-and-no-notifications)
 * [Running Botkit with an Express server](#use-botkit-for-facebook-messenger-with-an-express-web-server)
@@ -131,6 +132,47 @@ controller.hears(['cookies'], 'message_received', function(bot, message) {
 });
 ```
 
+### Receive Postback Button Clicks as "Typed" Messages
+
+Facebook Messenger supports including "postback" buttons, which, when clicked,
+send a specialized `facebook_postback` event.
+
+As an alternative to binding an event handler to the `facebook_postback` event,
+developers may find it useful if button clicks are treated as "typed" messages.
+This enables buttons to be more easily used as part of a conversation flow, and
+can reduce the complexity of the code necessary.
+
+Once enabled, the `payload` field of any postback button that is clicked will be
+treated as if the user typed the message, and will trigger any relevant `hears` triggers.
+
+To enable this option, pass in `{receive_via_postback: true}` to your Botkit Facebook controller, as below:
+
+```javascript
+var controller = Botkit.facebookbot({
+        access_token: process.env.access_token,
+        verify_token: process.env.verify_token,
+        receive_via_postback: true,
+})
+```
+
+### Require Delivery Confirmation
+
+In order to guarantee the order in which your messages arrive, Botkit supports an optional
+delivery confirmation requirement. This will force Botkit to wait for a `message_delivered` events
+for each outgoing message before continuing to the next message in a conversation.
+
+Developers who send many messages in a row, particularly with payloads containing images or attachments,
+should consider enabling this option. Facebook's API sometimes experiences a delay delivering messages with large files attached, and this delay can cause messages to appear out of order.
+
+To enable this option, pass in `{require_delivery: true}` to your Botkit Facebook controller, as below:
+
+```javascript
+var controller = Botkit.facebookbot({
+        access_token: process.env.access_token,
+        verify_token: process.env.verify_token,
+        require_delivery: true,
+})
+```
 
 #### controller.setupWebserver()
 | Argument | Description
@@ -243,14 +285,75 @@ reply_message = {
 bot.reply(message, reply_message)
 ```
 
-## "Get Started" Button
+## Thread Settings API
 
-Facebook Bots have the ability to display a welcome screen before any message is sent. The Welcome Screen can display a Get Started button. When this button is tapped, Facebook will send a postback and in it deliver the person's page-scoped ID (PSID). You can then present a personalized message to greet the user or present buttons to prompt him or her to take an action.
+Facebook offers a "Thread Settings" API to customize special bot features
+such as a persistent menu and a welcome screen. We highly recommend you use all of these features, which will make your bot easier for users to work with. [Read Facebook's docs here](https://developers.facebook.com/docs/messenger-platform/thread-settings).
 
-To use this ability `botkit` exposes two methods on facebook bots
+#### controller.api.thread_settings.greeting()
+| Argument | Description
+|---  |---
+| message | greeting message to display on welcome screen
 
-* `setGetStartedPayload(get_started_payload, callback_function)` - calling this will set `get_started_payload` as the payload (i.e. message) that the user will send as a message when clicking the "Get Started" button on the bot's screen in Facebook. It will also call `callback_function` on the response for the request to set the payload.
-* `deleteGetStartedPayload(callback_function)` - calling this will cancel any setting made for the welcome "Get Started" screen for the bot.
+#### controller.api.thread_settings.delete_greeting()
+
+Remove the greeting message.
+
+#### controller.api.thread_settings.get_started()
+| Argument | Description
+|---  |---
+| payload | value for the postback payload sent when the button is clicked
+
+Set the payload value of the 'Get Started' button
+
+#### controller.api.thread_settings.delete_get_started()
+
+Clear the payload value of the 'Get Started' button and remove it.
+
+#### controller.api.thread_settings.menu()
+| Argument | Description
+|---  |---
+| menu_items | an array of [menu_item objects](https://developers.facebook.com/docs/messenger-platform/thread-settings/persistent-menu#menu_item)
+
+Create a [persistent menu](https://developers.facebook.com/docs/messenger-platform/thread-settings/persistent-menu) for your Bot
+
+#### controller.api.thread_settings.delete_menu()
+
+Clear the persistent menu setting
+
+#### Using the Thread Settings API
+
+```js
+controller.api.thread_settings.greeting('Hello! I\'m a Botkit bot!');
+controller.api.thread_settings.get_started('sample_get_started_payload');
+controller.api.thread_settings.menu([
+    {
+        "type":"postback",
+        "title":"Hello",
+        "payload":"hello"
+    },
+    {
+        "type":"postback",
+        "title":"Help",
+        "payload":"help"
+    },
+    {
+      "type":"web_url",
+      "title":"Botkit Docs",
+      "url":"https://github.com/howdyai/botkit/blob/master/readme-facebook.md"
+    },
+]);
+
+controller.hears(['hello'],'facebook_postback', function(bot, message) {
+    //...
+});
+
+controller.hears(['help'],'facebook_postback', function(bot, message) {
+    //...
+});
+
+```
+
 
 ## Use BotKit for Facebook Messenger with an Express web server
 Instead of the web server generated with setupWebserver(), it is possible to use a different web server to receive webhooks, as well as serving web pages.

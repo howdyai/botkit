@@ -8,7 +8,7 @@ developers to build both custom integrations for their
 team, as well as public "Slack Button" applications that can be
 run from a central location, and be used by many teams at the same time.
 
-This document covers the Slack-specific implementation details only. [Start here](readme.md) if you want to learn about to develop with Botkit.
+This document covers the Slack-specific implementation details only. [Start here](readme.md) if you want to learn about how to develop with Botkit.
 
 Table of Contents
 
@@ -69,6 +69,25 @@ This is particularly true if you store and use API tokens on behalf of users oth
 
 [Read Slack's Bot User documentation](https://api.slack.com/bot-users)
 
+### Slack Controller
+
+The Botkit Slack controller object can be configured in a few different ways, depending on the type of integration you are building.
+
+A simple single-team bot that uses the RTM api can be instantated without any special options:
+
+```
+var controller = Botkit.slackbot({});
+```
+
+In order to use Botkit's built in support for multi-team Slack "apps", pass in [additional configuration options](#use-the-slack-button):
+
+```
+var controller = Botkit.slackbot({
+    clientId: process.env.clientId,
+    clientSecret: procss.env.clientSecret,
+    scopes: ['bot'],
+});
+```
 
 #### controller.spawn()
 | Argument | Description
@@ -91,7 +110,22 @@ Spawn `config` object accepts these properties:
 | send_via_rtm  | Boolean   | Send outgoing messages via the RTM instead of using Slack's RESTful API which supports more features
 | retry | Positive integer or `Infinity` | Maximum number of reconnect attempts after failed connection to Slack's real time messaging API. Retry is disabled by default
 
+### Require Delivery Confirmation for RTM Messages
 
+In order to guarantee the order in which your messages arrive, Botkit supports an optional
+delivery confirmation requirement. This will force Botkit to wait for a confirmation events
+for each outgoing message before continuing to the next message in a conversation.
+
+Developers who send many messages in a row, particularly with payloads containing images or attachments,
+should consider enabling this option. Slack's API sometimes experiences a delay delivering messages with large files attached, and this delay can cause messages to appear out of order. Note that for Slack, this is only applies to bots with the `send_via_rtm` option enabled.
+
+To enable this option, pass in `{require_delivery: true}` to your Botkit Slack controller, as below:
+
+```javascript
+var controller = Botkit.slackbot({
+    require_delivery: true,
+})
+```
 
 #### bot.startRTM()
 | Argument | Description
