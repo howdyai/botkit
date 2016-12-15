@@ -5,6 +5,8 @@ a valuable management interface for the bot's dialog content and configuration. 
 
 This document covers the Botkit Studio SDK details only. [Start here](readme.md) if you want to learn about to develop with Botkit.
 
+For bot developers who have existing apps but would like to benefit from features like bot-specific content management without using Botkit, you can access the [Botkit Studio SDK here](https://github.com/howdyai/botkit-studio-sdk)
+
 Table of Contents
 
 * [Key Features](#key-features)
@@ -151,7 +153,7 @@ While developers may still tap into the conversation as it is conducted using th
 This enables developers to add template variables to the conversation object before it sends its first message. Read about [using variables in messages](readme.md#using-variable-tokens-and-templates-in-conversation-threads)
 
 ```
-controller.studio.run(bot, 'hello', message.user, message.channel).then(function(convo) {
+controller.studio.get(bot, 'hello', message.user, message.channel).then(function(convo) {
     convo.setVar('date', new Date()); // available in message text as {{vars.date}}
     convo.setVar('news', 'This is a news item!'); // ailable as {{vars.news}}
 

@@ -1,5 +1,64 @@
 # Change Log
 
+## 0.4.3
+
+Adds [convo.transitionTo()](readme.md#convotransitionto), a new feature for creating smoother transitions between conversation threads
+
+Adds support for new Facebook Messenger [thread settings APIs](readme-facebook.md#thread-settings-api)
+which enable developers to set and manage the 'getting started' screen and persistent menus.
+
+Adds support for Facebook Messenger attachment in [Botkit Studio](https://studio.botkit.ai)
+
+Adds a check to ensure messages are properly received by Facebook and Slack before proceeding to next message in a conversation.
+
+Adds optional `require_delivery` option for Facebook and Slack bots which tells Botkit to wait to receive a delivery confirmation from the platform before sending further messages. [Slack info](readme-slack.md#require-delivery-confirmation-for-rtm-messages) [Facebook info](readme-facebook.md#require-delivery-confirmation)
+
+Change: Receiving `facebook_postback` events as normal "spoken" messages now requires the `{receive_via_postback:true}` option be set on the controller. [Read more](readme-facebook.md#receive-postback-button-clicks-as-typed-messages)
+
+## 0.4.2
+
+Support for Slack's [Events API](https://api.slack.com/events-api) is here, thanks to the Botkit contributor community. [Read documentation here](https://github.com/howdyai/botkit/blob/master/readme-slack.md#events-api)
+
+Bug fix:
+
+Fixes an issue with setting the default IP address for the Express server introduced in 0.4.1
+
+## 0.4.1
+
+This release contains many small fixes and updates to keep up with the ever changing platforms!
+
+BIG CHANGES:
+
+Slack bots will now send messages via the Web API instead of the RTM. This behavior can be changed by passing `send_via_rtm: true` to `controller.spawn()`
+
+Adds [ConsoleBot](lib/ConsoleBot.js) for creating bots that work on the command line
+
+Adds a new [Middleware Readme](readme-middlewares.md) for documenting the existing middleware modules
+
+Adds an example for using quick replies in the [Facebook Example Bot](facebook_bot.js)
+
+Adds additional fields to Facebook messages to specify if they are `facebook_postback`s or normal messages.
+
+Adds optional `hostname` field to constructor functions to bind Express to a specific IP.
+
+Fixes for Slack's files.upload API
+
+Merge in numerous pull requests from the community:
+[PR #461](https://github.com/howdyai/botkit/pull/461)
+[PR #465](https://github.com/howdyai/botkit/pull/465)
+[PR #466](https://github.com/howdyai/botkit/pull/466)
+[PR #469](https://github.com/howdyai/botkit/pull/469)
+[PR #472](https://github.com/howdyai/botkit/pull/472)
+[PR #474](https://github.com/howdyai/botkit/pull/474)
+[PR #434](https://github.com/howdyai/botkit/pull/434)
+[PR #435](https://github.com/howdyai/botkit/pull/435)
+[PR #440](https://github.com/howdyai/botkit/pull/440)
+[PR #441](https://github.com/howdyai/botkit/pull/441)
+[PR #443](https://github.com/howdyai/botkit/pull/443)
+[PR #446](https://github.com/howdyai/botkit/pull/446)
+[PR #448](https://github.com/howdyai/botkit/pull/448)
+
+
 ## 0.4
 
 Add support for Botkit Studio APIs. [More Info](readme-studio.md)

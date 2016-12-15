@@ -15,7 +15,9 @@ Table of Contents
 * [Facebook-specific Events](#facebook-specific-events)
 * [Working with Facebook Webhooks](#working-with-facebook-messenger)
 * [Using Structured Messages and Postbacks](#using-structured-messages-and-postbacks)
+* [Thread Settings](#thread-settings-api)
 * [Simulate typing](#simulate-typing)
+* [Silent and No Notifications](#silent-and-no-notifications)
 * [Running Botkit with an Express server](#use-botkit-for-facebook-messenger-with-an-express-web-server)
 
 ## Getting Started
@@ -65,12 +67,15 @@ Normal messages will be sent to your bot using the `message_received` event.  In
 | message_delivered | a confirmation from Facebook that a message has been received
 | message_read | a confirmation from Facebook that a message has been read
 | facebook_optin | a user has clicked the [Send-to-Messenger plugin](https://developers.facebook.com/docs/messenger-platform/implementation#send_to_messenger_plugin)
+| message_referral | a user has clicked on a [m.me URL with a referral param](https://developers.facebook.com/docs/messenger-platform/referral-params)
 
 All incoming events will contain the fields `user` and `channel`, both of which represent the Facebook user's ID, and a `timestamp` field.
 
 `message_received` events will also contain either a `text` field or an `attachment` field.
 
 `facebook_postback` events will contain a `payload` field.
+
+Notice also that `facebook_postback` events trigger the `message_received` event as well. That is why messages will have the `type` field as well. When the message is directly from the user (i.e. onlye `message_received` event) `type` will be set to `"user_message"` and when the message is originated in a `facebook_postback` then `type` will be set to `facebook_postback`.
 
 More information about the data found in these fields can be found [here](https://developers.facebook.com/docs/messenger-platform/webhook-reference).
 
@@ -127,6 +132,47 @@ controller.hears(['cookies'], 'message_received', function(bot, message) {
 });
 ```
 
+### Receive Postback Button Clicks as "Typed" Messages
+
+Facebook Messenger supports including "postback" buttons, which, when clicked,
+send a specialized `facebook_postback` event.
+
+As an alternative to binding an event handler to the `facebook_postback` event,
+developers may find it useful if button clicks are treated as "typed" messages.
+This enables buttons to be more easily used as part of a conversation flow, and
+can reduce the complexity of the code necessary.
+
+Once enabled, the `payload` field of any postback button that is clicked will be
+treated as if the user typed the message, and will trigger any relevant `hears` triggers.
+
+To enable this option, pass in `{receive_via_postback: true}` to your Botkit Facebook controller, as below:
+
+```javascript
+var controller = Botkit.facebookbot({
+        access_token: process.env.access_token,
+        verify_token: process.env.verify_token,
+        receive_via_postback: true,
+})
+```
+
+### Require Delivery Confirmation
+
+In order to guarantee the order in which your messages arrive, Botkit supports an optional
+delivery confirmation requirement. This will force Botkit to wait for a `message_delivered` events
+for each outgoing message before continuing to the next message in a conversation.
+
+Developers who send many messages in a row, particularly with payloads containing images or attachments,
+should consider enabling this option. Facebook's API sometimes experiences a delay delivering messages with large files attached, and this delay can cause messages to appear out of order.
+
+To enable this option, pass in `{require_delivery: true}` to your Botkit Facebook controller, as below:
+
+```javascript
+var controller = Botkit.facebookbot({
+        access_token: process.env.access_token,
+        verify_token: process.env.verify_token,
+        require_delivery: true,
+})
+```
 
 #### controller.setupWebserver()
 | Argument | Description
@@ -222,6 +268,92 @@ bot.stopTyping(message, function () {
 
 bot.replyWithTyping(message, 'Hello there, my friend!');
 ```
+
+## Silent and No Notifications
+When sending a user a message you can make the message have either no notification or have a notification that doesn't play a sound. Both of these features are unique to the mobile application messenger. To do this add the `notification_type` field to message. Notification type must be one of the following:
+- REGULAR will emit a sound/vibration and a phone notification
+- SILENT_PUSH will just emit a phone notification
+- NO_PUSH will not emit either
+
+`notification_type` is optional. By default, messages will be REGULAR push notification type
+
+```
+reply_message = {
+    text: "Message text here",
+    notification_type: NOTIFICATION_TYPE
+}
+bot.reply(message, reply_message)
+```
+
+## Thread Settings API
+
+Facebook offers a "Thread Settings" API to customize special bot features
+such as a persistent menu and a welcome screen. We highly recommend you use all of these features, which will make your bot easier for users to work with. [Read Facebook's docs here](https://developers.facebook.com/docs/messenger-platform/thread-settings).
+
+#### controller.api.thread_settings.greeting()
+| Argument | Description
+|---  |---
+| message | greeting message to display on welcome screen
+
+#### controller.api.thread_settings.delete_greeting()
+
+Remove the greeting message.
+
+#### controller.api.thread_settings.get_started()
+| Argument | Description
+|---  |---
+| payload | value for the postback payload sent when the button is clicked
+
+Set the payload value of the 'Get Started' button
+
+#### controller.api.thread_settings.delete_get_started()
+
+Clear the payload value of the 'Get Started' button and remove it.
+
+#### controller.api.thread_settings.menu()
+| Argument | Description
+|---  |---
+| menu_items | an array of [menu_item objects](https://developers.facebook.com/docs/messenger-platform/thread-settings/persistent-menu#menu_item)
+
+Create a [persistent menu](https://developers.facebook.com/docs/messenger-platform/thread-settings/persistent-menu) for your Bot
+
+#### controller.api.thread_settings.delete_menu()
+
+Clear the persistent menu setting
+
+#### Using the Thread Settings API
+
+```js
+controller.api.thread_settings.greeting('Hello! I\'m a Botkit bot!');
+controller.api.thread_settings.get_started('sample_get_started_payload');
+controller.api.thread_settings.menu([
+    {
+        "type":"postback",
+        "title":"Hello",
+        "payload":"hello"
+    },
+    {
+        "type":"postback",
+        "title":"Help",
+        "payload":"help"
+    },
+    {
+      "type":"web_url",
+      "title":"Botkit Docs",
+      "url":"https://github.com/howdyai/botkit/blob/master/readme-facebook.md"
+    },
+]);
+
+controller.hears(['hello'],'facebook_postback', function(bot, message) {
+    //...
+});
+
+controller.hears(['help'],'facebook_postback', function(bot, message) {
+    //...
+});
+
+```
+
 
 ## Use BotKit for Facebook Messenger with an Express web server
 Instead of the web server generated with setupWebserver(), it is possible to use a different web server to receive webhooks, as well as serving web pages.
