@@ -67,7 +67,7 @@ Normal messages will be sent to your bot using the `message_received` event.  In
 | message_delivered | a confirmation from Facebook that a message has been received
 | message_read | a confirmation from Facebook that a message has been read
 | facebook_optin | a user has clicked the [Send-to-Messenger plugin](https://developers.facebook.com/docs/messenger-platform/implementation#send_to_messenger_plugin)
-| message_referral | a user has clicked on a [m.me URL with a referral param](https://developers.facebook.com/docs/messenger-platform/referral-params)
+| facebook_referral | a user has clicked on a [m.me URL with a referral param](https://developers.facebook.com/docs/messenger-platform/referral-params)
 
 All incoming events will contain the fields `user` and `channel`, both of which represent the Facebook user's ID, and a `timestamp` field.
 
