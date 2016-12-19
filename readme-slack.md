@@ -89,6 +89,25 @@ var controller = Botkit.slackbot({
 });
 ```
 
+#### Botkit.slackbot()
+| Argument | Description
+|--- |---
+| config | Configuration object
+
+Creates a new Botkit SlackBot controller.
+
+```javascript
+var controller = Botkit.slackbot({debug: true})
+```
+
+`config` object accepts these properties:
+
+| Name | Value | Description
+|--- |--- |---
+| debug | Boolean | Enable debug logging
+| stale_connection_timeout  | Positive integer | Number of milliseconds to wait for a connection keep-alive "pong" response before declaring the connection stale. Default is `12000`
+
+
 #### controller.spawn()
 | Argument | Description
 |--- |---
