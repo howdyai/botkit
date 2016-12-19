@@ -14,6 +14,8 @@ Make stale connection detection configurable [PR #505](https://github.com/howdya
 
 Bug fixes:
 
+Fix an issue where a custom redirect_uri would be rejected by Slack's oauth verification
+
 Fix bot_channel_join and bot_group_join with Slack Events API [PR #514](https://github.com/howdyai/botkit/pull/514)
 
 Fix path to static content directory [PR #546](https://github.com/howdyai/botkit/pull/546)
