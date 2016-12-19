@@ -208,7 +208,7 @@ controller.on('message_received', function(bot, message) {
 });
 ```
 
-Due to the multi-channel, multi-user nature of Slack, Botkit does additional filtering on the messages (after firing message_recieved), and will fire more specific events based on the type of message - for example, `direct_message` events indicate a message has been sent directly to the bot, while `direct_mention` indicates that the bot has been mentioned in a multi-user channel.
+Due to the multi-channel, multi-user nature of Slack, Botkit does additional filtering on the messages (after firing message_received), and will fire more specific events based on the type of message - for example, `direct_message` events indicate a message has been sent directly to the bot, while `direct_mention` indicates that the bot has been mentioned in a multi-user channel.
 [List of Slack-specific Events](readme-slack.md#slack-specific-events)
 
 Twilio IPM bots can also exist in a multi-channel, multi-user environmnet. As a result, there are many additional events that will fire. In addition, Botkit will filter some messages, so that the bot will not receive it's own messages or messages outside of the channels in which it is present.
@@ -657,6 +657,26 @@ convo.addMessage('I am sorry, your data is wrong!', 'validation_error');
 
 // switch to the validation thread immediately
 convo.gotoThread('validation_error');
+```
+
+
+#### convo.transitionTo
+| Argument | Description
+|---  |---
+| thread_name   | String defining the name of a thread
+| message   | String or message object
+
+Like `gotoThread()`, jumps to the named thread. However, before doing so,
+Botkit will first send `message` to the user as a transition. This allows
+developers to specify dynamic transition messages to improve the flow of the
+conversation.
+
+```javascript
+// create an end state thread
+covo.addMessage('This is the end!', 'the_end');
+
+// now transition there with a nice message
+convo.transitionTo('the_end','Well I think I am all done.');
 ```
 
 #### Automatically Switch Threads using Actions

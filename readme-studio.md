@@ -153,7 +153,7 @@ While developers may still tap into the conversation as it is conducted using th
 This enables developers to add template variables to the conversation object before it sends its first message. Read about [using variables in messages](readme.md#using-variable-tokens-and-templates-in-conversation-threads)
 
 ```
-controller.studio.run(bot, 'hello', message.user, message.channel).then(function(convo) {
+controller.studio.get(bot, 'hello', message.user, message.channel).then(function(convo) {
     convo.setVar('date', new Date()); // available in message text as {{vars.date}}
     convo.setVar('news', 'This is a news item!'); // ailable as {{vars.news}}
 
