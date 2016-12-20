@@ -78,6 +78,7 @@ if (!process.env.verify_token) {
 
 if (!process.env.app_secret) {
     console.log('Error: Specify app_secret in environment');
+    process.exit(1);
 }
 
 var Botkit = require('./lib/Botkit.js');
