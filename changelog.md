@@ -12,6 +12,9 @@ Add `controller.handleWebhookPayload()` to process a raw webhook payload and ing
 
 Make stale connection detection configurable [PR #505](https://github.com/howdyai/botkit/pull/505)
 
+DDOS Vulnerability Fix - Secure Facebook Webhook [PR #555](https://github.com/howdyai/botkit/pull/555)
+
+
 Bug fixes:
 
 Fix an issue where a custom redirect_uri would be rejected by Slack's oauth verification
