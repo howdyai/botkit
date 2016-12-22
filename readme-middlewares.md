@@ -22,7 +22,7 @@ Storage middleware can be used for storing attributes about a user or channel or
 * [Firebase](#firebase)
 * [Postgres](#postgres)
 
-### [CRM](#crm)
+### [CRM](#crm-modules)
 
 
 
@@ -321,7 +321,7 @@ var controller = Botkit.slackbot({
   })
 });
 ```
-# CRM
+# CRM Modules
 ## bCRM 
 ### [Project Page](https://github.com/howdyai/botkit-middleware-bcrm)
 ### What it does
