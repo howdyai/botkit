@@ -25,7 +25,7 @@ This bot demonstrates many of the core features of Botkit:
 
   Run your bot from the command line:
 
-    page_token=<MY PAGE TOKEN> verify_token=<MY_VERIFY_TOKEN> node facebook_bot.js [--lt [--ltsubdomain LOCALTUNNEL_SUBDOMAIN]]
+    app_secret=<MY APP SECRET> page_token=<MY PAGE TOKEN> verify_token=<MY_VERIFY_TOKEN> node facebook_bot.js [--lt [--ltsubdomain LOCALTUNNEL_SUBDOMAIN]]
 
   Use the --lt option to make your bot available on the web through localtunnel.me.
 
@@ -76,6 +76,11 @@ if (!process.env.verify_token) {
     process.exit(1);
 }
 
+if (!process.env.app_secret) {
+    console.log('Error: Specify app_secret in environment');
+    process.exit(1);
+}
+
 var Botkit = require('./lib/Botkit.js');
 var os = require('os');
 var commandLineArgs = require('command-line-args');
@@ -96,8 +101,11 @@ if(ops.lt === false && ops.ltsubdomain !== null) {
 
 var controller = Botkit.facebookbot({
     debug: true,
+    log: true,
     access_token: process.env.page_token,
     verify_token: process.env.verify_token,
+    app_secret: process.env.app_secret,
+    validate_requests: true, // Refuse any requests that don't come from FB on your receive webhook, must provide FB_APP_SECRET in environment variables
 });
 
 var bot = controller.spawn({
@@ -123,8 +131,47 @@ controller.setupWebserver(process.env.port || 3000, function(err, webserver) {
     });
 });
 
+controller.api.thread_settings.greeting('Hello! I\'m a Botkit bot!');
+controller.api.thread_settings.get_started('sample_get_started_payload');
+controller.api.thread_settings.menu([
+    {
+        "type":"postback",
+        "title":"Hello",
+        "payload":"hello"
+    },
+    {
+        "type":"postback",
+        "title":"Help",
+        "payload":"help"
+    },
+    {
+      "type":"web_url",
+      "title":"Botkit Docs",
+      "url":"https://github.com/howdyai/botkit/blob/master/readme-facebook.md"
+    },
+]);
 
-controller.hears(['hello', 'hi'], 'message_received', function(bot, message) {
+controller.hears(['quick'], 'message_received', function(bot, message) {
+
+    bot.reply(message, {
+        text: 'Hey! This message has some quick replies attached.',
+        quick_replies: [
+            {
+                "content_type": "text",
+                "title": "Yes",
+                "payload": "yes",
+            },
+            {
+                "content_type": "text",
+                "title": "No",
+                "payload": "no",
+            }
+        ]
+    });
+
+});
+
+controller.hears(['^hello', '^hi'], 'message_received,facebook_postback', function(bot, message) {
     controller.storage.users.get(message.user, function(err, user) {
         if (user && user.name) {
             bot.reply(message, 'Hello ' + user.name + '!!');
@@ -134,6 +181,21 @@ controller.hears(['hello', 'hi'], 'message_received', function(bot, message) {
     });
 });
 
+controller.hears(['silent push reply'], 'message_received', function(bot, message) {
+    reply_message = {
+        text: "This message will have a push notification on a mobile phone, but no sound notification",
+        notification_type: "SILENT_PUSH"
+    }
+    bot.reply(message, reply_message)
+})
+
+controller.hears(['no push'], 'message_received', function(bot, message) {
+    reply_message = {
+        text: "This message will not have any push notification on a mobile phone",
+        notification_type: "NO_PUSH"
+    }
+    bot.reply(message, reply_message)
+})
 
 controller.hears(['structured'], 'message_received', function(bot, message) {
 
@@ -199,8 +261,8 @@ controller.hears(['structured'], 'message_received', function(bot, message) {
 });
 
 controller.on('facebook_postback', function(bot, message) {
-
-    bot.reply(message, 'Great Choice!!!! (' + message.payload + ')');
+    // console.log(bot, message);
+   bot.reply(message, 'Great Choice!!!! (' + message.payload + ')');
 
 });
 

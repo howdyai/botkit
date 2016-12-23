@@ -4,7 +4,7 @@
 [![David](https://img.shields.io/david/howdyai/botkit.svg)](https://david-dm.org/howdyai/botkit)
 [![npm](https://img.shields.io/npm/l/botkit.svg)](https://spdx.org/licenses/MIT)
 
-Botkit is designed to ease the process of designing and running useful, creative bots that live inside [Slack](http://slack.com), [Facebook Messenger](http://facebook.com), [Twilio IP Messaging](https://www.twilio.com/docs/api/ip-messaging), and other messaging platforms.
+Botkit is designed to ease the process of designing and running useful, creative bots that live inside [Slack](http://slack.com), [Facebook Messenger](http://facebook.com), [Twilio IP Messaging](https://www.twilio.com/docs/api/ip-messaging), and other messaging platforms. Support for new platforms is added regularly!
 
 It provides a semantic interface to sending and receiving messages so that developers can focus on creating novel applications and experiences instead of dealing with API endpoints.
 
@@ -13,9 +13,42 @@ Botkit features a comprehensive set of tools to deal with popular messaging plat
 * [Slack](readme-slack.md)
 * [Facebook Messenger](readme-facebook.md)
 * [Twilio IP Messaging](readme-twilioipm.md)
+* [Microsoft Bot Framework](readme-botframework.md)
 * Yours? [info@howdy.ai](mailto:info@howdy.ai)
 
-## Installation
+## Botkit Studio
+
+[Botkit Studio](https://studio.botkit.ai) is a hosted development environment for bots from the same team that built Botkit.
+Based on feedback from the developer community, as well as experience running our flagship Botkit-powered bot, [Howdy](http://howdy.ai),
+the tools in Botkit Studio allow bot designers and developers to manage many aspects of bot behavior without writing additional code.
+
+[Start building your bot with Botkit Studio](readme-studio.md) and you'll start from day one with extra tools and features that
+help you create and manage a successful bot application. It is also possible to add Studio features to your existing Botkit application. [With a few lines of code](readme-studio.md#adding-studio-features-to-an-existing-bot), you can add access new features and APIs.
+
+Botkit Studio is built on top of Botkit, so everything that works with Botkit continues to just work. All of the available plugins and middleware are compatible!
+
+## Getting Started
+
+There are two ways to start a Botkit project:
+
+1) [Install the Botkit Studio Starter Kit](https://github.com/howdyai/botkit-studio-starter) and build on top of an already fully functioning bot
+that comes pre-configured with popular middleware plug-ins and components.
+
+2) [Install Botkit directly from NPM or Github](#install-botkit-from-npm-or-github) and build a new app from scratch, or use one of the [included examples](#included-examples) as a starting point.
+
+After you've installed Botkit using one of these methods, the first thing you'll need to do is register your bot with a messaging platform, and get a few configuration options set. This will allow your bot to connect, send and receive messages.
+
+If you intend to create a bot that
+lives in Slack, [follow these instructions for attaining a Bot Token](readme-slack.md#getting-started).
+
+If you intend to create a bot that lives in Facebook Messenger, [follow these instructions for configuring your Facebook page](readme-facebook.md#getting-started).
+
+If you intend to create a bot that lives inside a Twilio IP Messaging client, [follow these instructions for configuring your app](readme-twilioipm.md#getting-started).
+
+If you intend to create a bot that uses Microsoft Bot Framework to send and receive messages, [follow these instructions for configuring your app](readme-botframework.md#getting-started).
+
+
+## Install Botkit from NPM or Github
 
 Botkit is available via NPM.
 
@@ -41,19 +74,6 @@ npm install --production
 ```
 
 
-## Getting Started
-
-After you've installed Botkit, the first thing you'll need to do is register your bot with a messaging platform, and get a few configuration options set. This will allow your bot to connect, send and receive messages.
-
-The fastest way to get a bot online and get to work is to start from one of the [examples included in the repo](#included-examples).
-
-If you intend to create a bot that
-lives in Slack, [follow these instructions for attaining a Bot Token](readme-slack.md#getting-started).
-
-If you intend to create a bot that lives in Facebook Messenger, [follow these instructions for configuring your Facebook page](readme-facebook.md#getting-started).
-
-If you intent to create a bot that lives inside a Twilio IP Messaging client, [follow these instructions for configuring your app](readme-twilioipm.md#getting-started).
-
 ## Core Concepts
 
 Bots built with Botkit have a few key capabilities, which can be used to create clever, conversational applications. These capabilities map to the way real human people talk to each other.
@@ -72,8 +92,10 @@ it is ready to be connected to a stream of incoming messages. Currently, Botkit 
 * [Slack Slash Commands](http://api.slack.com/slash-commands)
 * [Facebook Messenger Webhooks](https://developers.facebook.com/docs/messenger-platform/implementation)
 * [Twilio IP Messaging](https://www.twilio.com/user/account/ip-messaging/getting-started)
+* [Microsoft Bot Framework](http://botframework.com/)
 
-Read more about [connecting your bot to Slack](readme-slack.md#connecting-your-bot-to-slack), [connecting your bot to Facebook](readme-facebook.md#getting-started), or [connecting your bot to Twilio](readme-twilioipm.md#getting-started).
+Read more about [connecting your bot to Slack](readme-slack.md#connecting-your-bot-to-slack), [connecting your bot to Facebook](readme-facebook.md#getting-started), [connecting your bot to Twilio](readme-twilioipm.md#getting-started),
+or [connecting your bot to Microsoft Bot Framework](readme-botframework.md#getting-started)
 
 ## Included Examples
 
@@ -84,6 +106,8 @@ These examples are included in the Botkit [Github repo](https://github.com/howdy
 [facebook_bot.js](https://github.com/howdyai/botkit/blob/master/facebook_bot.js) An example bot that can be connected to your Facebook page. Useful as a basis for creating your first bot!
 
 [twilio_ipm_bot.js](https://github.com/howdyai/botkit/blob/master/twilio_ipm_bot.js) An example bot that can be connected to your Twilio IP Messaging client. Useful as a basis for creating your first bot!
+
+[botframework_bot.js](https://github.com/howdyai/botkit/blob/master/botframework_bot.js) An example bot that can be connected to the Microsoft Bot Framework network. Useful as a basis for creating your first bot!
 
 [examples/demo_bot.js](https://github.com/howdyai/botkit/blob/master/examples/demo_bot.js) another example bot that uses different ways to send and receive messages.
 
@@ -137,6 +161,29 @@ controller.hears('hello',['direct_message','direct_mention','mention'],function(
 
 ```
 
+### Botkit Statistics Gathering
+
+As of version 0.4, Botkit records anonymous usage statistics about Botkit bots in the wild.
+These statistics are used by the Botkit team at [Howdy](http://howdy.ai) to measure and
+analyze the Botkit community, and help to direct resources to the appropriate parts of the project.
+
+We take the privacy of Botkit developers and their users very seriously. Botkit does not collect,
+or transmit any message content, user data, or personally identifiable information to our statistics system.
+The information that is collected is anonymized inside Botkit and converted using one-way encryption
+into a hash before being transmitted.
+
+#### Opt Out of Stats
+
+To opt out of the stats collection, pass in the `stats_optout` parameter when initializing Botkit,
+as seen in the example below:
+
+```
+var controller = Botkit.slackbot({
+    stats_optout: true
+});
+```
+
+
 # Developing with Botkit
 
 Table of Contents
@@ -161,7 +208,7 @@ controller.on('message_received', function(bot, message) {
 });
 ```
 
-Due to the multi-channel, multi-user nature of Slack, Botkit does additional filtering on the messages (after firing message_recieved), and will fire more specific events based on the type of message - for example, `direct_message` events indicate a message has been sent directly to the bot, while `direct_mention` indicates that the bot has been mentioned in a multi-user channel.
+Due to the multi-channel, multi-user nature of Slack, Botkit does additional filtering on the messages (after firing message_received), and will fire more specific events based on the type of message - for example, `direct_message` events indicate a message has been sent directly to the bot, while `direct_mention` indicates that the bot has been mentioned in a multi-user channel.
 [List of Slack-specific Events](readme-slack.md#slack-specific-events)
 
 Twilio IPM bots can also exist in a multi-channel, multi-user environmnet. As a result, there are many additional events that will fire. In addition, Botkit will filter some messages, so that the bot will not receive it's own messages or messages outside of the channels in which it is present.
@@ -245,7 +292,7 @@ Multi-message replies, particularly those that present questions for the end use
 can be sent using the `bot.startConversation()` function and the related conversation sub-functions.
 
 Bots can originate messages - that is, send a message based on some internal logic or external stimulus -
-using `bot.say()` method.  
+using `bot.say()` method.
 
 All `message` objects must contain a `text` property, even if it's only an empty string.
 
@@ -422,7 +469,25 @@ Only the user who sent the original incoming message will be able to respond to 
 
 `startPrivateConversation()` is a function that initiates a conversation with a specific user. Note function is currently *Slack-only!*
 
+#### bot.createConversation()
+| Argument | Description
+|---  |---
+| message   | incoming message to which the conversation is in response
+| callback  | a callback function in the form of  function(err,conversation) { ... }
+
+This works just like `startConversation()`, with one main difference - the conversation
+object passed into the callback will be in a dormant state. No messages will be sent,
+and the conversation will not collect responses until it is activated using [convo.activate()](#conversationactivate).
+
+Use `createConversation()` instead of `startConversation()` when you plan on creating more complex conversation structures using [threads](#conversation-threads) or [variables and templates](#using-variable-tokens-and-templates-in-conversation-threads) in your messages.
+
 ### Control Conversation Flow
+
+#### conversation.activate()
+
+This function will cause a dormant conversation created with [bot.createConversation()](#botcreateconversation) to be activated, which will cause it to start sending messages and receiving replies from end users.
+
+A conversation can be kept dormant in order to preload it with [variables](#using-variable-tokens-and-templates-in-conversation-threads), particularly data that requires asynchronous actions to take place such as loading data from a database or remote source.  You may also keep a conversation inactive while you build threads, setting it in motion only when all of the user paths have been defined.
 
 #### conversation.say()
 | Argument | Description
@@ -543,6 +608,215 @@ controller.hears(['question me'], 'message_received', function(bot,message) {
 });
 ```
 
+### Conversation Threads
+
+While conversations with only a few questions can be managed by writing callback functions,
+more complex conversations that require branching, repeating or looping sections of dialog,
+or data validation can be handled using feature of the conversations we call `threads`.
+
+Threads are pre-built chains of dialog between the bot and end user that are built before the conversation begins. Once threads are built, Botkit can be instructed to navigate through the threads automatically, allowing many common programming scenarios such as yes/no/quit prompts to be handled without additional code.
+
+You can build conversation threads in code, or you can use [Botkit Studio](/readme-studio.md)'s script management tool to build them in a friendly web environment. Conversations you build yourself and conversations managed in Botkit Studio work the same way -- they run inside your bot and use your code to manage the outcome.
+
+If you've used the conversation system at all, you've used threads - you just didn't know it. When calling `convo.say()` and `convo.ask()`, you were actually adding messages to the `default` conversation thread that is activated when the conversation object is created.
+
+
+#### convo.addMessage
+| Argument | Description
+|---  |---
+| message   | String or message object
+| thread_name   | String defining the name of a thread
+
+This function works identically to `convo.say()` except that it takes a second parameter which defines the thread to which the message will be added rather than being queued to send immediately, as is the case when using convo.say().
+
+#### convo.addQuestion
+| Argument | Description
+|---  |---
+| message   | String or message object containing the question
+| callback _or_ array of callbacks   | callback function in the form function(response_message,conversation), or array of objects in the form ``{ pattern: regular_expression, callback: function(response_message,conversation) { ... } }``
+| capture_options |  Object defining options for capturing the response. Pass an empty object if capture options are not needed
+| thread_name   | String defining the name of a thread
+
+This function works identically to `convo.ask()` except that it takes second parameter which defines the thread to which the message will be added rather than being queued to send immediately, as is the case when using convo.ask().
+
+
+#### convo.gotoThread
+| Argument | Description
+|---  |---
+| thread_name   | String defining the name of a thread
+
+Cause the bot to immediately jump to the named thread.
+All conversations start in a thread called `default`, but you may switch to another existing thread before the conversation has been activated, or in a question callback.
+
+Threads are created by adding messages to them using `addMessage()` and `addQuestion()`
+
+```
+// create the validation_error thread
+convo.addMessage('This is a validation error.', 'validation_error');
+convo.addMessage('I am sorry, your data is wrong!', 'validation_error');
+
+// switch to the validation thread immediately
+convo.gotoThread('validation_error');
+```
+
+
+#### convo.transitionTo
+| Argument | Description
+|---  |---
+| thread_name   | String defining the name of a thread
+| message   | String or message object
+
+Like `gotoThread()`, jumps to the named thread. However, before doing so,
+Botkit will first send `message` to the user as a transition. This allows
+developers to specify dynamic transition messages to improve the flow of the
+conversation.
+
+```javascript
+// create an end state thread
+covo.addMessage('This is the end!', 'the_end');
+
+// now transition there with a nice message
+convo.transitionTo('the_end','Well I think I am all done.');
+```
+
+#### Automatically Switch Threads using Actions
+
+You can direct a conversation to switch from one thread to another automatically
+by including the `action` field on a message object. Botkit will switch threads immediately after sending the message.
+
+```
+// first, define a thread called `next_step` that we'll route to...
+convo.addMessage({
+    text: 'This is the next step...',
+},'next_step');
+
+
+// send a message, and tell botkit to immediately go to the next_step thread
+convo.addMessage({
+    text: 'Anyways, moving on...',
+    action: 'next_step'
+});
+```
+
+Developers can create fairly complex conversational systems by combining these message actions with conditionals in `ask()` and `addQuestion()`.  Actions can be used to specify
+default or next step actions, while conditionals can be used to route between threads.
+
+From inside a callback function, use `convo.gotoThread()` to instantly switch to a different pre-defined part of the conversation. Botkit can be set to automatically navigate between threads based on user input, such as in the example below.
+
+```
+bot.createConversation(message, function(err, convo) {
+
+    // create a path for when a user says YES
+    convo.addMessage({
+            text: 'You said yes! How wonderful.',
+    },'yes_thread');
+
+    // create a path for when a user says NO
+    convo.addMessage({
+        text: 'You said no, that is too bad.',
+    },'no_thread');
+
+    // create a path where neither option was matched
+    // this message has an action field, which directs botkit to go back to the `default` thread after sending this message.
+    convo.addMessage({
+        text: 'Sorry I did not understand.',
+        action: 'default',
+    },'bad_response');
+
+    // Create a yes/no question in the default thread...
+    convo.ask('Do you like cheese?', [
+        {
+            pattern: 'yes',
+            callback: function(response, convo) {
+                convo.changeTopic('yes_thread');
+            },
+        },
+        {
+            pattern: 'no',
+            callback: function(response, convo) {
+                convo.changeTopic('no_thread');
+            },
+        },
+        {
+            default: true,
+            callback: function(response, convo) {
+                convo.changeTopic('bad_response');
+            },
+        }
+    ]);
+
+    convo.activate();
+});
+```
+
+#### Special Actions
+
+In addition to routing from one thread to another using actions, you can also use
+one of a few reserved words to control the conversation flow.
+
+Set the action field of a message to `completed` to end the conversation immediately and mark as success.
+
+Set the action field of a message to `stop` end immediately, but mark as failed.
+
+Set the action field of a message to `timeout` to end immediately and indicate that the conversation has timed out.
+
+After the conversation ends, these values will be available in the `convo.status` field. This field can then be used to check the final outcome of a conversation. See [handling the end of conversations](#handling-the-end-of-conversation).
+
+### Using Variable Tokens and Templates in Conversation Threads
+
+Pre-defined conversation threads are great, but many times developers will need to inject dynamic content into a conversation.
+Botkit achieves this by processing the text of every message using the [Mustache template language](https://mustache.github.io/).
+Mustache offers token replacement, as well as access to basic iterators and conditionals.
+
+Variables can be added to a conversation at any point after the conversation object has been created using the function `convo.setVar()`. See the example below.
+
+```
+convo.createConversation(message, function(err, convo) {
+
+    // .. define threads which will use variables...
+    // .. and then, set variable values:
+    convo.setVar('foo','bar');
+    convo.setVar('list',[{value:'option 1'},{value:'option 2'}]);
+    convo.setVar('object',{'name': 'Chester', 'type': 'imaginary'});
+
+    // now set the conversation in motion...
+    convo.activate();
+});
+```
+
+Given the variables defined in this code sample, `foo`, a simple string, `list`, an array, and `object`, a JSON-style object,
+the following Mustache tokens and patterns would be available:
+
+```
+The value of foo is {{vars.foo}}
+
+The items in this list include {{#vars.list}}{{value}}{{/vars.list}}
+
+The object's name is {{vars.object.name}}.
+
+{{#foo}}If foo is set, I will say this{{/foo}}{{^foo}}If foo is not set, I will say this other thing.{{/foo}}
+```
+Botkit ensures that your template is a valid Mustache template, and passes the variables you specify directly to the Mustache template rendering system.
+Our philosophy is that it is OK to stuff whatever type of information your conversation needs into these variables and use them as you please!
+
+#### convo.setVar
+| Argument | Description
+|---  |---
+| variable_name   | The name of a variable to be made available to message text templates.
+| value | The value of the variable, which can be any type of normal Javascript variable
+
+Create or update a variable that is available as a Mustache template token to all the messages in all the threads contained in the conversation.
+
+The variable will be available in the template as `{{vars.variable_name}}`
+
+#### Built-in Variables
+
+Botkit provides several built in variables that are automatically available to all messages:
+
+{{origin}} - a message object that represents the initial triggering message that caused the conversation.
+
+{{responses}} - an object that contains all of the responses a user has given during the course of the conversation. This can be used to make references to previous responses. This requires that `convo.ask()` questions include a keyname, making responses available at `{{responses.keyname}}`
+
 ##### Multi-stage conversations
 
 ![multi-stage convo example](https://www.evernote.com/shard/s321/sh/7243cadf-be40-49cf-bfa2-b0f524176a65/f9257e2ff5ee6869/res/bc778282-64a5-429c-9f45-ea318c729225/screenshot.png?resizeSmall&width=832)
@@ -552,26 +826,26 @@ which call each other. Each function asks just one question. Example:
 
 ```javascript
 controller.hears(['pizzatime'], 'message_received', function(bot,message) {
-    askFlavor = function(response, convo) {
+    var askFlavor = function(err, convo) {
       convo.ask('What flavor of pizza do you want?', function(response, convo) {
         convo.say('Awesome.');
         askSize(response, convo);
         convo.next();
       });
-    }
-    askSize = function(response, convo) {
+    };
+    var askSize = function(response, convo) {
       convo.ask('What size do you want?', function(response, convo) {
         convo.say('Ok.')
         askWhereDeliver(response, convo);
         convo.next();
       });
-    }
-    askWhereDeliver = function(response, convo) {
+    };
+    var askWhereDeliver = function(response, convo) {
       convo.ask('So where do you want it delivered?', function(response, convo) {
         convo.say('Ok! Good bye.');
         convo.next();
       });
-    }
+    };
 
     bot.startConversation(message, askFlavor);
 });
@@ -609,8 +883,7 @@ Conversations trigger events during the course of their life.  Currently,
 only two events are fired, and only one is very useful: end.
 
 Conversations end naturally when the last message has been sent and no messages remain in the queue.
-In this case, the value of `convo.status` will be `completed`. Other values for this field include `active`, `stopped`, and
-`timeout`.
+In this case, the value of `convo.status` will be `completed`. Other values for this field include `active`, `stopped`, and `timeout`.
 
 ```javascript
 convo.on('end',function(convo) {
@@ -685,6 +958,8 @@ functions. These functions can plugin to the core bot running processes at
 several useful places and make changes to both a bot's configuration and
 the incoming or outgoing message.
 
+For information about existing middleware plugins, [see here](readme-middlewares.md)
+
 ### Middleware Endpoints
 
 Botkit currently supports middleware insertion in three places:
@@ -703,7 +978,7 @@ and override the built in regular expression matching.
 ### Receive Middleware
 
 Receive middleware can be used to do things like preprocess the message
-content using external natural language processing services like Wit.ai.  
+content using external natural language processing services like Wit.ai.
 Additional information can be added to the message object for use down the chain.
 
 ```
@@ -720,7 +995,7 @@ controller.middleware.receive.use(function(bot, message, next) {
 ### Send Middleware
 
 Send middleware can be used to do things like preprocess the message
-content before it gets sent out to the messaging client.  
+content before it gets sent out to the messaging client.
 
 ```
 controller.middleware.send.use(function(bot, message, next) {
@@ -800,14 +1075,17 @@ This system supports freeform storage on a team-by-team, user-by-user, and chann
 ```javascript
 controller.storage.users.save({id: message.user, foo:'bar'}, function(err) { ... });
 controller.storage.users.get(id, function(err, user_data) {...});
+controller.storage.users.delete(id, function(err) {...});
 controller.storage.users.all(function(err, all_user_data) {...});
 
 controller.storage.channels.save({id: message.channel, foo:'bar'}, function(err) { ... });
 controller.storage.channels.get(id, function(err, channel_data) {...});
+controller.storage.channels.delete(id, function(err) {...});
 controller.storage.channels.all(function(err, all_channel_data) {...});
 
 controller.storage.teams.save({id: message.team, foo:'bar'}, function(err) { ... });
 controller.storage.teams.get(id, function(err, team_data) {...});
+controller.storage.teams.delete(id, function(err) {...});
 controller.storage.teams.all(function(err, all_team_data) {...});
 ```
 

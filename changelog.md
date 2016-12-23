@@ -1,5 +1,124 @@
 # Change Log
 
+## 0.4.4
+
+Changes:
+
+Add referral field to `facebook_postback` events, if set [PR #552](https://github.com/howdyai/botkit/pull/553)
+
+Refactor handling of incoming webhooks from Slack and Facebook in order to make it easier for developers to create custom endpoints and/or integrate Botkit into existing Express applications.
+
+Add `controller.handleWebhookPayload()` to process a raw webhook payload and ingest it into Botkit
+
+Make stale connection detection configurable [PR #505](https://github.com/howdyai/botkit/pull/505)
+
+DDOS Vulnerability Fix - Secure Facebook Webhook [PR #555](https://github.com/howdyai/botkit/pull/555)
+
+
+Bug fixes:
+
+Fix an issue where a custom redirect_uri would be rejected by Slack's oauth verification
+
+Fix bot_channel_join and bot_group_join with Slack Events API [PR #514](https://github.com/howdyai/botkit/pull/514)
+
+Fix path to static content directory [PR #546](https://github.com/howdyai/botkit/pull/546)
+
+`retry` and `send_via_rtm` options are now properly associated with the controller object.
+
+Fix some issues pertaining to typing indicators and the slack RTM [PR #533](https://github.com/howdyai/botkit/pull/533)
+
+
+
+
+## 0.4.3
+
+Adds [convo.transitionTo()](readme.md#convotransitionto), a new feature for creating smoother transitions between conversation threads
+
+Adds support for new Facebook Messenger [thread settings APIs](readme-facebook.md#thread-settings-api)
+which enable developers to set and manage the 'getting started' screen and persistent menus.
+
+Adds support for Facebook Messenger attachment in [Botkit Studio](https://studio.botkit.ai)
+
+Adds a check to ensure messages are properly received by Facebook and Slack before proceeding to next message in a conversation.
+
+Adds optional `require_delivery` option for Facebook and Slack bots which tells Botkit to wait to receive a delivery confirmation from the platform before sending further messages. [Slack info](readme-slack.md#require-delivery-confirmation-for-rtm-messages) [Facebook info](readme-facebook.md#require-delivery-confirmation)
+
+Change: Receiving `facebook_postback` events as normal "spoken" messages now requires the `{receive_via_postback:true}` option be set on the controller. [Read more](readme-facebook.md#receive-postback-button-clicks-as-typed-messages)
+
+## 0.4.2
+
+Support for Slack's [Events API](https://api.slack.com/events-api) is here, thanks to the Botkit contributor community. [Read documentation here](https://github.com/howdyai/botkit/blob/master/readme-slack.md#events-api)
+
+Bug fix:
+
+Fixes an issue with setting the default IP address for the Express server introduced in 0.4.1
+
+## 0.4.1
+
+This release contains many small fixes and updates to keep up with the ever changing platforms!
+
+BIG CHANGES:
+
+Slack bots will now send messages via the Web API instead of the RTM. This behavior can be changed by passing `send_via_rtm: true` to `controller.spawn()`
+
+Adds [ConsoleBot](lib/ConsoleBot.js) for creating bots that work on the command line
+
+Adds a new [Middleware Readme](readme-middlewares.md) for documenting the existing middleware modules
+
+Adds an example for using quick replies in the [Facebook Example Bot](facebook_bot.js)
+
+Adds additional fields to Facebook messages to specify if they are `facebook_postback`s or normal messages.
+
+Adds optional `hostname` field to constructor functions to bind Express to a specific IP.
+
+Fixes for Slack's files.upload API
+
+Merge in numerous pull requests from the community:
+[PR #461](https://github.com/howdyai/botkit/pull/461)
+[PR #465](https://github.com/howdyai/botkit/pull/465)
+[PR #466](https://github.com/howdyai/botkit/pull/466)
+[PR #469](https://github.com/howdyai/botkit/pull/469)
+[PR #472](https://github.com/howdyai/botkit/pull/472)
+[PR #474](https://github.com/howdyai/botkit/pull/474)
+[PR #434](https://github.com/howdyai/botkit/pull/434)
+[PR #435](https://github.com/howdyai/botkit/pull/435)
+[PR #440](https://github.com/howdyai/botkit/pull/440)
+[PR #441](https://github.com/howdyai/botkit/pull/441)
+[PR #443](https://github.com/howdyai/botkit/pull/443)
+[PR #446](https://github.com/howdyai/botkit/pull/446)
+[PR #448](https://github.com/howdyai/botkit/pull/448)
+
+
+## 0.4
+
+Add support for Botkit Studio APIs. [More Info](readme-studio.md)
+
+Substantially expanded the documentation regarding Botkit's [conversation thread system](readme.md#conversation-threads).
+
+Add support for Microsoft Bot Framework.  The [Microsoft Bot Framework](https://botframework.com) makes it easy to create a single bot that can run across a variety of messaging channels including [Skype](https://skype.com), [Group.me](https://groupme.com), [Facebook Messenger](https://messenger.com), [Slack](https://slack.com),
+[Telegram](https://telegram.org/), [Kik](https://www.kik.com/), [SMS](https://www.twilio.com/), and [email](https://microsoft.office.com). [More Info](readme-botframework.md)
+
+Updates to Facebook Messenger connector to support features like message echoes, read receipts, and quick replies.
+
+Merged numerous pull requests from the community:
+[PR #358](https://github.com/howdyai/botkit/pull/358)
+[PR #361](https://github.com/howdyai/botkit/pull/361)
+[PR #353](https://github.com/howdyai/botkit/pull/353)
+[PR #363](https://github.com/howdyai/botkit/pull/363)
+[PR #320](https://github.com/howdyai/botkit/pull/320)
+[PR #319](https://github.com/howdyai/botkit/pull/319)
+[PR #317](https://github.com/howdyai/botkit/pull/317)
+[PR #299](https://github.com/howdyai/botkit/pull/299)
+[PR #298](https://github.com/howdyai/botkit/pull/298)
+[PR #293](https://github.com/howdyai/botkit/pull/293)
+[PR #256](https://github.com/howdyai/botkit/pull/256)
+[PR #403](https://github.com/howdyai/botkit/pull/403)
+[PR #392](https://github.com/howdyai/botkit/pull/392)
+
+
+
+In order to learn about and better serve our user community, Botkit now sends anonymous usage stats to stats.botkit.ai. To learn about opting out of stats collection, [read here](readme.md#opt-out-of-stats).
+
 ## 0.2.2
 
 Add support for Slack Interactive Messages.
