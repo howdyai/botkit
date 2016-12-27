@@ -1,6 +1,6 @@
 {
   "name": "botkit",
-  "version": "0.4.5",
+  "version": "0.4.6",
   "description": "Building blocks for Building Bots",
   "main": "lib/Botkit.js",
   "dependencies": {
