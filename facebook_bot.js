@@ -150,6 +150,9 @@ controller.api.thread_settings.menu([
       "url":"https://github.com/howdyai/botkit/blob/master/readme-facebook.md"
     },
 ]);
+controller.api.thread_settings.get_domain_whitelist(function (err, data)  {
+    console.log('****** Whitelisted domains :', data);
+});
 
 controller.hears(['quick'], 'message_received', function(bot, message) {
 
