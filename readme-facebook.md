@@ -340,6 +340,10 @@ Clear the persistent menu setting
 |---  |---
 | payload | A single or a list of domains to remove from whitelist, All domains must be valid and use https. Up to 10 domains allowed.
 
+#### controller.api.thread_settings.get_domain_whitelist()
+
+Get a list of the whitelisted domains.
+
 #### Using the Thread Settings API
 
 ```js
