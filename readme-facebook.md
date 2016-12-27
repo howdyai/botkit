@@ -330,6 +330,12 @@ Create a [persistent menu](https://developers.facebook.com/docs/messenger-platfo
 
 Clear the persistent menu setting
 
+#### controller.api.thread_settings.domain_whitelist()
+| Argument | Description
+|---  |---
+| payload | A single or a list of domains to add to the whitelist, All domains must be valid and use https. Up to 10 domains allowed.
+
+
 #### Using the Thread Settings API
 
 ```js
