@@ -335,6 +335,10 @@ Clear the persistent menu setting
 |---  |---
 | payload | A single or a list of domains to add to the whitelist, All domains must be valid and use https. Up to 10 domains allowed.
 
+#### controller.api.thread_settings.delete_delete_domain_whitelist()
+| Argument | Description
+|---  |---
+| payload | A single or a list of domains to remove from whitelist, All domains must be valid and use https. Up to 10 domains allowed.
 
 #### Using the Thread Settings API
 
