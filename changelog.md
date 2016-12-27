@@ -1,5 +1,13 @@
 # Change Log
 
+## 0.4.6
+
+Change to controller.studio.runTrigger: Will now resolve promise regardless of whether a trigger was matched
+
+## 0.4.5
+
+Bug fix: Fix detection of Slackbot interactive callbacks
+
 ## 0.4.4
 
 Changes:
