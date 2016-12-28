@@ -25,13 +25,13 @@ this can be done by passing the values in via the command line:
 clientId=<my client id> clientSecret=<my client secret> PORT=3000 node .
 ```
 
-This will cause the Botkit application to boot up and start listening for messages.
+This will cause the Botkit application to boot up and start listening for messages via incoming web hooks.
 
 With the Events API, Slack will send all information to your bot via simple
 web hooks. To receive web hooks, you will need a public internet address that is
 SSL-enabled.
 
-During development, you can use a tool like [ngrok.io](ngrok.io) or [localtunnel.me](http://localtunnel.me)
+During development, you can use a tool like [ngrok.io](http://ngrok.io) or [localtunnel.me](http://localtunnel.me)
 to temporarily expose your development environment to the public internet.
 However, once you go live, you will need a real, stable address.
 
