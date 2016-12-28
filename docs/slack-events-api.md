@@ -83,3 +83,7 @@ You'll get one more confirmation before being redirected back to your app.
 
 Meanwhile, your bot should appear inside your Slack team! You should receive
 a friendly welcome message!
+
+## 8) Customize your Bot
+
+Using [Botkit Studio's conversation design tools](https://studio.botkit.ai) and the powerful [Botkit SDK](https://github.com/howdyai/botkit), you can build your dream bot!
