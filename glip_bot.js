@@ -38,14 +38,9 @@ controller.setupWebserver(process.env.port || 3000, function(err, webserver){
 
 // Usage: uptime
 controller.hears(['uptime'],'message_received',function(bot, message) {
-    //console.log('uptime in glipbot.js file: ' + JSON.stringify(message));
-
     var hostname = os.hostname();
     var uptime = formatUptime(process.uptime());
-
     bot.reply(message,'I am a bot! I have been running for ' + uptime + ' on ' + hostname + '.');
-
-
 });
 
 // Usage: question me
