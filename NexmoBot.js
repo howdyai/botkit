@@ -104,7 +104,30 @@ function NexmoBot(configuration) {
         return nexmo_botkit;
     };
 
+    nexmo_botkit.createWebhookEndpoints = function (webserver, bot, cb) {
+
+        nexmo_botkit.log('** Serving webhook endpoints for Nexmo at: ' + 'http://' + nexmo_botkit.config.hostname + ':' + nexmo_botkit.config.port + '/nexmo/receive');
+
+        webserver.get('/nexmo/receive', function (req, res) {
+            if (req.query['messageId']) {
+                nexmo_botkit.handleWebhookPayload(req.query, res, bot);
+            } else {
+                nexmo_botkit.logger.log('*** verifying Callback URL from Nexmo dashboard');
+            }
+            res.sendStatus(200);
+        });
+
+        if (cb) {
+            cb();
+        }
+
+        nexmo_botkit.startTicking();
+
+        return nexmo_botkit;
+    };
+
     
+
     return nexmo_botkit;
 };
 
