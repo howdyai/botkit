@@ -126,7 +126,19 @@ function NexmoBot(configuration) {
         return nexmo_botkit;
     };
 
-    
+    nexmo_botkit.handleWebhookPayload = function (params, res, bot) {
+        var message = {
+            user: params['msisdn'],
+            channel: params['msisdn'],
+            to: params['to'],
+            messageId: params['messageId'],
+            text: params['text'],
+            type: params['type'],
+            keyword: params['keyword'],
+            messageTimestamp: params['message-timestamp']
+        };
+        nexmo_botkit.receiveMessage(bot, message);
+    };
 
     return nexmo_botkit;
 };
