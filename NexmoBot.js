@@ -80,8 +80,31 @@ function NexmoBot(configuration) {
         return bot;
     });
 
+    nexmo_botkit.setupWebserver = function (port, cb) {
+        if (!port) {
+            throw new Error('Cannot start webserver without a port');
+        }
 
+        var static_dir = process.cwd() + '/public';
 
+        nexmo_botkit.config.port = port;
+
+        nexmo_botkit.webserver = express();
+        nexmo_botkit.webserver.use(bodyParser.json());
+        nexmo_botkit.webserver.use(bodyParser.urlencoded({extended: true}));
+        nexmo_botkit.webserver.use(express.static(static_dir));
+
+        nexmo_botkit.webserver.listen(nexmo_botkit.config.port, nexmo_botkit.config.hostname, function () {
+            nexmo_botkit.log('** Starting webserver on port ' + nexmo_botkit.config.port);
+            if (cb) {
+                cb(null, nexmo_botkit.webserver);
+            }
+        });
+
+        return nexmo_botkit;
+    };
+
+    
     return nexmo_botkit;
 };
 
