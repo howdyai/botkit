@@ -32,8 +32,8 @@ var Botkit = require('./lib/Botkit.js');
 var controller = Botkit.sparkbot({
     debug: true,
     log: true,
-    public_address: '38fae377.ngrok.io',
-    ciscospark_access_token: 'YzcxMDVmZDktYjMyZS00MjVjLTkzNDYtODc1MmM1ZGM3NzExZWJmNDM3MWUtY2Zm'
+    public_address: process.env.public_address,
+    ciscospark_access_token: process.env.access_token
 });
 
 var bot = controller.spawn({
@@ -45,8 +45,31 @@ controller.setupWebserver(process.env.PORT || 3000, function(err, webserver) {
     });
 });
 
-controller.hears(['hi'], 'message_received', function(bot, message) {
+controller.hears(['^markdown'], 'direct_message,direct_mention', function(bot, message) {
 
-    bot.reply(message, 'Oh hey!');
+    bot.reply(message, {text: '*this is cool*', markdown: '*this is super cool*'});
 
+});
+
+controller.on('user_room_join', function(bot, message) {
+    bot.reply(message, 'Welcome, ' + message.original_message.data.personDisplayName);
+});
+
+controller.on('user_room_leave', function(bot, message) {
+    bot.reply(message, 'Bye, ' + message.original_message.data.personDisplayName);
+});
+
+
+controller.on('bot_room_join', function(bot, message) {
+
+    bot.reply(message, 'This trusty bot is here to help.');
+
+});
+
+controller.on('direct_mention', function(bot, message) {
+    bot.reply(message, 'You mentioned me.');
+});
+
+controller.on('direct_message', function(bot, message) {
+    bot.reply(message, 'I got your private message.');
 });
