@@ -89,6 +89,26 @@ var controller = Botkit.slackbot({
 });
 ```
 
+#### Botkit.slackbot()
+| Argument | Description
+|--- |---
+| config | Configuration object
+
+Creates a new Botkit SlackBot controller.
+
+```javascript
+var controller = Botkit.slackbot({debug: true})
+```
+
+`config` object accepts these properties:
+
+| Name | Value | Description
+|--- |--- |---
+| debug | Boolean | Enable debug logging
+| stale_connection_timeout  | Positive integer | Number of milliseconds to wait for a connection keep-alive "pong" response before declaring the connection stale. Default is `12000`
+| send_via_rtm  | Boolean   | Send outgoing messages via the RTM instead of using Slack's RESTful API which supports more features
+| retry | Positive integer or `Infinity` | Maximum number of reconnect attempts after failed connection to Slack's real time messaging API. Retry is disabled by default
+
 #### controller.spawn()
 | Argument | Description
 |--- |---
@@ -107,8 +127,7 @@ Spawn `config` object accepts these properties:
 | Name | Value | Description
 |--- |--- |---
 | token | String | Slack bot token
-| send_via_rtm  | Boolean   | Send outgoing messages via the RTM instead of using Slack's RESTful API which supports more features
-| retry | Positive integer or `Infinity` | Maximum number of reconnect attempts after failed connection to Slack's real time messaging API. Retry is disabled by default
+
 
 ### Require Delivery Confirmation for RTM Messages
 

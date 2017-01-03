@@ -1,6 +1,6 @@
 {
   "name": "botkit",
-  "version": "0.4.3",
+  "version": "0.4.6",
   "description": "Building blocks for Building Bots",
   "main": "lib/Botkit.js",
   "dependencies": {
@@ -12,6 +12,7 @@
     "ciscospark": "^0.7.16",
     "clone": "2.0.0",
     "command-line-args": "^3.0.0",
+    "crypto": "0.0.3",
     "express": "^4.13.3",
     "https-proxy-agent": "^1.0.0",
     "jfs": "^0.2.6",
@@ -46,7 +47,10 @@
   "keywords": [
     "bots",
     "chatbots",
-    "slack"
+    "slack",
+    "facebook messenger",
+    "twilio ipm",
+    "microsoft bot framework"
   ],
   "author": "ben@xoxco.com",
   "license": "MIT"
