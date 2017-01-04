@@ -9,3 +9,7 @@ examples/db_team_bot/
 .DS_Store
 */.DS_Store
 .env
+
+# WebStorm project files
+/.idea
+*.iml
