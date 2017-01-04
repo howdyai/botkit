@@ -30,8 +30,8 @@ This bot demonstrates many of the core features of Botkit:
 var Botkit = require('./lib/Botkit.js');
 
 var controller = Botkit.sparkbot({
-    debug: true,
-    log: true,
+    // debug: true,
+    // log: true,
     public_address: process.env.public_address,
     ciscospark_access_token: process.env.access_token
 });
