@@ -4,7 +4,7 @@ This is a placeholder for forthcoming docs. Sorry!
 
 ## the gist
 
-Get a server somewhere. Digital Ocean is a good choice, but Botkit runs in Azure, AWS, Heroku and others.
+Get a server somewhere. [Digital Ocean](https://m.do.co/c/c8d2cb189d36) is a good choice, but Botkit runs in Azure, AWS, Heroku and others.
 
 Get your process up and running on some port - 3000 by default.
 
