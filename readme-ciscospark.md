@@ -1,4 +1,4 @@
-# Botkit and Facebook
+# Botkit and Cisco Spark
 
 Botkit is designed to ease the process of designing and running useful, creative bots that live inside Cisco Spark.
 
