@@ -1,6 +1,6 @@
 # Change Log
 
-## 0.4.8
+## 0.4.9
 
 `controller.version()` will now report the currently installed version of Botkit.
 
