@@ -109,7 +109,17 @@ var askSize = function(response, convo) {
 }
 var askWhereDeliver = function(response, convo) {
     convo.ask("So where do you want it delivered?", function(response, convo) {
-        convo.say("Ok! Goodbye.");
+        var message = null;
+        message = "Ordered large pizza by pawan"
+        message += "\n"
+        message += "\n[Ticket ##1001](www.dominos.com) - ordered large pizza"
+        message += "\n"
+        message += "\n**Description**"
+        message += "\nOrdered large cheese pizza & should delivered at home"
+        message += "\n"
+        message += "\n**Priority**"
+        message += "\nasap"
+        convo.say(message);
         convo.next();
     });
 }
