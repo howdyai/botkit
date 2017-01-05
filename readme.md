@@ -481,6 +481,17 @@ and the conversation will not collect responses until it is activated using [con
 
 Use `createConversation()` instead of `startConversation()` when you plan on creating more complex conversation structures using [threads](#conversation-threads) or [variables and templates](#using-variable-tokens-and-templates-in-conversation-threads) in your messages.
 
+#### bot.createPrivateConversation()
+| Argument | Description
+|---  |---
+| message   | message object containing {user: userId} of the user you would like to start a conversation with
+| callback  | a callback function in the form of function(err,conversation) { ... }
+
+`createPrivateConversation()` is a function that initiates a conversation with a specific user. Note function is currently *Slack-only!*
+
+Use `createPrivateConversation()` instead of `startPrivateConversation()` when you plan on creating more complex conversation structures using [threads](#conversation-threads) or [variables and templates](#using-variable-tokens-and-templates-in-conversation-threads) in your messages.
+
+
 ### Control Conversation Flow
 
 #### conversation.activate()
