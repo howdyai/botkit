@@ -29,7 +29,7 @@ ngrok http 3000
 4) Run your bot application using the access token you received and the base url of your bot application:
 
 ```
-access_token=<MY PAGE TOKEN> public_address=<MY BOT URL> node spark_bot.js
+access_token=<MY PAGE TOKEN> public_address=<https://my_bot_url> node spark_bot.js
 ```
 
 5) Your bot should now come online and respond to requests! Find it in Cisco Spark by searching for it's name.
