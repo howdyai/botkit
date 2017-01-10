@@ -51,7 +51,7 @@ var controller = Botkit.slackbot({
 }).configureSlackApp({
     clientId: process.env.clientId,
     clientSecret: process.env.clientSecret,
-    scopes: ['commands'],
+    scopes: ['commands', 'bot'],
   });
 
 
@@ -72,6 +72,6 @@ controller.setupWebserver(process.env.port,function(err,webserver) {
 controller.on('slash_command',function(bot,message) {
 
   bot.replyPublic(message,'<@' + message.user + '> is cool!');
-  bot.replyPrivate(message,'*nudge nudge wink wink*');
+  bot.replyPrivateDelayed(message,'*nudge nudge wink wink*');
 
 });
