@@ -28,7 +28,7 @@ Storage middleware can be used for storing attributes about a user or channel or
 
 ### [CRM](#crm-modules)
 * [bCRM](#bcrm)
-* [Dashbot](#Dashbot)
+* [Dashbot](#dashbot)
 * [Wordhop](#wordhop)
 
 
