@@ -28,6 +28,7 @@ Storage middleware can be used for storing attributes about a user or channel or
 
 ### [CRM](#crm-modules)
 * [bCRM](#bcrm)
+* [Dashbot](#Dashbot)
 * [Wordhop](#wordhop)
 
 
@@ -395,6 +396,15 @@ In order to provide its service, this plugin sends information to bCRM that allo
 the bCRM software to access information and send messages on behalf of your bot.
 Before using this plugin, [read bCRM's privacy policy](https://bcrm.com/privacy),
 and make sure your own policies reflect the fact that you share information with them.
+
+## Dashbot 
+### [Project Page Facebook](https://github.com/wordhop-io/wordhop-npm)
+### [Project Page Slack](https://github.com/wordhop-io/wordhop-npm)
+### What it does
+Increase user engagement, acquisition, and monetization through actionable bots analytics.
+### Setup
+Full install instructions [can be found here](https://www.dashbot.io/sdk)
+
 
 ## Wordhop 
 ### [Project Page](https://github.com/wordhop-io/wordhop-npm)
