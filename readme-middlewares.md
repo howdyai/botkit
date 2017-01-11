@@ -398,8 +398,8 @@ Before using this plugin, [read bCRM's privacy policy](https://bcrm.com/privacy)
 and make sure your own policies reflect the fact that you share information with them.
 
 ## Dashbot 
-### [Project Page Facebook](https://github.com/wordhop-io/wordhop-npm)
-### [Project Page Slack](https://github.com/wordhop-io/wordhop-npm)
+### [Project Page Facebook](https://www.dashbot.io/sdk/facebook/botkit)
+### [Project Page Slack](https://www.dashbot.io/sdk/slack/botkit)
 ### What it does
 Increase user engagement, acquisition, and monetization through actionable bots analytics.
 ### Setup
