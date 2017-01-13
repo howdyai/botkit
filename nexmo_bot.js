@@ -33,3 +33,9 @@ controller.setupWebserver(process.env.port || 3000, function (err, webserver) {
 controller.hears(['hi'], 'message_received', function (bot, message) {
     bot.reply(message, 'Hey! very happy to hear from you');
 });
+
+controller.hears(['cookies'], 'message_received', function (bot, message) {
+    bot.startConversation(message, function(err, convo) {
+        convo.say('Did someone say cookies!?!!');
+    })
+});
