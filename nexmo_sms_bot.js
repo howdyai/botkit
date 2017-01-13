@@ -15,7 +15,7 @@ if (!process.env.bot_number) {
 
 var Botkit = require('./lib/Botkit.js');
 
-var controller = Botkit.nexmobot({
+var controller = Botkit.nexmosmsbot({
     debug: true,
     api_key: process.env.api_key,
     api_secret: process.env.api_secret,
