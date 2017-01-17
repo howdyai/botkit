@@ -1,5 +1,21 @@
 # Change Log
 
+## 0.4.9
+
+`controller.version()` will now report the currently installed version of Botkit.
+
+Change to how quick replies are rendered via Botkit Studio's API
+
+## 0.4.7
+
+Add support for Facebook Messenger "location" quick replies [PR #568](https://github.com/howdyai/botkit/pull/568)
+
+Add support for Slack's new users.setPresence API [PR #562](https://github.com/howdyai/botkit/pull/562)
+
+Add support for Slack's new reminders API [PR #580](https://github.com/howdyai/botkit/pull/580)
+
+
+
 ## 0.4.6
 
 Change to controller.studio.runTrigger: Will now resolve promise regardless of whether a trigger was matched
