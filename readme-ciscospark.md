@@ -44,7 +44,7 @@ To connect your bot to Cisco Spark, [get an access token here](https://developer
 Cisco Spark bots require a user-defined `secret` which is used to validate incoming webhooks, as well as a `public_address` which is the URL at which the bot application can be accessed via the internet.
 
 Each time the bot application starts, Botkit will register a webhook subscription.
-Botkit will automatically manage your bot's webhook subscriptions, but if you plan on having multiple instances of your bot application with different URLs (such as a development instance and a production instance), consider using the `webhook_name` field in order to avoid conflicts.
+Botkit will automatically manage your bot's webhook subscriptions, but if you plan on having multiple instances of your bot application with different URLs (such as a development instance and a production instance), use the `webhook_name` field with a different value for each instance.
 
 Bots in Cisco Spark are identified by their email address, and can be added to any room in any team or organization. If your bot should only be available to users within a specific organization, use the `limit_to_org` or `limit_to_domain` options.
 This will configure your bot to respond only to messages from members of the specific organization, or whose email addresses match one of the specified domains.
@@ -131,3 +131,11 @@ var controller = Botkit.sparkbot({
 
 
 ## Message Formatting
+
+Cisco Spark supports both a `text` field and a `markdown` field for outbound messages. [Read here for details on Cisco Spark's markdown support.](https://developer.ciscospark.com/formatting-messages.html)
+
+To specify a markdown version, add it to your message object:
+
+```
+bot.reply(message,{text: 'Hello', markdown: '*Hello!*'});
+```
