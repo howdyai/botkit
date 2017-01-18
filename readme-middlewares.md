@@ -22,7 +22,15 @@ Storage middleware can be used for storing attributes about a user or channel or
 * [Firebase](#firebase)
 * [Postgres](#postgres)
 
+### [Statistics](#statistics)
+* [Keen](#keen)
+
+
 ### [CRM](#crm-modules)
+* [bCRM](#bcrm)
+* [Dashbot](#dashbot)
+* [Wordhop](#wordhop)
+
 
 
 
@@ -321,6 +329,30 @@ var controller = Botkit.slackbot({
   })
 });
 ```
+# Statistics
+## Keen
+### [Project Page](https://github.com/keen/keen-botkit)
+### What it does
+This middleware allows you to to understand how many messages are going through your system, run cohorts to measure retention, set up funnels to measure task completion, and any key metric unique to your bot. More information about the Keen platform [can be found on their website](https://keen.github.io/keen-botkit/)
+### Setup
+Keen IO Botkit is available via NPM.
+
+```bash
+npm install keen-botkit --save
+```
+
+If you want to use the example code, you can also clone it directly from Git.
+
+```bash
+git clone git@github.com:nemo/keen-botkit.git
+```
+
+Note that after cloning, you'll have to install the dependencies (which is just [keen-js](https://github.com/keen/keen-js):
+
+```bash
+npm install
+```
+
 # CRM Modules
 ## bCRM 
 ### [Project Page](https://github.com/howdyai/botkit-middleware-bcrm)
@@ -364,6 +396,25 @@ In order to provide its service, this plugin sends information to bCRM that allo
 the bCRM software to access information and send messages on behalf of your bot.
 Before using this plugin, [read bCRM's privacy policy](https://bcrm.com/privacy),
 and make sure your own policies reflect the fact that you share information with them.
+
+## Dashbot 
+### [Project Page Facebook](https://www.dashbot.io/sdk/facebook/botkit)
+### [Project Page Slack](https://www.dashbot.io/sdk/slack/botkit)
+### What it does
+Increase user engagement, acquisition, and monetization through actionable bots analytics.
+### Setup
+Full install instructions [can be found here](https://www.dashbot.io/sdk)
+
+
+## Wordhop 
+### [Project Page](https://github.com/wordhop-io/wordhop-npm)
+### What it does
+Wordhop monitors your Chatbot and alerts you on Slack in real-time when it detects conversational problems. You can watch your bot conversations with users in real-time without leaving Slack and take-over your bot to engage your customers directly.  Simply add Wordhop to Slack and then drop in code into your Chatbot (You can use our examples as a starting point for a bot too). Wordhop integrates in minutes, and begins working immediately.
+
+This module has been tested with Messenger, Slack, Skype, and Microsoft Webchat. Please see our [examples](./examples/).
+
+### Setup
+[Installation Guide](https://github.com/wordhop-io/wordhop-npm/blob/master/README.md#installation)
 
 
 #Have you created middleware?

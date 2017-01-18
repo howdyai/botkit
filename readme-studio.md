@@ -43,7 +43,7 @@ The instructions below cover setting up a bot on a Slack team. However, you may 
 
 1) [Register for a developer account at Botkit Studio](https://studio.botkit.ai/signup)
 
-2) Download the Botkit Studio Starter Kit at [https://github.com/howdyai/botkit-studio-starter](https://github.com/howdyai/botkit-studio-starter). This code repository contains a fully functioning bot configured to work with Botkit Studio, and code examples demonstrating all of the key features. It also contains supporting material for the [tutorial included here](#tutorial).
+2) Download the Botkit Studio Starter Kit [for Slack](https://github.com/howdyai/botkit-starter-slack) or [for Facebook Messenger](https://github.com/howdyai/botkit-starter-facebook). This code repository contains a fully functioning bot configured to work with Botkit Studio, and code examples demonstrating all of the key features. It also contains supporting material for the [tutorial included here](#tutorial).
 
 3) Make a bot integration inside of your Slack channel. Go here:
 
