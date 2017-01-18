@@ -33,3 +33,8 @@ access_token=<MY PAGE TOKEN> public_address=<https://my_bot_url> node spark_bot.
 ```
 
 5) Your bot should now come online and respond to requests! Find it in Cisco Spark by searching for it's name.
+
+
+## Controller Options
+
+| webhook_name | optional name for webhook configuration on Cisco Spark side. Providing a name here allows for multiple bot instances to receive the same messages. Defaults to 'Botkit Firehose'
