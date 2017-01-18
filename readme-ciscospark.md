@@ -43,6 +43,12 @@ Botkit receives messages from Cisco Spark using webhooks, and sends messages usi
 To connect your bot to Cisco Spark, [get an access token here](https://developer.ciscospark.com/add-bot.html). In addition to the access token,
 Cisco Spark bots require a user-defined `secret` which is used to validate incoming webhooks, as well as a `public_address` which is the URL at which the bot application can be accessed via the internet.
 
+Each time the bot application starts, Botkit will register a webhook subscription.
+Botkit will automatically manage your bot's webhook subscriptions, but if you plan on having multiple instances of your bot application with different URLs (such as a development instance and a production instance), consider using the `webhook_name` field in order to avoid conflicts.
+
+Bots in Cisco Spark are identified by their email address, and can be added to any room in any team or organization. If your bot should only be available to users within a specific organization, use the `limit_to_org` or `limit_to_domain` options.
+This will configure your bot to respond only to messages from members of the specific organization, or whose email addresses match one of the specified domains.
+
 The full code for a simple Cisco Spark bot is below:
 
 ```
@@ -66,6 +72,9 @@ controller.setupWebserver(process.env.PORT || 3000, function(err, webserver) {
     });
 });
 
+controller.hears('hello', 'direct_message,direct_mention', function(bot, message) {
+    bot.reply(message, 'Hi');
+});
 
 controller.on('direct_mention', function(bot, message) {
     bot.reply(message, 'You mentioned me and said, "' + message.text + '"');
@@ -73,7 +82,6 @@ controller.on('direct_mention', function(bot, message) {
 
 controller.on('direct_message', function(bot, message) {
     bot.reply(message, 'I got your private message. You said, "' + message.text + '"');
-
 });
 ```
 
@@ -107,7 +115,9 @@ var controller = Botkit.sparkbot({
 
 ## Spark Specific Events
 
-Once connected to Cisco Spark, your bot will receive a constant stream of events.
+ All events [listed here](https://developer.ciscospark.com/webhooks-explained.html#resources-events) should be expected, in the format `resource`.`event` - for example, `rooms.created`.  
+
+ In addition, the following custom Botkit-specific events are fired:
 
 | Event | Description
 |--- |---
