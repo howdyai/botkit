@@ -37,6 +37,9 @@ access_token=<MY PAGE TOKEN> public_address=<https://my_bot_url> node spark_bot.
 
 ## Controller Options
 
+| public_address | required the root url of your application (https://mybot.com)
+| ciscospark_access_token | required token provided by Cisco Spark for your bot
+| secret | required secret for validating webhooks originate from Cisco Spark
 | webhook_name | optional name for webhook configuration on Cisco Spark side. Providing a name here allows for multiple bot instances to receive the same messages. Defaults to 'Botkit Firehose'
 | limit_to_org | optional organization id in which the bot should exist. If user from outside org sends message, it is ignored
 | limit_to_domain | optional email domain (@howdy.ai) or array of domains [@howdy.ai, @botkit.ai] from which messages can be received

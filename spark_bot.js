@@ -35,6 +35,7 @@ var controller = Botkit.sparkbot({
     public_address: process.env.public_address,
     ciscospark_access_token: process.env.access_token,
     studio_token: process.env.studio_token,
+    secret: process.env.secret,
 //    limit_to_domain: ['howdy.ai','cisco.com'],
     limit_to_org: 'Y2lzY29zcGFyazovL3VzL09SR0FOSVpBVElPTi9jb25zdW1lcg',
 });
