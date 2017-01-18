@@ -23,3 +23,8 @@ Voila! You have a ssl-enabled bot.
 
 * scaling up with multiple bot processes
 * botkit and continuous integration
+
+##Use Botkit with an Express web server
+Instead of controller.setupWebserver(), it is possible to use a different web server to manage authentication flows, as well as serving web pages.
+
+Here is an example of [using an Express web server alongside Botkit](https://github.com/mvaragnat/botkit-express-demo).

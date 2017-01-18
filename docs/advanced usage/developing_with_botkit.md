@@ -1,0 +1,766 @@
+# Developing with Botkit
+
+Table of Contents
+
+* [Receiving Messages](#receiving-messages)
+* [Sending Messages](#sending-messages)
+* [Middleware](#middleware)
+* [Advanced Topics](#advanced-topics)
+
+### Responding to events
+
+Once connected to a messaging platform, bots receive a constant stream of events - everything from the normal messages you would expect to typing notifications and presence change events. The set of events your bot will receive will depend on what messaging platform it is connected to.
+
+All platforms will receive the `message_received` event. This event is the first event fired for every message of any type received - before any platform specific events are fired.
+
+```javascript
+controller.on('message_received', function(bot, message) {
+
+    // carefully examine and
+    // handle the message here!
+    // Note: Platforms such as Slack send many kinds of messages, not all of which contain a text field!
+});
+```
+
+Due to the multi-channel, multi-user nature of Slack, Botkit does additional filtering on the messages (after firing message_received), and will fire more specific events based on the type of message - for example, `direct_message` events indicate a message has been sent directly to the bot, while `direct_mention` indicates that the bot has been mentioned in a multi-user channel.
+[List of Slack-specific Events](readme-slack.md#slack-specific-events)
+
+Twilio IPM bots can also exist in a multi-channel, multi-user environmnet. As a result, there are many additional events that will fire. In addition, Botkit will filter some messages, so that the bot will not receive it's own messages or messages outside of the channels in which it is present.
+[List of Twilio IPM-specific Events](readme-twilioipm.md#twilio-ipm-specific-events)
+
+Facebook messages are fairly straightforward. However, because Facebook supports inline buttons, there is an additional event fired when a user clicks a button.
+[List of Facebook-specific Events](readme-facebook.md#facebook-specific-events)
+
+
+## Receiving Messages
+
+Botkit bots receive messages through a system of specialized event handlers. Handlers can be set up to respond to specific types of messages, or to messages that match a given keyword or pattern.
+
+These message events can be handled by attaching an event handler to the main controller object.
+These event handlers take two parameters: the name of the event, and a callback function which is invoked whenever the event occurs.
+The callback function receives a bot object, which can be used to respond to the message, and a message object.
+
+```javascript
+// reply to any incoming message
+controller.on('message_received', function(bot, message) {
+    bot.reply(message, 'I heard... something!');
+});
+
+// reply to a direct mention - @bot hello
+controller.on('direct_mention',function(bot,message) {
+  // reply to _message_ by using the _bot_ object
+  bot.reply(message,'I heard you mention me!');
+});
+
+// reply to a direct message
+controller.on('direct_message',function(bot,message) {
+  // reply to _message_ by using the _bot_ object
+  bot.reply(message,'You are talking directly to me');
+});
+```
+
+### Matching Patterns and Keywords with `hears()`
+
+In addition to these traditional event handlers, Botkit also provides the `hears()` function,
+which configures event handlers based on matching specific keywords or phrases in the message text.
+The hears function works just like the other event handlers, but takes a third parameter which
+specifies the keywords to match.
+
+| Argument | Description
+|--- |---
+| patterns | An _array_ or a _comma separated string_ containing a list of regular expressions to match
+| types  | An _array_ or a _comma separated string_ of the message events in which to look for the patterns
+| middleware function | _optional_ function to redefine how patterns are matched. see [Botkit Middleware](#middleware)
+| callback | callback function that receives a message object
+
+```javascript
+controller.hears(['keyword','^pattern$'],['message_received'],function(bot,message) {
+
+  // do something to respond to message
+  bot.reply(message,'You used a keyword!');
+
+});
+```
+
+When using the built in regular expression matching, the results of the expression will be stored in the `message.match` field and will match the expected output of normal Javascript `string.match(/pattern/i)`. For example:
+
+```javascript
+controller.hears('open the (.*) doors',['message_received'],function(bot,message) {
+  var doorType = message.match[1]; //match[1] is the (.*) group. match[0] is the entire group (open the (.*) doors).
+  if (doorType === 'pod bay') {
+    return bot.reply(message, 'I\'m sorry, Dave. I\'m afraid I can\'t do that.');
+  }
+  return bot.reply(message, 'Okay');
+});
+```
+
+## Sending Messages
+
+Bots have to send messages to deliver information and present an interface for their
+functionality.  Botkit bots can send messages in several different ways, depending
+on the type and number of messages that will be sent.
+
+Single message replies to incoming commands can be sent using the `bot.reply()` function.
+
+Multi-message replies, particularly those that present questions for the end user to respond to,
+can be sent using the `bot.startConversation()` function and the related conversation sub-functions.
+
+Bots can originate messages - that is, send a message based on some internal logic or external stimulus -
+using `bot.say()` method.
+
+All `message` objects must contain a `text` property, even if it's only an empty string.
+
+### Single Message Replies to Incoming Messages
+
+Once a bot has received a message using a `on()` or `hears()` event handler, a response
+can be sent using `bot.reply()`.
+
+Messages sent using `bot.reply()` are sent immediately. If multiple messages are sent via
+`bot.reply()` in a single event handler, they will arrive in the  client very quickly
+and may be difficult for the user to process. We recommend using `bot.startConversation()`
+if more than one message needs to be sent.
+
+You may pass either a string, or a message object to the function.
+
+Message objects may also contain any additional fields supported by the messaging platform in use:
+
+[Slack's chat.postMessage](https://api.slack.com/methods/chat.postMessage) API accepts several additional fields. These fields can be used to adjust the message appearance, add attachments, or even change the displayed user name.
+
+This is also true of Facebook. Calls to [Facebook's Send API](https://developers.facebook.com/docs/messenger-platform/send-api-reference) can include attachments which result in interactive "structured messages" which can include images, links and action buttons.
+
+#### bot.reply()
+
+| Argument | Description
+|--- |---
+| message | Incoming message object
+| reply | _String_ or _Object_ Outgoing response
+| callback | _Optional_ Callback in the form function(err,response) { ... }
+
+Simple reply example:
+```javascript
+controller.hears(['keyword','^pattern$'],['message_received'],function(bot,message) {
+
+  // do something to respond to message
+  // ...
+
+  bot.reply(message,"Tell me more!");
+
+});
+```
+
+Slack-specific fields and attachments:
+```javascript
+controller.on('ambient',function(bot,message) {
+
+    // do something...
+
+    // then respond with a message object
+    //
+    bot.reply(message,{
+      text: "A more complex response",
+      username: "ReplyBot",
+      icon_emoji: ":dash:",
+    });
+
+})
+
+//Using attachments
+controller.hears('another_keyword','direct_message,direct_mention',function(bot,message) {
+  var reply_with_attachments = {
+    'username': 'My bot' ,
+    'text': 'This is a pre-text',
+    'attachments': [
+      {
+        'fallback': 'To be useful, I need you to invite me in a channel.',
+        'title': 'How can I help you?',
+        'text': 'To be useful, I need you to invite me in a channel ',
+        'color': '#7CD197'
+      }
+    ],
+    'icon_url': 'http://lorempixel.com/48/48'
+    }
+
+  bot.reply(message, reply_with_attachments);
+});
+
+```
+
+
+Facebook-specific fields and attachments:
+```
+// listen for the phrase `shirt` and reply back with structured messages
+// containing images, links and action buttons
+controller.hears(['shirt'],'message_received',function(bot, message) {
+    bot.reply(message, {
+        attachment: {
+            'type':'template',
+            'payload':{
+                 'template_type':'generic',
+                 'elements':[
+                   {
+                     'title':'Classic White T-Shirt',
+                     'image_url':'http://petersapparel.parseapp.com/img/item100-thumb.png',
+                     'subtitle':'Soft white cotton t-shirt is back in style',
+                     'buttons':[
+                       {
+                         'type':'web_url',
+                         'url':'https://petersapparel.parseapp.com/view_item?item_id=100',
+                         'title':'View Item'
+                       },
+                       {
+                         'type':'web_url',
+                         'url':'https://petersapparel.parseapp.com/buy_item?item_id=100',
+                         'title':'Buy Item'
+                       },
+                       {
+                         'type':'postback',
+                         'title':'Bookmark Item',
+                         'payload':'USER_DEFINED_PAYLOAD_FOR_ITEM100'
+                       }
+                     ]
+                   },
+                   {
+                     'title':'Classic Grey T-Shirt',
+                     'image_url':'http://petersapparel.parseapp.com/img/item101-thumb.png',
+                     'subtitle':'Soft gray cotton t-shirt is back in style',
+                     'buttons':[
+                       {
+                         'type':'web_url',
+                         'url':'https://petersapparel.parseapp.com/view_item?item_id=101',
+                         'title':'View Item'
+                       },
+                       {
+                         'type':'web_url',
+                         'url':'https://petersapparel.parseapp.com/buy_item?item_id=101',
+                         'title':'Buy Item'
+                       },
+                       {
+                         'type':'postback',
+                         'title':'Bookmark Item',
+                         'payload':'USER_DEFINED_PAYLOAD_FOR_ITEM101'
+                       }
+                     ]
+                   }
+                 ]
+               }
+        }
+    });
+});
+```
+
+### Multi-message Replies to Incoming Messages
+
+For more complex commands, multiple messages may be necessary to send a response,
+particularly if the bot needs to collect additional information from the user.
+
+Botkit provides a `Conversation` object type that is used to string together several
+messages, including questions for the user, into a cohesive unit. Botkit conversations
+provide useful methods that enable developers to craft complex conversational
+user interfaces that may span a several minutes of dialog with a user, without having to manage
+the complexity of connecting multiple incoming and outgoing messages across
+multiple API calls into a single function.
+
+Messages sent as part of a conversation are sent no faster than one message per second,
+which roughly simulates the time it would take for the bot to "type" the message.
+
+### Start a Conversation
+
+#### bot.startConversation()
+| Argument | Description
+|---  |---
+| message   | incoming message to which the conversation is in response
+| callback  | a callback function in the form of  function(err,conversation) { ... }
+
+`startConversation()` is a function that creates conversation in response to an incoming message.
+The conversation will occur _in the same channel_ in which the incoming message was received.
+Only the user who sent the original incoming message will be able to respond to messages in the conversation.
+
+#### bot.startPrivateConversation()
+| Argument | Description
+|---  |---
+| message   | message object containing {user: userId} of the user you would like to start a conversation with
+| callback  | a callback function in the form of  function(err,conversation) { ... }
+
+`startPrivateConversation()` is a function that initiates a conversation with a specific user. Note function is currently *Slack-only!*
+
+#### bot.createConversation()
+| Argument | Description
+|---  |---
+| message   | incoming message to which the conversation is in response
+| callback  | a callback function in the form of  function(err,conversation) { ... }
+
+This works just like `startConversation()`, with one main difference - the conversation
+object passed into the callback will be in a dormant state. No messages will be sent,
+and the conversation will not collect responses until it is activated using [convo.activate()](#conversationactivate).
+
+Use `createConversation()` instead of `startConversation()` when you plan on creating more complex conversation structures using [threads](#conversation-threads) or [variables and templates](#using-variable-tokens-and-templates-in-conversation-threads) in your messages.
+
+### Control Conversation Flow
+
+#### conversation.activate()
+
+This function will cause a dormant conversation created with [bot.createConversation()](#botcreateconversation) to be activated, which will cause it to start sending messages and receiving replies from end users.
+
+A conversation can be kept dormant in order to preload it with [variables](#using-variable-tokens-and-templates-in-conversation-threads), particularly data that requires asynchronous actions to take place such as loading data from a database or remote source.  You may also keep a conversation inactive while you build threads, setting it in motion only when all of the user paths have been defined.
+
+#### conversation.say()
+| Argument | Description
+|---  |---
+| message   | String or message object
+
+Call convo.say() several times in a row to queue messages inside the conversation. Only one message will be sent at a time, in the order they are queued.
+
+```javascript
+controller.hears(['hello world'], 'message_received', function(bot,message) {
+
+  // start a conversation to handle this response.
+  bot.startConversation(message,function(err,convo) {
+
+    convo.say('Hello!');
+    convo.say('Have a nice day!');
+
+  });
+});
+```
+
+#### conversation.ask()
+| Argument | Description
+|---  |---
+| message   | String or message object containing the question
+| callback _or_ array of callbacks   | callback function in the form function(response_message,conversation), or array of objects in the form ``{ pattern: regular_expression, callback: function(response_message,conversation) { ... } }``
+| capture_options | _Optional_ Object defining options for capturing the response
+
+When passed a callback function, conversation.ask will execute the callback function for any response.
+This allows the bot to respond to open ended questions, collect the responses, and handle them in whatever
+manner it needs to.
+
+When passed an array, the bot will look first for a matching pattern, and execute only the callback whose
+pattern is matched. This allows the bot to present multiple choice options, or to proceed
+only when a valid response has been received. At least one of the patterns in the array must be marked as the default option,
+which will be called should no other option match. Botkit comes pre-built with several useful patterns which can be used with this function. See [included utterances](#included-utterances)
+
+Callback functions passed to `ask()` receive two parameters - the first is a standard message object containing
+the user's response to the question. The second is a reference to the conversation itself.
+
+Note that in order to continue the conversation, `convo.next()` must be called by the callback function. This
+function tells Botkit to continue processing the conversation. If it is not called, the conversation will hang
+and never complete causing memory leaks and instability of your bot application!
+
+The optional third parameter `capture_options` can be used to define different behaviors for collecting the user's response.
+This object can contain the following fields:
+
+| Field | Description
+|--- |---
+| key | _String_ If set, the response will be stored and can be referenced using this key
+| multiple | _Boolean_ if true, support multi-line responses from the user (allow the user to respond several times and aggregate the response into a single multi-line value)
+
+##### Using conversation.ask with a callback:
+
+```javascript
+controller.hears(['question me'], 'message_received', function(bot,message) {
+
+  // start a conversation to handle this response.
+  bot.startConversation(message,function(err,convo) {
+
+    convo.ask('How are you?',function(response,convo) {
+
+      convo.say('Cool, you said: ' + response.text);
+      convo.next();
+
+    });
+
+  })
+
+});
+```
+
+##### Using conversation.ask with an array of callbacks:
+
+```javascript
+controller.hears(['question me'], 'message_received', function(bot,message) {
+
+  // start a conversation to handle this response.
+  bot.startConversation(message,function(err,convo) {
+
+    convo.ask('Shall we proceed Say YES, NO or DONE to quit.',[
+      {
+        pattern: 'done',
+        callback: function(response,convo) {
+          convo.say('OK you are done!');
+          convo.next();
+        }
+      },
+      {
+        pattern: bot.utterances.yes,
+        callback: function(response,convo) {
+          convo.say('Great! I will continue...');
+          // do something else...
+          convo.next();
+
+        }
+      },
+      {
+        pattern: bot.utterances.no,
+        callback: function(response,convo) {
+          convo.say('Perhaps later.');
+          // do something else...
+          convo.next();
+        }
+      },
+      {
+        default: true,
+        callback: function(response,convo) {
+          // just repeat the question
+          convo.repeat();
+          convo.next();
+        }
+      }
+    ]);
+
+  })
+
+});
+```
+
+### Conversation Threads
+
+While conversations with only a few questions can be managed by writing callback functions,
+more complex conversations that require branching, repeating or looping sections of dialog,
+or data validation can be handled using feature of the conversations we call `threads`.
+
+Threads are pre-built chains of dialog between the bot and end user that are built before the conversation begins. Once threads are built, Botkit can be instructed to navigate through the threads automatically, allowing many common programming scenarios such as yes/no/quit prompts to be handled without additional code.
+
+You can build conversation threads in code, or you can use [Botkit Studio](/readme-studio.md)'s script management tool to build them in a friendly web environment. Conversations you build yourself and conversations managed in Botkit Studio work the same way -- they run inside your bot and use your code to manage the outcome.
+
+If you've used the conversation system at all, you've used threads - you just didn't know it. When calling `convo.say()` and `convo.ask()`, you were actually adding messages to the `default` conversation thread that is activated when the conversation object is created.
+
+
+#### convo.addMessage
+| Argument | Description
+|---  |---
+| message   | String or message object
+| thread_name   | String defining the name of a thread
+
+This function works identically to `convo.say()` except that it takes a second parameter which defines the thread to which the message will be added rather than being queued to send immediately, as is the case when using convo.say().
+
+#### convo.addQuestion
+| Argument | Description
+|---  |---
+| message   | String or message object containing the question
+| callback _or_ array of callbacks   | callback function in the form function(response_message,conversation), or array of objects in the form ``{ pattern: regular_expression, callback: function(response_message,conversation) { ... } }``
+| capture_options |  Object defining options for capturing the response. Pass an empty object if capture options are not needed
+| thread_name   | String defining the name of a thread
+
+This function works identically to `convo.ask()` except that it takes second parameter which defines the thread to which the message will be added rather than being queued to send immediately, as is the case when using convo.ask().
+
+
+#### convo.gotoThread
+| Argument | Description
+|---  |---
+| thread_name   | String defining the name of a thread
+
+Cause the bot to immediately jump to the named thread.
+All conversations start in a thread called `default`, but you may switch to another existing thread before the conversation has been activated, or in a question callback.
+
+Threads are created by adding messages to them using `addMessage()` and `addQuestion()`
+
+```
+// create the validation_error thread
+convo.addMessage('This is a validation error.', 'validation_error');
+convo.addMessage('I am sorry, your data is wrong!', 'validation_error');
+
+// switch to the validation thread immediately
+convo.gotoThread('validation_error');
+```
+
+
+#### convo.transitionTo
+| Argument | Description
+|---  |---
+| thread_name   | String defining the name of a thread
+| message   | String or message object
+
+Like `gotoThread()`, jumps to the named thread. However, before doing so,
+Botkit will first send `message` to the user as a transition. This allows
+developers to specify dynamic transition messages to improve the flow of the
+conversation.
+
+```javascript
+// create an end state thread
+covo.addMessage('This is the end!', 'the_end');
+
+// now transition there with a nice message
+convo.transitionTo('the_end','Well I think I am all done.');
+```
+
+#### Automatically Switch Threads using Actions
+
+You can direct a conversation to switch from one thread to another automatically
+by including the `action` field on a message object. Botkit will switch threads immediately after sending the message.
+
+```
+// first, define a thread called `next_step` that we'll route to...
+convo.addMessage({
+    text: 'This is the next step...',
+},'next_step');
+
+
+// send a message, and tell botkit to immediately go to the next_step thread
+convo.addMessage({
+    text: 'Anyways, moving on...',
+    action: 'next_step'
+});
+```
+
+Developers can create fairly complex conversational systems by combining these message actions with conditionals in `ask()` and `addQuestion()`.  Actions can be used to specify
+default or next step actions, while conditionals can be used to route between threads.
+
+From inside a callback function, use `convo.gotoThread()` to instantly switch to a different pre-defined part of the conversation. Botkit can be set to automatically navigate between threads based on user input, such as in the example below.
+
+```
+bot.createConversation(message, function(err, convo) {
+
+    // create a path for when a user says YES
+    convo.addMessage({
+            text: 'You said yes! How wonderful.',
+    },'yes_thread');
+
+    // create a path for when a user says NO
+    convo.addMessage({
+        text: 'You said no, that is too bad.',
+    },'no_thread');
+
+    // create a path where neither option was matched
+    // this message has an action field, which directs botkit to go back to the `default` thread after sending this message.
+    convo.addMessage({
+        text: 'Sorry I did not understand.',
+        action: 'default',
+    },'bad_response');
+
+    // Create a yes/no question in the default thread...
+    convo.ask('Do you like cheese?', [
+        {
+            pattern: 'yes',
+            callback: function(response, convo) {
+                convo.changeTopic('yes_thread');
+            },
+        },
+        {
+            pattern: 'no',
+            callback: function(response, convo) {
+                convo.changeTopic('no_thread');
+            },
+        },
+        {
+            default: true,
+            callback: function(response, convo) {
+                convo.changeTopic('bad_response');
+            },
+        }
+    ]);
+
+    convo.activate();
+});
+```
+
+#### Special Actions
+
+In addition to routing from one thread to another using actions, you can also use
+one of a few reserved words to control the conversation flow.
+
+Set the action field of a message to `completed` to end the conversation immediately and mark as success.
+
+Set the action field of a message to `stop` end immediately, but mark as failed.
+
+Set the action field of a message to `timeout` to end immediately and indicate that the conversation has timed out.
+
+After the conversation ends, these values will be available in the `convo.status` field. This field can then be used to check the final outcome of a conversation. See [handling the end of conversations](#handling-the-end-of-conversation).
+
+### Using Variable Tokens and Templates in Conversation Threads
+
+Pre-defined conversation threads are great, but many times developers will need to inject dynamic content into a conversation.
+Botkit achieves this by processing the text of every message using the [Mustache template language](https://mustache.github.io/).
+Mustache offers token replacement, as well as access to basic iterators and conditionals.
+
+Variables can be added to a conversation at any point after the conversation object has been created using the function `convo.setVar()`. See the example below.
+
+```
+convo.createConversation(message, function(err, convo) {
+
+    // .. define threads which will use variables...
+    // .. and then, set variable values:
+    convo.setVar('foo','bar');
+    convo.setVar('list',[{value:'option 1'},{value:'option 2'}]);
+    convo.setVar('object',{'name': 'Chester', 'type': 'imaginary'});
+
+    // now set the conversation in motion...
+    convo.activate();
+});
+```
+
+Given the variables defined in this code sample, `foo`, a simple string, `list`, an array, and `object`, a JSON-style object,
+the following Mustache tokens and patterns would be available:
+
+```
+The value of foo is {{vars.foo}}
+
+The items in this list include {{#vars.list}}{{value}}{{/vars.list}}
+
+The object's name is {{vars.object.name}}.
+
+{{#foo}}If foo is set, I will say this{{/foo}}{{^foo}}If foo is not set, I will say this other thing.{{/foo}}
+```
+Botkit ensures that your template is a valid Mustache template, and passes the variables you specify directly to the Mustache template rendering system.
+Our philosophy is that it is OK to stuff whatever type of information your conversation needs into these variables and use them as you please!
+
+#### convo.setVar
+| Argument | Description
+|---  |---
+| variable_name   | The name of a variable to be made available to message text templates.
+| value | The value of the variable, which can be any type of normal Javascript variable
+
+Create or update a variable that is available as a Mustache template token to all the messages in all the threads contained in the conversation.
+
+The variable will be available in the template as `{{vars.variable_name}}`
+
+#### Built-in Variables
+
+Botkit provides several built in variables that are automatically available to all messages:
+
+{{origin}} - a message object that represents the initial triggering message that caused the conversation.
+
+{{responses}} - an object that contains all of the responses a user has given during the course of the conversation. This can be used to make references to previous responses. This requires that `convo.ask()` questions include a keyname, making responses available at `{{responses.keyname}}`
+
+##### Multi-stage conversations
+
+![multi-stage convo example](https://www.evernote.com/shard/s321/sh/7243cadf-be40-49cf-bfa2-b0f524176a65/f9257e2ff5ee6869/res/bc778282-64a5-429c-9f45-ea318c729225/screenshot.png?resizeSmall&width=832)
+
+One way to have multi-stage conversations is with multiple functions
+which call each other. Each function asks just one question. Example:
+
+```javascript
+controller.hears(['pizzatime'], 'message_received', function(bot,message) {
+    var askFlavor = function(err, convo) {
+      convo.ask('What flavor of pizza do you want?', function(response, convo) {
+        convo.say('Awesome.');
+        askSize(response, convo);
+        convo.next();
+      });
+    };
+    var askSize = function(response, convo) {
+      convo.ask('What size do you want?', function(response, convo) {
+        convo.say('Ok.')
+        askWhereDeliver(response, convo);
+        convo.next();
+      });
+    };
+    var askWhereDeliver = function(response, convo) {
+      convo.ask('So where do you want it delivered?', function(response, convo) {
+        convo.say('Ok! Good bye.');
+        convo.next();
+      });
+    };
+
+    bot.startConversation(message, askFlavor);
+});
+```
+
+The full code for this example can be found in ```examples/convo_bot.js```.
+
+##### Included Utterances
+
+| Pattern Name | Description
+|--- |---
+| bot.utterances.yes | Matches phrases like yes, yeah, yup, ok and sure.
+| bot.utterances.no | Matches phrases like no, nah, nope
+
+##### Conversation Control Functions
+
+In order to direct the flow of the conversation, several helper functions
+are provided.  These functions should only be called from within a convo.ask
+handler function!
+
+`convo.sayFirst(message)` Works just like convo.say, but injects a message into the first spot in the queue
+so that it is sent immediately, before any other queued messages.
+
+`convo.stop()` end the conversation immediately, and set convo.status to `stopped`
+
+`convo.repeat()` repeat the last question sent and continue to wait for a response.
+
+`convo.silentRepeat()` simply wait for another response without saying anything.
+
+`convo.next()` proceed to the next message in the conversation.  *This must be called* at the end of each handler.
+
+### Handling End of Conversation
+
+Conversations trigger events during the course of their life.  Currently,
+only two events are fired, and only one is very useful: end.
+
+Conversations end naturally when the last message has been sent and no messages remain in the queue.
+In this case, the value of `convo.status` will be `completed`. Other values for this field include `active`, `stopped`, and `timeout`.
+
+```javascript
+convo.on('end',function(convo) {
+
+  if (convo.status=='completed') {
+    // do something useful with the users responses
+    var res = convo.extractResponses();
+
+    // reference a specific response by key
+    var value  = convo.extractResponse('key');
+
+    // ... do more stuff...
+
+  } else {
+    // something happened that caused the conversation to stop prematurely
+  }
+
+});
+```
+
+#### convo.extractResponses()
+
+Returns an object containing all of the responses a user sent during the course of a conversation.
+
+```javascript
+var values = convo.extractResponses();
+var value = values.key;
+```
+
+#### convo.extractResponse()
+
+Return one specific user response, identified by its key.
+
+```javascript
+var value  = convo.extractResponse('key');
+```
+
+### Originating Messages
+
+#### bot.say()
+| Argument | Description
+|--- |---
+| message | A message object
+| callback | _Optional_ Callback in the form function(err,response) { ... }
+
+Slack-specific Example:
+```javascript
+bot.say(
+  {
+    text: 'my message text',
+    channel: 'C0H338YH4' // a valid slack channel, group, mpim, or im ID
+  }
+);
+```
+Note: If your primary need is to spontaneously send messages rather than respond to incoming messages, you may want to use [Slack's incoming webhooks feature](readme-slack.md#incoming-webhooks) rather than the real time API.
+
+
+Facebook-specific Example:
+```javascript
+bot.say(
+    {
+        text: 'my message_text',
+        channel: '+1(###)###-####' // a valid facebook user id or phone number
+    }
+);
+```
