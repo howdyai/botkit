@@ -41,7 +41,6 @@ var controller = Botkit.sparkbot({
     limit_to_org: 'Y2lzY29zcGFyazovL3VzL09SR0FOSVpBVElPTi9jb25zdW1lcg',
 });
 
-
 var bot = controller.spawn({
 });
 
@@ -89,6 +88,20 @@ controller.hears(['test'], 'direct_mention,direct_message', function(bot, messag
     });
 
 });
+
+controller.hears(['go private'], 'direct_mention,direct_message', function(bot, message) {
+
+    bot.startPrivateConversation(message, function(err, convo) {
+        convo.say('Oh hello');
+        convo.ask('What can I do?', function(res, convo) {
+            convo.say('OK, you said ' + res.text);
+            convo.next();
+        });
+
+    });
+
+});
+
 
 
 if (process.env.studio_token) {
