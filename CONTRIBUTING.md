@@ -11,8 +11,7 @@ but before doing that please read the notes below and include as many details as
 possible with your report. If you can, please include:
   * The version of Botkit you are using
   * The operating system you are using
-  * If applicable, what you were doing when the issue arose and what you
-  expected to happen
+  * If applicable, what you were doing when the issue arose and what you expected to happen, and provide example code whenever possible.
 * Other things that will help resolve your issue:
   * Screenshots and animated GIFs
   * Error output that appears in your terminal, dev tools or as an alert
@@ -28,6 +27,9 @@ possible with your report. If you can, please include:
 * Use short, present tense commit messages. See [Commit Message Styleguide](#git-commit-messages).
 
 ## Styleguides
+
+### Documentation
+TODO: Add general documentation syntax guidelines.
 
 ### General Code
 

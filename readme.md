@@ -19,10 +19,11 @@ There are two basic ways to start a Botkit project:
 
 1) [Install Botkit directly from NPM or Github](#install-botkit-from-npm-or-github) and build a new app from scratch, or use one of the [included examples](#included-examples) as a starting point.
 
-2) [Install the a Botkit Starter Kit](#install-botkit-using-a-starter-kit)
-) and build on top of an already fully functioning bot that comes pre-configured with popular middleware plug-ins and components.
+2) **Install a Botkit Starter Kit**
 
+The Botkit community strives to create easy Starter Kits for our full complement of platforms and possible deploy cases. Starter kits can be focused on Platforms, Hosting services, or to demonstrate tools like Botkit Studio or Botkit Middleware.
 
+TODO: Link to those sections
 
 ### Install Botkit from NPM or Github
 
@@ -32,8 +33,7 @@ Botkit is available via NPM.
 npm install --save botkit
 ```
 
-You can also check out Botkit directly from Git.
-If you want to use the example code and included bots, it may be preferable to use Github over NPM.
+You can also check out Botkit directly from Git. If you want to use the example code and included bots, it may be preferable to use Github over NPM.
 
 ```bash
 git clone git@github.com:howdyai/botkit.git
@@ -58,20 +58,15 @@ Currently Botkit can connect to the following platforms
 * [Microsoft Bot Framework](readme-botframework.md#getting-started).
 
 
-### Install Botkit using a starter kit
-Todo: list all known starter kits
-
-
 ## Botkit Studio
 
 [Botkit Studio](https://studio.botkit.ai) is a hosted development environment for bots from the same team that built Botkit.
-Based on feedback from the developer community, as well as experience running our flagship Botkit-powered bot, [Howdy](http://howdy.ai),
-the tools in Botkit Studio allow bot designers and developers to manage many aspects of bot behavior without writing additional code.
+Based on feedback from the developer community, as well as experience running our flagship Botkit-powered bot, [Howdy](http://howdy.ai), the tools in Botkit Studio allow bot designers and developers to manage many aspects of bot behavior without writing additional code.
 
 [Start building your bot with Botkit Studio](readme-studio.md) and you'll start from day one with extra tools and features that
 help you create and manage a successful bot application. It is also possible to add Studio features to your existing Botkit application. [With a few lines of code](readme-studio.md#adding-studio-features-to-an-existing-bot), you can add access new features and APIs.
 
-Botkit Studio is built on top of Botkit, so everything that works with Botkit continues to just work. All of the available plugins and middleware are compatible! 
+Botkit Studio is built on top of Botkit, so everything that works with Botkit continues to just work. Botkit Studio is *not* required to use Botkit, but it is strongly recomended. All of the available intregrations and middleware are compatible! 
 
 ## Core Concepts
 
@@ -90,32 +85,37 @@ it is ready to be connected to a stream of incoming messages. Currently, Botkit 
 * [Slack Real Time Messaging (RTM)](http://api.slack.com/rtm)
 * [Slack Incoming Webhooks](http://api.slack.com/incoming-webhooks)
 * [Slack Slash Commands](http://api.slack.com/slash-commands)
+
+[Connect your bot to Slack](/docs/platforms/slack/readme-slack.md#connecting-your-bot-to-slack)
+
 * [Facebook Messenger Webhooks](https://developers.facebook.com/docs/messenger-platform/implementation)
+
+[Connect your bot to Facebook Messenger](/docs/platforms/facebook/readme-facebook.md#getting-started)
+
+
 * [Twilio IP Messaging](https://www.twilio.com/user/account/ip-messaging/getting-started)
+
+[Connect your bot to Slack](/docs/platforms/twilio/readme-twilioipm.md#getting-started)
+
+
 * [Microsoft Bot Framework](http://botframework.com/)
+
+[Connect your bot to Slack](/docs/platforms/microsoft/readme-botframework.md#getting-started)
+
+
 * [Cisco Spark](https://developer.ciscospark.com/)
 
-Read more about [connecting your bot to Slack](readme-slack.md#connecting-your-bot-to-slack), [connecting your bot to Facebook](readme-facebook.md#getting-started), [connecting your bot to Twilio](readme-twilioipm.md#getting-started),
-or [connecting your bot to Microsoft Bot Framework](readme-botframework.md#getting-started)
-
-
-
+[Connect your bot to Cisco Spark](/docs/platforms/cisco/readme-slack.md#connecting-your-bot-to-slack)
 
 ## Basic Usage
 
-Here's an example of using Botkit with Slack's [real time API](https://api.slack.com/rtm), which is the coolest one because your bot will look and act like a real user inside Slack.
+Here's an example of using Botkit with Slack's [real time API](https://api.slack.com/rtm). You can read the documentation for a given source to find similar usage information for your source of choice.
 
 This sample bot listens for the word "hello" to be said to it -- either as a direct mention ("@bot hello") or an indirect mention ("hello @bot") or a direct message (a private message inside Slack between the user and the bot).
 
-The Botkit constructor returns a `controller` object. By attaching event handlers
-to the controller object, developers can specify what their bot should look for and respond to,
-including keywords, patterns and various [messaging and status events](#responding-to-events).
-These event handlers can be thought of metaphorically as skills or features the robot brain has -- each event handler defines a new "When a human says THIS the bot does THAT."
+The Botkit constructor returns a `controller` object. By attaching event handlers to the controller object, developers can specify what their bot should look for and respond to, including keywords, patterns and various [messaging and status events](#responding-to-events). These event handlers can be thought of metaphorically as skills or features the robot brain has -- each event handler defines a new "When a human says THIS the bot does THAT."
 
-The `controller` object is then used to `spawn()` bot instances that represent
-a specific bot identity and connection to Slack. Once spawned and connected to
-the API, the bot user will appear online in Slack, and can then be used to
-send messages and conduct conversations with users. They are called into action by the `controller` when firing event handlers.
+The `controller` object is then used to `spawn()` bot instances that represent a specific bot identity and connection to Slack. Once spawned and connected to the API, the bot user will appear online in Slack, and can then be used to send messages and conduct conversations with users. They are called into action by the `controller` when firing event handlers.
 
 ```javascript
 var Botkit = require('botkit');
@@ -142,45 +142,48 @@ controller.hears('hello',['direct_message','direct_mention','mention'],function(
 
 ### Botkit Statistics Gathering
 
-As of version 0.4, Botkit records anonymous usage statistics about Botkit bots in the wild.
-These statistics are used by the Botkit team at [Howdy](http://howdy.ai) to measure and
-analyze the Botkit community, and help to direct resources to the appropriate parts of the project.
+As of version 0.4, Botkit records anonymous usage statistics about Botkit bots in the wild. These statistics are used by the Botkit team at [Howdy](http://howdy.ai) to measure and analyze the Botkit community, and help to direct resources to the appropriate parts of the project.
 
-We take the privacy of Botkit developers and their users very seriously. Botkit does not collect,
-or transmit any message content, user data, or personally identifiable information to our statistics system.
-The information that is collected is anonymized inside Botkit and converted using one-way encryption
-into a hash before being transmitted.
+We take the privacy of Botkit developers and their users very seriously. Botkit does not collect, or transmit any message content, user data, or personally identifiable information to our statistics system. The information that is collected is anonymized inside Botkit and converted using one-way encryption into a hash before being transmitted.
 
 #### Opt Out of Stats
 
-To opt out of the stats collection, pass in the `stats_optout` parameter when initializing Botkit,
-as seen in the example below:
+To opt out of the stats collection, pass in the `stats_optout` parameter when initializing Botkit, as seen in the example below:
 
 ```
 var controller = Botkit.slackbot({
     stats_optout: true
 });
 ```
-## Middleware
-Brief Description, link to doc.
+
 ## Developing with Botkit
 
-Brief Description, link to doc.
+
+### Middleware
+The functionality of Botkit can be extended using middleware functions. These functions can plugin to the core bot running processes at several useful places and make changes to both a bot’s configuration and the incoming or outgoing message. Anyone can [create their own middleware](docs/advance usage/readme-creating middleware.md), and if they wish, be added to our [directory of available middlewares](docs/advance usage/readme-creating middleware.md).
+
 
 ## Deploying your Bot
+For the purposes of creating a bot, you may find that running your server locally is suitable for the devlopment process. When you want to deploy the bot to production, there are numerous hosting solutions available that provide easy deployment and testing of your work.
 
-Brief Description, link to doc.
+Link to docs/hosting/readme.md
+
+
 
 ## Botkit Community
+Github has recognized Botkit as one of [the top communities for new contributors](https://github.com/showcases/great-for-new-contributors), and to support all kinds of users in our community, we have a few resources to help you make great bots.
 
-Brief Description, links to communities. 
-
-### Chat with us at dev4slack.slack.com
-You can get an invite here: http://dev4slack.xoxco.com/.
 ### Contributing
+We are always looking to improve Botkit, and will welcome any help from our community with regards to new features, bug fixes, and documentation enhancements. [These are a few guidelines to get you started on contributing to this project](https://github.com/howdyai/botkit/blob/master/CONTRIBUTING.md#submitting-issues).
 
-Brief Description, link to doc.
+### Have questions? Want to contact us?
+Having trouble with a aspect of creating a bot? While we do not provide direct support, you can [search existing issues](https://github.com/howdyai/botkit/issues), or [post a new issue on our github](https://github.com/howdyai/botkit/blob/master/CONTRIBUTING.md#submitting-issues). 
 
-### Getting help
+Botkit Studio users [should view our documentation](https://studio.botkit.ai/docs) and can contact our support team via [their account portal](https://studio.botkit.ai/account).
 
-Brief Description, link to doc.
+If you need to contact Howdy, the maintainers of Botkit, you can do so via [our homepage](https://botkit.ai/).
+
+### Join our Bot Building Community
+We maintain a public Slack with over 5000 developers discussing the nuts and bolts of building bots. With users of all skill levels, and representives of the platforms we support, this is a [great resource for anyone looking to connect with other developers.](http://dev4slack.xoxco.com/)
+
+
