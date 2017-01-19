@@ -30,12 +30,12 @@ This bot demonstrates many of the core features of Botkit:
 var Botkit = require('./lib/Botkit.js');
 
 var controller = Botkit.sparkbot({
-    debug: true,
-    log: true,
+    debug: false,
+    log: false,
     public_address: process.env.public_address,
     ciscospark_access_token: process.env.access_token,
     studio_token: process.env.studio_token,
-    secret: process.env.secret,
+    secret: process.env.secret, // this is an RECOMMENDED but optional setting that enables validation of incoming webhooks
     webhook_name: 'Cisco Spark bot created with Botkit, override me before going to production',
 //    limit_to_domain: ['howdy.ai','cisco.com'],
     limit_to_org: 'Y2lzY29zcGFyazovL3VzL09SR0FOSVpBVElPTi9jb25zdW1lcg',
