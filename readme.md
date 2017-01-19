@@ -13,17 +13,24 @@ Botkit is designed to ease the process of designing and running useful, creative
 * [Microsoft Bot Framework](docs/platforms/microsoft/readme-botframework.md)
 * Yours? [info@howdy.ai](mailto:info@howdy.ai)
 
+1. [Getting Started](#getting-started)
+	1. [Install Botkit from NPM or Github](#install-botkit-from-npm-or-github)
+	2. [Botkit Starter Kits](#botkit-starter-kits)
+	3. [Botkit Studio](#botkit-studio)
+2. [Core Concepts](#core-concepts)
+3. [Basic Usage](#basic-usage)
+	1. [Botkit Statistics Gathering](#botkit-statistics-gathering)
+	2. [Opt Out of Stats](#opt-out-of-stats)
+4. [Developing with Botkit](#developing-with-botkit)
+5. [Deploying your Bot](#deploying-your-bot)
+6. [Botkit Community](#botkit-community)
+	1. [Contributing](#contributing)
+	2. [Have questions? Want to contact us?](#have-questions-want-to-contact-us)
+	3. [Join our Bot Developer Hangout](#join-our-bot-developer-hangout)
+
 # Getting Started
 
 There are two basic ways to start a Botkit project:
-
-1) [Install Botkit directly from NPM or Github](#install-botkit-from-npm-or-github) and build a new app from scratch.
-
-2) **Install a Botkit Starter Kit**
-
-The Botkit community strives to create easy Starter Kits for our full complement of platforms and possible deploy cases. Starter kits can be focused on Platforms, Hosting services, or to demonstrate tools like Botkit Studio or Botkit Middleware.
-
-TODO: Link to those sections
 
 ### Install Botkit from NPM or Github
 
@@ -50,6 +57,8 @@ npm install --production
 ```
 Once installed, the first thing you'll need to do is register your bot with [a messaging platform](/docs/platforms/readme.md), and get a few configuration options set. This will allow your bot to connect, send and receive messages.
 
+### Botkit Starter Kits ###
+The Botkit community strives to create easy Starter Kits for our full complement of platforms and any possible deploy cases. Starter kits can be focused on [Platforms](), [Hosting services](), or to demonstrate tools like [Botkit Studio]() or [Botkit Middleware]().
 
 ## Botkit Studio
 
@@ -61,7 +70,7 @@ help you create and manage a successful bot application. It is also possible to 
 
 Botkit Studio is built on top of Botkit, so everything that works with Botkit continues to just work. Botkit Studio is *not* required to use Botkit, but it is strongly recomended. All of the available intregrations and middleware are compatible! 
 
-## Core Concepts
+# Core Concepts
 
 Bots built with Botkit have a few key capabilities, which can be used to create clever, conversational applications. These capabilities map to the way real human people talk to each other.
 
@@ -159,14 +168,8 @@ The functionality of Botkit can be extended using middleware functions. These fu
 ### Integrate your application with Botkit Studio
 TODO write a description of this concept, link to developing doc.
 
-
-
 # Deploying your Bot
-For the purposes of creating a bot, you may find that running your server locally is suitable for the devlopment process. When you want to deploy the bot to production, there are numerous hosting solutions available that provide easy deployment and testing of your work.
-
-Link to docs/hosting/readme.md
-
-
+For the purposes of creating a bot, you may find that running your server locally is suitable for the devlopment process. When you want to deploy the bot to production, there are [numerous hosting solutions]() available that provide easy deployment and testing of your work.
 
 # Botkit Community
 Github has recognized Botkit as one of [the top communities for new contributors](https://github.com/showcases/great-for-new-contributors), and to support all kinds of users in our community, we have a few resources to help you make great bots.
@@ -181,7 +184,7 @@ Botkit Studio users [should view our documentation](https://studio.botkit.ai/doc
 
 If you need to contact Howdy, the maintainers of Botkit, you can do so via [our homepage](https://botkit.ai/).
 
-### Join our Bot Building Community
+### Join our Bot Developer Hangout
 We maintain a public Slack with over 5000 developers discussing the nuts and bolts of building bots. With users of all skill levels, and representives of the platforms we support, this is a [great resource for anyone looking to connect with other developers.](http://dev4slack.xoxco.com/)
 
 
