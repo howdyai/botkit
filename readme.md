@@ -17,7 +17,7 @@ Botkit is designed to ease the process of designing and running useful, creative
 
 There are two basic ways to start a Botkit project:
 
-1) [Install Botkit directly from NPM or Github](#install-botkit-from-npm-or-github) and build a new app from scratch, or use one of the [included examples](#included-examples) as a starting point.
+1) [Install Botkit directly from NPM or Github](#install-botkit-from-npm-or-github) and build a new app from scratch.
 
 2) **Install a Botkit Starter Kit**
 
