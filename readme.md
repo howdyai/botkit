@@ -13,7 +13,7 @@ Botkit is designed to ease the process of designing and running useful, creative
 * [Microsoft Bot Framework](docs/platforms/microsoft/readme-botframework.md)
 * Yours? [info@howdy.ai](mailto:info@howdy.ai)
 
-## Getting Started
+# Getting Started
 
 There are two basic ways to start a Botkit project:
 
@@ -48,14 +48,7 @@ Use the `--production` flag to skip the installation of devDependencies from Bot
 ```bash
 npm install --production
 ```
-Once installed, the first thing you'll need to do is register your bot with a messaging platform, and get a few configuration options set. This will allow your bot to connect, send and receive messages.
-
-Currently Botkit can connect to the following platforms
-
-* [Slack](readme-slack.md#getting-started)
-* [Facebook](readme-facebook.md#getting-started)
-* [Twilio IPM](readme-twilioipm.md#getting-started)
-* [Microsoft Bot Framework](readme-botframework.md#getting-started).
+Once installed, the first thing you'll need to do is register your bot with [a messaging platform](/docs/platforms/readme.md), and get a few configuration options set. This will allow your bot to connect, send and receive messages.
 
 
 ## Botkit Studio
@@ -86,30 +79,30 @@ it is ready to be connected to a stream of incoming messages. Currently, Botkit 
 * [Slack Incoming Webhooks](http://api.slack.com/incoming-webhooks)
 * [Slack Slash Commands](http://api.slack.com/slash-commands)
 
-[Connect your bot to Slack](/docs/platforms/slack/readme-slack.md#connecting-your-bot-to-slack)
+[Connect your bot to Slack](docs/platforms/slack/readme-slack.md#connecting-your-bot-to-slack)
 
 * [Facebook Messenger Webhooks](https://developers.facebook.com/docs/messenger-platform/implementation)
 
-[Connect your bot to Facebook Messenger](/docs/platforms/facebook/readme-facebook.md#getting-started)
+[Connect your bot to Facebook Messenger](docs/platforms/facebook/readme-facebook.md#getting-started)
 
 
 * [Twilio IP Messaging](https://www.twilio.com/user/account/ip-messaging/getting-started)
 
-[Connect your bot to Slack](/docs/platforms/twilio/readme-twilioipm.md#getting-started)
+[Connect your bot to Slack](docs/platforms/twilio/readme-twilioipm.md#getting-started)
 
 
 * [Microsoft Bot Framework](http://botframework.com/)
 
-[Connect your bot to Slack](/docs/platforms/microsoft/readme-botframework.md#getting-started)
+[Connect your bot to Slack](docs/platforms/microsoft/readme-botframework.md#getting-started)
 
 
 * [Cisco Spark](https://developer.ciscospark.com/)
 
-[Connect your bot to Cisco Spark](/docs/platforms/cisco/readme-slack.md#connecting-your-bot-to-slack)
+[Connect your bot to Cisco Spark](docs/platforms/cisco/readme-slack.md#connecting-your-bot-to-slack)
 
 ## Basic Usage
 
-Here's an example of using Botkit with Slack's [real time API](https://api.slack.com/rtm). You can read the documentation for a given source to find similar usage information for your source of choice.
+Here's an example of using Botkit with Slack's [real time API](https://api.slack.com/rtm). You can [read the documentation](docs/platforms/readme.md) for a given source to find similar usage information for your source of choice.
 
 This sample bot listens for the word "hello" to be said to it -- either as a direct mention ("@bot hello") or an indirect mention ("hello @bot") or a direct message (a private message inside Slack between the user and the bot).
 
@@ -156,21 +149,26 @@ var controller = Botkit.slackbot({
 });
 ```
 
-## Developing with Botkit
-
+# Developing with Botkit
+### Sending and Receiving
+TODO write a description of this concept, link to developing doc.
 
 ### Middleware
 The functionality of Botkit can be extended using middleware functions. These functions can plugin to the core bot running processes at several useful places and make changes to both a bot’s configuration and the incoming or outgoing message. Anyone can [create their own middleware](docs/advance usage/readme-creating middleware.md), and if they wish, be added to our [directory of available middlewares](docs/advance usage/readme-creating middleware.md).
 
+### Integrate your application with Botkit Studio
+TODO write a description of this concept, link to developing doc.
 
-## Deploying your Bot
+
+
+# Deploying your Bot
 For the purposes of creating a bot, you may find that running your server locally is suitable for the devlopment process. When you want to deploy the bot to production, there are numerous hosting solutions available that provide easy deployment and testing of your work.
 
 Link to docs/hosting/readme.md
 
 
 
-## Botkit Community
+# Botkit Community
 Github has recognized Botkit as one of [the top communities for new contributors](https://github.com/showcases/great-for-new-contributors), and to support all kinds of users in our community, we have a few resources to help you make great bots.
 
 ### Contributing
