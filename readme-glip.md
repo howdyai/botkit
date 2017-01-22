@@ -19,10 +19,8 @@ Table of Contents
 
 1) Install Botkit [more info here](readme.md#installation)
 
-2) Register for a free developer account with RingCentral [Developer Portal](https://developers.ringcentral.com/login.html#/) and follow [this guide](https://developers.ringcentral.com/library/getting-started.html) to create your first bot application and register your bot with glip. 
+2) Register for a free developer account with RingCentral [Developer Portal](https://developers.ringcentral.com/login.html#/) and follow [this guide](https://developers.ringcentral.com/library/getting-started.html) to create your first bot application. 
 
-* You'll be asked to provide an endpoint for your bot during the registration process which you should set to "https://<HOST>/glip/receive". If your using a service like [ngrok](https://ngrok.com/) to run your bot locally you should set the "<HOST>" portion of your endpoint to 
-  be the hostname assigned by ngrok.
 * Write down the *BOTKIT_GLIP_SERVER*, *BOTKIT_GLIP_APPKEY*, *BOTKIT_GLIP_APPSECRET* , *BOTKIT_GLIP_USERNAME*, *BOTKIT_GLIP_PASSWORD*, *BOTKIT_GLIP_EXTENSION*  assigned to your new bot as you'll need them when you run your bot.
 
 3) By default your bot will be configured to support the Glip channel but you'll need to add it as a user in Glip in order to test it. You can do that from the developer portal by clicking the "Add to Glip" button in your bots profile page.
@@ -34,7 +32,11 @@ Table of Contents
 server=<MY_APP_SERVER> appKey=<MY_APP_KEY> appSecret=<MY_APP_SECRET> username=<MY_USERNAME> password=<MY_PASSWORD> extension=<MY_EXTENSION>  node glip_bot.js 
 ```    
 
-5) Your bot should be online! Within GLIP, find the bot in your contacts list, and send it a message.
+5) Go to glip.devtest.ringcentral.com and signin with ringcentral account. 
+   
+6) Enter the *username*, *password* and *extension* to login to glip.
+     
+7) Your bot should be online! Within GLIP, find the bot in your contacts list, and send it a message.
 
 Try:
   * uptime
