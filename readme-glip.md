@@ -36,7 +36,9 @@ server=<MY_APP_SERVER> appKey=<MY_APP_KEY> appSecret=<MY_APP_SECRET> username=<M
    
 6) Enter the *username*, *password* and *extension* to login to glip.
      
-7) Your bot should be online! Within GLIP, find the bot in your contacts list, and send it a message.
+7) Invite the bot using the email address and add bot as a company user.
+
+8) Your bot should be online! Within GLIP. Now you could use /invite to add the bot into any group or team to send and receive message.
 
 Try:
   * uptime
