@@ -23,7 +23,7 @@ Table of Contents
 
 * Write down the *BOTKIT_GLIP_SERVER*, *BOTKIT_GLIP_APPKEY*, *BOTKIT_GLIP_APPSECRET* , *BOTKIT_GLIP_USERNAME*, *BOTKIT_GLIP_PASSWORD*, *BOTKIT_GLIP_EXTENSION*  assigned to your new bot as you'll need them when you run your bot.
 
-3) By default your bot will be configured to support the Glip channel but you'll need to add it as a user in Glip in order to test it. You can do that from the developer portal by clicking the "Add to Glip" button in your bots profile page.
+3) By default your bot will be configured to support the Glip channel but you'll need to add it as a user in Glip in order to test it. 
 
 4) Run the example bot using the parameters mentioned above. 
 
