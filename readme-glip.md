@@ -31,7 +31,7 @@ Table of Contents
 
 
 ```
-server=<MY_APP_SERVER> appKey=<MY_APP_KEY> appSecret=<MY_APP_SECRET> username=<MY_USERNAME> password=<MY_PASSWORD> extension=<MY_EXTENSION>  node botframework_bot.js [--lt [--ltsubdomain CUSTOM_SUBDOMAIN]]
+server=<MY_APP_SERVER> appKey=<MY_APP_KEY> appSecret=<MY_APP_SECRET> username=<MY_USERNAME> password=<MY_PASSWORD> extension=<MY_EXTENSION>  node glip_bot.js 
 ```    
 
 5) Your bot should be online! Within GLIP, find the bot in your contacts list, and send it a message.
