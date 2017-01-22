@@ -29,12 +29,6 @@ Table of Contents
 
 4) Run the example bot using the parameters mentioned above. 
 
-server: process.env.BOTKIT_GLIP_SERVER,
-    appKey: process.env.BOTKIT_GLIP_APPKEY,
-    appSecret: process.env.BOTKIT_GLIP_APPSECRET,
-    username: process.env.BOTKIT_GLIP_USERNAME,
-    password: process.env.BOTKIT_GLIP_PASSWORD,
-    extension: process.env.BOTKIT_GLIP_EXTENSION
 
 ```
 server=<MY_APP_SERVER> appKey=<MY_APP_KEY> appSecret=<MY_APP_SECRET> username=<MY_USERNAME> password=<MY_PASSWORD> extension=<MY_EXTENSION>  node botframework_bot.js [--lt [--ltsubdomain CUSTOM_SUBDOMAIN]]
@@ -61,13 +55,13 @@ In addition to the event specific fields, all incoming events will contain both 
 
 Other notable fields for incoming messages are the [text](https://docs.botframework.com/en-us/node/builder/chat-reference/interfaces/_botbuilder_d_.imessage.html#text) field which contains the text of the incoming message, the [attachments](https://docs.botframework.com/en-us/node/builder/chat-reference/interfaces/_botbuilder_d_.imessage.html#attachments) field which would contain an array of any images sent to the bot by the user, the [source](https://docs.botframework.com/en-us/node/builder/chat-reference/interfaces/_botbuilder_d_.imessage.html#source) field which identifies the type of chat platform (facebook, skype, sms, etc.) that the bot is communicating over, and the [sourceEvent](https://docs.botframework.com/en-us/node/builder/chat-reference/interfaces/_botbuilder_d_.imessage.html#sourceevent) field containing the original event/message received from the chat platform.
 
-## Working with the Bot Framework
+## Working with Glip
 
 Botkit receives messages from the glip adapters using pubnub subscriptions, and posts messages to glip using APIs. This means that your bot application must present a web server that is publicly addressable. Everything you need to get started is already included in Botkit.
 
-To connect your bot to the Bot Framework follow the step by step guide outlined in [Getting Started](#getting-started).
+To connect your bot to Glip follow the step by step guide outlined in [Getting Started](#getting-started).
 
-Here is the complete code for a basic Bot Framework bot:
+Here is the complete code for a basic Glip bot:
 
 ```javascript
 var Botkit = require('./lib/Botkit.js');
