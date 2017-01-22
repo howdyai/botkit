@@ -51,9 +51,10 @@ Normal messages will be sent to your bot using the `message_received` event.  In
 |--- |---
 | message_received | A message was received by the bot. 
 
-In addition to the event specific fields, all incoming events will contain both `user` and `group` fields which can be used for things like storage keys. Every event also has an [address](https://docs.botframework.com/en-us/node/builder/chat-reference/interfaces/_botbuilder_d_.ievent.html#address) field. The `user` field is just a copy of the events `address.user.id` field and the `channel` field is a copy of the events `address.conversationId.id` field.
+All incoming events will contain the fields `user` and `channel`, both of which represent the glip user's ID, and a `groupid` field.
 
-Other notable fields for incoming messages are the [text](https://docs.botframework.com/en-us/node/builder/chat-reference/interfaces/_botbuilder_d_.imessage.html#text) field which contains the text of the incoming message, the [attachments](https://docs.botframework.com/en-us/node/builder/chat-reference/interfaces/_botbuilder_d_.imessage.html#attachments) field which would contain an array of any images sent to the bot by the user, the [source](https://docs.botframework.com/en-us/node/builder/chat-reference/interfaces/_botbuilder_d_.imessage.html#source) field which identifies the type of chat platform (facebook, skype, sms, etc.) that the bot is communicating over, and the [sourceEvent](https://docs.botframework.com/en-us/node/builder/chat-reference/interfaces/_botbuilder_d_.imessage.html#sourceevent) field containing the original event/message received from the chat platform.
+`message_received` events will also contain either a `text` field or an `attachment` field.
+
 
 ## Working with Glip
 
