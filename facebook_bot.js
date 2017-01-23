@@ -25,7 +25,7 @@ This bot demonstrates many of the core features of Botkit:
 
   Run your bot from the command line:
 
-    page_token=<MY PAGE TOKEN> verify_token=<MY_VERIFY_TOKEN> node facebook_bot.js [--lt [--ltsubdomain LOCALTUNNEL_SUBDOMAIN]]
+    app_secret=<MY APP SECRET> page_token=<MY PAGE TOKEN> verify_token=<MY_VERIFY_TOKEN> node facebook_bot.js [--lt [--ltsubdomain LOCALTUNNEL_SUBDOMAIN]]
 
   Use the --lt option to make your bot available on the web through localtunnel.me.
 
@@ -76,6 +76,11 @@ if (!process.env.verify_token) {
     process.exit(1);
 }
 
+if (!process.env.app_secret) {
+    console.log('Error: Specify app_secret in environment');
+    process.exit(1);
+}
+
 var Botkit = require('./lib/Botkit.js');
 var os = require('os');
 var commandLineArgs = require('command-line-args');
@@ -99,6 +104,8 @@ var controller = Botkit.facebookbot({
     log: true,
     access_token: process.env.page_token,
     verify_token: process.env.verify_token,
+    app_secret: process.env.app_secret,
+    validate_requests: true, // Refuse any requests that don't come from FB on your receive webhook, must provide FB_APP_SECRET in environment variables
 });
 
 var bot = controller.spawn({
@@ -164,7 +171,7 @@ controller.hears(['quick'], 'message_received', function(bot, message) {
 
 });
 
-controller.hears(['hello', 'hi'], 'message_received,facebook_postback', function(bot, message) {
+controller.hears(['^hello', '^hi'], 'message_received,facebook_postback', function(bot, message) {
     controller.storage.users.get(message.user, function(err, user) {
         if (user && user.name) {
             bot.reply(message, 'Hello ' + user.name + '!!');

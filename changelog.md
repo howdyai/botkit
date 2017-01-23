@@ -1,5 +1,59 @@
 # Change Log
 
+## 0.4.9
+
+`controller.version()` will now report the currently installed version of Botkit.
+
+Change to how quick replies are rendered via Botkit Studio's API
+
+## 0.4.7
+
+Add support for Facebook Messenger "location" quick replies [PR #568](https://github.com/howdyai/botkit/pull/568)
+
+Add support for Slack's new users.setPresence API [PR #562](https://github.com/howdyai/botkit/pull/562)
+
+Add support for Slack's new reminders API [PR #580](https://github.com/howdyai/botkit/pull/580)
+
+
+
+## 0.4.6
+
+Change to controller.studio.runTrigger: Will now resolve promise regardless of whether a trigger was matched
+
+## 0.4.5
+
+Bug fix: Fix detection of Slackbot interactive callbacks
+
+## 0.4.4
+
+Changes:
+
+Add referral field to `facebook_postback` events, if set [PR #552](https://github.com/howdyai/botkit/pull/553)
+
+Refactor handling of incoming webhooks from Slack and Facebook in order to make it easier for developers to create custom endpoints and/or integrate Botkit into existing Express applications.
+
+Add `controller.handleWebhookPayload()` to process a raw webhook payload and ingest it into Botkit
+
+Make stale connection detection configurable [PR #505](https://github.com/howdyai/botkit/pull/505)
+
+DDOS Vulnerability Fix - Secure Facebook Webhook [PR #555](https://github.com/howdyai/botkit/pull/555)
+
+
+Bug fixes:
+
+Fix an issue where a custom redirect_uri would be rejected by Slack's oauth verification
+
+Fix bot_channel_join and bot_group_join with Slack Events API [PR #514](https://github.com/howdyai/botkit/pull/514)
+
+Fix path to static content directory [PR #546](https://github.com/howdyai/botkit/pull/546)
+
+`retry` and `send_via_rtm` options are now properly associated with the controller object.
+
+Fix some issues pertaining to typing indicators and the slack RTM [PR #533](https://github.com/howdyai/botkit/pull/533)
+
+
+
+
 ## 0.4.3
 
 Adds [convo.transitionTo()](readme.md#convotransitionto), a new feature for creating smoother transitions between conversation threads
