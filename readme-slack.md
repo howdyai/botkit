@@ -219,6 +219,43 @@ bot.startRTM(function(err, bot, payload) {
 setTimeout(bot.destroy.bind(bot), 10000)
 ```
 
+
+### Slack Threads
+
+Messages in Slack may now exist as part of a thread, separate from the messages included in the main channel.
+Threads can be used to create new and interesting interactions for bots. [This blog post discusses some of the possibilities.](https://blog.howdy.ai/threads-serious-software-in-slack-ba6b5ceec94c#.jzk3e7i2d)
+
+Botkit's default behavior is for replies to be sent in-context. That is, if a bot replies to a message in a main channel, the reply will be added to the main channel. If a bot replies to a message in a thread, the reply will be added to the thread. This behavior can be changed by using one of the following specialized functions:
+
+#### bot.replyInThread()
+| Argument | Description
+|--- |---
+| message | Incoming message object
+| reply | _String_ or _Object_ Outgoing response
+| callback | _Optional_ Callback in the form function(err,response) { ... }
+
+This specialized version of [bot.reply()](readme.md#botreply) ensures that the reply being sent will be in a thread.
+When used to reply to a message that is already in a thread, the reply will be properly added to the thread.
+Developers who wish to ensure their bot's replies appear in threads should use this function instead of bot.reply().
+
+#### bot.startConversationInThread()
+| Argument | Description
+|---  |---
+| message   | incoming message to which the conversation is in response
+| callback  | a callback function in the form of  function(err,conversation) { ... }
+
+Like [bot.startConversation()](readme.md#botstartconversation), this creates conversation in response to an incoming message.
+However, the resulting conversation and all followup messages will occur in a thread attached to the original incoming message.
+
+#### bot.createConversationInThread()
+| Argument | Description
+|---  |---
+| message   | incoming message to which the conversation is in response
+| callback  | a callback function in the form of  function(err,conversation) { ... }
+
+Creates a conversation that lives in a thread, but returns it in an inactive state.  See [bot.createConversation()](readme.md#botcreateconversation) for details.
+
+
 ### Slack-Specific Events
 
 Once connected to Slack, bots receive a constant stream of events - everything from the normal messages you would expect to typing notifications and presence change events.
