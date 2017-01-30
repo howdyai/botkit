@@ -4,11 +4,11 @@
 
 Add Support for Slack's new thread system, including:
 
-[bot.replyInThread()](readme.md#botreplyinthread) to create a threaded reply
+[bot.replyInThread()](readme-slack.md#botreplyinthread) to create a threaded reply
 
-[bot.startConversationInThread()](readme.md#botstartconversationinthread) to create and immediately start a conversation in a thread
+[bot.startConversationInThread()](readme-slack.md#botstartconversationinthread) to create and immediately start a conversation in a thread
 
-[bot.createConversationInThread()](readme.md#botcreateconversationinthread) to create a conversation in a thread
+[bot.createConversationInThread()](readme-slack.md#botcreateconversationinthread) to create a conversation in a thread
 
 Add new `heard` middleware endpoint, which fires _after_ a pattern has been matched, but before the handler function is called. This allows developers to enrich messages with NLP tools or other plugins, but do so only when the original message matches specific criteria.
 
