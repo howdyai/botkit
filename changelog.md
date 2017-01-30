@@ -1,5 +1,20 @@
 # Change Log
 
+## 0.4.10
+
+Add Support for Slack's new thread system, including:
+
+[bot.replyInThread()](readme.md#botreplyinthread) to create a threaded reply
+
+[bot.startConversationInThread()](readme.md#botstartconversationinthread) to create and immediately start a conversation in a thread
+
+[bot.createConversationInThread()](readme.md#botcreateconversationinthread) to create a conversation in a thread
+
+Add new `heard` middleware endpoint, which fires _after_ a pattern has been matched, but before the handler function is called. This allows developers to enrich messages with NLP tools or other plugins, but do so only when the original message matches specific criteria.
+
+Add new `capture` middleware endpoint, which fires _after_ a user responds to a `convo.ask` question but _before_ the related handler function is called. This allows developers to change the value that is captured, or capture additional values such as entities returned by an NLP plugin.
+
+
 ## 0.4.9
 
 `controller.version()` will now report the currently installed version of Botkit.
