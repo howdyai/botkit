@@ -32,7 +32,7 @@ manage [conversation threads](readme.md#conversation-threads), define variables 
 
 ## Getting Started
 
-Before you get started, it is important to note that Botkit Studio is a extra set of features
+Before you get started, it is important to note that Botkit Studio is an extra set of features
 built on top of [all of the other existing Botkit features and plugins](readme.md), and all of the documentation and tutorials for those features applies to bots built with Studio as well.
 
 If you already have a Botkit bot, you may want to start [here](#adding-studio-features-to-an-existing-bot).
