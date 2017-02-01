@@ -1147,7 +1147,7 @@ var controller = Botkit.slackbot({
 });
 ```
 
-This system supports freeform storage on a team-by-team, user-by-user, and channel-by-channel basis. Basically ```controller.storage``` is a key value store. All access to this system is through the following nine functions. Example usage:
+This system supports freeform storage on a team-by-team, user-by-user, and channel-by-channel basis. Basically ```controller.storage``` is a key value store. All access to this system is through the following twelve functions. Example usage:
 ```javascript
 controller.storage.users.save({id: message.user, foo:'bar'}, function(err) { ... });
 controller.storage.users.get(id, function(err, user_data) {...});
