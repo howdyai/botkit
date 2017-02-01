@@ -2,6 +2,8 @@
 
 ## 0.4.10
 
+Add support for [Slack Enterprise Grid](https://slack.com/enterprise), for more information [read](https://blog.howdy.ai/beam-us-up-botkit-in-the-enterprise-e6133e0cbdf3#.o3md9lw29)
+
 Add Support for Slack's new thread system, including:
 
 [bot.replyInThread()](readme-slack.md#botreplyinthread) to create a threaded reply
