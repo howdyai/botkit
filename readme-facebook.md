@@ -286,7 +286,7 @@ When sending a user a message you can make the message have either no notificati
 
 `notification_type` is optional. By default, messages will be REGULAR push notification type
 
-```
+```javascript
 reply_message = {
     text: "Message text here",
     notification_type: NOTIFICATION_TYPE

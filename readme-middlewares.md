@@ -6,11 +6,11 @@ the incoming or outgoing message. Anyone can add their own middleware to the Bot
 Currently the following types of middleware are available for Botkit:
 
 ### [Natural language processing](#natural-language-processing)
- 
+
 
 * [Microsoft Luis](#microsoft-luis)
 * [Api.ai](#apiai)
-* [IBM Watson](#ibm-watson) 
+* [IBM Watson](#ibm-watson)
 
 
 ### [Storage Modules](#storage-modules)
@@ -97,7 +97,7 @@ npm install --save botkit-middleware-luis
 ```
 
 Enable the middleware:
-```
+```javascript
 var luis = require('./lib/luis-middleware.js');
 
 var luisOptions = {serviceUri: process.env.serviceUri};
@@ -157,7 +157,7 @@ npm install --save botkit-middleware-apiai
 ```
 
 Enable the middleware:
-```
+```javascript
 var apiai = require('botkit-middleware-apiai')({
     token: <my_apiai_token>
 });
@@ -185,7 +185,7 @@ If you do not have a Conversation service instance,  follow [these steps](https:
 For more information on adding Watson to your bot check [this projects documentation](https://github.com/watson-developer-cloud/botkit-middleware/blob/master/README.md)
 
 # Storage Modules
-## Mongo 
+## Mongo
 ### [Project Page](https://github.com/howdyai/botkit-storage-mongo/)
 ### What it does
 A Mongo storage module for Botkit.
@@ -196,7 +196,7 @@ Then pass the returned storage when creating your Botkit controller. Botkit will
 
 Make sure everything you store has an `id` property, that's what you'll use to look it up later.
 
-```
+```javascript
 var Botkit = require('botkit'),
     mongoStorage = require('botkit-storage-mongo')({mongoUri: '...'}),
     controller = Botkit.slackbot({
@@ -204,7 +204,7 @@ var Botkit = require('botkit'),
     });
 ```
 
-```
+```javascript
 // then you can use the Botkit storage api, make sure you have an id property
 var beans = {id: 'cool', beans: ['pinto', 'garbanzo']};
 controller.storage.teams.save(beans);
@@ -212,7 +212,7 @@ beans = controller.storage.teams.get('cool');
 
 ```
 
-## Redis 
+## Redis
 ### [Project Page](https://github.com/howdyai/botkit-storage-redis)
 ### What it does
 A redis storage module for Botkit
@@ -223,7 +223,7 @@ Then pass the returned storage when creating your Botkit controller. Botkit will
 
 Make sure everything you store has an `id` property, that's what you'll use to look it up later.
 
-```
+```javascript
 var Botkit = require('botkit'),
     redisConfig = {...}
     redisStorage = require('botkit-storage-redis')(redisConfig),
@@ -248,7 +248,7 @@ Additionally you can pass a `namespace` property which is used to namespace keys
 
 You can also pass a `methods` property which is an array of additional custom methods you want to add. The default methods are `teams`, `users`, and `channels`.
 
-## Datastore 
+## Datastore
 ### [Project Page](https://github.com/fabito/botkit-storage-datastore)
 ### What it does
 A Google Cloud Datastore storage module for Botkit
@@ -260,7 +260,7 @@ Then pass the returned storage when creating your Botkit controller. Botkit will
 
 Make sure everything you store has an `id` property, that's what you'll use to look it up later.
 
-```
+```javascript
 var Botkit = require('botkit'),
     datastoreStorage = require('botkit-storage-datastore')({projectId: '...'}),
     controller = Botkit.slackbot({
@@ -275,7 +275,7 @@ controller.storage.teams.save(beans);
 beans = controller.storage.teams.get('cool');
 ```
 
-## Firebase 
+## Firebase
 ### [Project Page](https://github.com/howdyai/botkit-storage-firebase)
 ### What it does
 A Firebase storage module for Botkit.
@@ -286,7 +286,7 @@ Then pass the returned storage when creating your Botkit controller. Botkit will
 
 Make sure everything you store has an `id` property, that's what you'll use to look it up later.
 
-```
+```javascript
 var Botkit = require('botkit'),
     firebaseStorage = require('botkit-storage-firebase')({firebase_uri: '...'}),
     controller = Botkit.slackbot({
@@ -294,7 +294,7 @@ var Botkit = require('botkit'),
     });
 ```
 
-```
+```javascript
 // then you can use the Botkit storage api, make sure you have an id property
 var beans = {id: 'cool', beans: ['pinto', 'garbanzo']};
 controller.storage.teams.save(beans);
@@ -302,7 +302,7 @@ beans = controller.storage.teams.get('cool');
 
 ```
 
-## Postgres 
+## Postgres
 ### [Project Page](https://github.com/lixhq/botkit-storage-postgres)
 ### What it does
 Postgres storage module for Botkit
@@ -316,7 +316,7 @@ npm install botkit-storage-postgres --save
 
 and require it and use it:
 
-```
+```javascript
 var botkitStoragePostgres = require('botkit-storage-postgres');
 var Botkit = require('botkit');
 
@@ -354,7 +354,7 @@ npm install
 ```
 
 # CRM Modules
-## bCRM 
+## bCRM
 ### [Project Page](https://github.com/howdyai/botkit-middleware-bcrm)
 ### What it does
 This Botkit plugin enables support for bCRM, a customer CRM tool that enables bot developers to send broadcast messages to users of their bot.
@@ -374,11 +374,11 @@ npm install --save botkit-middleware-bcrm
 
 2) Add the following lines to your Botkit application:
 
-```
+```javascript
 require('botkit-middleware-bcrm')({
     bcrm_token: 'my_bcrm_token',
     bcrm_bot: 'my_bcrm_bot',
-    controller: controller    
+    controller: controller
 });
 ```
 
@@ -397,7 +397,7 @@ the bCRM software to access information and send messages on behalf of your bot.
 Before using this plugin, [read bCRM's privacy policy](https://bcrm.com/privacy),
 and make sure your own policies reflect the fact that you share information with them.
 
-## Dashbot 
+## Dashbot
 ### [Project Page Facebook](https://www.dashbot.io/sdk/facebook/botkit)
 ### [Project Page Slack](https://www.dashbot.io/sdk/slack/botkit)
 ### What it does
@@ -406,7 +406,7 @@ Increase user engagement, acquisition, and monetization through actionable bots 
 Full install instructions [can be found here](https://www.dashbot.io/sdk)
 
 
-## Wordhop 
+## Wordhop
 ### [Project Page](https://github.com/wordhop-io/wordhop-npm)
 ### What it does
 Wordhop monitors your Chatbot and alerts you on Slack in real-time when it detects conversational problems. You can watch your bot conversations with users in real-time without leaving Slack and take-over your bot to engage your customers directly.  Simply add Wordhop to Slack and then drop in code into your Chatbot (You can use our examples as a starting point for a bot too). Wordhop integrates in minutes, and begins working immediately.

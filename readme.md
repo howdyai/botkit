@@ -177,7 +177,7 @@ into a hash before being transmitted.
 To opt out of the stats collection, pass in the `stats_optout` parameter when initializing Botkit,
 as seen in the example below:
 
-```
+```javascript
 var controller = Botkit.slackbot({
     stats_optout: true
 });
@@ -373,7 +373,7 @@ controller.hears('another_keyword','direct_message,direct_mention',function(bot,
 
 
 Facebook-specific fields and attachments:
-```
+```javascript
 // listen for the phrase `shirt` and reply back with structured messages
 // containing images, links and action buttons
 controller.hears(['shirt'],'message_received',function(bot, message) {
@@ -650,7 +650,7 @@ All conversations start in a thread called `default`, but you may switch to anot
 
 Threads are created by adding messages to them using `addMessage()` and `addQuestion()`
 
-```
+```javascript
 // create the validation_error thread
 convo.addMessage('This is a validation error.', 'validation_error');
 convo.addMessage('I am sorry, your data is wrong!', 'validation_error');
@@ -684,7 +684,7 @@ convo.transitionTo('the_end','Well I think I am all done.');
 You can direct a conversation to switch from one thread to another automatically
 by including the `action` field on a message object. Botkit will switch threads immediately after sending the message.
 
-```
+```javascript
 // first, define a thread called `next_step` that we'll route to...
 convo.addMessage({
     text: 'This is the next step...',
@@ -703,7 +703,7 @@ default or next step actions, while conditionals can be used to route between th
 
 From inside a callback function, use `convo.gotoThread()` to instantly switch to a different pre-defined part of the conversation. Botkit can be set to automatically navigate between threads based on user input, such as in the example below.
 
-```
+```javascript
 bot.createConversation(message, function(err, convo) {
 
     // create a path for when a user says YES
@@ -770,7 +770,7 @@ Mustache offers token replacement, as well as access to basic iterators and cond
 
 Variables can be added to a conversation at any point after the conversation object has been created using the function `convo.setVar()`. See the example below.
 
-```
+```javascript
 convo.createConversation(message, function(err, convo) {
 
     // .. define threads which will use variables...
@@ -983,7 +983,7 @@ Receive middleware can be used to do things like preprocess the message
 content using external natural language processing services like Wit.ai.
 Additional information can be added to the message object for use down the chain.
 
-```
+```javascript
 controller.middleware.receive.use(function(bot, message, next) {
 
     // do something...
@@ -999,7 +999,7 @@ controller.middleware.receive.use(function(bot, message, next) {
 Send middleware can be used to do things like preprocess the message
 content before it gets sent out to the messaging client.
 
-```
+```javascript
 controller.middleware.send.use(function(bot, message, next) {
 
     // do something useful...
@@ -1026,7 +1026,7 @@ message. This function will be called _after_ any receive middlewares, so may us
 information that may have been added. A return value of `true` indicates the pattern has been
 matched and the bot should respond.
 
-```
+```javascript
 // this example does a simple string match instead of using regular expressions
 function custom_hear_middleware(patterns, message) {
 
@@ -1051,7 +1051,7 @@ a middleware function by calling `controller.changeEars()`. This will replace th
 as well as inside `convo.ask().` This would, for example, enable your bot to
 hear only intents instead of strings.
 
-```
+```javascript
 controller.changeEars(function(patterns, message) {
 
     // ... do something
@@ -1071,7 +1071,7 @@ Whereas the `receive middleware` will fire for every single incoming message of 
 Heard middleware functions fire anytime Botkit attempts to match a pre-defined pattern: when using the `hears()` feature, and also when using `convo.ask()` to capture user responses.
 
 
-```
+```javascript
 controller.middleware.heard.use(function(bot, message, next) {
 
     // load internal user data and add it to the message
@@ -1104,7 +1104,7 @@ The `capture` middleware endpoint allows developers to harness these values and 
 
 Please note that the signature of the `capture` middleware is slightly different than the other endpoints, as it includes a parameter for the conversation object:
 
-```
+```javascript
 controller.middleware.capture.use(function(bot, message, convo, next) {
 
     // user's raw response is in message.text
@@ -1212,7 +1212,7 @@ var controller = Botkit.slackbot({
 });
 ```
 
-Note: with Winston, we must use the syslog.levels over the default or else some botkit log messages (like 'notice') will not be logged properly.  
+Note: with Winston, we must use the syslog.levels over the default or else some botkit log messages (like 'notice') will not be logged properly.
 
 ##Use Botkit with an Express web server
 Instead of controller.setupWebserver(), it is possible to use a different web server to manage authentication flows, as well as serving web pages.
