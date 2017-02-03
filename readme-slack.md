@@ -512,7 +512,7 @@ This url should be used when configuring Slack.
 
 When a slash command is received from Slack, Botkit fires the `slash_command` event.
 
-When an outgoing webhook is recieved from Slack, Botkit fires the `outgoing_webhook` event.
+When an outgoing webhook is received from Slack, Botkit fires the `outgoing_webhook` event.
 
 
 #### bot.replyAcknowledge
@@ -919,7 +919,7 @@ Developers may want to create an RTM connection in order to make the bot appear 
 
 1. Create a [Slack App](https://api.slack.com/apps/new)
 2. Setup oauth url with Slack so teams can add your app with the slack button. Botkit creates an oAuth endpoint at `http://MY_HOST/oauth` if using localtunnel your url may look like this `https://example-134l123.localtunnel.me/oauth`
-3. Setup request URL under Events API to receive events at. Botkit will create webhooks for slack to send messages to at `http://MY_HOST/slack/recieve`. if using localtunnel your url may look like this `https://example-134l123.localtunnel.me/slack/receive`
+3. Setup request URL under Events API to receive events at. Botkit will create webhooks for slack to send messages to at `http://MY_HOST/slack/receive`. if using localtunnel your url may look like this `https://example-134l123.localtunnel.me/slack/receive`
 4. Select the specific events you would like to subscribe to with your bot. Slack only sends your webhook the events you subscribe to. Read more about Event Types [here](https://api.slack.com/events)
 5. When running your bot, you must configure the slack app, setup webhook endpoints, and oauth endpoints.
 
