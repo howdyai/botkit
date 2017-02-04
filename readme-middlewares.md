@@ -11,6 +11,7 @@ Currently the following types of middleware are available for Botkit:
 * [Microsoft Luis](#microsoft-luis)
 * [Api.ai](#apiai)
 * [IBM Watson](#ibm-watson) 
+* [Recast.ai](#recast-ai) 
 
 
 ### [Storage Modules](#storage-modules)
@@ -183,6 +184,39 @@ The middleware needs you to provide the `username`, `password`, and `workspace_i
 If you do not have a Conversation service instance,  follow [these steps](https://github.com/watson-developer-cloud/conversation-simple/blob/master/README.md#before-you-begin) to get started.
 
 For more information on adding Watson to your bot check [this projects documentation](https://github.com/watson-developer-cloud/botkit-middleware/blob/master/README.md)
+
+
+## Recast.ai
+
+### [Project Page](https://github.com/ouadie-lahdioui/botkit-middleware-recastai)
+
+You can use the Recast.AI API to analyse your text or your audio file, and extract useful informations from it, to personalize your IoT, classify your data or create bots.
+
+The middleware needs you to provide the `request_token` of your Recast bot project and an optional `confidence`.
+
+## Set up
+
+- Add botkit-middleware-recastai as a dependency to your Botkit bot :
+
+```npm install --save botkit-middleware-recastai```
+
+- Enable the middleware :
+ 
+```
+var RecastaiMiddleware = require('botkit-middleware-recastai')({
+        request_token: '322e96b09ef75ad32bfc8b6f22b857ef',
+        confidence: 0.4
+});
+
+controller.middleware.receive.use(RecastaiMiddleware.receive);
+
+controller.hears(['news'],'message_received', RecastaiMiddleware.hears,function(bot, message) {
+
+ // ...
+});
+```
+
+For more information on adding Recast to your bot check [this projects documentation](https://github.com/ouadie-lahdioui/botkit-middleware-recastai)
 
 # Storage Modules
 ## Mongo 
