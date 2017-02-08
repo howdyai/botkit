@@ -46,7 +46,7 @@ Cisco Spark bots require a user-defined `secret` which is used to validate incom
 Each time the bot application starts, Botkit will register a webhook subscription.
 Botkit will automatically manage your bot's webhook subscriptions, but if you plan on having multiple instances of your bot application with different URLs (such as a development instance and a production instance), use the `webhook_name` field with a different value for each instance.
 
-Bots in Cisco Spark are identified by their email address, and can be added to any room in any team or organization. If your bot should only be available to users within a specific organization, use the `limit_to_org` or `limit_to_domain` options.
+Bots in Cisco Spark are identified by their email address, and can be added to any space in any team or organization. If your bot should only be available to users within a specific organization, use the `limit_to_org` or `limit_to_domain` options.
 This will configure your bot to respond only to messages from members of the specific organization, or whose email addresses match one of the specified domains.
 
 The full code for a simple Cisco Spark bot is below:
@@ -122,12 +122,12 @@ var controller = Botkit.sparkbot({
 | Event | Description
 |--- |---
 | direct_message | Bot has received a message as a DM
-| direct_mention | Bot has been mentioned in a public room
+| direct_mention | Bot has been mentioned in a public space
 | self_message | Bot has received a message it sent
-| user_room_join | a user has joined a room in which the bot is present
-| bot_room_join | the bot has joined a new room
-| user_room_leave | a user has left a room in which the bot is present
-| bot_room_leave | the bot has left a room
+| user_space_join | a user has joined a space in which the bot is present
+| bot_space_join | the bot has joined a new space
+| user_space_leave | a user has left a space in which the bot is present
+| bot_space_leave | the bot has left a space
 
 
 ## Message Formatting
@@ -138,4 +138,73 @@ To specify a markdown version, add it to your message object:
 
 ```
 bot.reply(message,{text: 'Hello', markdown: '*Hello!*'});
+```
+
+## Attaching Files
+
+Files can be attached to outgoing messages in one of two ways.
+
+*Specify URL*
+
+If the file you wish to attach is already available online, simply specify the URL in the `files` field of the outgoing message:
+
+```
+bot.reply(message,{text:'Here is your file!', files:['http://myserver.com/file.pdf']});
+```
+
+*Send Local File*
+
+If the file you wish to attach is present only on the local server, attach it to the message as a readable stream:
+
+```
+var fs = require('fs');
+bot.reply(message,{text: 'I made this file for you.', files:[fs.createReadStream('./newfile.txt')]});
+```
+
+## Receiving files
+
+Your bot may receive messages with files attached. Attached files will appear in an array called `message.original_message.files`.
+
+Botkit provides 2 methods for retrieving information about the file.
+
+### bot.retrieveFileInfo(url, cb)
+| Parameter | Description
+|--- |---
+| url | url of file from message.original_message.files
+| cb | callback function in the form function(err, file_info)
+
+The callback function will receive an object with fields like `filename`, `content-type`, and `content-length`.
+
+```
+controller.on('direct_message', function(bot, message) {
+    bot.reply(message, 'I got your private message. You said, "' + message.text + '"');
+    if (message.original_message.files) {
+        bot.retrieveFileInfo(message.original_message.files[0], function(err, file_info) {
+            bot.reply(message,'I also got an attached file called ' + file_info.filename);
+        });
+    }
+});
+```
+
+### bot.retrieveFile(url, cb)
+| Parameter | Description
+|--- |---
+| url | url of file from message.original_message.files
+| cb | callback function in the form function(err, file_content)
+
+The callback function will receive the full content of the file.
+
+```
+controller.on('direct_message', function(bot, message) {
+    bot.reply(message, 'I got your private message. You said, "' + message.text + '"');
+    if (message.original_message.files) {
+        bot.retrieveFileInfo(message.original_message.files[0], function(err, file_info) {
+            if (file_info['content-type'] == 'text/plain') {
+                bot.retrieveFile(message.original_message.files[0], function(err, file) {
+                    bot.reply(message,'I got a text file with the following content: ' + file);
+                });
+            }
+        });
+    }
+});
 ```
