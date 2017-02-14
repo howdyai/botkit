@@ -500,7 +500,7 @@ Full install instructions [can be found here](https://www.dashbot.io/sdk)
 ### What it does
 Wordhop monitors your Chatbot and alerts you on Slack in real-time when it detects conversational problems. You can watch your bot conversations with users in real-time without leaving Slack and take-over your bot to engage your customers directly.  Simply add Wordhop to Slack and then drop in code into your Chatbot (You can use our examples as a starting point for a bot too). Wordhop integrates in minutes, and begins working immediately.
 
-This module has been tested with Messenger, Slack, Skype, and Microsoft Webchat. Please see our [examples](./examples/).
+This module has been tested with Messenger, Slack, Skype, and Microsoft Webchat. Please see our [examples](https://github.com/wordhop-io/wordhop-npm/tree/master/examples).
 
 ### Setup
 [Installation Guide](https://github.com/wordhop-io/wordhop-npm/blob/master/README.md#installation)
