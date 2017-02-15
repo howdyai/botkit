@@ -93,11 +93,11 @@ When creating the Botkit controller, there are several platform-specific options
 | Argument | Description
 |--- |---
 | public_address | _required_ the root url of your application (https://mybot.com)
-| ciscospark_access_token | _required_ token provided by Cisco Spark for your bot
+| `ciscospark_access_token` | _required_ token provided by Cisco Spark for your bot
 | secret | _required_ secret for validating webhooks originate from Cisco Spark
 | webhook_name | _optional_ name for webhook configuration on Cisco Spark side. Providing a name here allows for multiple bot instances to receive the same messages. Defaults to 'Botkit Firehose'
-| limit_to_org | _optional_ organization id in which the bot should exist. If user from outside org sends message, it is ignored
-| limit_to_domain | _optional_ email domain (@howdy.ai) or array of domains [@howdy.ai, @botkit.ai] from which messages can be received
+| `limit_to_org` | _optional_ organization id in which the bot should exist. If user from outside org sends message, it is ignored
+| `limit_to_domain` | _optional_ email domain (@howdy.ai) or array of domains [@howdy.ai, @botkit.ai] from which messages can be received
 
 ```
 var controller = Botkit.sparkbot({
