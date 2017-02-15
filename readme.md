@@ -4,13 +4,15 @@
 [![David](https://img.shields.io/david/howdyai/botkit.svg)](https://david-dm.org/howdyai/botkit)
 [![npm](https://img.shields.io/npm/l/botkit.svg)](https://spdx.org/licenses/MIT)
 
-Botkit is designed to ease the process of designing and running useful, creative bots that live inside [Slack](http://slack.com), [Facebook Messenger](http://facebook.com), [Twilio IP Messaging](https://www.twilio.com/docs/api/ip-messaging), and other messaging platforms. Support for new platforms is added regularly!
+Botkit is designed to ease the process of designing and running useful, creative bots that live inside [Slack](http://slack.com),
+[Cisco Spark](http://ciscospark.com/), [Facebook Messenger](http://facebook.com), [Twilio IP Messaging](https://www.twilio.com/docs/api/ip-messaging), and other messaging platforms. Support for new platforms is added regularly!
 
 It provides a semantic interface to sending and receiving messages so that developers can focus on creating novel applications and experiences instead of dealing with API endpoints.
 
 Botkit features a comprehensive set of tools to deal with popular messaging platforms, including:
 
 * [Slack](readme-slack.md)
+* [Cisco Spark](readme-ciscospark.md)
 * [Facebook Messenger](readme-facebook.md)
 * [Twilio IP Messaging](readme-twilioipm.md)
 * [Microsoft Bot Framework](readme-botframework.md)
@@ -31,7 +33,7 @@ Botkit Studio is built on top of Botkit, so everything that works with Botkit co
 
 There are two ways to start a Botkit project:
 
-1) [Install the Botkit Studio Starter Kit](https://github.com/howdyai/botkit-studio-starter) and build on top of an already fully functioning bot
+1) Install the Botkit Studio Starter Kit [for Slack](https://github.com/howdyai/botkit-starter-slack) or [for Facebook](https://github.com/howdyai/botkit-starter-facebook) and build on top of an already fully functioning bot
 that comes pre-configured with popular middleware plug-ins and components.
 
 2) [Install Botkit directly from NPM or Github](#install-botkit-from-npm-or-github) and build a new app from scratch, or use one of the [included examples](#included-examples) as a starting point.
@@ -40,6 +42,9 @@ After you've installed Botkit using one of these methods, the first thing you'll
 
 If you intend to create a bot that
 lives in Slack, [follow these instructions for attaining a Bot Token](readme-slack.md#getting-started).
+
+If you intend to create a bot that lives in Cisco Spark, [follow these instructions for configuring your Cisco Spark bot](readme-ciscospark.md#getting-started).
+
 
 If you intend to create a bot that lives in Facebook Messenger, [follow these instructions for configuring your Facebook page](readme-facebook.md#getting-started).
 
