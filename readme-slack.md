@@ -584,7 +584,7 @@ Sending a message, performing a task and then updating the sent message based on
 controller.hears('hello', ['ambient'], function(bot, msg) {
   // send a message back: "hellp"
   bot.replyAndUpdate(msg, 'hellp', function(err, src, updateResponse) {
-    if (error) console.error(err);
+    if (err) console.error(err);
     // oh no, "hellp" is a typo - let's update the message to "hello"
     updateResponse('hello', function(err) {
       console.error(err)
