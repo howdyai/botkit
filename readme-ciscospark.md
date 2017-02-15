@@ -220,6 +220,10 @@ For example, a bot may use these methods when handling a `bot_room_join` event
 in order to send a message to the _user who invited the bot_ (the actor) instead of
 the bot itself (the sender).
 
+NOTE: Core functions like [bot.startPrivateConversation()](readme.md#botstartprivateconversation) and
+[bot.createPrivateConversation()](readme.me#botcreateprivateconversation) work as expected,
+and will create a direct message thread with the sender of the incoming_message.
+
 ### bot.startPrivateConversationWithPersonId()
 | Parameter | Description
 |--- |---
