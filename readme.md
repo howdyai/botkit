@@ -673,7 +673,7 @@ conversation.
 
 ```javascript
 // create an end state thread
-covo.addMessage('This is the end!', 'the_end');
+convo.addMessage('This is the end!', 'the_end');
 
 // now transition there with a nice message
 convo.transitionTo('the_end','Well I think I am all done.');
