@@ -226,6 +226,14 @@ the bot itself (the sender).
 | personId | the personId of the user to whom the bot should send a message
 | cb | callback function in the form function(err, file_content)
 
+Use this function to send a direct message to a user by their personId, which
+can be found in message and event payloads at the following location:
+
+```
+var personId = message.original_message.actorId;
+```
+
+
 ### bot.startPrivateConversationWithActor())
 | Parameter | Description
 |--- |---
