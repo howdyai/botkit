@@ -4,6 +4,10 @@
 
 Add support for bots on [Cisco Spark](http://developer.ciscospark.com)! For information about getting started, and to learn about new Botkit features that are specific to this platform, [check out our new Cisco Spark readme. ](readme-ciscospark.md)
 
+Botkit will now send a user agent header on all requests to the Slack API
+
+When building for Slack, developers may now override the root URL of the API by specifying `api_root` in the configuration in order to use mocked testing endpoints or use the Slack API through a proxy.
+
 ## 0.4.10
 
 Add support for [Slack Enterprise Grid](https://slack.com/enterprise), for more information [read](https://blog.howdy.ai/beam-us-up-botkit-in-the-enterprise-e6133e0cbdf3#.o3md9lw29)
