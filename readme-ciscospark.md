@@ -13,6 +13,10 @@ Table of Contents
 * [Getting Started](#getting-started)
 * [Spark-specific Events](#spark-specific-events)
 * [Message Formatting](#message-formatting)
+* [Attaching Files](#attaching-files)
+* [Receiving Files](#receiving-files)
+* [Starting Direct Messages](#starting-direct-messages)
+
 
 ## Getting Started
 
