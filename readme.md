@@ -95,11 +95,12 @@ it is ready to be connected to a stream of incoming messages. Currently, Botkit 
 * [Slack Real Time Messaging (RTM)](http://api.slack.com/rtm)
 * [Slack Incoming Webhooks](http://api.slack.com/incoming-webhooks)
 * [Slack Slash Commands](http://api.slack.com/slash-commands)
+* [Cisco Spark Webhooks](https://developer.ciscospark.com/webhooks-explained.html)
 * [Facebook Messenger Webhooks](https://developers.facebook.com/docs/messenger-platform/implementation)
 * [Twilio IP Messaging](https://www.twilio.com/user/account/ip-messaging/getting-started)
 * [Microsoft Bot Framework](http://botframework.com/)
 
-Read more about [connecting your bot to Slack](readme-slack.md#connecting-your-bot-to-slack), [connecting your bot to Facebook](readme-facebook.md#getting-started), [connecting your bot to Twilio](readme-twilioipm.md#getting-started),
+Read more about [connecting your bot to Slack](readme-slack.md#connecting-your-bot-to-slack), [connecting your bot to Cisco Spark](readme-slack.md#getting-started), [connecting your bot to Facebook](readme-facebook.md#getting-started), [connecting your bot to Twilio](readme-twilioipm.md#getting-started),
 or [connecting your bot to Microsoft Bot Framework](readme-botframework.md#getting-started)
 
 ## Included Examples
@@ -107,6 +108,8 @@ or [connecting your bot to Microsoft Bot Framework](readme-botframework.md#getti
 These examples are included in the Botkit [Github repo](https://github.com/howdyai/botkit).
 
 [slack_bot.js](https://github.com/howdyai/botkit/blob/master/slack_bot.js) An example bot that can be connected to your team. Useful as a basis for creating your first bot!
+
+[spark_bot.js](https://github.com/howdyai/botkit/blob/master/spark_bot.js) An example bot that can be connected to Cisco Spark. Useful as a basis for creating your first bot!
 
 [facebook_bot.js](https://github.com/howdyai/botkit/blob/master/facebook_bot.js) An example bot that can be connected to your Facebook page. Useful as a basis for creating your first bot!
 
