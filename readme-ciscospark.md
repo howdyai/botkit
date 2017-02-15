@@ -208,3 +208,26 @@ controller.on('direct_message', function(bot, message) {
     }
 });
 ```
+
+## Starting Direct Messages
+
+Cisco Spark's API provides several ways to send private messages to users -
+by the user's email address, or by their user id. These may be used in the case where the
+user's email address is unknown or unavailable, or when the bot should respond to the `actor`
+instead of the `sender` of a message.
+
+For example, a bot may use these methods when handling a `bot_room_join` event
+in order to send a message to the _user who invited the bot_ (the actor) instead of
+the bot itself (the sender).
+
+### bot.startPrivateConversationWithPersonId()
+| Parameter | Description
+|--- |---
+| personId | the personId of the user to whom the bot should send a message
+| cb | callback function in the form function(err, file_content)
+
+### bot.startPrivateConversationWithActor())
+| Parameter | Description
+|--- |---
+| incoming_message | a message or event that has an actorId defined in message.original_message.actorId
+| cb | callback function in the form function(err, file_content)
