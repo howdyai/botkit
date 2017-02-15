@@ -216,12 +216,11 @@ by the user's email address, or by their user id. These may be used in the case 
 user's email address is unknown or unavailable, or when the bot should respond to the `actor`
 instead of the `sender` of a message.
 
-For example, a bot may use these methods when handling a `bot_room_join` event
+For example, a bot may use these methods when handling a `bot_space_join` event
 in order to send a message to the _user who invited the bot_ (the actor) instead of
 the bot itself (the sender).
 
-NOTE: Core functions like [bot.startPrivateConversation()](readme.md#botstartprivateconversation) and
-[bot.createPrivateConversation()](readme.me#botcreateprivateconversation) work as expected,
+NOTE: Core functions like [bot.startPrivateConversation()](readme.md#botstartprivateconversation) work as expected,
 and will create a direct message thread with the sender of the incoming_message.
 
 ### bot.startPrivateConversationWithPersonId()
@@ -237,9 +236,16 @@ can be found in message and event payloads at the following location:
 var personId = message.original_message.actorId;
 ```
 
-
 ### bot.startPrivateConversationWithActor())
 | Parameter | Description
 |--- |---
 | incoming_message | a message or event that has an actorId defined in message.original_message.actorId
 | cb | callback function in the form function(err, file_content)
+
+```
+controller.on('bot_space_join', function(bot, message) {
+  bot.startPrivateConversationWithActor(message, function(err, convo) {
+    convo.say('The bot you invited has joined the channel.');
+  });
+});
+```
