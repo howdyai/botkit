@@ -49,6 +49,12 @@ controller.setupWebserver(process.env.PORT || 3000, function(err, webserver) {
     });
 });
 
+controller.middleware.receive.use(function(bot, message, next) {
+
+  console.log(message);
+  next();
+});
+
 
 controller.hears(['^markdown'], 'direct_message,direct_mention', function(bot, message) {
 
