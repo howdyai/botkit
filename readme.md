@@ -887,6 +887,8 @@ so that it is sent immediately, before any other queued messages.
 
 `convo.next()` proceed to the next message in the conversation.  *This must be called* at the end of each handler.
 
+`convo.setTimeout(timeout)` times out conversation if no response from user after specified time period (in milliseconds).
+
 ### Handling End of Conversation
 
 Conversations trigger events during the course of their life.  Currently,
