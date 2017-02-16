@@ -27,7 +27,6 @@ Table of Contents
 
 4) Run the example bot using the parameters mentioned above. 
 
-
 ```
 server=<MY_APP_SERVER> appKey=<MY_APP_KEY> appSecret=<MY_APP_SECRET> username=<MY_USERNAME> password=<MY_PASSWORD> extension=<MY_EXTENSION>  node glip_bot.js 
 ```    

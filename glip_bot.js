@@ -110,15 +110,12 @@ var askSize = function(response, convo) {
 var askWhereDeliver = function(response, convo) {
     convo.ask("So where do you want it delivered?", function(response, convo) {
         var message = null;
-        message = "Ordered large pizza by pawan"
-        message += "\n"
-        message += "\n[Ticket ##1001](www.dominos.com) - ordered large pizza"
-        message += "\n"
-        message += "\n**Description**"
-        message += "\nOrdered large cheese pizza & should delivered at home"
-        message += "\n"
-        message += "\n**Priority**"
-        message += "\nasap"
+        message = "Ordered large pizza by pawan\n\n"
+        message += "[Ticket ##1001](www.dominos.com) - ordered large pizza\n\n"
+        message += "**Description**\n\n"
+        message += "Ordered large cheese pizza & should delivered at home\n\n"
+        message += "**Priority**\n\n"
+        message += "asap\n"
         convo.say(message);
         convo.next();
     });
