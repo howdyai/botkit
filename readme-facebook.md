@@ -77,6 +77,9 @@ Normal messages will be sent to your bot using the `message_received` event.  In
 | message_read | a confirmation from Facebook that a message has been read
 | facebook_optin | a user has clicked the [Send-to-Messenger plugin](https://developers.facebook.com/docs/messenger-platform/implementation#send_to_messenger_plugin)
 | facebook_referral | a user has clicked on a [m.me URL with a referral param](https://developers.facebook.com/docs/messenger-platform/referral-params)
+| facebook_image | an image was received by the bot
+| facebook_audio | an audio was received by the bot
+| facebook_video | a video was received by the bot
 
 All incoming events will contain the fields `user` and `channel`, both of which represent the Facebook user's ID, and a `timestamp` field.
 
@@ -139,6 +142,19 @@ controller.hears(['cookies'], 'message_received', function(bot, message) {
         });
     });
 });
+
+controller.on('facebook_image', function(bot, message) {
+    bot.reply(message, 'Very nice image !');
+});
+
+controller.on('facebook_audio', function(bot, message) {
+    bot.reply(message, 'Very nice audio !');
+});
+
+controller.on('facebook_video', function(bot, message) {
+    bot.reply(message, 'Very nice video !');
+});
+
 ```
 
 ### Receive Postback Button Clicks as "Typed" Messages
