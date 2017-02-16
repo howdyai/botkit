@@ -398,6 +398,11 @@ controller.on('facebook_image', function(bot, message) {
     bot.reply(message, 'Very nice image !');
 });
 
+
+controller.on('facebook_audio', function(bot, message) {
+    bot.reply(message, 'Very nice audio !');
+});
+
 function formatUptime(uptime) {
     var unit = 'second';
     if (uptime > 60) {
