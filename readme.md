@@ -4,13 +4,15 @@
 [![David](https://img.shields.io/david/howdyai/botkit.svg)](https://david-dm.org/howdyai/botkit)
 [![npm](https://img.shields.io/npm/l/botkit.svg)](https://spdx.org/licenses/MIT)
 
-Botkit is designed to ease the process of designing and running useful, creative bots that live inside [Slack](http://slack.com), [Facebook Messenger](http://facebook.com), [Twilio IP Messaging](https://www.twilio.com/docs/api/ip-messaging), and other messaging platforms. Support for new platforms is added regularly!
+Botkit is designed to ease the process of designing and running useful, creative bots that live inside [Slack](http://slack.com),
+[Cisco Spark](http://ciscospark.com/), [Facebook Messenger](http://facebook.com), [Twilio IP Messaging](https://www.twilio.com/docs/api/ip-messaging), and other messaging platforms. Support for new platforms is added regularly!
 
 It provides a semantic interface to sending and receiving messages so that developers can focus on creating novel applications and experiences instead of dealing with API endpoints.
 
 Botkit features a comprehensive set of tools to deal with popular messaging platforms, including:
 
 * [Slack](readme-slack.md)
+* [Cisco Spark](readme-ciscospark.md)
 * [Facebook Messenger](readme-facebook.md)
 * [Twilio IP Messaging](readme-twilioipm.md)
 * [Microsoft Bot Framework](readme-botframework.md)
@@ -31,7 +33,7 @@ Botkit Studio is built on top of Botkit, so everything that works with Botkit co
 
 There are two ways to start a Botkit project:
 
-1) [Install the Botkit Studio Starter Kit](https://github.com/howdyai/botkit-studio-starter) and build on top of an already fully functioning bot
+1) Install the Botkit Studio Starter Kit [for Slack](https://github.com/howdyai/botkit-starter-slack) or [for Facebook](https://github.com/howdyai/botkit-starter-facebook) and build on top of an already fully functioning bot
 that comes pre-configured with popular middleware plug-ins and components.
 
 2) [Install Botkit directly from NPM or Github](#install-botkit-from-npm-or-github) and build a new app from scratch, or use one of the [included examples](#included-examples) as a starting point.
@@ -40,6 +42,9 @@ After you've installed Botkit using one of these methods, the first thing you'll
 
 If you intend to create a bot that
 lives in Slack, [follow these instructions for attaining a Bot Token](readme-slack.md#getting-started).
+
+If you intend to create a bot that lives in Cisco Spark, [follow these instructions for configuring your Cisco Spark bot](readme-ciscospark.md#getting-started).
+
 
 If you intend to create a bot that lives in Facebook Messenger, [follow these instructions for configuring your Facebook page](readme-facebook.md#getting-started).
 
@@ -90,11 +95,12 @@ it is ready to be connected to a stream of incoming messages. Currently, Botkit 
 * [Slack Real Time Messaging (RTM)](http://api.slack.com/rtm)
 * [Slack Incoming Webhooks](http://api.slack.com/incoming-webhooks)
 * [Slack Slash Commands](http://api.slack.com/slash-commands)
+* [Cisco Spark Webhooks](https://developer.ciscospark.com/webhooks-explained.html)
 * [Facebook Messenger Webhooks](https://developers.facebook.com/docs/messenger-platform/implementation)
 * [Twilio IP Messaging](https://www.twilio.com/user/account/ip-messaging/getting-started)
 * [Microsoft Bot Framework](http://botframework.com/)
 
-Read more about [connecting your bot to Slack](readme-slack.md#connecting-your-bot-to-slack), [connecting your bot to Facebook](readme-facebook.md#getting-started), [connecting your bot to Twilio](readme-twilioipm.md#getting-started),
+Read more about [connecting your bot to Slack](readme-slack.md#connecting-your-bot-to-slack), [connecting your bot to Cisco Spark](readme-slack.md#getting-started), [connecting your bot to Facebook](readme-facebook.md#getting-started), [connecting your bot to Twilio](readme-twilioipm.md#getting-started),
 or [connecting your bot to Microsoft Bot Framework](readme-botframework.md#getting-started)
 
 ## Included Examples
@@ -102,6 +108,8 @@ or [connecting your bot to Microsoft Bot Framework](readme-botframework.md#getti
 These examples are included in the Botkit [Github repo](https://github.com/howdyai/botkit).
 
 [slack_bot.js](https://github.com/howdyai/botkit/blob/master/slack_bot.js) An example bot that can be connected to your team. Useful as a basis for creating your first bot!
+
+[spark_bot.js](https://github.com/howdyai/botkit/blob/master/spark_bot.js) An example bot that can be connected to Cisco Spark. Useful as a basis for creating your first bot!
 
 [facebook_bot.js](https://github.com/howdyai/botkit/blob/master/facebook_bot.js) An example bot that can be connected to your Facebook page. Useful as a basis for creating your first bot!
 
@@ -177,7 +185,7 @@ into a hash before being transmitted.
 To opt out of the stats collection, pass in the `stats_optout` parameter when initializing Botkit,
 as seen in the example below:
 
-```
+```javascript
 var controller = Botkit.slackbot({
     stats_optout: true
 });
@@ -211,7 +219,9 @@ controller.on('message_received', function(bot, message) {
 Due to the multi-channel, multi-user nature of Slack, Botkit does additional filtering on the messages (after firing message_received), and will fire more specific events based on the type of message - for example, `direct_message` events indicate a message has been sent directly to the bot, while `direct_mention` indicates that the bot has been mentioned in a multi-user channel.
 [List of Slack-specific Events](readme-slack.md#slack-specific-events)
 
-Twilio IPM bots can also exist in a multi-channel, multi-user environmnet. As a result, there are many additional events that will fire. In addition, Botkit will filter some messages, so that the bot will not receive it's own messages or messages outside of the channels in which it is present.
+Similarly, bots in Cisco Spark will receive `direct_message` events to indicate a message has been sent directly to the bot, while `direct_mention` indicates that the bot has been mentioned in a multi-user channel. Several other Spark-specific events will also fire. [List of Cisco Spark-specific Events](readme-ciscospark.md#spark-specific-events)
+
+Twilio IPM bots can also exist in a multi-channel, multi-user environment. As a result, there are many additional events that will fire. In addition, Botkit will filter some messages, so that the bot will not receive it's own messages or messages outside of the channels in which it is present.
 [List of Twilio IPM-specific Events](readme-twilioipm.md#twilio-ipm-specific-events)
 
 Facebook messages are fairly straightforward. However, because Facebook supports inline buttons, there is an additional event fired when a user clicks a button.
@@ -373,7 +383,7 @@ controller.hears('another_keyword','direct_message,direct_mention',function(bot,
 
 
 Facebook-specific fields and attachments:
-```
+```javascript
 // listen for the phrase `shirt` and reply back with structured messages
 // containing images, links and action buttons
 controller.hears(['shirt'],'message_received',function(bot, message) {
@@ -650,7 +660,7 @@ All conversations start in a thread called `default`, but you may switch to anot
 
 Threads are created by adding messages to them using `addMessage()` and `addQuestion()`
 
-```
+```javascript
 // create the validation_error thread
 convo.addMessage('This is a validation error.', 'validation_error');
 convo.addMessage('I am sorry, your data is wrong!', 'validation_error');
@@ -673,7 +683,7 @@ conversation.
 
 ```javascript
 // create an end state thread
-covo.addMessage('This is the end!', 'the_end');
+convo.addMessage('This is the end!', 'the_end');
 
 // now transition there with a nice message
 convo.transitionTo('the_end','Well I think I am all done.');
@@ -684,7 +694,7 @@ convo.transitionTo('the_end','Well I think I am all done.');
 You can direct a conversation to switch from one thread to another automatically
 by including the `action` field on a message object. Botkit will switch threads immediately after sending the message.
 
-```
+```javascript
 // first, define a thread called `next_step` that we'll route to...
 convo.addMessage({
     text: 'This is the next step...',
@@ -703,7 +713,7 @@ default or next step actions, while conditionals can be used to route between th
 
 From inside a callback function, use `convo.gotoThread()` to instantly switch to a different pre-defined part of the conversation. Botkit can be set to automatically navigate between threads based on user input, such as in the example below.
 
-```
+```javascript
 bot.createConversation(message, function(err, convo) {
 
     // create a path for when a user says YES
@@ -760,7 +770,7 @@ Set the action field of a message to `stop` end immediately, but mark as failed.
 
 Set the action field of a message to `timeout` to end immediately and indicate that the conversation has timed out.
 
-After the conversation ends, these values will be available in the `convo.status` field. This field can then be used to check the final outcome of a conversation. See [handling the end of conversations](#handling-the-end-of-conversation).
+After the conversation ends, these values will be available in the `convo.status` field. This field can then be used to check the final outcome of a conversation. See [handling the end of conversations](#handling-end-of-conversation).
 
 ### Using Variable Tokens and Templates in Conversation Threads
 
@@ -770,7 +780,7 @@ Mustache offers token replacement, as well as access to basic iterators and cond
 
 Variables can be added to a conversation at any point after the conversation object has been created using the function `convo.setVar()`. See the example below.
 
-```
+```javascript
 convo.createConversation(message, function(err, convo) {
 
     // .. define threads which will use variables...
@@ -962,11 +972,13 @@ For information about existing middleware plugins, [see here](readme-middlewares
 
 ### Middleware Endpoints
 
-Botkit currently supports middleware insertion in three places:
+Botkit currently supports middleware insertion in the following places:
 
 * When receiving a message, before triggering any events
 * When sending a message, before the message is sent to the API
 * When hearing a message
+* When matching patterns with `hears()`, after the pattern has been matched but before the handler function is called
+* When capturing a users response to a `convo.ask()` question, after the user has answered, but before the value is stored or passed to the handler function
 
 Send and Receive middleware functions are added to Botkit using an Express-style "use" syntax.
 Each function receives a bot parameter, a message parameter, and
@@ -981,7 +993,7 @@ Receive middleware can be used to do things like preprocess the message
 content using external natural language processing services like Wit.ai.
 Additional information can be added to the message object for use down the chain.
 
-```
+```javascript
 controller.middleware.receive.use(function(bot, message, next) {
 
     // do something...
@@ -997,7 +1009,7 @@ controller.middleware.receive.use(function(bot, message, next) {
 Send middleware can be used to do things like preprocess the message
 content before it gets sent out to the messaging client.
 
-```
+```javascript
 controller.middleware.send.use(function(bot, message, next) {
 
     // do something useful...
@@ -1024,7 +1036,7 @@ message. This function will be called _after_ any receive middlewares, so may us
 information that may have been added. A return value of `true` indicates the pattern has been
 matched and the bot should respond.
 
-```
+```javascript
 // this example does a simple string match instead of using regular expressions
 function custom_hear_middleware(patterns, message) {
 
@@ -1049,13 +1061,87 @@ a middleware function by calling `controller.changeEars()`. This will replace th
 as well as inside `convo.ask().` This would, for example, enable your bot to
 hear only intents instead of strings.
 
-```
+```javascript
 controller.changeEars(function(patterns, message) {
 
     // ... do something
     // return true or false
 });
 ```
+
+
+### Heard Middleware
+
+Heard middleware can be used to modify or enrich a message with additional information before it is handled by the callback function.
+This can be useful for developers who want to use NLP tools, but want to limit the type and number of messages sent to be classified.
+It is also useful for developers who want to mix internal application data (for example, user account information) into messages.
+
+Whereas the `receive middleware` will fire for every single incoming message of any type, the heard middleware only fires when a pattern has already been matched.
+
+Heard middleware functions fire anytime Botkit attempts to match a pre-defined pattern: when using the `hears()` feature, and also when using `convo.ask()` to capture user responses.
+
+
+```
+controller.middleware.heard.use(function(bot, message, next) {
+
+    // load internal user data and add it to the message
+
+    mydb.users.find({id: message.user}, function(err, user_record) {
+
+        // amend the message with a new field.
+        // this will now be available inside the normal handler function
+        message.internal_user = user_record;
+
+        // call next or else execution will stall
+        next();
+
+    });
+
+});
+```
+
+### Capture Middleware
+
+As users respond to questions posed using `convo.ask()`, their answers will first be passed through any capture middleware endpoints.
+The capture middleware can modify the message in any way, including changing the value that will be used to test pre-defined patterns
+and that will ultimately be stored as the final user answer.
+
+This can be particularly useful when used in conjunction with a natural language processing API. NLP plugins like [IBM Watson](https://github.com/watson-developer-cloud/botkit-middleware) and [Microsoft LUIS](https://github.com/Stevenic/botkit-middleware-luis) typically provide 2 features: translation of raw user text into a pre-defined `intent`, and extraction of structured data from the raw string into `entities`.
+
+Another instance in which this is useful is when used in conjunction with buttons and quick replies that, in addition to displayed text may also carry a hidden payload value. Developers can use this middleware endpoint to capture the payload instead of the displayed text.
+
+The `capture` middleware endpoint allows developers to harness these values and capture them instead of or in addition to the raw user text.
+
+Please note that the signature of the `capture` middleware is slightly different than the other endpoints, as it includes a parameter for the conversation object:
+
+```
+controller.middleware.capture.use(function(bot, message, convo, next) {
+
+    // user's raw response is in message.text
+
+    // instead of capturing the raw response, let's capture the intent
+    if (message.intent) {
+        message.text = message.intent;
+    }
+
+    // what if there is a hidden payload? let's use that instead
+    if (message.payload) {
+        message.text = message.payload;
+    }
+
+    // what if there are entities too? we can use them as part of the conversation...
+    if (message.entities) {
+        for (var e = 0; e < message.entities.length; e++) {
+            convo.setVar(message.entities[e].name, message.entities[e].value);
+        }
+    }
+
+    // always call next!
+    next();
+
+});
+```
+
 
 # Advanced Topics
 
@@ -1071,7 +1157,7 @@ var controller = Botkit.slackbot({
 });
 ```
 
-This system supports freeform storage on a team-by-team, user-by-user, and channel-by-channel basis. Basically ```controller.storage``` is a key value store. All access to this system is through the following nine functions. Example usage:
+This system supports freeform storage on a team-by-team, user-by-user, and channel-by-channel basis. Basically ```controller.storage``` is a key value store. All access to this system is through the following twelve functions. Example usage:
 ```javascript
 controller.storage.users.save({id: message.user, foo:'bar'}, function(err) { ... });
 controller.storage.users.get(id, function(err, user_data) {...});

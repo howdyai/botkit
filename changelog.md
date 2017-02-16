@@ -1,5 +1,30 @@
 # Change Log
 
+## 0.5.0
+
+Add support for bots on [Cisco Spark](http://developer.ciscospark.com)! For information about getting started, and to learn about new Botkit features that are specific to this platform, [check out our new Cisco Spark readme. ](readme-ciscospark.md)
+
+Botkit will now send a user agent header on all requests to the Slack API
+
+When building for Slack, developers may now override the root URL of the API by specifying `api_root` in the configuration in order to use mocked testing endpoints or use the Slack API through a proxy.
+
+## 0.4.10
+
+Add support for [Slack Enterprise Grid](https://slack.com/enterprise), for more information [read](https://blog.howdy.ai/beam-us-up-botkit-in-the-enterprise-e6133e0cbdf3#.o3md9lw29)
+
+Add Support for Slack's new thread system, including:
+
+[bot.replyInThread()](readme-slack.md#botreplyinthread) to create a threaded reply
+
+[bot.startConversationInThread()](readme-slack.md#botstartconversationinthread) to create and immediately start a conversation in a thread
+
+[bot.createConversationInThread()](readme-slack.md#botcreateconversationinthread) to create a conversation in a thread
+
+Add new `heard` middleware endpoint, which fires _after_ a pattern has been matched, but before the handler function is called. This allows developers to enrich messages with NLP tools or other plugins, but do so only when the original message matches specific criteria.
+
+Add new `capture` middleware endpoint, which fires _after_ a user responds to a `convo.ask` question but _before_ the related handler function is called. This allows developers to change the value that is captured, or capture additional values such as entities returned by an NLP plugin.
+
+
 ## 0.4.9
 
 `controller.version()` will now report the currently installed version of Botkit.
