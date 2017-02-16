@@ -398,9 +398,12 @@ controller.on('facebook_image', function(bot, message) {
     bot.reply(message, 'Very nice image !');
 });
 
-
 controller.on('facebook_audio', function(bot, message) {
     bot.reply(message, 'Very nice audio !');
+});
+
+controller.on('facebook_video', function(bot, message) {
+    bot.reply(message, 'Very nice video !');
 });
 
 function formatUptime(uptime) {
