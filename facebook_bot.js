@@ -394,6 +394,9 @@ controller.on('message_received', function(bot, message) {
     return false;
 });
 
+controller.on('facebook_image', function(bot, message) {
+    bot.reply(message, 'Very nice image !');
+});
 
 function formatUptime(uptime) {
     var unit = 'second';
