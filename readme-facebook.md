@@ -330,6 +330,20 @@ Create a [persistent menu](https://developers.facebook.com/docs/messenger-platfo
 
 Clear the persistent menu setting
 
+#### controller.api.thread_settings.domain_whitelist()
+| Argument | Description
+|---  |---
+| payload | A single or a list of domains to add to the whitelist, All domains must be valid and use https. Up to 10 domains allowed.
+
+#### controller.api.thread_settings.delete_delete_domain_whitelist()
+| Argument | Description
+|---  |---
+| payload | A single or a list of domains to remove from whitelist, All domains must be valid and use https. Up to 10 domains allowed.
+
+#### controller.api.thread_settings.get_domain_whitelist()
+
+Get a list of the whitelisted domains.
+
 #### Using the Thread Settings API
 
 ```js
@@ -352,6 +366,13 @@ controller.api.thread_settings.menu([
       "url":"https://github.com/howdyai/botkit/blob/master/readme-facebook.md"
     },
 ]);
+controller.api.thread_settings.domain_whitelist('https://localhost');
+controller.api.thread_settings.domain_whitelist(['https://127.0.0.1', 'https://0.0.0.0']);
+controller.api.thread_settings.delete_domain_whitelist('https://localhost');
+controller.api.thread_settings.delete_domain_whitelist(['https://127.0.0.1', 'https://0.0.0.0']);
+controller.api.thread_settings.get_domain_whitelist(function (err, data)  {
+    console.log('****** Whitelisted domains :', data);
+});
 
 controller.hears(['hello'],'facebook_postback', function(bot, message) {
     //...
