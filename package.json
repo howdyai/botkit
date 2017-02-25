@@ -1,6 +1,6 @@
 {
   "name": "botkit",
-  "version": "0.4.10",
+  "version": "0.5.1",
   "description": "Building blocks for Building Bots",
   "main": "lib/Botkit.js",
   "dependencies": {
@@ -9,6 +9,7 @@
     "body-parser": "^1.14.2",
     "botbuilder": "^3.2.3",
     "botkit-studio-sdk": "^1.0.0",
+    "ciscospark": "^0.7.31",
     "clone": "2.0.0",
     "command-line-args": "^3.0.0",
     "crypto": "0.0.3",
@@ -22,6 +23,7 @@
     "randomstring": "^1.1.5",
     "request": "^2.67.0",
     "twilio": "^2.9.1",
+    "url": "^0.11.0",
     "ware": "^1.3.0",
     "ws": "^1.1.1"
   },
@@ -47,10 +49,11 @@
     "bots",
     "chatbots",
     "slack",
+    "cisco spark",
     "facebook messenger",
     "twilio ipm",
     "microsoft bot framework"
   ],
-  "author": "ben@xoxco.com",
+  "author": "ben@howdy.ai",
   "license": "MIT"
 }

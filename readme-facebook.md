@@ -352,6 +352,9 @@ controller.api.thread_settings.menu([
       "url":"https://github.com/howdyai/botkit/blob/master/readme-facebook.md"
     },
 ]);
+controller.api.thread_settings.account_linking('https://www.yourAwesomSite.com/oauth?response_type=code&client_id=1234567890&scope=basic');
+controller.api.thread_settings.delete_account_linking();
+
 
 controller.hears(['hello'],'facebook_postback', function(bot, message) {
     //...

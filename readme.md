@@ -4,13 +4,15 @@
 [![David](https://img.shields.io/david/howdyai/botkit.svg)](https://david-dm.org/howdyai/botkit)
 [![npm](https://img.shields.io/npm/l/botkit.svg)](https://spdx.org/licenses/MIT)
 
-Botkit is designed to ease the process of designing and running useful, creative bots that live inside [Slack](http://slack.com), [Facebook Messenger](http://facebook.com), [Twilio IP Messaging](https://www.twilio.com/docs/api/ip-messaging), and other messaging platforms. Support for new platforms is added regularly!
+Botkit is designed to ease the process of designing and running useful, creative bots that live inside [Slack](http://slack.com),
+[Cisco Spark](http://ciscospark.com/), [Facebook Messenger](http://facebook.com), [Twilio IP Messaging](https://www.twilio.com/docs/api/ip-messaging), and other messaging platforms. Support for new platforms is added regularly!
 
 It provides a semantic interface to sending and receiving messages so that developers can focus on creating novel applications and experiences instead of dealing with API endpoints.
 
 Botkit features a comprehensive set of tools to deal with popular messaging platforms, including:
 
 * [Slack](readme-slack.md)
+* [Cisco Spark](readme-ciscospark.md)
 * [Facebook Messenger](readme-facebook.md)
 * [Twilio IP Messaging](readme-twilioipm.md)
 * [Microsoft Bot Framework](readme-botframework.md)
@@ -31,7 +33,7 @@ Botkit Studio is built on top of Botkit, so everything that works with Botkit co
 
 There are two ways to start a Botkit project:
 
-1) [Install the Botkit Studio Starter Kit](https://github.com/howdyai/botkit-studio-starter) and build on top of an already fully functioning bot
+1) Install the Botkit Studio Starter Kit [for Slack](https://github.com/howdyai/botkit-starter-slack) or [for Cisco Spark](https://github.com/howdyai/botkit-starter-ciscospark) or [for Facebook](https://github.com/howdyai/botkit-starter-facebook) and build on top of an already fully functioning bot
 that comes pre-configured with popular middleware plug-ins and components.
 
 2) [Install Botkit directly from NPM or Github](#install-botkit-from-npm-or-github) and build a new app from scratch, or use one of the [included examples](#included-examples) as a starting point.
@@ -40,6 +42,9 @@ After you've installed Botkit using one of these methods, the first thing you'll
 
 If you intend to create a bot that
 lives in Slack, [follow these instructions for attaining a Bot Token](readme-slack.md#getting-started).
+
+If you intend to create a bot that lives in Cisco Spark, [follow these instructions for configuring your Cisco Spark bot](readme-ciscospark.md#getting-started).
+
 
 If you intend to create a bot that lives in Facebook Messenger, [follow these instructions for configuring your Facebook page](readme-facebook.md#getting-started).
 
@@ -90,11 +95,12 @@ it is ready to be connected to a stream of incoming messages. Currently, Botkit 
 * [Slack Real Time Messaging (RTM)](http://api.slack.com/rtm)
 * [Slack Incoming Webhooks](http://api.slack.com/incoming-webhooks)
 * [Slack Slash Commands](http://api.slack.com/slash-commands)
+* [Cisco Spark Webhooks](https://developer.ciscospark.com/webhooks-explained.html)
 * [Facebook Messenger Webhooks](https://developers.facebook.com/docs/messenger-platform/implementation)
 * [Twilio IP Messaging](https://www.twilio.com/user/account/ip-messaging/getting-started)
 * [Microsoft Bot Framework](http://botframework.com/)
 
-Read more about [connecting your bot to Slack](readme-slack.md#connecting-your-bot-to-slack), [connecting your bot to Facebook](readme-facebook.md#getting-started), [connecting your bot to Twilio](readme-twilioipm.md#getting-started),
+Read more about [connecting your bot to Slack](readme-slack.md#connecting-your-bot-to-slack), [connecting your bot to Cisco Spark](readme-slack.md#getting-started), [connecting your bot to Facebook](readme-facebook.md#getting-started), [connecting your bot to Twilio](readme-twilioipm.md#getting-started),
 or [connecting your bot to Microsoft Bot Framework](readme-botframework.md#getting-started)
 
 ## Included Examples
@@ -102,6 +108,8 @@ or [connecting your bot to Microsoft Bot Framework](readme-botframework.md#getti
 These examples are included in the Botkit [Github repo](https://github.com/howdyai/botkit).
 
 [slack_bot.js](https://github.com/howdyai/botkit/blob/master/slack_bot.js) An example bot that can be connected to your team. Useful as a basis for creating your first bot!
+
+[spark_bot.js](https://github.com/howdyai/botkit/blob/master/spark_bot.js) An example bot that can be connected to Cisco Spark. Useful as a basis for creating your first bot!
 
 [facebook_bot.js](https://github.com/howdyai/botkit/blob/master/facebook_bot.js) An example bot that can be connected to your Facebook page. Useful as a basis for creating your first bot!
 
@@ -211,7 +219,9 @@ controller.on('message_received', function(bot, message) {
 Due to the multi-channel, multi-user nature of Slack, Botkit does additional filtering on the messages (after firing message_received), and will fire more specific events based on the type of message - for example, `direct_message` events indicate a message has been sent directly to the bot, while `direct_mention` indicates that the bot has been mentioned in a multi-user channel.
 [List of Slack-specific Events](readme-slack.md#slack-specific-events)
 
-Twilio IPM bots can also exist in a multi-channel, multi-user environmnet. As a result, there are many additional events that will fire. In addition, Botkit will filter some messages, so that the bot will not receive it's own messages or messages outside of the channels in which it is present.
+Similarly, bots in Cisco Spark will receive `direct_message` events to indicate a message has been sent directly to the bot, while `direct_mention` indicates that the bot has been mentioned in a multi-user channel. Several other Spark-specific events will also fire. [List of Cisco Spark-specific Events](readme-ciscospark.md#spark-specific-events)
+
+Twilio IPM bots can also exist in a multi-channel, multi-user environment. As a result, there are many additional events that will fire. In addition, Botkit will filter some messages, so that the bot will not receive it's own messages or messages outside of the channels in which it is present.
 [List of Twilio IPM-specific Events](readme-twilioipm.md#twilio-ipm-specific-events)
 
 Facebook messages are fairly straightforward. However, because Facebook supports inline buttons, there is an additional event fired when a user clicks a button.
@@ -673,7 +683,7 @@ conversation.
 
 ```javascript
 // create an end state thread
-covo.addMessage('This is the end!', 'the_end');
+convo.addMessage('This is the end!', 'the_end');
 
 // now transition there with a nice message
 convo.transitionTo('the_end','Well I think I am all done.');
@@ -760,7 +770,7 @@ Set the action field of a message to `stop` end immediately, but mark as failed.
 
 Set the action field of a message to `timeout` to end immediately and indicate that the conversation has timed out.
 
-After the conversation ends, these values will be available in the `convo.status` field. This field can then be used to check the final outcome of a conversation. See [handling the end of conversations](#handling-the-end-of-conversation).
+After the conversation ends, these values will be available in the `convo.status` field. This field can then be used to check the final outcome of a conversation. See [handling the end of conversations](#handling-end-of-conversation).
 
 ### Using Variable Tokens and Templates in Conversation Threads
 
@@ -876,6 +886,8 @@ so that it is sent immediately, before any other queued messages.
 `convo.silentRepeat()` simply wait for another response without saying anything.
 
 `convo.next()` proceed to the next message in the conversation.  *This must be called* at the end of each handler.
+
+`convo.setTimeout(timeout)` times out conversation if no response from user after specified time period (in milliseconds).
 
 ### Handling End of Conversation
 
@@ -1147,7 +1159,7 @@ var controller = Botkit.slackbot({
 });
 ```
 
-This system supports freeform storage on a team-by-team, user-by-user, and channel-by-channel basis. Basically ```controller.storage``` is a key value store. All access to this system is through the following nine functions. Example usage:
+This system supports freeform storage on a team-by-team, user-by-user, and channel-by-channel basis. Basically ```controller.storage``` is a key value store. All access to this system is through the following twelve functions. Example usage:
 ```javascript
 controller.storage.users.save({id: message.user, foo:'bar'}, function(err) { ... });
 controller.storage.users.get(id, function(err, user_data) {...});

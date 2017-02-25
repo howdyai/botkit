@@ -11,6 +11,7 @@ Currently the following types of middleware are available for Botkit:
 * [Microsoft Luis](#microsoft-luis)
 * [Api.ai](#apiai)
 * [IBM Watson](#ibm-watson)
+* [Recast.ai](#recastai) 
 
 
 ### [Storage Modules](#storage-modules)
@@ -21,6 +22,7 @@ Storage middleware can be used for storing attributes about a user or channel or
 * [Datastore](#datastore)
 * [Firebase](#firebase)
 * [Postgres](#postgres)
+* [CouchDB](#couchdb)
 
 ### [Statistics](#statistics)
 * [Keen](#keen)
@@ -184,6 +186,39 @@ If you do not have a Conversation service instance,  follow [these steps](https:
 
 For more information on adding Watson to your bot check [this projects documentation](https://github.com/watson-developer-cloud/botkit-middleware/blob/master/README.md)
 
+
+## Recast.ai
+
+### [Project Page](https://github.com/ouadie-lahdioui/botkit-middleware-recastai)
+
+You can use the Recast.AI API to analyse your text or your audio file, and extract useful informations from it, to personalize your IoT, classify your data or create bots.
+
+The middleware needs you to provide the `request_token` of your Recast bot project and an optional `confidence`.
+
+## Set up
+
+- Add botkit-middleware-recastai as a dependency to your Botkit bot :
+
+```npm install --save botkit-middleware-recastai```
+
+- Enable the middleware :
+ 
+```
+var RecastaiMiddleware = require('botkit-middleware-recastai')({
+        request_token: '322e96b09ef75ad32bfc8b6f22b857ef',
+        confidence: 0.4
+});
+
+controller.middleware.receive.use(RecastaiMiddleware.receive);
+
+controller.hears(['news'],'message_received', RecastaiMiddleware.hears,function(bot, message) {
+
+ // ...
+});
+```
+
+For more information on adding Recast to your bot check [this projects documentation](https://github.com/ouadie-lahdioui/botkit-middleware-recastai)
+
 # Storage Modules
 ## Mongo
 ### [Project Page](https://github.com/howdyai/botkit-storage-mongo/)
@@ -329,6 +364,60 @@ var controller = Botkit.slackbot({
   })
 });
 ```
+## CouchDB 
+### [Project Page](https://github.com/mbarlock/botkit-storage-couchdb/)
+### What it does
+A Couchdb storage module for botkit
+
+## Setup
+```bash
+$ npm install botkit-storage-couchdb --save
+```
+
+## Usage
+Require `botkit-storage-couchdb` and pass your config options. Then pass the returned storage when creating your Botkit controller. Botkit will do the rest!
+
+
+```js
+const Botkit = require('botkit'),
+    couchDbStorage = require('botkit-storage-couchdb')("localhost:5984/botkit"),
+    controller = Botkit.slackbot({
+        storage: couchDbStorage
+    });
+    
+// then you can use the Botkit storage api, make sure you have an id property
+var beans = {id: 'cool', beans: ['pinto', 'garbanzo']};
+
+controller.storage.teams.save(beans);
+
+controller.storage.teams.get('cool', (error, team) => {
+    console.log(team);
+});
+```
+
+### Options
+You can pass any options that are allowed by [nano](https://github.com/dscape/nano#configuration).
+
+The url you pass should contain your database.
+
+```js
+couchDbStorage = require('botkit-storage-couchdb')("localhost:5984/botkit")
+```
+
+To specify further configuration options you can pass an object literal instead:
+
+```js
+// The url is parsed and knows this is a database
+couchDbStorage = require('botkit-storage-couchdb')({ 
+    "url": "http://localhost:5984/botkit", 
+    "requestDefaults" : { "proxy" : "http://someproxy" },
+    "log": function (id, args) {
+        console.log(id, args);
+    }
+});
+```
+
+
 # Statistics
 ## Keen
 ### [Project Page](https://github.com/keen/keen-botkit)
@@ -411,7 +500,7 @@ Full install instructions [can be found here](https://www.dashbot.io/sdk)
 ### What it does
 Wordhop monitors your Chatbot and alerts you on Slack in real-time when it detects conversational problems. You can watch your bot conversations with users in real-time without leaving Slack and take-over your bot to engage your customers directly.  Simply add Wordhop to Slack and then drop in code into your Chatbot (You can use our examples as a starting point for a bot too). Wordhop integrates in minutes, and begins working immediately.
 
-This module has been tested with Messenger, Slack, Skype, and Microsoft Webchat. Please see our [examples](./examples/).
+This module has been tested with Messenger, Slack, Skype, and Microsoft Webchat. Please see our [examples](https://github.com/wordhop-io/wordhop-npm/tree/master/examples).
 
 ### Setup
 [Installation Guide](https://github.com/wordhop-io/wordhop-npm/blob/master/README.md#installation)
