@@ -75,7 +75,7 @@ If you've already got a bot built with Botkit, you can get started with new Stud
 
 After you've registered for a Botkit Studio developer account, you will receive an API token that grants your bot access to the content and features managed by the Studio cloud service.  You can add this to your existing Botkit app by passing in the Studio token to the Botkit constructor using the `studio_token` field:
 
-```
+```javascript
 // Create the Botkit controller that has access to Botkit Studio
 var controller = Botkit.slackbot({
     debug: false,
@@ -85,7 +85,7 @@ var controller = Botkit.slackbot({
 
 In order to add the Botkit Studio "catch all" handler that will activate the cloud script triggering service into your bot, add the following code to your application below all other Botkit `hears()` events. This will pass any un-handled direct message or direct mention through Botkit Studio's trigger service, and, should a matching trigger be found, execute the script.
 
-```
+```javascript
 controller.on('direct_message,direct_mention,mention', function(bot, message) {
     controller.studio.runTrigger(bot, message.text, message.user, message.channel).catch(function(err) {
         bot.reply(message, 'I experienced an error with a request to Botkit Studio: ' + err);
@@ -126,7 +126,7 @@ The bottom line is, Botkit Studio does _not_ put itself between your users and y
 
 Developers may tap into the conversation as it is conducted using the [before](#controllerstudiobefore), [after](#controllerstudioafter), and [validate](#controllerstudiovalidate) hooks. It is also possible to bind to the normal `convo.on('end')` event because this function also returns the resulting conversation object via a promise:
 
-```
+```javascript
 controller.studio.run(bot, 'hello', message.user, message.channel).then(function(convo) {
     convo.on('end', function(convo) {
         if (convo.status=='completed') {
@@ -146,13 +146,13 @@ controller.studio.run(bot, 'hello', message.user, message.channel).then(function
 | user | the user id of the user having the conversation
 | channel | the channel id where the conversation is occurring
 
-`controller.studio.get()` is nearly identical to `controller.studio.run()`, except that instead of automatically and immediately starting the conversation, the function returns it in a dormant state.  
+`controller.studio.get()` is nearly identical to `controller.studio.run()`, except that instead of automatically and immediately starting the conversation, the function returns it in a dormant state.
 
 While developers may still tap into the conversation as it is conducted using the [before](#controllerstudiobefore), [after](#controllerstudioafter), and [validate](#controllerstudiovalidate) hooks, it must first be activated using `convo.activate()` in the results of the promise returned by the function.
 
 This enables developers to add template variables to the conversation object before it sends its first message. Read about [using variables in messages](readme.md#using-variable-tokens-and-templates-in-conversation-threads)
 
-```
+```javascript
 controller.studio.get(bot, 'hello', message.user, message.channel).then(function(convo) {
     convo.setVar('date', new Date()); // available in message text as {{vars.date}}
     convo.setVar('news', 'This is a news item!'); // ailable as {{vars.news}}
@@ -175,7 +175,7 @@ In addition to storing the content and structure of conversation threads, develo
 
 This is different than `studio.run()` and `studio.get()` in that the input text may include _additional text_ other than an the exact name of a script. In most cases, `runTrigger()` will be configured to receive all messages addressed to the bot that were not otherwise handled, allowing Botkit Studio to be catch-all. See below:
 
-```
+```javascript
 // set up a catch-all handler that will send all messages directed to the bot
 // through Botkit Studio's trigger evaluation system
 controller.on('direct_message,direct_mention,mention', function(bot, message) {
@@ -189,7 +189,7 @@ In order to customize the behavior of scripts triggered using `runTrigger()`, de
 
 Another potential scenario for using `runTrigger()` would be to trigger a script that includes additional parameters that would normally be provided by a user, but are being provided instead by the bot. For example, it is sometimes useful to trigger another script to start when another script has ended.
 
-```
+```javascript
 controller.hears(['checkin'], 'direct_message', function(bot, message) {
 
     // when a user says checkin, we're going to pass in a more complex command to be evaluated
@@ -206,7 +206,7 @@ While Botkit does not currently provide any built-in mechanisms for extracting e
 
 The original user input text is available in the field `convo.source_message.text`. An example of its use can be see in the [Botkit Studio Starter bot](https://github.com/howdyai/botkit-studio-starter), which extracts a parameter from the help command.
 
-```
+```javascript
 controller.studio.before('help', function(convo, next) {
 
     // is there a parameter on the help command?
@@ -232,7 +232,7 @@ Define `before` hooks to add data or modify the behavior of a Botkit Studio scri
 
 Note: hook functions _must_ call next() before ending, or the script will stop executing and the bot will be confused!
 
-```
+```javascript
 // Before the "tacos" script runs, set some extra template tokens like "special" and "extras"
 controller.studio.before('tacos', function(convo, next) {
 
@@ -255,7 +255,7 @@ Define `after` hooks capture the results, or take action _after_ a Botkit Studio
 
 Note: hook functions _must_ call next() before ending, or the script will stop executing and the bot will be confused!
 
-```
+```javascript
 // After the "tacos" command is finished, collect the order data
 controller.studio.after('tacos', function(convo, next) {
     if (convo.status == 'completed') {
@@ -278,7 +278,7 @@ controller.studio.after('tacos', function(convo, next) {
 
 Note: hook functions _must_ call next() before ending, or the script will stop executing and the bot will be confused!
 
-```
+```javascript
 // Validate a "sauce" variable in the "taco" script
 // this will run whenever the sauce variable is set and can be used to
 // alter the course of the conversation

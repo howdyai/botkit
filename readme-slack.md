@@ -75,13 +75,13 @@ The Botkit Slack controller object can be configured in a few different ways, de
 
 A simple single-team bot that uses the RTM api can be instantated without any special options:
 
-```
+```javascript
 var controller = Botkit.slackbot({});
 ```
 
 In order to use Botkit's built in support for multi-team Slack "apps", pass in [additional configuration options](#use-the-slack-button):
 
-```
+```javascript
 var controller = Botkit.slackbot({
     clientId: process.env.clientId,
     clientSecret: procss.env.clientSecret,
@@ -472,7 +472,7 @@ controller.setupWebserver(port,function(err,express_webserver) {
 
 #### Handling `slash_command` and `outgoing_webhook` events
 
-```
+```javascript
 controller.on('slash_command',function(bot,message) {
 
     // reply to slash command
