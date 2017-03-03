@@ -135,20 +135,37 @@ controller.api.messenger_profile.greeting('Hello! I\'m a Botkit bot!');
 controller.api.messenger_profile.get_started('sample_get_started_payload');
 controller.api.messenger_profile.menu([
     {
-        "type":"postback",
-        "title":"Hello",
-        "payload":"hello"
+        "locale":"default",
+        "composer_input_disabled":true,
+        "call_to_actions":[
+            {
+                "title":"My Skills",
+                "type":"nested",
+                "call_to_actions":[
+                    {
+                        "title":"Hello",
+                        "type":"postback",
+                        "payload":"Hello"
+                    },
+                    {
+                        "title":"Hi",
+                        "type":"postback",
+                        "payload":"Hi"
+                    }
+                ]
+            },
+            {
+                "type":"web_url",
+                "title":"Botkit Docs",
+                "url":"https://github.com/howdyai/botkit/blob/master/readme-facebook.md",
+                "webview_height_ratio":"full"
+            }
+        ]
     },
     {
-        "type":"postback",
-        "title":"Help",
-        "payload":"help"
-    },
-    {
-      "type":"web_url",
-      "title":"Botkit Docs",
-      "url":"https://github.com/howdyai/botkit/blob/master/readme-facebook.md"
-    },
+        "locale":"zh_CN",
+        "composer_input_disabled":false
+    }
 ]);
 
 controller.hears(['quick'], 'message_received', function(bot, message) {
