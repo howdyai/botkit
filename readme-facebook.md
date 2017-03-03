@@ -294,6 +294,18 @@ reply_message = {
 bot.reply(message, reply_message)
 ```
 
+## Thread Setting API
+
+Thread setting API is now messenger profile API, it's highly recommended to use profile API instead of thread setting one, however, Botkit thread setting interface still available :
+
+ 
+```js
+controller.api.messenger_profile.YOUR_METHOD_NAME();
+controller.api.thread_settings.YOUR_METHOD_NAME();
+
+```
+
+
 ## Messenger Profile API
 
 Facebook offers a Messenger Profile API to customize special bot features
