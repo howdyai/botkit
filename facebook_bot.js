@@ -131,9 +131,9 @@ controller.setupWebserver(process.env.port || 3000, function(err, webserver) {
     });
 });
 
-controller.api.thread_settings.greeting('Hello! I\'m a Botkit bot!');
-controller.api.thread_settings.get_started('sample_get_started_payload');
-controller.api.thread_settings.menu([
+controller.api.messenger_profile.greeting('Hello! I\'m a Botkit bot!');
+controller.api.messenger_profile.get_started('sample_get_started_payload');
+controller.api.messenger_profile.menu([
     {
         "type":"postback",
         "title":"Hello",
