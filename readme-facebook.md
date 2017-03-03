@@ -294,6 +294,21 @@ reply_message = {
 bot.reply(message, reply_message)
 ```
 
+
+## Messenger code API
+
+Messenger Codes can be scanned in Messenger to instantly link the user to your bot, no typing needed. They're great for sticking on fliers, ads, or anywhere in the real world where you want people to try your bot.
+
+```javascript
+controller.api.get_messenger_code(2000, function (err, uri) {
+    if(err) {
+        // Error
+    } else {
+        // uri
+    }
+});
+```
+
 ## Thread Settings API
 
 Facebook offers a "Thread Settings" API to customize special bot features
