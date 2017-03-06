@@ -30,7 +30,7 @@ This bot demonstrates many of the core features of Botkit:
 var Botkit = require('./lib/Botkit.js');
 
 var controller = Botkit.sparkbot({
-    debug: false,
+    debug: true,
     log: false,
     public_address: process.env.public_address,
     ciscospark_access_token: process.env.access_token,
@@ -96,6 +96,18 @@ if (process.env.studio_token) {
         controller.studio.runTrigger(bot, message.text, message.user, message.channel).then(function(convo) {
             if (!convo) {
                 // console.log('NO STUDIO MATCH');
+            } else {
+              convo.beforeThread('default', function(convo, next) {
+                console.log('BEFORE DEFAULT THREAD');
+                convo.setVar('foo','bar');
+                next();
+              });
+              convo.beforeThread('new_thread', function(convo, next) {
+                console.log('BEFORE NEW THREAD THREAD');
+                next();
+              });
+
+
             }
         }).catch(function(err) {
             console.error('Error with Botkit Studio: ', err);
