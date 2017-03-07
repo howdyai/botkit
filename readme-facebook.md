@@ -330,17 +330,17 @@ Create a [persistent menu](https://developers.facebook.com/docs/messenger-platfo
 
 Clear the persistent menu setting
 
-#### controller.api.thread_settings.domain_whitelist()
+#### controller.api.messenger_profile.domain_whitelist()
 | Argument | Description
 |---  |---
 | payload | A single or a list of domains to add to the whitelist, All domains must be valid and use https. Up to 10 domains allowed.
 
-#### controller.api.thread_settings.delete_delete_domain_whitelist()
+#### controller.api.messenger_profile.delete_delete_domain_whitelist()
 | Argument | Description
 |---  |---
 | payload | A single or a list of domains to remove from whitelist, All domains must be valid and use https. Up to 10 domains allowed.
 
-#### controller.api.thread_settings.get_domain_whitelist()
+#### controller.api.messenger_profile.get_domain_whitelist()
 
 Get a list of the whitelisted domains.
 
