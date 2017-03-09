@@ -356,6 +356,21 @@ Create a [persistent menu](https://developers.facebook.com/docs/messenger-platfo
 
 Clear the persistent menu setting
 
+#### controller.api.messenger_profile.domain_whitelist()
+| Argument | Description
+|---  |---
+| payload | A single or a list of domains to add to the whitelist, All domains must be valid and use https. Up to 10 domains allowed.
+
+#### controller.api.messenger_profile.delete_delete_domain_whitelist()
+| Argument | Description
+|---  |---
+| payload | A single or a list of domains to remove from whitelist, All domains must be valid and use https. Up to 10 domains allowed.
+
+#### controller.api.messenger_profile.get_domain_whitelist()
+
+Get a list of the whitelisted domains.
+
+
 #### Using the The Messenger Profile API
 
 ```js
@@ -380,6 +395,13 @@ controller.api.messenger_profile.menu([
 ]);
 controller.api.messenger_profile.account_linking('https://www.yourAwesomSite.com/oauth?response_type=code&client_id=1234567890&scope=basic');
 controller.api.messenger_profile.delete_account_linking();
+controller.api.messenger_api.domain_whitelist('https://localhost');
+controller.api.messenger_api.domain_whitelist(['https://127.0.0.1', 'https://0.0.0.0']);
+controller.api.messenger_api.delete_domain_whitelist('https://localhost');
+controller.api.messenger_api.delete_domain_whitelist(['https://127.0.0.1', 'https://0.0.0.0']);
+controller.api.messenger_api.get_domain_whitelist(function (err, data)  {
+    console.log('****** Whitelisted domains :', data);
+});
 
 
 controller.hears(['hello'],'facebook_postback', function(bot, message) {
