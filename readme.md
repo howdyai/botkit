@@ -738,19 +738,19 @@ bot.createConversation(message, function(err, convo) {
         {
             pattern: 'yes',
             callback: function(response, convo) {
-                convo.changeTopic('yes_thread');
+                convo.gotoThread('yes_thread');
             },
         },
         {
             pattern: 'no',
             callback: function(response, convo) {
-                convo.changeTopic('no_thread');
+                convo.gotoThread('no_thread');
             },
         },
         {
             default: true,
             callback: function(response, convo) {
-                convo.changeTopic('bad_response');
+                convo.gotoThread('bad_response');
             },
         }
     ]);
