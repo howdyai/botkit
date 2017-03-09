@@ -294,11 +294,25 @@ reply_message = {
 bot.reply(message, reply_message)
 ```
 
-## Thread Setting API
+## Messenger code API
+
+Messenger Codes can be scanned in Messenger to instantly link the user to your bot, no typing needed. They're great for sticking on fliers, ads, or anywhere in the real world where you want people to try your bot.
+
+```javascript
+controller.api.get_messenger_code(2000, function (err, uri) {
+    if(err) {
+        // Error
+    } else {
+        // uri
+    }
+});
+```
+
+## Thread Settings API
 
 Thread setting API is now messenger profile API, it's highly recommended to use profile API instead of thread setting one, however, Botkit thread setting interface still available :
 
- 
+
 ```js
 controller.api.messenger_profile.YOUR_METHOD_NAME();
 controller.api.thread_settings.YOUR_METHOD_NAME();
