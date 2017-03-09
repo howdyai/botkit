@@ -9,6 +9,14 @@ PR https://github.com/howdyai/botkit/pull/689
 PR https://github.com/howdyai/botkit/pull/573
 
 PR https://github.com/howdyai/botkit/pull/691
+PR https://github.com/howdyai/botkit/pull/699
+
+PR https://github.com/howdyai/botkit/pull/678
+
+PR https://github.com/howdyai/botkit/pull/657
+
+PR https://github.com/howdyai/botkit/pull/578
+
 
 ## 0.5.1
 
