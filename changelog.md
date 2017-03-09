@@ -1,5 +1,15 @@
 # Change Log
 
+## 0.5.2
+
+PR https://github.com/howdyai/botkit/pull/677
+
+PR https://github.com/howdyai/botkit/pull/690
+PR https://github.com/howdyai/botkit/pull/689
+PR https://github.com/howdyai/botkit/pull/573
+
+PR https://github.com/howdyai/botkit/pull/691
+
 ## 0.5.1
 
 Fixes for Cisco Spark:
