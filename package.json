@@ -31,6 +31,8 @@
     "jscs": "^2.7.0",
     "mocha": "^2.4.5",
     "should": "^8.0.2",
+    "should-sinon": "0.0.5",
+    "sinon": "^1.17.7",
     "winston": "^2.1.1"
   },
   "scripts": {
