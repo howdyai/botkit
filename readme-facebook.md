@@ -16,8 +16,10 @@ Table of Contents
 * [Working with Facebook Webhooks](#working-with-facebook-messenger)
 * [Using Structured Messages and Postbacks](#using-structured-messages-and-postbacks)
 * [Thread Settings](#thread-settings-api)
+* [Messenger Profile API](#messenger-profile-api)
 * [Simulate typing](#simulate-typing)
 * [Silent and No Notifications](#silent-and-no-notifications)
+* [Messenger code API](#messenger-code-api)
 * [Running Botkit with an Express server](#use-botkit-for-facebook-messenger-with-an-express-web-server)
 
 ## Getting Started
@@ -362,15 +364,13 @@ Clear the persistent menu setting
 |---  |---
 | payload | A single or a list of domains to add to the whitelist, All domains must be valid and use https. Up to 10 domains allowed.
 
-#### controller.api.messenger_profile.delete_delete_domain_whitelist()
-| Argument | Description
-|---  |---
-| payload | A single or a list of domains to remove from whitelist, All domains must be valid and use https. Up to 10 domains allowed.
+#### controller.api.messenger_profile.delete_domain_whitelist()
+
+remove all domains
 
 #### controller.api.messenger_profile.get_domain_whitelist()
 
 Get a list of the whitelisted domains.
-
 
 #### Using the The Messenger Profile API
 
@@ -396,11 +396,10 @@ controller.api.messenger_profile.menu([
 ]);
 controller.api.messenger_profile.account_linking('https://www.yourAwesomSite.com/oauth?response_type=code&client_id=1234567890&scope=basic');
 controller.api.messenger_profile.delete_account_linking();
-controller.api.messenger_api.domain_whitelist('https://localhost');
-controller.api.messenger_api.domain_whitelist(['https://127.0.0.1', 'https://0.0.0.0']);
-controller.api.messenger_api.delete_domain_whitelist('https://localhost');
-controller.api.messenger_api.delete_domain_whitelist(['https://127.0.0.1', 'https://0.0.0.0']);
-controller.api.messenger_api.get_domain_whitelist(function (err, data)  {
+controller.api.messenger_profile.domain_whitelist('https://localhost');
+controller.api.messenger_profile.domain_whitelist(['https://127.0.0.1', 'https://0.0.0.0']);
+controller.api.messenger_profile.delete_domain_whitelist();
+controller.api.messenger_profile.get_domain_whitelist(function (err, data)  {
     console.log('****** Whitelisted domains :', data);
 });
 
