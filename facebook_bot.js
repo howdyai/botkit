@@ -181,6 +181,24 @@ controller.api.messenger_profile.get_domain_whitelist(function (err, data)  {
 });
 
 
+controller.hears(['code'], 'message_received,facebook_postback', function(bot, message) {
+    controller.api.messenger_profile.get_messenger_code(2000, function (err, url) {
+        if(err) {
+            // Error
+        } else {
+            var image = {
+                "attachment":{
+                    "type":"image",
+                    "payload":{
+                        "url": url
+                    }
+                }
+            };
+            bot.reply(message, image);
+        }
+    });
+});
+
 controller.hears(['quick'], 'message_received', function(bot, message) {
 
     bot.reply(message, {
