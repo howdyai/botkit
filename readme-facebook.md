@@ -337,6 +337,10 @@ such as a persistent menu and a welcome screen. We highly recommend you use all 
 
 Remove the greeting message.
 
+#### controller.api.messenger_profile.get_greeting()
+
+Get the greeting setting.
+
 #### controller.api.messenger_profile.get_started()
 | Argument | Description
 |---  |---
@@ -347,6 +351,10 @@ Set the payload value of the 'Get Started' button
 #### controller.api.messenger_profile.delete_get_started()
 
 Clear the payload value of the 'Get Started' button and remove it.
+
+#### controller.api.messenger_profile.get_get_started()
+
+Get the get started setting.
 
 #### controller.api.messenger_profile.menu()
 | Argument | Description
@@ -359,6 +367,23 @@ Create a [persistent menu](https://developers.facebook.com/docs/messenger-platfo
 
 Clear the persistent menu setting
 
+#### controller.api.messenger_profile.get_menu()
+
+Get the menu setting.
+
+#### controller.api.messenger_profile.account_linking()
+| Argument | Description
+|---  |---
+| payload | the account link.
+
+#### controller.api.messenger_profile.delete_account_linking()
+
+Remove the account link 
+
+#### controller.api.messenger_profile.get_account_linking()
+
+Get the account link
+
 #### controller.api.messenger_profile.domain_whitelist()
 | Argument | Description
 |---  |---
@@ -366,7 +391,7 @@ Clear the persistent menu setting
 
 #### controller.api.messenger_profile.delete_domain_whitelist()
 
-remove all domains
+Remove all domains
 
 #### controller.api.messenger_profile.get_domain_whitelist()
 
