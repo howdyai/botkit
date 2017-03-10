@@ -313,7 +313,7 @@ controller.api.messenger_profile.get_messenger_code(2000, function (err, url) {
 
 ## Thread Settings API
 
-Thread setting API is now messenger profile API, it's highly recommended to use profile API instead of thread setting one, however, Botkit thread setting interface still available :
+Thread settings API is now messenger profile API, it's highly recommended to use profile API instead of thread settings one, however, Botkit thread settings interface still available :
 
 
 ```js
