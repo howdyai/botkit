@@ -213,7 +213,7 @@ who must be added to channels in order to interact.
 
 By default, bots are "system" users, and can be configured as below:
 
-```
+```javascript
 var bot = controller.spawn({
     TWILIO_IPM_SERVICE_SID: process.env.TWILIO_IPM_SERVICE_SID,
     TWILIO_ACCOUNT_SID: process.env.TWILIO_ACCOUNT_SID,
@@ -224,7 +224,7 @@ var bot = controller.spawn({
 
 To connect as a "bot" user, pass in an `identity` field:
 
-```
+```javascript
 var bot = controller.spawn({
     TWILIO_IPM_SERVICE_SID: process.env.TWILIO_IPM_SERVICE_SID,
     TWILIO_ACCOUNT_SID: process.env.TWILIO_ACCOUNT_SID,
@@ -237,7 +237,7 @@ var bot = controller.spawn({
 To have your bot automatically join every channel as they are created and removed,
 pass in `autojoin`:
 
-```
+```javascript
 var bot = controller.spawn({
     TWILIO_IPM_SERVICE_SID: process.env.TWILIO_IPM_SERVICE_SID,
     TWILIO_ACCOUNT_SID: process.env.TWILIO_ACCOUNT_SID,
@@ -271,7 +271,7 @@ bot.api.channels('CHANNEL_SID').members('MEMBER_SID').get().then(function(respon
     console.log(error);
 });
 ```
-This gives you full access to all of the Twilio API methods so that you can use them in your Bot.  
+This gives you full access to all of the Twilio API methods so that you can use them in your Bot.
 
 Here is an example showing how to join a channel using Botkit's bot.api object, which creates a member to the channel, by wrapping the IPM API.
 

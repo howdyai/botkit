@@ -30,7 +30,7 @@ Table of Contents
 
 Copy this token, you'll need it!
 
-4) Define your own "verify token" - this a string that you control that Facebook will use to verify your web hook endpoint.
+4) Define your own "verify token" - this is a string that you control that Facebook will use to verify your web hook endpoint.
 
 5) Run the example bot app, using the two tokens you just created. If you are _not_ running your bot at a public, SSL-enabled internet address, use the --lt option and note the URL it gives you.
 
@@ -75,6 +75,7 @@ Normal messages will be sent to your bot using the `message_received` event.  In
 | facebook_postback | user clicked a button in an attachment and triggered a webhook postback
 | message_delivered | a confirmation from Facebook that a message has been received
 | message_read | a confirmation from Facebook that a message has been read
+| facebook_account_linking | a user has started the account linking
 | facebook_optin | a user has clicked the [Send-to-Messenger plugin](https://developers.facebook.com/docs/messenger-platform/implementation#send_to_messenger_plugin)
 | facebook_referral | a user has clicked on a [m.me URL with a referral param](https://developers.facebook.com/docs/messenger-platform/referral-params)
 
@@ -286,7 +287,7 @@ When sending a user a message you can make the message have either no notificati
 
 `notification_type` is optional. By default, messages will be REGULAR push notification type
 
-```
+```javascript
 reply_message = {
     text: "Message text here",
     notification_type: NOTIFICATION_TYPE
@@ -352,6 +353,9 @@ controller.api.thread_settings.menu([
       "url":"https://github.com/howdyai/botkit/blob/master/readme-facebook.md"
     },
 ]);
+controller.api.thread_settings.account_linking('https://www.yourAwesomSite.com/oauth?response_type=code&client_id=1234567890&scope=basic');
+controller.api.thread_settings.delete_account_linking();
+
 
 controller.hears(['hello'],'facebook_postback', function(bot, message) {
     //...

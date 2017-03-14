@@ -1,5 +1,21 @@
 # Change Log
 
+## 0.5.1
+
+Fixes for Cisco Spark:
+
+Allow port number to be included in public_address
+
+Fix to issue when using retrieveFile()
+
+Fixes for Slack:
+
+Add support for `channel.replies` API
+
+Fixes for Facebook:
+
+Add support for [Facebook account linking](https://github.com/howdyai/botkit/pull/645)
+
 ## 0.5.0
 
 Add support for bots on [Cisco Spark](http://developer.ciscospark.com)! For information about getting started, and to learn about new Botkit features that are specific to this platform, [check out our new Cisco Spark readme. ](readme-ciscospark.md)

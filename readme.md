@@ -33,7 +33,7 @@ Botkit Studio is built on top of Botkit, so everything that works with Botkit co
 
 There are two ways to start a Botkit project:
 
-1) Install the Botkit Studio Starter Kit [for Slack](https://github.com/howdyai/botkit-starter-slack) or [for Facebook](https://github.com/howdyai/botkit-starter-facebook) and build on top of an already fully functioning bot
+1) Install the Botkit Studio Starter Kit [for Slack](https://github.com/howdyai/botkit-starter-slack) or [for Cisco Spark](https://github.com/howdyai/botkit-starter-ciscospark) or [for Facebook](https://github.com/howdyai/botkit-starter-facebook) and build on top of an already fully functioning bot
 that comes pre-configured with popular middleware plug-ins and components.
 
 2) [Install Botkit directly from NPM or Github](#install-botkit-from-npm-or-github) and build a new app from scratch, or use one of the [included examples](#included-examples) as a starting point.
@@ -738,19 +738,19 @@ bot.createConversation(message, function(err, convo) {
         {
             pattern: 'yes',
             callback: function(response, convo) {
-                convo.changeTopic('yes_thread');
+                convo.gotoThread('yes_thread');
             },
         },
         {
             pattern: 'no',
             callback: function(response, convo) {
-                convo.changeTopic('no_thread');
+                convo.gotoThread('no_thread');
             },
         },
         {
             default: true,
             callback: function(response, convo) {
-                convo.changeTopic('bad_response');
+                convo.gotoThread('bad_response');
             },
         }
     ]);
@@ -886,6 +886,8 @@ so that it is sent immediately, before any other queued messages.
 `convo.silentRepeat()` simply wait for another response without saying anything.
 
 `convo.next()` proceed to the next message in the conversation.  *This must be called* at the end of each handler.
+
+`convo.setTimeout(timeout)` times out conversation if no response from user after specified time period (in milliseconds).
 
 ### Handling End of Conversation
 
@@ -1081,7 +1083,7 @@ Whereas the `receive middleware` will fire for every single incoming message of 
 Heard middleware functions fire anytime Botkit attempts to match a pre-defined pattern: when using the `hears()` feature, and also when using `convo.ask()` to capture user responses.
 
 
-```
+```javascript
 controller.middleware.heard.use(function(bot, message, next) {
 
     // load internal user data and add it to the message
@@ -1114,7 +1116,7 @@ The `capture` middleware endpoint allows developers to harness these values and 
 
 Please note that the signature of the `capture` middleware is slightly different than the other endpoints, as it includes a parameter for the conversation object:
 
-```
+```javascript
 controller.middleware.capture.use(function(bot, message, convo, next) {
 
     // user's raw response is in message.text
@@ -1222,7 +1224,7 @@ var controller = Botkit.slackbot({
 });
 ```
 
-Note: with Winston, we must use the syslog.levels over the default or else some botkit log messages (like 'notice') will not be logged properly.  
+Note: with Winston, we must use the syslog.levels over the default or else some botkit log messages (like 'notice') will not be logged properly.
 
 ##Use Botkit with an Express web server
 Instead of controller.setupWebserver(), it is possible to use a different web server to manage authentication flows, as well as serving web pages.
