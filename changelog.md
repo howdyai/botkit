@@ -2,6 +2,8 @@
 
 ## 0.5.2
 
+Add support for Slack's new `chat.unfurl` method for use with [App Unfurls](https://api.slack.com/docs/message-link-unfurling)
+
 PR https://github.com/howdyai/botkit/pull/677
 
 PR https://github.com/howdyai/botkit/pull/690
