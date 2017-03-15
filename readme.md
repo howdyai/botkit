@@ -7,7 +7,7 @@
 
 
 Botkit is designed to ease the process of designing and running useful, creative bots that live inside [Slack](http://slack.com),
-[Cisco Spark](http://ciscospark.com/), [Facebook Messenger](http://facebook.com), [Twilio IP Messaging](https://www.twilio.com/docs/api/ip-messaging), and other messaging platforms. Support for new platforms is added regularly!
+[Cisco Spark](http://ciscospark.com/), [Facebook Messenger](http://facebook.com), [Twilio IP Messaging](https://www.twilio.com/docs/api/ip-messaging), [Glip](http://glip.com) and other messaging platforms. Support for new platforms is added regularly!
 
 It provides a semantic interface to sending and receiving messages so that developers can focus on creating novel applications and experiences instead of dealing with API endpoints.
 
@@ -18,7 +18,7 @@ Botkit features a comprehensive set of tools to deal with popular messaging plat
 * [Facebook Messenger](readme-facebook.md)
 * [Twilio IP Messaging](readme-twilioipm.md)
 * [Microsoft Bot Framework](readme-botframework.md)
-* Yours? [info@howdy.ai](mailto:info@howdy.ai)
+* [Glip](readme-glip.md)
 
 ## Botkit Studio
 
@@ -49,6 +49,8 @@ If you intend to create a bot that lives in Cisco Spark, [follow these instructi
 
 
 If you intend to create a bot that lives in Facebook Messenger, [follow these instructions for configuring your Facebook page](readme-facebook.md#getting-started).
+
+If you intend to create a bot that lives in Glip, [follow these instructions for configuring your Glip bot](readme-glip.md#getting-started).
 
 If you intend to create a bot that lives inside a Twilio IP Messaging client, [follow these instructions for configuring your app](readme-twilioipm.md#getting-started).
 
@@ -100,9 +102,10 @@ it is ready to be connected to a stream of incoming messages. Currently, Botkit 
 * [Cisco Spark Webhooks](https://developer.ciscospark.com/webhooks-explained.html)
 * [Facebook Messenger Webhooks](https://developers.facebook.com/docs/messenger-platform/implementation)
 * [Twilio IP Messaging](https://www.twilio.com/user/account/ip-messaging/getting-started)
+* [Glip Messaging](https://developer.ringcentral.com/library/getting-started.html)
 * [Microsoft Bot Framework](http://botframework.com/)
 
-Read more about [connecting your bot to Slack](readme-slack.md#connecting-your-bot-to-slack), [connecting your bot to Cisco Spark](readme-slack.md#getting-started), [connecting your bot to Facebook](readme-facebook.md#getting-started), [connecting your bot to Twilio](readme-twilioipm.md#getting-started),
+Read more about [connecting your bot to Slack](readme-slack.md#connecting-your-bot-to-slack), [connecting your bot to Cisco Spark](readme-slack.md#getting-started), [connecting your bot to Facebook](readme-facebook.md#getting-started), [connecting your bot to Twilio](readme-twilioipm.md#getting-started),[connecting your bot to Glip](readme-glip.md#getting-started)
 or [connecting your bot to Microsoft Bot Framework](readme-botframework.md#getting-started)
 
 ## Included Examples
@@ -116,6 +119,8 @@ These examples are included in the Botkit [Github repo](https://github.com/howdy
 [facebook_bot.js](https://github.com/howdyai/botkit/blob/master/facebook_bot.js) An example bot that can be connected to your Facebook page. Useful as a basis for creating your first bot!
 
 [twilio_ipm_bot.js](https://github.com/howdyai/botkit/blob/master/twilio_ipm_bot.js) An example bot that can be connected to your Twilio IP Messaging client. Useful as a basis for creating your first bot!
+
+[glip_bot.js](https://github.com/howdyai/botkit/blob/master/glip_bot.js) An example bot that can be connected to your Glip Messaging client. Useful as a basis for creating your first bot!
 
 [botframework_bot.js](https://github.com/howdyai/botkit/blob/master/botframework_bot.js) An example bot that can be connected to the Microsoft Bot Framework network. Useful as a basis for creating your first bot!
 
