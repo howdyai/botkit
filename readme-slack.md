@@ -109,7 +109,6 @@ var controller = Botkit.slackbot({debug: true})
 | send_via_rtm  | Boolean   | Send outgoing messages via the RTM instead of using Slack's RESTful API which supports more features
 | retry | Positive integer or `Infinity` | Maximum number of reconnect attempts after failed connection to Slack's real time messaging API. Retry is disabled by default
 | api_root | Alternative root URL which allows routing requests to the Slack API through a proxy, or use of a mocked endpoints for testing. defaults to `https://slack.com`
-| disable_startup_message | Boolean | Disable `"Initializing Botkit vXXX"` message
 
 #### controller.spawn()
 | Argument | Description
