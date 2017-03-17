@@ -1,6 +1,6 @@
 {
   "name": "botkit",
-  "version": "0.5.1",
+  "version": "0.5.2",
   "description": "Building blocks for Building Bots",
   "main": "lib/Botkit.js",
   "dependencies": {
@@ -46,7 +46,7 @@
   "bugs": {
     "url": "https://github.com/howdyai/botkit/issues"
   },
-  "homepage": "http://howdy.ai/botkit",
+  "homepage": "https://botkit.ai",
   "keywords": [
     "bots",
     "chatbots",
