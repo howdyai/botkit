@@ -2,24 +2,35 @@
 
 ## 0.5.2
 
+Changes for Slack:
+
 Add support for Slack's new `chat.unfurl` method for use with [App Unfurls](https://api.slack.com/docs/message-link-unfurling)
 
-PR https://github.com/howdyai/botkit/pull/677
+Add additional Slack's team API methods [PR #677](https://github.com/howdyai/botkit/pull/677)
 
-PR https://github.com/howdyai/botkit/pull/690
-PR https://github.com/howdyai/botkit/pull/689
-PR https://github.com/howdyai/botkit/pull/573
+Botkit will now store the value of the state parameter used in the oauth flow in the team's record [PR #657](https://github.com/howdyai/botkit/pull/657)
 
-PR https://github.com/howdyai/botkit/pull/691
-PR https://github.com/howdyai/botkit/pull/699
+Fixes slash commands when using internal webserver [PR #699](https://github.com/howdyai/botkit/pull/699)
 
-PR https://github.com/howdyai/botkit/pull/678
+Add error logging for say and spawn.run [PR #691](https://github.com/howdyai/botkit/pull/691)
 
-PR https://github.com/howdyai/botkit/pull/657
+Changes for Facebook Messenger:
 
-PR https://github.com/howdyai/botkit/pull/578
-PR https://github.com/howdyai/botkit/pull/567
-PR https://github.com/howdyai/botkit/pull/498
+Updates to Facebook's Messenger Profile APIs (previously thread settings APIs) [PR #690](https://github.com/howdyai/botkit/pull/690)
+
+Add ability to retrieve Messenger Code image [PR #689](https://github.com/howdyai/botkit/pull/689)
+
+Add support for Facebook's domain whitelisting API [PR #573](https://github.com/howdyai/botkit/pull/573)
+
+Add tests for handleWebhookPayload in Facebook bot flow [PR #678](https://github.com/howdyai/botkit/pull/678)
+
+Add Facebook account linking support [PR #578](https://github.com/howdyai/botkit/pull/578)
+
+Add ability to customize api url for Facebook [PR #576](https://github.com/howdyai/botkit/pull/567)
+
+Changes to Botkit Core:
+
+Add "done" and "exit" as a utterances for "quit" [PR #498](https://github.com/howdyai/botkit/pull/498)
 
 ## 0.5.1
 
