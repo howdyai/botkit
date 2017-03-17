@@ -2,7 +2,7 @@
 
 ## 0.5.2
 
-Changes for Slack:
+*Changes for Slack:*
 
 Add support for Slack's new `chat.unfurl` method for use with [App Unfurls](https://api.slack.com/docs/message-link-unfurling)
 
@@ -14,7 +14,7 @@ Fixes slash commands when using internal webserver [PR #699](https://github.com/
 
 Add error logging for say and spawn.run [PR #691](https://github.com/howdyai/botkit/pull/691)
 
-Changes for Facebook Messenger:
+*Changes for Facebook Messenger:*
 
 Updates to Facebook's Messenger Profile APIs (previously thread settings APIs) [PR #690](https://github.com/howdyai/botkit/pull/690)
 
@@ -28,9 +28,11 @@ Add Facebook account linking support [PR #578](https://github.com/howdyai/botkit
 
 Add ability to customize api url for Facebook [PR #576](https://github.com/howdyai/botkit/pull/567)
 
-Changes to Botkit Core:
+*Changes to Botkit Core:*
 
 Add "done" and "exit" as a utterances for "quit" [PR #498](https://github.com/howdyai/botkit/pull/498)
+
+*Thanks*
 
 Thanks to @jhsu @davidwneary @mbensch @alecl @ouadie-lahdioui @agamrafaeli @katsgeorgeek @jfairley
 
