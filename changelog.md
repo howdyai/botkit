@@ -32,6 +32,9 @@ Changes to Botkit Core:
 
 Add "done" and "exit" as a utterances for "quit" [PR #498](https://github.com/howdyai/botkit/pull/498)
 
+Thanks to @jhsu @davidwneary @mbensch @alecl @ouadie-lahdioui @agamrafaeli @katsgeorgeek @jfairley
+
+
 ## 0.5.1
 
 Fixes for Cisco Spark:
