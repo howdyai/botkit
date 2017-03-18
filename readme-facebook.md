@@ -40,6 +40,19 @@ Copy this token, you'll need it!
 page_token=<MY PAGE TOKEN> verify_token=<MY_VERIFY_TOKEN> node facebook_bot.js [--lt [--ltsubdomain CUSTOM_SUBDOMAIN]]
 ```
 
+#### localtunnel.me and the `lt` command
+[localtunnel.me](http://localtunnel.me) is a free service that according to their website will "allow you to easily share a web service on your local development machine without messing with DNS and firewall settings." Their website have the **very** simple instructions on how to install it. 
+
+By using a few flags on their tool it is easy to integrate localtunnel with botkit. We will be using two flags from `lt`, the localtunnel commandline utility.
+* `-s` which allows us to obtain a custom subdomain name
+* `--port` which allows us to specifiy the port on our machine to which the bot will connect.
+
+So a simple connect will be:
+```
+$ lt --port 8000 -s botkitexamplesubdomain
+your url is: http://botkitexamplesubdomain.localtunnel.me
+```
+
 6) [Set up a webhook endpoint for your app](https://developers.facebook.com/docs/messenger-platform/implementation#setting_webhooks) that uses your public URL. Use the verify token you defined in step 4!
 
 7) Your bot should be online! Within Facebook, find your page, and click the "Message" button in the header.
