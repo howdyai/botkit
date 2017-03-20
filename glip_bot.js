@@ -4,6 +4,8 @@
 
 "use strict";
 
+require('dotenv').config();
+
 var Botkit = require('./lib/Botkit.js');
 var os = require('os');
 var http = require('http');
@@ -15,15 +17,27 @@ var controller = Botkit.glipbot({
 });
 
 
+// var bot = controller.spawn({
+//     server: process.env.BOTKIT_GLIP_SERVER,
+//     appKey: process.env.BOTKIT_GLIP_APPKEY,
+//     appSecret: process.env.BOTKIT_GLIP_APPSECRET,
+//     appName: 'GlipDemo',
+//     appVersion: '1.0.0',
+//     username: process.env.BOTKIT_GLIP_USERNAME,
+//     password: process.env.BOTKIT_GLIP_PASSWORD,
+//     extension: process.env.BOTKIT_GLIP_EXTENSION,
+// }).startRTM();
+
 var bot = controller.spawn({
-    server: process.env.BOTKIT_GLIP_SERVER,
-    appKey: process.env.BOTKIT_GLIP_APPKEY,
-    appSecret: process.env.BOTKIT_GLIP_APPSECRET,
+    server: process.env.GLIP_SERVER,
+    appKey: process.env.GLIP_APPKEY,
+    appSecret: process.env.GLIP_APPSECRET,
     appName: 'GlipDemo',
     appVersion: '1.0.0',
-    username: process.env.BOTKIT_GLIP_USERNAME,
-    password: process.env.BOTKIT_GLIP_PASSWORD,
-    extension: process.env.BOTKIT_GLIP_EXTENSION,
+    username: process.env.GLIP_USERNAME,
+    password: process.env.GLIP_PASSWORD,
+    extension: process.env.GLIP_EXTENSION,
+    port: process.env.GLIP_PORT,
 }).startRTM();
 
 controller.setupWebserver(process.env.port || 3000, function(err, webserver){
@@ -38,6 +52,7 @@ controller.setupWebserver(process.env.port || 3000, function(err, webserver){
 
 // Usage: uptime
 controller.hears(['uptime'],'message_received',function(bot, message) {
+    console.log(message);
     var hostname = os.hostname();
     var uptime = formatUptime(process.uptime());
     bot.reply(message,'I am a bot! I have been running for ' + uptime + ' on ' + hostname + '.');
