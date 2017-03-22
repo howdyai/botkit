@@ -90,7 +90,7 @@ Practically speaking, this results in code that looks like this:
 ```
 // respond when a user sends a DM to the bot that says "hello"
 controller.hears('hello', 'direct_message', function(bot, message) {
-    bot.reply(message, 'Oh hello.');
+    bot.reply(message, 'Hello human.');
 });
 ```
 
