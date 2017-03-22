@@ -56,24 +56,18 @@ started is to deploy directly to [Glitch](http://glitch.com), a free-to-use code
 Note: While [using Botkit Studio](https://studio.botkit.ai) is highly recommended, these starter kits can be used without registering for Studio as well.
 
 > ### [Slack Bot Starter Kit](https://github.com/howdyai/botkit-starter-slack)
-
 > The Slack starter kit contains everything you need to create a multi-team Slack application,
 suitable for internal use or submission to [Slack's app store.](https://slack.com/apps)
-
 > **[Remix on Glitch](https://glitch.com/edit/#!/import/github/howdyai/botkit-starter-slack)**
 
 > ### [Cisco Spark Bot Starter Kit](https://github.com/howdyai/botkit-starter-ciscospark)
-
 > Build a bot inside Cisco Spark's collaboration and messaging platform. Bots built with the starter kit
 are ready to submit to [Cisco Spark's Depot app store](https://depot.ciscospark.com/).
-
 > **[Remix on Glitch](https://glitch.com/edit/#!/import/github/howdyai/botkit-starter-ciscospark)**
 
 > ### [Facebook Bot Starter Kit](https://github.com/howdyai/botkit-starter-facebook)
-
 > The Facebook starter kit contains all the code necessary to stand up a Facebook bot. With just a few
 pieces of configuration, set up a bot that automatically responds to messages sent to your Facebook page.
-
 > **[Remix on Glitch](https://glitch.com/edit/#!/import/github/howdyai/botkit-starter-facebook)**
 
 # [Developer Community](http://community.botkit.ai/)
