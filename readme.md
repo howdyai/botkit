@@ -72,7 +72,7 @@ are ready to submit to [Cisco Spark's Depot app store](https://depot.ciscospark.
 The Facebook starter kit contains all the code necessary to stand up a Facebook bot. With just a few
 pieces of configuration, set up a bot that automatically responds to messages sent to your Facebook page.
 
-[Remix on Glitch]([Remix on Glitch](https://glitch.com/edit/#!/import/github/howdyai/botkit-starter-facebook)
+[Remix on Glitch](https://glitch.com/edit/#!/import/github/howdyai/botkit-starter-facebook)
 
 
 # Botkit Core Library
