@@ -40,7 +40,7 @@ Bots built with Botkit Studio include:
 * Detailed usage statistics
 * Built-in integrations with top plugins and platform tools
 
-[Get your free Botkit Studio developer account >>](https://studio.botkit.ai/signup)
+**[Get your free Botkit Studio developer account >>](https://studio.botkit.ai/signup)**
 
 Questions about Botkit Studio? [Email us!](mailto:info@howdy.ai)
 
@@ -60,22 +60,21 @@ Note: While [using Botkit Studio](https://studio.botkit.ai) is highly recommende
 The Slack starter kit contains everything you need to create a multi-team Slack application,
 suitable for internal use or submission to [Slack's app store.](https://slack.com/apps)
 
-[Remix on Glitch](https://glitch.com/edit/#!/import/github/howdyai/botkit-starter-slack)
+**[Remix on Glitch](https://glitch.com/edit/#!/import/github/howdyai/botkit-starter-slack)**
 
 ### [Cisco Spark Bot Starter Kit](https://github.com/howdyai/botkit-starter-ciscospark)
 
 Build a bot inside Cisco Spark's collaboration and messaging platform. Bots built with the starter kit
 are ready to submit to [Cisco Spark's Depot app store](https://depot.ciscospark.com/).
 
-[Remix on Glitch](https://glitch.com/edit/#!/import/github/howdyai/botkit-starter-ciscospark)
+**[Remix on Glitch](https://glitch.com/edit/#!/import/github/howdyai/botkit-starter-ciscospark)**
 
 ### [Facebook Bot Starter Kit](https://github.com/howdyai/botkit-starter-facebook)
 
 The Facebook starter kit contains all the code necessary to stand up a Facebook bot. With just a few
 pieces of configuration, set up a bot that automatically responds to messages sent to your Facebook page.
 
-[Remix on Glitch](https://glitch.com/edit/#!/import/github/howdyai/botkit-starter-facebook)
-
+**[Remix on Glitch](https://glitch.com/edit/#!/import/github/howdyai/botkit-starter-facebook)**
 
 # Botkit Core Library
 
