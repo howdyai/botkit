@@ -42,7 +42,9 @@ Bots built with Botkit Studio include:
 
 [Get your free Botkit Studio developer account >>](https://studio.botkit.ai/signup)
 
-## Starter Kits
+Questions about Botkit Studio? [Email us!](mailto:info@howdy.ai)
+
+## Start with a Starter Kit
 
 Based on the best practices we've established since the release of Botkit, our starter kits include
 everything you need to bring a Botkit bot online in minutes. Don't start from scratch -- start with a
