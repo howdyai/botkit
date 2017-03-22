@@ -76,6 +76,13 @@ pieces of configuration, set up a bot that automatically responds to messages se
 
 **[Remix on Glitch](https://glitch.com/edit/#!/import/github/howdyai/botkit-starter-facebook)**
 
+# [Developer Community](http://community.botkit.ai/)
+
+Join our thriving community of Botkit developers and bot enthusiasts at large.
+Over 4500 members strong, [our open Slack group](http://community.botkit.ai) is
+_the place_ for people interested in the art and science of making bots.
+Come to ask questions, share your progress, and commune with your peers!
+
 # Botkit Core Library
 
 Botkit is designed around the idea of giving developers a language-like interface for building bots.
