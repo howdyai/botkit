@@ -130,9 +130,10 @@ Use the `--production` flag to skip the installation of devDependencies from Bot
 npm install --production
 ```
 
-## SDK Documentation
+## Documentation
 
 * [Basic Usage](docs/readme.md)
+* [Botkit Studio API](docs/readme-studio.md)
 * [Function index](docs/readme.md#developing-with-botkit)
 * [Extending Botkit with Plugins and Middleware](docs/middleware.md)
   * [List of current plugins](docs/readme-middlewares.md)
