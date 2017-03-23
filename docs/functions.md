@@ -18,6 +18,9 @@ controller.version
 
 controller.log
 
+... and then platform specific features too 
+
+
 
 # Bot Object
 
@@ -29,6 +32,7 @@ bot.startConversation
 
 bot.createConversation
 
+... and lots of specific featres added by platforms
 
 
 
