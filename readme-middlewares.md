@@ -25,6 +25,7 @@ Storage middleware can be used for storing attributes about a user or channel or
 * [CouchDB](#couchdb)
 
 ### [Statistics](#statistics)
+* [Botmetrics](#botmetrics)
 * [Keen](#keen)
 
 
@@ -419,6 +420,41 @@ couchDbStorage = require('botkit-storage-couchdb')({
 
 
 # Statistics
+
+## Botmetrics
+### [Project Page](https://github.com/botmetrics/botkit-middleware-botmetrics)
+### What it does
+[Botmetrics](https://www.getbotmetrics.com) is an analytics and engagement platform for chatbots.
+
+### Setup
+Add `botkit-middleware-botmetrics` to your `package.json`
+
+```
+$ npm install --save botkit-middleware-botmetrics
+```
+
+## Usage
+
+Register your bot with
+[Botmetrics](https://getbotmetrics.com). Once you have done so, navigate to "Bot Settings" and find out your Bot ID and API Key.
+
+Set the following environment variables with the Bot ID and API
+Key respectively.
+
+```
+BOTMETRICS_BOT_ID=your-bot-id
+BOTMETRICS_API_KEY=your-api-key
+```
+
+Require `botkit-middleware-botmetrics` and use the middleware in your bot like so:
+
+```javascript
+require('botkit-middleware-botmetrics')({
+  botmetricsBotId: process.env.BOTMETRICS_BOT_ID,
+  botmetricsApiKey: process.env.BOTMETRICS_API_KEY,
+  controller: controller
+});
+```
 ## Keen
 ### [Project Page](https://github.com/keen/keen-botkit)
 ### What it does
