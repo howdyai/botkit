@@ -16,11 +16,11 @@ a future filled with talking machines!
 
 Botkit features a comprehensive set of tools to deal with popular messaging platforms, including:
 
-* [Slack](readme-slack.md)
-* [Cisco Spark](readme-ciscospark.md)
-* [Facebook Messenger](readme-facebook.md)
-* [Twilio IP Messaging](readme-twilioipm.md)
-* [Microsoft Bot Framework](readme-botframework.md)
+* [Slack](docs/readme-slack.md)
+* [Cisco Spark](docs/readme-ciscospark.md)
+* [Facebook Messenger](docs/readme-facebook.md)
+* [Twilio IP Messaging](docs/readme-twilioipm.md)
+* [Microsoft Bot Framework](docs/readme-botframework.md)
 * Yours? [info@howdy.ai](mailto:info@howdy.ai)
 
 ---
