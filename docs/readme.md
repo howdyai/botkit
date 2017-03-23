@@ -321,6 +321,20 @@ multiple API calls into a single function.
 Messages sent as part of a conversation are sent no faster than one message per second,
 which roughly simulates the time it would take for the bot to "type" the message.
 
+
+### Conversation Threads
+
+While conversations with only a few questions can be managed by writing callback functions,
+more complex conversations that require branching, repeating or looping sections of dialog,
+or data validation can be handled using feature of the conversations we call `threads`.
+
+Threads are pre-built chains of dialog between the bot and end user that are built before the conversation begins. Once threads are built, Botkit can be instructed to navigate through the threads automatically, allowing many common programming scenarios such as yes/no/quit prompts to be handled without additional code.
+
+You can build conversation threads in code, or you can use [Botkit Studio](/readme-studio.md)'s script management tool to build them in a friendly web environment. Conversations you build yourself and conversations managed in Botkit Studio work the same way -- they run inside your bot and use your code to manage the outcome.
+
+If you've used the conversation system at all, you've used threads - you just didn't know it. When calling `convo.say()` and `convo.ask()`, you were actually adding messages to the `default` conversation thread that is activated when the conversation object is created.
+
+
 ### Start a Conversation
 
 #### bot.startConversation()
@@ -355,38 +369,28 @@ Use `createConversation()` instead of `startConversation()` when you plan on cre
 
 ### Control Conversation Flow
 
-#### conversation.activate()
+#### convo.activate()
 
 This function will cause a dormant conversation created with [bot.createConversation()](#botcreateconversation) to be activated, which will cause it to start sending messages and receiving replies from end users.
 
 A conversation can be kept dormant in order to preload it with [variables](#using-variable-tokens-and-templates-in-conversation-threads), particularly data that requires asynchronous actions to take place such as loading data from a database or remote source.  You may also keep a conversation inactive while you build threads, setting it in motion only when all of the user paths have been defined.
 
-#### conversation.say()
+#### convo.addMessage
 | Argument | Description
 |---  |---
 | message   | String or message object
+| thread_name   | String defining the name of a thread
 
-Call convo.say() several times in a row to queue messages inside the conversation. Only one message will be sent at a time, in the order they are queued.
+This function works identically to `convo.say()` except that it takes a second parameter which defines the thread to which the message will be added rather than being queued to send immediately, as is the case when using convo.say().
 
-```javascript
-controller.hears(['hello world'], 'message_received', function(bot,message) {
-
-  // start a conversation to handle this response.
-  bot.startConversation(message,function(err,convo) {
-
-    convo.say('Hello!');
-    convo.say('Have a nice day!');
-
-  });
-});
-```
-
-#### conversation.ask()
+#### convo.addQuestion
 | Argument | Description
 |---  |---
 | message   | String or message object containing the question
 | callback _or_ array of callbacks   | callback function in the form function(response_message,conversation), or array of objects in the form ``{ pattern: regular_expression, callback: function(response_message,conversation) { ... } }``
-| capture_options | _Optional_ Object defining options for capturing the response
+| capture_options |  Object defining options for capturing the response. Pass an empty object if capture options are not needed
+| thread_name   | String defining the name of a thread
+
 
 When passed a callback function, conversation.ask will execute the callback function for any response.
 This allows the bot to respond to open ended questions, collect the responses, and handle them in whatever
@@ -397,7 +401,7 @@ pattern is matched. This allows the bot to present multiple choice options, or t
 only when a valid response has been received. At least one of the patterns in the array must be marked as the default option,
 which will be called should no other option match. Botkit comes pre-built with several useful patterns which can be used with this function. See [included utterances](#included-utterances)
 
-Callback functions passed to `ask()` receive two parameters - the first is a standard message object containing
+Callback functions passed to `addQuestion()` receive two parameters - the first is a standard message object containing
 the user's response to the question. The second is a reference to the conversation itself.
 
 Note that in order to continue the conversation, `convo.next()` must be called by the callback function. This
@@ -412,7 +416,7 @@ This object can contain the following fields:
 | key | _String_ If set, the response will be stored and can be referenced using this key
 | multiple | _Boolean_ if true, support multi-line responses from the user (allow the user to respond several times and aggregate the response into a single multi-line value)
 
-##### Using conversation.ask with a callback:
+##### Using conversation.addQuestion with a callback:
 
 ```javascript
 controller.hears(['question me'], 'message_received', function(bot,message) {
@@ -420,19 +424,19 @@ controller.hears(['question me'], 'message_received', function(bot,message) {
   // start a conversation to handle this response.
   bot.startConversation(message,function(err,convo) {
 
-    convo.ask('How are you?',function(response,convo) {
+    convo.addQuestion('How are you?',function(response,convo) {
 
       convo.say('Cool, you said: ' + response.text);
       convo.next();
 
-    });
+    },{},'default');
 
   })
 
 });
 ```
 
-##### Using conversation.ask with an array of callbacks:
+##### Using conversation.addQuestion with an array of callbacks:
 
 ```javascript
 controller.hears(['question me'], 'message_received', function(bot,message) {
@@ -440,7 +444,7 @@ controller.hears(['question me'], 'message_received', function(bot,message) {
   // start a conversation to handle this response.
   bot.startConversation(message,function(err,convo) {
 
-    convo.ask('Shall we proceed Say YES, NO or DONE to quit.',[
+    convo.addQuestion('Shall we proceed Say YES, NO or DONE to quit.',[
       {
         pattern: 'done',
         callback: function(response,convo) {
@@ -473,43 +477,44 @@ controller.hears(['question me'], 'message_received', function(bot,message) {
           convo.next();
         }
       }
-    ]);
+    ],{},'default');
 
   })
 
 });
 ```
 
-### Conversation Threads
-
-While conversations with only a few questions can be managed by writing callback functions,
-more complex conversations that require branching, repeating or looping sections of dialog,
-or data validation can be handled using feature of the conversations we call `threads`.
-
-Threads are pre-built chains of dialog between the bot and end user that are built before the conversation begins. Once threads are built, Botkit can be instructed to navigate through the threads automatically, allowing many common programming scenarios such as yes/no/quit prompts to be handled without additional code.
-
-You can build conversation threads in code, or you can use [Botkit Studio](/readme-studio.md)'s script management tool to build them in a friendly web environment. Conversations you build yourself and conversations managed in Botkit Studio work the same way -- they run inside your bot and use your code to manage the outcome.
-
-If you've used the conversation system at all, you've used threads - you just didn't know it. When calling `convo.say()` and `convo.ask()`, you were actually adding messages to the `default` conversation thread that is activated when the conversation object is created.
-
-
-#### convo.addMessage
+#### convo.say()
 | Argument | Description
 |---  |---
 | message   | String or message object
-| thread_name   | String defining the name of a thread
 
-This function works identically to `convo.say()` except that it takes a second parameter which defines the thread to which the message will be added rather than being queued to send immediately, as is the case when using convo.say().
+convo.say() is a specialized version of `convo.addMessage()` that adds messages to the _current_ thread, essentially adding a message dynamically to the conversation. This should only be used in simple cases, as this method of enqueuing messages does not scale well and will be deprecated in the future.
 
-#### convo.addQuestion
+Call convo.say() several times in a row to queue messages inside the conversation. Only one message will be sent at a time, in the order they are queued.
+
+```javascript
+controller.hears(['hello world'], 'message_received', function(bot,message) {
+
+  // start a conversation to handle this response.
+  bot.startConversation(message,function(err,convo) {
+
+    convo.say('Hello!');
+    convo.say('Have a nice day!');
+
+  });
+});
+```
+
+#### convo.ask()
 | Argument | Description
 |---  |---
 | message   | String or message object containing the question
 | callback _or_ array of callbacks   | callback function in the form function(response_message,conversation), or array of objects in the form ``{ pattern: regular_expression, callback: function(response_message,conversation) { ... } }``
-| capture_options |  Object defining options for capturing the response. Pass an empty object if capture options are not needed
-| thread_name   | String defining the name of a thread
+| capture_options | _Optional_ Object defining options for capturing the response
 
-This function works identically to `convo.ask()` except that it takes second parameter which defines the thread to which the message will be added rather than being queued to send immediately, as is the case when using convo.ask().
+convo.say() is a specialized version of `convo.addQuestion()` that adds messages to the _current_ thread, essentially adding a message dynamically to the conversation. This should only be used in simple cases, as this method of enqueuing messages does not scale well and will be deprecated in the future.
+In particular, we recommend that developers avoid calling `convo.ask()` or `convo.say()` inside a callbacks for `convo.ask()`. Multi-level callbacks encourage fragile code - for conversations requiring more than one branch, use threads!
 
 
 #### convo.gotoThread
@@ -688,42 +693,6 @@ Botkit provides several built in variables that are automatically available to a
 {{origin}} - a message object that represents the initial triggering message that caused the conversation.
 
 {{responses}} - an object that contains all of the responses a user has given during the course of the conversation. This can be used to make references to previous responses. This requires that `convo.ask()` questions include a keyname, making responses available at `{{responses.keyname}}`
-
-##### Multi-stage conversations
-
-![multi-stage convo example](https://www.evernote.com/shard/s321/sh/7243cadf-be40-49cf-bfa2-b0f524176a65/f9257e2ff5ee6869/res/bc778282-64a5-429c-9f45-ea318c729225/screenshot.png?resizeSmall&width=832)
-
-One way to have multi-stage conversations is with multiple functions
-which call each other. Each function asks just one question. Example:
-
-```javascript
-controller.hears(['pizzatime'], 'message_received', function(bot,message) {
-    var askFlavor = function(err, convo) {
-      convo.ask('What flavor of pizza do you want?', function(response, convo) {
-        convo.say('Awesome.');
-        askSize(response, convo);
-        convo.next();
-      });
-    };
-    var askSize = function(response, convo) {
-      convo.ask('What size do you want?', function(response, convo) {
-        convo.say('Ok.')
-        askWhereDeliver(response, convo);
-        convo.next();
-      });
-    };
-    var askWhereDeliver = function(response, convo) {
-      convo.ask('So where do you want it delivered?', function(response, convo) {
-        convo.say('Ok! Good bye.');
-        convo.next();
-      });
-    };
-
-    bot.startConversation(message, askFlavor);
-});
-```
-
-The full code for this example can be found in ```examples/convo_bot.js```.
 
 ##### Included Utterances
 
