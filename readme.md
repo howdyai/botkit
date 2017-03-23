@@ -132,6 +132,19 @@ npm install --production
 
 ## SDK Documentation
 
-* Basic Usage
-* Extending Botkit with Middleware
-* Storing Information
+* [Basic Usage](docs/readme.md)
+* [Function index](docs/readme.md#developing-with-botkit)
+* [Extending Botkit with Plugins and Middleware](docs/middleware.md)
+  * [List of current plugins](docs/readme-middlewares.md)
+* [Storing Information](docs/storage.md)
+* [Logging](docs/logging.md)
+* Platforms
+  * [Slack](docs/readme-slack.md)
+  * [Cisco Spark](docs/readme-ciscospark.md)
+  * [Facebook Messenger](docs/readme-facebook.md)
+  * [Twilio IPM](docs/readme-twilioipm.md)
+  * [Microsoft Bot Framework](docs/readme-botframework.md)
+* Contributing to Botkit
+  * [Contributing to Botkit Core](CONTRIBUTING.md)
+  * [Building Middleware/plugins](docs/howto/build_middleware.md)
+  * [Building platform connectors](docs/howto/build_connector.md)

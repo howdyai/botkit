@@ -1,84 +1,5 @@
 # [Botkit](http://howdy.ai/botkit) - Building Blocks for Building Bots
 
-[![npm](https://img.shields.io/npm/v/botkit.svg)](https://www.npmjs.com/package/botkit)
-[![David](https://img.shields.io/david/howdyai/botkit.svg)](https://david-dm.org/howdyai/botkit)
-[![npm](https://img.shields.io/npm/l/botkit.svg)](https://spdx.org/licenses/MIT)
-
-Botkit is designed to ease the process of designing and running useful, creative bots that live inside [Slack](http://slack.com),
-[Cisco Spark](http://ciscospark.com/), [Facebook Messenger](http://facebook.com), [Twilio IP Messaging](https://www.twilio.com/docs/api/ip-messaging), and other messaging platforms. Support for new platforms is added regularly!
-
-It provides a semantic interface to sending and receiving messages so that developers can focus on creating novel applications and experiences instead of dealing with API endpoints.
-
-Botkit features a comprehensive set of tools to deal with popular messaging platforms, including:
-
-* [Slack](readme-slack.md)
-* [Cisco Spark](readme-ciscospark.md)
-* [Facebook Messenger](readme-facebook.md)
-* [Twilio IP Messaging](readme-twilioipm.md)
-* [Microsoft Bot Framework](readme-botframework.md)
-* Yours? [info@howdy.ai](mailto:info@howdy.ai)
-
-## Botkit Studio
-
-[Botkit Studio](https://studio.botkit.ai) is a hosted development environment for bots from the same team that built Botkit.
-Based on feedback from the developer community, as well as experience running our flagship Botkit-powered bot, [Howdy](http://howdy.ai),
-the tools in Botkit Studio allow bot designers and developers to manage many aspects of bot behavior without writing additional code.
-
-[Start building your bot with Botkit Studio](readme-studio.md) and you'll start from day one with extra tools and features that
-help you create and manage a successful bot application. It is also possible to add Studio features to your existing Botkit application. [With a few lines of code](readme-studio.md#adding-studio-features-to-an-existing-bot), you can add access new features and APIs.
-
-Botkit Studio is built on top of Botkit, so everything that works with Botkit continues to just work. All of the available plugins and middleware are compatible!
-
-## Getting Started
-
-There are two ways to start a Botkit project:
-
-1) Install the Botkit Studio Starter Kit [for Slack](https://github.com/howdyai/botkit-starter-slack) or [for Cisco Spark](https://github.com/howdyai/botkit-starter-ciscospark) or [for Facebook](https://github.com/howdyai/botkit-starter-facebook) and build on top of an already fully functioning bot
-that comes pre-configured with popular middleware plug-ins and components.
-
-2) [Install Botkit directly from NPM or Github](#install-botkit-from-npm-or-github) and build a new app from scratch, or use one of the [included examples](#included-examples) as a starting point.
-
-After you've installed Botkit using one of these methods, the first thing you'll need to do is register your bot with a messaging platform, and get a few configuration options set. This will allow your bot to connect, send and receive messages.
-
-If you intend to create a bot that
-lives in Slack, [follow these instructions for attaining a Bot Token](readme-slack.md#getting-started).
-
-If you intend to create a bot that lives in Cisco Spark, [follow these instructions for configuring your Cisco Spark bot](readme-ciscospark.md#getting-started).
-
-
-If you intend to create a bot that lives in Facebook Messenger, [follow these instructions for configuring your Facebook page](readme-facebook.md#getting-started).
-
-If you intend to create a bot that lives inside a Twilio IP Messaging client, [follow these instructions for configuring your app](readme-twilioipm.md#getting-started).
-
-If you intend to create a bot that uses Microsoft Bot Framework to send and receive messages, [follow these instructions for configuring your app](readme-botframework.md#getting-started).
-
-
-## Install Botkit from NPM or Github
-
-Botkit is available via NPM.
-
-```bash
-npm install --save botkit
-```
-
-You can also check out Botkit directly from Git.
-If you want to use the example code and included bots, it may be preferable to use Github over NPM.
-
-```bash
-git clone git@github.com:howdyai/botkit.git
-```
-
-After cloning the Git repository, you have to install the node dependencies. Navigate to the root of your cloned repository and use npm to install all necessary dependencies.
-```bash
-npm install
-```
-
-Use the `--production` flag to skip the installation of devDependencies from Botkit. Useful if you just wish to run the example bot.
-```bash
-npm install --production
-```
-
-
 ## Core Concepts
 
 Bots built with Botkit have a few key capabilities, which can be used to create clever, conversational applications. These capabilities map to the way real human people talk to each other.
@@ -87,7 +8,7 @@ Bots can [hear things](#receiving-messages), [say things and reply](#sending-mes
 
 With these two building blocks, almost any type of conversation can be created.
 
-To organize the things a bot says and does into useful units, Botkit bots have a subsystem available for managing [multi-message conversations](#multi-message-replies-to-incoming-messages). Conversations add features like the ability to ask a question, queue several messages at once, and track when an interaction has ended.  Handy!
+To organize the things a bot says and does into useful units, Botkit bots have a subsystem available for managing [multi-message conversations](#multi-message-conversations). Conversations add features like the ability to ask a question, queue several messages at once, and track when an interaction has ended.  Handy!
 
 After a bot has been told what to listen for and how to respond,
 it is ready to be connected to a stream of incoming messages. Currently, Botkit supports receiving messages from a variety of sources:
@@ -103,36 +24,7 @@ it is ready to be connected to a stream of incoming messages. Currently, Botkit 
 Read more about [connecting your bot to Slack](readme-slack.md#connecting-your-bot-to-slack), [connecting your bot to Cisco Spark](readme-slack.md#getting-started), [connecting your bot to Facebook](readme-facebook.md#getting-started), [connecting your bot to Twilio](readme-twilioipm.md#getting-started),
 or [connecting your bot to Microsoft Bot Framework](readme-botframework.md#getting-started)
 
-## Included Examples
-
-These examples are included in the Botkit [Github repo](https://github.com/howdyai/botkit).
-
-[slack_bot.js](https://github.com/howdyai/botkit/blob/master/slack_bot.js) An example bot that can be connected to your team. Useful as a basis for creating your first bot!
-
-[spark_bot.js](https://github.com/howdyai/botkit/blob/master/spark_bot.js) An example bot that can be connected to Cisco Spark. Useful as a basis for creating your first bot!
-
-[facebook_bot.js](https://github.com/howdyai/botkit/blob/master/facebook_bot.js) An example bot that can be connected to your Facebook page. Useful as a basis for creating your first bot!
-
-[twilio_ipm_bot.js](https://github.com/howdyai/botkit/blob/master/twilio_ipm_bot.js) An example bot that can be connected to your Twilio IP Messaging client. Useful as a basis for creating your first bot!
-
-[botframework_bot.js](https://github.com/howdyai/botkit/blob/master/botframework_bot.js) An example bot that can be connected to the Microsoft Bot Framework network. Useful as a basis for creating your first bot!
-
-[examples/demo_bot.js](https://github.com/howdyai/botkit/blob/master/examples/demo_bot.js) another example bot that uses different ways to send and receive messages.
-
-[examples/team_outgoingwebhook.js](https://github.com/howdyai/botkit/blob/master/examples/team_outgoingwebhook.js) an example of a Botkit app that receives and responds to outgoing webhooks from a single team.
-
-[examples/team_slashcommand.js](https://github.com/howdyai/botkit/blob/master/examples/team_slashcommand.js) an example of a Botkit app that receives slash commands from a single team.
-
-[examples/slackbutton_bot.js](https://github.com/howdyai/botkit/blob/master/examples/slackbutton_bot.js) an example of using the Slack Button to offer a bot integration.
-
-[examples/slackbutton_incomingwebhooks.js](https://github.com/howdyai/botkit/blob/master/examples/slackbutton_incomingwebhooks.js) an example of using the Slack Button to offer an incoming webhook integration. This example also includes a simple form which allows you to broadcast a message to any team who adds the integration.
-
-[example/sentiment_analysis.js](https://github.com/howdyai/botkit/blob/master/examples/sentiment_analysis.js) a simple example of a chatbot using sentiment analysis. Keeps a running score of each user based on positive and negative keywords. Messages and thresholds can be configured.
-
-
 ## Basic Usage
-
-Here's an example of using Botkit with Slack's [real time API](https://api.slack.com/rtm), which is the coolest one because your bot will look and act like a real user inside Slack.
 
 This sample bot listens for the word "hello" to be said to it -- either as a direct mention ("@bot hello") or an indirect mention ("hello @bot") or a direct message (a private message inside Slack between the user and the bot).
 
@@ -149,16 +41,8 @@ send messages and conduct conversations with users. They are called into action 
 ```javascript
 var Botkit = require('botkit');
 
-var controller = Botkit.slackbot({
-  debug: false
-  //include "log: false" to disable logging
-  //or a "logLevel" integer from 0 to 7 to adjust logging verbosity
-});
+var controller = Botkit.slackbot(configuration);
 
-// connect the bot to a stream of messages
-controller.spawn({
-  token: <my_slack_bot_token>,
-}).startRTM()
 
 // give the bot something to listen for.
 controller.hears('hello',['direct_message','direct_mention','mention'],function(bot,message) {
@@ -167,28 +51,6 @@ controller.hears('hello',['direct_message','direct_mention','mention'],function(
 
 });
 
-```
-
-### Botkit Statistics Gathering
-
-As of version 0.4, Botkit records anonymous usage statistics about Botkit bots in the wild.
-These statistics are used by the Botkit team at [Howdy](http://howdy.ai) to measure and
-analyze the Botkit community, and help to direct resources to the appropriate parts of the project.
-
-We take the privacy of Botkit developers and their users very seriously. Botkit does not collect,
-or transmit any message content, user data, or personally identifiable information to our statistics system.
-The information that is collected is anonymized inside Botkit and converted using one-way encryption
-into a hash before being transmitted.
-
-#### Opt Out of Stats
-
-To opt out of the stats collection, pass in the `stats_optout` parameter when initializing Botkit,
-as seen in the example below:
-
-```javascript
-var controller = Botkit.slackbot({
-    stats_optout: true
-});
 ```
 
 
@@ -444,7 +306,7 @@ controller.hears(['shirt'],'message_received',function(bot, message) {
 });
 ```
 
-### Multi-message Replies to Incoming Messages
+### Multi-message Conversations
 
 For more complex commands, multiple messages may be necessary to send a response,
 particularly if the bot needs to collect additional information from the user.
@@ -963,273 +825,32 @@ bot.say(
 );
 ```
 
-## Middleware
 
-The functionality of Botkit can be extended using middleware
-functions. These functions can plugin to the core bot running processes at
-several useful places and make changes to both a bot's configuration and
-the incoming or outgoing message.
+### Botkit Statistics Gathering
 
-For information about existing middleware plugins, [see here](readme-middlewares.md)
+As of version 0.4, Botkit records anonymous usage statistics about Botkit bots in the wild.
+These statistics are used by the Botkit team at [Howdy](http://howdy.ai) to measure and
+analyze the Botkit community, and help to direct resources to the appropriate parts of the project.
 
-### Middleware Endpoints
+We take the privacy of Botkit developers and their users very seriously. Botkit does not collect,
+or transmit any message content, user data, or personally identifiable information to our statistics system.
+The information that is collected is anonymized inside Botkit and converted using one-way encryption
+into a hash before being transmitted.
 
-Botkit currently supports middleware insertion in the following places:
+#### Opt Out of Stats
 
-* When receiving a message, before triggering any events
-* When sending a message, before the message is sent to the API
-* When hearing a message
-* When matching patterns with `hears()`, after the pattern has been matched but before the handler function is called
-* When capturing a users response to a `convo.ask()` question, after the user has answered, but before the value is stored or passed to the handler function
-
-Send and Receive middleware functions are added to Botkit using an Express-style "use" syntax.
-Each function receives a bot parameter, a message parameter, and
-a next function which must be called to continue processing the middleware stack.
-
-Hear middleware functions are passed in to the `controller.hears` function,
-and override the built in regular expression matching.
-
-### Receive Middleware
-
-Receive middleware can be used to do things like preprocess the message
-content using external natural language processing services like Wit.ai.
-Additional information can be added to the message object for use down the chain.
+To opt out of the stats collection, pass in the `stats_optout` parameter when initializing Botkit,
+as seen in the example below:
 
 ```javascript
-controller.middleware.receive.use(function(bot, message, next) {
-
-    // do something...
-    // message.extrainfo = 'foo';
-    next();
-
+var controller = Botkit.slackbot({
+    stats_optout: true
 });
 ```
-
-
-### Send Middleware
-
-Send middleware can be used to do things like preprocess the message
-content before it gets sent out to the messaging client.
-
-```javascript
-controller.middleware.send.use(function(bot, message, next) {
-
-    // do something useful...
-    if (message.intent == 'hi') {
-        message.text = 'Hello!!!';
-    }
-    next();
-
-});
-```
-
-
-### Hear Middleware
-
-Hear middleware can be used to change the way Botkit bots "hear" triggers.
-It can be used to look for values in fields other than message.text, or use comparison methods other than regular expression matching. For example, a middleware function
-could enable Botkit to "hear" intents added by an NLP classifier instead of string patterns.
-
-Hear middleware is enabled by passing a function into the `hears()` method on the Botkit controller.
-When specified, the middleware function will be used instead of the built in regular expression match.
-
-These functions receive 2 parameters - `patterns` an array of patterns, and `message` the incoming
-message. This function will be called _after_ any receive middlewares, so may use any additional
-information that may have been added. A return value of `true` indicates the pattern has been
-matched and the bot should respond.
-
-```javascript
-// this example does a simple string match instead of using regular expressions
-function custom_hear_middleware(patterns, message) {
-
-    for (var p = 0; p < patterns.length; p++) {
-        if (patterns[p] == message.text) {
-            return true;
-        }
-    }
-    return false;
-}
-
-
-controller.hears(['hello'],'direct_message',custom_hear_middleware,function(bot, message) {
-
-    bot.reply(message, 'I heard the EXACT string match for "hello"');
-
-});
-```
-
-It is possible to completely replace the built in regular expression match with
-a middleware function by calling `controller.changeEars()`. This will replace the matching function used in `hears()`
-as well as inside `convo.ask().` This would, for example, enable your bot to
-hear only intents instead of strings.
-
-```javascript
-controller.changeEars(function(patterns, message) {
-
-    // ... do something
-    // return true or false
-});
-```
-
-
-### Heard Middleware
-
-Heard middleware can be used to modify or enrich a message with additional information before it is handled by the callback function.
-This can be useful for developers who want to use NLP tools, but want to limit the type and number of messages sent to be classified.
-It is also useful for developers who want to mix internal application data (for example, user account information) into messages.
-
-Whereas the `receive middleware` will fire for every single incoming message of any type, the heard middleware only fires when a pattern has already been matched.
-
-Heard middleware functions fire anytime Botkit attempts to match a pre-defined pattern: when using the `hears()` feature, and also when using `convo.ask()` to capture user responses.
-
-
-```javascript
-controller.middleware.heard.use(function(bot, message, next) {
-
-    // load internal user data and add it to the message
-
-    mydb.users.find({id: message.user}, function(err, user_record) {
-
-        // amend the message with a new field.
-        // this will now be available inside the normal handler function
-        message.internal_user = user_record;
-
-        // call next or else execution will stall
-        next();
-
-    });
-
-});
-```
-
-### Capture Middleware
-
-As users respond to questions posed using `convo.ask()`, their answers will first be passed through any capture middleware endpoints.
-The capture middleware can modify the message in any way, including changing the value that will be used to test pre-defined patterns
-and that will ultimately be stored as the final user answer.
-
-This can be particularly useful when used in conjunction with a natural language processing API. NLP plugins like [IBM Watson](https://github.com/watson-developer-cloud/botkit-middleware) and [Microsoft LUIS](https://github.com/Stevenic/botkit-middleware-luis) typically provide 2 features: translation of raw user text into a pre-defined `intent`, and extraction of structured data from the raw string into `entities`.
-
-Another instance in which this is useful is when used in conjunction with buttons and quick replies that, in addition to displayed text may also carry a hidden payload value. Developers can use this middleware endpoint to capture the payload instead of the displayed text.
-
-The `capture` middleware endpoint allows developers to harness these values and capture them instead of or in addition to the raw user text.
-
-Please note that the signature of the `capture` middleware is slightly different than the other endpoints, as it includes a parameter for the conversation object:
-
-```javascript
-controller.middleware.capture.use(function(bot, message, convo, next) {
-
-    // user's raw response is in message.text
-
-    // instead of capturing the raw response, let's capture the intent
-    if (message.intent) {
-        message.text = message.intent;
-    }
-
-    // what if there is a hidden payload? let's use that instead
-    if (message.payload) {
-        message.text = message.payload;
-    }
-
-    // what if there are entities too? we can use them as part of the conversation...
-    if (message.entities) {
-        for (var e = 0; e < message.entities.length; e++) {
-            convo.setVar(message.entities[e].name, message.entities[e].value);
-        }
-    }
-
-    // always call next!
-    next();
-
-});
-```
-
 
 # Advanced Topics
-
-
-## Storing Information
-
-Botkit has a built in storage system used to keep data on behalf of users and teams between sessions. Botkit uses this system automatically when storing information for Slack Button applications (see below).
-
-By default, Botkit will use [json-file-store](https://github.com/flosse/json-file-store) to keep data in JSON files in the filesystem of the computer where the bot is executed. (Note this will not work on Heroku or other hosting systems that do not let node applications write to the file system.) Initialize this system when you create the bot:
-```javascript
-var controller = Botkit.slackbot({
-  json_file_store: 'path_to_json_database'
-});
-```
-
-This system supports freeform storage on a team-by-team, user-by-user, and channel-by-channel basis. Basically ```controller.storage``` is a key value store. All access to this system is through the following twelve functions. Example usage:
-```javascript
-controller.storage.users.save({id: message.user, foo:'bar'}, function(err) { ... });
-controller.storage.users.get(id, function(err, user_data) {...});
-controller.storage.users.delete(id, function(err) {...});
-controller.storage.users.all(function(err, all_user_data) {...});
-
-controller.storage.channels.save({id: message.channel, foo:'bar'}, function(err) { ... });
-controller.storage.channels.get(id, function(err, channel_data) {...});
-controller.storage.channels.delete(id, function(err) {...});
-controller.storage.channels.all(function(err, all_channel_data) {...});
-
-controller.storage.teams.save({id: message.team, foo:'bar'}, function(err) { ... });
-controller.storage.teams.get(id, function(err, team_data) {...});
-controller.storage.teams.delete(id, function(err) {...});
-controller.storage.teams.all(function(err, all_team_data) {...});
-```
-
-Note that save must be passed an object with an id. It is recommended to use the team/user/channel id for this purpose.
-```[user/channel/team]_data``` will always be an object while ```all_[user/channel/team]_data``` will always be a list of objects.
-
-### Writing your own storage module
-
-If you want to use a database or do something else with your data,
-you can write your own storage module and pass it in.
-
-Make sure your module returns an object with all the methods. See [simple_storage.js](https://github.com/howdyai/botkit/blob/master/lib/storage/simple_storage.js) for an example of how it is done!
-Make sure your module passes the test in [storage_test.js](https://github.com/howdyai/botkit/blob/master/lib/storage/storage_test.js).
-
-Then, use it when you create your bot:
-```javascript
-var controller = Botkit.slackbot({
-  storage: my_storage_provider
-})
-```
-
-### Writing your own logging module
-
-By default, your bot will log to the standard JavaScript `console` object
-available in Node.js. This will synchronously print logging messages to stdout
-of the running process.
-
-There may be some cases, such as remote debugging or rotating of large logs,
-where you may want a more sophisticated logging solution. You can write your
-own logging module that uses a third-party tool, like
-[winston](https://github.com/winstonjs/winston) or
-[Bristol](https://github.com/TomFrost/Bristol). Just create an object with a
-`log` method. That method should take a severity level (such as `'error'` or
-`'debug'`) as its first argument, and then any number of other arguments that
-will be logged as messages. (Both Winston and Bristol create objects of this
-description; it's a common interface.)
-
-Then, use it when you create your bot:
-```javascript
-var controller = Botkit.slackbot({
-  logger: new winston.Logger({
-    levels: winston.config.syslog.levels
-    transports: [
-      new (winston.transports.Console)(),
-      new (winston.transports.File)({ filename: './bot.log' })
-    ]
-  })
-});
-```
-
-Note: with Winston, we must use the syslog.levels over the default or else some botkit log messages (like 'notice') will not be logged properly.
 
 ##Use Botkit with an Express web server
 Instead of controller.setupWebserver(), it is possible to use a different web server to manage authentication flows, as well as serving web pages.
 
 Here is an example of [using an Express web server alongside Botkit](https://github.com/mvaragnat/botkit-express-demo).
-
-# Chat with us at dev4slack.slack.com
-You can get an invite here: http://dev4slack.xoxco.com/.
