@@ -149,3 +149,7 @@ npm install --production
   * [Contributing to Botkit Core](CONTRIBUTING.md)
   * [Building Middleware/plugins](docs/howto/build_middleware.md)
   * [Building platform connectors](docs/howto/build_connector.md)
+
+# About Botkit
+
+Botkit is a product of [Howdy](https://howdy.ai).
