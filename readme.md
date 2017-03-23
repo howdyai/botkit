@@ -58,17 +58,17 @@ Note: While [using Botkit Studio](https://studio.botkit.ai) is highly recommende
 > ### [Slack Bot Starter Kit](https://github.com/howdyai/botkit-starter-slack)
 > The Slack starter kit contains everything you need to create a multi-team Slack application,
 suitable for internal use or submission to [Slack's app store.](https://slack.com/apps)
-> #### [![Remix on Glitch](https://cdn.gomix.com/2bdfb3f8-05ef-4035-a06e-2043962a3a13%2Fremix-button.svg)](https://glitch.com/edit/#!/import/github/howdyai/botkit-starter-slack)
+> #### [![Remix on Glitch](https://cdn.gomix.com/2bdfb3f8-05ef-4035-a06e-2043962a3a13%2Fremix-button.svg | width=100)](https://glitch.com/edit/#!/import/github/howdyai/botkit-starter-slack)
 
 > ### [Cisco Spark Bot Starter Kit](https://github.com/howdyai/botkit-starter-ciscospark)
 > Build a bot inside Cisco Spark's collaboration and messaging platform. Bots built with the starter kit
 are ready to submit to [Cisco Spark's Depot app store](https://depot.ciscospark.com/).
-> #### [![Remix on Glitch](https://cdn.gomix.com/2bdfb3f8-05ef-4035-a06e-2043962a3a13%2Fremix-button.svg)](https://glitch.com/edit/#!/import/github/howdyai/botkit-starter-ciscospark)
+> #### [![Remix on Glitch](https://cdn.gomix.com/2bdfb3f8-05ef-4035-a06e-2043962a3a13%2Fremix-button.svg | width=100)](https://glitch.com/edit/#!/import/github/howdyai/botkit-starter-ciscospark)
 
 > ### [Facebook Bot Starter Kit](https://github.com/howdyai/botkit-starter-facebook)
 > The Facebook starter kit contains all the code necessary to stand up a Facebook bot. With just a few
 pieces of configuration, set up a bot that automatically responds to messages sent to your Facebook page.
-> #### [![Remix on Glitch](https://cdn.gomix.com/2bdfb3f8-05ef-4035-a06e-2043962a3a13%2Fremix-button.svg)](https://glitch.com/edit/#!/import/github/howdyai/botkit-starter-facebook)
+> #### [![Remix on Glitch](https://cdn.gomix.com/2bdfb3f8-05ef-4035-a06e-2043962a3a13%2Fremix-button.svg | width=100)](https://glitch.com/edit/#!/import/github/howdyai/botkit-starter-facebook)
 
 # Developer & Support Community
 
