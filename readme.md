@@ -77,6 +77,8 @@ Over 4500 members strong, [our open Slack group](http://community.botkit.ai) is
 _the place_ for people interested in the art and science of making bots.
 Come to ask questions, share your progress, and commune with your peers!
 
+You can also find help from members of the Botkit team [in our dedicated Cisco Spark room](https://eurl.io/#SyNZuomKx)!
+
 # Botkit Core Library
 
 Botkit is designed around the idea of giving developers a language-like interface for building bots.
