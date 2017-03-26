@@ -21,14 +21,14 @@ Table of Contents
 
 2) Register for a free developer account with RingCentral [Developer Portal](https://developers.ringcentral.com/login.html#/) and follow [this guide](https://developers.ringcentral.com/library/getting-started.html) to create your first bot application. 
 
-* Write down the *BOTKIT_GLIP_SERVER*, *BOTKIT_GLIP_APPKEY*, *BOTKIT_GLIP_APPSECRET* , *BOTKIT_GLIP_USERNAME*, *BOTKIT_GLIP_PASSWORD*, *BOTKIT_GLIP_EXTENSION*  assigned to your new bot as you'll need them when you run your bot.
+* Write down the *GLIP_SERVER*, *GLIP_APPKEY*, *GLIP_APPSECRET* , *GLIP_USERNAME*, *GLIP_PASSWORD*, *GLIP_EXTENSION*  assigned to your new bot as you'll need them when you run your bot.
 
 3) By default your bot will be configured to support the Glip channel but you'll need to add it as a user in Glip in order to test it. 
 
 4) Run the example bot using the parameters mentioned above. 
 
 ```
-server=<MY_APP_SERVER> appKey=<MY_APP_KEY> appSecret=<MY_APP_SECRET> username=<MY_USERNAME> password=<MY_PASSWORD> extension=<MY_EXTENSION>  node glip_bot.js 
+GLIP_SERVER=<MY_APP_SERVER> GLIP_APPKEY=<MY_APP_KEY> GLIP_APPSECRET=<MY_APP_SECRET> GLIP_USERNAME=<MY_USERNAME> GLIP_PASSWORD=<MY_PASSWORD> GLIP_EXTENSION=<MY_EXTENSION>  node glip_bot.js 
 ```    
 
 5) Go to glip.devtest.ringcentral.com and signin with ringcentral account. 
@@ -79,14 +79,14 @@ var controller = Botkit.glipbot({
 });
 
 var bot = controller.spawn({
-    server: process.env.BOTKIT_GLIP_SERVER,
-    appKey: process.env.BOTKIT_GLIP_APPKEY,
-    appSecret: process.env.BOTKIT_GLIP_APPSECRET,
+    server: process.env.GLIP_SERVER,
+    appKey: process.env.GLIP_APPKEY,
+    appSecret: process.env.GLIP_APPSECRET,
     appName: 'GlipDemo',
     appVersion: '1.0.0',
-    username: process.env.BOTKIT_GLIP_USERNAME,
-    password: process.env.BOTKIT_GLIP_PASSWORD,
-    extension: process.env.BOTKIT_GLIP_EXTENSION,
+    username: process.env.GLIP_USERNAME,
+    password: process.env.GLIP_PASSWORD,
+    extension: process.env.GLIP_EXTENSION,
 }).startRTM();
 
 // if you are already using Express, you can use your own server instance...
