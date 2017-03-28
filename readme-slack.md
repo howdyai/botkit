@@ -75,13 +75,13 @@ The Botkit Slack controller object can be configured in a few different ways, de
 
 A simple single-team bot that uses the RTM api can be instantated without any special options:
 
-```
+```javascript
 var controller = Botkit.slackbot({});
 ```
 
 In order to use Botkit's built in support for multi-team Slack "apps", pass in [additional configuration options](#use-the-slack-button):
 
-```
+```javascript
 var controller = Botkit.slackbot({
     clientId: process.env.clientId,
     clientSecret: procss.env.clientSecret,
@@ -108,6 +108,7 @@ var controller = Botkit.slackbot({debug: true})
 | stale_connection_timeout  | Positive integer | Number of milliseconds to wait for a connection keep-alive "pong" response before declaring the connection stale. Default is `12000`
 | send_via_rtm  | Boolean   | Send outgoing messages via the RTM instead of using Slack's RESTful API which supports more features
 | retry | Positive integer or `Infinity` | Maximum number of reconnect attempts after failed connection to Slack's real time messaging API. Retry is disabled by default
+| api_root | Alternative root URL which allows routing requests to the Slack API through a proxy, or use of a mocked endpoints for testing. defaults to `https://slack.com`
 
 #### controller.spawn()
 | Argument | Description
@@ -218,6 +219,43 @@ bot.startRTM(function(err, bot, payload) {
 // some time later (e.g. 10s) when finished with the RTM connection and worker
 setTimeout(bot.destroy.bind(bot), 10000)
 ```
+
+
+### Slack Threads
+
+Messages in Slack may now exist as part of a thread, separate from the messages included in the main channel.
+Threads can be used to create new and interesting interactions for bots. [This blog post discusses some of the possibilities.](https://blog.howdy.ai/threads-serious-software-in-slack-ba6b5ceec94c#.jzk3e7i2d)
+
+Botkit's default behavior is for replies to be sent in-context. That is, if a bot replies to a message in a main channel, the reply will be added to the main channel. If a bot replies to a message in a thread, the reply will be added to the thread. This behavior can be changed by using one of the following specialized functions:
+
+#### bot.replyInThread()
+| Argument | Description
+|--- |---
+| message | Incoming message object
+| reply | _String_ or _Object_ Outgoing response
+| callback | _Optional_ Callback in the form function(err,response) { ... }
+
+This specialized version of [bot.reply()](readme.md#botreply) ensures that the reply being sent will be in a thread.
+When used to reply to a message that is already in a thread, the reply will be properly added to the thread.
+Developers who wish to ensure their bot's replies appear in threads should use this function instead of bot.reply().
+
+#### bot.startConversationInThread()
+| Argument | Description
+|---  |---
+| message   | incoming message to which the conversation is in response
+| callback  | a callback function in the form of  function(err,conversation) { ... }
+
+Like [bot.startConversation()](readme.md#botstartconversation), this creates conversation in response to an incoming message.
+However, the resulting conversation and all followup messages will occur in a thread attached to the original incoming message.
+
+#### bot.createConversationInThread()
+| Argument | Description
+|---  |---
+| message   | incoming message to which the conversation is in response
+| callback  | a callback function in the form of  function(err,conversation) { ... }
+
+Creates a conversation that lives in a thread, but returns it in an inactive state.  See [bot.createConversation()](readme.md#botcreateconversation) for details.
+
 
 ### Slack-Specific Events
 
@@ -434,7 +472,7 @@ controller.setupWebserver(port,function(err,express_webserver) {
 
 #### Handling `slash_command` and `outgoing_webhook` events
 
-```
+```javascript
 controller.on('slash_command',function(bot,message) {
 
     // reply to slash command
@@ -475,7 +513,7 @@ This url should be used when configuring Slack.
 
 When a slash command is received from Slack, Botkit fires the `slash_command` event.
 
-When an outgoing webhook is recieved from Slack, Botkit fires the `outgoing_webhook` event.
+When an outgoing webhook is received from Slack, Botkit fires the `outgoing_webhook` event.
 
 
 #### bot.replyAcknowledge
@@ -546,7 +584,7 @@ Sending a message, performing a task and then updating the sent message based on
 controller.hears('hello', ['ambient'], function(bot, msg) {
   // send a message back: "hellp"
   bot.replyAndUpdate(msg, 'hellp', function(err, src, updateResponse) {
-    if (error) console.error(err);
+    if (err) console.error(err);
     // oh no, "hellp" is a typo - let's update the message to "hello"
     updateResponse('hello', function(err) {
       console.error(err)
@@ -882,7 +920,7 @@ Developers may want to create an RTM connection in order to make the bot appear 
 
 1. Create a [Slack App](https://api.slack.com/apps/new)
 2. Setup oauth url with Slack so teams can add your app with the slack button. Botkit creates an oAuth endpoint at `http://MY_HOST/oauth` if using localtunnel your url may look like this `https://example-134l123.localtunnel.me/oauth`
-3. Setup request URL under Events API to receive events at. Botkit will create webhooks for slack to send messages to at `http://MY_HOST/slack/recieve`. if using localtunnel your url may look like this `https://example-134l123.localtunnel.me/slack/receive`
+3. Setup request URL under Events API to receive events at. Botkit will create webhooks for slack to send messages to at `http://MY_HOST/slack/receive`. if using localtunnel your url may look like this `https://example-134l123.localtunnel.me/slack/receive`
 4. Select the specific events you would like to subscribe to with your bot. Slack only sends your webhook the events you subscribe to. Read more about Event Types [here](https://api.slack.com/events)
 5. When running your bot, you must configure the slack app, setup webhook endpoints, and oauth endpoints.
 

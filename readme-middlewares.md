@@ -6,11 +6,12 @@ the incoming or outgoing message. Anyone can add their own middleware to the Bot
 Currently the following types of middleware are available for Botkit:
 
 ### [Natural language processing](#natural-language-processing)
- 
+
 
 * [Microsoft Luis](#microsoft-luis)
 * [Api.ai](#apiai)
-* [IBM Watson](#ibm-watson) 
+* [IBM Watson](#ibm-watson)
+* [Recast.ai](#recastai) 
 
 
 ### [Storage Modules](#storage-modules)
@@ -21,8 +22,18 @@ Storage middleware can be used for storing attributes about a user or channel or
 * [Datastore](#datastore)
 * [Firebase](#firebase)
 * [Postgres](#postgres)
+* [CouchDB](#couchdb)
+
+### [Statistics](#statistics)
+* [Botmetrics](#botmetrics)
+* [Keen](#keen)
+
 
 ### [CRM](#crm-modules)
+* [bCRM](#bcrm)
+* [Dashbot](#dashbot)
+* [Wordhop](#wordhop)
+
 
 
 
@@ -89,7 +100,7 @@ npm install --save botkit-middleware-luis
 ```
 
 Enable the middleware:
-```
+```javascript
 var luis = require('./lib/luis-middleware.js');
 
 var luisOptions = {serviceUri: process.env.serviceUri};
@@ -149,7 +160,7 @@ npm install --save botkit-middleware-apiai
 ```
 
 Enable the middleware:
-```
+```javascript
 var apiai = require('botkit-middleware-apiai')({
     token: <my_apiai_token>
 });
@@ -176,8 +187,41 @@ If you do not have a Conversation service instance,  follow [these steps](https:
 
 For more information on adding Watson to your bot check [this projects documentation](https://github.com/watson-developer-cloud/botkit-middleware/blob/master/README.md)
 
+
+## Recast.ai
+
+### [Project Page](https://github.com/ouadie-lahdioui/botkit-middleware-recastai)
+
+You can use the Recast.AI API to analyse your text or your audio file, and extract useful informations from it, to personalize your IoT, classify your data or create bots.
+
+The middleware needs you to provide the `request_token` of your Recast bot project and an optional `confidence`.
+
+## Set up
+
+- Add botkit-middleware-recastai as a dependency to your Botkit bot :
+
+```npm install --save botkit-middleware-recastai```
+
+- Enable the middleware :
+ 
+```
+var RecastaiMiddleware = require('botkit-middleware-recastai')({
+        request_token: '322e96b09ef75ad32bfc8b6f22b857ef',
+        confidence: 0.4
+});
+
+controller.middleware.receive.use(RecastaiMiddleware.receive);
+
+controller.hears(['news'],'message_received', RecastaiMiddleware.hears,function(bot, message) {
+
+ // ...
+});
+```
+
+For more information on adding Recast to your bot check [this projects documentation](https://github.com/ouadie-lahdioui/botkit-middleware-recastai)
+
 # Storage Modules
-## Mongo 
+## Mongo
 ### [Project Page](https://github.com/howdyai/botkit-storage-mongo/)
 ### What it does
 A Mongo storage module for Botkit.
@@ -188,7 +232,7 @@ Then pass the returned storage when creating your Botkit controller. Botkit will
 
 Make sure everything you store has an `id` property, that's what you'll use to look it up later.
 
-```
+```javascript
 var Botkit = require('botkit'),
     mongoStorage = require('botkit-storage-mongo')({mongoUri: '...'}),
     controller = Botkit.slackbot({
@@ -196,7 +240,7 @@ var Botkit = require('botkit'),
     });
 ```
 
-```
+```javascript
 // then you can use the Botkit storage api, make sure you have an id property
 var beans = {id: 'cool', beans: ['pinto', 'garbanzo']};
 controller.storage.teams.save(beans);
@@ -204,7 +248,7 @@ beans = controller.storage.teams.get('cool');
 
 ```
 
-## Redis 
+## Redis
 ### [Project Page](https://github.com/howdyai/botkit-storage-redis)
 ### What it does
 A redis storage module for Botkit
@@ -215,7 +259,7 @@ Then pass the returned storage when creating your Botkit controller. Botkit will
 
 Make sure everything you store has an `id` property, that's what you'll use to look it up later.
 
-```
+```javascript
 var Botkit = require('botkit'),
     redisConfig = {...}
     redisStorage = require('botkit-storage-redis')(redisConfig),
@@ -240,7 +284,7 @@ Additionally you can pass a `namespace` property which is used to namespace keys
 
 You can also pass a `methods` property which is an array of additional custom methods you want to add. The default methods are `teams`, `users`, and `channels`.
 
-## Datastore 
+## Datastore
 ### [Project Page](https://github.com/fabito/botkit-storage-datastore)
 ### What it does
 A Google Cloud Datastore storage module for Botkit
@@ -252,7 +296,7 @@ Then pass the returned storage when creating your Botkit controller. Botkit will
 
 Make sure everything you store has an `id` property, that's what you'll use to look it up later.
 
-```
+```javascript
 var Botkit = require('botkit'),
     datastoreStorage = require('botkit-storage-datastore')({projectId: '...'}),
     controller = Botkit.slackbot({
@@ -267,7 +311,7 @@ controller.storage.teams.save(beans);
 beans = controller.storage.teams.get('cool');
 ```
 
-## Firebase 
+## Firebase
 ### [Project Page](https://github.com/howdyai/botkit-storage-firebase)
 ### What it does
 A Firebase storage module for Botkit.
@@ -278,7 +322,7 @@ Then pass the returned storage when creating your Botkit controller. Botkit will
 
 Make sure everything you store has an `id` property, that's what you'll use to look it up later.
 
-```
+```javascript
 var Botkit = require('botkit'),
     firebaseStorage = require('botkit-storage-firebase')({firebase_uri: '...'}),
     controller = Botkit.slackbot({
@@ -286,7 +330,7 @@ var Botkit = require('botkit'),
     });
 ```
 
-```
+```javascript
 // then you can use the Botkit storage api, make sure you have an id property
 var beans = {id: 'cool', beans: ['pinto', 'garbanzo']};
 controller.storage.teams.save(beans);
@@ -294,7 +338,7 @@ beans = controller.storage.teams.get('cool');
 
 ```
 
-## Postgres 
+## Postgres
 ### [Project Page](https://github.com/lixhq/botkit-storage-postgres)
 ### What it does
 Postgres storage module for Botkit
@@ -308,7 +352,7 @@ npm install botkit-storage-postgres --save
 
 and require it and use it:
 
-```
+```javascript
 var botkitStoragePostgres = require('botkit-storage-postgres');
 var Botkit = require('botkit');
 
@@ -321,8 +365,121 @@ var controller = Botkit.slackbot({
   })
 });
 ```
+## CouchDB 
+### [Project Page](https://github.com/mbarlock/botkit-storage-couchdb/)
+### What it does
+A Couchdb storage module for botkit
+
+## Setup
+```bash
+$ npm install botkit-storage-couchdb --save
+```
+
+## Usage
+Require `botkit-storage-couchdb` and pass your config options. Then pass the returned storage when creating your Botkit controller. Botkit will do the rest!
+
+
+```js
+const Botkit = require('botkit'),
+    couchDbStorage = require('botkit-storage-couchdb')("localhost:5984/botkit"),
+    controller = Botkit.slackbot({
+        storage: couchDbStorage
+    });
+    
+// then you can use the Botkit storage api, make sure you have an id property
+var beans = {id: 'cool', beans: ['pinto', 'garbanzo']};
+
+controller.storage.teams.save(beans);
+
+controller.storage.teams.get('cool', (error, team) => {
+    console.log(team);
+});
+```
+
+### Options
+You can pass any options that are allowed by [nano](https://github.com/dscape/nano#configuration).
+
+The url you pass should contain your database.
+
+```js
+couchDbStorage = require('botkit-storage-couchdb')("localhost:5984/botkit")
+```
+
+To specify further configuration options you can pass an object literal instead:
+
+```js
+// The url is parsed and knows this is a database
+couchDbStorage = require('botkit-storage-couchdb')({ 
+    "url": "http://localhost:5984/botkit", 
+    "requestDefaults" : { "proxy" : "http://someproxy" },
+    "log": function (id, args) {
+        console.log(id, args);
+    }
+});
+```
+
+
+# Statistics
+
+## Botmetrics
+### [Project Page](https://github.com/botmetrics/botkit-middleware-botmetrics)
+### What it does
+[Botmetrics](https://www.getbotmetrics.com) is an analytics and engagement platform for chatbots.
+
+### Setup
+Add `botkit-middleware-botmetrics` to your `package.json`
+
+```
+$ npm install --save botkit-middleware-botmetrics
+```
+
+## Usage
+
+Register your bot with
+[Botmetrics](https://getbotmetrics.com). Once you have done so, navigate to "Bot Settings" and find out your Bot ID and API Key.
+
+Set the following environment variables with the Bot ID and API
+Key respectively.
+
+```
+BOTMETRICS_BOT_ID=your-bot-id
+BOTMETRICS_API_KEY=your-api-key
+```
+
+Require `botkit-middleware-botmetrics` and use the middleware in your bot like so:
+
+```javascript
+require('botkit-middleware-botmetrics')({
+  botmetricsBotId: process.env.BOTMETRICS_BOT_ID,
+  botmetricsApiKey: process.env.BOTMETRICS_API_KEY,
+  controller: controller
+});
+```
+## Keen
+### [Project Page](https://github.com/keen/keen-botkit)
+### What it does
+This middleware allows you to to understand how many messages are going through your system, run cohorts to measure retention, set up funnels to measure task completion, and any key metric unique to your bot. More information about the Keen platform [can be found on their website](https://keen.github.io/keen-botkit/)
+### Setup
+Keen IO Botkit is available via NPM.
+
+```bash
+npm install keen-botkit --save
+```
+
+If you want to use the example code, you can also clone it directly from Git.
+
+```bash
+git clone git@github.com:nemo/keen-botkit.git
+```
+
+Note that after cloning, you'll have to install the dependencies (which is just [keen-js](https://github.com/keen/keen-js):
+
+```bash
+npm install
+```
+
 # CRM Modules
-## bCRM 
+## bCRM
 ### [Project Page](https://github.com/howdyai/botkit-middleware-bcrm)
 ### What it does
 This Botkit plugin enables support for bCRM, a customer CRM tool that enables bot developers to send broadcast messages to users of their bot.
@@ -342,11 +499,11 @@ npm install --save botkit-middleware-bcrm
 
 2) Add the following lines to your Botkit application:
 
-```
+```javascript
 require('botkit-middleware-bcrm')({
     bcrm_token: 'my_bcrm_token',
     bcrm_bot: 'my_bcrm_bot',
-    controller: controller    
+    controller: controller
 });
 ```
 
@@ -364,6 +521,25 @@ In order to provide its service, this plugin sends information to bCRM that allo
 the bCRM software to access information and send messages on behalf of your bot.
 Before using this plugin, [read bCRM's privacy policy](https://bcrm.com/privacy),
 and make sure your own policies reflect the fact that you share information with them.
+
+## Dashbot
+### [Project Page Facebook](https://www.dashbot.io/sdk/facebook/botkit)
+### [Project Page Slack](https://www.dashbot.io/sdk/slack/botkit)
+### What it does
+Increase user engagement, acquisition, and monetization through actionable bots analytics.
+### Setup
+Full install instructions [can be found here](https://www.dashbot.io/sdk)
+
+
+## Wordhop
+### [Project Page](https://github.com/wordhop-io/wordhop-npm)
+### What it does
+Wordhop monitors your Chatbot and alerts you on Slack in real-time when it detects conversational problems. You can watch your bot conversations with users in real-time without leaving Slack and take-over your bot to engage your customers directly.  Simply add Wordhop to Slack and then drop in code into your Chatbot (You can use our examples as a starting point for a bot too). Wordhop integrates in minutes, and begins working immediately.
+
+This module has been tested with Messenger, Slack, Skype, and Microsoft Webchat. Please see our [examples](https://github.com/wordhop-io/wordhop-npm/tree/master/examples).
+
+### Setup
+[Installation Guide](https://github.com/wordhop-io/wordhop-npm/blob/master/README.md#installation)
 
 
 #Have you created middleware?
