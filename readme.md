@@ -28,10 +28,7 @@ Botkit features a comprehensive set of tools to deal with popular messaging plat
 ## [Start with Botkit Studio](https://studio.botkit.ai/signup)
 
 Botkit Studio is a hosted development environment for building bots with Botkit.
-Bots built with Botkit Studio take advantage of the full capabilities of Botkit,
-made more even powerful with the best set of bot building tools available today.
-
-Bots built with Botkit Studio include:
+Developers using Botkit Studio get the full capabilities of Botkit, with the addition of many powerful bot-building features such as:
 
 * All the code you need to get your bot online in minutes
 * A visual authoring environment for designing and managing dialog
@@ -40,9 +37,10 @@ Bots built with Botkit Studio include:
 * Detailed usage statistics
 * Built-in integrations with top plugins and platform tools
 
+Click below to sign up for a free developer account, [and please contact us if you have any questions.](mailto:info@howdy.ai)
+
 **[![Sign up for Botkit Studio](docs/studio.png)](https://studio.botkit.ai/signup?code=readme)**
 
-Questions about Botkit Studio? [Email us!](mailto:info@howdy.ai)
 
 ## Start with a Starter Kit
 
