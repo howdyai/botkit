@@ -747,6 +747,42 @@ convo.on('end',function(convo) {
 });
 ```
 
+### Handling Conversation Timeouts
+
+If a conversation reaches its timeout threshold (set using `convo.setTimeout()`) while waiting for a user to respond to a `convo.ask()` question, the conversation will automatically end. By default, the conversation will end immediately without sending any further messages. Developers may change this behavior in one of two ways:
+
+*Provide a handler function with convo.onTimeout():*
+Use `convo.onTimeout(handler)` to define a function that will be called when the conversation reaches the timeout threshold. This function
+can be used to prevent the conversation from ending, or to take some other action before ending such as using `gotoThread()` to  change the direction of the conversation.
+
+Note that functions used with onTimeout must call `gotoThread()`, `next()`, or `stop()` in order for the conversation to continue.
+
+```
+convo.onTimeout(function(convo) {
+
+  convo.say('Oh no! The time limit has expired.');
+  convo.next();
+
+});
+```
+
+*Provide an `on_timeout` conversation thread:*
+Instead of providing a function, developers may choose to specify a pre-defined thread to be used in the case of a timeout event.
+This thread should be called `on_timeout`.
+
+```
+convo.addMessage('Oh no! The time limit has expired.','on_timeout');
+convo.addMessage('TTYL.','on_timeout');
+```
+
+#### convo.onTimeout()
+| Argument | Description
+|--- |---
+| callback | _Optional_ Callback in the form function(convo) { ... }
+
+Provide a handler function that will be called in the event that a conversation reaches its timeout threshold without any user response.
+
+
 #### convo.extractResponses()
 
 Returns an object containing all of the responses a user sent during the course of a conversation.

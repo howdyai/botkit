@@ -18,7 +18,7 @@ controller.version
 
 controller.log
 
-... and then platform specific features too 
+... and then platform specific features too
 
 
 
@@ -66,6 +66,8 @@ convo.addQuestion
 convo.ask
 
 convo.setTimeout
+
+convo.onTimeout
 
 convo.hasThread
 
