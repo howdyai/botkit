@@ -40,7 +40,7 @@ Bots built with Botkit Studio include:
 * Detailed usage statistics
 * Built-in integrations with top plugins and platform tools
 
-**[Get your free Botkit Studio developer account >>](https://studio.botkit.ai/signup)**
+**[![Sign up for Botkit Studio](docs/studio.png)](https://studio.botkit.ai/signup?code=readme)**
 
 Questions about Botkit Studio? [Email us!](mailto:info@howdy.ai)
 
