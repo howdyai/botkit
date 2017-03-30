@@ -100,5 +100,5 @@ Wordhop monitors your Chatbot and alerts you on Slack in real-time when it detec
 
 This module has been tested with Messenger, Slack, Skype, and Microsoft Webchat. 
 
-#Have you created middleware?
+# Have you created middleware?
 We would love to hear about it! [Contact the Howdy team](https://howdy.ai/) to be included in Botkit documentation, or [submit a PR on this documentation](https://github.com/howdyai/botkit-storage-firebase/blob/master/CONTRIBUTING.md)!
