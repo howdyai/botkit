@@ -66,6 +66,8 @@ If you want to use the example code and included bots, it may be preferable to u
 
 ```bash
 git clone git@github.com:howdyai/botkit.git
+cd botkit
+npm install
 ```
 
 After cloning the Git repository, you have to install the node dependencies. Navigate to the root of your cloned repository and use npm to install all necessary dependencies.
