@@ -961,6 +961,26 @@ Return one specific user response, identified by its key.
 var value  = convo.extractResponse('key');
 ```
 
+### Sending conversation typing events
+
+Typing events can be sent by adding a `with_typing` property to the message object.
+
+```javascript
+convo.addQuestion({
+    text: "How can I help you?",
+    with_typing: true
+}, function(response, convo) {
+    // respond
+})
+
+convo.say({
+    text: "Hold on 1 minute while I think about it...",
+    with_typing: true
+})
+```
+
+
+
 ### Originating Messages
 
 #### bot.say()
