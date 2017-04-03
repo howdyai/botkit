@@ -34,6 +34,7 @@ Developers using Botkit Studio get the full capabilities of Botkit, with the add
 * A visual authoring environment for designing and managing dialog
 * A real-time message console for monitoring activity
 * APIs that enable content and features to be added to bots without additional code
+* Role-based, multi-user teams support
 * Detailed usage statistics
 * Built-in integrations with top plugins and platform tools
 
@@ -77,6 +78,11 @@ Come to ask questions, share your progress, and commune with your peers!
 
 You can also find help from members of the Botkit team [in our dedicated Cisco Spark room](https://eurl.io/#SyNZuomKx)!
 
+We also host a [regular meetup and annual conference called TALKABOT.](http://talkabot.ai)
+Come meet and learn from other bot developers! [Full video of our 2016 event is available on Youtube.](https://www.youtube.com/playlist?list=PLD3JNfKLDs7WsEHSal2cfwG0Fex7A6aok)
+
+
+
 # Botkit Core Library
 
 Botkit is designed around the idea of giving developers a language-like interface for building bots.
@@ -89,7 +95,7 @@ and natural language understanding (NLP/NLU) tools.
 
 Practically speaking, this results in code that looks like this:
 
-```
+```javascript
 // respond when a user sends a DM to the bot that says "hello"
 controller.hears('hello', 'direct_message', function(bot, message) {
     bot.reply(message, 'Hello human.');
@@ -153,3 +159,5 @@ npm install --production
 # About Botkit
 
 Botkit is a product of [Howdy](https://howdy.ai).
+
+For support, check out [the Developer Community](#developer-support-community) and find our team in the #Botkit channel.
