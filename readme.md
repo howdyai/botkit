@@ -160,4 +160,4 @@ npm install --production
 
 Botkit is a product of [Howdy](https://howdy.ai).
 
-For support, check out [the Developer Community](#developer-support-community) and find our team in the #Botkit channel.
+For support, check out [the Developer Community](#developer--support-community) and find our team in the #Botkit channel.
