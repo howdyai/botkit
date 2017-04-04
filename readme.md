@@ -12,7 +12,12 @@ Some bots talk like people, others silently work in the background, while others
 Botkit gives developers the necessary tools for building bots of any kind! It provides an easy-to-understand interface for sending and receiving messages so that developers can focus on creating novel applications and experiences instead of dealing with API endpoints.
 
 Our goal with Botkit is to make bot building easy, fun, and accessible to anyone with the desire to create
-a future filled with talking machines!
+a future filled with talking machines! We provide several tools to make this vision a reality:
+
+* [Botkit Studio](#start-with-botkit-studio), an integrated development environment for designing and building bots
+* [Starter Kits](#start-with-a-starter-kit), boilerplate applications pre-configured to work with popular platforms
+* [Botkit Core Library](#botkit-core-library), an SDK for creating conversational software
+* [Plugins and Middlewares](docs/readme-middlewares.md) that can extend and enhance your bot
 
 Botkit features a comprehensive set of tools to deal with popular messaging platforms, including:
 
