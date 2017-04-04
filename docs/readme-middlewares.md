@@ -11,7 +11,7 @@ Currently the following types of middleware are available for Botkit:
 * [Microsoft Luis](#microsoft-luis)
 * [Api.ai](#apiai)
 * [IBM Watson](#ibm-watson)
-* [Recast.ai](#recastai) 
+* [Recast.ai](#recastai)
 
 
 ### [Storage Modules](#storage-modules)
@@ -203,7 +203,7 @@ The middleware needs you to provide the `request_token` of your Recast bot proje
 ```npm install --save botkit-middleware-recastai```
 
 - Enable the middleware :
- 
+
 ```
 var RecastaiMiddleware = require('botkit-middleware-recastai')({
         request_token: '322e96b09ef75ad32bfc8b6f22b857ef',
@@ -365,7 +365,7 @@ var controller = Botkit.slackbot({
   })
 });
 ```
-## CouchDB 
+## CouchDB
 ### [Project Page](https://github.com/mbarlock/botkit-storage-couchdb/)
 ### What it does
 A Couchdb storage module for botkit
@@ -385,7 +385,7 @@ const Botkit = require('botkit'),
     controller = Botkit.slackbot({
         storage: couchDbStorage
     });
-    
+
 // then you can use the Botkit storage api, make sure you have an id property
 var beans = {id: 'cool', beans: ['pinto', 'garbanzo']};
 
@@ -409,8 +409,8 @@ To specify further configuration options you can pass an object literal instead:
 
 ```js
 // The url is parsed and knows this is a database
-couchDbStorage = require('botkit-storage-couchdb')({ 
-    "url": "http://localhost:5984/botkit", 
+couchDbStorage = require('botkit-storage-couchdb')({
+    "url": "http://localhost:5984/botkit",
     "requestDefaults" : { "proxy" : "http://someproxy" },
     "log": function (id, args) {
         console.log(id, args);
@@ -544,3 +544,25 @@ This module has been tested with Messenger, Slack, Skype, and Microsoft Webchat.
 
 #Have you created middleware?
 We would love to hear about it! [Contact the Howdy team](https://howdy.ai/) to be included in Botkit documentation, or [submit a PR on this documentation](https://github.com/howdyai/botkit-storage-firebase/blob/master/CONTRIBUTING.md)!
+
+
+
+## Documentation
+
+* [Get Started](readme.md)
+* [Botkit Studio API](readme-studio.md)
+* [Function index](readme.md#developing-with-botkit)
+* [Extending Botkit with Plugins and Middleware](middleware.md)
+  * [List of current plugins](readme-middlewares.md)
+* [Storing Information](storage.md)
+* [Logging](logging.md)
+* Platforms
+  * [Slack](readme-slack.md)
+  * [Cisco Spark](readme-ciscospark.md)
+  * [Facebook Messenger](readme-facebook.md)
+  * [Twilio IPM](readme-twilioipm.md)
+  * [Microsoft Bot Framework](readme-botframework.md)
+* Contributing to Botkit
+  * [Contributing to Botkit Core](../CONTRIBUTING.md)
+  * [Building Middleware/plugins](howto/build_middleware.md)
+  * [Building platform connectors](howto/build_connector.md)

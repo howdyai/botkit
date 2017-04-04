@@ -45,3 +45,25 @@ var controller = Botkit.slackbot({
   storage: my_storage_provider
 })
 ```
+
+
+
+## Documentation
+
+* [Get Started](readme.md)
+* [Botkit Studio API](readme-studio.md)
+* [Function index](readme.md#developing-with-botkit)
+* [Extending Botkit with Plugins and Middleware](middleware.md)
+  * [List of current plugins](readme-middlewares.md)
+* [Storing Information](storage.md)
+* [Logging](logging.md)
+* Platforms
+  * [Slack](readme-slack.md)
+  * [Cisco Spark](readme-ciscospark.md)
+  * [Facebook Messenger](readme-facebook.md)
+  * [Twilio IPM](readme-twilioipm.md)
+  * [Microsoft Bot Framework](readme-botframework.md)
+* Contributing to Botkit
+  * [Contributing to Botkit Core](../CONTRIBUTING.md)
+  * [Building Middleware/plugins](howto/build_middleware.md)
+  * [Building platform connectors](howto/build_connector.md)

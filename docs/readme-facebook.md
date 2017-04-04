@@ -381,7 +381,7 @@ Get the menu setting.
 
 #### controller.api.messenger_profile.delete_account_linking()
 
-Remove the account link 
+Remove the account link
 
 #### controller.api.messenger_profile.get_account_linking()
 
@@ -467,3 +467,23 @@ controller.hears(['help'],'facebook_postback', function(bot, message) {
 Instead of the web server generated with setupWebserver(), it is possible to use a different web server to receive webhooks, as well as serving web pages.
 
 Here is an example of [using an Express web server alongside BotKit for Facebook Messenger](https://github.com/mvaragnat/botkit-messenger-express-demo).
+
+## Documentation
+
+* [Get Started](readme.md)
+* [Botkit Studio API](readme-studio.md)
+* [Function index](readme.md#developing-with-botkit)
+* [Extending Botkit with Plugins and Middleware](middleware.md)
+  * [List of current plugins](readme-middlewares.md)
+* [Storing Information](storage.md)
+* [Logging](logging.md)
+* Platforms
+  * [Slack](readme-slack.md)
+  * [Cisco Spark](readme-ciscospark.md)
+  * [Facebook Messenger](readme-facebook.md)
+  * [Twilio IPM](readme-twilioipm.md)
+  * [Microsoft Bot Framework](readme-botframework.md)
+* Contributing to Botkit
+  * [Contributing to Botkit Core](../CONTRIBUTING.md)
+  * [Building Middleware/plugins](howto/build_middleware.md)
+  * [Building platform connectors](howto/build_connector.md)
