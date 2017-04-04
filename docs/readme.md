@@ -60,6 +60,7 @@ Table of Contents
 
 * [Receiving Messages](#receiving-messages)
 * [Sending Messages](#sending-messages)
+* [Multi-message Conversations](#multi-message-conversations)
 * [Middleware](#middleware)
 * [Advanced Topics](#advanced-topics)
 
@@ -306,7 +307,7 @@ controller.hears(['shirt'],'message_received',function(bot, message) {
 });
 ```
 
-### Multi-message Conversations
+## Multi-message Conversations
 
 For more complex commands, multiple messages may be necessary to send a response,
 particularly if the bot needs to collect additional information from the user.
@@ -859,3 +860,24 @@ var controller = Botkit.slackbot({
 Instead of controller.setupWebserver(), it is possible to use a different web server to manage authentication flows, as well as serving web pages.
 
 Here is an example of [using an Express web server alongside Botkit](https://github.com/mvaragnat/botkit-express-demo).
+
+
+## Documentation
+
+* [Get Started](docs/readme.md)
+* [Botkit Studio API](docs/readme-studio.md)
+* [Function index](docs/readme.md#developing-with-botkit)
+* [Extending Botkit with Plugins and Middleware](docs/middleware.md)
+  * [List of current plugins](docs/readme-middlewares.md)
+* [Storing Information](docs/storage.md)
+* [Logging](docs/logging.md)
+* Platforms
+  * [Slack](docs/readme-slack.md)
+  * [Cisco Spark](docs/readme-ciscospark.md)
+  * [Facebook Messenger](docs/readme-facebook.md)
+  * [Twilio IPM](docs/readme-twilioipm.md)
+  * [Microsoft Bot Framework](docs/readme-botframework.md)
+* Contributing to Botkit
+  * [Contributing to Botkit Core](CONTRIBUTING.md)
+  * [Building Middleware/plugins](docs/howto/build_middleware.md)
+  * [Building platform connectors](docs/howto/build_connector.md)

@@ -138,7 +138,7 @@ npm install --production
 
 ## Documentation
 
-* [Basic Usage](docs/readme.md)
+* [Get Started](docs/readme.md)
 * [Botkit Studio API](docs/readme-studio.md)
 * [Function index](docs/readme.md#developing-with-botkit)
 * [Extending Botkit with Plugins and Middleware](docs/middleware.md)
