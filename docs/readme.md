@@ -331,7 +331,7 @@ or data validation can be handled using feature of the conversations we call `th
 
 Threads are pre-built chains of dialog between the bot and end user that are built before the conversation begins. Once threads are built, Botkit can be instructed to navigate through the threads automatically, allowing many common programming scenarios such as yes/no/quit prompts to be handled without additional code.
 
-You can build conversation threads in code, or you can use [Botkit Studio](/readme-studio.md)'s script management tool to build them in a friendly web environment. Conversations you build yourself and conversations managed in Botkit Studio work the same way -- they run inside your bot and use your code to manage the outcome.
+You can build conversation threads in code, or you can use [Botkit Studio](readme-studio.md)'s script management tool to build them in a friendly web environment. Conversations you build yourself and conversations managed in Botkit Studio work the same way -- they run inside your bot and use your code to manage the outcome.
 
 If you've used the conversation system at all, you've used threads - you just didn't know it. When calling `convo.say()` and `convo.ask()`, you were actually adding messages to the `default` conversation thread that is activated when the conversation object is created.
 
@@ -490,7 +490,7 @@ controller.hears(['question me'], 'message_received', function(bot,message) {
 |---  |---
 | message   | String or message object
 
-convo.say() is a specialized version of `convo.addMessage()` that adds messages to the _current_ thread, essentially adding a message dynamically to the conversation. This should only be used in simple cases, as this method of enqueuing messages does not scale well and will be deprecated in the future.
+convo.say() is a specialized version of `convo.addMessage()` that adds messages to the _current_ thread, essentially adding a message dynamically to the conversation. This should only be used in simple cases, or when building a conversation lots of dynamic content. Otherwise, creating `threads` is the recommended approach.
 
 Call convo.say() several times in a row to queue messages inside the conversation. Only one message will be sent at a time, in the order they are queued.
 
@@ -514,7 +514,8 @@ controller.hears(['hello world'], 'message_received', function(bot,message) {
 | callback _or_ array of callbacks   | callback function in the form function(response_message,conversation), or array of objects in the form ``{ pattern: regular_expression, callback: function(response_message,conversation) { ... } }``
 | capture_options | _Optional_ Object defining options for capturing the response
 
-convo.say() is a specialized version of `convo.addQuestion()` that adds messages to the _current_ thread, essentially adding a message dynamically to the conversation. This should only be used in simple cases, as this method of enqueuing messages does not scale well and will be deprecated in the future.
+convo.say() is a specialized version of `convo.addQuestion()` that adds messages to the _current_ thread, essentially adding a message dynamically to the conversation. This should only be used in simple cases, or when building a conversation lots of dynamic content. Otherwise, creating `threads` is the recommended approach.
+
 In particular, we recommend that developers avoid calling `convo.ask()` or `convo.say()` inside a callbacks for `convo.ask()`. Multi-level callbacks encourage fragile code - for conversations requiring more than one branch, use threads!
 
 

@@ -73,7 +73,7 @@ This is particularly true if you store and use API tokens on behalf of users oth
 
 The Botkit Slack controller object can be configured in a few different ways, depending on the type of integration you are building.
 
-A simple single-team bot that uses the RTM api can be instantated without any special options:
+A simple single-team bot that uses Slack's [Real Time Messaging (RTM) API](https://api.slack.com/rtm) can be instantiated without any special options:
 
 ```javascript
 var controller = Botkit.slackbot({});
