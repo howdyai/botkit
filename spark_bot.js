@@ -77,10 +77,6 @@ controller.on('bot_space_join', function(bot, message) {
 
 });
 
-controller.hears([new RegExp('^\\d{5}$')], 'direct_message,direct_mention', function(bot, message) {
-  bot.reply(message,'d5');
-});
-
 
 controller.on('direct_mention', function(bot, message) {
     bot.reply(message, 'You mentioned me and said, "' + message.text + '"');
