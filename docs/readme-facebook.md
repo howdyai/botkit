@@ -16,8 +16,10 @@ Table of Contents
 * [Working with Facebook Webhooks](#working-with-facebook-messenger)
 * [Using Structured Messages and Postbacks](#using-structured-messages-and-postbacks)
 * [Thread Settings](#thread-settings-api)
+* [Messenger Profile API](#messenger-profile-api)
 * [Simulate typing](#simulate-typing)
 * [Silent and No Notifications](#silent-and-no-notifications)
+* [Messenger code API](#messenger-code-api)
 * [Running Botkit with an Express server](#use-botkit-for-facebook-messenger-with-an-express-web-server)
 
 ## Getting Started
@@ -26,11 +28,12 @@ Table of Contents
 
 2) Create a [Facebook App for Web](https://developers.facebook.com/quickstarts/?platform=web) and note down or [create a new Facebook Page](https://www.facebook.com/pages/create/).  Your Facebook page will be used for the app's identity.
 
-3) [Get a page access token for your app](https://developers.facebook.com/docs/messenger-platform/implementation#page_access_token)
+
+3) [Get a page access token for your app](https://developers.facebook.com/docs/messenger-platform/guides/setup#page_access_token)
 
 Copy this token, you'll need it!
 
-4) Define your own "verify token" - this a string that you control that Facebook will use to verify your web hook endpoint.
+4) Define your own "verify token" - this is a string that you control that Facebook will use to verify your web hook endpoint.
 
 5) Run the example bot app, using the two tokens you just created. If you are _not_ running your bot at a public, SSL-enabled internet address, use the --lt option and note the URL it gives you.
 
@@ -38,7 +41,9 @@ Copy this token, you'll need it!
 page_token=<MY PAGE TOKEN> verify_token=<MY_VERIFY_TOKEN> node facebook_bot.js [--lt [--ltsubdomain CUSTOM_SUBDOMAIN]]
 ```
 
-6) [Set up a webhook endpoint for your app](https://developers.facebook.com/docs/messenger-platform/implementation#setting_webhooks) that uses your public URL. Use the verify token you defined in step 4!
+6) [Set up a webhook endpoint for your app](https://developers.facebook.com/docs/messenger-platform/guides/setup#webhook_setup) that uses your public URL. Use the verify token you defined in step 4!
+
+* *Note* - You will need to provide Facebook a callback endpoint to receive requests from Facebook. By default Botkit will serve content from "https://YOURSERVER/facebook/receive". You can use a tool like [ngrok.io](http://ngrok.io) or [localtunnel.me](http://localtunnel.me) to expose your local development enviroment to the outside world for the purposes of testing your Messenger bot.
 
 7) Your bot should be online! Within Facebook, find your page, and click the "Message" button in the header.
 
@@ -75,6 +80,7 @@ Normal messages will be sent to your bot using the `message_received` event.  In
 | facebook_postback | user clicked a button in an attachment and triggered a webhook postback
 | message_delivered | a confirmation from Facebook that a message has been received
 | message_read | a confirmation from Facebook that a message has been read
+| facebook_account_linking | a user has started the account linking
 | facebook_optin | a user has clicked the [Send-to-Messenger plugin](https://developers.facebook.com/docs/messenger-platform/implementation#send_to_messenger_plugin)
 | facebook_referral | a user has clicked on a [m.me URL with a referral param](https://developers.facebook.com/docs/messenger-platform/referral-params)
 
@@ -286,7 +292,7 @@ When sending a user a message you can make the message have either no notificati
 
 `notification_type` is optional. By default, messages will be REGULAR push notification type
 
-```
+```javascript
 reply_message = {
     text: "Message text here",
     notification_type: NOTIFICATION_TYPE
@@ -294,66 +300,156 @@ reply_message = {
 bot.reply(message, reply_message)
 ```
 
+## Messenger code API
+
+Messenger Codes can be scanned in Messenger to instantly link the user to your bot, no typing needed. They're great for sticking on fliers, ads, or anywhere in the real world where you want people to try your bot.
+
+```javascript
+controller.api.messenger_profile.get_messenger_code(2000, function (err, url) {
+    if(err) {
+        // Error
+    } else {
+        // url
+    }
+});
+```
+
 ## Thread Settings API
 
-Facebook offers a "Thread Settings" API to customize special bot features
-such as a persistent menu and a welcome screen. We highly recommend you use all of these features, which will make your bot easier for users to work with. [Read Facebook's docs here](https://developers.facebook.com/docs/messenger-platform/thread-settings).
+Thread settings API is now messenger profile API, it's highly recommended to use profile API instead of thread settings one, however, Botkit thread settings interface still available :
 
-#### controller.api.thread_settings.greeting()
+
+```js
+controller.api.messenger_profile.YOUR_METHOD_NAME();
+controller.api.thread_settings.YOUR_METHOD_NAME();
+
+```
+
+
+## Messenger Profile API
+
+Facebook offers a Messenger Profile API to customize special bot features
+such as a persistent menu and a welcome screen. We highly recommend you use all of these features, which will make your bot easier for users to work with. [Read Facebook's docs here](https://developers.facebook.com/docs/messenger-platform/messenger-profile).
+
+#### controller.api.messenger_profile.greeting()
 | Argument | Description
 |---  |---
 | message | greeting message to display on welcome screen
 
-#### controller.api.thread_settings.delete_greeting()
+#### controller.api.messenger_profile.delete_greeting()
 
 Remove the greeting message.
 
-#### controller.api.thread_settings.get_started()
+#### controller.api.messenger_profile.get_greeting()
+
+Get the greeting setting.
+
+#### controller.api.messenger_profile.get_started()
 | Argument | Description
 |---  |---
 | payload | value for the postback payload sent when the button is clicked
 
 Set the payload value of the 'Get Started' button
 
-#### controller.api.thread_settings.delete_get_started()
+#### controller.api.messenger_profile.delete_get_started()
 
 Clear the payload value of the 'Get Started' button and remove it.
 
-#### controller.api.thread_settings.menu()
+#### controller.api.messenger_profile.get_get_started()
+
+Get the get started setting.
+
+#### controller.api.messenger_profile.menu()
 | Argument | Description
 |---  |---
-| menu_items | an array of [menu_item objects](https://developers.facebook.com/docs/messenger-platform/thread-settings/persistent-menu#menu_item)
+| menu_items | an array of menu_item objects
 
-Create a [persistent menu](https://developers.facebook.com/docs/messenger-platform/thread-settings/persistent-menu) for your Bot
+Create a [persistent menu](https://developers.facebook.com/docs/messenger-platform/messenger-profile/persistent-menu) for your Bot
 
-#### controller.api.thread_settings.delete_menu()
+#### controller.api.messenger_profile.delete_menu()
 
 Clear the persistent menu setting
 
-#### Using the Thread Settings API
+#### controller.api.messenger_profile.get_menu()
+
+Get the menu setting.
+
+#### controller.api.messenger_profile.account_linking()
+| Argument | Description
+|---  |---
+| payload | the account link.
+
+#### controller.api.messenger_profile.delete_account_linking()
+
+Remove the account link
+
+#### controller.api.messenger_profile.get_account_linking()
+
+Get the account link
+
+#### controller.api.messenger_profile.domain_whitelist()
+| Argument | Description
+|---  |---
+| payload | A single or a list of domains to add to the whitelist, All domains must be valid and use https. Up to 10 domains allowed.
+
+#### controller.api.messenger_profile.delete_domain_whitelist()
+
+Remove all domains
+
+#### controller.api.messenger_profile.get_domain_whitelist()
+
+Get a list of the whitelisted domains.
+
+#### Using the The Messenger Profile API
 
 ```js
-controller.api.thread_settings.greeting('Hello! I\'m a Botkit bot!');
-controller.api.thread_settings.get_started('sample_get_started_payload');
-controller.api.thread_settings.menu([
-    {
-        "type":"postback",
-        "title":"Hello",
-        "payload":"hello"
+controller.api.messenger_profile.greeting('Hello! I\'m a Botkit bot!');
+controller.api.messenger_profile.get_started('sample_get_started_payload');
+controller.api.messenger_profile.menu([{
+        "locale":"default",
+        "composer_input_disabled":true,
+        "call_to_actions":[
+            {
+                "title":"My Skills",
+                "type":"nested",
+                "call_to_actions":[
+                    {
+                        "title":"Hello",
+                        "type":"postback",
+                        "payload":"Hello"
+                    },
+                    {
+                        "title":"Hi",
+                        "type":"postback",
+                        "payload":"Hi"
+                    }
+                ]
+            },
+            {
+                "type":"web_url",
+                "title":"Botkit Docs",
+                "url":"https://github.com/howdyai/botkit/blob/master/readme-facebook.md",
+                "webview_height_ratio":"full"
+            }
+        ]
     },
     {
-        "type":"postback",
-        "title":"Help",
-        "payload":"help"
-    },
-    {
-      "type":"web_url",
-      "title":"Botkit Docs",
-      "url":"https://github.com/howdyai/botkit/blob/master/readme-facebook.md"
-    },
+        "locale":"zh_CN",
+        "composer_input_disabled":false
+    }
 ]);
-controller.api.thread_settings.account_linking('https://www.yourAwesomSite.com/oauth?response_type=code&client_id=1234567890&scope=basic');
-controller.api.thread_settings.delete_account_linking();
+controller.api.messenger_profile.account_linking('https://www.yourAwesomSite.com/oauth?response_type=code&client_id=1234567890&scope=basic');
+controller.api.messenger_profile.get_account_linking(function (err, accountLinkingUrl)  {
+    console.log('****** Account linkink URL :', accountLinkingUrl);
+});
+controller.api.messenger_profile.delete_account_linking();
+controller.api.messenger_profile.domain_whitelist('https://localhost');
+controller.api.messenger_profile.domain_whitelist(['https://127.0.0.1', 'https://0.0.0.0']);
+controller.api.messenger_profile.delete_domain_whitelist('https://localhost');
+controller.api.messenger_profile.delete_domain_whitelist(['https://127.0.0.1', 'https://0.0.0.0']);
+controller.api.messenger_profile.get_domain_whitelist(function (err, data)  {
+    console.log('****** Whitelisted domains :', data);
+});
 
 
 controller.hears(['hello'],'facebook_postback', function(bot, message) {
@@ -371,3 +467,23 @@ controller.hears(['help'],'facebook_postback', function(bot, message) {
 Instead of the web server generated with setupWebserver(), it is possible to use a different web server to receive webhooks, as well as serving web pages.
 
 Here is an example of [using an Express web server alongside BotKit for Facebook Messenger](https://github.com/mvaragnat/botkit-messenger-express-demo).
+
+## Documentation
+
+* [Get Started](readme.md)
+* [Botkit Studio API](readme-studio.md)
+* [Function index](readme.md#developing-with-botkit)
+* [Extending Botkit with Plugins and Middleware](middleware.md)
+  * [List of current plugins](readme-middlewares.md)
+* [Storing Information](storage.md)
+* [Logging](logging.md)
+* Platforms
+  * [Slack](readme-slack.md)
+  * [Cisco Spark](readme-ciscospark.md)
+  * [Facebook Messenger](readme-facebook.md)
+  * [Twilio IPM](readme-twilioipm.md)
+  * [Microsoft Bot Framework](readme-botframework.md)
+* Contributing to Botkit
+  * [Contributing to Botkit Core](../CONTRIBUTING.md)
+  * [Building Middleware/plugins](howto/build_middleware.md)
+  * [Building platform connectors](howto/build_connector.md)

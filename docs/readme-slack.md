@@ -73,15 +73,15 @@ This is particularly true if you store and use API tokens on behalf of users oth
 
 The Botkit Slack controller object can be configured in a few different ways, depending on the type of integration you are building.
 
-A simple single-team bot that uses the RTM api can be instantated without any special options:
+A simple single-team bot that uses Slack's [Real Time Messaging (RTM) API](https://api.slack.com/rtm) can be instantiated without any special options:
 
-```
+```javascript
 var controller = Botkit.slackbot({});
 ```
 
 In order to use Botkit's built in support for multi-team Slack "apps", pass in [additional configuration options](#use-the-slack-button):
 
-```
+```javascript
 var controller = Botkit.slackbot({
     clientId: process.env.clientId,
     clientSecret: procss.env.clientSecret,
@@ -472,7 +472,7 @@ controller.setupWebserver(port,function(err,express_webserver) {
 
 #### Handling `slash_command` and `outgoing_webhook` events
 
-```
+```javascript
 controller.on('slash_command',function(bot,message) {
 
     // reply to slash command
@@ -965,3 +965,24 @@ var controller = Botkit.slackbot({
     rtm_receive_messages: false
 });
 ```
+
+
+## Documentation
+
+* [Get Started](readme.md)
+* [Botkit Studio API](readme-studio.md)
+* [Function index](readme.md#developing-with-botkit)
+* [Extending Botkit with Plugins and Middleware](middleware.md)
+  * [List of current plugins](readme-middlewares.md)
+* [Storing Information](storage.md)
+* [Logging](logging.md)
+* Platforms
+  * [Slack](readme-slack.md)
+  * [Cisco Spark](readme-ciscospark.md)
+  * [Facebook Messenger](readme-facebook.md)
+  * [Twilio IPM](readme-twilioipm.md)
+  * [Microsoft Bot Framework](readme-botframework.md)
+* Contributing to Botkit
+  * [Contributing to Botkit Core](../CONTRIBUTING.md)
+  * [Building Middleware/plugins](howto/build_middleware.md)
+  * [Building platform connectors](howto/build_connector.md)
