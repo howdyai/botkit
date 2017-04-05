@@ -131,25 +131,75 @@ controller.setupWebserver(process.env.port || 3000, function(err, webserver) {
     });
 });
 
-controller.api.thread_settings.greeting('Hello! I\'m a Botkit bot!');
-controller.api.thread_settings.get_started('sample_get_started_payload');
-controller.api.thread_settings.menu([
+
+controller.api.messenger_profile.greeting('Hello! I\'m a Botkit bot!');
+controller.api.messenger_profile.get_started('sample_get_started_payload');
+controller.api.messenger_profile.menu([{
+    "locale":"default",
+    "composer_input_disabled":true,
+    "call_to_actions":[
+        {
+            "title":"My Skills",
+            "type":"nested",
+            "call_to_actions":[
+                {
+                    "title":"Hello",
+                    "type":"postback",
+                    "payload":"Hello"
+                },
+                {
+                    "title":"Hi",
+                    "type":"postback",
+                    "payload":"Hi"
+                }
+            ]
+        },
+        {
+            "type":"web_url",
+            "title":"Botkit Docs",
+            "url":"https://github.com/howdyai/botkit/blob/master/readme-facebook.md",
+            "webview_height_ratio":"full"
+        }
+    ]
+},
     {
-        "type":"postback",
-        "title":"Hello",
-        "payload":"hello"
-    },
-    {
-        "type":"postback",
-        "title":"Help",
-        "payload":"help"
-    },
-    {
-      "type":"web_url",
-      "title":"Botkit Docs",
-      "url":"https://github.com/howdyai/botkit/blob/master/readme-facebook.md"
-    },
+        "locale":"zh_CN",
+        "composer_input_disabled":false
+    }
 ]);
+
+// controller.api.messenger_profile.account_linking('https://www.yourAwesomSite.com/oauth?response_type=code&client_id=1234567890&scope=basic');
+// controller.api.messenger_profile.get_account_linking(function (err, accountLinkingUrl)  {
+//     console.log('****** Account linkink URL :', accountLinkingUrl);
+// });
+// controller.api.messenger_profile.delete_account_linking();
+// controller.api.messenger_profile.domain_whitelist('https://localhost');
+// controller.api.messenger_profile.domain_whitelist(['https://127.0.0.1', 'https://0.0.0.0']);
+// controller.api.messenger_profile.delete_domain_whitelist('https://localhost');
+// controller.api.messenger_profile.delete_domain_whitelist(['https://127.0.0.1', 'https://0.0.0.0']);
+// controller.api.messenger_profile.get_domain_whitelist(function (err, data)  {
+//     console.log('****** Whitelisted domains :', data);
+// });
+
+
+// returns the bot's messenger code image
+controller.hears(['code'], 'message_received,facebook_postback', function(bot, message) {
+    controller.api.messenger_profile.get_messenger_code(2000, function (err, url) {
+        if(err) {
+            // Error
+        } else {
+            var image = {
+                "attachment":{
+                    "type":"image",
+                    "payload":{
+                        "url": url
+                    }
+                }
+            };
+            bot.reply(message, image);
+        }
+    });
+});
 
 controller.hears(['quick'], 'message_received', function(bot, message) {
 
