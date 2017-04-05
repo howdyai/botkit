@@ -189,6 +189,28 @@ var controller = Botkit.facebookbot({
 })
 ```
 
+#### Botkit.faceboookbot()
+
+This function created the controller for the bot. It takes a single argument, which is a
+configuration object. The configuration object has the following keys:
+
+| Key | Required | Description
+|---  |---  |---
+| access_token | optional* | If your script is handling a single Facebook page, enter the Page Access Token from the Facebook App Settings.
+| access_token_cb | optional* | If your script is handling more than one Facebook page, use this configuration setting to provide a callback - this callback takes a single argument, which is the Facebook page ID, and should return a valid access token for that page.
+| verify_token | required | This is Verify Token that is used to set up your webhooks on your Facebook App Settings.
+
+Below is an example of initiating the controller using multiple page IDs:
+
+```javascript
+var controller = Botkit.facebookbot({
+    access_token_cb: fetchFacebookPageToken,
+    verify_token: process.env.verify_token,
+})
+```
+
+\* Note that either the access_token or access_token_cb configuration setting must be specified.
+
 #### controller.setupWebserver()
 | Argument | Description
 |---  |---
