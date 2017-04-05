@@ -1,5 +1,24 @@
 # Change Log
 
+## 0.5.3
+
+Add a new [readme file](readme.md) and moved other documentation into `docs/` folder.
+
+Update all dependencies to their most recent versions
+
+Change behavior of conversation timeouts. [New behavior is documented here.](docs/readme.md#handling-conversation-timeouts)
+
+*beforeThread Hooks:*
+
+These new hooks allow developers to execute custom functionality as a conversation transitions from one thread to another.
+This enables asynchronous operations like database and API calls to be made mid-conversation, and can be used to add additional
+template variables (using `convo.setVar()`), or change the direction of the conversation (using `convo.gotoThread()`).
+
+Add `convo.beforeThread()`, a plugin hook that fires before a conversation thread begins. [Docs](docs/readme.md#convobeforethread)
+
+Add `controller.studio.beforeThread()`, a plugin hook that fires before a Botkit Studio-powered conversation thread begins. [Docs](docs/readme-studio.md#controllerstudiobeforethread)
+
+
 ## 0.5.2
 
 *Changes for Slack:*
