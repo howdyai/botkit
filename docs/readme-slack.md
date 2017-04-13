@@ -64,7 +64,7 @@ The bot connects to Slack using the same protocol that the native Slack clients 
 
 To connect a bot to Slack, [get a Bot API token from the Slack integrations page](https://my.slack.com/services/new/bot).
 
-Note: Since API tokens can be used to connect to your team's Slack, it is best practices to handle API tokens with caution. For example, pass tokens in to your application via environment variable or command line parameter rather than include it in the code itself.
+Note: Since API tokens can be used to connect to your team's Slack, it is best practices to handle API tokens with caution. For example, pass tokens into your application via an environment variable or command line parameter, rather than including it in the code itself.
 This is particularly true if you store and use API tokens on behalf of users other than yourself!
 
 [Read Slack's Bot User documentation](https://api.slack.com/bot-users)
