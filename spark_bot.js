@@ -30,7 +30,7 @@ This bot demonstrates many of the core features of Botkit:
 var Botkit = require('./lib/Botkit.js');
 
 var controller = Botkit.sparkbot({
-    debug: true,
+    debug: false,
     log: false,
     public_address: process.env.public_address,
     ciscospark_access_token: process.env.access_token,
@@ -48,13 +48,6 @@ controller.setupWebserver(process.env.PORT || 3000, function(err, webserver) {
         console.log("Cisco Spark: Webhooks set up!");
     });
 });
-
-controller.middleware.receive.use(function(bot, message, next) {
-
-  console.log(message);
-  next();
-});
-
 
 controller.hears(['^markdown'], 'direct_message,direct_mention', function(bot, message) {
 
@@ -97,17 +90,7 @@ if (process.env.studio_token) {
             if (!convo) {
                 // console.log('NO STUDIO MATCH');
             } else {
-              convo.beforeThread('default', function(convo, next) {
-                console.log('BEFORE DEFAULT THREAD');
-                convo.setVar('foo','bar');
-                next();
-              });
-              convo.beforeThread('new_thread', function(convo, next) {
-                console.log('BEFORE NEW THREAD THREAD');
-                next();
-              });
-
-
+              // found a conversation
             }
         }).catch(function(err) {
             console.error('Error with Botkit Studio: ', err);
