@@ -75,7 +75,7 @@ To connect your bot to the Bot Framework follow the step by step guide outlined 
 
 Here is the complete code for a basic Bot Framework bot:
 
-```javascript
+~~~ javascript
 var Botkit = require('botkit');
 var controller = Botkit.botframeworkbot({
 });
@@ -111,7 +111,8 @@ controller.hears(['cookies'], 'message_received', function(bot, message) {
         });
     });
 });
-```
+~~~
+
 #### Botkit.botframeworkbot()
 | Argument | Description
 |---  |---
@@ -151,7 +152,7 @@ One of the more complicated aspects of building a bot that supports multiple cha
 
 The frameworks [attachment schema](https://docs.botframework.com/en-us/node/builder/chat-reference/interfaces/_botbuilder_d_.iattachment.html) lets you send a single image/file using `contentType` and `contentUrl` fields:
 
-```javascript
+~~~ javascript
     bot.reply(message, {
         attachments: [
             {
@@ -161,13 +162,13 @@ The frameworks [attachment schema](https://docs.botframework.com/en-us/node/buil
             }
         ]
     });
-```
+~~~
 
 #### Sending Cards
 
 Rich cards can be expressed as attachments by changing the `contentType` and using the `content` field to pass a JSON object defining the card:
 
-```javascript
+~~~ javascript
     bot.reply(message, {
         attachments: [
             {
@@ -190,7 +191,7 @@ Rich cards can be expressed as attachments by changing the `contentType` and usi
             }
         ]
     });
-```
+~~~
 
 The full list of supported card types and relevant schema can be found [here](https://docs.botframework.com/en-us/csharp/builder/sdkreference/attachments.html)
 
@@ -202,9 +203,9 @@ There may be times where the Bot Frameworks cross platform attachment schema doe
 
 You can easily turn on the typing indicator on platforms that support that behaviour by sending an empty message of type "typing":
 
-```javascript
+~~~ javascript
     bot.reply(message, { type: "typing" });
-```
+~~~
 
 
 ## Documentation
