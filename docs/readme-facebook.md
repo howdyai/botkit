@@ -304,6 +304,7 @@ bot.reply(message, reply_message)
 
 Messenger Codes can be scanned in Messenger to instantly link the user to your bot, no typing needed. They're great for sticking on fliers, ads, or anywhere in the real world where you want people to try your bot.
 
+- Get Static Codes :
 ```javascript
 controller.api.messenger_profile.get_messenger_code(2000, function (err, url) {
     if(err) {
@@ -312,6 +313,17 @@ controller.api.messenger_profile.get_messenger_code(2000, function (err, url) {
         // url
     }
 });
+```
+
+- Get Parametric Codes :
+```javascript
+controller.api.messenger_profile.get_messenger_code(2000, function (err, url) {
+    if(err) {
+        // Error
+    } else {
+        // url
+    }
+}, 'billboard-ad');
 ```
 
 ## Thread Settings API
