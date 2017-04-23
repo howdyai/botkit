@@ -445,8 +445,7 @@ controller.api.messenger_profile.get_account_linking(function (err, accountLinki
 controller.api.messenger_profile.delete_account_linking();
 controller.api.messenger_profile.domain_whitelist('https://localhost');
 controller.api.messenger_profile.domain_whitelist(['https://127.0.0.1', 'https://0.0.0.0']);
-controller.api.messenger_profile.delete_domain_whitelist('https://localhost');
-controller.api.messenger_profile.delete_domain_whitelist(['https://127.0.0.1', 'https://0.0.0.0']);
+controller.api.messenger_profile.delete_domain_whitelist();
 controller.api.messenger_profile.get_domain_whitelist(function (err, data)  {
     console.log('****** Whitelisted domains :', data);
 });
