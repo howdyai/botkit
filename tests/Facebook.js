@@ -18,6 +18,65 @@ describe('FacebookBot', function() {
         });
     });
 
+    describe('messenger profile api', function(done) {
+        var facebook_bot = Botkit.facebookbot({});
+        describe('home_url', function(done) {
+            it('home_url should be a function', function(done) {
+                facebook_bot.api.messenger_profile.home_url.should.be.a.Function();
+                done();
+            });
+            it('home_url should post a payload', function(done) {
+                var expectedPayload = {
+                    home_url: {
+                        url: 'https://testurl.com',
+                        webview_height_ratio: 'tall',
+                        in_test: true
+                    }
+                };
+
+                var expectedApiCall = sinon.spy();
+                facebook_bot.api.messenger_profile.postAPI = expectedApiCall;
+                facebook_bot.api.messenger_profile.home_url({
+                    url: 'https://testurl.com',
+                    webview_height_ratio: 'tall',
+                    in_test: true
+                });
+                expectedApiCall.should.be.calledWith(expectedPayload);
+                done();
+            });
+            it('get_home_url should be a function', function(done) {
+                facebook_bot.api.messenger_profile.get_home_url.should.be.a.Function();
+                done();
+            });
+            it('get_home_url should trigger a callback', function(done) {
+                var apiGet = sinon.stub(facebook_bot.api.messenger_profile, 'getAPI').callsFake(function fakeFn(fields, cb) {
+                    return cb(null, {
+                        "home_url" : {
+                            "url": "http://petershats.com/send-a-hat",
+                            "webview_height_ratio": "tall",
+                            "in_test":true
+                        }
+                    });
+                });
+                facebook_bot.api.messenger_profile.get_home_url(function(err, result) {
+                    done();
+                });
+            });
+            it('delete_home_url should be a function', function(done) {
+                facebook_bot.api.messenger_profile.get_home_url.should.be.a.Function();
+                done();
+            });
+            it('delete_home_url should trigger a delete api call', function(done) {
+                var expectedApiCall = sinon.spy();
+                facebook_bot.api.messenger_profile.deleteAPI = expectedApiCall;
+                facebook_bot.api.messenger_profile.delete_home_url();
+                expectedApiCall.should.be.calledWith('home_url');
+                done();
+            })
+        });
+
+
+    });
 
     describe('handleWebhookPayload()', function(done) {
         it('Should be function', function(done) {
