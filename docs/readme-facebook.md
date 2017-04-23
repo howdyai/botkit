@@ -452,13 +452,7 @@ controller.api.messenger_profile.get_domain_whitelist(function (err, data)  {
 });
 
 
-controller.hears(['hello'],'facebook_postback', function(bot, message) {
-    //...
-});
 
-controller.hears(['help'],'facebook_postback', function(bot, message) {
-    //...
-});
 
 ```
 
