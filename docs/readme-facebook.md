@@ -452,6 +452,17 @@ controller.api.messenger_profile.get_domain_whitelist(function (err, data)  {
 });
 
 
+// Target Audience
+controller.api.messenger_profile.target_audience({
+    "audience_type":"custom",
+    "countries":{
+        "whitelist":["US", "CA"]
+    }
+});
+controller.api.messenger_profile.delete_target_audience();
+controller.api.messenger_profile.get_target_audience(function (err, data)  {
+    console.log('****** Target Audience :', data);
+});
 
 
 ```
