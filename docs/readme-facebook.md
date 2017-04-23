@@ -400,6 +400,23 @@ Remove all domains
 
 Get a list of the whitelisted domains.
 
+### controller.api.messenger_profile.home_url()
+| Argument | Description
+|---  |---
+| payload | A home_url object with the properties `url`, `webview_height_ratio`, `in_test`
+
+View the facebook documentation for details of the [home_url](https://developers.facebook.com/docs/messenger-platform/messenger-profile/home-url) payload object.
+
+*NB.* The value of the `url` property must be present in the domain_whitelist array
+
+### controller.api.messenger_profile.delete_home_url()
+
+Remove the home_url setting
+
+### controller.api.messenger_profile.get_home_url()
+
+Get the home_url
+
 #### Using the The Messenger Profile API
 
 ```js
@@ -451,6 +468,17 @@ controller.api.messenger_profile.get_domain_whitelist(function (err, data)  {
     console.log('****** Whitelisted domains :', data);
 });
 
+controller.api.messenger_profile.home_url({
+    "url": 'https://mydomain.com',
+    "webview_height_ratio": 'tall',
+    "in_test": false
+})
+
+controller.api.messenger_profile.get_home_url(function (err, data)  {
+    console.log('****** Home url :', data);
+});
+
+controller.api.messenger_profile.delete_home_url();
 
 controller.hears(['hello'],'facebook_postback', function(bot, message) {
     //...
