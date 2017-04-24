@@ -18,26 +18,9 @@ You will receive a `clientId` and a `clientSecret`. You need these values - copy
 
 ## 2) Turn on your Botkit app
 
-Now that you've got your clientId and clientSecret, you can start your Botkit app.
-Assuming you are using the [Botkit Slack Starter Kit](https://github.com/howdyai/botkit-starter-slack),
-this can be done by passing the values in via the command line:
+Now that you've got your clientId and clientSecret, you can start your Botkit app. You will need to have a bot service online and reachable over the web to finish setting up your bot with Slack. 
 
-```
-clientId=<my client id> clientSecret=<my client secret> PORT=3000 node .
-```
-
-This will cause the Botkit application to boot up and start listening for messages via incoming web hooks.
-
-With the Events API, Slack will send all information to your bot via simple
-web hooks. To receive web hooks, you will need a public internet address that is
-SSL-enabled.
-
-During development, you can use a tool like [ngrok.io](http://ngrok.io) or [localtunnel.me](http://localtunnel.me)
-to temporarily expose your development environment to the public internet.
-However, once you go live, you will need a real, stable address.
-
-In the end, you will have a known url - for example `https://my-dev-bot.ngrok.io` -
-that you will use to finish the configuration inside Slack.
+There are a number of different ways that you can host your Botkit app, read more about this in [Botkit's Slack Readme](https://github.com/howdyai/botkit/blob/master/docs/readme-slack.md) 
 
 ## 3) Configure oauth
 
