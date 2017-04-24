@@ -91,13 +91,9 @@ Finally, scroll to the top of the page and switch "Enable Events" to "on". Your 
 
 ## 7) Add your bot to your Slack team
 
-Now that your bot is configured, and your application is up and running,
-you can login and add your bot. Visit `https://my-bot-url/login`, and you
-will be automatically directed to Slack's login page. Login and choose a team.
-You'll get one more confirmation before being redirected back to your app.
+Now that your bot is configured, and your application is up and running, you can login and add your bot. Visit `https://my-bot-url/login`, and you will be automatically directed to Slack's login page. Login and choose a team. You'll get one more confirmation before being redirected back to your app.
 
-Meanwhile, your bot should appear inside your Slack team! You should receive
-a friendly welcome message!
+Meanwhile, your bot should appear inside your Slack team! You should receive a friendly welcome message!
 
 ## 8) Customize your Bot
 
