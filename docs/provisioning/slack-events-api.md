@@ -1,19 +1,14 @@
 # Configure Botkit and the Slack Events API
 
-Building a bot with Botkit and the Slack Events API gives you access to all
-of the best tools and options available to create the best and most feature
+Building a bot with Botkit and the Slack Events API gives you access to all of the best tools and options available to create the best and most feature
 rich bot.
 
-In order to get everything set up, you will need to configure a "Slack App"
-inside the [Slack Developer Portal](http://api.slack.com/apps), and at the same time,
-configure a [Botkit-powered bot](http://botkit.ai). It only takes a few moments,
-but there are a bunch of steps!
+In order to get everything set up, you will need to configure a "Slack App" inside the [Slack Developer Portal](http://api.slack.com/apps), and at the same time, configure a [Botkit-powered bot](http://botkit.ai). It only takes a few moments, but there are a bunch of steps!
 
 ## 1) Create a Slack App
 
 Go to [http://api.slack.com/apps](http://api.slack.com/apps) and create a new application record.
-You will receive a `clientId` and a `clientSecret`. You need these values - copy them into a temporary text file
-for use in the following steps.
+You will receive a `clientId` and a `clientSecret`. You need these values - copy them into a temporary text file for use in the following steps.
 
 ## 2) Turn on your Botkit app
 
@@ -71,8 +66,9 @@ select all of the message.* events: `message.channels`, `message.groups`, `messa
 This tells Slack to send your bot all messages that are sent in any channel or group
 in which your bot is present. Add other events as needed.
 
-Finally, scroll to the top of the page and switch "Enable Events" to "on".
-Your bot is now ready to receive messages!
+*Note* : If you do not see `Bot User` here, it is likely that you forgot to add a Bot user back in step 4. Go and fix that now, and come back to step 6!
+
+Finally, scroll to the top of the page and switch "Enable Events" to "on". Your bot is now ready to receive messages!
 
 ## 7) Add your bot to your Slack team
 
