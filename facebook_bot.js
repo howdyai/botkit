@@ -27,6 +27,7 @@ This bot demonstrates many of the core features of Botkit:
 
     app_secret=<MY APP SECRET> page_token=<MY PAGE TOKEN> verify_token=<MY_VERIFY_TOKEN> node facebook_bot.js [--lt [--ltsubdomain LOCALTUNNEL_SUBDOMAIN]]
 
+  Use page_token='{<"PAGE_A_ID":"PAGE_A_TOKEN","PAGE_B_ID":"PAGE_B_TOKEN"}' to enable multi tenant
   Use the --lt option to make your bot available on the web through localtunnel.me.
 
 # USE THE BOT:
@@ -99,10 +100,18 @@ if(ops.lt === false && ops.ltsubdomain !== null) {
     process.exit();
 }
 
+var access_token = process.env.page_token;
+try {
+    var access_token = JSON.parse(access_token);
+    console.log("running on multi tenant mode", access_token);
+} catch (error) {
+    console.log("running on single tenant mode", access_token);
+}
+
 var controller = Botkit.facebookbot({
     debug: true,
     log: true,
-    access_token: process.env.page_token,
+    access_token: access_token,
     verify_token: process.env.verify_token,
     app_secret: process.env.app_secret,
     validate_requests: true, // Refuse any requests that don't come from FB on your receive webhook, must provide FB_APP_SECRET in environment variables
