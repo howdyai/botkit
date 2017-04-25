@@ -7,7 +7,7 @@ In order to get everything set up, you will need to configure a "Slack App" insi
 
 This feature is still in very active development at Slack, and these steps are subject to change!
 
-## 1) Create a Slack App
+## 1. Create a Slack App
 Go to [http://api.slack.com/apps](http://api.slack.com/apps) and create a new application record.
 
 ![Create your app](IMG/slack-new.png)	
@@ -16,13 +16,13 @@ You will receive a `clientId` and a `clientSecret`. You need these values - copy
 
 ![Create your app](IMG/slack_client_secret.png)	
 
-## 2) Turn on your Botkit app
+## 2. Turn on your Botkit app
 
 Now that you've got your clientId and clientSecret, you can start your Botkit app. You will need to have a bot service online and reachable over the web to finish setting up your bot with Slack. 
 
 There are a number of different ways that you can host your Botkit app, read more about this in [Botkit's Slack Readme](https://github.com/howdyai/botkit/blob/master/docs/readme-slack.md) 
 
-## 3) Configure oauth
+## 3. Configure oauth
 
 Botkit and Slack use the oauth authentication system to grant bots access to connect to, read from, and send messages to Slack teams.
 
@@ -32,7 +32,7 @@ Click on the "Oauth & Permissions" tab in your Slack's app setting, and under Re
 
 
 
-## 4) Add a Bot User
+## 4. Add a Bot User
 
 Click on the "Bot Users" tab and specify a name for your bot. This is the name that will be used by default when your application creates a new bot on a user's
 team.
@@ -40,14 +40,14 @@ team.
 
 In addition to a name, enable the option for "Always Show My Bot Online." This will ensure your Bot appears online to your team.
 
-## 5) Set up Interactive messages
+## 5. Set up Interactive messages
 
 "Interactive messages" is Slack's fancy way of saying "buttons." In order to enable buttons, under Request URL, add `https://YOURURL/slack/receive`, then click save.
 
 ![Setup Interactive images](IMG/slack-im.png)
 
 
-## 6) Set up Event Subscriptions
+## 6. Set up Event Subscriptions
 
 To start receiving messages, enable event subscriptions. First, under Request URL, add `https://YOURURL/slack/receive`. When you finish typing, Slack will verify
 that this endpoint is properly configured. 
@@ -75,12 +75,12 @@ Finally, scroll to the top of the page and switch "Enable Events" to "on". Your 
 
 *Note*: If you intend on submitting your app to the app store, be sure to have a good reason to request more widely ranging events as your app can be rejected for excessively wide permissions.
 
-## 7) Add your bot to your Slack team
+## 7. Add your bot to your Slack team
 
 Now that your bot is configured, and your application is up and running, you can login and add your bot. Visit `https://MYURL/`, and you will be automatically directed to Slack's login page. Login and choose a team. You'll get one more confirmation before being redirected back to your app.
 
 Meanwhile, your bot should appear inside your Slack team! You should receive a friendly welcome message!
 
-## 8) Customize your Bot
+## 8. Customize your Bot
 
 Using [Botkit Studio's conversation design tools](https://studio.botkit.ai) and the powerful [Botkit SDK](https://github.com/howdyai/botkit), you can build your dream bot!
