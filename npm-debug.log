@@ -1,0 +1,139 @@
+0 info it worked if it ends with ok
+1 verbose cli [ '/usr/local/bin/node', '/usr/local/bin/npm', 'publish' ]
+2 info using npm@2.15.11
+3 info using node@v4.7.3
+4 verbose publish [ '.' ]
+5 silly cache add args [ '.', null ]
+6 verbose cache add spec .
+7 silly cache add parsed spec Result {
+7 silly cache add   raw: '.',
+7 silly cache add   scope: null,
+7 silly cache add   name: null,
+7 silly cache add   rawSpec: '.',
+7 silly cache add   spec: '/Users/benbrown/sites/botkit',
+7 silly cache add   type: 'directory' }
+8 verbose addLocalDirectory /Users/benbrown/.npm/botkit/0.5.3/package.tgz not in flight; packing
+9 verbose correctMkdir /Users/benbrown/.npm correctMkdir not in flight; initializing
+10 verbose tar pack [ '/Users/benbrown/.npm/botkit/0.5.3/package.tgz',
+10 verbose tar pack   '/Users/benbrown/sites/botkit' ]
+11 verbose tarball /Users/benbrown/.npm/botkit/0.5.3/package.tgz
+12 verbose folder /Users/benbrown/sites/botkit
+13 info prepublish botkit@0.5.3
+14 verbose addLocalTarball adding from inside cache /Users/benbrown/.npm/botkit/0.5.3/package.tgz
+15 verbose correctMkdir /Users/benbrown/.npm correctMkdir not in flight; initializing
+16 silly cache afterAdd botkit@0.5.3
+17 verbose afterAdd /Users/benbrown/.npm/botkit/0.5.3/package/package.json not in flight; writing
+18 verbose correctMkdir /Users/benbrown/.npm correctMkdir not in flight; initializing
+19 verbose afterAdd /Users/benbrown/.npm/botkit/0.5.3/package/package.json written
+20 silly publish { name: 'botkit',
+20 silly publish   version: '0.5.3',
+20 silly publish   description: 'Building blocks for Building Bots',
+20 silly publish   main: 'lib/Botkit.js',
+20 silly publish   dependencies:
+20 silly publish    { async: '^2.1.5',
+20 silly publish      back: '^1.0.1',
+20 silly publish      'body-parser': '^1.17.1',
+20 silly publish      botbuilder: '^3.7.0',
+20 silly publish      'botkit-studio-sdk': '^1.0.2',
+20 silly publish      ciscospark: '^0.7.69',
+20 silly publish      clone: '2.1.1',
+20 silly publish      'command-line-args': '^4.0.2',
+20 silly publish      crypto: '0.0.3',
+20 silly publish      express: '^4.15.2',
+20 silly publish      'https-proxy-agent': '^1.0.0',
+20 silly publish      jfs: '^0.2.6',
+20 silly publish      localtunnel: '^1.8.2',
+20 silly publish      md5: '^2.2.1',
+20 silly publish      mustache: '^2.3.0',
+20 silly publish      promise: '^7.1.1',
+20 silly publish      request: '^2.81.0',
+20 silly publish      twilio: '^2.11.1',
+20 silly publish      ware: '^1.3.0',
+20 silly publish      ws: '^2.2.2' },
+20 silly publish   devDependencies:
+20 silly publish    { jscs: '^3.0.7',
+20 silly publish      mocha: '^3.2.0',
+20 silly publish      should: '^11.2.1',
+20 silly publish      'should-sinon': '0.0.5',
+20 silly publish      sinon: '^2.1.0',
+20 silly publish      winston: '^2.3.1' },
+20 silly publish   scripts: { pretest: 'jscs ./lib/', test: 'mocha tests/*.js' },
+20 silly publish   repository:
+20 silly publish    { type: 'git',
+20 silly publish      url: 'git+https://github.com/howdyai/botkit.git' },
+20 silly publish   bugs: { url: 'https://github.com/howdyai/botkit/issues' },
+20 silly publish   homepage: 'http://howdy.ai/botkit',
+20 silly publish   keywords:
+20 silly publish    [ 'bots',
+20 silly publish      'chatbots',
+20 silly publish      'slack',
+20 silly publish      'cisco spark',
+20 silly publish      'facebook messenger',
+20 silly publish      'twilio ipm',
+20 silly publish      'microsoft bot framework' ],
+20 silly publish   author: { name: 'ben@howdy.ai' },
+20 silly publish   license: 'MIT',
+20 silly publish   readme: '# [Botkit](https://botkit.ai) - Building Blocks for Building Bots\n\n[![npm](https://img.shields.io/npm/v/botkit.svg)](https://www.npmjs.com/package/botkit)\n[![David](https://img.shields.io/david/howdyai/botkit.svg)](https://david-dm.org/howdyai/botkit)\n[![npm](https://img.shields.io/npm/l/botkit.svg)](https://spdx.org/licenses/MIT)\n[![bitHound Overall Score](https://www.bithound.io/github/howdyai/botkit/badges/score.svg)](https://www.bithound.io/github/howdyai/botkit)\n\nBotkit is designed to ease the process of designing and running useful, creative bots that live inside messaging platforms.\nBots are applications that can send and receive messages, and in many cases, appear alongside their human counterparts as _users._\n\nSome bots talk like people, others silently work in the background, while others present interfaces much like modern mobile applications.\nBotkit gives developers the necessary tools for building bots of any kind! It provides an easy-to-understand interface for sending and receiving messages so that developers can focus on creating novel applications and experiences instead of dealing with API endpoints.\n\nOur goal with Botkit is to make bot building easy, fun, and accessible to anyone with the desire to create\na future filled with talking machines! We provide several tools to make this vision a reality:\n\n* [Botkit Studio](#start-with-botkit-studio), an integrated development environment for designing and building bots\n* [Starter Kits](#start-with-a-starter-kit), boilerplate applications pre-configured to work with popular platforms\n* [Botkit Core Library](#botkit-core-library), an SDK for creating conversational software\n* [Plugins and Middlewares](docs/readme-middlewares.md) that can extend and enhance your bot\n\nBotkit features a comprehensive set of tools to deal with popular messaging platforms, including:\n\n* [Slack](docs/readme-slack.md)\n* [Cisco Spark](docs/readme-ciscospark.md)\n* [Facebook Messenger and Facebook @Workplace](docs/readme-facebook.md)\n* [Twilio IP Messaging](docs/readme-twilioipm.md)\n* [Microsoft Bot Framework](docs/readme-botframework.md)\n* Yours? [info@howdy.ai](mailto:info@howdy.ai)\n\n---\n\n## [Start with Botkit Studio](https://studio.botkit.ai/signup)\n\nBotkit Studio is a hosted development environment for building bots with Botkit.\nDevelopers using Botkit Studio get the full capabilities of Botkit, with the addition of many powerful bot-building features such as:\n\n* All the code you need to get your bot online in minutes\n* A visual authoring environment for designing and managing dialog\n* A real-time message console for monitoring activity\n* APIs that enable content and features to be added to bots without additional code\n* Role-based, multi-user teams support\n* Detailed usage statistics\n* Built-in integrations with top plugins and platform tools\n\nClick below to sign up for a free developer account, [and please contact us if you have any questions.](mailto:info@howdy.ai)\n\n**[![Sign up for Botkit Studio](docs/studio.png)](https://studio.botkit.ai/signup?code=readme)**\n\n\n## Start with a Starter Kit\n\nBased on the best practices we\'ve established since the release of Botkit, our starter kits include\neverything you need to bring a Botkit bot online in minutes. Don\'t start from scratch -- start with a\nwell structured, extensible application boilerplate!\n\nThese starter kits are easy to set up and run on your own hosting service, but the fastest (and cheapest) way to get\nstarted is to deploy directly to [Glitch](http://glitch.com), a free-to-use code editor and hosting system!\n\nNote: While [using Botkit Studio](https://studio.botkit.ai) is highly recommended, these starter kits can be used without registering for Studio as well.\n\n> ### [Slack Bot Starter Kit](https://github.com/howdyai/botkit-starter-slack)\n> The Slack starter kit contains everything you need to create a multi-team Slack application,\nsuitable for internal use or submission to [Slack\'s app store.](https://slack.com/apps)\n> #### [![Remix on Glitch](docs/glitch.png)](https://glitch.com/edit/#!/import/github/howdyai/botkit-starter-slack)\n\n> ### [Cisco Spark Bot Starter Kit](https://github.com/howdyai/botkit-starter-ciscospark)\n> Build a bot inside Cisco Spark\'s collaboration and messaging platform. Bots built with the starter kit\nare ready to submit to [Cisco Spark\'s Depot app store](https://depot.ciscospark.com/).\n> #### [![Remix on Glitch](docs/glitch.png)](https://glitch.com/edit/#!/import/github/howdyai/botkit-starter-ciscospark)\n\n> ### [Facebook Bot Starter Kit](https://github.com/howdyai/botkit-starter-facebook)\n> The Facebook starter kit contains all the code necessary to stand up a Facebook bot on either Facebook Messenger, or Facebook Work Chat. With just a few pieces of configuration, set up a bot that automatically responds to messages sent to your Facebook page.\n> #### [![Remix on Glitch](docs/glitch.png)](https://glitch.com/edit/#!/import/github/howdyai/botkit-starter-facebook)\n\n# Developer & Support Community\n\nJoin our thriving community of Botkit developers and bot enthusiasts at large.\nOver 4500 members strong, [our open Slack group](http://community.botkit.ai) is\n_the place_ for people interested in the art and science of making bots.\nCome to ask questions, share your progress, and commune with your peers!\n\nYou can also find help from members of the Botkit team [in our dedicated Cisco Spark room](https://eurl.io/#SyNZuomKx)!\n\nWe also host a [regular meetup and annual conference called TALKABOT.](http://talkabot.ai)\nCome meet and learn from other bot developers! [Full video of our 2016 event is available on Youtube.](https://www.youtube.com/playlist?list=PLD3JNfKLDs7WsEHSal2cfwG0Fex7A6aok)\n\n\n\n# Botkit Core Library\n\nBotkit is designed around the idea of giving developers a language-like interface for building bots.\nInstead of dealing directly with messaging platform protocols and APIs, Botkit provides semantic functions\ndesigned around the normal parts of human conversation: _hearing things_ and _saying things_.\n\nOn top of these basic build blocks, Botkit offers a powerful system for creating and managing dynamic\nconversational interfaces, and tapping into cutting edge technology like artificial intelligence (AI)\nand natural language understanding (NLP/NLU) tools.\n\nPractically speaking, this results in code that looks like this:\n\n```javascript\n// respond when a user sends a DM to the bot that says "hello"\ncontroller.hears(\'hello\', \'direct_message\', function(bot, message) {\n    bot.reply(message, \'Hello human.\');\n});\n```\n\nAll Botkit bots, built for any platform, use these same building blocks. This means developers are not required\nto learn the intricacies of each platform, and can build bots that port easily between them.\n\nBotkit can be used to build a stand-alone application, or it can be integrated into existing Node.js\napps to offer a bot experience, or to send application notifications into messaging apps. It is released\nunder the [MIT open source license](LICENSE.md), which means developers are free to use it any way they choose,\nin any type of project.\n\n\n## Install Botkit from NPM or Github\n\nBotkit is available via NPM.\n\n```bash\nnpm install --save botkit\n```\n\nYou can also check out Botkit directly from Git.\nIf you want to use the example code and included bots, it may be preferable to use Github over NPM.\n\n```bash\ngit clone git@github.com:howdyai/botkit.git\n```\n\nAfter cloning the Git repository, you have to install the node dependencies. Navigate to the root of your cloned repository and use npm to install all necessary dependencies.\n```bash\nnpm install\n```\n\nUse the `--production` flag to skip the installation of devDependencies from Botkit. Useful if you just wish to run the example bot.\n```bash\nnpm install --production\n```\n\n## Documentation\n\n* [Get Started](docs/readme.md)\n* [Botkit Studio API](docs/readme-studio.md)\n* [Function index](docs/readme.md#developing-with-botkit)\n* [Extending Botkit with Plugins and Middleware](docs/middleware.md)\n  * [List of current plugins](docs/readme-middlewares.md)\n* [Storing Information](docs/storage.md)\n* [Logging](docs/logging.md)\n* Platforms\n  * [Slack](docs/readme-slack.md)\n  * [Cisco Spark](docs/readme-ciscospark.md)\n  * [Facebook Messenger](docs/readme-facebook.md)\n  * [Twilio IPM](docs/readme-twilioipm.md)\n  * [Microsoft Bot Framework](docs/readme-botframework.md)\n* Contributing to Botkit\n  * [Contributing to Botkit Core](CONTRIBUTING.md)\n  * [Building Middleware/plugins](docs/howto/build_middleware.md)\n  * [Building platform connectors](docs/howto/build_connector.md)\n\n# About Botkit\n\nBotkit is a product of [Howdy](https://howdy.ai).\n\nFor support, check out [the Developer Community](#developer--support-community) and find our team in the #Botkit channel.\n',
+20 silly publish   readmeFilename: 'readme.md',
+20 silly publish   gitHead: '43894822985dd9feb911e17130a7eaa07a44d814',
+20 silly publish   _id: 'botkit@0.5.3',
+20 silly publish   _shasum: '8792eced9fe67ef13a608ab1bac5f37a9fa50d54',
+20 silly publish   _from: '.' }
+21 verbose getPublishConfig undefined
+22 silly mapToRegistry name botkit
+23 silly mapToRegistry using default registry
+24 silly mapToRegistry registry https://registry.npmjs.org/
+25 silly mapToRegistry data Result {
+25 silly mapToRegistry   raw: 'botkit',
+25 silly mapToRegistry   scope: null,
+25 silly mapToRegistry   name: 'botkit',
+25 silly mapToRegistry   rawSpec: '',
+25 silly mapToRegistry   spec: 'latest',
+25 silly mapToRegistry   type: 'tag' }
+26 silly mapToRegistry uri https://registry.npmjs.org/botkit
+27 verbose publish registryBase https://registry.npmjs.org/
+28 silly publish uploading /Users/benbrown/.npm/botkit/0.5.3/package.tgz
+29 verbose request uri https://registry.npmjs.org/botkit
+30 verbose request sending authorization for write operation
+31 info attempt registry request try #1 at 4:35:18 PM
+32 verbose request using bearer token for auth
+33 verbose request id db570a9bba192085
+34 http request PUT https://registry.npmjs.org/botkit
+35 http 403 https://registry.npmjs.org/botkit
+36 verbose headers { 'content-type': 'application/json',
+36 verbose headers   'cache-control': 'max-age=300',
+36 verbose headers   'content-length': '95',
+36 verbose headers   'accept-ranges': 'bytes',
+36 verbose headers   date: 'Wed, 26 Apr 2017 21:34:25 GMT',
+36 verbose headers   via: '1.1 varnish',
+36 verbose headers   connection: 'keep-alive',
+36 verbose headers   'x-served-by': 'cache-dfw1832-DFW',
+36 verbose headers   'x-cache': 'MISS',
+36 verbose headers   'x-cache-hits': '0',
+36 verbose headers   'x-timer': 'S1493242464.205471,VS0,VE1287',
+36 verbose headers   vary: 'Accept-Encoding' }
+37 verbose request invalidating /Users/benbrown/.npm/registry.npmjs.org/botkit on PUT
+38 error publish Failed PUT 403
+39 verbose stack Error: "You cannot publish over the previously published version 0.5.3." : botkit
+39 verbose stack     at makeError (/usr/local/lib/node_modules/npm/node_modules/npm-registry-client/lib/request.js:302:12)
+39 verbose stack     at CachingRegistryClient.<anonymous> (/usr/local/lib/node_modules/npm/node_modules/npm-registry-client/lib/request.js:290:14)
+39 verbose stack     at Request._callback (/usr/local/lib/node_modules/npm/node_modules/npm-registry-client/lib/request.js:210:14)
+39 verbose stack     at Request.self.callback (/usr/local/lib/node_modules/npm/node_modules/request/request.js:187:22)
+39 verbose stack     at emitTwo (events.js:87:13)
+39 verbose stack     at Request.emit (events.js:172:7)
+39 verbose stack     at Request.<anonymous> (/usr/local/lib/node_modules/npm/node_modules/request/request.js:1044:10)
+39 verbose stack     at emitOne (events.js:77:13)
+39 verbose stack     at Request.emit (events.js:169:7)
+39 verbose stack     at IncomingMessage.<anonymous> (/usr/local/lib/node_modules/npm/node_modules/request/request.js:965:12)
+40 verbose statusCode 403
+41 verbose pkgid botkit
+42 verbose cwd /Users/benbrown/sites/botkit
+43 error Darwin 15.6.0
+44 error argv "/usr/local/bin/node" "/usr/local/bin/npm" "publish"
+45 error node v4.7.3
+46 error npm  v2.15.11
+47 error code E403
+48 error "You cannot publish over the previously published version 0.5.3." : botkit
+49 error If you need help, you may report this error at:
+49 error     <https://github.com/npm/npm/issues>
+50 verbose exit [ 1, true ]
