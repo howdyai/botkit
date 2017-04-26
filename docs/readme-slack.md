@@ -64,7 +64,7 @@ The bot connects to Slack using the same protocol that the native Slack clients 
 
 To connect a bot to Slack, [get a Bot API token from the Slack integrations page](https://my.slack.com/services/new/bot).
 
-Note: Since API tokens can be used to connect to your team's Slack, it is best practices to handle API tokens with caution. For example, pass tokens in to your application via evironment variable or command line parameter rather than include it in the code itself.
+Note: Since API tokens can be used to connect to your team's Slack, it is best practices to handle API tokens with caution. For example, pass tokens into your application via an environment variable or command line parameter, rather than including it in the code itself.
 This is particularly true if you store and use API tokens on behalf of users other than yourself!
 
 [Read Slack's Bot User documentation](https://api.slack.com/bot-users)
@@ -73,7 +73,7 @@ This is particularly true if you store and use API tokens on behalf of users oth
 
 The Botkit Slack controller object can be configured in a few different ways, depending on the type of integration you are building.
 
-A simple single-team bot that uses the RTM api can be instantated without any special options:
+A simple single-team bot that uses Slack's [Real Time Messaging (RTM) API](https://api.slack.com/rtm) can be instantiated without any special options:
 
 ```javascript
 var controller = Botkit.slackbot({});
@@ -109,6 +109,7 @@ var controller = Botkit.slackbot({debug: true})
 | send_via_rtm  | Boolean   | Send outgoing messages via the RTM instead of using Slack's RESTful API which supports more features
 | retry | Positive integer or `Infinity` | Maximum number of reconnect attempts after failed connection to Slack's real time messaging API. Retry is disabled by default
 | api_root | Alternative root URL which allows routing requests to the Slack API through a proxy, or use of a mocked endpoints for testing. defaults to `https://slack.com`
+| disable_startup_messages | Boolean | Disable start up messages, like: `"Initializing Botkit vXXX"`
 
 #### controller.spawn()
 | Argument | Description
@@ -924,6 +925,8 @@ Developers may want to create an RTM connection in order to make the bot appear 
 4. Select the specific events you would like to subscribe to with your bot. Slack only sends your webhook the events you subscribe to. Read more about Event Types [here](https://api.slack.com/events)
 5. When running your bot, you must configure the slack app, setup webhook endpoints, and oauth endpoints.
 
+Note:  If you are not also establishing an RTM connection, you will need to manually run the `controller.startTicking()` method for conversations to work properly.
+
 ```javascript
 var controller = Botkit.slackbot({
     debug: false,
@@ -947,6 +950,9 @@ controller.setupWebserver(process.env.port, function(err, webserver) {
             res.send('Success!');
         }
     });
+    
+    // If not also opening an RTM connection
+    controller.startTicking();
 });
 ```
 
@@ -965,3 +971,24 @@ var controller = Botkit.slackbot({
     rtm_receive_messages: false
 });
 ```
+
+
+## Documentation
+
+* [Get Started](readme.md)
+* [Botkit Studio API](readme-studio.md)
+* [Function index](readme.md#developing-with-botkit)
+* [Extending Botkit with Plugins and Middleware](middleware.md)
+  * [List of current plugins](readme-middlewares.md)
+* [Storing Information](storage.md)
+* [Logging](logging.md)
+* Platforms
+  * [Slack](readme-slack.md)
+  * [Cisco Spark](readme-ciscospark.md)
+  * [Facebook Messenger](readme-facebook.md)
+  * [Twilio IPM](readme-twilioipm.md)
+  * [Microsoft Bot Framework](readme-botframework.md)
+* Contributing to Botkit
+  * [Contributing to Botkit Core](../CONTRIBUTING.md)
+  * [Building Middleware/plugins](howto/build_middleware.md)
+  * [Building platform connectors](howto/build_connector.md)
