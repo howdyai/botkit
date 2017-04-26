@@ -49,13 +49,6 @@ controller.setupWebserver(process.env.PORT || 3000, function(err, webserver) {
     });
 });
 
-controller.middleware.receive.use(function(bot, message, next) {
-
-  console.log(message);
-  next();
-});
-
-
 controller.hears(['^markdown'], 'direct_message,direct_mention', function(bot, message) {
 
     bot.reply(message, {text: '*this is cool*', markdown: '*this is super cool*'});
@@ -96,6 +89,8 @@ if (process.env.studio_token) {
         controller.studio.runTrigger(bot, message.text, message.user, message.channel).then(function(convo) {
             if (!convo) {
                 // console.log('NO STUDIO MATCH');
+            } else {
+              // found a conversation
             }
         }).catch(function(err) {
             console.error('Error with Botkit Studio: ', err);
