@@ -924,6 +924,8 @@ Developers may want to create an RTM connection in order to make the bot appear 
 4. Select the specific events you would like to subscribe to with your bot. Slack only sends your webhook the events you subscribe to. Read more about Event Types [here](https://api.slack.com/events)
 5. When running your bot, you must configure the slack app, setup webhook endpoints, and oauth endpoints.
 
+Note:  If you are not also establishing an RTM connection, you will need to manually run the `controller.startTicking()` method for conversations to work properly.
+
 ```javascript
 var controller = Botkit.slackbot({
     debug: false,
@@ -947,6 +949,9 @@ controller.setupWebserver(process.env.port, function(err, webserver) {
             res.send('Success!');
         }
     });
+    
+    // If not also opening an RTM connection
+    controller.startTicking();
 });
 ```
 
