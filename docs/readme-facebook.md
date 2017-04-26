@@ -474,8 +474,7 @@ controller.api.messenger_profile.get_account_linking(function (err, accountLinki
 controller.api.messenger_profile.delete_account_linking();
 controller.api.messenger_profile.domain_whitelist('https://localhost');
 controller.api.messenger_profile.domain_whitelist(['https://127.0.0.1', 'https://0.0.0.0']);
-controller.api.messenger_profile.delete_domain_whitelist('https://localhost');
-controller.api.messenger_profile.delete_domain_whitelist(['https://127.0.0.1', 'https://0.0.0.0']);
+controller.api.messenger_profile.delete_domain_whitelist();
 controller.api.messenger_profile.get_domain_whitelist(function (err, data)  {
     console.log('****** Whitelisted domains :', data);
 });
@@ -492,13 +491,18 @@ controller.api.messenger_profile.get_home_url(function (err, data)  {
 
 controller.api.messenger_profile.delete_home_url();
 
-controller.hears(['hello'],'facebook_postback', function(bot, message) {
-    //...
+// Target Audience
+controller.api.messenger_profile.target_audience({
+    "audience_type":"custom",
+    "countries":{
+        "whitelist":["US", "CA"]
+    }
+});
+controller.api.messenger_profile.delete_target_audience();
+controller.api.messenger_profile.get_target_audience(function (err, data)  {
+    console.log('****** Target Audience :', data);
 });
 
-controller.hears(['help'],'facebook_postback', function(bot, message) {
-    //...
-});
 
 ```
 
