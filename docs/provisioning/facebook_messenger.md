@@ -3,44 +3,37 @@
 
 ### 1. [Install Botkit](https://github.com/howdyai/botkit/blob/master/readme.md#start-with-botkit-studio)
 
-### 2. Create a Facebook App for Web and note down or create a new Facebook Page. 
+### 2. Create a Facebook App for Web
 
-https://developers.facebook.com/tools-and-support/
 
-Your Facebook page will be used for the app's identity.
+[Visit the developer page and create a new app](https://developers.facebook.com/tools-and-support/)
+![Create your APP ID](IMG/fb_new.png)
+
+* Select a Messenger application
+
+![Create your app](IMG/fb_mess.png)
+
 
 ### 3. Get a page access token for your app
+Scroll down to `Token Generation`
+
+![page access token](IMG/fb_tokengen.png)
+
+
+If you have not yet created your page yet, you can go ahead and do this now, or associate this new bot with an existing page.
 
 Copy this token, you'll need it!
 
-### 4. Define your own "verify token" - 
+### 4. Setup webhooks 
+Click  `Setup webhooks` to link this application to your Botkit instance.
 
-this is a string that you control that Facebook will use to verify your web hook endpoint
+![page access token](IMG/fb_webhooks.png)
 
-### 5. Run the example bot app, using the two tokens you just created. 
+The callback url will be `https://YOURURL/facebookreceive`. This url must be publically available, and SSL-secured. More information on this can be found in the next step.
 
+### 5. Run your application!
 
-
-
-`Note` If you are not running your bot at a public, SSL-enabled internet address, use the --lt option and note the URL it gives you.
-
-`page_token=<MY PAGE TOKEN> verify_token=<MY_VERIFY_TOKEN> node facebook_bot.js [--lt [--ltsubdomain CUSTOM_SUBDOMAIN]]`
-
-### 6. Set up a webhook endpoint for your app that uses your public URL. 
-
-Use the verify token you defined in step 4!
-Note - You will need to provide Facebook a callback endpoint to receive requests from Facebook. By default Botkit will serve content from "https://YOURSERVER/facebook/receive". You can use a tool like ngrok.io or localtunnel.me to expose your local development enviroment to the outside world for the purposes of testing your Messenger bot.
-
-Your bot should be online! Within Facebook, find your page, and click the "Message" button in the header.
-
-Try:
-
-who are you?
-call me Bob
-shutdown
-Things to note
-
-### 7. (Optional) Validate Requests - Secure your webhook!
+### 6. (Optional) Validate Requests - Secure your webhook!
 
 Facebook sends an X-HUB signature header with requests to your webhook. You can verify the requests are coming from Facebook by enabling validate_requests: true when creating your bot controller. This checks the sha1 signature of the incoming payload against your Facebook App Secret (which is seperate from your webhook's verify_token), preventing unauthorized access to your webhook. You must also pass your app_secret into your environment variables when running your bot.
 
