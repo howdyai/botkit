@@ -1,5 +1,36 @@
 # Change Log
 
+## 0.5.3
+
+Add a new [readme file](readme.md) and moved other documentation into `docs/` folder.
+
+Update all dependencies to their most recent versions
+
+Change behavior of conversation timeouts. [New behavior is documented here.](docs/readme.md#handling-conversation-timeouts)
+
+Support for Facebook Messenger's new "Home URL" setting [PR #793](https://github.com/howdyai/botkit/pull/793)
+[New features documented here.](https://github.com/howdyai/botkit/blob/master/docs/readme-facebook.md#controllerapimessenger_profilehome_url)
+
+Support for including parameters in Facebook codes. [PR #790](https://github.com/howdyai/botkit/pull/790)
+[Docs here.](https://github.com/howdyai/botkit/blob/master/docs/readme-facebook.md#messenger-code-api)
+
+Support for Facebook's new "target audience" APIs [PR #798](https://github.com/howdyai/botkit/pull/798)
+
+Support for additional Slack user APIs, including 'user.profile.set' and 'user.profile.get'. [PR #780](https://github.com/howdyai/botkit/pull/780)
+
+Add support for `createPrivateConversation()` in Slack bots [PR #586](https://github.com/howdyai/botkit/pull/586)
+
+*beforeThread Hooks:*
+
+These new hooks allow developers to execute custom functionality as a conversation transitions from one thread to another.
+This enables asynchronous operations like database and API calls to be made mid-conversation, and can be used to add additional
+template variables (using `convo.setVar()`), or change the direction of the conversation (using `convo.gotoThread()`).
+
+Add `convo.beforeThread()`, a plugin hook that fires before a conversation thread begins. [Docs](docs/readme.md#convobeforethread)
+
+Add `controller.studio.beforeThread()`, a plugin hook that fires before a Botkit Studio-powered conversation thread begins. [Docs](docs/readme-studio.md#controllerstudiobeforethread)
+
+
 ## 0.5.2
 
 *Changes for Slack:*

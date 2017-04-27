@@ -298,6 +298,52 @@ controller.studio.validate('tacos', 'sauce', function(convo, next) {
 });
 ```
 
+### controller.studio.beforeThread()
+| Argument | Description
+|---  |---
+| script_name   | The name of a script defined in Botkit Studio
+| thread_name | The name of a thread defined in Botkit Studio
+| hook_function | A function that accepts (convo, next) as parameters
+
+`beforeThread` hooks are called whenever a Botkit Studio script changes from one thread to another.
+
+This works just like [convo.beforeThread()](readme.md#convobeforethread), but operates on the automagically compiled scripts managed by Botkit Studio's IDE.
+
+Note: hook functions _must_ call next() before ending, or the script will stop executing and the bot will be confused!
+Allows developers to specify one or more functions that will be called before the thread
+referenced in `thread_name` is activated.
+
+`handler_function` will receive the conversation object and a `next()` function. Developers
+must call the `next()` function when their asynchronous operations are completed, or the conversation
+may not continue as expected.  
+
+Note that if `gotoThread()` is called inside the handler function,
+it is recommended that `next()` be passed with an error parameter to stop processing of any additional thread handler functions that may be defined - that is, call `next('stop');`
+
+```javascript
+// This example demonstrates how to use beforeThread to capture user input, do an asynchronous operation, then display the results in a new thread
+// Imagine a conversation called `search` in which the first action is to collect search terms
+// the conversation then transitions to the `results` thread, before which we do the actual search!
+controller.studio.beforeThread('search', 'results', function(convo, next) {
+
+  var query = convo.extractResponse('query');
+  mySearchQuery(query).then(function(results) {
+
+    convo.setVar('results', results);
+    next();
+
+  }).catch(function(err) {
+
+    convo.setVar('error', err);
+    convo.gotoThread('error');
+    next(err);
+
+  });
+
+});
+```
+
+
 ## Documentation
 
 * [Get Started](readme.md)
