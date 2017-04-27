@@ -1,13 +1,13 @@
 # Configure Botkit and the Slack Events API
 
-Building a bot with Botkit and the Slack Events API gives you access to all of the best tools and options available to create the best and most feature
-rich bot.
+Building a bot with Botkit and the Slack Events API gives you access to all of the best tools and options available to createe a feature-rich bot for Slack.
 
-In order to get everything set up, you will need to configure a "Slack App" inside the [Slack Developer Portal](http://api.slack.com/apps), and at the same time, configure a [Botkit-powered bot](http://botkit.ai). It only takes a few moments, but there are a bunch of steps! 
+In order to get everything set up, you will need to configure a new Slack App inside the [Slack Developer Portal](http://api.slack.com/apps), and at the same time, configure a [Botkit-powered bot](http://botkit.ai). It only takes a few moments, but there are a bunch of steps! 
 
 This feature is still in very active development at Slack, and these steps are subject to change!
 
-## 1. Create a Slack App
+## 1. Create a new Slack App
+
 Go to [http://api.slack.com/apps](http://api.slack.com/apps) and create a new application record.
 
 ![Create your app](IMG/slack-new.png)	
@@ -22,25 +22,21 @@ Now that you've got your clientId and clientSecret, you can start your Botkit ap
 
 There are a number of different ways that you can host your Botkit app, read more about this in [Botkit's Slack Readme](https://github.com/howdyai/botkit/blob/master/docs/readme-slack.md) 
 
-## 3. Configure oauth
+## 3. Configure OAuth
 
-Botkit and Slack use the oauth authentication system to grant bots access to connect to, read from, and send messages to Slack teams.
+Botkit and Slack use the OAuth authentication system to grant bots access to connect to, read from, and send messages to Slack teams.
 
 ![Setup Oauth](IMG/slack_oauth.png)
 
-Click on the "Oauth & Permissions" tab in your Slack's app setting, and under Redirect URLs, add: `https://my-bot-url/oauth`, then click save.
-
-
+Click on the "OAuth & Permissions" tab in your Slack's app setting, and under Redirect URLs, add: `https://my-bot-url/oauth`, and save your progress.
 
 ## 4. Add a Bot User
 
-Click on the "Bot Users" tab and specify a name for your bot. This is the name that will be used by default when your application creates a new bot on a user's
-team.
-![Setup Oauth](IMG/slack-botuser.png)
+Click on the "Bot Users" tab and specify a name for your bot. This is the name that will be used by default when your application creates a new bot on a user's team. ![Setup Oauth](IMG/slack-botuser.png)
 
 In addition to a name, enable the option for "Always Show My Bot Online." This will ensure your Bot appears online to your team.
 
-## 5. Set up Interactive messages
+## 5. Set up Interactive Messages
 
 "Interactive messages" is Slack's fancy way of saying "buttons." In order to enable buttons, under Request URL, add `https://YOURURL/slack/receive`, then click save.
 
@@ -49,13 +45,11 @@ In addition to a name, enable the option for "Always Show My Bot Online." This w
 
 ## 6. Set up Event Subscriptions
 
-To start receiving messages, enable event subscriptions. First, under Request URL, add `https://YOURURL/slack/receive`. When you finish typing, Slack will verify
-that this endpoint is properly configured. 
+To start receiving messages, you will need to enable Event Subscriptions. Finally, scroll to the top of the page and switch "Enable Events" to "on". 
 
-You must be running your Botkit application, and the application must be accessible at the URL specified for this to work.
+Next you will need to add your Request URL, like this: `https://YOURURL/slack/receive`. When you finish typing, Slack will verify that this endpoint is properly configured. You must be running your Botkit application at the URL specified for this to work.
 
 ![Verify your endpoints](IMG/Slack-eventsenable.png)
-
 
 Once verified, click "Add Bot User Event", and using the dropdown that appears, select all of the `message.*` events: 
 
@@ -64,14 +58,13 @@ Once verified, click "Add Bot User Event", and using the dropdown that appears, 
 * `message.ims`
 *  `message.mpim`.
 
-
-This tells Slack to send your bot all messages that are sent in any channel or group in which your bot is present. Add other events as needed. 
+This configuration tells Slack to send your bot all messages that are sent in any channel or group in which your bot is present. Add other events as needed. 
 
 ![Add some subscriptions](IMG/slack_botevents.png)
 
-*Problems?* : If you do not see `Bot User` here, it is likely that you forgot to add a Bot user back in step 4. Go and fix that now, and come back to step 6!
+*Problems?* : If you do not see `Bot User` here, it is likely that you forgot to add a Bot User back in step 4. Go and fix that now, and come back to step 6!
 
-Finally, scroll to the top of the page and switch "Enable Events" to "on". Your bot is now ready to receive messages!
+Your bot is now ready to receive messages!
 
 *Note*: If you intend on submitting your app to the app store, be sure to have a good reason to request more widely ranging events as your app can be rejected for excessively wide permissions.
 
