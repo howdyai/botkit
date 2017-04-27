@@ -5,6 +5,8 @@
 
 ### 2. Create a Facebook App for Web and note down or create a new Facebook Page. 
 
+https://developers.facebook.com/tools-and-support/
+
 Your Facebook page will be used for the app's identity.
 
 ### 3. Get a page access token for your app
