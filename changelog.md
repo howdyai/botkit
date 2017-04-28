@@ -1,5 +1,13 @@
 # Change Log
 
+## 0.5.4
+
+Fix for [#806](https://github.com/howdyai/botkit/issues/806) - new version of websocket didn't play nice with Slack's message servers
+
+Support for Slack's new [rtm.connect method](https://api.slack.com/methods/rtm.connect).
+
+Use rtm.connect instead of rtm.start when connecting an RTM bot to Slack. This should performance during connections.
+
 ## 0.5.3
 
 Add a new [readme file](readme.md) and moved other documentation into `docs/` folder.
