@@ -213,7 +213,7 @@ who must be added to channels in order to interact.
 
 By default, bots are "system" users, and can be configured as below:
 
-```
+```javascript
 var bot = controller.spawn({
     TWILIO_IPM_SERVICE_SID: process.env.TWILIO_IPM_SERVICE_SID,
     TWILIO_ACCOUNT_SID: process.env.TWILIO_ACCOUNT_SID,
@@ -224,7 +224,7 @@ var bot = controller.spawn({
 
 To connect as a "bot" user, pass in an `identity` field:
 
-```
+```javascript
 var bot = controller.spawn({
     TWILIO_IPM_SERVICE_SID: process.env.TWILIO_IPM_SERVICE_SID,
     TWILIO_ACCOUNT_SID: process.env.TWILIO_ACCOUNT_SID,
@@ -237,7 +237,7 @@ var bot = controller.spawn({
 To have your bot automatically join every channel as they are created and removed,
 pass in `autojoin`:
 
-```
+```javascript
 var bot = controller.spawn({
     TWILIO_IPM_SERVICE_SID: process.env.TWILIO_IPM_SERVICE_SID,
     TWILIO_ACCOUNT_SID: process.env.TWILIO_ACCOUNT_SID,
@@ -271,7 +271,7 @@ bot.api.channels('CHANNEL_SID').members('MEMBER_SID').get().then(function(respon
     console.log(error);
 });
 ```
-This gives you full access to all of the Twilio API methods so that you can use them in your Bot.  
+This gives you full access to all of the Twilio API methods so that you can use them in your Bot.
 
 Here is an example showing how to join a channel using Botkit's bot.api object, which creates a member to the channel, by wrapping the IPM API.
 
@@ -287,3 +287,24 @@ controller.on('onChannelAdded', function(bot, message){
    });
 });
 ```
+
+
+## Documentation
+
+* [Get Started](readme.md)
+* [Botkit Studio API](readme-studio.md)
+* [Function index](readme.md#developing-with-botkit)
+* [Extending Botkit with Plugins and Middleware](middleware.md)
+  * [List of current plugins](readme-middlewares.md)
+* [Storing Information](storage.md)
+* [Logging](logging.md)
+* Platforms
+  * [Slack](readme-slack.md)
+  * [Cisco Spark](readme-ciscospark.md)
+  * [Facebook Messenger](readme-facebook.md)
+  * [Twilio IPM](readme-twilioipm.md)
+  * [Microsoft Bot Framework](readme-botframework.md)
+* Contributing to Botkit
+  * [Contributing to Botkit Core](../CONTRIBUTING.md)
+  * [Building Middleware/plugins](howto/build_middleware.md)
+  * [Building platform connectors](howto/build_connector.md)

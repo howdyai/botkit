@@ -34,8 +34,9 @@ if (!process.env.clientId || !process.env.clientSecret || !process.env.port) {
 
 
 var controller = Botkit.slackbot({
+  studio_token: process.env.studio_token,
   json_file_store: './db_slackbutton_bot/',
-  // rtm_receive_messages: false, // disable rtm_receive_messages if you enable events api
+  rtm_receive_messages: false, // disable rtm_receive_messages if you enable events api
 }).configureSlackApp(
   {
     clientId: process.env.clientId,
@@ -64,6 +65,91 @@ var _bots = {};
 function trackBot(bot) {
   _bots[bot.config.token] = bot;
 }
+
+
+controller.startTicking();
+
+
+
+controller.on('direct_message,direct_mention,mention', function(bot, message) {
+  console.log('GOT MSG');
+     controller.studio.runTrigger(bot, message.text, message.user, message.channel).then(function(convo) {
+       console.log('got a convo');
+     }).catch(function(err) {
+        throw new Error(err);
+     });
+     return false;
+});
+
+controller.studio.before('zample', function(convo, next) {
+
+  console.log('BEFORE ZAMPLE');
+  next();
+
+})
+
+controller.studio.beforeThread('zample','foo', function(convo, next) {
+
+  console.log('FIRING PLUGIN');
+  console.log('changing from ', convo.thread,' to ', convo.next_thread);
+  convo.gotoThread('bar');
+  next();
+
+});
+
+
+controller.studio.beforeThread('zample','foo', function(convo, next) {
+
+  console.log('FIRING PLUGIN 2');
+  console.log('changing from ', convo.thread,' to ', convo.next_thread);
+
+  next();
+
+});
+
+controller.studio.beforeThread('zample','bar', function(convo, next) {
+
+  console.log('BEFORE BAR');
+  console.log('changing from ', convo.thread,' to ', convo.next_thread);
+
+  next();
+});
+
+
+
+
+controller.hears(['hello', 'hi'], 'direct_message,direct_mention,mention', function(bot, message) {
+
+  bot.startConversation(message, function(err, convo) {
+
+    convo.addMessage({text: 'hello', action:'foo'},'default');
+
+    convo.addMessage({text: 'foo'},'foo');
+
+    convo.beforeThread('foo', function(convo, next) {
+
+      console.log('BEFORE FOO!');
+      next();
+
+    });
+
+    convo.beforeThread('foo', function(convo, next) {
+
+      console.log('ALSO BEFORE FOO');
+      next();
+
+    });
+
+
+    console.log('GO BAB GO');
+
+  });
+
+
+});
+
+
+
 
 controller.on('create_bot',function(bot,config) {
 
@@ -120,24 +206,24 @@ controller.on(['direct_message','mention','direct_mention'],function(bot,message
     bot.reply(message,'I heard you loud and clear boss.');
   });
 });
-
-controller.storage.teams.all(function(err,teams) {
-
-  if (err) {
-    throw new Error(err);
-  }
-
-  // connect all teams with bots up to slack!
-  for (var t  in teams) {
-    if (teams[t].bot) {
-      controller.spawn(teams[t]).startRTM(function(err, bot) {
-        if (err) {
-          console.log('Error connecting bot to Slack:',err);
-        } else {
-          trackBot(bot);
-        }
-      });
-    }
-  }
-
-});
+//
+// controller.storage.teams.all(function(err,teams) {
+//
+//   if (err) {
+//     throw new Error(err);
+//   }
+//
+//   // connect all teams with bots up to slack!
+//   for (var t  in teams) {
+//     if (teams[t].bot) {
+//       controller.spawn(teams[t]).startRTM(function(err, bot) {
+//         if (err) {
+//           console.log('Error connecting bot to Slack:',err);
+//         } else {
+//           trackBot(bot);
+//         }
+//       });
+//     }
+//   }
+//
+// });
