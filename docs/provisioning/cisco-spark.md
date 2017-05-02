@@ -10,7 +10,7 @@ Setting up a bot for Cisco Spark is one of the easiest experiences for bot devel
 
 Take note of the bot username, you'll need it later.
 
-*Note* - Your bot will need a 512x512px image icon hosted anywhere on the web. This can be changed later.
+*Note about your icon* - Cisco requires you host an avatar for your bot before you can create it in their portal. This bot needs to be a 512x512px image icon hosted anywhere on the web. This can be changed later.
 
 ### 3. You will receive an `access token`.
 Write this down, you won't be able to see this later (but you will be able revoke it and create a new one).
