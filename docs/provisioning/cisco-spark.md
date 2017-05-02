@@ -6,7 +6,7 @@ Cisco Spark is fairly easy to provision your bot, but there are a few places you
 
 ### 2. Create a [New Bot](https://developer.ciscospark.com/add-bot.html) in the Cisco Developer portal. 
 
-![Add a bot](IMG/cisco_new.png)
+![Add a bot](IMG/cisco_add.png)
 Take note of the bot username, you'll need it later.
 
 *Note* - Your bot will need a 512x512px image icon hosted anywhere on the web. This can be changed later.
