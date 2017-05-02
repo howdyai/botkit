@@ -1,4 +1,4 @@
-# Configure Botkit and Facebook Messenger
+# Configure Botkit and Facebook Workplace
 
 
 ### 1. [Install Botkit](https://github.com/howdyai/botkit/blob/master/readme.md#start-with-botkit-studio)
