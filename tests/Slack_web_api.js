@@ -23,6 +23,11 @@ describe('Test', function() {
 
 describe('Botkit', function() {
     this.timeout(5000);
+    it('should return a package version number', function(done){
+        var controller = Botkit.slackbot({debug: false});
+        should.exist(controller.version());
+        done();
+    });
 
     it('should start and then stop', function(done) {
         var controller = Botkit.slackbot({debug: false});

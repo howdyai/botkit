@@ -5,6 +5,8 @@ a valuable management interface for the bot's dialog content and configuration. 
 
 This document covers the Botkit Studio SDK details only. [Start here](readme.md) if you want to learn about to develop with Botkit.
 
+For bot developers who have existing apps but would like to benefit from features like bot-specific content management without using Botkit, you can access the [Botkit Studio SDK here](https://github.com/howdyai/botkit-studio-sdk)
+
 Table of Contents
 
 * [Key Features](#key-features)
@@ -23,14 +25,14 @@ However, our intent is not to cover every base needed for building a successful 
 
 * **Easy to use SDK**: Our open source SDK provides simple mechanisms for accessing these features from within your application.  With only a few new functions: [studio.get](#controllerstudioget), [studio.run](#controllerstudiorun), and [studio.runTrigger](#controllerruntrigger), your bot has full access to all of the content managed by the cloud service. These functions can be used to build light weight integrations with Studio, or turn over complete control to the cloud brain.
 
-![Botkit Studio authoring tool](docs/studio_script_author.png)
+![Botkit Studio authoring tool](studio_script_author.png)
 
 The screenshot above shows the script authoring tool, where bot developers can write dialog,
 manage [conversation threads](readme.md#conversation-threads), define variables to capture user input, and set triggers that will automatically activate the bot.
 
 ## Getting Started
 
-Before you get started, it is important to note that Botkit Studio is a extra set of features
+Before you get started, it is important to note that Botkit Studio is an extra set of features
 built on top of [all of the other existing Botkit features and plugins](readme.md), and all of the documentation and tutorials for those features applies to bots built with Studio as well.
 
 If you already have a Botkit bot, you may want to start [here](#adding-studio-features-to-an-existing-bot).
@@ -41,7 +43,7 @@ The instructions below cover setting up a bot on a Slack team. However, you may 
 
 1) [Register for a developer account at Botkit Studio](https://studio.botkit.ai/signup)
 
-2) Download the Botkit Studio Starter Kit at [https://github.com/howdyai/botkit-studio-starter](https://github.com/howdyai/botkit-studio-starter). This code repository contains a fully functioning bot configured to work with Botkit Studio, and code examples demonstrating all of the key features. It also contains supporting material for the [tutorial included here](#tutorial).
+2) Download the Botkit Studio Starter Kit [for Slack](https://github.com/howdyai/botkit-starter-slack) or [for Facebook Messenger](https://github.com/howdyai/botkit-starter-facebook). This code repository contains a fully functioning bot configured to work with Botkit Studio, and code examples demonstrating all of the key features. It also contains supporting material for the [tutorial included here](#tutorial).
 
 3) Make a bot integration inside of your Slack channel. Go here:
 
@@ -73,7 +75,7 @@ If you've already got a bot built with Botkit, you can get started with new Stud
 
 After you've registered for a Botkit Studio developer account, you will receive an API token that grants your bot access to the content and features managed by the Studio cloud service.  You can add this to your existing Botkit app by passing in the Studio token to the Botkit constructor using the `studio_token` field:
 
-```
+```javascript
 // Create the Botkit controller that has access to Botkit Studio
 var controller = Botkit.slackbot({
     debug: false,
@@ -83,7 +85,7 @@ var controller = Botkit.slackbot({
 
 In order to add the Botkit Studio "catch all" handler that will activate the cloud script triggering service into your bot, add the following code to your application below all other Botkit `hears()` events. This will pass any un-handled direct message or direct mention through Botkit Studio's trigger service, and, should a matching trigger be found, execute the script.
 
-```
+```javascript
 controller.on('direct_message,direct_mention,mention', function(bot, message) {
     controller.studio.runTrigger(bot, message.text, message.user, message.channel).catch(function(err) {
         bot.reply(message, 'I experienced an error with a request to Botkit Studio: ' + err);
@@ -124,7 +126,7 @@ The bottom line is, Botkit Studio does _not_ put itself between your users and y
 
 Developers may tap into the conversation as it is conducted using the [before](#controllerstudiobefore), [after](#controllerstudioafter), and [validate](#controllerstudiovalidate) hooks. It is also possible to bind to the normal `convo.on('end')` event because this function also returns the resulting conversation object via a promise:
 
-```
+```javascript
 controller.studio.run(bot, 'hello', message.user, message.channel).then(function(convo) {
     convo.on('end', function(convo) {
         if (convo.status=='completed') {
@@ -144,14 +146,14 @@ controller.studio.run(bot, 'hello', message.user, message.channel).then(function
 | user | the user id of the user having the conversation
 | channel | the channel id where the conversation is occurring
 
-`controller.studio.get()` is nearly identical to `controller.studio.run()`, except that instead of automatically and immediately starting the conversation, the function returns it in a dormant state.  
+`controller.studio.get()` is nearly identical to `controller.studio.run()`, except that instead of automatically and immediately starting the conversation, the function returns it in a dormant state.
 
 While developers may still tap into the conversation as it is conducted using the [before](#controllerstudiobefore), [after](#controllerstudioafter), and [validate](#controllerstudiovalidate) hooks, it must first be activated using `convo.activate()` in the results of the promise returned by the function.
 
 This enables developers to add template variables to the conversation object before it sends its first message. Read about [using variables in messages](readme.md#using-variable-tokens-and-templates-in-conversation-threads)
 
-```
-controller.studio.run(bot, 'hello', message.user, message.channel).then(function(convo) {
+```javascript
+controller.studio.get(bot, 'hello', message.user, message.channel).then(function(convo) {
     convo.setVar('date', new Date()); // available in message text as {{vars.date}}
     convo.setVar('news', 'This is a news item!'); // ailable as {{vars.news}}
 
@@ -173,7 +175,7 @@ In addition to storing the content and structure of conversation threads, develo
 
 This is different than `studio.run()` and `studio.get()` in that the input text may include _additional text_ other than an the exact name of a script. In most cases, `runTrigger()` will be configured to receive all messages addressed to the bot that were not otherwise handled, allowing Botkit Studio to be catch-all. See below:
 
-```
+```javascript
 // set up a catch-all handler that will send all messages directed to the bot
 // through Botkit Studio's trigger evaluation system
 controller.on('direct_message,direct_mention,mention', function(bot, message) {
@@ -187,7 +189,7 @@ In order to customize the behavior of scripts triggered using `runTrigger()`, de
 
 Another potential scenario for using `runTrigger()` would be to trigger a script that includes additional parameters that would normally be provided by a user, but are being provided instead by the bot. For example, it is sometimes useful to trigger another script to start when another script has ended.
 
-```
+```javascript
 controller.hears(['checkin'], 'direct_message', function(bot, message) {
 
     // when a user says checkin, we're going to pass in a more complex command to be evaluated
@@ -204,7 +206,7 @@ While Botkit does not currently provide any built-in mechanisms for extracting e
 
 The original user input text is available in the field `convo.source_message.text`. An example of its use can be see in the [Botkit Studio Starter bot](https://github.com/howdyai/botkit-studio-starter), which extracts a parameter from the help command.
 
-```
+```javascript
 controller.studio.before('help', function(convo, next) {
 
     // is there a parameter on the help command?
@@ -230,7 +232,7 @@ Define `before` hooks to add data or modify the behavior of a Botkit Studio scri
 
 Note: hook functions _must_ call next() before ending, or the script will stop executing and the bot will be confused!
 
-```
+```javascript
 // Before the "tacos" script runs, set some extra template tokens like "special" and "extras"
 controller.studio.before('tacos', function(convo, next) {
 
@@ -253,7 +255,7 @@ Define `after` hooks capture the results, or take action _after_ a Botkit Studio
 
 Note: hook functions _must_ call next() before ending, or the script will stop executing and the bot will be confused!
 
-```
+```javascript
 // After the "tacos" command is finished, collect the order data
 controller.studio.after('tacos', function(convo, next) {
     if (convo.status == 'completed') {
@@ -276,7 +278,7 @@ controller.studio.after('tacos', function(convo, next) {
 
 Note: hook functions _must_ call next() before ending, or the script will stop executing and the bot will be confused!
 
-```
+```javascript
 // Validate a "sauce" variable in the "taco" script
 // this will run whenever the sauce variable is set and can be used to
 // alter the course of the conversation
@@ -295,3 +297,69 @@ controller.studio.validate('tacos', 'sauce', function(convo, next) {
 
 });
 ```
+
+### controller.studio.beforeThread()
+| Argument | Description
+|---  |---
+| script_name   | The name of a script defined in Botkit Studio
+| thread_name | The name of a thread defined in Botkit Studio
+| hook_function | A function that accepts (convo, next) as parameters
+
+`beforeThread` hooks are called whenever a Botkit Studio script changes from one thread to another.
+
+This works just like [convo.beforeThread()](readme.md#convobeforethread), but operates on the automagically compiled scripts managed by Botkit Studio's IDE.
+
+Note: hook functions _must_ call next() before ending, or the script will stop executing and the bot will be confused!
+Allows developers to specify one or more functions that will be called before the thread
+referenced in `thread_name` is activated.
+
+`handler_function` will receive the conversation object and a `next()` function. Developers
+must call the `next()` function when their asynchronous operations are completed, or the conversation
+may not continue as expected.  
+
+Note that if `gotoThread()` is called inside the handler function,
+it is recommended that `next()` be passed with an error parameter to stop processing of any additional thread handler functions that may be defined - that is, call `next('stop');`
+
+```javascript
+// This example demonstrates how to use beforeThread to capture user input, do an asynchronous operation, then display the results in a new thread
+// Imagine a conversation called `search` in which the first action is to collect search terms
+// the conversation then transitions to the `results` thread, before which we do the actual search!
+controller.studio.beforeThread('search', 'results', function(convo, next) {
+
+  var query = convo.extractResponse('query');
+  mySearchQuery(query).then(function(results) {
+
+    convo.setVar('results', results);
+    next();
+
+  }).catch(function(err) {
+
+    convo.setVar('error', err);
+    convo.gotoThread('error');
+    next(err);
+
+  });
+
+});
+```
+
+
+## Documentation
+
+* [Get Started](readme.md)
+* [Botkit Studio API](readme-studio.md)
+* [Function index](readme.md#developing-with-botkit)
+* [Extending Botkit with Plugins and Middleware](middleware.md)
+  * [List of current plugins](readme-middlewares.md)
+* [Storing Information](storage.md)
+* [Logging](logging.md)
+* Platforms
+  * [Slack](readme-slack.md)
+  * [Cisco Spark](readme-ciscospark.md)
+  * [Facebook Messenger](readme-facebook.md)
+  * [Twilio IPM](readme-twilioipm.md)
+  * [Microsoft Bot Framework](readme-botframework.md)
+* Contributing to Botkit
+  * [Contributing to Botkit Core](../CONTRIBUTING.md)
+  * [Building Middleware/plugins](howto/build_middleware.md)
+  * [Building platform connectors](howto/build_connector.md)
