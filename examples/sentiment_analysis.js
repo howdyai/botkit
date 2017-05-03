@@ -1,4 +1,6 @@
 'use strict';
+// Author: James D. Wilson, james@jameswilson.name
+
 /* "dependencies": {
     "botkit": "0.0.7",
     "escape-string-regexp": "^1.0.5",

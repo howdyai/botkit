@@ -1,12 +1,12 @@
 # Botkit and Microsoft Bot Framework
 
-Botkit is designed to ease the process of designing and running useful, creative bots that live inside [Slack](http://slack.com), [Facebook Messenger](http://facebook.com), [Twilio IP Messaging](https://www.twilio.com/docs/api/ip-messaging), [Microsoft Bot Framework](https://botframework.com), 
+Botkit is designed to ease the process of designing and running useful, creative bots that live inside [Slack](http://slack.com), [Facebook Messenger](http://facebook.com), [Twilio IP Messaging](https://www.twilio.com/docs/api/ip-messaging), [Microsoft Bot Framework](https://botframework.com),
 and other messaging platforms.
 
-The [Microsoft Bot Framework](https://botframework.com) makes it easy to create a single bot that can run across a variety of messaging channels including [Skype](https://skype.com), [Group.me](https://groupme.com), [Facebook Messenger](https://messenger.com), [Slack](https://slack.com), 
+The [Microsoft Bot Framework](https://botframework.com) makes it easy to create a single bot that can run across a variety of messaging channels including [Skype](https://skype.com), [Group.me](https://groupme.com), [Facebook Messenger](https://messenger.com), [Slack](https://slack.com),
 [Telegram](https://telegram.org/), [Kik](https://www.kik.com/), [SMS](https://www.twilio.com/), and [email](https://microsoft.office.com).
 
-Built in to [Botkit](https://howdy.ai/botkit/) are a comprehensive set of features and tools to deal with any of the platforms supported by the [Microsoft Bot Framework](https://botframework.com), allowing developers to build interactive bots and applications that send and receive messages 
+Built in to [Botkit](https://howdy.ai/botkit/) are a comprehensive set of features and tools to deal with any of the platforms supported by the [Microsoft Bot Framework](https://botframework.com), allowing developers to build interactive bots and applications that send and receive messages
 just like real humans.
 
 This document covers the Bot Framework implementation details only. [Start here](readme.md) if you want to learn about to develop with Botkit.
@@ -23,9 +23,9 @@ Table of Contents
 
 1) Install Botkit [more info here](readme.md#installation)
 
-2) Register a developer account with the Bot Framework [Developer Portal](https://dev.botframework.com/) and follow [this guide](https://docs.botframework.com/en-us/csharp/builder/sdkreference/gettingstarted.html#registering) to register your first bot with the Bot Framework. 
+2) Register a developer account with the Bot Framework [Developer Portal](https://dev.botframework.com/) and follow [this guide](https://docs.botframework.com/en-us/csharp/builder/sdkreference/gettingstarted.html#registering) to register your first bot with the Bot Framework.
 
-* You'll be asked to provide an endpoint for your bot during the registration process which you should set to "https://<HOST>/botframework/receive". If your using a service like [ngrok](https://ngrok.com/) to run your bot locally you should set the "<HOST>" portion of your endpoint to 
+* You'll be asked to provide an endpoint for your bot during the registration process which you should set to "https://<HOST>/botframework/receive". If your using a service like [ngrok](https://ngrok.com/) to run your bot locally you should set the "<HOST>" portion of your endpoint to
   be the hostname assigned by ngrok.
 * Write down the *App ID* and *App Password* assigned to your new bot as you'll need them when you run your bot.
 
@@ -75,7 +75,7 @@ To connect your bot to the Bot Framework follow the step by step guide outlined 
 
 Here is the complete code for a basic Bot Framework bot:
 
-```javascript
+~~~ javascript
 var Botkit = require('botkit');
 var controller = Botkit.botframeworkbot({
 });
@@ -111,7 +111,8 @@ controller.hears(['cookies'], 'message_received', function(bot, message) {
         });
     });
 });
-```
+~~~
+
 #### Botkit.botframeworkbot()
 | Argument | Description
 |---  |---
@@ -150,8 +151,8 @@ One of the more complicated aspects of building a bot that supports multiple cha
 #### Sending Images & Files
 
 The frameworks [attachment schema](https://docs.botframework.com/en-us/node/builder/chat-reference/interfaces/_botbuilder_d_.iattachment.html) lets you send a single image/file using `contentType` and `contentUrl` fields:
- 
-```javascript
+
+~~~ javascript
     bot.reply(message, {
         attachments: [
             {
@@ -161,13 +162,13 @@ The frameworks [attachment schema](https://docs.botframework.com/en-us/node/buil
             }
         ]
     });
-```
+~~~
 
 #### Sending Cards
 
 Rich cards can be expressed as attachments by changing the `contentType` and using the `content` field to pass a JSON object defining the card:
 
-```javascript
+~~~ javascript
     bot.reply(message, {
         attachments: [
             {
@@ -190,18 +191,39 @@ Rich cards can be expressed as attachments by changing the `contentType` and usi
             }
         ]
     });
-```
+~~~
 
 The full list of supported card types and relevant schema can be found [here](https://docs.botframework.com/en-us/csharp/builder/sdkreference/attachments.html)
 
 #### Using the Platforms Native Schema
 
-There may be times where the Bot Frameworks cross platform attachment schema doesn’t cover your needs. For instance, you may be trying to send a card type not directly supported by the framework.  In those cases you can pass a message using the platforms native schema to the `sourceEvent` field on the message.  Examples of this can be found [here](https://docs.botframework.com/en-us/csharp/builder/sdkreference/channels.html) (note: you should use `sourceEvent` instead of `channelData` and you don’t need to worry about the from & to fields, these will be populated for you when you call `bot.reply()`.) 
+There may be times where the Bot Frameworks cross platform attachment schema doesn’t cover your needs. For instance, you may be trying to send a card type not directly supported by the framework.  In those cases you can pass a message using the platforms native schema to the `sourceEvent` field on the message.  Examples of this can be found [here](https://docs.botframework.com/en-us/csharp/builder/sdkreference/channels.html) (note: you should use `sourceEvent` instead of `channelData` and you don’t need to worry about the from & to fields, these will be populated for you when you call `bot.reply()`.)
 
 ## Typing Indicator
 
 You can easily turn on the typing indicator on platforms that support that behaviour by sending an empty message of type "typing":
 
-```javascript
+~~~ javascript
     bot.reply(message, { type: "typing" });
-```
+~~~
+
+
+## Documentation
+
+* [Get Started](readme.md)
+* [Botkit Studio API](readme-studio.md)
+* [Function index](readme.md#developing-with-botkit)
+* [Extending Botkit with Plugins and Middleware](middleware.md)
+  * [List of current plugins](readme-middlewares.md)
+* [Storing Information](storage.md)
+* [Logging](logging.md)
+* Platforms
+  * [Slack](readme-slack.md)
+  * [Cisco Spark](readme-ciscospark.md)
+  * [Facebook Messenger](readme-facebook.md)
+  * [Twilio IPM](readme-twilioipm.md)
+  * [Microsoft Bot Framework](readme-botframework.md)
+* Contributing to Botkit
+  * [Contributing to Botkit Core](../CONTRIBUTING.md)
+  * [Building Middleware/plugins](howto/build_middleware.md)
+  * [Building platform connectors](howto/build_connector.md)
