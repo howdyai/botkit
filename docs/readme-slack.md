@@ -84,7 +84,7 @@ In order to use Botkit's built in support for multi-team Slack "apps", pass in [
 ```javascript
 var controller = Botkit.slackbot({
     clientId: process.env.clientId,
-    clientSecret: procss.env.clientSecret,
+    clientSecret: process.env.clientSecret,
     scopes: ['bot'],
 });
 ```
@@ -109,6 +109,7 @@ var controller = Botkit.slackbot({debug: true})
 | send_via_rtm  | Boolean   | Send outgoing messages via the RTM instead of using Slack's RESTful API which supports more features
 | retry | Positive integer or `Infinity` | Maximum number of reconnect attempts after failed connection to Slack's real time messaging API. Retry is disabled by default
 | api_root | Alternative root URL which allows routing requests to the Slack API through a proxy, or use of a mocked endpoints for testing. defaults to `https://slack.com`
+| disable_startup_messages | Boolean | Disable start up messages, like: `"Initializing Botkit vXXX"`
 
 #### controller.spawn()
 | Argument | Description
@@ -924,6 +925,8 @@ Developers may want to create an RTM connection in order to make the bot appear 
 4. Select the specific events you would like to subscribe to with your bot. Slack only sends your webhook the events you subscribe to. Read more about Event Types [here](https://api.slack.com/events)
 5. When running your bot, you must configure the slack app, setup webhook endpoints, and oauth endpoints.
 
+Note:  If you are not also establishing an RTM connection, you will need to manually run the `controller.startTicking()` method for conversations to work properly.
+
 ```javascript
 var controller = Botkit.slackbot({
     debug: false,
@@ -947,6 +950,9 @@ controller.setupWebserver(process.env.port, function(err, webserver) {
             res.send('Success!');
         }
     });
+    
+    // If not also opening an RTM connection
+    controller.startTicking();
 });
 ```
 

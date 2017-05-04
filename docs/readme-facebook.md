@@ -304,6 +304,7 @@ bot.reply(message, reply_message)
 
 Messenger Codes can be scanned in Messenger to instantly link the user to your bot, no typing needed. They're great for sticking on fliers, ads, or anywhere in the real world where you want people to try your bot.
 
+- Get Static Codes :
 ```javascript
 controller.api.messenger_profile.get_messenger_code(2000, function (err, url) {
     if(err) {
@@ -312,6 +313,17 @@ controller.api.messenger_profile.get_messenger_code(2000, function (err, url) {
         // url
     }
 });
+```
+
+- Get Parametric Codes :
+```javascript
+controller.api.messenger_profile.get_messenger_code(2000, function (err, url) {
+    if(err) {
+        // Error
+    } else {
+        // url
+    }
+}, 'billboard-ad');
 ```
 
 ## Thread Settings API
@@ -400,6 +412,23 @@ Remove all domains
 
 Get a list of the whitelisted domains.
 
+### controller.api.messenger_profile.home_url()
+| Argument | Description
+|---  |---
+| payload | A home_url object with the properties `url`, `webview_height_ratio`, `in_test`
+
+View the facebook documentation for details of the [home_url](https://developers.facebook.com/docs/messenger-platform/messenger-profile/home-url) payload object.
+
+*NB.* The value of the `url` property must be present in the domain_whitelist array
+
+### controller.api.messenger_profile.delete_home_url()
+
+Remove the home_url setting
+
+### controller.api.messenger_profile.get_home_url()
+
+Get the home_url
+
 #### Using the The Messenger Profile API
 
 ```js
@@ -445,20 +474,35 @@ controller.api.messenger_profile.get_account_linking(function (err, accountLinki
 controller.api.messenger_profile.delete_account_linking();
 controller.api.messenger_profile.domain_whitelist('https://localhost');
 controller.api.messenger_profile.domain_whitelist(['https://127.0.0.1', 'https://0.0.0.0']);
-controller.api.messenger_profile.delete_domain_whitelist('https://localhost');
-controller.api.messenger_profile.delete_domain_whitelist(['https://127.0.0.1', 'https://0.0.0.0']);
+controller.api.messenger_profile.delete_domain_whitelist();
 controller.api.messenger_profile.get_domain_whitelist(function (err, data)  {
     console.log('****** Whitelisted domains :', data);
 });
 
+controller.api.messenger_profile.home_url({
+    "url": 'https://mydomain.com',
+    "webview_height_ratio": 'tall',
+    "in_test": false
+})
 
-controller.hears(['hello'],'facebook_postback', function(bot, message) {
-    //...
+controller.api.messenger_profile.get_home_url(function (err, data)  {
+    console.log('****** Home url :', data);
 });
 
-controller.hears(['help'],'facebook_postback', function(bot, message) {
-    //...
+controller.api.messenger_profile.delete_home_url();
+
+// Target Audience
+controller.api.messenger_profile.target_audience({
+    "audience_type":"custom",
+    "countries":{
+        "whitelist":["US", "CA"]
+    }
 });
+controller.api.messenger_profile.delete_target_audience();
+controller.api.messenger_profile.get_target_audience(function (err, data)  {
+    console.log('****** Target Audience :', data);
+});
+
 
 ```
 
