@@ -8,7 +8,7 @@ developers to build both custom integrations for their
 team, as well as public "Slack Button" applications that can be
 run from a central location, and be used by many teams at the same time.
 
-This document covers the Slack-specific implementation details only. [Start here](readme.md) if you want to learn about to develop with Botkit.
+This document covers the Slack-specific implementation details only. [Start here](readme.md) if you want to learn about how to develop with Botkit.
 
 Table of Contents
 
@@ -64,11 +64,52 @@ The bot connects to Slack using the same protocol that the native Slack clients 
 
 To connect a bot to Slack, [get a Bot API token from the Slack integrations page](https://my.slack.com/services/new/bot).
 
-Note: Since API tokens can be used to connect to your team's Slack, it is best practices to handle API tokens with caution. For example, pass tokens in to your application via evironment variable or command line parameter rather than include it in the code itself.
+Note: Since API tokens can be used to connect to your team's Slack, it is best practices to handle API tokens with caution. For example, pass tokens into your application via an environment variable or command line parameter, rather than including it in the code itself.
 This is particularly true if you store and use API tokens on behalf of users other than yourself!
 
 [Read Slack's Bot User documentation](https://api.slack.com/bot-users)
 
+### Slack Controller
+
+The Botkit Slack controller object can be configured in a few different ways, depending on the type of integration you are building.
+
+A simple single-team bot that uses Slack's [Real Time Messaging (RTM) API](https://api.slack.com/rtm) can be instantiated without any special options:
+
+```javascript
+var controller = Botkit.slackbot({});
+```
+
+In order to use Botkit's built in support for multi-team Slack "apps", pass in [additional configuration options](#use-the-slack-button):
+
+```javascript
+var controller = Botkit.slackbot({
+    clientId: process.env.clientId,
+    clientSecret: process.env.clientSecret,
+    scopes: ['bot'],
+});
+```
+
+#### Botkit.slackbot()
+| Argument | Description
+|--- |---
+| config | Configuration object
+
+Creates a new Botkit SlackBot controller.
+
+```javascript
+var controller = Botkit.slackbot({debug: true})
+```
+
+`config` object accepts these properties:
+
+| Name | Value | Description
+|--- |--- |---
+| debug | Boolean | Enable debug logging
+| stale_connection_timeout  | Positive integer | Number of milliseconds to wait for a connection keep-alive "pong" response before declaring the connection stale. Default is `12000`
+| send_via_rtm  | Boolean   | Send outgoing messages via the RTM instead of using Slack's RESTful API which supports more features
+| retry | Positive integer or `Infinity` | Maximum number of reconnect attempts after failed connection to Slack's real time messaging API. Retry is disabled by default
+| api_root | Alternative root URL which allows routing requests to the Slack API through a proxy, or use of a mocked endpoints for testing. defaults to `https://slack.com`
+| disable_startup_messages | Boolean | Disable start up messages, like: `"Initializing Botkit vXXX"`
 
 #### controller.spawn()
 | Argument | Description
@@ -88,9 +129,24 @@ Spawn `config` object accepts these properties:
 | Name | Value | Description
 |--- |--- |---
 | token | String | Slack bot token
-| retry | Positive integer or `Infinity` | Maximum number of reconnect attempts after failed connection to Slack's real time messaging API. Retry is disabled by default
 
 
+### Require Delivery Confirmation for RTM Messages
+
+In order to guarantee the order in which your messages arrive, Botkit supports an optional
+delivery confirmation requirement. This will force Botkit to wait for a confirmation events
+for each outgoing message before continuing to the next message in a conversation.
+
+Developers who send many messages in a row, particularly with payloads containing images or attachments,
+should consider enabling this option. Slack's API sometimes experiences a delay delivering messages with large files attached, and this delay can cause messages to appear out of order. Note that for Slack, this is only applies to bots with the `send_via_rtm` option enabled.
+
+To enable this option, pass in `{require_delivery: true}` to your Botkit Slack controller, as below:
+
+```javascript
+var controller = Botkit.slackbot({
+    require_delivery: true,
+})
+```
 
 #### bot.startRTM()
 | Argument | Description
@@ -164,6 +220,43 @@ bot.startRTM(function(err, bot, payload) {
 // some time later (e.g. 10s) when finished with the RTM connection and worker
 setTimeout(bot.destroy.bind(bot), 10000)
 ```
+
+
+### Slack Threads
+
+Messages in Slack may now exist as part of a thread, separate from the messages included in the main channel.
+Threads can be used to create new and interesting interactions for bots. [This blog post discusses some of the possibilities.](https://blog.howdy.ai/threads-serious-software-in-slack-ba6b5ceec94c#.jzk3e7i2d)
+
+Botkit's default behavior is for replies to be sent in-context. That is, if a bot replies to a message in a main channel, the reply will be added to the main channel. If a bot replies to a message in a thread, the reply will be added to the thread. This behavior can be changed by using one of the following specialized functions:
+
+#### bot.replyInThread()
+| Argument | Description
+|--- |---
+| message | Incoming message object
+| reply | _String_ or _Object_ Outgoing response
+| callback | _Optional_ Callback in the form function(err,response) { ... }
+
+This specialized version of [bot.reply()](readme.md#botreply) ensures that the reply being sent will be in a thread.
+When used to reply to a message that is already in a thread, the reply will be properly added to the thread.
+Developers who wish to ensure their bot's replies appear in threads should use this function instead of bot.reply().
+
+#### bot.startConversationInThread()
+| Argument | Description
+|---  |---
+| message   | incoming message to which the conversation is in response
+| callback  | a callback function in the form of  function(err,conversation) { ... }
+
+Like [bot.startConversation()](readme.md#botstartconversation), this creates conversation in response to an incoming message.
+However, the resulting conversation and all followup messages will occur in a thread attached to the original incoming message.
+
+#### bot.createConversationInThread()
+| Argument | Description
+|---  |---
+| message   | incoming message to which the conversation is in response
+| callback  | a callback function in the form of  function(err,conversation) { ... }
+
+Creates a conversation that lives in a thread, but returns it in an inactive state.  See [bot.createConversation()](readme.md#botcreateconversation) for details.
+
 
 ### Slack-Specific Events
 
@@ -243,6 +336,7 @@ integration.  In addition to this type of integration, Botkit also supports:
 * Slash Command - a way to add /slash commands to Slack
 * Slack Web API - a full set of RESTful API tools to deal with Slack
 * The Slack Button - a way to build Slack applications that can be used by multiple teams
+* Events API - receive messages and other events via a RESTful web API
 
 
 ```javascript
@@ -379,7 +473,7 @@ controller.setupWebserver(port,function(err,express_webserver) {
 
 #### Handling `slash_command` and `outgoing_webhook` events
 
-```
+```javascript
 controller.on('slash_command',function(bot,message) {
 
     // reply to slash command
@@ -420,7 +514,7 @@ This url should be used when configuring Slack.
 
 When a slash command is received from Slack, Botkit fires the `slash_command` event.
 
-When an outgoing webhook is recieved from Slack, Botkit fires the `outgoing_webhook` event.
+When an outgoing webhook is received from Slack, Botkit fires the `outgoing_webhook` event.
 
 
 #### bot.replyAcknowledge
@@ -491,7 +585,7 @@ Sending a message, performing a task and then updating the sent message based on
 controller.hears('hello', ['ambient'], function(bot, msg) {
   // send a message back: "hellp"
   bot.replyAndUpdate(msg, 'hellp', function(err, src, updateResponse) {
-    if (error) console.error(err);
+    if (err) console.error(err);
     // oh no, "hellp" is a typo - let's update the message to "hello"
     updateResponse('hello', function(err) {
       console.error(err)
@@ -606,6 +700,24 @@ controller.setupWebserver(process.env.port,function(err,webserver) {
 
 ```
 
+#### Custom auth flows
+In addition to the Slack Button, you can send users through an auth flow via a Slack interaction.
+The `getAuthorizeURL` provides the url. It requires the `team_id` and accepts an optional `redirect_params` argument.
+```javascript
+controller.getAuthorizeURL(team_id, redirect_params);
+```
+
+The `redirect_params` argument is passed back into the `create_user` and `update_user` events so you can handle
+auth flows in different ways. For example:
+
+```javascript
+controller.on('create_user', function(bot, user, redirect_params) {
+    if (redirect_params.slash_command_id) {
+        // continue processing the slash command for the user
+    }
+});
+```
+
 ### How to identify what team your message came from
 ```javascript
 var team = bot.identifyTeam() // returns team id
@@ -646,7 +758,7 @@ To receive callbacks, register a callback url as part of applications configurat
 
 During development, a tool such as [localtunnel.me](http://localtunnel.me) is useful for temporarily exposing a compatible webhook url to Slack while running Botkit privately.
 
-```
+```javascript
 // set up a botkit app to expose oauth and webhook endpoints
 controller.setupWebserver(process.env.port,function(err,webserver) {
 
@@ -660,7 +772,7 @@ controller.setupWebserver(process.env.port,function(err,webserver) {
 ```
 
 ### Send an interactive message
-```
+```javascript
 controller.hears('interactive', 'direct_message', function(bot, message) {
 
     bot.reply(message, {
@@ -691,7 +803,7 @@ controller.hears('interactive', 'direct_message', function(bot, message) {
 
 ### Receive an interactive message callback
 
-```
+```javascript
 // receive an interactive message, and reply with a message that will replace the original
 controller.on('interactive_message_callback', function(bot, message) {
 
@@ -737,14 +849,14 @@ controller.on('interactive_message_callback', function(bot, message) {
 It is possible to use interactive messages in conversations, with the `convo.ask` function.
 In order to do this, you must instantiate your Botkit controller with the `interactive_replies` option set to `true`:
 
-```
+```javascript
 var controller = Botkit.slackbot({interactive_replies: true});
 ```
 
 This will cause Botkit to pass all interactive_message_callback messages into the normal conversation
 system. When used in conjunction with `convo.ask`, expect the response text to match the button `value` field.
 
-```
+```javascript
 bot.startConversation(message, function(err, convo) {
 
     convo.ask({
@@ -795,66 +907,88 @@ bot.startConversation(message, function(err, convo) {
 });
 ```
 
-#Use Api.ai's natural language tools in your Botkit-powered Bot!
 
-[Api.ai](https://api.ai/) provides developers and companies with the advanced tools they need to build conversational user interfaces for apps and hardware devices.
-The Api.ai platform lets developers seamlessly integrate intelligent voice command systems into their products to create consumer-friendly voice-enabled user interfaces. Api.ai is also the company behind Assistant, a first of its kind conversational assistant app created in 2010. With over 20 million users, it is the highest rated assistant app available.
+## Events API
 
-This middleware plugin for [Botkit](http://howdy.ai/botkit) allows you to utilize [Api.ai](http://api.ai), a natural language classifier service directly into the Botkit corebot.
+The [Events API](https://api.slack.com/events-api) is a streamlined way to build apps and bots that respond to activities in Slack. You must setup a [Slack App](https://api.slack.com/slack-apps) to use Events API. Slack events are delivered to a secure webhook, and allows you to connect to slack without the RTM websocket connection.
 
-## Setup
-In order to utilize api.ai's service you will need to create an account and an agent. An agent will represent your Bot's comprehension skills. Head over to their [sign up page](https://console.api.ai/api-client/#/signup) to get started. After creating an account you will be able to create your first agent and start creating intents. Grab the *developer access token* for your local dev and a *client access token* for production as seen below
+During development, a tool such as [localtunnel.me](http://localtunnel.me) is useful for temporarily exposing a compatible webhook url to Slack while running Botkit privately.
 
-![Api.ai Tokens](http://s33.postimg.org/6areug03j/apiai.jpg)
+Note: Currently [presence](https://api.slack.com/docs/presence) is not supported by Slack Events API, so bot users will appear offline, but will still function normally.
+Developers may want to create an RTM connection in order to make the bot appear online - see note below.
 
-Next you will need to add botkit-middleware-apiai as a dependency to your Botkit bot:
+### To get started with the Events API:
 
-```
-npm install --save botkit-middleware-apiai
-```
+1. Create a [Slack App](https://api.slack.com/apps/new)
+2. Setup oauth url with Slack so teams can add your app with the slack button. Botkit creates an oAuth endpoint at `http://MY_HOST/oauth` if using localtunnel your url may look like this `https://example-134l123.localtunnel.me/oauth`
+3. Setup request URL under Events API to receive events at. Botkit will create webhooks for slack to send messages to at `http://MY_HOST/slack/receive`. if using localtunnel your url may look like this `https://example-134l123.localtunnel.me/slack/receive`
+4. Select the specific events you would like to subscribe to with your bot. Slack only sends your webhook the events you subscribe to. Read more about Event Types [here](https://api.slack.com/events)
+5. When running your bot, you must configure the slack app, setup webhook endpoints, and oauth endpoints.
 
-Enable the middleware:
-```
-var apiai = require('botkit-middleware-apiai')({
-    token: <my_apiai_token>
+Note:  If you are not also establishing an RTM connection, you will need to manually run the `controller.startTicking()` method for conversations to work properly.
+
+```javascript
+var controller = Botkit.slackbot({
+    debug: false,
+}).configureSlackApp({
+    clientId: process.env.clientId,
+    clientSecret: process.env.clientSecret,
+    // Disable receiving messages via the RTM even if connected
+    rtm_receive_messages: false,
+    // Request bot scope to get all the bot events you have signed up for
+    scopes: ['bot'],
 });
 
-controller.middleware.receive.use(apiai.receive);
+// Setup the webhook which will receive Slack Event API requests
+controller.setupWebserver(process.env.port, function(err, webserver) {
+    controller.createWebhookEndpoints(controller.webserver);
 
-controller.hears(['hello'],'direct_message',apiai.hears,function(bot, message) {
-    // ...
+    controller.createOauthEndpoints(controller.webserver, function(err, req, res) {
+        if (err) {
+            res.status(500).send('ERROR: ' + err);
+        } else {
+            res.send('Success!');
+        }
+    });
+    
+    // If not also opening an RTM connection
+    controller.startTicking();
 });
 ```
 
-## What it does
+### Bot Presence
 
-Using the Api.ai middleware with Botkit causes every message sent to your bot to be first sent through Api.ai's NLP services for processing. The response from Api.ai is then returned in the incoming messages as `message.intent`, `message.entities` for any language entities (dates, places, etc), `message.fulfillment` for Api.ai specific speech fulfillment, `message.confidence` for the confidence interval, and finally the `message.nlpResponse` which represents the raw request as seen below:
+Currently [presence](https://api.slack.com/docs/presence) is not supported by Slack Events API, so bot users will appear offline, but will still function normally.
+Developers may want to establish an RTM connection in order to make the bot appear online.
 
-    {
-      "id": "XXXX",
-      "timestamp": "2016-05-31T18:20:38.992Z",
-      "result": {
-        "source": "agent",
-        "resolvedQuery": "hello",
-        "action": "",
-        "actionIncomplete": false,
-        "parameters": {},
-        "contexts": [],
-        "metadata": {
-          "intentId": "XXX",
-          "webhookUsed": "false",
-          "intentName": "hello"
-        },
-        "fulfillment": {
-          "speech": ""
-        },
-        "score": 1
-      },
-      "status": {
-        "code": 200,
-        "errorType": "success"
-      }
-    }
+Since the Events API will send duplicates copies of many of the messages normally received via RTM, Botkit provides a configuration option that allows an RTM connection to be open, but for messages received via that connection to be discarded in favor
+of the Events API.
+
+To enable this option, pass in `rtm_receive_messages: false` to your Botkit controller:
+
+```javascript
+var controller = Botkit.slackbot({
+    rtm_receive_messages: false
+});
+```
 
 
+## Documentation
 
+* [Get Started](readme.md)
+* [Botkit Studio API](readme-studio.md)
+* [Function index](readme.md#developing-with-botkit)
+* [Extending Botkit with Plugins and Middleware](middleware.md)
+  * [List of current plugins](readme-middlewares.md)
+* [Storing Information](storage.md)
+* [Logging](logging.md)
+* Platforms
+  * [Slack](readme-slack.md)
+  * [Cisco Spark](readme-ciscospark.md)
+  * [Facebook Messenger](readme-facebook.md)
+  * [Twilio IPM](readme-twilioipm.md)
+  * [Microsoft Bot Framework](readme-botframework.md)
+* Contributing to Botkit
+  * [Contributing to Botkit Core](../CONTRIBUTING.md)
+  * [Building Middleware/plugins](howto/build_middleware.md)
+  * [Building platform connectors](howto/build_connector.md)
