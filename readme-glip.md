@@ -20,28 +20,37 @@ Table of Contents
 
 2) Register for a free developer account with RingCentral [Developer Portal](https://developers.ringcentral.com/login.html#/) and follow [this guide](https://developers.ringcentral.com/library/getting-started.html) to create your first bot application. 
 
-* Write down the *GLIP_SERVER*, *GLIP_APPKEY*, *GLIP_APPSECRET* , *GLIP_USERNAME*, *GLIP_PASSWORD*, *GLIP_EXTENSION*  assigned to your new bot as you'll need them when you run your bot.
-
-3) By default your bot will be configured to support the Glip channel but you'll need to add it as a user in Glip in order to test it. 
+3) Create a .env file with the attributes below and update account information 
+  ```
+    GLIP_SERVER=https://platform.devtest.ringcentral.com
+    GLIP_APPKEY= sandbox app key
+    GLIP_APPSECRET= sandbox app secret
+    GLIP_USERNAME= sandbox phonenumber
+    GLIP_PASSWORD= sandbox password
+    GLIP_EXTENSION=
+    GLIP_PORT=4000
+  ```
 
 4) Run the example bot using the parameters mentioned above. 
 
 ```
-GLIP_SERVER=<MY_APP_SERVER> GLIP_APPKEY=<MY_APP_KEY> GLIP_APPSECRET=<MY_APP_SECRET> GLIP_USERNAME=<MY_USERNAME> GLIP_PASSWORD=<MY_PASSWORD> GLIP_EXTENSION=<MY_EXTENSION>  node glip_bot.js 
+node glip_bot.js
 ```    
 
-5) Go to glip.devtest.ringcentral.com and signin with ringcentral account. 
+5) Now create another RingCentral free developer account by following #2. This account will be used to invoke the bot. 
+
+6) Go to **glip.devtest.ringcentral.com** and signin with the newly created RingCentral account. 
    
-6) Enter the *username*, *password* and *extension* to login to glip.
+6) Enter the **username**, **password** and **extension** to login to glip.
      
-7) Invite the bot using the email address and add bot as a company user.
+7) Invite the bot using the email address.
 
-8) Your bot should be online! Within GLIP. Now you could use /invite to add the bot into any group or team to send and receive message.
+8) Your bot should now be online now! 
 
-Try:
+Try the following commands:
   * uptime
   * pizzatime
-  * shutdown
+
 
 ## Glip Specific Events
 
