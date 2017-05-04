@@ -25,7 +25,7 @@ However, our intent is not to cover every base needed for building a successful 
 
 * **Easy to use SDK**: Our open source SDK provides simple mechanisms for accessing these features from within your application.  With only a few new functions: [studio.get](#controllerstudioget), [studio.run](#controllerstudiorun), and [studio.runTrigger](#controllerruntrigger), your bot has full access to all of the content managed by the cloud service. These functions can be used to build light weight integrations with Studio, or turn over complete control to the cloud brain.
 
-![Botkit Studio authoring tool](docs/studio_script_author.png)
+![Botkit Studio authoring tool](studio_script_author.png)
 
 The screenshot above shows the script authoring tool, where bot developers can write dialog,
 manage [conversation threads](readme.md#conversation-threads), define variables to capture user input, and set triggers that will automatically activate the bot.
@@ -297,3 +297,69 @@ controller.studio.validate('tacos', 'sauce', function(convo, next) {
 
 });
 ```
+
+### controller.studio.beforeThread()
+| Argument | Description
+|---  |---
+| script_name   | The name of a script defined in Botkit Studio
+| thread_name | The name of a thread defined in Botkit Studio
+| hook_function | A function that accepts (convo, next) as parameters
+
+`beforeThread` hooks are called whenever a Botkit Studio script changes from one thread to another.
+
+This works just like [convo.beforeThread()](readme.md#convobeforethread), but operates on the automagically compiled scripts managed by Botkit Studio's IDE.
+
+Note: hook functions _must_ call next() before ending, or the script will stop executing and the bot will be confused!
+Allows developers to specify one or more functions that will be called before the thread
+referenced in `thread_name` is activated.
+
+`handler_function` will receive the conversation object and a `next()` function. Developers
+must call the `next()` function when their asynchronous operations are completed, or the conversation
+may not continue as expected.  
+
+Note that if `gotoThread()` is called inside the handler function,
+it is recommended that `next()` be passed with an error parameter to stop processing of any additional thread handler functions that may be defined - that is, call `next('stop');`
+
+```javascript
+// This example demonstrates how to use beforeThread to capture user input, do an asynchronous operation, then display the results in a new thread
+// Imagine a conversation called `search` in which the first action is to collect search terms
+// the conversation then transitions to the `results` thread, before which we do the actual search!
+controller.studio.beforeThread('search', 'results', function(convo, next) {
+
+  var query = convo.extractResponse('query');
+  mySearchQuery(query).then(function(results) {
+
+    convo.setVar('results', results);
+    next();
+
+  }).catch(function(err) {
+
+    convo.setVar('error', err);
+    convo.gotoThread('error');
+    next(err);
+
+  });
+
+});
+```
+
+
+## Documentation
+
+* [Get Started](readme.md)
+* [Botkit Studio API](readme-studio.md)
+* [Function index](readme.md#developing-with-botkit)
+* [Extending Botkit with Plugins and Middleware](middleware.md)
+  * [List of current plugins](readme-middlewares.md)
+* [Storing Information](storage.md)
+* [Logging](logging.md)
+* Platforms
+  * [Slack](readme-slack.md)
+  * [Cisco Spark](readme-ciscospark.md)
+  * [Facebook Messenger](readme-facebook.md)
+  * [Twilio IPM](readme-twilioipm.md)
+  * [Microsoft Bot Framework](readme-botframework.md)
+* Contributing to Botkit
+  * [Contributing to Botkit Core](../CONTRIBUTING.md)
+  * [Building Middleware/plugins](howto/build_middleware.md)
+  * [Building platform connectors](howto/build_connector.md)

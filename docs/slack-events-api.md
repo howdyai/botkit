@@ -67,7 +67,7 @@ that this endpoint is properly configured. You must be running your Botkit appli
 and the application must be accessible at the URL specified for this to work.
 
 Once verified, click "Add Bot User Event", and using the dropdown that appears,
-select all of the message.* events: `message.channels`, `message.groups`, `message.ims`, `message.mpim`.
+select all of the message.* events: `message.channels`, `message.groups`, `message.im`, `message.mpim`.
 This tells Slack to send your bot all messages that are sent in any channel or group
 in which your bot is present. Add other events as needed.
 
