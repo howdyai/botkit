@@ -16,18 +16,6 @@ var controller = Botkit.glipbot({
     debug: false,
 });
 
-
-// var bot = controller.spawn({
-//     server: process.env.BOTKIT_GLIP_SERVER,
-//     appKey: process.env.BOTKIT_GLIP_APPKEY,
-//     appSecret: process.env.BOTKIT_GLIP_APPSECRET,
-//     appName: 'GlipDemo',
-//     appVersion: '1.0.0',
-//     username: process.env.BOTKIT_GLIP_USERNAME,
-//     password: process.env.BOTKIT_GLIP_PASSWORD,
-//     extension: process.env.BOTKIT_GLIP_EXTENSION,
-// }).startRTM();
-
 var bot = controller.spawn({
     server: process.env.GLIP_SERVER,
     appKey: process.env.GLIP_APPKEY,
