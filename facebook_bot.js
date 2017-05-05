@@ -25,9 +25,9 @@ This bot demonstrates many of the core features of Botkit:
 
   Run your bot from the command line:
 
-    app_secret=<MY APP SECRET> page_token=<MY PAGE TOKEN> verify_token=<MY_VERIFY_TOKEN> node facebook_bot.js [--lt [--ltsubdomain LOCALTUNNEL_SUBDOMAIN]]
+    app_secret=<MY APP SECRET> access_token=<MY PAGE TOKEN> verify_token=<MY_VERIFY_TOKEN> node facebook_bot.js [--lt [--ltsubdomain LOCALTUNNEL_SUBDOMAIN]]
 
-  Use page_token='{<"PAGE_A_ID":"PAGE_A_TOKEN","PAGE_B_ID":"PAGE_B_TOKEN"}' to enable multi tenant
+  Use access_token='{"PAGE_A_ID":"PAGE_A_TOKEN","PAGE_B_ID":"PAGE_B_TOKEN"}' to enable multi tenant
   Use the --lt option to make your bot available on the web through localtunnel.me.
 
 # USE THE BOT:
@@ -67,8 +67,8 @@ This bot demonstrates many of the core features of Botkit:
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 
 
-if (!process.env.page_token) {
-    console.log('Error: Specify page_token in environment');
+if (!process.env.access_token) {
+    console.log('Error: Specify access_token in environment');
     process.exit(1);
 }
 
@@ -100,7 +100,7 @@ if(ops.lt === false && ops.ltsubdomain !== null) {
     process.exit();
 }
 
-var access_token = process.env.page_token;
+var access_token = process.env.access_token;
 try {
     var access_token = JSON.parse(access_token);
     console.log("running on multi tenant mode", access_token);
