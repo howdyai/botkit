@@ -83,7 +83,7 @@ In order to use Botkit's built in support for multi-team Slack "apps", pass in [
 ```javascript
 var controller = Botkit.slackbot({
     clientId: process.env.clientId,
-    clientSecret: procss.env.clientSecret,
+    clientSecret: process.env.clientSecret,
     scopes: ['bot'],
 });
 ```
