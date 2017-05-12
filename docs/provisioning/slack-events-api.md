@@ -32,7 +32,9 @@ Click on the "OAuth & Permissions" tab in your Slack's app setting, and under Re
 
 ## 4. Add a Bot User
 
-Click on the "Bot Users" tab and specify a name for your bot. This is the name that will be used by default when your application creates a new bot on a user's team. ![Setup Oauth](IMG/slack-botuser.png)
+Click on the "Bot Users" tab and specify a name for your bot. This is the name that will be used by default when your application creates a new bot on a user's team. 
+
+![Setup Oauth](IMG/slack-botuser.png)
 
 In addition to a name, enable the option for "Always Show My Bot Online." This will ensure your Bot appears online to your team.
 
@@ -41,7 +43,6 @@ In addition to a name, enable the option for "Always Show My Bot Online." This w
 "Interactive messages" is Slack's fancy way of saying "buttons." In order to enable buttons, under Request URL, add `https://YOURURL/slack/receive`, then click save.
 
 ![Setup Interactive images](IMG/slack-im.png)
-
 
 ## 6. Set up Event Subscriptions
 
