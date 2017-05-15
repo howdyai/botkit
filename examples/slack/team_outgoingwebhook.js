@@ -1,4 +1,4 @@
-var Botkit = require('../lib/Botkit.js');
+var Botkit = require('../../lib/Botkit.js');
 
 var controller = Botkit.slackbot({
     debug: true
