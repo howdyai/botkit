@@ -9,8 +9,6 @@ To help Botkit developers, we are pulling out detailed provisioning documents fo
 
 #### [Facebook Messenger](facebook_messenger.md)
 
-#### [Facebook Workplace ](facebook_workplace.md)
-
 #### [Cisco Spark](cisco-spark.md)
 
 ## Documentation
