@@ -2,9 +2,9 @@
 
 Building a bot with Botkit and the Slack Events API gives you access to all of the best tools and options available to createe a feature-rich bot for Slack.
 
-In order to get everything set up, you will need to configure a new Slack App inside the [Slack Developer Portal](http://api.slack.com/apps), and at the same time, configure a [Botkit-powered bot](http://botkit.ai). It only takes a few moments, but there are a bunch of steps! 
+In order to get everything set up, you will need to configure a new Slack App inside the [Slack Developer Portal](http://api.slack.com/apps), and at the same time, configure a [Botkit-powered bot](http://botkit.ai). It only takes a few moments, but there are a bunch of steps, so follow these instructions carefully. 
 
-This feature is still in very active development at Slack, and these steps are subject to change!
+This feature is still in very active development at Slack, and these steps are subject to change.
 
 ## 1. Create a new Slack App
 
@@ -20,7 +20,9 @@ You will receive a `clientId` and a `clientSecret`. You need these values - copy
 
 Now that you've got your clientId and clientSecret, you can start your Botkit app. You will need to have a bot service online and reachable over the web to finish setting up your bot with Slack. 
 
-There are a number of different ways that you can host your Botkit app, read more about this in [Botkit's Slack Readme](https://github.com/howdyai/botkit/blob/master/docs/readme-slack.md) 
+The easiest path to creating a new bot for Slack is through Botkit Studio. [Sign up for an account here](https://studio.botkit.ai/signup/). This method will provide a guided path to hosting, along with other useful tools for creating and managing your bot.
+
+For advanced users looking to run their own code, you will need to [install Botkit](docs/readme-slack.md#getting-started) and run it before your bot can be configured with Slack.
 
 ## 3. Configure OAuth
 
@@ -57,24 +59,25 @@ Once verified, click "Add Bot User Event", and using the dropdown that appears, 
 * `message.channels`
 * `message.groups`
 * `message.ims`
-*  `message.mpim`.
+*  `message.mpim`
 
 This configuration tells Slack to send your bot all messages that are sent in any channel or group in which your bot is present. Add other events as needed. 
 
 ![Add some subscriptions](IMG/slack_botevents.png)
 
-*Problems?* : If you do not see `Bot User` here, it is likely that you forgot to add a Bot User back in step 4. Go and fix that now, and come back to step 6!
-
 Your bot is now ready to receive messages!
 
-*Note*: If you intend on submitting your app to the app store, be sure to have a good reason to request more widely ranging events as your app can be rejected for excessively wide permissions.
+*Problems?* : If you do not see `Bot User` here, it is likely that you forgot to add a Bot User back in Step 4. Go and fix that now, and come back to Step 6 to continue.
+
+*Note*: If you intend on submitting to the App Directory, be sure to have a good reason to request more widely ranging events as your app can be rejected for excessively wide permissions.
 
 ## 7. Add your bot to your Slack team
 
-Now that your bot is configured, and your application is up and running, you can login and add your bot. Visit `https://MYURL/`, and you will be automatically directed to Slack's login page. Login and choose a team. You'll get one more confirmation before being redirected back to your app.
+Now that your bot is configured, and your appliacation is up and running, you can login and add your bot. Visit `https://MYURL/`, and you will be automatically directed to Slack's login page. Login and choose a team. You'll get one more confirmation before being redirected back to your app.
 
-Meanwhile, your bot should appear inside your Slack team! You should receive a friendly welcome message!
+Meanwhile, your bot should appear inside your Slack team. You should receive a friendly welcome message to indicates your bot is now online and working! 
 
-## 8. Customize your Bot
-
-Using [Botkit Studio's conversation design tools](https://studio.botkit.ai) and the powerful [Botkit SDK](https://github.com/howdyai/botkit), you can build your dream bot!
+## Additional resources 
+* [Botkit Slack readme](../readme-slack.md) 
+* [Slack's official documention for Events API](https://api.slack.com/events-api)
+* [Sign up for Botkit Studio](https://studio.botkit.ai/signup) 
