@@ -21,6 +21,7 @@ possible with your report. If you can, please include:
 
 ## Submitting Pull Requests
 
+* Create, or link to an existing issue identifying the need driving your PR request. The issue can contain more details of the need for the PR as well as host debate as to which course of action the PR will take that will most serve the common good.
 * Include screenshots and animated GIFs in your pull request whenever possible.
 * Follow the JavaScript coding style with details from `.jscsrc` and `.editorconfig` files and use necessary plugins for your text editor.
 * Write documentation in [Markdown](https://daringfireball.net/projects/markdown).
