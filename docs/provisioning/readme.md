@@ -5,13 +5,13 @@ To help Botkit developers, we are pulling out detailed provisioning documents fo
 
 ## Platforms
 
-#### [Slack (Events API)](docs/provisioning/slack-events-api.md)
+#### [Slack (Events API)](slack-events-api.md)
 
-#### [Facebook Messenger](docs/provisioning/facebook_messenger.md)
+#### [Facebook Messenger](facebook_messenger.md)
 
-#### [Facebook Workplace ](docs/provisioning/facebook_workplace.md)
+#### [Facebook Workplace ](facebook_workplace.md)
 
-#### [Cisco Spark](docs/provisioning/cisco-spark.md)
+#### [Cisco Spark](cisco-spark.md)
 
 ## Documentation
 
