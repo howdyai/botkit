@@ -36,9 +36,8 @@
   },
   "scripts": {
     "pretest": "jscs ./lib/ ./__test__",
-    "test": "mocha tests/*.js",
-    "jest": "jest",
-    "jest-watch": "jest --watch"
+    "test": "jest",
+    "test-legacy": "mocha ./tests/*.js"
   },
   "repository": {
     "type": "git",
