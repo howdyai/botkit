@@ -1,16 +1,16 @@
 let botkit;
 
 beforeEach(() => {
-    jest.mock('../../lib/CoreBot', () => 'corebot')
-    jest.mock('../../lib/SlackBot', () => 'slackbot')
-    jest.mock('../../lib/Facebook', () => 'facebook')
-    jest.mock('../../lib/TwilioIPMBot', () => 'twilio')
-    jest.mock('../../lib/BotFramework', () => 'botframework')
-    jest.mock('../../lib/CiscoSparkbot', () => 'spark')
-    jest.mock('../../lib/ConsoleBot', () => 'console')
+    jest.mock('../../lib/CoreBot', () => 'corebot');
+    jest.mock('../../lib/SlackBot', () => 'slackbot');
+    jest.mock('../../lib/Facebook', () => 'facebook');
+    jest.mock('../../lib/TwilioIPMBot', () => 'twilio');
+    jest.mock('../../lib/BotFramework', () => 'botframework');
+    jest.mock('../../lib/CiscoSparkbot', () => 'spark');
+    jest.mock('../../lib/ConsoleBot', () => 'console');
 
     botkit = require('../../lib/Botkit');
-})
+});
 
 test('exports bot interfaces', () => {
     expect(botkit.core).toBe('corebot');
