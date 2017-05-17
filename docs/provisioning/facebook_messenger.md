@@ -4,7 +4,7 @@ Facebook is a constantly evolving platform, nominally you can find everything yo
 
 The easiest path to creating a new bot for Facebook Messenger is through Botkit Studio. [Sign up for an account here](https://studio.botkit.ai/signup/). This method will provide a guided path to hosting, along with other useful tools for creating and managing your bot.
 
-For advanced users looking to run their own code, you will need to [install Botkit](docs/readme-facebook.md#getting-started) and run it before your bot can be configured with Messenger.
+For advanced users looking to run their own code, you will need to [install Botkit](https://github.com/howdyai/botkit-starter-facebook) and run it before your bot can be configured with Messenger.
 
 ### 1. [Install Botkit](https://github.com/howdyai/botkit/blob/master/readme.md#start-with-botkit-studio)
 
