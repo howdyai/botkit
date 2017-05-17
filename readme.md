@@ -140,6 +140,21 @@ Use the `--production` flag to skip the installation of devDependencies from Bot
 npm install --production
 ```
 
+## Running Tests
+
+To run tests, use the npm `test` command. Note: you will need dev dependencies installed using `npm install`.
+
+```bash
+npm test
+```
+
+Tests are run with [Jest](https://facebook.github.io/jest/docs/getting-started.html). You can pass Jest command line options after a `--`.
+For example to have Jest watch for file changes you can run
+
+```bash
+npm test -- --watch
+```
+
 ## Documentation
 
 * [Get Started](docs/readme.md)
