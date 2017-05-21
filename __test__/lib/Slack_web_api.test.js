@@ -17,14 +17,14 @@ beforeEach(() => {
 
     mockResponse = {
         statusCode: 200,
-        body: '{}'
-    }
+        body: '{"ok": true}'
+    };
 
     mockBot = {
         config: {},
         debug: jest.fn(),
         log: jest.fn(),
-        userAgent: jest.fn()
+        userAgent: jest.fn().mockReturnValue('jesting')
     };
 
     mockBot.log.error = jest.fn();
@@ -77,6 +77,20 @@ describe('callApi', () => {
         const firstArg = mockRequest.post.mock.calls[0][0];
         expect(firstArg.form.token).toBe('abc123');
     });
+
+    // this case is specific to callAPI, shared cases will be tested below
+    test(`handles multipart data`, () => {
+        const cb = jest.fn();
+        instance = slackWebApi(mockBot, {});
+        instance.callAPI('some.method', 'data', cb, true);
+
+        expect(mockRequest.post).toHaveBeenCalledTimes(1);
+        const firstArg = mockRequest.post.mock.calls[0][0];
+
+        expect(firstArg.formData).toBe('data');
+        expect(firstArg.form).toBeUndefined();
+        expect(cb).toHaveBeenCalledWith(null, { ok: true });
+    });
 });
 
 describe('callApiWithoutToken', () => {
@@ -120,34 +134,87 @@ describe('callApiWithoutToken', () => {
         expect(firstArg.form.client_id).toBe('id');
         expect(firstArg.form.client_secret).toBe('secret');
         expect(firstArg.form.redirect_uri).toBe('redirectUri');
-
     });
 });
 
 describe('postForm', () => {
 
-    test('handles success', () => {
+    ['callAPI', 'callAPIWithoutToken'].forEach((methodName) => {
+        let method;
+        let cb;
 
-    });
+        beforeEach(() => {
+            const instance = slackWebApi(mockBot, {});
+            method = instance[methodName];
+            cb = jest.fn();
+        });
 
-    test('handles multipart data', () => {
+        test(`${methodName}: handles success`, () => {
+            method('some.action', 'data', cb);
+            expect(mockRequest.post).toHaveBeenCalledTimes(1);
+            const firstArg = mockRequest.post.mock.calls[0][0];
 
-    });
+            // do some thorough assertions here for a baseline
+            expect(firstArg.url).toMatch(/some.action$/);
+            expect(firstArg.form).toBe('data');
+            expect(firstArg.formData).toBeUndefined();
+            expect(firstArg.headers).toEqual({ 'User-Agent': 'jesting' });
+            expect(cb).toHaveBeenCalledWith(null, { ok: true });
+        });
 
-    test('handles request lib error', () => {
+        test(`${methodName}: defaults callback`, () => {
+            method('some.action', 'data', null);
+            expect(mockRequest.post).toHaveBeenCalledTimes(1);
+        });
 
-    });
+        test(`${methodName}: handles request lib error`, () => {
+            const error = new Error('WHOOPS!');
+            mockRequest.post.mockImplementation((params, callback) => {
+                callback(error, null, null);
+            });
 
-    test('handles non 200 response code', () => {
+            method('some.action', 'data', cb);
 
-    });
+            expect(mockRequest.post).toHaveBeenCalledTimes(1);
+            expect(cb).toHaveBeenCalledWith(error);
+        });
 
-    test('handles error parsing body', () => {
+        test(`${methodName}: handles non 200 response code`, () => {
+            mockRequest.post.mockImplementation((params, callback) => {
+                callback(null, { statusCode: 400 }, null);
+            });
 
-    });
+            method('some.action', 'data', cb);
 
-    test('handles ok.false response', () => {
+            expect(mockRequest.post).toHaveBeenCalledTimes(1);
+            expect(cb).toHaveBeenCalledTimes(1);
+            const firstArg = cb.mock.calls[0][0];
+            expect(firstArg.message).toBe('Invalid response');
+        });
 
+        test(`${methodName}: handles error parsing body`, () => {
+            mockRequest.post.mockImplementation((params, callback) => {
+                callback(null, { statusCode: 200 }, '{');
+            });
+
+            method('some.action', 'data', cb);
+
+            expect(mockRequest.post).toHaveBeenCalledTimes(1);
+            expect(cb).toHaveBeenCalledTimes(1);
+            const firstArg = cb.mock.calls[0][0];
+            expect(firstArg).toBeInstanceOf(Error);
+        });
+
+        test(`${methodName}: handles ok.false response`, () => {
+            mockRequest.post.mockImplementation((params, callback) => {
+                callback(null, { statusCode: 200 }, '{ "ok": false, "error": "not ok"}');
+            });
+
+            method('some.action', 'data', cb);
+
+            expect(mockRequest.post).toHaveBeenCalledTimes(1);
+            expect(cb).toHaveBeenCalledWith('not ok', { ok: false, error: 'not ok'});
+        });
     });
 });
 
