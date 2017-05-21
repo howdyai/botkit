@@ -3,12 +3,12 @@ let mockRequest;
 let mockResponse;
 let responseError;
 let mockBot;
+
 mockRequest = {
     post: jest.fn()
 };
 
 jest.mock('request', () => mockRequest);
-
 
 beforeEach(() => {
     jest.clearAllMocks();
@@ -218,12 +218,22 @@ describe('postForm', () => {
     });
 });
 
-
 describe('api methods', () => {
     let instance;
+    let cb;
 
     beforeEach(() => {
         instance = slackWebApi(mockBot, {});
+        cb = jest.fn();
+        jest.spyOn(instance, 'callAPI');
+        instance.callAPI.mockImplementation(() => {});
+    });
+
+    afterEach(() => {
+        if (jest.isMockFunction(JSON.stringify)) {
+            JSON.stringify.mockRestore();
+        }
+        instance.callAPI.mockRestore();
     });
 
     test('spot check api methods ', () => {
@@ -233,28 +243,72 @@ describe('api methods', () => {
         expect(instance.auth).toBeDefined();
         expect(instance.auth.test).toBeDefined();
 
+        instance.auth.test('options', 'cb');
+        const firstCallArgs = instance.callAPI.mock.calls[0];
+        expect(firstCallArgs).toEqual(['auth.test', 'options', 'cb']);
+
         // three levels
         expect(instance.users).toBeDefined();
         expect(instance.users.profile).toBeDefined();
         expect(instance.users.profile.get).toBeDefined();
+
+        instance.users.profile.get('options', 'cb');
+        const secondCallArgs = instance.callAPI.mock.calls[1];
+        expect(secondCallArgs).toEqual(['users.profile.get', 'options', 'cb']);
     });
 
     describe('special cases', () => {
 
-        beforeEach(() => {
-
+        test('chat.postMessage stringifies attachments', () => {
+            instance.chat.postMessage({attachments: []}, cb);
+            expect(instance.callAPI).toHaveBeenCalledWith('chat.postMessage', {attachments: '[]'}, cb);
         });
 
-        test('chat.postMessage ', () => {
-
+        test('chat.postMessage handles attachments as Strings', () => {
+            jest.spyOn(JSON, 'stringify');
+            instance.chat.postMessage({attachments: 'string'}, cb);
+            expect(instance.callAPI).toHaveBeenCalledWith('chat.postMessage', {attachments: 'string'}, cb);
+            expect(JSON.stringify).not.toHaveBeenCalled();
         });
 
-        test('chat.update ', () => {
-
+        test('chat.postMessage handles attachments stringification errors', () => {
+            const error = new Error('WHOOPSIE');
+            jest.spyOn(JSON, 'stringify').mockImplementation(() => { throw error; });
+            instance.chat.postMessage({attachments: []}, cb);
+            expect(instance.callAPI).toHaveBeenCalledWith('chat.postMessage', {}, cb);
+            expect(JSON.stringify).toHaveBeenCalled();
         });
 
-        test('files.upload ', () => {
+        test('chat.update stringifies attachments', () => {
+            instance.chat.update({attachments: []}, cb);
+            expect(instance.callAPI).toHaveBeenCalledWith('chat.update', {attachments: '[]'}, cb);
+        });
 
+        test('chat.update handles attachments as Strings', () => {
+            jest.spyOn(JSON, 'stringify');
+            instance.chat.update({attachments: 'string'}, cb);
+            expect(instance.callAPI).toHaveBeenCalledWith('chat.update', {attachments: 'string'}, cb);
+            expect(JSON.stringify).not.toHaveBeenCalled();
+        });
+
+        test('chat.postMessage handles attachments stringification errors', () => {
+            const error = new Error('WHOOPSIE');
+            jest.spyOn(JSON, 'stringify').mockImplementation(() => { throw error; });
+            instance.chat.update({attachments: []}, cb);
+            expect(instance.callAPI).toHaveBeenCalledWith('chat.update', {}, cb);
+            expect(JSON.stringify).toHaveBeenCalled();
+        });
+
+        test('files.upload should not use multipart if file is false', () => {
+            const options = { file: false, token: 'abc123' };
+            instance.files.upload(options, cb);
+            expect(instance.callAPI).toHaveBeenCalledWith('files.upload', options, cb, false);
+        });
+
+        test('files.upload should use multipart if file is true', () => {
+            const options = { file: true, token: 'abc123' };
+            instance.files.upload(options, cb);
+            expect(instance.callAPI).toHaveBeenCalledWith('files.upload', options, cb, true);
         });
     });
 });
