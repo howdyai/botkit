@@ -1,20 +1,13 @@
 let slackWebApi;
 let mockRequest;
 let mockResponse;
-let responseError;
 let mockBot;
 
-mockRequest = {
-    post: jest.fn()
-};
+mockRequest = {};
 
 jest.mock('request', () => mockRequest);
 
 beforeEach(() => {
-    jest.clearAllMocks();
-
-    responseError = null;
-
     mockResponse = {
         statusCode: 200,
         body: '{"ok": true}'
@@ -29,7 +22,7 @@ beforeEach(() => {
 
     mockBot.log.error = jest.fn();
 
-    mockRequest.post.mockImplementation((params, cb) => {
+    mockRequest.post = jest.fn().mockImplementation((params, cb) => {
         cb(null, mockResponse, mockResponse.body);
     });
 
@@ -61,7 +54,7 @@ describe('callApi', () => {
         instance = slackWebApi(mockBot, {});
         instance.callAPI('some.method', data, cb);
 
-        expect(mockRequest.post.mock.calls.length).toBe(1);
+        expect(mockRequest.post).toHaveBeenCalledTimes(1);
         const firstArg = mockRequest.post.mock.calls[0][0];
         expect(firstArg.form.token).toBe('abc123');
     });
@@ -73,7 +66,7 @@ describe('callApi', () => {
         instance = slackWebApi(mockBot, { token: 'abc123' });
         instance.callAPI('some.method', data, cb);
 
-        expect(mockRequest.post.mock.calls.length).toBe(1);
+        expect(mockRequest.post).toHaveBeenCalledTimes(1);
         const firstArg = mockRequest.post.mock.calls[0][0];
         expect(firstArg.form.token).toBe('abc123');
     });
@@ -163,7 +156,7 @@ describe('postForm', () => {
         });
 
         test(`${methodName}: defaults callback`, () => {
-            method('some.action', 'data', null);
+            method('some.action', 'data');
             expect(mockRequest.post).toHaveBeenCalledTimes(1);
         });
 
