@@ -148,11 +148,17 @@ To run tests, use the npm `test` command. Note: you will need dev dependencies i
 npm test
 ```
 
-Tests are run with [Jest](https://facebook.github.io/jest/docs/getting-started.html). You can pass Jest command line options after a `--`.
-For example to have Jest watch for file changes you can run
+To run tests in watch mode run:
 
 ```bash
-npm test -- --watch
+npm run test-watch
+```
+
+Tests are run with [Jest](https://facebook.github.io/jest/docs/getting-started.html). You can pass Jest command line options after a `--`.
+For example to have Jest bail on the first error you can run
+
+```bash
+npm test -- --bail
 ```
 
 ## Documentation
