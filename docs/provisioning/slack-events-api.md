@@ -1,6 +1,6 @@
 # Configure Botkit and the Slack Events API
 
-Building a bot with Botkit and the Slack Events API gives you access to all of the best tools and options available to createe a feature-rich bot for Slack.
+Building a bot with Botkit and the Slack Events API gives you access to all of the best tools and options available to create a feature-rich bot for Slack.
 
 In order to get everything set up, you will need to configure a new Slack App inside the [Slack Developer Portal](http://api.slack.com/apps), and at the same time, configure a [Botkit-powered bot](http://botkit.ai). It only takes a few moments, but there are a bunch of steps, so follow these instructions carefully. 
 
