@@ -52,7 +52,7 @@ This bot demonstrates a multi-stage conversation
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 
-var Botkit = require('../lib/Botkit.js');
+var Botkit = require('../../lib/Botkit.js');
 
 if (!process.env.token) {
   console.log('Error: Specify token in environment');

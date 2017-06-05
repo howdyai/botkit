@@ -27,7 +27,7 @@ This bot demonstrates many of the core features of Botkit:
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 
-var Botkit = require('./lib/Botkit.js');
+var Botkit = require('../lib/Botkit.js');
 
 var controller = Botkit.sparkbot({
     debug: false,

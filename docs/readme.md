@@ -21,7 +21,7 @@ it is ready to be connected to a stream of incoming messages. Currently, Botkit 
 * [Twilio IP Messaging](https://www.twilio.com/user/account/ip-messaging/getting-started)
 * [Microsoft Bot Framework](http://botframework.com/)
 
-Read more about [connecting your bot to Slack](readme-slack.md#connecting-your-bot-to-slack), [connecting your bot to Cisco Spark](readme-slack.md#getting-started), [connecting your bot to Facebook](readme-facebook.md#getting-started), [connecting your bot to Twilio](readme-twilioipm.md#getting-started),
+Read more about [connecting your bot to Slack](readme-slack.md#connecting-your-bot-to-slack), [connecting your bot to Cisco Spark](readme-ciscospark.md#getting-started), [connecting your bot to Facebook](readme-facebook.md#getting-started), [connecting your bot to Twilio](readme-twilioipm.md#getting-started),
 or [connecting your bot to Microsoft Bot Framework](readme-botframework.md#getting-started)
 
 ## Basic Usage
