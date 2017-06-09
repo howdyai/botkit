@@ -65,6 +65,13 @@ var controller = Botkit.consolebot({
 
 var bot = controller.spawn();
 
+bot.send = function(message, callback) {
+    if (callback) {
+        callback();
+    }
+    console.log('BOT:', message.text);
+};
+
 controller.hears(['hello', 'hi'], 'message_received', function(bot, message) {
 
     controller.storage.users.get(message.user, function(err, user) {
