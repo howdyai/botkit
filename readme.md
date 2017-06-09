@@ -161,6 +161,16 @@ For example to have Jest bail on the first error you can run
 npm test -- --bail
 ```
 
+## Typing Settings
+
+If you want to enable typing on all of your messages, set the following two variables in config/botkit.js
+
+``js
+typing: true,
+wpm: Number
+``
+`wpm` refers to the number of words per minute that the bot will simulate to write. If a values is not set, the default is 85.
+
 ## Documentation
 
 * [Get Started](docs/readme.md)
