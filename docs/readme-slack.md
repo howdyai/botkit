@@ -786,7 +786,19 @@ controller.on('create_user', function(bot, user, redirect_params) {
         // continue processing the slash command for the user
     }
 });
+
 ```
+In addition to these `createOauthEndpoints` also has `identity` and `auth` objects accessable. These can be use to handle edge cases like [sign in with slack](https://api.slack.com/docs/sign-in-with-slack) in auth flow gracefully.
+
+```
+createOauthEndpoints(controller.webserver,function(err,req,res) {
+    if(req.auth) {
+     // process
+     res.redirect(...);
+    }
+})
+```
+
 
 ### How to identify what team your message came from
 ```javascript
