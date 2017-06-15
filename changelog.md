@@ -206,7 +206,7 @@ Adds [ConsoleBot](lib/ConsoleBot.js) for creating bots that work on the command 
 
 Adds a new [Middleware Readme](readme-middlewares.md) for documenting the existing middleware modules
 
-Adds an example for using quick replies in the [Facebook Example Bot](facebook_bot.js)
+Adds an example for using quick replies in the [Facebook Example Bot](examples/facebook_bot.js)
 
 Adds additional fields to Facebook messages to specify if they are `facebook_postback`s or normal messages.
 
@@ -290,7 +290,7 @@ Make the oauth identity available to the user of the OAuth endpoint via `req.ide
 
 Fix issue where single team apps had a hard time receiving slash command events without funky workaround. (closes [Issue #108](https://github.com/howdyai/botkit/issues/108))
 
-Add [team_slashcommand.js](/examples/team_slashcommand.js) and [team_outgoingwebhook.js](/examples/team_outgoingwebhook.js) to the examples folder.
+Add [team_slashcommand.js](/examples/slack/team_slashcommand.js) and [team_outgoingwebhook.js](/examples/slack/team_outgoingwebhook.js) to the examples folder.
 
 
 

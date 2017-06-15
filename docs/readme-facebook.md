@@ -38,7 +38,7 @@ Copy this token, you'll need it!
 5) Run the example bot app, using the two tokens you just created. If you are _not_ running your bot at a public, SSL-enabled internet address, use the --lt option and note the URL it gives you.
 
 ```
-page_token=<MY PAGE TOKEN> verify_token=<MY_VERIFY_TOKEN> node facebook_bot.js [--lt [--ltsubdomain CUSTOM_SUBDOMAIN]]
+page_token=<MY PAGE TOKEN> verify_token=<MY_VERIFY_TOKEN> node examples/facebook_bot.js [--lt [--ltsubdomain CUSTOM_SUBDOMAIN]]
 ```
 
 6) [Set up a webhook endpoint for your app](https://developers.facebook.com/docs/messenger-platform/guides/setup#webhook_setup) that uses your public URL. Use the verify token you defined in step 4!
@@ -65,7 +65,7 @@ Facebook sends an X-HUB signature header with requests to your webhook. You can 
 The Facebook App secret is available on the Overview page of your Facebook App's admin page. Click show to reveal it.
 
 ```
-app_secret=abcdefg12345 page_token=123455abcd verify_token=VerIfY-tOkEn node facebook_bot.js
+app_secret=abcdefg12345 page_token=123455abcd verify_token=VerIfY-tOkEn node examples/facebook_bot.js
 ```
 
 ## Facebook-specific Events

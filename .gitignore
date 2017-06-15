@@ -10,4 +10,5 @@ examples/db_team_bot/
 */.DS_Store
 .env
 .idea
-.vscode/settings.json
+.vscode
+coverage
