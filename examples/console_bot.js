@@ -65,6 +65,13 @@ var controller = Botkit.consolebot({
 
 var bot = controller.spawn();
 
+bot.send = function(message, callback) {
+    if (callback) {
+        callback();
+    }
+    console.log('BOT:', message.text);
+};
+
 controller.hears(['hello', 'hi'], 'message_received', function(bot, message) {
 
     controller.storage.users.get(message.user, function(err, user) {
@@ -189,14 +196,12 @@ controller.hears(['shutdown'], 'message_received', function(bot, message) {
 
 
 controller.hears(['uptime', 'identify yourself', 'who are you', 'what is your name'],
-    'direct_message,direct_mention,mention', function(bot, message) {
+    'message_received', function(bot, message) {
 
         var hostname = os.hostname();
         var uptime = formatUptime(process.uptime());
 
-        bot.reply(message,
-            ':robot_face: I am a bot named <@' + bot.identity.name +
-             '>. I have been running for ' + uptime + ' on ' + hostname + '.');
+        bot.reply(message, 'I\'m Consolebot. I have been running for ' + uptime + ' on ' + hostname + '.');
 
     });
 
