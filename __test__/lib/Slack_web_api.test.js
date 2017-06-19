@@ -174,7 +174,20 @@ describe('postForm', () => {
             expect(cb).toHaveBeenCalledWith(error);
         });
 
-        test(`${methodName}: handles non 200 response code`, () => {
+        test(`${methodName}: handles 429 response code`, () => {
+            mockRequest.post.mockImplementation((params, callback) => {
+                callback(null, { statusCode: 429 }, null);
+            });
+
+            method('some.action', 'data', cb);
+
+            expect(mockRequest.post).toHaveBeenCalledTimes(1);
+            expect(cb).toHaveBeenCalledTimes(1);
+            const firstArg = cb.mock.calls[0][0];
+            expect(firstArg.message).toBe('Rate limit exceeded');
+        });
+
+        test(`${methodName}: handles other response codes`, () => {
             mockRequest.post.mockImplementation((params, callback) => {
                 callback(null, { statusCode: 400 }, null);
             });
