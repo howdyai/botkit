@@ -189,14 +189,13 @@ controller.hears(['shutdown'], 'message_received', function(bot, message) {
 
 
 controller.hears(['uptime', 'identify yourself', 'who are you', 'what is your name'],
-    'direct_message,direct_mention,mention', function(bot, message) {
+    'message_received', function(bot, message) {
 
         var hostname = os.hostname();
         var uptime = formatUptime(process.uptime());
 
         bot.reply(message,
-            ':robot_face: I am a bot named <@' + bot.identity.name +
-             '>. I have been running for ' + uptime + ' on ' + hostname + '.');
+            ':robot_face: I am ConsoleBot. I have been running for ' + uptime + ' on ' + hostname + '.');
 
     });
 
