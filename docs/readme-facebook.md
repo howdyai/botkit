@@ -20,6 +20,7 @@ Table of Contents
 * [Simulate typing](#simulate-typing)
 * [Silent and No Notifications](#silent-and-no-notifications)
 * [Messenger code API](#messenger-code-api)
+* [Attachment upload API](#attachment-upload-api)
 * [Running Botkit with an Express server](#use-botkit-for-facebook-messenger-with-an-express-web-server)
 
 ## Getting Started
@@ -503,6 +504,38 @@ controller.api.messenger_profile.get_target_audience(function (err, data)  {
     console.log('****** Target Audience :', data);
 });
 
+
+```
+
+## Attachment upload API
+
+Attachment upload API allows you to upload an attachment that you may later send out to many users, without having to repeatedly upload the same data each time it is sent :
+
+
+```js
+var attachment = {
+        "type":"image",
+        "payload":{
+            "url":"https://pbs.twimg.com/profile_images/803642201653858305/IAW1DBPw_400x400.png",
+            "is_reusable": true
+        }
+    };
+
+    controller.api.attachment_upload.upload(attachment, function (err, attachmentId) {
+        if(err) {
+            // Error
+        } else {
+            var image = {
+                "attachment":{
+                    "type":"image",
+                    "payload": {
+                        "attachment_id": attachmentId
+                    }
+                }
+            };
+            bot.reply(message, image);
+        }
+    });
 
 ```
 
