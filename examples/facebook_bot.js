@@ -91,7 +91,7 @@ controller.hears(['attachment_upload'], 'message_received', function(bot, messag
     var attachment = {
         "type":"image",
         "payload":{
-            "url":"https://botlist.co/system/BotList/Bot/logos/000/000/091/medium/icon2.png",
+            "url":"https://pbs.twimg.com/profile_images/803642201653858305/IAW1DBPw_400x400.png",
             "is_reusable": true
         }
     };
