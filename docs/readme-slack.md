@@ -22,7 +22,7 @@ Table of Contents
 ---
 ## Getting Started
 
-1) Install Botkit on your hosting platform of choice [more info here](readme.md#installation). 
+1) Install Botkit on your hosting platform of choice [more info here](readme.md#installation).
 
 2) First make a bot integration inside of your Slack channel. Go here:
 
@@ -846,14 +846,8 @@ controller.on('interactive_message_callback', function(bot, message) {
 ### Using Interactive Messages in Conversations
 
 It is possible to use interactive messages in conversations, with the `convo.ask` function.
-In order to do this, you must instantiate your Botkit controller with the `interactive_replies` option set to `true`:
 
-```javascript
-var controller = Botkit.slackbot({interactive_replies: true});
-```
-
-This will cause Botkit to pass all interactive_message_callback messages into the normal conversation
-system. When used in conjunction with `convo.ask`, expect the response text to match the button `value` field.
+When used in conjunction with `convo.ask`, expect the response text to match the button `value` field.
 
 ```javascript
 bot.startConversation(message, function(err, convo) {
@@ -949,7 +943,7 @@ controller.setupWebserver(process.env.port, function(err, webserver) {
             res.send('Success!');
         }
     });
-    
+
     // If not also opening an RTM connection
     controller.startTicking();
 });
