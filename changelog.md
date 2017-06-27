@@ -1,5 +1,24 @@
 # Change Log
 
+[View the official Botkit roadmap](https://github.com/howdyai/botkit/projects/7) for upcoming changes and features.
+
+[Want to contribute? Read our guide!](https://github.com/howdyai/botkit/blob/master/CONTRIBUTING.md)
+
+
+## 0.5.5
+
+*Introducing Botkit for SMS!* Botkit bots can now send and receive messages using Twilio's Programmable SMS API!
+Huge thanks to @krismuniz who spearheaded this effort! [Read all about Twilio SMS here](docs/readme-twilio-sms.md)
+
+*New unit tests* have been added, thanks to the ongoing efforts of @colestrode, @amplicity and others.
+This release includes coverage of the Botkit core library and the Slack API library.
+This is an [ongoing effort](https://github.com/howdyai/botkit/projects/3), and we encourage interested developers to get involved!
+
+Add missing error callback to catch Slack condition where incoming messages do not match a team in the database.
+[PR #887](https://github.com/howdyai/botkit/pull/887) thanks to @alecl!
+
+
+
 ## 0.5.4
 
 Fix for [#806](https://github.com/howdyai/botkit/issues/806) - new version of websocket didn't play nice with Slack's message servers
