@@ -17,7 +17,11 @@ This is an [ongoing effort](https://github.com/howdyai/botkit/projects/3), and w
 Add missing error callback to catch Slack condition where incoming messages do not match a team in the database.
 [PR #887](https://github.com/howdyai/botkit/pull/887) thanks to @alecl!
 
+Fixed confusing parameter in JSON storage system. `delete()` methods now expect object id as first parameter. [PR #854](https://github.com/howdyai/botkit/pull/854) thanks to @mehamasum!
 
+All example bot scripts have been moved into the [examples/](examples/) folder. Thanks @colestrode!
+
+Fixes an instance where Botkit was not automatically responding to incoming webhooks from Cisco with a 200 status. [PR #843](https://github.com/howdyai/botkit/pull/843)
 
 ## 0.5.4
 
