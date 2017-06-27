@@ -20,6 +20,7 @@ Add missing error callback to catch Slack condition where incoming messages do n
 Add support for Facebook attachment upload api [PR #899](https://github.com/howdyai/botkit/pull/899) thanks @ouadie-lahdioui!
 Read docs about this feature [here](docs/readme-facebook.md#attachment-upload-api)
 
+Fixed issue with Slack message menus. [PR #769](https://github.com/howdyai/botkit/pull/769)
 
 Fixed confusing parameter in JSON storage system. `delete()` methods now expect object id as first parameter. [PR #854](https://github.com/howdyai/botkit/pull/854) thanks to @mehamasum!
 
