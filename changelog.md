@@ -23,6 +23,8 @@ All example bot scripts have been moved into the [examples/](examples/) folder. 
 
 Fixes an instance where Botkit was not automatically responding to incoming webhooks from Cisco with a 200 status. [PR #843](https://github.com/howdyai/botkit/pull/843)
 
+Updated dependencies to latest: twilio, ciscospark, https-proxy-agent, promise
+
 ## 0.5.4
 
 Fix for [#806](https://github.com/howdyai/botkit/issues/806) - new version of websocket didn't play nice with Slack's message servers
