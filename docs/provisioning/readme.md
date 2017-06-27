@@ -11,7 +11,7 @@ To help Botkit developers, we are pulling out detailed provisioning documents fo
 
 #### [Cisco Spark](cisco-spark.md)
 
-#### [SMS from Twilio](twiliosms.md)
+#### [SMS from Twilio](twilio-sms.md)
 
 
 ## Documentation
