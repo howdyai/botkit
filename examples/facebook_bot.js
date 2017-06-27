@@ -132,6 +132,32 @@ controller.setupWebserver(process.env.port || 3000, function(err, webserver) {
 });
 
 
+controller.hears(['attachment_upload'], 'message_received', function(bot, message) {
+    var attachment = {
+        "type":"image",
+        "payload":{
+            "url":"https://pbs.twimg.com/profile_images/803642201653858305/IAW1DBPw_400x400.png",
+            "is_reusable": true
+        }
+    };
+
+    controller.api.attachment_upload.upload(attachment, function (err, attachmentId) {
+        if(err) {
+            // Error
+        } else {
+            var image = {
+                "attachment":{
+                    "type":"image",
+                    "payload": {
+                        "attachment_id": attachmentId
+                    }
+                }
+            };
+            bot.reply(message, image);
+        }
+    });
+});
+
 controller.api.messenger_profile.greeting('Hello! I\'m a Botkit bot!');
 controller.api.messenger_profile.get_started('sample_get_started_payload');
 controller.api.messenger_profile.menu([{
