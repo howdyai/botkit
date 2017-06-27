@@ -8,7 +8,7 @@
 ## 0.5.5
 
 *Introducing Botkit for SMS!* Botkit bots can now send and receive messages using Twilio's Programmable SMS API!
-Huge thanks to @krismuniz who spearheaded this effort! [Read all about Twilio SMS here](docs/readme-twilio-sms.md)
+Huge thanks to @krismuniz who spearheaded this effort! [Read all about Twilio SMS here](docs/readme-twiliosms.md)
 
 *New unit tests* have been added, thanks to the ongoing efforts of @colestrode, @amplicity and others.
 This release includes coverage of the Botkit core library and the Slack API library.
