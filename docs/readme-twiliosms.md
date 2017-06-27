@@ -12,15 +12,15 @@ This document covers the Twilio Programmable SMS API implementation details only
 
 2) Register a developer account with Twilio. Once you've got it, head to the [Get Started with SMS](https://www.twilio.com/console/sms/getting-started/basics) page in your Twilio Console.
 
-After completing the tutorial above you should have all three values to get your bot running: A **Twilio Account SID**, a **Twilio Auth Token**, and a **Twilio Number**.
+  After completing the tutorial above you should have all three values to get your bot running: A **Twilio Account SID**, a **Twilio Auth Token**, and a **Twilio Number**.
 
-**Twilio Account SID and Auth Token**
+  **Twilio Account SID and Auth Token**
 
-These values are available on your [Twilio Account Settings](https://www.twilio.com/user/account/settings) page on the Twilio Console. Copy both the SID and token values (located under API Credentials)
+  These values are available on your [Twilio Account Settings](https://www.twilio.com/user/account/settings) page on the Twilio Console. Copy both the SID and token values (located under API Credentials)
 
-**Twilio Number**
+  **Twilio Number**
 
-You should have purchased a Twilio Number. You will send/receive messages using this phone number. Example: `+19098765432`
+  You should have purchased a Twilio Number. You will send/receive messages using this phone number. Example: `+19098765432`
 
 4) Configure your Twilio Number. Head to the [Phone Numbers](https://www.twilio.com/console/phone-numbers) in your Twilio Console and select the phone number you will use for your SMS bot.
 
