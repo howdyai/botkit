@@ -10,7 +10,7 @@ This document covers the Twilio Programmable SMS API implementation details only
 
 1) Install Botkit [more info here](readme.md#installation)
 
-2) [Register a developer account with Twilio](https://github.com/howdyai/botkit/blob/master/docs/provisioning/twilio-sms.md. Once you've got it, head to the [Get Started with SMS](https://www.twilio.com/console/sms/getting-started/basics) page in your Twilio Console.
+2) [Register a developer account with Twilio](https://github.com/howdyai/botkit/blob/master/docs/provisioning/twilio-sms.md). Once you've got it, head to the [Get Started with SMS](https://www.twilio.com/console/sms/getting-started/basics) page in your Twilio Console.
 
     After completing the tutorial above you should have all three values to get your bot running: A **Twilio Account SID**, a **Twilio Auth Token**, and a **Twilio Number**.
 
