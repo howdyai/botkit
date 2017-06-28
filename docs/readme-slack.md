@@ -22,7 +22,7 @@ Table of Contents
 ---
 ## Getting Started
 
-1) Install Botkit on your hosting platform of choice [more info here](readme.md#installation). 
+1) Install Botkit on your hosting platform of choice [more info here](readme.md#installation).
 
 2) First make a bot integration inside of your Slack channel. Go here:
 
@@ -949,7 +949,7 @@ controller.setupWebserver(process.env.port, function(err, webserver) {
             res.send('Success!');
         }
     });
-    
+
     // If not also opening an RTM connection
     controller.startTicking();
 });
@@ -985,6 +985,7 @@ var controller = Botkit.slackbot({
   * [Slack](readme-slack.md)
   * [Cisco Spark](readme-ciscospark.md)
   * [Facebook Messenger](readme-facebook.md)
+  * [Twilio SMS](readme-twiliosms.md)
   * [Twilio IPM](readme-twilioipm.md)
   * [Microsoft Bot Framework](readme-botframework.md)
 * Contributing to Botkit
