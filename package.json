@@ -1,5 +1,5 @@
 {
-  "name": "criptobotkit",
+  "name": "cryptobotkit",
   "version": "0.5.4",
   "description": "Botkit mod to easy encrypt and deploy on hosts",
   "main": "lib/Botkit.js",
