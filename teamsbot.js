@@ -5,8 +5,8 @@ var request = require('request');
 
 var controller = Botkit.teamsbot({
     debug: true,
-    client_id: '69b4bbd8-db62-4657-a944-5b380edcb0a2',
-    client_secret: '7B8xGpEYuo0e7wODuqxdamk',
+    client_id: '42e50cc5-9469-4ee0-b806-97563f4cc841',
+    client_secret: 'D0PBfwsDZvmxdzFbAzYm1JT',
 });
 
 controller.on('teams_button_click', function(bot, message) {
@@ -17,62 +17,41 @@ controller.on('teams_button_click', function(bot, message) {
 
 controller.hears('.*','message_received', function(bot, message) {
 
-    var reply = {
-      text: 'ok',
-      attachments: [
-        {
-            text: '*hello*\n\nthis is markdown I hope\n\nWeee!!',
-            title: 'TITLE!',
-            subtitle: 'This is the subtitle',
-            fields: [
-              {
-                title: 'Hello',
-                value: 'Blarg',
-              }
-            ],
-            actions: [
-              {
-                text: 'Button 1',
-                name: 'foo',
-                value: 'button1',
-                type: 'button',
-              },
-              {
-                text: 'Button 2',
-                name: 'bar',
-                value: 'button2',
-                type: 'button',
-              }
-            ]
-          }
-      ]
-    }
-    bot.reply(message, controller.slackToTeams(reply));
+  bot.reply(message, {
+    text: ':)',
+    attachments: [
+      {
+        contentType: 'application/vnd.microsoft.card.hero',
+        content: {
+          title: 'Hero card',
+          subtitle: 'Subtitle of hero card',
+          text: 'This is the text',
+          images: [
+            {
+                url: 'http://placekitten.com/1600/900',
+                alt: 'a kitten',
+                tap: {
+                  type: 'postback',
+                  value: 'foo',
+                }
+            }
+          ],
+          buttons: [
+            {
+              title: 'Drink me',
+              type: 'postback',
+              value: 'foo',
+            }
+          ]
+        }
+      }
+    ]
+  });
 
 });
 
 
 controller.setupWebserver(3000,function() {
   controller.configureIncomingWebhook();
-
-//     controller.webserver.post('/teams/receive', function(req, res) {
-//
-//         console.log('RECEIVED EVENT', req.body);
-//         res.send('');
-//
-//         var message = req.body;
-//         if (message.type == 'message') {
-//             var bot = controller.spawn({});
-//             controller.receiveMessage(bot, {
-//                 user: message.from.id,
-//                 channel: message.conversation.id,
-//                 text: message.text,
-//                 original_message: message,
-//             });
-//         } else {
-//             controller.trigger(message.type,[bot, message]);
-//         }
-//
-// });
 
 });
