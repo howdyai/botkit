@@ -45,7 +45,7 @@ Follow the instructions to get your IP Messaging Demo client up and running usin
 
 5) Start up the sample Twilio IPM Bot. From inside your cloned Botkit repo, run:
 ```
-TWILIO_ACCOUNT_SID=<your account sid> TWILIO_AUTH_TOKEN=<your auth token> TWILIO_IPM_SERVICE_SID=<your service sid> TWILIO_API_KEY=<your twilio API key> TWILIO_API_SECRET=<your twilio API secret> node twilio_ipm_bot.js
+TWILIO_ACCOUNT_SID=<your account sid> TWILIO_AUTH_TOKEN=<your auth token> TWILIO_IPM_SERVICE_SID=<your service sid> TWILIO_API_KEY=<your twilio API key> TWILIO_API_SECRET=<your twilio API secret> node examples/twilio_ipm_bot.js
 ```
 
 6) If you are _not_ running your bot at a public, SSL-enabled internet address, use [localtunnel.me](http://localtunnel.me) to make it available to Twilio. Note the URL it gives you. For example, it may say your url is `https://xyx.localtunnel.me/` In this case, the webhook URL for use in step 7 would be `https://xyx.localtunnel.me/twilio/receive`
@@ -302,6 +302,7 @@ controller.on('onChannelAdded', function(bot, message){
   * [Slack](readme-slack.md)
   * [Cisco Spark](readme-ciscospark.md)
   * [Facebook Messenger](readme-facebook.md)
+  * [Twilio SMS](readme-twiliosms.md)
   * [Twilio IPM](readme-twilioipm.md)
   * [Microsoft Bot Framework](readme-botframework.md)
 * Contributing to Botkit

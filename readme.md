@@ -24,6 +24,7 @@ Botkit features a comprehensive set of tools to deal with popular messaging plat
 * [Slack](docs/readme-slack.md)
 * [Cisco Spark](docs/readme-ciscospark.md)
 * [Facebook Messenger and Facebook @Workplace](docs/readme-facebook.md)
+* [Twilio SMS Messaging](docs/readme-twiliosms.md)
 * [Twilio IP Messaging](docs/readme-twilioipm.md)
 * [Microsoft Bot Framework](docs/readme-botframework.md)
 * Yours? [info@howdy.ai](mailto:info@howdy.ai)
@@ -140,6 +141,27 @@ Use the `--production` flag to skip the installation of devDependencies from Bot
 npm install --production
 ```
 
+## Running Tests
+
+To run tests, use the npm `test` command. Note: you will need dev dependencies installed using `npm install`.
+
+```bash
+npm test
+```
+
+To run tests in watch mode run:
+
+```bash
+npm run test-watch
+```
+
+Tests are run with [Jest](https://facebook.github.io/jest/docs/getting-started.html). You can pass Jest command line options after a `--`.
+For example to have Jest bail on the first error you can run
+
+```bash
+npm test -- --bail
+```
+
 ## Documentation
 
 * [Get Started](docs/readme.md)
@@ -153,6 +175,7 @@ npm install --production
   * [Slack](docs/readme-slack.md)
   * [Cisco Spark](docs/readme-ciscospark.md)
   * [Facebook Messenger](docs/readme-facebook.md)
+  * [Twilio SMS](docs/readme-twiliosms.md)
   * [Twilio IPM](docs/readme-twilioipm.md)
   * [Microsoft Bot Framework](docs/readme-botframework.md)
 * Contributing to Botkit

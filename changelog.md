@@ -1,5 +1,35 @@
 # Change Log
 
+[View the official Botkit roadmap](https://github.com/howdyai/botkit/projects/7) for upcoming changes and features.
+
+[Want to contribute? Read our guide!](https://github.com/howdyai/botkit/blob/master/CONTRIBUTING.md)
+
+
+## 0.5.5
+
+*Introducing Botkit for SMS!* Botkit bots can now send and receive messages using Twilio's Programmable SMS API!
+Huge thanks to @krismuniz who spearheaded this effort! [Read all about Twilio SMS here](docs/readme-twiliosms.md)
+
+*New unit tests* have been added, thanks to the ongoing efforts of @colestrode, @amplicity and others.
+This release includes coverage of the Botkit core library and the Slack API library.
+This is an [ongoing effort](https://github.com/howdyai/botkit/projects/3), and we encourage interested developers to get involved!
+
+Add missing error callback to catch Slack condition where incoming messages do not match a team in the database.
+[PR #887](https://github.com/howdyai/botkit/pull/887) thanks to @alecl!
+
+Add support for Facebook attachment upload api [PR #899](https://github.com/howdyai/botkit/pull/899) thanks @ouadie-lahdioui!
+Read docs about this feature [here](docs/readme-facebook.md#attachment-upload-api)
+
+Fixed issue with Slack message menus. [PR #769](https://github.com/howdyai/botkit/pull/769)
+
+Fixed confusing parameter in JSON storage system. `delete()` methods now expect object id as first parameter. [PR #854](https://github.com/howdyai/botkit/pull/854) thanks to @mehamasum!
+
+All example bot scripts have been moved into the [examples/](examples/) folder. Thanks @colestrode!
+
+Fixes an instance where Botkit was not automatically responding to incoming webhooks from Cisco with a 200 status. [PR #843](https://github.com/howdyai/botkit/pull/843)
+
+Updated dependencies to latest: twilio, ciscospark, https-proxy-agent, promise
+
 ## 0.5.4
 
 Fix for [#806](https://github.com/howdyai/botkit/issues/806) - new version of websocket didn't play nice with Slack's message servers
@@ -206,7 +236,7 @@ Adds [ConsoleBot](lib/ConsoleBot.js) for creating bots that work on the command 
 
 Adds a new [Middleware Readme](readme-middlewares.md) for documenting the existing middleware modules
 
-Adds an example for using quick replies in the [Facebook Example Bot](facebook_bot.js)
+Adds an example for using quick replies in the [Facebook Example Bot](examples/facebook_bot.js)
 
 Adds additional fields to Facebook messages to specify if they are `facebook_postback`s or normal messages.
 
@@ -290,7 +320,7 @@ Make the oauth identity available to the user of the OAuth endpoint via `req.ide
 
 Fix issue where single team apps had a hard time receiving slash command events without funky workaround. (closes [Issue #108](https://github.com/howdyai/botkit/issues/108))
 
-Add [team_slashcommand.js](/examples/team_slashcommand.js) and [team_outgoingwebhook.js](/examples/team_outgoingwebhook.js) to the examples folder.
+Add [team_slashcommand.js](/examples/slack/team_slashcommand.js) and [team_outgoingwebhook.js](/examples/slack/team_outgoingwebhook.js) to the examples folder.
 
 
 

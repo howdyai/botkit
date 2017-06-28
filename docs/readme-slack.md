@@ -22,7 +22,7 @@ Table of Contents
 ---
 ## Getting Started
 
-1) Install Botkit [more info here](readme.md#installation)
+1) Install Botkit on your hosting platform of choice [more info here](readme.md#installation).
 
 2) First make a bot integration inside of your Slack channel. Go here:
 
@@ -39,7 +39,7 @@ Copy the API token that Slack gives you. You'll need it.
 4) Run the example bot app, using the token you just copied:
 ​
 ```
-token=REPLACE_THIS_WITH_YOUR_TOKEN node slack_bot.js
+token=REPLACE_THIS_WITH_YOUR_TOKEN node examples/slack_bot.js
 ```
 ​
 5) Your bot should be online! Within Slack, send it a quick direct message to say hello. It should say hello back!
@@ -59,8 +59,7 @@ Type: `/invite @<my bot>` to invite your bot into another channel.
 
 ## Connecting Your Bot to Slack
 
-Bot users connect to Slack using a real time API based on web sockets.
-The bot connects to Slack using the same protocol that the native Slack clients use!
+Bot users connect to Slack using a real time API based on web sockets. The bot connects to Slack using the same protocol that the native Slack clients use!
 
 To connect a bot to Slack, [get a Bot API token from the Slack integrations page](https://my.slack.com/services/new/bot).
 
@@ -950,7 +949,7 @@ controller.setupWebserver(process.env.port, function(err, webserver) {
             res.send('Success!');
         }
     });
-    
+
     // If not also opening an RTM connection
     controller.startTicking();
 });
@@ -986,6 +985,7 @@ var controller = Botkit.slackbot({
   * [Slack](readme-slack.md)
   * [Cisco Spark](readme-ciscospark.md)
   * [Facebook Messenger](readme-facebook.md)
+  * [Twilio SMS](readme-twiliosms.md)
   * [Twilio IPM](readme-twilioipm.md)
   * [Microsoft Bot Framework](readme-botframework.md)
 * Contributing to Botkit
