@@ -9,6 +9,8 @@ These examples are included in the Botkit [Github repo](https://github.com/howdy
 
 [facebook_bot.js](https://github.com/howdyai/botkit/blob/master/examples/facebook_bot.js) An example bot that can be connected to your Facebook page. Useful as a basis for creating your first bot!
 
+[twilio_sms_bot.js](https://github.com/howdyai/botkit/blob/master/examples/twilio_sms_bot.js) An example bot that can be connected to your Twilio SMS service. Useful as a basis for creating your first bot!
+
 [twilio_ipm_bot.js](https://github.com/howdyai/botkit/blob/master/examples/twilio_ipm_bot.js) An example bot that can be connected to your Twilio IP Messaging client. Useful as a basis for creating your first bot!
 
 [botframework_bot.js](https://github.com/howdyai/botkit/blob/master/examples/botframework_bot.js) An example bot that can be connected to the Microsoft Bot Framework network. Useful as a basis for creating your first bot!

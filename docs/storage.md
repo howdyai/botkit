@@ -47,7 +47,6 @@ var controller = Botkit.slackbot({
 ```
 
 
-
 ## Documentation
 
 * [Get Started](readme.md)
@@ -61,6 +60,7 @@ var controller = Botkit.slackbot({
   * [Slack](readme-slack.md)
   * [Cisco Spark](readme-ciscospark.md)
   * [Facebook Messenger](readme-facebook.md)
+  * [Twilio SMS](readme-twiliosms.md)
   * [Twilio IPM](readme-twilioipm.md)
   * [Microsoft Bot Framework](readme-botframework.md)
 * Contributing to Botkit
