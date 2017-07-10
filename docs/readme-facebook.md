@@ -20,6 +20,7 @@ Table of Contents
 * [Simulate typing](#simulate-typing)
 * [Silent and No Notifications](#silent-and-no-notifications)
 * [Messenger code API](#messenger-code-api)
+* [Attachment upload API](#attachment-upload-api)
 * [Running Botkit with an Express server](#use-botkit-for-facebook-messenger-with-an-express-web-server)
 
 ## Getting Started
@@ -38,7 +39,7 @@ Copy this token, you'll need it!
 5) Run the example bot app, using the two tokens you just created. If you are _not_ running your bot at a public, SSL-enabled internet address, use the --lt option and note the URL it gives you.
 
 ```
-page_token=<MY PAGE TOKEN> verify_token=<MY_VERIFY_TOKEN> node facebook_bot.js [--lt [--ltsubdomain CUSTOM_SUBDOMAIN]]
+page_token=<MY PAGE TOKEN> verify_token=<MY_VERIFY_TOKEN> node examples/facebook_bot.js [--lt [--ltsubdomain CUSTOM_SUBDOMAIN]]
 ```
 
 6) [Set up a webhook endpoint for your app](https://developers.facebook.com/docs/messenger-platform/guides/setup#webhook_setup) that uses your public URL. Use the verify token you defined in step 4!
@@ -65,7 +66,7 @@ Facebook sends an X-HUB signature header with requests to your webhook. You can 
 The Facebook App secret is available on the Overview page of your Facebook App's admin page. Click show to reveal it.
 
 ```
-app_secret=abcdefg12345 page_token=123455abcd verify_token=VerIfY-tOkEn node facebook_bot.js
+app_secret=abcdefg12345 page_token=123455abcd verify_token=VerIfY-tOkEn node examples/facebook_bot.js
 ```
 
 ## Facebook-specific Events
@@ -506,6 +507,38 @@ controller.api.messenger_profile.get_target_audience(function (err, data)  {
 
 ```
 
+## Attachment upload API
+
+Attachment upload API allows you to upload an attachment that you may later send out to many users, without having to repeatedly upload the same data each time it is sent :
+
+
+```js
+var attachment = {
+        "type":"image",
+        "payload":{
+            "url":"https://pbs.twimg.com/profile_images/803642201653858305/IAW1DBPw_400x400.png",
+            "is_reusable": true
+        }
+    };
+
+    controller.api.attachment_upload.upload(attachment, function (err, attachmentId) {
+        if(err) {
+            // Error
+        } else {
+            var image = {
+                "attachment":{
+                    "type":"image",
+                    "payload": {
+                        "attachment_id": attachmentId
+                    }
+                }
+            };
+            bot.reply(message, image);
+        }
+    });
+
+```
+
 
 ## Use BotKit for Facebook Messenger with an Express web server
 Instead of the web server generated with setupWebserver(), it is possible to use a different web server to receive webhooks, as well as serving web pages.
@@ -525,6 +558,7 @@ Here is an example of [using an Express web server alongside BotKit for Facebook
   * [Slack](readme-slack.md)
   * [Cisco Spark](readme-ciscospark.md)
   * [Facebook Messenger](readme-facebook.md)
+  * [Twilio SMS](readme-twiliosms.md)
   * [Twilio IPM](readme-twilioipm.md)
   * [Microsoft Bot Framework](readme-botframework.md)
 * Contributing to Botkit

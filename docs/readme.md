@@ -18,10 +18,11 @@ it is ready to be connected to a stream of incoming messages. Currently, Botkit 
 * [Slack Slash Commands](http://api.slack.com/slash-commands)
 * [Cisco Spark Webhooks](https://developer.ciscospark.com/webhooks-explained.html)
 * [Facebook Messenger Webhooks](https://developers.facebook.com/docs/messenger-platform/implementation)
-* [Twilio IP Messaging](https://www.twilio.com/user/account/ip-messaging/getting-started)
+* [Twilio SMS](https://www.twilio.com/console/sms/dashboard)
+* [Twilio IP Messaging](https://www.twilio.com/console/chat/dashboard)
 * [Microsoft Bot Framework](http://botframework.com/)
 
-Read more about [connecting your bot to Slack](readme-slack.md#connecting-your-bot-to-slack), [connecting your bot to Cisco Spark](readme-slack.md#getting-started), [connecting your bot to Facebook](readme-facebook.md#getting-started), [connecting your bot to Twilio](readme-twilioipm.md#getting-started),
+Read more about [connecting your bot to Slack](readme-slack.md#connecting-your-bot-to-slack), [connecting your bot to Cisco Spark](readme-ciscospark.md#getting-started), [connecting your bot to Facebook](readme-facebook.md#getting-started), [connecting your bot to Twilio](readme-twilioipm.md#getting-started),
 or [connecting your bot to Microsoft Bot Framework](readme-botframework.md#getting-started)
 
 ## Basic Usage
@@ -941,6 +942,7 @@ Here is an example of [using an Express web server alongside Botkit](https://git
   * [Slack](readme-slack.md)
   * [Cisco Spark](readme-ciscospark.md)
   * [Facebook Messenger](readme-facebook.md)
+  * [Twilio SMS](readme-twiliosms.md)
   * [Twilio IPM](readme-twilioipm.md)
   * [Microsoft Bot Framework](readme-botframework.md)
 * Contributing to Botkit

@@ -34,7 +34,7 @@ Table of Contents
 4) Run the example bot using the App ID & Password you were assigned. If you are _not_ running your bot at a public, SSL-enabled internet address, use the --lt option and update your bots endpoint in the developer portal to use the URL assigned to your bot.
 
 ```
-app_id=<MY_APP_ID> app_password=<MY_APP_PASSWORD> node botframework_bot.js [--lt [--ltsubdomain CUSTOM_SUBDOMAIN]]
+app_id=<MY_APP_ID> app_password=<MY_APP_PASSWORD> node examples/botframework_bot.js [--lt [--ltsubdomain CUSTOM_SUBDOMAIN]]
 ```    
 
 5) Your bot should be online! Within Skype, find the bot in your contacts list, and send it a message.
@@ -221,6 +221,7 @@ You can easily turn on the typing indicator on platforms that support that behav
   * [Slack](readme-slack.md)
   * [Cisco Spark](readme-ciscospark.md)
   * [Facebook Messenger](readme-facebook.md)
+  * [Twilio SMS](readme-twiliosms.md)
   * [Twilio IPM](readme-twilioipm.md)
   * [Microsoft Bot Framework](readme-botframework.md)
 * Contributing to Botkit
