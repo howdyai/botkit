@@ -124,7 +124,9 @@ var askWhereDeliver = function(response, convo) {
     });
 }
 
-
+controller.hears(['hi','hello'], 'message_received', function (bot, message) {
+    bot.reply(message, "hi, you can ask me questions.");
+});
 
 
 function formatUptime(uptime) {
