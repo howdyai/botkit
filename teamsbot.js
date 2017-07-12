@@ -88,14 +88,19 @@ controller.hears('.*','direct_message, direct_mention', function(bot, message) {
           title: 'Hero card',
           subtitle: 'Subtitle of hero card',
           text: 'This is the text',
+          tap: {
+            type: 'imBack',
+            title: 'hero click',
+            value: 'you clicked the hero card',
+          },
           images: [
             {
                 url: 'http://placekitten.com/1600/900',
                 alt: 'a kitten',
                 tap: {
-                  type: 'invoke',
+                  type: 'imBack',
                   title: 'picture click',
-                  value: JSON.stringify({'foo':'bar'}),
+                  value: 'you clicked the hero image',
                 }
             }
           ],
@@ -119,7 +124,44 @@ controller.hears('.*','direct_message, direct_mention', function(bot, message) {
 
           ]
         }
-      }
+      },    {
+            contentType: 'application/vnd.microsoft.card.thumbnail',
+            content: {
+              title: 'thumbnail card',
+              subtitle: 'Subtitle of thumbnail card',
+              text: 'This is the text',
+              images: [
+                {
+                    url: 'http://placekitten.com/1600/900',
+                    alt: 'a kitten',
+                    tap: {
+                      type: 'imBack',
+                      title: 'picture click',
+                      value: 'you clicked the thumbnail',
+                    }
+                }
+              ],
+              buttons: [
+                {
+                  title: 'Drink me',
+                  type: 'invoke',
+                  value: JSON.stringify({'foo':'bar'}),
+                },
+                {
+                  title: 'Drink me',
+                  type: 'imBack',
+                  value: 'I CLICK A BUTTON',
+                },
+                {
+                  title: 'Open Url',
+                  type: 'openUrl',
+                  value: 'https://botkit.ai',
+                },
+
+
+              ]
+            }
+          }
     ]
   });
 
