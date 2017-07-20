@@ -19,8 +19,8 @@
     "full": "Full description of your app"
   },
   "icons": {
-    "outline": "%FILENAME-20x20px%",
-    "color": "%FILENAME-96x96px"
+    "outline": "contoso20x20.png",
+    "color": "contoso96x96.png"
   },
   "accentColor": "%HEX-COLOR%",
   "configurableTabs": [
