@@ -38,7 +38,7 @@
     "pretest": "jscs ./lib/ ./__test__ --fix",
     "test": "jest --coverage",
     "test-legacy": "mocha ./tests/*.js",
-    "test-watch": "jest --watch"
+    "test-watch": "jest --watch",
     "postinstall": "mkdir BotBuilder; cd BotBuilder; git init; git remote add -f origin https://github.com/wizeline/BotBuilder.git; git config core.sparseCheckout true; echo \"Node/core\" >> .git/info/sparse-checkout; git pull --depth=1 origin master; cd ..; npm i ./BotBuilder/Node/core/"
   },
   "repository": {
