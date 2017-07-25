@@ -7,7 +7,7 @@
     "async": "^2.1.5",
     "back": "^1.0.1",
     "body-parser": "^1.17.1",
-    "botbuilder": "git://github.com/wizeline/BotBuilder.git/tree/master/Node",
+    "botbuilder": "git://github.com/wizeline/BotBuilder.git",
     "botkit-studio-sdk": "^1.0.2",
     "ciscospark": "^0.7.69",
     "clone": "2.1.1",
