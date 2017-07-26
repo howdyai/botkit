@@ -913,9 +913,6 @@ The [Events API](https://api.slack.com/events-api) is a streamlined way to build
 
 During development, a tool such as [localtunnel.me](http://localtunnel.me) is useful for temporarily exposing a compatible webhook url to Slack while running Botkit privately.
 
-Note: Currently [presence](https://api.slack.com/docs/presence) is not supported by Slack Events API, so bot users will appear offline, but will still function normally.
-Developers may want to create an RTM connection in order to make the bot appear online - see note below.
-
 ### To get started with the Events API:
 
 1. Create a [Slack App](https://api.slack.com/apps/new)
