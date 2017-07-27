@@ -1,7 +1,7 @@
 {
-  "name": "botkit",
-  "version": "0.5.5",
-  "description": "Building blocks for Building Bots",
+  "name": "cryptobotkit",
+  "version": "0.5.4",
+  "description": "Botkit mod to easy encrypt and deploy on hosts",
   "main": "lib/Botkit.js",
   "dependencies": {
     "async": "^2.1.5",
@@ -26,7 +26,6 @@
     "ws": "^2.2.2"
   },
   "devDependencies": {
-    "jest-cli": "^20.0.1",
     "jscs": "^3.0.7",
     "mocha": "^3.2.0",
     "should": "^11.2.1",
@@ -35,31 +34,21 @@
     "winston": "^2.3.1"
   },
   "scripts": {
-    "pretest": "jscs ./lib/ ./__test__ --fix",
-    "test": "jest --coverage",
-    "test-legacy": "mocha ./tests/*.js",
-    "test-watch": "jest --watch"
+    "pretest": "jscs ./lib/",
+    "test": "mocha tests/*.js"
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/howdyai/botkit.git"
+    "url": "https://github.com/AdanTL/cryptobotkit.git"
   },
   "bugs": {
-    "url": "https://github.com/howdyai/botkit/issues"
+    "url": "https://github.com/AdanTL/cryptobotkit/issues"
   },
-  "homepage": "http://howdy.ai/botkit",
   "keywords": [
     "bots",
     "chatbots",
-    "slack",
-    "cisco spark",
-    "facebook messenger",
-    "twilio ipm",
-    "microsoft bot framework"
+    "facebook messenger"
   ],
-  "author": "ben@howdy.ai",
-  "license": "MIT",
-  "jest": {
-    "testEnvironment": "node"
-  }
+  "author": "AdanTL",
+  "license": "MIT"
 }
