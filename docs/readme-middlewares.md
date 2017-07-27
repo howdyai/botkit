@@ -9,6 +9,7 @@ Currently the following types of middleware are available for Botkit:
 * [Api.ai](#apiai)
 * [IBM Watson](#ibm-watson)
 * [Recast.ai](#recastai)
+* [Rasa NLU](#rasa-nlu)
 
 ### [Storage Modules](#storage-modules)
 Storage middleware can be used for storing attributes about a user or channel or team. It is currently available for the following services:
@@ -50,6 +51,12 @@ This middleware plugin for Botkit allows developers to easily integrate a Watson
 ## Recast.ai
 ### [Project Page](https://github.com/ouadie-lahdioui/botkit-middleware-recastai)
 You can use the Recast.AI API to analyse your text or your audio file, and extract useful informations from it, to personalize your IoT, classify your data or create bots.
+
+## Rasa NLU
+### [Project Page](https://github.com/sohlex/botkit-rasa)
+The [Rasa NLU](https://rasa.ai/) middleware with Botkit causes every message sent to your bot to be first sent through Rasa NLU service for processing.
+
+Rasa is the leading open source machine learning framework for developing the next generation of bots and assistants. It is fully customizable and gives you full control over your data.
 
 # Storage Modules
 
