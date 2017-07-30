@@ -452,6 +452,11 @@ controller.hears(['shutdown'], 'message_received', function(bot, message) {
     });
 });
 
+/** Build in NLP **/
+controller.hears(['build-in NLP'], 'message_received,facebook_postback', function(bot, message) {
+    controller.api.build_in_nlp.build_in_nlp.disable();
+    controller.api.build_in_nlp.build_in_nlp.enable();
+});
 
 controller.hears(['uptime', 'identify yourself', 'who are you', 'what is your name'], 'message_received',
     function(bot, message) {
