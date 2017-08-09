@@ -1,6 +1,6 @@
 {
   "name": "botkit",
-  "version": "0.5.6",
+  "version": "0.5.7",
   "description": "Building blocks for Building Bots",
   "main": "lib/Botkit.js",
   "dependencies": {
@@ -9,7 +9,7 @@
     "body-parser": "^1.17.1",
     "botbuilder": "^3.7.0",
     "botkit-studio-sdk": "^1.0.2",
-    "ciscospark": "^1.1.6",
+    "ciscospark": "1.8.0",
     "clone": "2.1.1",
     "command-line-args": "^4.0.2",
     "crypto": "0.0.3",

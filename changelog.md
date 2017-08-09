@@ -5,6 +5,10 @@
 [Want to contribute? Read our guide!](https://github.com/howdyai/botkit/blob/master/CONTRIBUTING.md)
 
 
+## 0.5.7
+
+Lock in ciscospark dependency at version 1.8.0 until further notice due to breaking changes in more recent versions.
+
 ## 0.5.6
 
 Fix for Botkit Studio-powered bots: Facebook attachments can now be added without buttons
