@@ -5,9 +5,9 @@
 
 # bot.api.getChannels(serviceUrl, teamId, cb)
 
-# bot.apigetUserById(serviceUrl, conversationId, userId, cb)
-# bot.apigetUserByUpn(serviceUrl, conversationId, upn, cb)
-# bot.apigetConversationMembers(serviceUrl, conversationId, cb)
-# bot.apigetTeamRoster(serviceUrl, teamId, cb)
+# bot.api.getUserById(serviceUrl, conversationId, userId, cb)
+# bot.api.getUserByUpn(serviceUrl, conversationId, upn, cb)
+# bot.api.getConversationMembers(serviceUrl, conversationId, cb)
+# bot.api.getTeamRoster(serviceUrl, teamId, cb)
 
-# bot.updateMessage(serviceUrl, conversationId, messageId, replacement, cb) 
+# bot.api.updateMessage(serviceUrl, conversationId, messageId, replacement, cb) 
