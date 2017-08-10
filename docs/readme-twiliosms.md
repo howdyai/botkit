@@ -59,8 +59,8 @@ Then you need to write your bot. First, create a TwilioSMSBot instance and pass 
 * `twilio_number`: your app's phone number, found in your [Phone Numbers Dashboard](https://www.twilio.com/console/phone-numbers/dashboard) **The phone number format must be: `+15551235555`**
 
 ```js
-const TwilioSMSBot = require('botkit-sms')
-const controller = TwilioSMSBot({
+const Botkit = require('botkit')
+const controller = Botkit.twiliosmsbot({
   account_sid: process.env.TWILIO_ACCOUNT_SID,
   auth_token: process.env.TWILIO_AUTH_TOKEN,
   twilio_number: process.env.TWILIO_NUMBER
