@@ -103,6 +103,23 @@ controller.hears('.*', 'message_received', (bot, message) => {
 
 See full example in the `examples` directory of this repo.
 
+### Sending media attachments (MMS)
+
+To send media attachments, pass a `mediaUrl` property to any of Botkit's outgoing messages functions (`reply`, `say`, `ask`, etc.) with an optional `body` property for text that goes along with your attachment.
+
+```js
+/*
+  Sending an attachment
+*/
+bot.reply(message, {
+  body: 'Optional body to go with text',
+  mediaUrl: 'https://i.imgur.com/9n3qoKx.png'
+})
+```
+
+> Note: your Twilio number as well as the recipient's phone must support MMS for media attachments to work
+
+For more details on outgoing media attachments and a full list of accepted MIME types, go to [Twilio's docs on media attachment](https://www.twilio.com/docs/api/rest/accepted-mime-types).
 
 ## Documentation
 
