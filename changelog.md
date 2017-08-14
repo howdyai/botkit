@@ -5,6 +5,18 @@
 [Want to contribute? Read our guide!](https://github.com/howdyai/botkit/blob/master/CONTRIBUTING.md)
 
 
+## 0.5.7
+
+Lock in ciscospark dependency at version 1.8.0 until further notice due to breaking changes in more recent versions.
+
+## 0.5.6
+
+Fix for Botkit Studio-powered bots: Facebook attachments can now be added without buttons
+
+Fix for Cisco Spark: Bot mentions will now reliably be pruned from message, regardless of what client originated the message
+
+Fix for Cisco Spark: startPrivateConversationWithPersonID has been fixed.
+
 ## 0.5.5
 
 *Introducing Botkit for SMS!* Botkit bots can now send and receive messages using Twilio's Programmable SMS API!
