@@ -3,6 +3,7 @@
   "version": "0.5.7",
   "description": "Building blocks for Building Bots",
   "main": "lib/Botkit.js",
+  "types": "botkit.d.ts",
   "dependencies": {
     "async": "^2.1.5",
     "back": "^1.0.1",
