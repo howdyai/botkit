@@ -539,6 +539,17 @@ var attachment = {
 
 ```
 
+## Built-in NLP
+
+Natural Language Processing (NLP) allows you to understand and extract meaningful information out of the messages people send :
+
+
+```js
+    // Enable Build-in NLP
+    controller.api.build_in_nlp.build_in_nlp.enable();
+    // disable Build-in NLP with 
+    controller.api.build_in_nlp.build_in_nlp.disable();
+```
 
 ## Use BotKit for Facebook Messenger with an Express web server
 Instead of the web server generated with setupWebserver(), it is possible to use a different web server to receive webhooks, as well as serving web pages.
