@@ -87,15 +87,30 @@ declare namespace botkit {
   interface ConsoleSpawnConfiguration {
   }
   interface Controller<S, M extends Message, B extends Bot<S, M>> {
+    readonly changeEars: HearsFunction<M>;
+    readonly log: {
+      (...params: any[]): void;
+    }
+    readonly middleware: {
+      capture: {
+        use(cb: (bot: B, message: M, convo: Conversation<M>, next: () => void) => void): void;
+      };
+      heard: {
+        use(cb: (bot: B, message: M, next: () => void) => void): void;
+      };
+      receive: {
+        use(cb: (bot: B, message: M, next: () => void) => void): void;
+      };
+      send: {
+        use(cb: (bot: B, message: M, next: () => void) => void): void;
+      };
+    }
     readonly storage: {
       users: Storage<User>;
       channels: Storage<Channel>;
       teams: Storage<Team>;
     };
     readonly studio: Studio<S, M, B>;
-    readonly log: {
-      (...params: any[]): void;
-    }
     hears(keywords: string | string[] | RegExp | RegExp[], events: string | string[], cb: HearsCallback<S, M, B>): this;
     hears(keywords: string | string[] | RegExp | RegExp[], events: string | string[], middleware_or_cb: HearsFunction<M>, cb: HearsCallback<S, M, B>): this;
     on(event: string, cb: HearsCallback<S, M, B>): this;
