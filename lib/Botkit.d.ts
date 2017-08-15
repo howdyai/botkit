@@ -494,4 +494,4 @@ declare namespace botkit {
   type SlackWebAPIMethod = (data: any, cb: (err: Error, response: any) => void) => void;
 }
 
-export default botkit;
+export = botkit;
