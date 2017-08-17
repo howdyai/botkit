@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ivy-module version="2.0" xmlns:e="http://ant.apache.org/ivy/extra">
+	<info organisation="org.scala-sbt.temp"
+		module="temp-module-750703454be73072ce64f1c215ff85550284ae5b"
+		revision="0.13.16"
+		status="integration"
+		publication="20170730205523"
+	/>
+	<configurations>
+		<conf name="component" visibility="private" description=""/>
+	</configurations>
+	<publications>
+	</publications>
+	<dependencies>
+		<dependency org="org.scala-sbt" name="compiler-interface" rev="0.13.16" conf="component->default(compile)">
+			<artifact name="compiler-interface" type="src" ext="jar" conf="sources" e:classifier="sources"/>
+		</dependency>
+	</dependencies>
+</ivy-module>

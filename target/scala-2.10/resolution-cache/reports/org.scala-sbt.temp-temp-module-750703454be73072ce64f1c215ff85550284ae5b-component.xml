@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet type="text/xsl" href="ivy-report.xsl"?>
+<ivy-report version="1.0">
+	<info
+		organisation="org.scala-sbt.temp"
+		module="temp-module-750703454be73072ce64f1c215ff85550284ae5b"
+		revision="0.13.16"
+		conf="component"
+		confs="component"
+		date="20170730205523"/>
+	<dependencies>
+		<module organisation="org.scala-sbt" name="compiler-interface">
+			<revision name="0.13.16" status="release" pubdate="20170726165640" resolver="sbt-chain" artresolver="sbt-chain" downloaded="false" searched="false" default="false" conf="compile, default(compile)" position="0">
+				<metadata-artifact status="no" details="" size="1802" time="0" location="/Users/SOAT-OLA/.ivy2/cache/org.scala-sbt/compiler-interface/ivy-0.13.16.xml" searched="false" origin-is-local="false" origin-location="file:////Users/SOAT-OLA/.sbt/preloaded/org.scala-sbt/compiler-interface/0.13.16/ivys/ivy.xml"/>
+				<caller organisation="org.scala-sbt.temp" name="temp-module-750703454be73072ce64f1c215ff85550284ae5b" conf="component" rev="0.13.16" rev-constraint-default="0.13.16" rev-constraint-dynamic="0.13.16" callerrev="0.13.16"/>
+				<artifacts>
+					<artifact name="compiler-interface" type="src" ext="jar" extra-classifier="sources" status="no" details="" size="32695" time="0" location="/Users/SOAT-OLA/.sbt/preloaded/org.scala-sbt/compiler-interface/0.13.16/srcs/compiler-interface-sources.jar">
+						<origin-location is-local="true" location="/Users/SOAT-OLA/.sbt/preloaded/org.scala-sbt/compiler-interface/0.13.16/srcs/compiler-interface-sources.jar"/>
+					</artifact>
+				</artifacts>
+			</revision>
+		</module>
+		<module organisation="org.scala-sbt" name="interface">
+			<revision name="0.13.16" status="release" pubdate="20170726165611" resolver="sbt-chain" artresolver="sbt-chain" extra-component="xsbti" downloaded="false" searched="false" default="false" conf="compile, default(compile)" position="2">
+				<metadata-artifact status="no" details="" size="1207" time="0" location="/Users/SOAT-OLA/.ivy2/cache/org.scala-sbt/interface/ivy-0.13.16.xml" searched="false" origin-is-local="false" origin-location="file:////Users/SOAT-OLA/.sbt/preloaded/org.scala-sbt/interface/0.13.16/ivys/ivy.xml"/>
+				<caller organisation="org.scala-sbt" name="compiler-interface" conf="compile" rev="0.13.16" rev-constraint-default="0.13.16" rev-constraint-dynamic="0.13.16" callerrev="0.13.16" extra-component="xsbti"/>
+				<artifacts>
+					<artifact name="interface" type="jar" ext="jar" status="no" details="" size="53049" time="0" location="/Users/SOAT-OLA/.ivy2/cache/org.scala-sbt/interface/jars/interface-0.13.16.jar">
+						<origin-location is-local="false" location="file:////Users/SOAT-OLA/.sbt/preloaded/org.scala-sbt/interface/0.13.16/jars/interface.jar"/>
+					</artifact>
+				</artifacts>
+			</revision>
+		</module>
+		<module organisation="org.scala-lang" name="scala-library">
+			<revision name="2.10.6" status="release" pubdate="20150918113528" resolver="sbt-chain" artresolver="sbt-chain" homepage="http://www.scala-lang.org/" extra-info.apiURL="http://www.scala-lang.org/api/2.10.6/" downloaded="false" searched="false" default="false" conf="default, compile, runtime, default(compile), master" position="1">
+				<license name="BSD-like" url="http://www.scala-lang.org/downloads/license.html          "/>
+				<metadata-artifact status="no" details="" size="2487" time="0" location="/Users/SOAT-OLA/.ivy2/cache/org.scala-lang/scala-library/ivy-2.10.6.xml" searched="false" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/org/scala-lang/scala-library/2.10.6/scala-library-2.10.6.pom"/>
+				<caller organisation="org.scala-sbt" name="interface" conf="compile" rev="2.10.6" rev-constraint-default="2.10.6" rev-constraint-dynamic="2.10.6" callerrev="0.13.16"/>
+				<caller organisation="org.scala-sbt" name="compiler-interface" conf="compile" rev="2.10.6" rev-constraint-default="2.10.6" rev-constraint-dynamic="2.10.6" callerrev="0.13.16"/>
+				<artifacts>
+					<artifact name="scala-library" type="jar" ext="jar" status="no" details="" size="7132001" time="0" location="/Users/SOAT-OLA/.ivy2/cache/org.scala-lang/scala-library/jars/scala-library-2.10.6.jar">
+						<origin-location is-local="false" location="UNKNOWN"/>
+					</artifact>
+				</artifacts>
+			</revision>
+		</module>
+	</dependencies>
+</ivy-report>

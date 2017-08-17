@@ -1,0 +1,27 @@
+[0m[[0mdebug[0m] [0mWaiting for threads to exit or System.exit to be called.[0m
+[0m[[0mdebug[0m] [0mGetting org.scala-sbt:compiler-interface:0.13.16:component from component compiler for Scala 2.10.6[0m
+[0m[[0mdebug[0m] [0mWaiting for thread run-main-0 to terminate.[0m
+[0m[[0minfo[0m] [0m'compiler-interface' not yet compiled for Scala 2.10.6. Compiling...[0m
+[0m[[0mdebug[0m] [0mPlain interface to Scala compiler 2.10.6  with arguments: [0m
+[0m[[0mdebug[0m] [0m	-nowarn[0m
+[0m[[0mdebug[0m] [0m	-d[0m
+[0m[[0mdebug[0m] [0m	/var/folders/mc/jqxycpwj63n0r6bw8fx1318w0000gn/T/sbt_493187ab[0m
+[0m[[0mdebug[0m] [0m	-bootclasspath[0m
+[0m[[0mdebug[0m] [0m	/Library/Java/JavaVirtualMachines/jdk1.8.0_112.jdk/Contents/Home/jre/lib/resources.jar:/Library/Java/JavaVirtualMachines/jdk1.8.0_112.jdk/Contents/Home/jre/lib/rt.jar:/Library/Java/JavaVirtualMachines/jdk1.8.0_112.jdk/Contents/Home/jre/lib/sunrsasign.jar:/Library/Java/JavaVirtualMachines/jdk1.8.0_112.jdk/Contents/Home/jre/lib/jsse.jar:/Library/Java/JavaVirtualMachines/jdk1.8.0_112.jdk/Contents/Home/jre/lib/jce.jar:/Library/Java/JavaVirtualMachines/jdk1.8.0_112.jdk/Contents/Home/jre/lib/charsets.jar:/Library/Java/JavaVirtualMachines/jdk1.8.0_112.jdk/Contents/Home/jre/lib/jfr.jar:/Library/Java/JavaVirtualMachines/jdk1.8.0_112.jdk/Contents/Home/jre/classes:/Users/SOAT-OLA/.sbt/boot/scala-2.10.6/lib/scala-library.jar[0m
+[0m[[0mdebug[0m] [0m	-classpath[0m
+[0m[[0mdebug[0m] [0m	/Users/SOAT-OLA/.sbt/boot/scala-2.10.6/org.scala-sbt/sbt/0.13.16/xsbti/interface-0.13.16.jar:/var/folders/mc/jqxycpwj63n0r6bw8fx1318w0000gn/T/sbt_a3a71054/srcs/org.scala-sbt/compiler-interface/compiler-interface-0.13.16-sources.jar:/Users/SOAT-OLA/.sbt/boot/scala-2.10.6/lib/scala-compiler.jar:/Users/SOAT-OLA/.sbt/boot/scala-2.10.6/lib/jansi.jar:/Users/SOAT-OLA/.sbt/boot/scala-2.10.6/lib/scala-reflect.jar:/Users/SOAT-OLA/.sbt/boot/scala-2.10.6/lib/jline.jar[0m
+[0m[[0mdebug[0m] [0m	/var/folders/mc/jqxycpwj63n0r6bw8fx1318w0000gn/T/sbt_837c4dc3/xsbt/API.scala[0m
+[0m[[0mdebug[0m] [0m	/var/folders/mc/jqxycpwj63n0r6bw8fx1318w0000gn/T/sbt_837c4dc3/xsbt/Analyzer.scala[0m
+[0m[[0mdebug[0m] [0m	/var/folders/mc/jqxycpwj63n0r6bw8fx1318w0000gn/T/sbt_837c4dc3/xsbt/Command.scala[0m
+[0m[[0mdebug[0m] [0m	/var/folders/mc/jqxycpwj63n0r6bw8fx1318w0000gn/T/sbt_837c4dc3/xsbt/Compat.scala[0m
+[0m[[0mdebug[0m] [0m	/var/folders/mc/jqxycpwj63n0r6bw8fx1318w0000gn/T/sbt_837c4dc3/xsbt/CompilerInterface.scala[0m
+[0m[[0mdebug[0m] [0m	/var/folders/mc/jqxycpwj63n0r6bw8fx1318w0000gn/T/sbt_837c4dc3/xsbt/ConsoleInterface.scala[0m
+[0m[[0mdebug[0m] [0m	/var/folders/mc/jqxycpwj63n0r6bw8fx1318w0000gn/T/sbt_837c4dc3/xsbt/DelegatingReporter.scala[0m
+[0m[[0mdebug[0m] [0m	/var/folders/mc/jqxycpwj63n0r6bw8fx1318w0000gn/T/sbt_837c4dc3/xsbt/Dependency.scala[0m
+[0m[[0mdebug[0m] [0m	/var/folders/mc/jqxycpwj63n0r6bw8fx1318w0000gn/T/sbt_837c4dc3/xsbt/ExtractAPI.scala[0m
+[0m[[0mdebug[0m] [0m	/var/folders/mc/jqxycpwj63n0r6bw8fx1318w0000gn/T/sbt_837c4dc3/xsbt/ExtractUsedNames.scala[0m
+[0m[[0mdebug[0m] [0m	/var/folders/mc/jqxycpwj63n0r6bw8fx1318w0000gn/T/sbt_837c4dc3/xsbt/GlobalHelpers.scala[0m
+[0m[[0mdebug[0m] [0m	/var/folders/mc/jqxycpwj63n0r6bw8fx1318w0000gn/T/sbt_837c4dc3/xsbt/LocateClassFile.scala[0m
+[0m[[0mdebug[0m] [0m	/var/folders/mc/jqxycpwj63n0r6bw8fx1318w0000gn/T/sbt_837c4dc3/xsbt/Log.scala[0m
+[0m[[0mdebug[0m] [0m	/var/folders/mc/jqxycpwj63n0r6bw8fx1318w0000gn/T/sbt_837c4dc3/xsbt/Message.scala[0m
+[0m[[0mdebug[0m] [0m	/var/folders/mc/jqxycpwj63n0r6bw8fx1318w0000gn/T/sbt_837c4dc3/xsbt/ScaladocInterface.scala[0m
