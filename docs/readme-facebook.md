@@ -539,6 +539,28 @@ var attachment = {
 
 ```
 
+## Message Tags
+
+Adding a tag to a message allows you to send it outside the 24+1 window.
+
+View the facebook [documentation](https://developers.facebook.com/docs/messenger-platform/messenger-profile/home-url) for more details.
+
+- Get all tags :
+```javascript
+controller.api.tags.get_all(function (tags) {
+   // use tags.data
+});
+```
+
+- Send a tagged message :
+```javascript
+var taggedMessage = {
+        "text": "Hello Botkit !",
+        "tag": "RESERVATION_UPDATE"
+};
+bot.reply(message, taggedMessage);
+```
+
 
 ## Use BotKit for Facebook Messenger with an Express web server
 Instead of the web server generated with setupWebserver(), it is possible to use a different web server to receive webhooks, as well as serving web pages.
