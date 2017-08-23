@@ -6,8 +6,8 @@
   "dependencies": {
     "async": "^2.1.5",
     "back": "^1.0.1",
-    "body-parser": "^1.17.1",
     "botbuilder": "^3.7.0",
+    "body-parser": "^1.17.1",
     "botkit-studio-sdk": "^1.0.2",
     "ciscospark": "1.8.0",
     "clone": "2.1.1",
