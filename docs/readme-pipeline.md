@@ -5,7 +5,7 @@
 
 Ingestion into Botkit is the first step in the pipeline process.
 
-Before this middleware fires, the `original_message` field will be set with the full,
+Before this middleware fires, the `raw_message` field will be set with the full,
 raw content of the original incoming payload from the messaging service.
 
 The ingestion phase is useful for actions like:
@@ -35,10 +35,6 @@ Receive the message and attach it to a conversation if one exists.
 Otherwise, trigger an event based on the `message.type` field, which will then
 make it possible for the message to trigger specific events or be heard.
 
-## triggered
-
-This middleware happens before any an 'on' event is fired.
-
 ## heard
 
 This middleware happens before any 'hears' event is fired.
@@ -50,3 +46,9 @@ This middleware happens when a convo.ask captures a response from a user
 ## send
 
 This middleware happens before every message is sent.
+This can be used to modify or track the outgoing messages BEFORE they are formatted for delivery to the platform API.
+
+## format
+
+This middleware happens immediately before a message is delivered to the platform API.
+This middleware should exclusively be used for constructing the final API parameters required for delivering a message.
