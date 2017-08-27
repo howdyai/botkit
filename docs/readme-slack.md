@@ -280,7 +280,7 @@ controller.on('custom_triggered_event', function(bot, trigger) {
 
 To reply to a user ephemerally in a conversation, pass a message object to `convo.say()` `convo.sayFirst()` `convo.ask()` `convo.addMessage()` `convo.addQuestion()` that sets ephemeral to true.
 
-Currently, you can receive postbacks from interactive messages in ephemeral messages, but cannot update the state of the message. 
+When using interactive message attachments with ephemeral messaging, Slack does not send the original message as part of the payload. With non-ephemeral interactive messages Slack sends a copy of the original message for you to edit and send back. To respond with an edited message when updating ephemeral interactive messages, you must construct a new message to send as the response, containing at least a text field.
 
 ```javascript
 controller.hears(['^tell me a secret$'], 'direct_mention, ambient, mention', function(bot, message) {
