@@ -10,6 +10,9 @@ Slack: Support for sending ephemeral messages with `bot.whisper()` and `bot.send
 
 Facebook: Support for using [message tags](https://developers.facebook.com/docs/messenger-platform/message-tags).  [Read documentation here.](docs/readme-facebook.md#message-tags) Thanks to [@ouadie-lahdioui](https://github.com/howdyai/botkit/pull/960)
 
+New: Typescript declarations! Thanks to [@uny and @naktibalda](https://github.com/howdyai/botkit/pull/953) for their work on this.
+
+
 
 ## 0.5.7
 

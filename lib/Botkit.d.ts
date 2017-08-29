@@ -168,6 +168,7 @@ declare namespace botkit {
       };
       messenger_profile: any;
       thread_settings: any;
+      tags: any;
     };
     createWebhookEndpoints(webserver: any, bot: FacebookBot, cb?: () => void): this;
   }
