@@ -60,8 +60,54 @@ The [Microsoft Teams API](https://msdn.microsoft.com/en-us/microsoft-teams/botap
 
 #### Microsoft Teams-specific Events
 
-The following Botkit API events are available for Teams:
+Botkit receives and makes available all of the events supported by Microsoft Teams.
+The full list and payload schema of these events is [available from Microsoft](https://msdn.microsoft.com/en-us/microsoft-teams/botevents).
 
+These events undergo a normalization process for use inside Botkit,
+so that any type of event can be passed to `bot.reply()` in order for a normal
+message response to be sent. All incoming events will have _at least_ the following fields:
+
+```
+{
+  user: <microsoft teams user ID>,
+  channel: <id for channel or 1:1 conversation>,
+  text: <text of message or primary payload value if present>,
+  raw_message: <the original event data>
+}
+```
+
+Botkit leaves all the native fields intact, so they are still present in the original message.
+However, our recommendation for accessing the Teams-native fields is to use the `message.raw_message` sub-object
+which contains an unmodified version of the event data.
+
+#### Message Received Events
+| Event | Description
+|--- |---
+| direct_message | the bot received a 1:1 direct message from a user
+| direct_mention | the bot was addressed directly in a mult-user channel ("@bot hello!")
+| mention | the bot was mentioned by someone in a message ("hello everyone including @bot")
+
+#### User Activity Events:
+
+| Event | Description
+|--- |---
+| bot_channel_join | the bot has joined a channel
+| user_channel_join | a user has joined a channel
+| bot_channel_leave | the bot has left a channel
+| user_channel_leave | a user has left a channel
+
+#### Channel Events
+| Event | Description
+|--- |---
+| channelDeleted | a channel was deleted
+| channelRenamed | a channel was renamed
+| channelCreated | a new channel was created
+
+#### Teams Features
+| Event | Description
+|--- |---
+| invoke | a user clicked an `invoke` button
+| composeExtension | user submitted a query with the compose extension
 
 
 #### Teams API Methods
@@ -257,6 +303,9 @@ Hero Cards
 Rich Media Attachments
 
 ```
+
+#### Using Compose Extensions
+
 
 #### Using Tabs
 Tabs are one of the [most useful features of bots on Teams](https://msdn.microsoft.com/en-us/microsoft-teams/tabs), providing the ability to display rich web content directly in your team's UI that works in concert with the functionality of your bot.
