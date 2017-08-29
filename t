@@ -58,51 +58,55 @@ For information about existing middleware plugins, [see here](readme-middlewares
 The [Microsoft Teams API](https://msdn.microsoft.com/en-us/microsoft-teams/) provides a number of functions the bot developer can use to power a useful bot application that operates seamlessly in Teams.
 
 Botkit provides the following resources to make the most of them:
-
 #### Teams API Events
 The following Botkit API events are available for Teams:
 
-#### bot.api.createConversation(options, cb)
+#### bot.api.createConversation(serviceUrl, conversation, cb)
 | Parameter | Description
 |--- |---
-| options | an object containing {bot: id, members: [], channelData: {}}
-| cb | Callback function in the form function(err, new_conversation_object)
+| serviceUrl | The endpoint to which your bot should send its response
+| conversationId | Contains the unique identifier of a conversation
+| cb | Callback function in the form function(err, file_info)
 
-#### bot.api.addMessageToConversation(conversationId, message, cb)
+#### bot.api.addMessageToConversation(serviceUrl, conversationId, message, cb)
 | Parameter | Description
 |--- |---
+| serviceUrl | The endpoint to which your bot should send its response
 | conversationId | Contains the unique identifier of a conversation
 | message | The contents of your message
-| cb | Callback function in the form function(err, results)
+| cb | Callback function in the form function(err, file_info)
 ```javascript
 tbd
 ```
 
-#### bot.api.getChannels(teamId, cb)
+#### bot.api.getChannels(serviceUrl, teamId, cb)
 | Parameter | Description
 |--- |---
-| teamId | The unique identifier for a given team
-| cb | Callback function in the form function(err, channels)
+| serviceUrl | The endpoint to which your bot should send its response
+| TeamId | The unique identifier for a given team
+| cb | Callback function in the form function(err, file_info)
 ```javascript
 tbd
 ```
 
-#### bot.api.getUserById(conversationId, userId, cb)
+#### bot.api.getUserById(serviceUrl, conversationId, userId, cb)
 | Parameter | Description
 |--- |---
+| serviceUrl | The endpoint to which your bot should send its response
 | conversationId | Contains the unique identifier of a conversation
 | userId | The unique identifier for a given user
-| cb | Callback function in the form function(err, user_profile)
+| cb | Callback function in the form function(err, file_info)
 ```javascript
 tbd
 ```
 
-#### bot.api.getUserByUpn(conversationId, upn, cb)
+#### bot.api.getUserByUpn(serviceUrl, conversationId, upn, cb)
 | Parameter | Description
 |--- |---
+| serviceUrl | The endpoint to which your bot should send its response
 | conversationId | Contains the unique identifier of a conversation
 | upn | The [User Principal Name](https://msdn.microsoft.com/en-us/library/windows/desktop/ms721629(v=vs.85).aspx#_security_user_principal_name_gly) of a given team member
-| cb | Callback function in the form function(err, user_profile)
+| cb | Callback function in the form function(err, file_info)
 
 This function will return a User's info from the API. Example:
 
@@ -110,33 +114,36 @@ This function will return a User's info from the API. Example:
 tbd
 ```
 
-#### bot.api.getConversationMembers(conversationId, cb)
+#### bot.api.getConversationMembers(serviceUrl, conversationId, cb)
 | Parameter | Description
 |--- |---
+| serviceUrl | The endpoint to which your bot should send its response
 | conversationId | Contains the unique identifier of a conversation
-| cb | Callback function in the form function(err, members)
+| cb | Callback function in the form function(err, file_info)
 
 ```javascript
 tbd
 ```
 
-#### bot.api.getTeamRoster(teamId, cb)
+#### bot.api.getTeamRoster(serviceUrl, teamId, cb)
 | Parameter | Description
 |--- |---
+| serviceUrl | The endpoint to which your bot should send its response
 | teamId | The unique identifier for a given team
-| cb | Callback function in the form function(err, members)
+| cb | Callback function in the form function(err, file_info)
 
 ```javascript
 tbd
 ```
 
-### bot.api.updateMessage(conversationId, messageId, replacement, cb)
+### bot.api.updateMessage(serviceUrl, conversationId, messageId, replacement, cb)
 | Parameter | Description
 |--- |---
-| conversationId | Contains the identifier for the conversation in which the original message occured
-| messageId | Contains the unique identifier of message to be replaced
-| replacement | A message object which will be used to replace the previous message
-| cb | Callback function in the form function(err, results)
+| serviceUrl | The endpoint to which your bot should send its response
+| conversationId | Contains the unique identifier of a conversation
+| messageId | Contains the unique identifier of a message
+| replacement | The text that you are using in place of the existing content
+| cb | Callback function in the form function(err, file_info)
 
 ```javascript
 tbd
