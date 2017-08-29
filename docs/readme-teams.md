@@ -16,51 +16,37 @@ Table of Contents
 * [Botkit Documentation Index]()
 
 ## Getting Started
-Working on Botkit bots for Teams can be a rewarding experience, but there are a few tasks you need to complete o to setup your bot for development.
+Working on Botkit bots for Teams can be a rewarding experience, but there are a few tasks you need to complete to setup your bot for development.
 
-### Use Botkit Studio
-[Botkit Studio](https://studio.botkit.ai/signup?code=teams) is a set of tools that adds capabilities to the open source Botkit library by offering hosted GUI interfaces for script management and action trigger definition.
+TODO
 
-Studio contains tools that greatly streamline the steps required to get a bot up on Microsoft Teams, for more information on thease tools, please see these articles on the [Botkit Studio knowledge base](https://botkit.groovehq.com/knowledge_base/categories/microsoft-teams-2).
+### Developing with Botkit for Microsoft Teams
 
-While Botkit Studio is *not required* to build a bot using Botkit, we highly recommend it as your bot will be easier to manage, customize and extend.
-
-### Install Botkit
-To work on your bot, you will need to run Botkit on a web server, which can de done using a variety of methods of your choosing.
-
-#### Start with a Starter Kit
-The Teams starter kit contains a number of [useful functions](linktowhatsincluded) that will make running your bot a breeze. There are three recommended paths for setting up your starter kit:
-
-[Remix this project on Glitch]()
-
-[Deploy to Heroku]()
-
-[Hosting this yourself? Clone the Starter kit repo here]()
-
-### Setup your bot on Microsoft's Bot framework
-To have a bot on Microsoft Teams, you will need to have or create a Microsoft account, and then log into the [Microsoft Bot Framework](https://dev.botframework.com/bots) to register your bot. To add the bot to your team you will also need to create and edit some helper files , the steps for which are all outlined in [this provisioning guide](https://github.com/howdyai/botkit/blob/master/docs/provisioning/teams.md).
-
-## Extend your Bot
-Once you have a operational bot communicating with Teams, now comes the fun part of making your bot. Depending on your use case, you may find that your bot needs minimal work to perform your ideal use of it, to get you started, here is link to additional Botkit resources:
-
-### Developing with Botkit
 Information on working with the Botkit bot framework can be found [in our main readme](https://github.com/howdyai/botkit/blob/master/docs/readme.md#developing-with-botkit).
 
-### Use Middleware
-The functionality of Botkit can be extended using middleware
-functions. These functions can plugin to the core bot running processes at several useful places and make changes to both a bot's configuration and the incoming or outgoing message.
+## The controller
 
-For more on the types of Middleware and how to develop for them, [checkout this document](https://github.com/howdyai/botkit/blob/master/docs/middleware.md).
+TODO
 
-For information about existing middleware plugins, [see here](readme-middlewares.md)
+#### controller.spawn()
 
-### Developing for Microsoft Teams
-The [Microsoft Teams API](https://msdn.microsoft.com/en-us/microsoft-teams/botapis) provides a number of features the bot developer can use to power a useful bot application that operates seamlessly in Teams.
+TODO
 
+
+## Working with Microsoft Teams
+
+TODO
+
+* Events
+* API Methods
+* Attachments
+* Compose Extensions
+* Tabs
 
 #### Microsoft Teams-specific Events
 
 Botkit receives and makes available all of the events supported by Microsoft Teams.
+
 The full list and payload schema of these events is [available from Microsoft](https://msdn.microsoft.com/en-us/microsoft-teams/botevents).
 
 These events undergo a normalization process for use inside Botkit,
@@ -69,6 +55,7 @@ message response to be sent. All incoming events will have _at least_ the follow
 
 ```
 {
+  type: <type of event>,
   user: <microsoft teams user ID>,
   channel: <id for channel or 1:1 conversation>,
   text: <text of message or primary payload value if present>,
@@ -112,6 +99,8 @@ which contains an unmodified version of the event data.
 
 #### Teams API Methods
 
+The [Microsoft Teams API](https://msdn.microsoft.com/en-us/microsoft-teams/botapis) provides a number of features the bot developer can use to power a useful bot application that operates seamlessly in Teams.
+
 #### bot.api.getUserById(conversationId, userId, cb)
 | Parameter | Description
 |--- |---
@@ -132,7 +121,6 @@ controller.hears('who am i', 'direct_message, direct_mention', function(bot, mes
         }
     });
 });
-
 ```
 
 #### bot.api.getUserByUpn(conversationId, upn, cb)
