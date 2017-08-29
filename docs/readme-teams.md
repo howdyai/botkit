@@ -55,37 +55,16 @@ For more on the types of Middleware and how to develop for them, [checkout this 
 For information about existing middleware plugins, [see here](readme-middlewares.md)
 
 ### Developing for Microsoft Teams
-The [Microsoft Teams API](https://msdn.microsoft.com/en-us/microsoft-teams/) provides a number of functions the bot developer can use to power a useful bot application that operates seamlessly in Teams.
+The [Microsoft Teams API](https://msdn.microsoft.com/en-us/microsoft-teams/botapis) provides a number of features the bot developer can use to power a useful bot application that operates seamlessly in Teams.
 
-Botkit provides the following resources to make the most of them:
 
-#### Teams API Events
+#### Microsoft Teams-specific Events
+
 The following Botkit API events are available for Teams:
 
-#### bot.api.createConversation(options, cb)
-| Parameter | Description
-|--- |---
-| options | an object containing {bot: id, members: [], channelData: {}}
-| cb | Callback function in the form function(err, new_conversation_object)
 
-#### bot.api.addMessageToConversation(conversationId, message, cb)
-| Parameter | Description
-|--- |---
-| conversationId | Contains the unique identifier of a conversation
-| message | The contents of your message
-| cb | Callback function in the form function(err, results)
-```javascript
-tbd
-```
 
-#### bot.api.getChannels(teamId, cb)
-| Parameter | Description
-|--- |---
-| teamId | The unique identifier for a given team
-| cb | Callback function in the form function(err, channels)
-```javascript
-tbd
-```
+#### Teams API Methods
 
 #### bot.api.getUserById(conversationId, userId, cb)
 | Parameter | Description
@@ -93,8 +72,21 @@ tbd
 | conversationId | Contains the unique identifier of a conversation
 | userId | The unique identifier for a given user
 | cb | Callback function in the form function(err, user_profile)
+
+`getUserById` takes elements from an incoming message object, and returns the user profile data
+associated with the message's sender.
+
 ```javascript
-tbd
+controller.hears('who am i', 'direct_message, direct_mention', function(bot, message) {
+    bot.api.getUserById(message.channel, message.user, function(err, user) {
+        if (err) {
+          bot.reply(message,'Error loading user:' + err);
+        } else {
+          bot.reply(message,'You are ' + user.name + ' and your email is ' + user.email + ' and your user id is ' + user.id);
+        }
+    });
+});
+
 ```
 
 #### bot.api.getUserByUpn(conversationId, upn, cb)
@@ -104,11 +96,10 @@ tbd
 | upn | The [User Principal Name](https://msdn.microsoft.com/en-us/library/windows/desktop/ms721629(v=vs.85).aspx#_security_user_principal_name_gly) of a given team member
 | cb | Callback function in the form function(err, user_profile)
 
-This function will return a User's info from the API. Example:
+This function is identical to `getUserById()`, but instead of fetching the user by the Teams-only user ID, it uses the user's "universal principal name" or "UPN", which defines the account in terms of the broader Microsoft Office ecosystem. This function is useful when connecting users in Microsoft Teams chat with the same users in a [Tab Application](#using-tabs), as tab applications only expose the `upn` value.
 
-```javascript
-tbd
-```
+The [Botkit Starter Kit for Microsoft Teams]() includes [a sample middleware]() that uses this function to automatically
+translate the Teams-only ID into a UPN for use with the [built-in storage system](storage.md).
 
 #### bot.api.getConversationMembers(conversationId, cb)
 | Parameter | Description
@@ -116,8 +107,24 @@ tbd
 | conversationId | Contains the unique identifier of a conversation
 | cb | Callback function in the form function(err, members)
 
+This function returns a list of members in the specified channel - either a 1:1 channel, or a multi-user team channel.
+This API returns an array of user profile objects identical to those returned by `getUserById()` and `getUserByUpn()`.
+
 ```javascript
-tbd
+controller.hears('get members','direct_mention,direct_message', function(bot, message) {
+  bot.api.getConversationMembers(message.channel, function(err, roster) {
+    if (err) {
+      bot.reply(message,'Error loading roster: ' + err);
+    } else {
+
+      var list = [];
+      for (var u = 0; u < roster.length; u++) {
+        list.push(roster[u].name);
+      }
+      bot.reply(message,'Conversation members: ' + list.join(', '));
+    }
+  });
+});
 ```
 
 #### bot.api.getTeamRoster(teamId, cb)
@@ -126,8 +133,29 @@ tbd
 | teamId | The unique identifier for a given team
 | cb | Callback function in the form function(err, members)
 
+This function works just like `getConversationMembers()`, but returns all members of a team instead of just the members of a
+specific channel.
+
+The teamId, when present, can be extracted from a message object at the Teams-specific field `message.channelData.team.id`. This field is present in messages that occur in multi-user channels, but not in 1:1 messages and other events.
+
+Note that since the team id is not always part of the incoming message payload, and because all multi-user channel contain all members
+of the team, `getConversationMembers()` is likely more reliable and easy to use.
+
 ```javascript
-tbd
+controller.hears('roster','direct_mention', function(bot, message) {
+  bot.api.getTeamRoster(message.channelData.team.id, function(err, roster) {
+    if (err) {
+      bot.reply(message,'Error loading roster: ' + err);
+    } else {
+      var list = [];
+      for (var u = 0; u < roster.length; u++) {
+        list.push(roster[u].name);
+      }
+      bot.reply(message,'Team roster: ' + list.join(', '));
+    }
+  });
+
+});
 ```
 
 ### bot.api.updateMessage(conversationId, messageId, replacement, cb)
@@ -138,9 +166,75 @@ tbd
 | replacement | A message object which will be used to replace the previous message
 | cb | Callback function in the form function(err, results)
 
+This method allows you to update an existing message with a replacement.
+This is super handy when responding to button click events, or updating a message with new information.
+
+In order to update a message, you must first capture it's ID. The message id is part of the response
+passed back from bot.reply or bot.say.
+
+`updateMessage()` expects an API-ready message object - the replacement message does _not_ undergo the
+normal pre-send transformations that occur during a normal bot.reply or bot.say.
+
 ```javascript
-tbd
+  controller.hears('update', 'direct_message,direct_mention', function(bot, message) {
+      bot.reply(message,'This is the original message', function(err, outgoing_message) {
+          bot.api.updateMessage(message.channel, outgoing_message.id, {type: 'message', text: 'This message has UPDATED CONTENT'}, function(err) {
+            if (err) {
+              console.error(err);
+            }
+          });
+      });
+  })
 ```
+
+#### bot.api.getChannels(teamId, cb)
+| Parameter | Description
+|--- |---
+| teamId | The unique identifier for a given team
+| cb | Callback function in the form function(err, channels)
+
+This function returns an array of all the channels in a given team.
+
+The teamId, when present, can be extracted from a message object at the Teams-specific field `message.channelData.team.id`. This field is present in messages that occur in multi-user channels, but not in 1:1 messages and other events.
+
+```javascript
+  controller.hears('channels','direct_mention', function(bot, message) {
+    bot.api.getChannels(message.channelData.team.id, function(err, roster) {
+      if (err) {
+        bot.reply(message,'Error loading channel list: ' + err);
+      } else {
+        var list = [];
+        for (var u = 0; u < roster.length; u++) {
+          list.push(bot.channelLink(roster[u]));
+        }
+        bot.reply(message,'Channels: ' + list.join(', '));
+      }
+    });
+  });
+```
+
+
+
+#### bot.api.addMessageToConversation(conversationId, message, cb)
+| Parameter | Description
+|--- |---
+| conversationId | Contains the unique identifier of a conversation
+| message | The contents of your message
+| cb | Callback function in the form function(err, results)
+
+This function is used to send messages to Teams. It is used internally by Botkit's
+`bot.say()` function, and is not intended to be used directly by developers.
+
+#### bot.api.createConversation(options, cb)
+| Parameter | Description
+|--- |---
+| options | an object containing {bot: id, members: [], channelData: {}}
+| cb | Callback function in the form function(err, new_conversation_object)
+
+This function creates a new conversation context inside Teams.
+This is used internally by Botkit inside functions like `startPrivateConversation()`
+(to create the 1:1 channel between user and bot). It is not intended to be used directly by developers.
+
 
 #### Working with attachments and media
 Teams supports communicating with it's API in the form of [Messages, cards, and actions](https://msdn.microsoft.com/en-us/microsoft-teams/botsmessages), currently building these attachments are either done by hand using the previously linked specification, using something like:
