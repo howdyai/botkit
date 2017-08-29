@@ -470,6 +470,22 @@ controller.on('message_received', function(bot, message) {
     return false;
 });
 
+controller.hears(['tags'], 'message_received', function (bot, message) {
+    controller.api.tags.get_all(function (tags) {
+        for (var i = 0; i < tags.data.length; i++) {
+            bot.reply(message, tags.data[i].tag + ': ' + tags.data[i].description);
+        }
+    });
+});
+
+controller.hears(['send tagged message'], 'message_received', function (bot, message) {
+    var taggedMessage = {
+        "text": "Hello Botkit !",
+        "tag": "RESERVATION_UPDATE"
+    };
+    bot.reply(message, taggedMessage);
+});
+
 
 function formatUptime(uptime) {
     var unit = 'second';
