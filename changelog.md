@@ -4,6 +4,12 @@
 
 [Want to contribute? Read our guide!](https://github.com/howdyai/botkit/blob/master/CONTRIBUTING.md)
 
+## 0.5.8
+
+Slack: Support for sending ephemeral messages with `bot.whisper()` and `bot.sendEphemeral()`. In addition, any message with `message.ephemeral` set to true will be sent with `bot.sendEphemeral()` automatically. [Read documentation here.](docs/readme-slack.md#ephemeral-messages) Thanks to [@jonchurch](https://github.com/howdyai/botkit/pull/958)
+
+Facebook: Support for using [message tags](https://developers.facebook.com/docs/messenger-platform/message-tags).  [Read documentation here.](docs/readme-facebook.md#message-tags) Thanks to [@ouadie-lahdioui](https://github.com/howdyai/botkit/pull/960)
+
 
 ## 0.5.7
 
