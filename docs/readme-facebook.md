@@ -539,6 +539,18 @@ var attachment = {
 
 ```
 
+## Built-in NLP
+
+Facebook offers some built-in natural language processing tools. Once enabled, messages may contain a `message.nlp.` object with the results of the Facebook NLP.
+More information can be found [in Facebook's official documentation of this feature](https://developers.facebook.com/docs/messenger-platform/built-in-nlp).
+
+If specified, `message.nlp.entities` will include a list of entities and intents extracted by Facebook.
+
+Facebook's NLP option can be enabled by calling `controller.api.nlp.enable()` in your Botkit app.
+
+Facebook's NLP option can be disabled by calling `controller.api.nlp.enable()` in your Botkit app.
+
+
 ## Message Tags
 
 Adding a tag to a message allows you to send it outside the 24+1 window.

@@ -158,6 +158,8 @@ controller.hears(['attachment_upload'], 'message_received', function(bot, messag
     });
 });
 
+
+controller.api.nlp.enable();
 controller.api.messenger_profile.greeting('Hello! I\'m a Botkit bot!');
 controller.api.messenger_profile.get_started('sample_get_started_payload');
 controller.api.messenger_profile.menu([{
