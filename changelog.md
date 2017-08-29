@@ -4,6 +4,24 @@
 
 [Want to contribute? Read our guide!](https://github.com/howdyai/botkit/blob/master/CONTRIBUTING.md)
 
+## 0.5.8
+
+Slack: Support for sending ephemeral messages with `bot.whisper()` and `bot.sendEphemeral()`. In addition, any message with `message.ephemeral` set to true will be sent with `bot.sendEphemeral()` automatically. [Read documentation here.](docs/readme-slack.md#ephemeral-messages) Thanks to [@jonchurch](https://github.com/howdyai/botkit/pull/958)
+
+Slack: Add support for `bot.api.files.sharedPublicURL()` method. Thanks to [@GitTristan](https://github.com/howdyai/botkit/pull/912)
+
+Facebook: Support for using [message tags](https://developers.facebook.com/docs/messenger-platform/message-tags).  [Read documentation here.](docs/readme-facebook.md#message-tags) Thanks to [@ouadie-lahdioui](https://github.com/howdyai/botkit/pull/960)
+
+Facebook: Support for using Facebook's new built-in NLP tools. [Read documentation here.](docs/readme-facebook.md#built-in-nlp) Thanks to [@ouadie-lahdioui](https://github.com/howdyai/botkit/pull/943) for this one too!!
+
+
+Twilio SMS: Add support for sending MMS messages (file attachments) via Twilio. [Read documentation here.](docs/readme-twiliosms.md#sending-media-attachments-mms) Thanks to [@krismuniz](https://github.com/howdyai/botkit/pull/951)!
+
+Cisco Spark: Emit a console warning when a bot receives messages from outside the allowed domain list. Thanks to [@MathRobin](https://github.com/howdyai/botkit/pull/918)!
+
+New: Typescript declarations! Thanks to [@uny and @naktibalda](https://github.com/howdyai/botkit/pull/953) for their work on this.
+
+
 
 ## 0.5.7
 
