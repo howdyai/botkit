@@ -76,8 +76,8 @@ message response to be sent. All incoming events will have _at least_ the follow
 }
 ```
 
-Botkit leaves all the native fields intact, so they are still present in the original message.
-However, our recommendation for accessing the Teams-native fields is to use the `message.raw_message` sub-object
+Botkit leaves all the native fields intact, so any fields that come in from Teams are still present in the original message.
+However, our recommendation for accessing any Teams-native fields is to use the `message.raw_message` sub-object
 which contains an unmodified version of the event data.
 
 #### Message Received Events
