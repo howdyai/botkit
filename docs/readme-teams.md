@@ -1,6 +1,6 @@
-# Botkit and Microsoft Teams
+# Botkit for Microsoft Teams
 
-Botkit is designed to ease the process of designing and running useful, creative bots that live inside [Microsoft Teams](https://teams.microsoft.com/). For a full list of supported platforms, [check out the main Botkit readme](https://github.com/howdyai/botkit#botkit---building-blocks-for-building-bots)
+Botkit is designed to ease the process of designing and running useful, creative bots that live inside [Microsoft Teams](https://products.office.com/en-us/microsoft-teams/group-chat-software). For a full list of supported platforms, [check out the main Botkit readme](https://github.com/howdyai/botkit#botkit---building-blocks-for-building-bots)
 
 Botkit features a comprehensive set of tools to deal with [Microsoft Teams's integration platform](https://msdn.microsoft.com/en-us/microsoft-teams/), and allows developers to build both custom integrations for their team, as well as public "Microsoft Teams" applications that can be run from a central location, and be used by many teams at the same time.
 
@@ -16,9 +16,18 @@ Table of Contents
 * [Botkit Documentation Index]()
 
 ## Getting Started
-Working on Botkit bots for Teams can be a rewarding experience, but there are a few tasks you need to complete to setup your bot for development.
 
-TODO
+Building bots is a fun and rewarding experience, but requires a few technical details be sorted out before you can start poking around inside your robot's brain.
+
+Your bot will consist of three major components:
+
+* A Botkit-powered Node.js application - this is the container inside which your bot brain lives, and where all its capabilities are defined
+* The messaging platform - where users interact with your bot - a set of features, APIs and client applications that your bot interacts with
+* A hosting environment - this gives your bot application a publicly reachable address on the public internet, which allows the messaging platform to communicate with your bot
+
+
+
+
 
 ### Developing with Botkit for Microsoft Teams
 
