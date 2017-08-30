@@ -19,13 +19,42 @@ Table of Contents
 
 Building bots is a fun and rewarding experience, but requires a few technical details be sorted out before you can start poking around inside your robot's brain.
 
-Your bot will consist of three major components:
+To get started building your bot, you'll need get these *three components* set up so that they can communicate with each other:
 
-* A Botkit-powered Node.js application - this is the container inside which your bot brain lives, and where all its capabilities are defined
-* The messaging platform - where users interact with your bot - a set of features, APIs and client applications that your bot interacts with
+* A Botkit-powered Node.js web app - this is the container inside which your bot brain lives, and where all its capabilities are defined
+* The messaging platform - the place users interact with your bot, which provides a set of features, APIs and client applications
 * A hosting environment - this gives your bot application a publicly reachable address on the public internet, which allows the messaging platform to communicate with your bot
 
+Getting these elements in place is a multi-step process, but only takes a few minutes, and in most cases, only has to be done once!
 
+### Fastest Option: Use Botkit Studio
+
+The fastest way to get up and running with Botkit for Microsoft Teams is to use [Botkit Studio](https://studio.botkit.ai).
+Botkit Studio will guide you through the process of setting up the [Botkit Starter Kit for Microsoft Teams](https://github.com/howdyai/botkit-starter-teams),
+walk you through the process of configuring the Microsoft Teams and Bot Framework APIs,
+and deploy your bot to a stable hosting environment so that you can start building right away.
+
+**[![Sign up for Botkit Studio](docs/studio.png)](https://studio.botkit.ai/signup?code=readme)**
+
+### Manual Setup: Get the Starter Kit
+
+If you are comfortable with developer tools like Git, NPM, and setting up your own web host,
+or if you want to build your bot on your laptop before making it available on the internet,
+you can start by cloning the [Botkit Starter Kit for Microsoft Teams](https://github.com/howdyai/botkit-starter-teams).
+The starter kit contains everything you need to build your bot, including a pre-configured Express webserver,
+customizable webhook endpoints, and a set of example features that provide a great base for your new bot.
+
+[Get Botkit Starter Kit for Microsoft Teams](https://github.com/howdyai/botkit-starter-teams)
+
+[Read our step-by-step guide for configuring your starter kit](provisioning/teams.md)
+
+### Expert Option: Get Botkit from NPM
+
+If you are excited about building your entire bot from scratch,
+or if you want to integrate bot functionality into an existing Node application,
+you can install the Botkit core library directly from NPM.
+
+`npm install --save botkit`
 
 
 

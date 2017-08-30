@@ -49,7 +49,7 @@ Now you can finish setting up your Botkit instance.
 
 
 ## Turn on your Botkit app
-Now that everything is setup on Microsoft's side, you can [run your bot](https://github.com/howdyai/botkit/blob/master/docs/readme-msteams.md#getting-started) using the hosting method you've chosen. You can use Microsoft's [web simulator](https://dev.botframework.com/bots) to test basic functionality by clicking on your bot's name then clicking `Test`.
+Now that everything is setup on Microsoft's side, you can [run your bot](https://github.com/howdyai/botkit/blob/master/docs/readme-teams.md#getting-started) using the hosting method you've chosen. You can use Microsoft's [web simulator](https://dev.botframework.com/bots) to test basic functionality by clicking on your bot's name then clicking `Test`.
 
 The web simulator is a great way to ensure your development enviroment is functioning, but the best way to work on your bot is to sideload it onto an actual team. To do this, you will need to prepare an [App Package](https://msdn.microsoft.com/en-us/microsoft-teams/createpackage)  and follow the [instructions for sideloading](https://msdn.microsoft.com/en-us/microsoft-teams/sideload).
 
@@ -69,4 +69,4 @@ If you have questions or suggestions, please take a look at our [community suppo
 ## Additional resources
 * [Botkit Microsoft Teams readme](https://github.com/howdyai/botkit/blob/master/docs/readme-msteams.md)
 * [Microsoft's Bot Framework](https://dev.botframework.com/)
-* [Sign up for Botkit Studio](https://studio.botkit.ai/signup) 
+* [Sign up for Botkit Studio](https://studio.botkit.ai/signup)
