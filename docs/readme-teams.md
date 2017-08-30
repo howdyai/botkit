@@ -61,7 +61,9 @@ to either use Botkit's simple [built-in webserver](#using-the-built-in-webserver
 or configure your own webserver and connect it to Botkit.
 An example of this can be seen [in the starter kit](https://github.com/howdyai/botkit-starter-teams).
 
-### Developing with Botkit for Microsoft Teams
+([Our step-by-step guide to setting things up is probably still be useful, even for experts.](provisioning/teams.md))
+
+## Developing with Botkit for Microsoft Teams
 
 The full code for a simple Microsoft Teams bot is below:
 
@@ -75,7 +77,7 @@ var controller = Botkit.teamsbot({
 
 controller.setupWebserver(process.env.PORT || 3000, function(err, webserver) {
     controller.createWebhookEndpoints(webserver, bot, function() {
-        console.log("SPARK: Webhooks set up!");
+        console.log("BOTKIT: Webhooks set up!");
     });
 });
 
@@ -92,23 +94,16 @@ controller.on('direct_message', function(bot, message) {
 });
 ~~~
 
-
-
-## The controller
-
-Using Botkit starts with creating a controller object. To create a Teams-specific controller,
-use the `controller.teamsbot()` constructor method:
-
-#### controller.teamsbot()
+#### Botkit.teamsbot()
 | Argument | Description
 |--- |---
 | client_id | The application' client id, provided by Bot Framework
 | client_secret | The application's client secret, provided by Bot Framework
 
-This function creates a Teams-ready Botkit controller.
+This function creates a Teams-ready Botkit controller. The values for client_id and client_secret must be acquired from [Bot Framework](http://dev.botframework.com).
 
 ~~~ javascript
-var controller = Botkit.sparkbot({
+var controller = Botkit.teamsbot({
     debug: true,
     log: true,
     client_id: process.env.client_id,
@@ -178,6 +173,8 @@ This url should be used when configuring your Bot Framework record.
 
 
 ## Working with Microsoft Teams
+
+
 
 TODO
 
@@ -441,6 +438,9 @@ Rich Media Attachments
 TODO
 
 
+### User Mentions
+
+TODO
 
 
 #### Using Compose Extensions
