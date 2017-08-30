@@ -57,7 +57,7 @@ you can install the Botkit core library directly from NPM.
 `npm install --save botkit`
 
 If you choose to use Botkit's core library directly like this, you'll need
-to either use Botkit's simple [built-in webserver](#using-the-built--in-webserver),
+to either use Botkit's simple [built-in webserver](#using-the-built-in-webserver),
 or configure your own webserver and connect it to Botkit.
 An example of this can be seen [in the starter kit](https://github.com/howdyai/botkit-starter-teams).
 
