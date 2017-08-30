@@ -63,17 +63,118 @@ An example of this can be seen [in the starter kit](https://github.com/howdyai/b
 
 ### Developing with Botkit for Microsoft Teams
 
-Information on working with the Botkit bot framework can be found [in our main readme](https://github.com/howdyai/botkit/blob/master/docs/readme.md#developing-with-botkit).
+The full code for a simple Microsoft Teams bot is below:
+
+~~~ javascript
+var Botkit = require('botkit');
+
+var controller = Botkit.teamsbot({
+  client_id: process.env.client_id,
+  client_secret: process.env.client_secret,
+});
+
+controller.setupWebserver(process.env.PORT || 3000, function(err, webserver) {
+    controller.createWebhookEndpoints(webserver, bot, function() {
+        console.log("SPARK: Webhooks set up!");
+    });
+});
+
+controller.hears('hello', 'direct_message,direct_mention', function(bot, message) {
+    bot.reply(message, 'Hi');
+});
+
+controller.on('direct_mention', function(bot, message) {
+    bot.reply(message, 'You mentioned me and said, "' + message.text + '"');
+});
+
+controller.on('direct_message', function(bot, message) {
+    bot.reply(message, 'I got your private message. You said, "' + message.text + '"');
+});
+~~~
+
+
 
 ## The controller
 
-TODO
+Using Botkit starts with creating a controller object. To create a Teams-specific controller,
+use the `controller.teamsbot()` constructor method:
+
+#### controller.teamsbot()
+| Argument | Description
+|--- |---
+| client_id | The application' client id, provided by Bot Framework
+| client_secret | The application's client secret, provided by Bot Framework
+
+This function creates a Teams-ready Botkit controller.
+
+~~~ javascript
+var controller = Botkit.sparkbot({
+    debug: true,
+    log: true,
+    client_id: process.env.client_id,
+    client_secret: process.env.client_secret
+});
+~~~
 
 #### controller.spawn()
+| Argument | Description
+|--- |---
+| options | An object defining options for this specific bot instance - MUST include a serviceUrl.
 
-TODO
+This function returns a new instance of the bot. This is used internally by Botkit
+to respond to incoming events.
+
+When spawning a bot for Microsoft Teams, you must pass in a `serviceUrl` field as part of
+the options parameter.  The serviceUrl can be extracted from the incoming message payload at `message.serviceUrl`.
+
+For those curious about this parameter: the serviceUrl is used to construct API calls the bot makes to Microsoft's API endpoints.
+The endpoint URLs are actually defined dynamically in response to different kinds of incoming messages. This is because Microsoft Teams is just one of a
+network of Microsoft products that uses the Bot Framework API specification, each one with its own endpoint URLs.
+
+In the event that your bot needs to send outbound messages without first receiving an inbound event from teams,
+you should capture and store the serviceUrl value you receive from the `bot_channel_join` event, which indicates
+that a bot has been added to a new team.
+
+```
+var bot = controller.spawn({serviceUrl: my_team_info.serviceUrl});
+```
 
 #### Using the built-in webserver
+
+In order to receive messages and other events from Microsoft Teams, Botkit must
+expose multiple web endpoints.
+
+Botkit includes a simple built-in webserver based on Express that is great for
+getting started. With just a few lines of code, Botkit automatically configure
+the necessary web endpoints. There are very few options available for the built-in
+webserver, as it is intended to be used only for stand-alone bots.
+
+If you want your bot application to have additional web features (like [tabs](#using-tabs)),
+or if you need to add bot functionality to an existing Express website,
+or if you want to configure your own custom endpoints,
+we suggest using the [Express Webserver component](https://github.com/howdyai/botkit-starter-teams/blob/master/components/express_webserver.js)
+and [Incoming Webhook Route](https://github.com/howdyai/botkit-starter-teams/blob/master/components/routes/incoming_webhooks.js)
+from the Botkit Starter Kit as a guide for your custom implementation.
+
+#### controller.setupWebserver()
+| Argument | Description
+|---  |---
+| port | port for webserver
+| callback | callback function
+
+Setup an [Express webserver](http://expressjs.com/en/index.html) for
+use with `createWebhookEndpoints()`
+
+#### controller.createWebhookEndpoints()
+| Argument | Description
+|---  |---
+| webserver | An instance of the Express webserver
+| bot | An instance of Botkit, created with `controller.spawn()`
+
+This function configures the route `http://_your_server_/teams/receive`
+to receive incoming event data from Microsoft Teams.
+
+This url should be used when configuring your Bot Framework record.
 
 
 ## Working with Microsoft Teams
