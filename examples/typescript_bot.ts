@@ -6,23 +6,25 @@
             \/_____/   \/_____/     \/_/   \/_/\/_/   \/_/     \/_/
 
 
-This is a sample Console bot built with Botkit.
-
-This bot demonstrates many of the core features of Botkit:
-
-* Receive messages based on "spoken" patterns
-* Reply to messages
-* Use the conversation system to ask questions
-* Use the built in storage system to store and retrieve information
-  for a user.
+This is a sample Slack bot built with Botkit and Typescript.
 
 # RUN THE BOT:
 
+  Get a Bot token from Slack:
+
+    -> http://my.slack.com/services/new/bot
+
+  Compile typescript to javascript:
+
+    tsc typescript_bot.ts
+
   Run your bot from the command line:
 
-    node console_bot.js
+    token=<MY TOKEN> node typescript_bot.js
 
 # USE THE BOT:
+
+  Find your bot inside Slack to send it a direct message.
 
   Say: "Hello"
 
@@ -56,16 +58,40 @@ This bot demonstrates many of the core features of Botkit:
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 
-var Botkit = require('../lib/Botkit.js');
-var os = require('os');
+declare let process: {
+   env: {
+       token: string;
+   };
+   exit(status?: number);
+};
 
-var controller = Botkit.consolebot({
-    debug: false,
+import Botkit = require('../lib/botkit');
+
+if (!process.env.token) {
+  console.log('Error: Specify token in environment');
+  process.exit(1);
+}
+
+const controller = Botkit.slackbot({
+    debug: true,
 });
 
-var bot = controller.spawn();
+const bot = controller.spawn({
+    token: process.env.token
+}).startRTM();
 
-controller.hears(['hello', 'hi'], 'message_received', function(bot, message) {
+controller.hears(['hello', 'hi'], 'direct_message,direct_mention,mention', function(bot, message) {
+
+    bot.api.reactions.add({
+        timestamp: message.ts,
+        channel: message.channel,
+        name: 'robot_face',
+    }, function(err, res) {
+        if (err) {
+            bot.botkit.log('Failed to add emoji reaction :(', err);
+        }
+    });
+
 
     controller.storage.users.get(message.user, function(err, user) {
         if (user && user.name) {
@@ -76,7 +102,7 @@ controller.hears(['hello', 'hi'], 'message_received', function(bot, message) {
     });
 });
 
-controller.hears(['call me (.*)', 'my name is (.*)'], 'message_received', function(bot, message) {
+controller.hears(['call me (.*)', 'my name is (.*)'], 'direct_message,direct_mention,mention', function(bot, message) {
     var name = message.match[1];
     controller.storage.users.get(message.user, function(err, user) {
         if (!user) {
@@ -91,7 +117,7 @@ controller.hears(['call me (.*)', 'my name is (.*)'], 'message_received', functi
     });
 });
 
-controller.hears(['what is my name', 'who am i'], 'message_received', function(bot, message) {
+controller.hears(['what is my name', 'who am i'], 'direct_message,direct_mention,mention', function(bot, message) {
 
     controller.storage.users.get(message.user, function(err, user) {
         if (user && user.name) {
@@ -160,7 +186,7 @@ controller.hears(['what is my name', 'who am i'], 'message_received', function(b
 });
 
 
-controller.hears(['shutdown'], 'message_received', function(bot, message) {
+controller.hears(['shutdown'], 'direct_message,direct_mention,mention', function(bot, message) {
 
     bot.startConversation(message, function(err, convo) {
 
@@ -186,33 +212,3 @@ controller.hears(['shutdown'], 'message_received', function(bot, message) {
         ]);
     });
 });
-
-
-controller.hears(['uptime', 'identify yourself', 'who are you', 'what is your name'],
-    'message_received', function(bot, message) {
-
-        var hostname = os.hostname();
-        var uptime = formatUptime(process.uptime());
-
-        bot.reply(message,
-            ':robot_face: I am ConsoleBot. I have been running for ' + uptime + ' on ' + hostname + '.');
-
-    });
-
-function formatUptime(uptime) {
-    var unit = 'second';
-    if (uptime > 60) {
-        uptime = uptime / 60;
-        unit = 'minute';
-    }
-    if (uptime > 60) {
-        uptime = uptime / 60;
-        unit = 'hour';
-    }
-    if (uptime != 1) {
-        unit = unit + 's';
-    }
-
-    uptime = uptime + ' ' + unit;
-    return uptime;
-}

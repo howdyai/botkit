@@ -1,5 +1,3 @@
-
-
 ### Writing your own logging module
 
 By default, your bot will log to the standard JavaScript `console` object
@@ -47,6 +45,7 @@ Note: with Winston, we must use the syslog.levels over the default or else some 
   * [Slack](readme-slack.md)
   * [Cisco Spark](readme-ciscospark.md)
   * [Facebook Messenger](readme-facebook.md)
+  * [Twilio SMS](readme-twiliosms.md)
   * [Twilio IPM](readme-twilioipm.md)
   * [Microsoft Bot Framework](readme-botframework.md)
 * Contributing to Botkit

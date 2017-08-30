@@ -11,6 +11,9 @@ To help Botkit developers, we are pulling out detailed provisioning documents fo
 
 #### [Cisco Spark](cisco-spark.md)
 
+#### [SMS from Twilio](twilio-sms.md)
+
+
 ## Documentation
 
 * [Get Started](../../readme.md)
@@ -24,6 +27,7 @@ To help Botkit developers, we are pulling out detailed provisioning documents fo
   * [Slack](../readme-slack.md)
   * [Cisco Spark](../readme-ciscospark.md)
   * [Facebook Messenger](../readme-facebook.md)
+  * [Twilio SMS](https://../readme-twiliosms.md)
   * [Twilio IPM](https://../readme-twilioipm.md)
   * [Microsoft Bot Framework](../readme-botframework.md)
 * Contributing to Botkit

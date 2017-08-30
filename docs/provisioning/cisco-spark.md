@@ -18,7 +18,9 @@ Take note of the bot username, you'll need it later.
 
 **Note about your icon**: Cisco requires you host an avatar for your bot before you can create it in their portal. This bot needs to be a 512x512px image icon hosted anywhere on the web. This can be changed later.
 
-You can copy and paste this URL for a Botkit icon you can use right away: `https://raw.githubusercontent.com/howdyai/botkit-starter-ciscospark/master/public/default_icon.png`
+You can copy and paste this URL for a Botkit icon you can use right away: 
+
+https://raw.githubusercontent.com/howdyai/botkit-starter-ciscospark/master/public/default_icon.png
 
 ### 3. Copy your access token
 

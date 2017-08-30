@@ -9,6 +9,8 @@ Currently the following types of middleware are available for Botkit:
 * [Api.ai](#apiai)
 * [IBM Watson](#ibm-watson)
 * [Recast.ai](#recastai)
+* [Wit.ai](#witai)
+
 
 ### [Storage Modules](#storage-modules)
 Storage middleware can be used for storing attributes about a user or channel or team. It is currently available for the following services:
@@ -50,6 +52,11 @@ This middleware plugin for Botkit allows developers to easily integrate a Watson
 ## Recast.ai
 ### [Project Page](https://github.com/ouadie-lahdioui/botkit-middleware-recastai)
 You can use the Recast.AI API to analyse your text or your audio file, and extract useful informations from it, to personalize your IoT, classify your data or create bots.
+
+## Wit.ai
+### [Project Page](https://github.com/howdyai/botkit-middleware-witai)
+Wit.ai provides a service that uses machine learning to help developers handle natural language input. The Wit API receives input from the user, and translates it into one or more "intents" which map to known actions or choices. The power of Wit is that it can continually be trained to understand more and more responses without changing the underlying bot code!
+
 
 # Storage Modules
 
@@ -121,6 +128,7 @@ We would love to hear about it! [Contact the Howdy team](https://howdy.ai/) to b
   * [Slack](readme-slack.md)
   * [Cisco Spark](readme-ciscospark.md)
   * [Facebook Messenger](readme-facebook.md)
+  * [Twilio SMS](readme-twiliosms.md)
   * [Twilio IPM](readme-twilioipm.md)
   * [Microsoft Bot Framework](readme-botframework.md)
 * Contributing to Botkit

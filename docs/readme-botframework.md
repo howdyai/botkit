@@ -221,6 +221,7 @@ You can easily turn on the typing indicator on platforms that support that behav
   * [Slack](readme-slack.md)
   * [Cisco Spark](readme-ciscospark.md)
   * [Facebook Messenger](readme-facebook.md)
+  * [Twilio SMS](readme-twiliosms.md)
   * [Twilio IPM](readme-twilioipm.md)
   * [Microsoft Bot Framework](readme-botframework.md)
 * Contributing to Botkit

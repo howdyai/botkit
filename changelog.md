@@ -1,5 +1,65 @@
 # Change Log
 
+[View the official Botkit roadmap](https://github.com/howdyai/botkit/projects/7) for upcoming changes and features.
+
+[Want to contribute? Read our guide!](https://github.com/howdyai/botkit/blob/master/CONTRIBUTING.md)
+
+## 0.5.8
+
+Slack: Support for sending ephemeral messages with `bot.whisper()` and `bot.sendEphemeral()`. In addition, any message with `message.ephemeral` set to true will be sent with `bot.sendEphemeral()` automatically. [Read documentation here.](docs/readme-slack.md#ephemeral-messages) Thanks to [@jonchurch](https://github.com/howdyai/botkit/pull/958)
+
+Slack: Add support for `bot.api.files.sharedPublicURL()` method. Thanks to [@GitTristan](https://github.com/howdyai/botkit/pull/912)
+
+Facebook: Support for using [message tags](https://developers.facebook.com/docs/messenger-platform/message-tags).  [Read documentation here.](docs/readme-facebook.md#message-tags) Thanks to [@ouadie-lahdioui](https://github.com/howdyai/botkit/pull/960)
+
+Facebook: Support for using Facebook's new built-in NLP tools. [Read documentation here.](docs/readme-facebook.md#built-in-nlp) Thanks to [@ouadie-lahdioui](https://github.com/howdyai/botkit/pull/943) for this one too!!
+
+
+Twilio SMS: Add support for sending MMS messages (file attachments) via Twilio. [Read documentation here.](docs/readme-twiliosms.md#sending-media-attachments-mms) Thanks to [@krismuniz](https://github.com/howdyai/botkit/pull/951)!
+
+Cisco Spark: Emit a console warning when a bot receives messages from outside the allowed domain list. Thanks to [@MathRobin](https://github.com/howdyai/botkit/pull/918)!
+
+New: Typescript declarations! Thanks to [@uny and @naktibalda](https://github.com/howdyai/botkit/pull/953) for their work on this.
+
+
+
+## 0.5.7
+
+Lock in ciscospark dependency at version 1.8.0 until further notice due to breaking changes in more recent versions.
+
+## 0.5.6
+
+Fix for Botkit Studio-powered bots: Facebook attachments can now be added without buttons
+
+Fix for Cisco Spark: Bot mentions will now reliably be pruned from message, regardless of what client originated the message
+
+Fix for Cisco Spark: startPrivateConversationWithPersonID has been fixed.
+
+## 0.5.5
+
+*Introducing Botkit for SMS!* Botkit bots can now send and receive messages using Twilio's Programmable SMS API!
+Huge thanks to @krismuniz who spearheaded this effort! [Read all about Twilio SMS here](docs/readme-twiliosms.md)
+
+*New unit tests* have been added, thanks to the ongoing efforts of @colestrode, @amplicity and others.
+This release includes coverage of the Botkit core library and the Slack API library.
+This is an [ongoing effort](https://github.com/howdyai/botkit/projects/3), and we encourage interested developers to get involved!
+
+Add missing error callback to catch Slack condition where incoming messages do not match a team in the database.
+[PR #887](https://github.com/howdyai/botkit/pull/887) thanks to @alecl!
+
+Add support for Facebook attachment upload api [PR #899](https://github.com/howdyai/botkit/pull/899) thanks @ouadie-lahdioui!
+Read docs about this feature [here](docs/readme-facebook.md#attachment-upload-api)
+
+Fixed issue with Slack message menus. [PR #769](https://github.com/howdyai/botkit/pull/769)
+
+Fixed confusing parameter in JSON storage system. `delete()` methods now expect object id as first parameter. [PR #854](https://github.com/howdyai/botkit/pull/854) thanks to @mehamasum!
+
+All example bot scripts have been moved into the [examples/](examples/) folder. Thanks @colestrode!
+
+Fixes an instance where Botkit was not automatically responding to incoming webhooks from Cisco with a 200 status. [PR #843](https://github.com/howdyai/botkit/pull/843)
+
+Updated dependencies to latest: twilio, ciscospark, https-proxy-agent, promise
+
 ## 0.5.4
 
 Fix for [#806](https://github.com/howdyai/botkit/issues/806) - new version of websocket didn't play nice with Slack's message servers

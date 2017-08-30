@@ -132,6 +132,34 @@ controller.setupWebserver(process.env.port || 3000, function(err, webserver) {
 });
 
 
+controller.hears(['attachment_upload'], 'message_received', function(bot, message) {
+    var attachment = {
+        "type":"image",
+        "payload":{
+            "url":"https://pbs.twimg.com/profile_images/803642201653858305/IAW1DBPw_400x400.png",
+            "is_reusable": true
+        }
+    };
+
+    controller.api.attachment_upload.upload(attachment, function (err, attachmentId) {
+        if(err) {
+            // Error
+        } else {
+            var image = {
+                "attachment":{
+                    "type":"image",
+                    "payload": {
+                        "attachment_id": attachmentId
+                    }
+                }
+            };
+            bot.reply(message, image);
+        }
+    });
+});
+
+
+controller.api.nlp.enable();
 controller.api.messenger_profile.greeting('Hello! I\'m a Botkit bot!');
 controller.api.messenger_profile.get_started('sample_get_started_payload');
 controller.api.messenger_profile.menu([{
@@ -442,6 +470,22 @@ controller.hears(['uptime', 'identify yourself', 'who are you', 'what is your na
 controller.on('message_received', function(bot, message) {
     bot.reply(message, 'Try: `what is my name` or `structured` or `call me captain`');
     return false;
+});
+
+controller.hears(['tags'], 'message_received', function (bot, message) {
+    controller.api.tags.get_all(function (tags) {
+        for (var i = 0; i < tags.data.length; i++) {
+            bot.reply(message, tags.data[i].tag + ': ' + tags.data[i].description);
+        }
+    });
+});
+
+controller.hears(['send tagged message'], 'message_received', function (bot, message) {
+    var taggedMessage = {
+        "text": "Hello Botkit !",
+        "tag": "RESERVATION_UPDATE"
+    };
+    bot.reply(message, taggedMessage);
 });
 
 
