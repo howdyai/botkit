@@ -76,7 +76,7 @@ var controller = Botkit.teamsbot({
 });
 
 controller.setupWebserver(process.env.PORT || 3000, function(err, webserver) {
-    controller.createWebhookEndpoints(webserver, bot, function() {
+    controller.createWebhookEndpoints(webserver, function() {
         console.log("BOTKIT: Webhooks set up!");
     });
 });
@@ -164,27 +164,29 @@ use with `createWebhookEndpoints()`
 | Argument | Description
 |---  |---
 | webserver | An instance of the Express webserver
-| bot | An instance of Botkit, created with `controller.spawn()`
 
 This function configures the route `http://_your_server_/teams/receive`
 to receive incoming event data from Microsoft Teams.
 
 This url should be used when configuring your Bot Framework record.
 
-
 ## Working with Microsoft Teams
 
+In addition to sending and receiving chat messages, Botkit bots can use all
+of the other features in the Microsoft Teams API. With these other features,
+Botkit bots can send rich attachments with interactive buttons, integrate into
+the message composer, and expose integrated tab applications that live inside
+the Teams window and share data with the bot.
 
+* [Events](#microsoft-teams-specific-events)
+* [API Methods](#api-methods)
+* [Attachments](#working-with-attachments-and-media)
+* [Buttons](#buttons)
+* [User Mentions](#user-mentions)
+* [Compose Extensions](#using-compose-extensions)
+* [Tabs](#using-tabs)
 
-TODO
-
-* Events
-* API Methods
-* Attachments
-* Compose Extensions
-* Tabs
-
-#### Microsoft Teams-specific Events
+### Microsoft Teams-specific Events
 
 Botkit receives and makes available all of the events supported by Microsoft Teams.
 
@@ -234,11 +236,11 @@ which contains an unmodified version of the event data.
 #### Teams Features
 | Event | Description
 |--- |---
-| invoke | a user clicked an `invoke` button
-| composeExtension | user submitted a query with the compose extension
+| invoke | a user clicked an `invoke` button [See Buttons](#buttons)
+| composeExtension | user submitted a query with the compose extension [See Compose Extensions](#using-compose-extensions)
 
 
-#### Teams API Methods
+#### API Methods
 
 The [Microsoft Teams API](https://msdn.microsoft.com/en-us/microsoft-teams/botapis) provides a number of features the bot developer can use to power a useful bot application that operates seamlessly in Teams.
 
@@ -389,7 +391,6 @@ The teamId, when present, can be extracted from a message object at the Teams-sp
 ```
 
 
-
 #### bot.api.addMessageToConversation(conversationId, message, cb)
 | Parameter | Description
 |--- |---
@@ -412,30 +413,71 @@ This is used internally by Botkit inside functions like `startPrivateConversatio
 
 
 #### Working with attachments and media
-Teams supports communicating with it's API in the form of [Messages, cards, and actions](https://msdn.microsoft.com/en-us/microsoft-teams/botsmessages), currently building these attachments are either done by hand using the previously linked specification, using something like:
 
+In addition to, or as an alternative to text, messages in Microsoft Teams can include one or more attachments.
+Attachments appear as interactive cards inside the Teams client, and can include elements such as images,
+text, structured data, and interactive buttons.
+
+[Read the official Teams documentation about message attachments](https://msdn.microsoft.com/en-us/microsoft-teams/botsmessages)
+
+To use attachments with Botkit, construct an attachment object and add it to the message object.
+
+```javascript
+controller.hears('card', function(bot, message) {
+
+  var reply = {
+    text: 'Here is an attachment!',
+    attachments: [],
+  }
+
+  var attachment = {
+      // attachment object
+  }
+
+  reply.attachments.push(attachment);
+
+  bot.reply(message, reply);
+
+});
 ```
-message.attachments = [my attachment]
-```
 
-Or by using [the robust message editing tools built-in to Botkit Studio](https://botkit.groovehq.com/knowledge_base/topics/microsoft-teams-attachments).
+##### Multiple Attachments
 
-If you are going to be building your own attachments, Here are a few examples of the different types of messages you can send with Botkit:
+When sending multiple attachments, you may want to specify the `attachmentLayout` attribute
+of the message object. Setting `attachmentLayout` to `carousel` will cause attachments
+to be displayed as a [carousel](https://msdn.microsoft.com/en-us/microsoft-teams/botsmessages#carousel-layout), while the default behavior is to use a [list layout](https://msdn.microsoft.com/en-us/microsoft-teams/botsmessages#list-layout).
 
-```
-Picture messages
 
-Inline cards
+##### Sample Hero Card
 
-Hero Cards
+TODO
 
-Rich Media Attachments
 
-```
+##### Sample Thumbnail Card
+TODO
+
+
+##### Sample Image Attachment
+TODO
+
+
+##### Sample O365 Connector Card
+TODO
+
 
 ### Buttons
 
-TODO
+Buttons can be included in attachments.
+There are [several types of button](https://msdn.microsoft.com/en-us/microsoft-teams/botsmessages#buttons) that result in different actions.
+
+* openUrl buttons cause a browser to open to a specific web url
+* invoke buttons cause a message to be sent back to your bot application
+* imBack buttons cause the user to "say" something back to the bot
+* messageBack buttons cause the user to "say" something back to your bot, while displaying a different message for other users to see.
+
+To use buttons, include them in your attachment objects, as seen in the examples above.
+
+#### Handling Invoke Events
 
 
 ### User Mentions
@@ -456,6 +498,22 @@ If you are not using the starter kit, you can connect your tab application to yo
 ```
 tab middleware
 ```
+
+#### App Package / Manifest File
+
+Before your bot application can be used, you must prepare an "App Package" -
+a zip file containing a JSON file of configuration options, and (optionally)
+icons for your bot to use inside the Teams interface. This file must then be
+"sideloaded" into your Microsoft Teams account - this is just a fancy way
+of saying that you will have to upload this file into a settings page.
+
+The manifest.json file is a hefty document, with lots of options! [Here is the full documentation from Microsoft](https://msdn.microsoft.com/en-us/microsoft-teams/schema).
+We highly recommend using [Botkit Studio](https://studio.botkit.ai) to build your app package, as we have provided
+an easy to use tool to configure and generate the necessary file!
+
+[Manifest.json schema docs](https://msdn.microsoft.com/en-us/microsoft-teams/schema)
+
+[How to sideload your app](https://msdn.microsoft.com/en-us/microsoft-teams/sideload)
 
 
 ## Developer & Support Community
