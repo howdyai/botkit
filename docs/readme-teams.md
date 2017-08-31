@@ -560,6 +560,10 @@ var reply =
       {
          "contentType": "application/vnd.microsoft.card.hero",
          "content": {
+           // other card fields here, see above
+           // title: '...',
+           // subtitle: '...',
+           // ...
            "buttons": [
              {
                "type": "invoke",
@@ -587,6 +591,10 @@ var reply =
       {
          "contentType": "application/vnd.microsoft.card.hero",
          "content": {
+           // other card fields here, see above
+           // title: '...',
+           // subtitle: '...',
+           // ...
            "buttons": [
              {
                "type": "imBack",
@@ -612,6 +620,10 @@ var reply =
       {
          "contentType": "application/vnd.microsoft.card.hero",
          "content": {
+           // other card fields here, see above
+           // title: '...',
+           // subtitle: '...',
+           // ...
            "buttons": [
              {
                "type": "openUrl",
