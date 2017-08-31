@@ -212,6 +212,9 @@ declare namespace botkit {
   }
   interface Message {
     action?: string;
+    actionParams ?: {
+      [index: string]: any
+    };
     channel?: string;
     match?: RegExpMatchArray;
     text?: string;
