@@ -453,7 +453,7 @@ to be displayed as a [carousel](https://msdn.microsoft.com/en-us/microsoft-teams
 ##### Sample Hero Card
 
 ```
-controller.hears('hero', function(bot, message) {
+controller.hears('hero',  'direct_mention, direct_message', function(bot, message) {
 
   // this is a sample message object with an attached hero card
   var reply = {
@@ -483,7 +483,7 @@ controller.hears('hero', function(bot, message) {
 ##### Sample Thumbnail Card
 
 ```
-controller.hears('thumbnail', function(bot, message) {
+controller.hears('thumbnail', 'direct_mention, direct_message',  function(bot, message) {
 
   // this is a sample message object with an attached hero card
   var reply = {
@@ -513,7 +513,7 @@ controller.hears('thumbnail', function(bot, message) {
 ##### Sample Image Attachment
 
 ```
-controller.hears('hero', function(bot, message) {
+controller.hears('image', 'direct_mention, direct_message', function(bot, message) {
 
   // this is a sample message object with an attached hero card
   var reply = {
@@ -547,14 +547,85 @@ There are [several types of button](https://msdn.microsoft.com/en-us/microsoft-t
 
 To use buttons, include them in your attachment objects, as seen in the examples above.
 
+Note that is possible to send an attachment that is empty except for buttons - this can be useful!
+
 ##### Sample invoke button
+
+```
+controller.hears('invoke button', function(bot, message) {
+var reply =
+  {
+    text: 'This message has an invoke button',
+    attachments: [
+      {
+         "contentType": "application/vnd.microsoft.card.hero",
+         "content": {
+           "buttons": [
+             {
+               "type": "invoke",
+               "title": "Click Me",
+               "value": "{\"action\":\"click\"}"
+             }
+           ]
+      }
+    ]
+  };
+
+  bot.reply(messge, reply);
+});
+```
 
 
 ##### Sample imBack button
 
+```
+controller.hears('imback button', function(bot, message) {
+var reply =
+  {
+    text: 'This message has an imBack  button',
+    attachments: [
+      {
+         "contentType": "application/vnd.microsoft.card.hero",
+         "content": {
+           "buttons": [
+             {
+               "type": "imBack",
+               "title": "Hello!",
+               "value": "hello"
+             }
+           ]
+      }
+    ]
+  };
+
+  bot.reply(messge, reply);
+});
+```
 
 ##### Sample openUrl button
+```
+controller.hears('openurl button', function(bot, message) {
+var reply =
+  {
+    text: 'This message has an openUrl button',
+    attachments: [
+      {
+         "contentType": "application/vnd.microsoft.card.hero",
+         "content": {
+           "buttons": [
+             {
+               "type": "openUrl",
+               "title": "Open Link",
+               "value": "http://mywebsite.com"
+             }
+           ]
+      }
+    ]
+  };
 
+  bot.reply(messge, reply);
+});
+```
 
 #### Handling Invoke Events
 
