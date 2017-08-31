@@ -63,6 +63,7 @@ An example of this can be seen [in the starter kit](https://github.com/howdyai/b
 
 ([Our step-by-step guide to setting things up is probably still be useful, even for experts.](provisioning/teams.md))
 
+
 ## Developing with Botkit for Microsoft Teams
 
 The full code for a simple Microsoft Teams bot is below:
@@ -93,6 +94,25 @@ controller.on('direct_message', function(bot, message) {
     bot.reply(message, 'I got your private message. You said, "' + message.text + '"');
 });
 ~~~
+
+
+#### App Package / Manifest File
+
+Before your bot application can be used, you must prepare an "App Package" -
+a zip file containing a JSON file of configuration options, and (optionally)
+icons for your bot to use inside the Teams interface. This file must then be
+"sideloaded" into your Microsoft Teams account - this is just a fancy way
+of saying that you will have to upload this file into a settings page.
+
+The manifest.json file is a hefty document, with lots of options! [Here is the full documentation from Microsoft](https://msdn.microsoft.com/en-us/microsoft-teams/schema).
+We highly recommend using [Botkit Studio](https://studio.botkit.ai) to build your app package, as we have provided
+an easy to use tool to configure and generate the necessary file!
+
+[Manifest.json schema docs](https://msdn.microsoft.com/en-us/microsoft-teams/schema)
+
+[How to sideload your app](https://msdn.microsoft.com/en-us/microsoft-teams/sideload)
+
+
 
 #### Botkit.teamsbot()
 | Argument | Description
@@ -443,6 +463,8 @@ controller.hears('card', function(bot, message) {
 
 ##### Tap Actions
 
+TODO
+
 ##### Multiple Attachments
 
 When sending multiple attachments, you may want to specify the `attachmentLayout` attribute
@@ -532,6 +554,7 @@ controller.hears('image', 'direct_mention, direct_message', function(bot, messag
 
 
 ##### Sample O365 Connector Card
+
 TODO
 
 
@@ -742,22 +765,6 @@ If you are not using the starter kit, you can connect your tab application to yo
 ```
 tab middleware
 ```
-
-#### App Package / Manifest File
-
-Before your bot application can be used, you must prepare an "App Package" -
-a zip file containing a JSON file of configuration options, and (optionally)
-icons for your bot to use inside the Teams interface. This file must then be
-"sideloaded" into your Microsoft Teams account - this is just a fancy way
-of saying that you will have to upload this file into a settings page.
-
-The manifest.json file is a hefty document, with lots of options! [Here is the full documentation from Microsoft](https://msdn.microsoft.com/en-us/microsoft-teams/schema).
-We highly recommend using [Botkit Studio](https://studio.botkit.ai) to build your app package, as we have provided
-an easy to use tool to configure and generate the necessary file!
-
-[Manifest.json schema docs](https://msdn.microsoft.com/en-us/microsoft-teams/schema)
-
-[How to sideload your app](https://msdn.microsoft.com/en-us/microsoft-teams/sideload)
 
 
 ## Developer & Support Community
