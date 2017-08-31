@@ -453,34 +453,82 @@ to be displayed as a [carousel](https://msdn.microsoft.com/en-us/microsoft-teams
 ##### Sample Hero Card
 
 ```
-// this is a sample message object with an attached hero card
-{
-  "attachments": [
-    {
-      "contentType": "application/vnd.microsoft.card.hero",
-      "content": {
-        "type": "hero",
-        "title": "Hero card title",
-        "name": "New attachment",
-        "images": [
-          {
-            "url": "http://placeimg.com/1600/900",
-            "alt": "An image from placeimg.com"
-          }
-        ],
-        "subtitle": "Hero card subtitle",
-        "text": "The text of my hero card"
+controller.hears('hero', function(bot, message) {
+
+  // this is a sample message object with an attached hero card
+  var reply = {
+    "text": "Here is a hero card:",
+    "attachments": [
+      {
+        "contentType": "application/vnd.microsoft.card.hero",
+        "content": {
+          "title": "Hero card title",
+          "subtitle": "Hero card subtitle",
+          "text": "The text of my hero card"
+          "images": [
+            {
+              "url": "http://placeimg.com/1600/900",
+              "alt": "An image from placeimg.com"
+            }
+          ],
+        }
       }
-    }
-  ]
+    ]
+  };
+
+  bot.reply(message,reply);
+});
 ```
 
 ##### Sample Thumbnail Card
-TODO
 
+```
+controller.hears('thumbnail', function(bot, message) {
+
+  // this is a sample message object with an attached hero card
+  var reply = {
+    "text": "Here is a thumbnail card:",
+    "attachments": [
+      {
+        "contentType": "application/vnd.microsoft.card.thumbnail",
+        "content": {
+          "title": "Thumbnail title",
+          "subtitle": "Thumbnail subtitle",
+          "text": "The text of my Thumbnail card"
+          "images": [
+            {
+              "url": "http://placeimg.com/900/900",
+              "alt": "A nice square image from placeimg.com"
+            }
+          ],
+        }
+      }
+    ]
+  };
+
+  bot.reply(message,reply);
+});
+```
 
 ##### Sample Image Attachment
-TODO
+
+```
+controller.hears('hero', function(bot, message) {
+
+  // this is a sample message object with an attached hero card
+  var reply = {
+    "text": "Check out this attached image!",
+    "attachments": [
+      {
+        "contentType": "image/png",
+        "contentUrl": "http://mywebsite.com/image.png",
+      }
+    ]
+  };
+
+  bot.reply(message,reply);
+});
+```
 
 
 ##### Sample O365 Connector Card
