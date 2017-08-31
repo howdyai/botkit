@@ -441,6 +441,8 @@ controller.hears('card', function(bot, message) {
 });
 ```
 
+##### Tap Actions
+
 ##### Multiple Attachments
 
 When sending multiple attachments, you may want to specify the `attachmentLayout` attribute
@@ -450,8 +452,28 @@ to be displayed as a [carousel](https://msdn.microsoft.com/en-us/microsoft-teams
 
 ##### Sample Hero Card
 
-TODO
-
+```
+// this is a sample message object with an attached hero card
+{
+  "attachments": [
+    {
+      "contentType": "application/vnd.microsoft.card.hero",
+      "content": {
+        "type": "hero",
+        "title": "Hero card title",
+        "name": "New attachment",
+        "images": [
+          {
+            "url": "http://placeimg.com/1600/900",
+            "alt": "An image from placeimg.com"
+          }
+        ],
+        "subtitle": "Hero card subtitle",
+        "text": "The text of my hero card"
+      }
+    }
+  ]
+```
 
 ##### Sample Thumbnail Card
 TODO
@@ -477,12 +499,60 @@ There are [several types of button](https://msdn.microsoft.com/en-us/microsoft-t
 
 To use buttons, include them in your attachment objects, as seen in the examples above.
 
+##### Sample invoke button
+
+
+##### Sample imBack button
+
+
+##### Sample openUrl button
+
+
 #### Handling Invoke Events
 
+Botkit translates button clicks into `invoke` events.  To respond to button click events, create one or more handlers for the invoke event.
+
+The message object passed in with the invoke event has a `value` field which will match the `value` specified when the button was created.
+
+Invoke events can be replied to, or used to start conversations, just like normal message events.
+
+```javascript
+controller.on('invoke', function(bot, message) {
+
+  // value is a user-defined object
+  var value = message.value;
+
+  // send a reply to the user
+  bot.reply(messge,'You clicked a button!');
+
+});
+```
 
 ### User Mentions
 
-TODO
+Your bot can @mention another user in a message, which causes their username to be highlighted and a special notification to be sent.  Teams mentions are slightly more complex than some other platforms, and require not only a special syntax in the message itself, but also additional fields in the message object.  [See Microsoft's full docs for user mentions here](https://msdn.microsoft.com/en-us/microsoft-teams/botsinchannels#mentions).
+
+A native Teams user mention requires BOTH:
+
+* The `message.text` field includes the mention in the format "<at>@User Name</at>"
+* The `message.entities` field includes an array element further defining the mention with the user's name and user ID.
+
+This makes life a bit tricky, because the user name is not part of the incoming message, and requires additional API or DB calls to retrieve.
+Maintaining the entities field is also annoying!
+
+To make life easier for developers, Botkit supports an easier to use syntax by providing a translation middleware.
+This allows developers to create mentions by including a modified mention syntax in the message text only, without having to also
+specify the entity field. Botkit uses a "Slack-style" mention syntax: `<@USERID>`.
+
+Using this syntax, developers can create inline mentions in response to incoming messages with much less effort:
+
+```
+controller.hears('mention me', function(bot, message) {
+
+  bot.reply(message,'I heard you, <@' + message.user +'>!');
+
+});
+```
 
 
 #### Using Compose Extensions
