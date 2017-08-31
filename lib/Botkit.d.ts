@@ -1,3 +1,6 @@
+import * as express from 'express';
+import * as http from "http"
+
 declare namespace botkit {
   function botframeworkbot(configuration: BotFrameworkConfiguration): BotFrameworkController;
   function consolebot(configuration: ConsoleConfiguration): ConsoleController;
@@ -493,7 +496,9 @@ declare namespace botkit {
   }
   interface SocketConfiguration extends Configuration {}
   interface SocketController extends Controller<SocketSpawnConfiguration, SocketMessage, SocketBot> {
-    openSocketServer(server: any): void;
+    httpserver: http.Server;
+    webserver: express.Express;
+    openSocketServer(server: http.Server): void;
   }
   export interface SocketMessage extends Message {
   }
