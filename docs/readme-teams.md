@@ -540,14 +540,14 @@ TODO
 Buttons can be included in attachments.
 There are [several types of button](https://msdn.microsoft.com/en-us/microsoft-teams/botsmessages#buttons) that result in different actions.
 
-* openUrl buttons cause a browser to open to a specific web url
-* invoke buttons cause a message to be sent back to your bot application
-* imBack buttons cause the user to "say" something back to the bot
-* messageBack buttons cause the user to "say" something back to your bot, while displaying a different message for other users to see.
-
-To use buttons, include them in your attachment objects, as seen in the examples above.
+* `openUrl` buttons cause a browser to open to a specific web url
+* `invoke` buttons cause a message to be sent back to your bot application
+* `imBack` buttons cause the user to "say" something back to the bot
+* `messageBack` buttons cause the user to "say" something back to your bot, while displaying a different message for other users to see.
 
 Note that is possible to send an attachment that is empty except for buttons - this can be useful!
+
+To use buttons, include them in your attachment objects, as seen in the examples above.
 
 ##### Sample invoke button
 
@@ -688,8 +688,51 @@ controller.hears('mention me', function(bot, message) {
 
 #### Using Compose Extensions
 
+One of the unique features of Microsoft Teams is support for "[compose extensions](https://msdn.microsoft.com/en-us/microsoft-teams/composeextensions)" -
+custom UI elements that appear adjacent to the "compose" bar in the Teams client that allow users to
+create cards of their own using your bot application.
+
+With a compose extension, you can offer users a way to search or create content in your application
+which is then attached to their message. Compose extensions can live in both multi-user team chats, as well as 1:1 discussions with the bot.
+They work sort of like web forms - as a user types a query, the compose extension API retrieves results from the application and displays them in
+the teams UI. When a result is selected, a custom app-defined card is attached to the user's outgoing message. Compose extensions use the [same attachment format as normal messages](#working-with-attachments-and-media).
+
+To enable a compose extension in your bot app, you must first add a configuration section to [your app's manifest file](#app-package-manifest-file).
+Luckily, [Botkit Studio](http://studio.botkit.ai) has a tool for building these manifests. Using it will make your life much easier!
+
+Once configured, whenever a user uses your compose extension, your Botkit application will receive a `composeExtension` event. Botkit automatically
+makes the user's query available in the  `message.text` field, and provides a `bot.replyToComposeExtension()` function for formatting and delivering the results to Teams.
+
+```javascript
+controller.on('composeExtension', function(bot, message) {
+
+  var query = message.text;
+
+  my_custom_search(query).then(function(results) {
+
+      // let's pretend results is an array of hero card attachments
+      var card = {
+        composeExtension:{
+          type:"result",
+          channelData:{},
+          attachmentLayout:"list",
+          attachments: results,
+        }
+      }
+
+      // you can use the normal bot.reply function to send back the compose results!
+      bot.replyToComposeExtension(message, card);
+
+  });
+
+});
+```
+
 
 #### Using Tabs
+
+TODO
+
 Tabs are one of the [most useful features of bots on Teams](https://msdn.microsoft.com/en-us/microsoft-teams/tabs), providing the ability to display rich web content directly in your team's UI that works in concert with the functionality of your bot.
 
 At their most basic, tabs are simply web applications. We have included some tab examples in the [starter kit](https://github.com/howdyai/botkit-starter-facebook#whats-included) that you can edit for your purposes.
