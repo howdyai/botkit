@@ -684,10 +684,10 @@ var attachment = {
           "alt": "An image from placeimg.com"
         }
       ],
-    },
-    "tap": {
-      "type": "imBack",
-      "value": "That tickles!"
+      "tap": {
+        "type": "imBack",
+        "value": "That tickles!"
+      }
     }
   }
 ```
