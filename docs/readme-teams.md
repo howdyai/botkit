@@ -9,11 +9,11 @@ This document covers the Microsoft Teams-specific implementation details only. [
 Table of Contents
 
 * [Getting Started](#getting-started)
-* [Extend your Bot]()
-* [Developing with Microsoft Teams]()
-* [Developer and Support Community]()
-* [About Botkit]()
-* [Botkit Documentation Index]()
+* [Developing with Botkit for Microsoft Teams](#developing-with-botkit-for-microsoft-teams)
+* [Working with Microsoft Teams](#working-with-microsoft-teams)
+* [Developer and Support Community](#developer-and-support-community)
+* [About Botkit](#about-botkit)
+* [Botkit Documentation Index](#botkit-documentation-index)
 
 ## Getting Started
 
