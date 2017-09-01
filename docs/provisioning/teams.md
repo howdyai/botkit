@@ -47,6 +47,7 @@ Now you can finish setting up your Botkit instance.
 
 ### Step 4 - Deploy your bot
 
+TODO
 
 ## Turn on your Botkit app
 Now that everything is setup on Microsoft's side, you can [run your bot](https://github.com/howdyai/botkit/blob/master/docs/readme-teams.md#getting-started) using the hosting method you've chosen. You can use Microsoft's [web simulator](https://dev.botframework.com/bots) to test basic functionality by clicking on your bot's name then clicking `Test`.
@@ -57,8 +58,13 @@ Botkit Studio provides [easy tools to create your App Package](https://botkit.gr
 
 ## Create your Application Manifest
 
+TODO
+
+https://botkit.groovehq.com/knowledge_base/topics/create-an-app-package-for-microsoft-teams
 
 ## Sideload your Bot to Microsoft Teams
+
+TODO
 
 
 ## Add dialogue and features

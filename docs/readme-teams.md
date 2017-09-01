@@ -108,6 +108,8 @@ The manifest.json file is a hefty document, with lots of options! [Here is the f
 We highly recommend using [Botkit Studio](https://studio.botkit.ai) to build your app package, as we have provided
 an easy to use tool to configure and generate the necessary file!
 
+Here is a [COMPLETE SAMPLE](../examples/teams/manifest.json) (TODO: we should make sure this is 100% up to date!)
+
 [Manifest.json schema docs](https://msdn.microsoft.com/en-us/microsoft-teams/schema)
 
 [How to sideload your app](https://msdn.microsoft.com/en-us/microsoft-teams/sideload)
@@ -461,9 +463,7 @@ controller.hears('card', function(bot, message) {
 });
 ```
 
-##### Tap Actions
 
-TODO
 
 ##### Multiple Attachments
 
@@ -662,6 +662,36 @@ var reply =
 });
 ```
 
+
+##### Tap Actions
+
+In addition to buttons, developers can add a "tap action" to a card which will be
+triggered when a user clicks on any part of the card - sort of like a default action.
+
+Tap actions are defined using the same options as buttons - a [card action object](https://msdn.microsoft.com/en-us/microsoft-teams/botsmessages#card-actions)
+set in the `message.tap` field:
+
+```javascript
+var attachment = {
+    "contentType": "application/vnd.microsoft.card.hero",
+    "content": {
+      "title": "Hero card title",
+      "subtitle": "Hero card subtitle",
+      "text": "The text of my hero card"
+      "images": [
+        {
+          "url": "http://placeimg.com/1600/900",
+          "alt": "An image from placeimg.com"
+        }
+      ],
+    },
+    "tap": {
+      "type": "imBack",
+      "value": "That tickles!"
+    }
+  }
+```
+
 #### Handling Invoke Events
 
 Botkit translates button clicks into `invoke` events.  To respond to button click events, create one or more handlers for the invoke event.
@@ -754,18 +784,95 @@ controller.on('composeExtension', function(bot, message) {
 
 #### Using Tabs
 
-TODO
+Tab applications provide the ability to display web content directly in the Teams UI.  There are a few different types of tab, and applications can contain multiple tabs. [Microsoft has extensive documentation about building tab applications](https://msdn.microsoft.com/en-us/microsoft-teams/tabs), but the short story is: your bot can include an integrated web app component that interacts with Teams in some neat ways. Microsoft provides an easy to use [Javascript library](https://msdn.microsoft.com/en-us/microsoft-teams/jslibrary) that
+is used to set tab configuration options, and provide information about the user, team, and channels in which the tab is installed.
 
-Tabs are one of the [most useful features of bots on Teams](https://msdn.microsoft.com/en-us/microsoft-teams/tabs), providing the ability to display rich web content directly in your team's UI that works in concert with the functionality of your bot.
+Tabs are configured in the [manifest.json](#app-package-manifest-file) as part of your app package. Read up on that, or use [Botkit Studio](https://studio.botkit.ai) to build this file.
 
-At their most basic, tabs are simply web applications. We have included some tab examples in the [starter kit](https://github.com/howdyai/botkit-starter-facebook#whats-included) that you can edit for your purposes.
+[The Botkit Starter Kit for Microsoft Teams](https://github.com/howdyai/botkit-starter-teams) contains a complete tab application, and demonstrates the interplay between the tab and bot components. This is a great starting point, and gives you all pieces you'd otherwise have to build yourself.
 
-If you are not using the starter kit, you can connect your tab application to your bot application using the following middleware:
+The relevant information about building tabs in a Botkit application are:
+
+* Adding new web endpoints for serving the tab application
+* Linking the _bot_ user to the _tab_ user in order to share data
+
+##### Adding Tab Endpoints to Botkit
+
+When using the [built-in webserver](#using-the-built-in-webserver), developers
+can add web endpoints to the built in Express webserver inside the `setupWebserver()` callback function.
+Tabs serve normal webpages, and can live at whatever URI you specify - as long as it matches
+the settings in the manifest file.
+
+```javascript
+controller.setupWebserver(3000, function(err, webserver) {
+  // set up the normal webhooks to receive messages from teams
+  controller.createWebhookEndpoints(webserver, function() {
+      console.log("BOTKIT: Webhooks set up!");
+  });
+
+  // create a custom static tab url
+  webserver.get('/static-tab', function(req, res) {
+    res.send('This is my static tab url!')
+  });
+
+});
+```
+
+When using [the starter kit](https://github.com/howdyai/botkit-starter-teams),
+tab urls can be added in the [components/routes/teams_tabs.js](https://github.com/howdyai/botkit-starter-teams/tree/master/components/routes) folder.
+
+##### Linking bot users to tab users
+
+Using the [Microsoft Teams Javascript library](https://msdn.microsoft.com/en-us/microsoft-teams/jslibrary),
+developers can get access to the active user's "upn" - a user ID that identifies the user in the broader context of
+Microsoft Office 365.
+
+This is a _different user ID_ than the one used inside Teams chat . A little bit of extra work is necessary to connect the dots between these
+different account identifiers.
+
+Botkit provides a method, [bot.api.getUserByUpn()](#botapigetuserbyupn), that can be used to translate the upn value from the tab
+into user id expected by Teams chat. It is also possible to translate a `message.user` field into a upn by using [bot.api.getUserById()](#botapigetuserbyid),
+the results of which include the upn value.
+
+For these reasons, we recommend using a user's `upn` value as the primary key when storing information about a user.
+The following example demonstrates using `getUserById()` to load a user's upn, then use the upn to load data from
+Botkit's built-in storage system. Using the storage system in this way will allow data stored in it to be used by both
+the bot and the tab application.
+
+[The starter kit](https://github.com/howdyai/botkit-starter-teams) implements this automatically using a
+middleware that automatically translates the user ID into a UPN and pre-loads the user data before firing any handlers.
+[This is a good reference for any customized solution.](https://github.com/howdyai/botkit-starter-teams/blob/master/skills/load_user_data.js)
 
 ```
-tab middleware
-```
+controller.hears('save', 'direct_message', function(bot, message) {
 
+  var value = 'special value';
+  // use the microsoft teams API to load user data
+  bot.api.getUserById(message.channel, message.user, function(err, user_profile) {
+    // check errors
+    var upn = user_profile.userPrincipalName;
+    controller.storage.users.get(upn, function(err, user_data) {
+        // check errors
+
+        // if no user found, create a new record with upn as primary id
+        if (!user_data) {
+          user_data = {
+            id: upn
+          }
+        }
+
+        // update with new value
+        user_data.value = value;
+
+        // store the user
+        controller.storage.users.save(user_data);    
+
+        // send a reply
+        bot.reply(message,'Saved');
+    });
+  });
+});
+```
 
 ## Developer & Support Community
 Complete documentation for Botkit can be found on our [GitHub page](https://github.com/howdyai/botkit/blob/master/readme.md). Botkit Studio users can access the [Botkit Studio Knowledge Base](https://botkit.groovehq.com/help_center) for help in managing their Studio integration.
