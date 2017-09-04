@@ -7,7 +7,7 @@ var winston = require('winston');
 
 var token = process.env.TOKEN;
 
-describe('Test', function() {
+/*describe('Test', function() {
     it('should have a token', function(done) {
         should.exist(token);
         done();
@@ -27,7 +27,7 @@ describe('Botkit', function() {
         var controller = Botkit.slackbot({debug: false});
         should.exist(controller.version());
         done();
-    });
+    });*/
 
     it('should start and then stop', function(done) {
         var controller = Botkit.slackbot({debug: false});
@@ -73,7 +73,27 @@ describe('Botkit', function() {
             });
     });
 });
+describe('Test', function() {
+    it('should have a token', function(done) {
+        should.exist(token);
+        done();
+    });
 
+    it('should have Botkit instance', function(done) {
+        should.exist(Botkit);
+        should.exist(Botkit.core);
+        should.exist(Botkit.slackbot);
+        done();
+    });
+});
+
+describe('Botkit', function() {
+    this.timeout(5000);
+    it('should return a package version number', function(done){
+        var controller = Botkit.slackbot({debug: false});
+        should.exist(controller.version());
+        done();
+    });
 describe('Log', function() {
     it('should use an external logging provider', function(done) {
         var logFile = path.join(tmpdir, 'botkit.log');
