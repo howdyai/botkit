@@ -62,10 +62,11 @@ describe('FacebookBot', function() {
                     done();
                 });
             });
-            it('delete_home_url should be a function', function(done) {
+           /* it('delete_home_url should be a function', function(done) {
                 facebook_bot.api.messenger_profile.get_home_url.should.be.a.Function();
                 done();
             });
+            */
             it('delete_home_url should trigger a delete api call', function(done) {
                 var expectedApiCall = sinon.spy();
                 facebook_bot.api.messenger_profile.deleteAPI = expectedApiCall;
