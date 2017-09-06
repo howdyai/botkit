@@ -17,10 +17,15 @@ app.get('/', function (req, res) {
     res.send('Hello World');
 })
 
+function sendSlackMessage (responseBody) {
+    var formatted = nickelBot.parseRequestBody(responseBody);
+    nickelBot.displayNewRequest(formatted);
+}
+
 /* WebHook Post entry point. */
 app.post('/webhook', jsonParser, function(req, res, next) {
         console.log('Webhook received!');
-        console.log('[response body]',req.body);
+        sendSlackMessage(req.body);
 
         res.send('yay, webhook works!');
 });
