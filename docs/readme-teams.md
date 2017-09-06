@@ -443,34 +443,133 @@ text, structured data, and interactive buttons.
 [Read the official Teams documentation about message attachments](https://msdn.microsoft.com/en-us/microsoft-teams/botsmessages)
 
 To use attachments with Botkit, construct an attachment object and add it to the message object.
+Botkit provides a few helper functions to make creating attachment objects easier.
 
+##### Attachment Helpers
+
+##### bot.createHero()
+| Parameter | Description
+|--- |---
+| title OR object| string value for the title of the card, OR an object representing all the fields in the card
+| subtitle | string value for the subtitle of the card
+| text | string value for the text of the card
+| images | an array of image objects - {url: string, alt: string} - currently limited to 1 item
+| buttons | an array of action objects - {type: string, title: string, value: string}
+| tap action | a single of action object that defines the action to take when a user taps anywhere on the card - {type: string, title: string, value: string}
+
+(See usage notes below)
+
+##### bot.createThumbnail()
+| Parameter | Description
+|--- |---
+| title OR object| string value for the title of the card, OR an object representing all the fields in the card
+| subtitle | string value for the subtitle of the card
+| text | string value for the text of the card
+| images | an array of image objects - {url: string, alt: string} - currently limited to 1 item
+| buttons | an array of action objects - {type: string, title: string, value: string}
+| tap action | a single of action object that defines the action to take when a user taps anywhere on the card - {type: string, title: string, value: string}
+
+The attachment building helper functions `bot.createHero()` and `bot.createThumbnail()` can be used to
+quickly create attachment objects for inclusion in a message.
+
+The return value of these functions is an attachment object that can be directly added to the outgoing message object's `attachments` array.
+In addition, the returned attachment object has a few helper methods of its that allow developers to adjust the values:
+
+###### attachment.title()
+| Parameter | Description
+|--- |---
+| value | new value for the title field
+
+###### attachment.subtitle()
+| Parameter | Description
+|--- |---
+| value | new value for the subtitle field
+
+###### attachment.text()
+| Parameter | Description
+|--- |---
+| value | new value for the text field
+
+###### attachment.image()
+| Parameter | Description
+|--- |---
+| url | url to image
+| alt | alt description for image
+
+###### attachment.button()
+| Parameter | Description
+|--- |---
+| type OR button object | type of button OR an button object {type: string, title: string, value: string}
+| title | string value for the button title
+| value | string for the object payload.
+
+###### attachment.tap()
+| Parameter | Description
+|--- |---
+| type OR button object | new value for the title field
+| title | string value for the action title
+| value | string for the object payload.
+
+###### attachment.asString()
+
+Returns the stringified version of the attachment object
+
+##### Attachment Examples
+
+These functions can be used in a few different ways:
+
+*Create attachment with individual parameters:*
 ```javascript
-controller.hears('card', function(bot, message) {
 
-  var reply = {
-    text: 'Here is an attachment!',
-    attachments: [],
-  }
+var reply = {
+  text: 'Here is an attachment!',
+  attachments: [],
+}
 
-  var attachment = {
-      // attachment object
-  }
+var attachment = bot.createHero('Title','subtitle','text',[{url:'http://placeimg.com/1900/600'}],[{type:'imBack','title':'Got it','value':'acknowledged'}],{type:'openUrl',value:'http://mywebsite.com'});
 
-  reply.attachments.push(attachment);
-
-  bot.reply(message, reply);
-
-});
+reply.attachments.push(attachment);
 ```
 
+*Create attachment with pre-defined object:*
+```javascript
+var reply = {
+  text: 'Here is an attachment!',
+  attachments: [],
+}
 
+var attachment = bot.createHero({
+  title: 'My title',
+  subtitle: 'My subtitle',
+  text: 'My text',
+});
+
+reply.attachments.push(attachment);
+```
+
+*Create attachment with helper methods:*
+```javascript
+var reply = {
+  text: 'Here is an attachment!',
+  attachments: [],
+}
+
+var attachment = bot.createHero();
+
+attachment.title('This is the title');
+attachment.text('I am putting some text into a hero card');
+attachment.button('imBack','Click Me','I clicked a button!');
+attachment.button('openUrl','Link Me','http://website.com');
+attachment.button('invoke','Trigger Event',JSON.stringify({'key':'value'}));
+
+reply.attachments.push(attachment);
+```
 
 ##### Multiple Attachments
 
 When sending multiple attachments, you may want to specify the `attachmentLayout` attribute
 of the message object. Setting `attachmentLayout` to `carousel` will cause attachments
 to be displayed as a [carousel](https://msdn.microsoft.com/en-us/microsoft-teams/botsmessages#carousel-layout), while the default behavior is to use a [list layout](https://msdn.microsoft.com/en-us/microsoft-teams/botsmessages#list-layout).
-
 
 ##### Sample Hero Card
 
@@ -570,7 +669,8 @@ There are [several types of button](https://msdn.microsoft.com/en-us/microsoft-t
 
 Note that is possible to send an attachment that is empty except for buttons - this can be useful!
 
-To use buttons, include them in your attachment objects, as seen in the examples above.
+To use buttons, build them with the [attachment helpers](#attachment-helpers),
+or construct them in code and include them in your attachment objects, as seen in the examples below:
 
 ##### Sample invoke button
 
@@ -755,6 +855,7 @@ Luckily, [Botkit Studio](http://studio.botkit.ai) has a tool for building these 
 
 Once configured, whenever a user uses your compose extension, your Botkit application will receive a `composeExtension` event. Botkit automatically
 makes the user's query available in the  `message.text` field, and provides a `bot.replyToComposeExtension()` function for formatting and delivering the results to Teams.
+`replyToComposeExtension()` expects the response to be an array of [attachments](#working-with-attachments-and-media).
 
 ```javascript
 controller.on('composeExtension', function(bot, message) {
@@ -763,18 +864,15 @@ controller.on('composeExtension', function(bot, message) {
 
   my_custom_search(query).then(function(results) {
 
-      // let's pretend results is an array of hero card attachments
-      var card = {
-        composeExtension:{
-          type:"result",
-          channelData:{},
-          attachmentLayout:"list",
-          attachments: results,
-        }
+      // let's format the results an array of hero card attachments
+      var attachments = [];
+      for (var r = 0; r < results.length; r++) {
+        var attachment = bot.createHero(results.title, results.subtitle, results.text);
+        attachments.push(attachment);
       }
 
       // you can use the normal bot.reply function to send back the compose results!
-      bot.replyToComposeExtension(message, card);
+      bot.replyToComposeExtension(message, results);
 
   });
 
