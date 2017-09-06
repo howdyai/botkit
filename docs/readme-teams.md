@@ -72,8 +72,8 @@ The full code for a simple Microsoft Teams bot is below:
 var Botkit = require('botkit');
 
 var controller = Botkit.teamsbot({
-  client_id: process.env.client_id,
-  client_secret: process.env.client_secret,
+  clientId: process.env.clientId,
+  clientSecret: process.env.clientSecret,
 });
 
 controller.setupWebserver(process.env.PORT || 3000, function(err, webserver) {
@@ -119,17 +119,17 @@ Here is a [COMPLETE SAMPLE](../examples/teams/manifest.json) (TODO: we should ma
 #### Botkit.teamsbot()
 | Argument | Description
 |--- |---
-| client_id | The application' client id, provided by Bot Framework
-| client_secret | The application's client secret, provided by Bot Framework
+| clientId | The application' client id, provided by Bot Framework
+| clientSecret | The application's client secret, provided by Bot Framework
 
-This function creates a Teams-ready Botkit controller. The values for client_id and client_secret must be acquired from [Bot Framework](http://dev.botframework.com).
+This function creates a Teams-ready Botkit controller. The values for clientId and clientSecret must be acquired from [Bot Framework](http://dev.botframework.com).
 
 ~~~ javascript
 var controller = Botkit.teamsbot({
     debug: true,
     log: true,
-    client_id: process.env.client_id,
-    client_secret: process.env.client_secret
+    clientId: process.env.clientId,
+    clientSecret: process.env.clientSecret
 });
 ~~~
 
