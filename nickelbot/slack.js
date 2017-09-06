@@ -1,5 +1,3 @@
-
-
 var Botkit = require('../lib/Botkit.js');
 
 class SlackBot {
@@ -102,3 +100,5 @@ class SlackBot {
             this.listOpenRequests.bind(this));
     }
 }
+
+module.exports = SlackBot;
