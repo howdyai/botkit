@@ -5,21 +5,21 @@ We've created the following guide to help you configure your Microsoft Teams bot
 
 *Note: Before starting to work on your bot, you [should enable Developer Preview](https://msdn.microsoft.com/en-us/microsoft-teams/publicpreview#how-do-i-get-access) and the [ability to sideload apps](https://msdn.microsoft.com/en-us/microsoft-teams/setup#3-enable-sideloading-of-apps-for-microsoft-teams) for your development team to ensure all features are supported.*
 
-## Starting with Botkit Studio
+## Step 1 - Starting with Botkit Studio
 Botkit Studio is a hosted development environment for building bots with the Botkit core library. Developers using Botkit Studio get the full capabilities of Botkit, plus a full guided setup on creating a bot for Microsoft Teams.
 
 Botkit Studio provides dedicated tools to create your bot's [App Package](https://botkit.groovehq.com/knowledge_base/topics/create-an-app-package-for-microsoft-teams) for [sideloading](https://msdn.microsoft.com/en-us/microsoft-teams/sideload) and submission to the Office Store. While Botkit Studio is not required, but it is strongly recomended as the best way to stand up a bot using Botkit.
 
 For more information about Botkit Studio, including our starter kits for other platforms, please read the [Botkit readme on GitHub](https://github.com/howdyai/botkit#start-with-botkit-studio).
 
-## Register your bot with Bot Framework
+## Step 2 Register your bot with Bot Framework
 You will need to complete the following registration steps to obtain the keys needed to operate your bot.
 
-### Step 1 - Create an account / Log in
+#### Create an account / Log in
 
 Log into the [Bot Framework Developer Portal](https://dev.botframework.com/bots/) using your Microsoft credentials.
 
-### Step 2 - Complete Bot Profile
+#### Complete Bot Profile
 
 Click on `My Bots` and then Register.
 
@@ -29,9 +29,9 @@ These are the important fields when creating your bot:
 
 * `Display name` - Your bot's name in channels and directories. This can be changed later.
 * `Bot handle` - This will be used in the URL for your bot. _NOTE: This cannot be changed._
-* `Messaging endpoint` - You may not know this yet, you will be creating this in the next step when setting up the Botkit app. If you are using the [Botkit starter kit]() or [Botkit Studio](), by default it is: `https://YOURURL/microsoft/receive`
+* `Messaging endpoint` - You may not know this yet, you will be creating this in the next step when setting up the Botkit app. If you are using the [Botkit starter kit]() or [Botkit Studio](), by default it is: `https://YOURURL/teams/receive`
 
-### Step 3 - Generate your keys
+#### Generate your keys
 
 Register your bot with Microsoft by clcking `Create Microsoft App ID and password`.
 
@@ -47,24 +47,22 @@ Add the Micrososft Teams channel from the list of channels, making sure the `Ena
 
 Now you can finish setting up your Botkit instance.
 
-### Step 4 - Deploy your bot
+## Step 4 - Deploy your bot
 
-## Turn on your Botkit app
+#### Turn on your Botkit app
 Now that everything is setup on Microsoft's side, you can [run your bot](https://github.com/howdyai/botkit/blob/master/docs/readme-teams.md#getting-started) using the hosting method you've chosen. 
 
-You can also use Microsoft's [web simulator](https://dev.botframework.com/bots) to test basic functionality by clicking on your bot's name then clicking `Test`.
 
+#### Create your Application Manifest
 
-## Create your Application Manifest
-
-The web simulator is a great way to ensure your development enviroment is functioning, but the best way to work on your bot is to sideload it onto an actual team. To do this, you will need to prepare an [App Package](https://msdn.microsoft.com/en-us/microsoft-teams/createpackage)  and follow the [instructions for sideloading](https://msdn.microsoft.com/en-us/microsoft-teams/sideload).
+The best way to work on your bot is to sideload it onto an actual team. To do this, you will need to prepare an [App Package](https://msdn.microsoft.com/en-us/microsoft-teams/createpackage)  and follow the [instructions for sideloading](https://msdn.microsoft.com/en-us/microsoft-teams/sideload).
 
 Botkit Studio provides [easy tools to create your App Package](https://botkit.groovehq.com/knowledge_base/topics/create-an-app-package-for-microsoft-teams), but you can build this manifest manually if you've chosen to not use Studio.
 
-## Sideload your Bot to Microsoft Teams
+#### Sideload your Bot to Microsoft Teams
 After creating your app package, you can [load it easily into your development team](https://msdn.microsoft.com/en-us/microsoft-teams/sideload#load-your-package-into-a-team). Say hello to your real live bot!
 
-## Add dialogue and features
+## Step 5 - Add dialogue and features
 Once you have a bot up and running, you can start the fun part of [making your bot functional](https://github.com/howdyai/botkit/blob/master/docs/readme.md#basic-usage). 
 
 You can extend your bot's functionality using various [Botkit Middleware](https://github.com/howdyai/botkit/blob/master/docs/middleware.md), or check our [example library](https://github.com/howdyai/botkit/tree/master/examples) for a good starting point.
