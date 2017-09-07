@@ -3,7 +3,9 @@ Building a bot with Botkit and the Microsoft Teams API gives you access to all o
 
 We've created the following guide to help you configure your Microsoft Teams bot. In order to get the best deploy experience possible, we recommend starting with [Botkit Studio](https://studio.botkit.ai/), our feature-rich tool for building bots!
 
-*Note: Before starting to work on your bot, you [should enable Developer Preview](https://msdn.microsoft.com/en-us/microsoft-teams/publicpreview#how-do-i-get-access) and the [ability to sideload apps](https://msdn.microsoft.com/en-us/microsoft-teams/setup#3-enable-sideloading-of-apps-for-microsoft-teams) for your development team so that you ensure all features are supported.*
+## Step 0 - Enable Developer Preview
+
+Before starting to work on your bot, you [should enable Developer Preview](https://msdn.microsoft.com/en-us/microsoft-teams/publicpreview#how-do-i-get-access) and the [ability to sideload apps](https://msdn.microsoft.com/en-us/microsoft-teams/setup#3-enable-sideloading-of-apps-for-microsoft-teams) for your development team so that you ensure all features are supported.
 
 ## Step 1 - Starting with Botkit Studio
 Botkit Studio is a hosted development environment for building bots with the Botkit core library. Developers using Botkit Studio get the full capabilities of Botkit, plus a full guided setup on creating a bot for Microsoft Teams.
