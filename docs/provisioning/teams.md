@@ -3,6 +3,8 @@ Building a bot with Botkit and the Microsoft Teams API gives you access to all o
 
 We've created the following guide to help you configure your Microsoft Teams bot. In order to get the best deploy experience possible, we recommend starting with [Botkit Studio](https://studio.botkit.ai/), our feature-rich tool for building bots!
 
+*Note: Before starting to work on your bot, you [should enable Developer Preview](https://msdn.microsoft.com/en-us/microsoft-teams/publicpreview#how-do-i-get-access) and the [ability to sideload apps](https://msdn.microsoft.com/en-us/microsoft-teams/setup#3-enable-sideloading-of-apps-for-microsoft-teams) for your development team to ensure all features are supported.*
+
 ## Starting with Botkit Studio
 Botkit Studio is a hosted development environment for building bots with the Botkit core library. Developers using Botkit Studio get the full capabilities of Botkit, plus a full guided setup on creating a bot for Microsoft Teams.
 
@@ -47,28 +49,25 @@ Now you can finish setting up your Botkit instance.
 
 ### Step 4 - Deploy your bot
 
-TODO
-
 ## Turn on your Botkit app
-Now that everything is setup on Microsoft's side, you can [run your bot](https://github.com/howdyai/botkit/blob/master/docs/readme-teams.md#getting-started) using the hosting method you've chosen. You can use Microsoft's [web simulator](https://dev.botframework.com/bots) to test basic functionality by clicking on your bot's name then clicking `Test`.
+Now that everything is setup on Microsoft's side, you can [run your bot](https://github.com/howdyai/botkit/blob/master/docs/readme-teams.md#getting-started) using the hosting method you've chosen. 
+
+You can also use Microsoft's [web simulator](https://dev.botframework.com/bots) to test basic functionality by clicking on your bot's name then clicking `Test`.
+
+
+## Create your Application Manifest
 
 The web simulator is a great way to ensure your development enviroment is functioning, but the best way to work on your bot is to sideload it onto an actual team. To do this, you will need to prepare an [App Package](https://msdn.microsoft.com/en-us/microsoft-teams/createpackage)  and follow the [instructions for sideloading](https://msdn.microsoft.com/en-us/microsoft-teams/sideload).
 
 Botkit Studio provides [easy tools to create your App Package](https://botkit.groovehq.com/knowledge_base/topics/create-an-app-package-for-microsoft-teams), but you can build this manifest manually if you've chosen to not use Studio.
 
-## Create your Application Manifest
-
-TODO
-
-https://botkit.groovehq.com/knowledge_base/topics/create-an-app-package-for-microsoft-teams
-
 ## Sideload your Bot to Microsoft Teams
-
-TODO
-
+After creating your app package, you can [load it easily into your development team](https://msdn.microsoft.com/en-us/microsoft-teams/sideload#load-your-package-into-a-team). Say hello to your real live bot!
 
 ## Add dialogue and features
-Once you have a bot up and running, you can start the fun part of [making your bot functional](https://github.com/howdyai/botkit/blob/master/docs/readme.md#basic-usage). You can extend your bot's functionality using various [Botkit Middleware](https://github.com/howdyai/botkit/blob/master/docs/middleware.md), or check our [example library](https://github.com/howdyai/botkit/tree/master/examples) for a good starting point.
+Once you have a bot up and running, you can start the fun part of [making your bot functional](https://github.com/howdyai/botkit/blob/master/docs/readme.md#basic-usage). 
+
+You can extend your bot's functionality using various [Botkit Middleware](https://github.com/howdyai/botkit/blob/master/docs/middleware.md), or check our [example library](https://github.com/howdyai/botkit/tree/master/examples) for a good starting point.
 
 If you have questions or suggestions, please take a look at our [community support resources](https://github.com/howdyai/botkit/blob/master/readme.md#developer--support-community). You can chat with contributors and enthusiasts in [our Slack community](https://community,botkit.ai/).
 
