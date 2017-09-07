@@ -1,8 +1,8 @@
 var should = require('should');
 var sinon = require('sinon');
-require('should-sinon');
 var winston = require('winston');
 var Botkit = require('../lib/Botkit.js');
+require('should-sinon');
 
 describe('FacebookBot', function() {
     describe('constructor()', function(done) {
