@@ -15,11 +15,11 @@ For more information about Botkit Studio, including our starter kits for other p
 ## Step 2 Register your bot with Bot Framework
 Microsoft Teams first requires you to register with their "Bot Framework" before you can add a bot to your Teams team. This is a multi-step process:
 
-#### Create an account / Log in
+### Create an account / Log in
 
 Log into the [Bot Framework Developer Portal](https://dev.botframework.com/bots/) using your Microsoft credentials, or create an account.
 
-#### Register a new bot
+### Register a new bot
 Click on `My Bots` and then Register.
 
 You will be asked some questions about your bot. Some of these can be changed later, but some _cannot be changed_ so consider your responses carefully!
@@ -30,7 +30,7 @@ These are the important fields when creating your bot:
 * `Bot handle` - This will be used in the URL for your bot. *Note: This cannot be changed.*
 * `Messaging endpoint` - You may not know this yet, as you will be creating this in the next step when setting up the Botkit app. If you are using the [Botkit starter kit](https://github.com/howdyai/botkit-starter-teams) or [Botkit Studio](https://botkit.groovehq.com/knowledge_base/categories/microsoft-teams-2), by default it is: `https://YOURURL/teams/receive`. Feel free to make anything up, you can come back later and change it.
 
-#### Generate your keys
+### Generate your keys
 Register your bot with Microsoft by clicking: `Create Microsoft App ID and password`
 
 This action will take you to a new website (and require you to log in again) and then ask you for an `App name`. 
@@ -45,10 +45,10 @@ You may wish to leave this window open as you finish setting up Botkit, as you w
 
 ## Step 4 - Deploy your bot and install to a team
 
-#### Turn on your Botkit app
+### Turn on your Botkit app
 Now that everything is setup on Microsoft's side, you can [run Botkit](https://github.com/howdyai/botkit/blob/master/docs/readme-teams.md#getting-started) using the method you've chosen and with the information created in the Bot framework in the previous step. 
 
-#### Update your Messaging Endpoint in Bot Framework
+### Update your Messaging Endpoint in Bot Framework
 Once a Botkit instance is running, you may have a new URL that you will have to update in the bot's settings [in Microsoft Bot Framework](https://dev.botframework.com/bots/). 
 
 Once logged in to that page:
@@ -58,10 +58,10 @@ Once logged in to that page:
 * Scroll down to the messaging endpoint field and replace the placeholder URL with your active Botkit URL (it should look something like `https://YOURURL/teams/receive`).
 * Click Save.
 
-#### Create your Application Manifest
+### Create your Application Manifest
 To add a development bot on a team, you will need to prepare an [App Package](https://msdn.microsoft.com/en-us/microsoft-teams/createpackage). Botkit Studio provides [easy tools to create your App Package](https://botkit.groovehq.com/knowledge_base/topics/create-an-app-package-for-microsoft-teams), but you can also build this manifest manually if you've chosen to not use Studio.
 
-#### Sideload your Bot to Microsoft Teams
+### Sideload your Bot to Microsoft Teams
 After creating your app package, you can [load it easily into your development team](https://msdn.microsoft.com/en-us/microsoft-teams/sideload#load-your-package-into-a-team). 
 
 Say hello to your real live bot!
