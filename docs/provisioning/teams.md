@@ -43,7 +43,11 @@ Once added, it will provide an `App ID` which you need to copy somewhere safe to
 
 Next, click `Generate password`. *This will only be shown to you once, if you lose it, you will need to invalidate the old one and set this up again!*
 
-Click Register. Add the Microsoft Teams channel from the list of channels, making sure the `Enabled` is set to on.
+Click Register. 
+
+### Add the Microsoft Teams channel
+
+Add the Microsoft Teams channel from the list of channels, making sure the `Enabled` is set to on.
 
 You will want to leave this window open as you finish setting up Botkit, as you will need to come back here before you are done.
 
