@@ -10,6 +10,8 @@ Before starting to work on your bot, you [should enable Developer Preview](https
 ## Step 1 - Starting with Botkit Studio
 Botkit Studio is a hosted development environment for building bots with the Botkit core library. Developers using Botkit Studio get the full capabilities of Botkit, plus a full guided setup on creating a bot for Microsoft Teams.
 
+**[![Sign up for Botkit Studio](https://github.com/howdyai/botkit/blob/master/docs/studio.png)](https://studio.botkit.ai/signup?code=readme)**
+
 Botkit Studio provides dedicated tools to create your bot's [App Package](https://botkit.groovehq.com/knowledge_base/topics/create-an-app-package-for-microsoft-teams) for [sideloading](https://msdn.microsoft.com/en-us/microsoft-teams/sideload) and submission to the Office Store. While Botkit Studio is not required, it is strongly recommended as the best way to stand up a bot using Botkit.
 
 For more information about Botkit Studio, including our starter kits for other platforms, please read the [Botkit readme on GitHub](https://github.com/howdyai/botkit#start-with-botkit-studio).
@@ -43,7 +45,7 @@ Next, click `Generate password`. *This will only be shown to you once, if you lo
 
 Click Register. Add the Microsoft Teams channel from the list of channels, making sure the `Enabled` is set to on.
 
-You may wish to leave this window open as you finish setting up Botkit, as you will need to come back here before you are done.
+You will want to leave this window open as you finish setting up Botkit, as you will need to come back here before you are done.
 
 ## Step 4 - Deploy your bot and install to a team
 
