@@ -24,7 +24,9 @@ Microsoft Teams first requires you to register with their "Bot Framework" before
 Log into the [Bot Framework Developer Portal](https://dev.botframework.com/bots/) using your Microsoft credentials, or create an account.
 
 ### Register a new bot
-Click on `My Bots` and then Register.
+Click on `My Bots` and then Register. Choose `Create a bot with the Bot Builder SDK`, and click `Create`. 
+
+Select `Register an existing bot built using Bot Builder SDK` from the next menu and then click `OK`.
 
 You will be asked some questions about your bot. Some of these can be changed later, but some _cannot be changed_ so consider your responses carefully!
 
