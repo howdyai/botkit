@@ -243,12 +243,46 @@ and is ready to be processed by a Botkit event handler. This middleware endpoint
 occurs _just before_ a message is evaluated for trigger matches, and before any
 user-defined handler runs. It will fire for every incoming message, regardless of whether or not it matches a trigger or if any event handlers are registered to receive it.
 
-Receive the message and attach it to a conversation if one exists.
+As noted above, after passing through the `receive` step, one of three things will happen:
 
-Otherwise, trigger an event based on the `message.type` field, which will then
-make it possible for the message to trigger specific events or be heard.
+* the message is recognized as part of an ongoing conversation, and captured by that conversation. This will fire the [capture middleware](#capture) .
+* the message matches a 'hears' pattern and passed in to a handler function. This will fire the [heard middleware](#heard) .
+* the message will trigger a Botkit event based on value of the `message.type` field. No further middleware will fire in this case, and Botkit will fire any handlers registered with the `controller.on()` function.
 
-## heard
+Developers seeking to enrich their messages with data from external sources, such as external NLP services, databases or other third party APIs, may wish to tie this functionality to the receive middleware endpoint. This will cause the enrichment to occur for _every single message_ that is received. This may or may not be desirable, depending on the number and type of messages the platforms send, and the types of messages your bot is supposed to handle.
+
+Before calling any external service in a receive middleware, developers should evaluate the message's `type` and `text` field to make sure enrichment is appropriate. For example, you don't want to call an expensive NLP process on messages without text, or messages that represent button clicks.
+
+Alternately, developers may wish to attach their enrichment functionality to the more narrowly defined `heard` and `capture` middlewares, which occur _after_ pattern matching has occured, and as a result will only fire for messages that _are definitely going to be handled_.
+
+Functions added to the categorize middleware endpoint need to receive these parameters:
+
+| Field | Description
+|--- |---
+| bot | an instance of the bot
+| message | the incoming message object
+| next | function to call to proceed with pipeline
+
+```
+controller.middleware.receive.use(function(bot, message, next) {
+
+    // load up any user info associated with this sender
+    // using Botkit's internal storage system
+    // and enrich the message with a new `user_profile` field
+    // now, every message will have the user_profile field automatically
+    // and you don't need to load the info in each individual handler function
+    controller.storage.users.get(message.user, function(err, user_profile) {
+        if (!err && user_profile) {
+            message.user_profile = user_profile;
+        }
+
+        // call next to proceed, now with additional info!
+        next();
+    });
+});
+```
+
+## Heard
 
 This middleware happens before any 'hears' event is fired.
 
