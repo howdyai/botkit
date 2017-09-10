@@ -16,7 +16,7 @@ Message normalization like this has always been part of Botkit -
 what is being introduced in 0.6 is a formalized process through which
 all messages must now flow.
 
-[Upgrading from Botkit 0.5 or lower? Read this upgrade how-to!](howto/upgrade_05to06.md)
+This document should be useful to any developer interested in using Botkit's middleware system. However, the focus of this document is on the application of the available middleware endpoints to the process of message normalization in platform connectors. Developers interested in using middleware for building plugins or for feature development should [check out the main middleware documentation](middleware.md).
 
 ## Why do we need a message pipeline?
 

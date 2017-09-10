@@ -12,6 +12,7 @@ New platform support! [Microsoft Teams](docs/readme-teams.md) is now officially 
 
 [Introducing the Botkit Message Pipeline](docs/readme-pipeline.md)
 
+[Upgrading from Botkit 0.5 or lower? Read this upgrade how-to!](howto/upgrade_05to06.md)
 
 
 ## 0.5.8
