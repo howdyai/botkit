@@ -1,4 +1,11 @@
-# Botkit Message Processing Pipeline
+# Introducing the Botkit Message Pipeline
+
+As Botkit has continued to add support for new platforms,
+it has become necessary to normalize the process by which
+incoming messages are received and prepared for use within
+the bot's brain, and also how outgoing messages are formatted
+and delivered to appropriate platform APIs.
+
 
 
 ## ingest

@@ -4,6 +4,16 @@
 
 [Want to contribute? Read our guide!](https://github.com/howdyai/botkit/blob/master/CONTRIBUTING.md)
 
+## 0.6.0
+
+BIG CHANGES!
+
+New platform support! [Microsoft Teams](docs/readme-teams.md) is now officially supported, including new features in [Botkit Studio](https://studio.botkit.ai) like authoring of Teams-specific attachments, an app package builder and configuration manager, and [a new starter kit](https://github.com/howdyai/botkit-starter-teams).
+
+[Introducing the Botkit Message Pipeline](docs/readme-pipeline.md)
+
+
+
 ## 0.5.8
 
 Slack: Support for sending ephemeral messages with `bot.whisper()` and `bot.sendEphemeral()`. In addition, any message with `message.ephemeral` set to true will be sent with `bot.sendEphemeral()` automatically. [Read documentation here.](docs/readme-slack.md#ephemeral-messages) Thanks to [@jonchurch](https://github.com/howdyai/botkit/pull/958)
