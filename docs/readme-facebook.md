@@ -79,6 +79,7 @@ Normal messages will be sent to your bot using the `message_received` event.  In
 |--- |---
 | message_received | a message was received by the bot
 | facebook_postback | user clicked a button in an attachment and triggered a webhook postback
+| facebook_quick_reply | user clicked a quick reply botton
 | message_delivered | a confirmation from Facebook that a message has been received
 | message_read | a confirmation from Facebook that a message has been read
 | facebook_account_linking | a user has started the account linking
