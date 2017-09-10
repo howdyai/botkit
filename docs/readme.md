@@ -768,6 +768,7 @@ Botkit provides several built in variables that are automatically available to a
 |--- |---
 | bot.utterances.yes | Matches phrases like yes, yeah, yup, ok and sure.
 | bot.utterances.no | Matches phrases like no, nah, nope
+| bot.utterances.quit | Matches phrases like, cancel, exit, stop
 
 ##### Conversation Control Functions
 

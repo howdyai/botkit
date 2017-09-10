@@ -539,6 +539,40 @@ var attachment = {
 
 ```
 
+## Built-in NLP
+
+Facebook offers some built-in natural language processing tools. Once enabled, messages may contain a `message.nlp.` object with the results of the Facebook NLP.
+More information can be found [in Facebook's official documentation of this feature](https://developers.facebook.com/docs/messenger-platform/built-in-nlp).
+
+If specified, `message.nlp.entities` will include a list of entities and intents extracted by Facebook.
+
+Facebook's NLP option can be enabled by calling `controller.api.nlp.enable()` in your Botkit app.
+
+Facebook's NLP option can be disabled by calling `controller.api.nlp.enable()` in your Botkit app.
+
+
+## Message Tags
+
+Adding a tag to a message allows you to send it outside the 24+1 window.
+
+View the facebook [documentation](https://developers.facebook.com/docs/messenger-platform/messenger-profile/home-url) for more details.
+
+- Get all tags :
+```javascript
+controller.api.tags.get_all(function (tags) {
+   // use tags.data
+});
+```
+
+- Send a tagged message :
+```javascript
+var taggedMessage = {
+        "text": "Hello Botkit !",
+        "tag": "RESERVATION_UPDATE"
+};
+bot.reply(message, taggedMessage);
+```
+
 
 ## Use BotKit for Facebook Messenger with an Express web server
 Instead of the web server generated with setupWebserver(), it is possible to use a different web server to receive webhooks, as well as serving web pages.
