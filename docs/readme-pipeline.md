@@ -91,6 +91,8 @@ Middleware functions can be developed to do all sorts of useful things, and can 
 As of version 0.6, all Botkit platform connectors include middleware functions
 responsible for their platform-specific transformations. These platform middlewares will _always fire first_, before any additional middlewares defined by the developer or included in the application code.
 
+Developers can specify as many middlewares as desired, including multiple middleware functions registered to the same endpoints. These functions will fire in the order they are defined.
+
 Plugin middlewares can do things like:
 * Call third party NLP/NLU APIs and enrich the message object
 * Load information from databases and enrich the message object
@@ -266,6 +268,42 @@ Functions added to the categorize middleware endpoint need to receive these para
 ```
 controller.middleware.receive.use(function(bot, message, next) {
 
+    // lets call a pretend external NLP system
+    // and enrich this message with intent and entity data
+
+    // make sure we have some text, and that this is
+    // not a message from the bot itself...
+    if (message.text && message.type != 'self_message') {
+        callExternalNLP(message.text).then(function(api_results) {
+            message.intent = api_results.intent;
+            message.entities = api_results.entities;
+            next();
+        });
+    } else {
+        next();
+    }
+});
+```
+
+## Heard
+
+The `heard` middleware endpoint occurs after a message has matched a trigger pattern, and is about to be handled. It works just like the `receive` endpoint, but instead of firing for every incoming message, it will only fire for messages that the is explicitly listening for.
+
+This makes the `heard` endpoint useful for firing expensive operations, such as database lookups or calls to external APIs tat take a long time, require a lot of processing, or actually cost money to use. However, it makes it less useful for use with NLP tools, since the pattern matching has already occured.
+
+Note that the heard middleware fires only for messages that match handlers set up with `controller.hears()`, and does not fire with handlers configured with the `controller.on()` method.
+
+Functions added to the categorize heard endpoint need to receive these parameters:
+
+| Field | Description
+|--- |---
+| bot | an instance of the bot
+| message | the incoming message object
+| next | function to call to proceed with pipeline
+
+```
+controller.middleware.heard.use(function(bot, message, next) {
+
     // load up any user info associated with this sender
     // using Botkit's internal storage system
     // and enrich the message with a new `user_profile` field
@@ -282,20 +320,83 @@ controller.middleware.receive.use(function(bot, message, next) {
 });
 ```
 
-## Heard
+## Capture
 
-This middleware happens before any 'hears' event is fired.
+The `capture` middleware once again works like the `receive` or `heard` endpoints,
+but fires only on the condition that the incoming message is part of an existing
+conversation. Generally, this means that the message will actually be handled a callback function passed into `convo.ask()`
 
-## capture
+This endpoint is useful for transforming the value used by the conversation to something
+other than the user's raw input text. For example, in a bot that presents a numbered list of options to a user as part of a multiple choice selection, a capture middleware could be created that transforms the user's numeric input into the full text of the selected item.
 
-This middleware happens when a convo.ask captures a response from a user
 
-## send
+## Send
 
-This middleware happens before every message is sent.
-This can be used to modify or track the outgoing messages BEFORE they are formatted for delivery to the platform API.
+When you send a message with `bot.send()` or `bot.reply()`, the outgoing message is first sent
+through the send middleware.
 
-## format
+The send middleware receives the raw message, as created in your bot's code. It has not yet been formatted for delivery to the messaging service API. This can be used to modify or track the outgoing messages BEFORE they are formatted for delivery to the platform API.
+
+In particular, this middleware is useful for recording stats about outgoing messages. At this point in the pipeline, the message object will contain the outgoing message text and any attachments, as well as a special `message.to` field, which represents the unique user id of the message's recipient. Depending on the platform, this value is not always present in the final outgoing message payload.
+
+Any modifications to the _content_ of the outgoing message should happen in a send middleware function.  For example, developers can use a send middleware to translate the message text into different languages.  Or, developers might pass the message text through a template engine to replace tokens or expand custom shortcodes.
+
+Send middlewares should _not_ make changes to the actual structure or layout of the outgoing message object. Final formatting for delivery to the platform is done by the `format` endpoint.
+
+Functions added to the categorize send endpoint need to receive these parameters:
+
+| Field | Description
+|--- |---
+| bot | an instance of the bot
+| message | the outgoing message object
+| next | function to call to proceed with pipeline
+
+```
+controller.middleware.send.use(function(bot, message, next) {
+
+    // log the outgoing message for debugging purposes
+    console.log('SENDING ', message.text,'TO USER', message.text);
+
+    next();
+
+});
+```
+
+## Format
 
 This middleware happens immediately before a message is delivered to the platform API.
-This middleware should exclusively be used for constructing the final API parameters required for delivering a message.
+
+Each platform as its own special format for incoming message objects. This middleware should exclusively be used for constructing the final API parameters required for delivering the message. The message object that emerges from this function is intended only for use with the messaging service API.
+
+After being formatted, the resulting `platform_message` is passed into the platform-specific `bot.send()` function, which is responsible for the final delivery of the message the appropriate external API endpoint. This allows the `bot.send()` function to be designed to accept only pre-formatted messages.
+
+Unlike all the other pipeline endpoints, this function does NOT modify the original message object. In fact, the final object is constructed by the middleware in the `platform_message` parameter,
+allowing the original message to pass through unmolested.
+
+Functions added to the categorize format endpoint need to receive these parameters:
+
+| Field | Description
+|--- |---
+| bot | an instance of the bot
+| message | the outgoing message object
+| platform_message | the formatted message, ready for delivery
+| next | function to call to proceed with pipeline
+
+```
+controller.middleware.format.use(function(bot, message, platform_message, next) {
+
+    // let's construct an outgoign message payload
+    // to an imaginary platform that uses some different fieldnames.
+
+    platform_message.message = {
+        text: message.text,
+        recipient: message.to,
+        room: message.channel,
+    }
+
+    platform_message.type = 'message';
+
+    next();
+
+});
+```
