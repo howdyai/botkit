@@ -91,8 +91,6 @@ All incoming events will contain the fields `user` and `channel`, both of which 
 
 `facebook_postback` events will contain a `payload` field.
 
-Notice also that `facebook_postback` events trigger the `message_received` event as well. That is why messages will have the `type` field as well. When the message is directly from the user (i.e. onlye `message_received` event) `type` will be set to `"user_message"` and when the message is originated in a `facebook_postback` then `type` will be set to `facebook_postback`.
-
 More information about the data found in these fields can be found [here](https://developers.facebook.com/docs/messenger-platform/webhook-reference).
 
 ## Working with Facebook Messenger
@@ -153,22 +151,20 @@ controller.hears(['cookies'], 'message_received', function(bot, message) {
 Facebook Messenger supports including "postback" buttons, which, when clicked,
 send a specialized `facebook_postback` event.
 
-As an alternative to binding an event handler to the `facebook_postback` event,
-developers may find it useful if button clicks are treated as "typed" messages.
-This enables buttons to be more easily used as part of a conversation flow, and
-can reduce the complexity of the code necessary.
+Developers may find it useful if button clicks are treated as "typed" messages.
+In order to "hear" these events, add the `facebook_postback` event to the list of events specified in the second parameter to the `hears()` function.
+This enables buttons to be used as part of a conversation flow, with the button's
+`payload` field being used for the message text.
 
-Once enabled, the `payload` field of any postback button that is clicked will be
-treated as if the user typed the message, and will trigger any relevant `hears` triggers.
+When used in conjunction with `convo.ask`, Botkit will treat the button's `payload` field as if were a message typed by the user.
 
-To enable this option, pass in `{receive_via_postback: true}` to your Botkit Facebook controller, as below:
+```
+// receive a message whether it is typed or part of a button click
+controller.hears('hello','message_received,facebook_postback', function(bot,message) {
 
-```javascript
-var controller = Botkit.facebookbot({
-        access_token: process.env.access_token,
-        verify_token: process.env.verify_token,
-        receive_via_postback: true,
-})
+  bot.reply(message, 'Got it!');
+
+});
 ```
 
 ### Require Delivery Confirmation
