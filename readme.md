@@ -23,7 +23,7 @@ Botkit features a comprehensive set of tools to deal with popular messaging plat
 
 * [Slack](docs/readme-slack.md)
 * [Cisco Spark](docs/readme-ciscospark.md)
-* [Microsoft Teams](docs/readme-teams.md),
+* [Microsoft Teams](docs/readme-teams.md)
 * [Facebook Messenger and Facebook @Workplace](docs/readme-facebook.md)
 * [Twilio SMS Messaging](docs/readme-twiliosms.md)
 * [Twilio IP Messaging](docs/readme-twilioipm.md)
