@@ -106,7 +106,7 @@ The manifest.json file is a hefty document, with lots of options! [Here is the f
 We highly recommend using [Botkit Studio](https://studio.botkit.ai) to build your app package, as we have provided
 an easy to use tool to configure and generate the necessary file!
 
-Here is a [COMPLETE SAMPLE](../examples/teams/manifest.json) 
+Here is a [COMPLETE SAMPLE](../examples/teams/manifest.json)
 
 [Manifest.json schema docs](https://msdn.microsoft.com/en-us/microsoft-teams/schema)
 
@@ -989,19 +989,23 @@ Come to ask questions, share your progress, and commune with your peers!
 ## About Botkit
 Botkit is a product of [Howdy](https://howdy.ai) and made in Austin, TX with the help of a worldwide community of botheads.
 
+
 ## Botkit Documentation Index
 
 * [Get Started](readme.md)
 * [Botkit Studio API](readme-studio.md)
 * [Function index](readme.md#developing-with-botkit)
 * [Extending Botkit with Plugins and Middleware](middleware.md)
+  * [Message Pipeline](readme-pipeline.md)
   * [List of current plugins](readme-middlewares.md)
 * [Storing Information](storage.md)
 * [Logging](logging.md)
 * Platforms
   * [Slack](readme-slack.md)
   * [Cisco Spark](readme-ciscospark.md)
+  * [Microsoft Teams](readme-teams.md)
   * [Facebook Messenger](readme-facebook.md)
+  * [Twilio SMS](readme-twiliosms.md)
   * [Twilio IPM](readme-twilioipm.md)
   * [Microsoft Bot Framework](readme-botframework.md)
 * Contributing to Botkit

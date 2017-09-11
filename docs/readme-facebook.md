@@ -575,18 +575,21 @@ Instead of the web server generated with setupWebserver(), it is possible to use
 
 Here is an example of [using an Express web server alongside BotKit for Facebook Messenger](https://github.com/mvaragnat/botkit-messenger-express-demo).
 
-## Documentation
+
+## Botkit Documentation Index
 
 * [Get Started](readme.md)
 * [Botkit Studio API](readme-studio.md)
 * [Function index](readme.md#developing-with-botkit)
 * [Extending Botkit with Plugins and Middleware](middleware.md)
+  * [Message Pipeline](readme-pipeline.md)
   * [List of current plugins](readme-middlewares.md)
 * [Storing Information](storage.md)
 * [Logging](logging.md)
 * Platforms
   * [Slack](readme-slack.md)
   * [Cisco Spark](readme-ciscospark.md)
+  * [Microsoft Teams](readme-teams.md)
   * [Facebook Messenger](readme-facebook.md)
   * [Twilio SMS](readme-twiliosms.md)
   * [Twilio IPM](readme-twilioipm.md)

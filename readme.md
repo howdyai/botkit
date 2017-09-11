@@ -23,6 +23,7 @@ Botkit features a comprehensive set of tools to deal with popular messaging plat
 
 * [Slack](docs/readme-slack.md)
 * [Cisco Spark](docs/readme-ciscospark.md)
+* [Microsoft Teams](docs/readme-teams.md),
 * [Facebook Messenger and Facebook @Workplace](docs/readme-facebook.md)
 * [Twilio SMS Messaging](docs/readme-twiliosms.md)
 * [Twilio IP Messaging](docs/readme-twilioipm.md)
@@ -168,12 +169,14 @@ npm test -- --bail
 * [Botkit Studio API](docs/readme-studio.md)
 * [Function index](docs/readme.md#developing-with-botkit)
 * [Extending Botkit with Plugins and Middleware](docs/middleware.md)
+  * [Message Pipeline](docs/readme-pipeline.md)
   * [List of current plugins](docs/readme-middlewares.md)
 * [Storing Information](docs/storage.md)
 * [Logging](docs/logging.md)
 * Platforms
   * [Slack](docs/readme-slack.md)
   * [Cisco Spark](docs/readme-ciscospark.md)
+  * [Microsoft Teams](docs/readme-teams.md)
   * [Facebook Messenger](docs/readme-facebook.md)
   * [Twilio SMS](docs/readme-twiliosms.md)
   * [Twilio IPM](docs/readme-twilioipm.md)
