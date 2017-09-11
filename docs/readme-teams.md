@@ -11,7 +11,7 @@ Table of Contents
 * [Getting Started](#getting-started)
 * [Developing with Botkit for Microsoft Teams](#developing-with-botkit-for-microsoft-teams)
 * [Working with Microsoft Teams](#working-with-microsoft-teams)
-* [Developer and Support Community](#developer-and-support-community)
+* [Developer and Support Community](#developer--support-community)
 * [About Botkit](#about-botkit)
 * [Botkit Documentation Index](#botkit-documentation-index)
 
@@ -168,7 +168,7 @@ If you want your bot application to have additional web features (like [tabs](#u
 or if you need to add bot functionality to an existing Express website,
 or if you want to configure your own custom endpoints,
 we suggest using the [Express Webserver component](https://github.com/howdyai/botkit-starter-teams/blob/master/components/express_webserver.js)
-and [Incoming Webhook Route](https://github.com/howdyai/botkit-starter-teams/blob/master/components/routes/incoming_webhooks.js)
+and [Incoming Webhook Route](https://github.com/howdyai/botkit-starter-teams/blob/master/components/routes/teams.js)
 from the Botkit Starter Kit as a guide for your custom implementation.
 
 #### controller.setupWebserver()
@@ -848,7 +848,7 @@ which is then attached to their message. Compose extensions can live in both mul
 They work sort of like web forms - as a user types a query, the compose extension API retrieves results from the application and displays them in
 the teams UI. When a result is selected, a custom app-defined card is attached to the user's outgoing message. Compose extensions use the [same attachment format as normal messages](#working-with-attachments-and-media).
 
-To enable a compose extension in your bot app, you must first add a configuration section to [your app's manifest file](#app-package-manifest-file).
+To enable a compose extension in your bot app, you must first add a configuration section to [your app's manifest file](#app-package--manifest-file).
 Luckily, [Botkit Studio](http://studio.botkit.ai) has a tool for building these manifests. Using it will make your life much easier!
 
 Once configured, whenever a user uses your compose extension, your Botkit application will receive a `composeExtension` event. Botkit automatically
@@ -883,7 +883,7 @@ controller.on('composeExtension', function(bot, message) {
 Tab applications provide the ability to display web content directly in the Teams UI.  There are a few different types of tab, and applications can contain multiple tabs. [Microsoft has extensive documentation about building tab applications](https://msdn.microsoft.com/en-us/microsoft-teams/tabs), but the short story is: your bot can include an integrated web app component that interacts with Teams in some neat ways. Microsoft provides an easy to use [Javascript library](https://msdn.microsoft.com/en-us/microsoft-teams/jslibrary) that
 is used to set tab configuration options, and provide information about the user, team, and channels in which the tab is installed.
 
-Tabs are configured in the [manifest.json](#app-package-manifest-file) as part of your app package. Read up on that, or use [Botkit Studio](https://studio.botkit.ai) to build this file.
+Tabs are configured in the [manifest.json](#app-package--manifest-file) as part of your app package. Read up on that, or use [Botkit Studio](https://studio.botkit.ai) to build this file.
 
 [The Botkit Starter Kit for Microsoft Teams](https://github.com/howdyai/botkit-starter-teams) contains a complete tab application, and demonstrates the interplay between the tab and bot components. This is a great starting point, and gives you all pieces you'd otherwise have to build yourself.
 
