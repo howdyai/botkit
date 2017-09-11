@@ -6,13 +6,28 @@
 
 ## 0.6.0
 
-BIG CHANGES!
+This version features some BIG CHANGES!
 
-New platform support! [Microsoft Teams](docs/readme-teams.md) is now officially supported, including new features in [Botkit Studio](https://studio.botkit.ai) like authoring of Teams-specific attachments, an app package builder and configuration manager, and [a new starter kit](https://github.com/howdyai/botkit-starter-teams).
+**New platform support:**
 
-[Introducing the Botkit Message Pipeline](docs/readme-pipeline.md)
+[Microsoft Teams](docs/readme-teams.md) is now officially supported with its own connector, including new features in [Botkit Studio](https://studio.botkit.ai) like authoring of Teams-specific attachments, an app package builder and configuration manager, and [a new starter kit](https://github.com/howdyai/botkit-starter-teams).
 
-[Upgrading from Botkit 0.5 or lower? Read this upgrade how-to!](howto/upgrade_05to06.md)
+[Read the full docs for Botkit for Microsoft Teams](docs/readme-teams.md)
+
+**Major changes to message handling code:**
+
+[Introducing the Botkit Message Pipeline](docs/readme-pipeline.md), a formalized process for Botkit's handling of incoming and outgoing messages. All of the platform connectors have been refactored to use this new series of middleware functions, and are now implemented in a uniform way.
+
+Developers who make use of Botkit's middleware system should [take time to read this update](docs/readme-pipeline.md). Most current middleware functions will  continue to work as expected, but mild changes may be desirable to update these functions to use Botkit's latest features.
+
+In addition, developers who use third party middleware plugins should carefully retest their applications after upgrading to version 0.6, as these plugins may need to be updated for full compatibility.
+
+**Upgrade Guide:**
+
+This version of Botkit deprecates the `receive_via_postback` and `interactive_replies` options
+that caused button clicks to be treated as typed messages.  These and other small changes to the way Botkit emits events may require minor updates to some Botkit apps.
+
+[Upgrading from Botkit 0.5 or lower? Read this guide!](howto/upgrade_05to06.md)
 
 
 ## 0.5.8
