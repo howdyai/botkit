@@ -151,10 +151,12 @@ controller.hears(['cookies'], 'message_received', function(bot, message) {
 Facebook Messenger supports including "postback" buttons, which, when clicked,
 send a specialized `facebook_postback` event.
 
-In order to "hear" these events, bind a handler to the `facebook_postback` event.
 Developers may find it useful if button clicks are treated as "typed" messages.
-This enables buttons to be more easily used as part of a conversation flow, and
-can reduce the complexity of the code necessary.
+In order to "hear" these events, add the `facebook_postback` event to the list of events specified in the second parameter to the `hears()` function.
+This enables buttons to be used as part of a conversation flow, with the button's
+`payload` field being used for the message text.
+
+When used in conjunction with `convo.ask`, Botkit will treat the button's `payload` field as if were a message typed by the user.
 
 ```
 // receive a message whether it is typed or part of a button click
