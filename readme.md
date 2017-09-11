@@ -71,6 +71,10 @@ suitable for internal use or submission to [Slack's app store.](https://slack.co
 are ready to submit to [Cisco Spark's Depot app store](https://depot.ciscospark.com/).
 > #### [![Remix on Glitch](docs/glitch.png)](https://glitch.com/~botkit-ciscospark)
 
+> ### [Microsoft Teams Bot Starter Kit](https://github.com/howdyai/botkit-starter-teams)
+> Connect your bot to Microsoft Teams, and it can do things like no other bot, like create tabs, compose extensions, and other deep integrations into the messaging UI.
+> #### [![Remix on Glitch](docs/glitch.png)](https://glitch.com/~botkit-teams)
+
 > ### [Facebook Bot Starter Kit](https://github.com/howdyai/botkit-starter-facebook)
 > The Facebook starter kit contains all the code necessary to stand up a Facebook bot on either Facebook Messenger, or Facebook Work Chat. With just a few pieces of configuration, set up a bot that automatically responds to messages sent to your Facebook page.
 > #### [![Remix on Glitch](docs/glitch.png)](https://glitch.com/~botkit-facebook)
