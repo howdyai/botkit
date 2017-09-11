@@ -29,10 +29,8 @@ Getting these elements in place is a multi-step process, but only takes a few mi
 
 ### Fastest Option: Use Botkit Studio
 
-The fastest way to get up and running with Botkit for Microsoft Teams is to use [Botkit Studio](https://studio.botkit.ai).
-Botkit Studio will guide you through the process of setting up the [Botkit Starter Kit for Microsoft Teams](https://github.com/howdyai/botkit-starter-teams),
-walk you through the process of configuring the Microsoft Teams and Bot Framework APIs,
-and deploy your bot to a stable hosting environment so that you can start building right away.
+The fastest way to get up and running with Botkit for Microsoft Teams is to use [Botkit Studio](https://studio.botkit.ai/signup?code=teams).
+Botkit Studio will guide you through the process of setting up the [Botkit Starter Kit for Microsoft Teams](https://github.com/howdyai/botkit-starter-teams), walk you through the process of configuring the Microsoft Teams and Bot Framework APIs, and deploy your bot to a stable hosting environment so that you can start building right away.
 
 **[![Sign up for Botkit Studio](docs/studio.png)](https://studio.botkit.ai/signup?code=readme)**
 
@@ -108,7 +106,7 @@ The manifest.json file is a hefty document, with lots of options! [Here is the f
 We highly recommend using [Botkit Studio](https://studio.botkit.ai) to build your app package, as we have provided
 an easy to use tool to configure and generate the necessary file!
 
-Here is a [COMPLETE SAMPLE](../examples/teams/manifest.json) (TODO: we should make sure this is 100% up to date!)
+Here is a [COMPLETE SAMPLE](../examples/teams/manifest.json) 
 
 [Manifest.json schema docs](https://msdn.microsoft.com/en-us/microsoft-teams/schema)
 
@@ -297,7 +295,7 @@ controller.hears('who am i', 'direct_message, direct_mention', function(bot, mes
 
 This function is identical to `getUserById()`, but instead of fetching the user by the Teams-only user ID, it uses the user's "universal principal name" or "UPN", which defines the account in terms of the broader Microsoft Office ecosystem. This function is useful when connecting users in Microsoft Teams chat with the same users in a [Tab Application](#using-tabs), as tab applications only expose the `upn` value.
 
-The [Botkit Starter Kit for Microsoft Teams]() includes [a sample middleware]() that uses this function to automatically
+The [Botkit Starter Kit for Microsoft Teams](https://github.com/howdyai/botkit-starter-teams) includes [a sample middleware](https://github.com/howdyai/botkit-starter-teams/blob/master/skills/load_user_data.js) that uses this function to automatically
 translate the Teams-only ID into a UPN for use with the [built-in storage system](storage.md).
 
 #### bot.api.getConversationMembers(conversationId, cb)

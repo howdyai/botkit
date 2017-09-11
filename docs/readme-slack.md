@@ -268,8 +268,8 @@ controller.on('custom_triggered_event', function(bot, trigger) {
 		userArr.map(function(user) {
 			// iterate over every user and send them a message
 			bot.sendEphemeral({
-				channel: 'general', 
-				user: user.id, 
+				channel: 'general',
+				user: user.id,
 				text: "Pssst! You my friend, are a true Bot Champion!"})
 		})
 	})
@@ -918,7 +918,7 @@ controller.on('interactive_message_callback', function(bot, message) {
 
 It is possible to use interactive messages in conversations, with the `convo.ask` function.
 
-When used in conjunction with `convo.ask`, expect the response text to match the button `value` field.
+When used in conjunction with `convo.ask`, Botkit will treat the button's `value` field as if were a message typed by the user.
 
 ```javascript
 bot.startConversation(message, function(err, convo) {

@@ -3,10 +3,14 @@ Building a bot with Botkit and the Microsoft Teams API gives you access to all o
 
 We've created the following guide to help you configure your Microsoft Teams bot. In order to get the best deploy experience possible, we recommend starting with [Botkit Studio](https://studio.botkit.ai/), our feature-rich tool for building bots!
 
-*Note: Before starting to work on your bot, you [should enable Developer Preview](https://msdn.microsoft.com/en-us/microsoft-teams/publicpreview#how-do-i-get-access) and the [ability to sideload apps](https://msdn.microsoft.com/en-us/microsoft-teams/setup#3-enable-sideloading-of-apps-for-microsoft-teams) for your development team so that you ensure all features are supported.*
+## Step 0 - Enable Developer Preview
+
+Before starting to work on your bot, you [should enable Developer Preview](https://msdn.microsoft.com/en-us/microsoft-teams/publicpreview#how-do-i-get-access) and the [ability to sideload apps](https://msdn.microsoft.com/en-us/microsoft-teams/setup#3-enable-sideloading-of-apps-for-microsoft-teams) for your development team so that you ensure all features are supported.
 
 ## Step 1 - Starting with Botkit Studio
 Botkit Studio is a hosted development environment for building bots with the Botkit core library. Developers using Botkit Studio get the full capabilities of Botkit, plus a full guided setup on creating a bot for Microsoft Teams.
+
+**[![Sign up for Botkit Studio](https://github.com/howdyai/botkit/blob/master/docs/studio.png)](https://studio.botkit.ai/signup?code=readme)**
 
 Botkit Studio provides dedicated tools to create your bot's [App Package](https://botkit.groovehq.com/knowledge_base/topics/create-an-app-package-for-microsoft-teams) for [sideloading](https://msdn.microsoft.com/en-us/microsoft-teams/sideload) and submission to the Office Store. While Botkit Studio is not required, it is strongly recommended as the best way to stand up a bot using Botkit.
 
@@ -20,7 +24,11 @@ Microsoft Teams first requires you to register with their "Bot Framework" before
 Log into the [Bot Framework Developer Portal](https://dev.botframework.com/bots/) using your Microsoft credentials, or create an account.
 
 ### Register a new bot
-Click on `My Bots` and then Register.
+Once you are logged in, [click this link to create a new bot](https://dev.botframework.com/bots/new) and then you can skip the next two steps!
+
+* Click on `My Bots` and then Register. Choose `Create a bot with the Bot Builder SDK`, and click `Create`. 
+
+* Select `Register an existing bot built using Bot Builder SDK` from the next menu and then click `OK`.
 
 You will be asked some questions about your bot. Some of these can be changed later, but some _cannot be changed_ so consider your responses carefully!
 
@@ -39,9 +47,13 @@ Once added, it will provide an `App ID` which you need to copy somewhere safe to
 
 Next, click `Generate password`. *This will only be shown to you once, if you lose it, you will need to invalidate the old one and set this up again!*
 
-Click Register. Add the Microsoft Teams channel from the list of channels, making sure the `Enabled` is set to on.
+Click Register. 
 
-You may wish to leave this window open as you finish setting up Botkit, as you will need to come back here before you are done.
+### Add the Microsoft Teams channel
+
+Add the Microsoft Teams channel from the list of channels, making sure the `Enabled` is set to on.
+
+You will want to leave this window open as you finish setting up Botkit, as you will need to come back here before you are done.
 
 ## Step 4 - Deploy your bot and install to a team
 
