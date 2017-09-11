@@ -27,7 +27,7 @@ In addition, developers who use third party middleware plugins should carefully 
 This version of Botkit deprecates the `receive_via_postback` and `interactive_replies` options
 that caused button clicks to be treated as typed messages.  These and other small changes to the way Botkit emits events may require minor updates to some Botkit apps.
 
-[Upgrading from Botkit 0.5 or lower? Read this guide!](howto/upgrade_05to06.md)
+[Upgrading from Botkit 0.5 or lower? Read this guide!](docs/howto/upgrade_05to06.md)
 
 
 ## 0.5.8
