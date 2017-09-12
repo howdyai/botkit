@@ -33,7 +33,7 @@ as typed user text. This double-event behavior was enabled by configuration
 switches - one for Facebook, and one for Slack - which are now deprecated.
 
 As of version 0.6, incoming messages will only ever emit a single event.
-These button click events can will will now have the button payload value included as the `message.text` property, and can thus be treated like other types of user messages.
+These button click events can will now have the button payload value included as the `message.text` property, and can thus be treated like other types of user messages.
 
 ## For Facebook Messenger Bots:
 
