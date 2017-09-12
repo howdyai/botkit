@@ -69,6 +69,6 @@ controller.hears('welcome','interactive_message_callback', function(bot, message
 
 In previous versions of the Slack Starter Kit, we included a clever skill which allowed buttons to be treated as typed text if the `name` of the button was set to "say."  In addition to re-emitting the event as a type message, this skill also caused the message in Slack to be updated.
 
-If you use this skill and want to upgrade to the latest version of Botkit, you should replace the `skills/interactive_messages.js` file in your project with [this updated version](https://github.com/howdyai/botkit-starter-slack/blob/master/skills/interactve_messages.js).
+If you use this skill and want to upgrade to the latest version of Botkit, you should replace the `skills/interactive_messages.js` file in your project with [this updated version](https://github.com/howdyai/botkit-starter-slack/blob/master/skills/interactive_messages.js).
 
 This new version now defines a `receive middleware` that looks for `interactive_message_callback` events and performs update to the message. It no longer needs to re-emit the message, as after the middleware completes, the message will pass naturally to any ongoing conversation or `hears` handler.
