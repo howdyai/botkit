@@ -23,6 +23,7 @@ Botkit features a comprehensive set of tools to deal with popular messaging plat
 
 * [Slack](docs/readme-slack.md)
 * [Cisco Spark](docs/readme-ciscospark.md)
+* [Microsoft Teams](docs/readme-teams.md)
 * [Facebook Messenger and Facebook @Workplace](docs/readme-facebook.md)
 * [Twilio SMS Messaging](docs/readme-twiliosms.md)
 * [Twilio IP Messaging](docs/readme-twilioipm.md)
@@ -69,6 +70,10 @@ suitable for internal use or submission to [Slack's app store.](https://slack.co
 > Build a bot inside Cisco Spark's collaboration and messaging platform. Bots built with the starter kit
 are ready to submit to [Cisco Spark's Depot app store](https://depot.ciscospark.com/).
 > #### [![Remix on Glitch](docs/glitch.png)](https://glitch.com/~botkit-ciscospark)
+
+> ### [Microsoft Teams Bot Starter Kit](https://github.com/howdyai/botkit-starter-teams)
+> Connect your bot to Microsoft Teams, and it can do things like no other bot, like create tabs, compose extensions, and other deep integrations into the messaging UI.
+> #### [![Remix on Glitch](docs/glitch.png)](https://glitch.com/~botkit-teams)
 
 > ### [Facebook Bot Starter Kit](https://github.com/howdyai/botkit-starter-facebook)
 > The Facebook starter kit contains all the code necessary to stand up a Facebook bot on either Facebook Messenger, or Facebook Work Chat. With just a few pieces of configuration, set up a bot that automatically responds to messages sent to your Facebook page.
@@ -168,12 +173,14 @@ npm test -- --bail
 * [Botkit Studio API](docs/readme-studio.md)
 * [Function index](docs/readme.md#developing-with-botkit)
 * [Extending Botkit with Plugins and Middleware](docs/middleware.md)
+  * [Message Pipeline](docs/readme-pipeline.md)
   * [List of current plugins](docs/readme-middlewares.md)
 * [Storing Information](docs/storage.md)
 * [Logging](docs/logging.md)
 * Platforms
   * [Slack](docs/readme-slack.md)
   * [Cisco Spark](docs/readme-ciscospark.md)
+  * [Microsoft Teams](docs/readme-teams.md)
   * [Facebook Messenger](docs/readme-facebook.md)
   * [Twilio SMS](docs/readme-twiliosms.md)
   * [Twilio IPM](docs/readme-twilioipm.md)

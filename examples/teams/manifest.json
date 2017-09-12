@@ -1,0 +1,113 @@
+{
+  "$schema": "https://statics.teams.microsoft.com/sdk/v1.0/manifest/MicrosoftTeams.schema.json",
+  "manifestVersion": "1.0",
+  "version": "1.0.0",
+  "id": "%MICROSOFT-APP-ID%",
+  "packageName": "com.example.myapp",
+  "developer": {
+    "name": "Publisher Name",
+    "websiteUrl": "https://website.com/",
+    "privacyUrl": "https://website.com/privacy",
+    "termsOfUseUrl": "https://website.com/app-tos"
+  },
+  "name": {
+    "short": "Name of your app - 30 characters",
+    "full": "Full name of app, if greater than 30"
+  },
+  "description": {
+    "short": "Short description of your app",
+    "full": "Full description of your app"
+  },
+  "icons": {
+    "outline": "contoso20x20.png",
+    "color": "contoso96x96.png"
+  },
+  "accentColor": "%HEX-COLOR%",
+  "configurableTabs": [
+    {
+      "configurationUrl": "https://taburl.com/config.html",
+      "canUpdateConfiguration": true,
+      "scopes": [ "team" ]
+    }
+  ],
+  "staticTabs": [
+    {
+      "entityId": "idForPage",
+      "name": "Display name of tab",
+      "contentUrl": "https://teams-specific-webview.website.com",
+      "websiteUrl": "http://fullwebsite.website.com",
+      "scopes": [ "personal" ]
+    }
+  ],
+  "bots": [
+    {
+      "botId": "%MICROSOFT-APP-ID-REGISTERED-WITH-BOT-FRAMEWORK%",
+      "needsChannelSelector": "true",
+      "isNotificationOnly": "false",
+      "scopes": [ "team", "personal" ],
+      "commandLists": [
+        {
+          "scopes": ["team"],
+          "commands": [
+            {
+              "title": "Command 1",
+              "description": "Description of Command 1"
+            },
+            {
+              "title": "Command N",
+              "description": "Description of Command N"
+            }
+          ]
+        },
+        {
+          "scopes": ["personal"],
+          "commands": [
+            {
+              "title": "Personal command 1",
+              "description": "Description of Personal command 1"
+            },
+            {
+              "title": "Personal command N",
+              "description": "Description of Personal command N"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "connectors": [
+    {
+      "connectorId": "GUID-FROM-CONNECTOR-DEV-PORTAL%",
+      "scopes": [ "team"]
+    }
+  ],
+  "composeExtensions": [
+    {
+      "botId": "%MICROSOFT-APP-ID-REGISTERED-WITH-BOT-FRAMEWORK%",
+      "scopes": ["team", "personal"],
+      "commands": [
+        {
+          "id": "exampleCmd",
+          "title": "Example Command",
+          "description": "Comamand Description e.g. Search on the web",
+          "initialRun": "true",
+          "parameters": [
+            {
+              "name": "keyword",
+              "title": "Search keywords",
+              "description": "Enter the keywords to search for"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "permissions": [
+    "identity",
+    "messageTeamMembers"
+  ],
+  "validDomains": [
+     "*.taburl.com",
+     "*.otherdomains.com"
+  ]
+}

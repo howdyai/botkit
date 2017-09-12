@@ -268,8 +268,8 @@ controller.on('custom_triggered_event', function(bot, trigger) {
 		userArr.map(function(user) {
 			// iterate over every user and send them a message
 			bot.sendEphemeral({
-				channel: 'general', 
-				user: user.id, 
+				channel: 'general',
+				user: user.id,
 				text: "Pssst! You my friend, are a true Bot Champion!"})
 		})
 	})
@@ -917,14 +917,8 @@ controller.on('interactive_message_callback', function(bot, message) {
 ### Using Interactive Messages in Conversations
 
 It is possible to use interactive messages in conversations, with the `convo.ask` function.
-In order to do this, you must instantiate your Botkit controller with the `interactive_replies` option set to `true`:
 
-```javascript
-var controller = Botkit.slackbot({interactive_replies: true});
-```
-
-This will cause Botkit to pass all interactive_message_callback messages into the normal conversation
-system. When used in conjunction with `convo.ask`, expect the response text to match the button `value` field.
+When used in conjunction with `convo.ask`, Botkit will treat the button's `value` field as if were a message typed by the user.
 
 ```javascript
 bot.startConversation(message, function(err, convo) {
@@ -1039,19 +1033,20 @@ var controller = Botkit.slackbot({
 });
 ```
 
-
-## Documentation
+## Botkit Documentation Index
 
 * [Get Started](readme.md)
 * [Botkit Studio API](readme-studio.md)
 * [Function index](readme.md#developing-with-botkit)
 * [Extending Botkit with Plugins and Middleware](middleware.md)
+  * [Message Pipeline](readme-pipeline.md)
   * [List of current plugins](readme-middlewares.md)
 * [Storing Information](storage.md)
 * [Logging](logging.md)
 * Platforms
   * [Slack](readme-slack.md)
   * [Cisco Spark](readme-ciscospark.md)
+  * [Microsoft Teams](readme-teams.md)
   * [Facebook Messenger](readme-facebook.md)
   * [Twilio SMS](readme-twiliosms.md)
   * [Twilio IPM](readme-twilioipm.md)
