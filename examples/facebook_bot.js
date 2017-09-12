@@ -64,17 +64,16 @@ This bot demonstrates many of the core features of Botkit:
     -> http://howdy.ai/botkit
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
-
+if (!process.env.verify_token) {
+    console.log('Error: Specify verify_token in environment');
+    process.exit(1);
+}
 
 if (!process.env.page_token) {
     console.log('Error: Specify page_token in environment');
     process.exit(1);
 }
 
-if (!process.env.verify_token) {
-    console.log('Error: Specify verify_token in environment');
-    process.exit(1);
-}
 
 if (!process.env.app_secret) {
     console.log('Error: Specify app_secret in environment');
