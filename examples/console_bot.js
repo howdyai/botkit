@@ -59,9 +59,7 @@ This bot demonstrates many of the core features of Botkit:
 var Botkit = require('../lib/Botkit.js');
 var os = require('os');
 
-var controller = Botkit.consolebot({
-    debug: false,
-});
+var controller = Botkit.consolebot({debug: false,});
 
 var bot = controller.spawn();
 
