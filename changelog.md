@@ -4,6 +4,17 @@
 
 [Want to contribute? Read our guide!](https://github.com/howdyai/botkit/blob/master/CONTRIBUTING.md)
 
+## 0.6.1
+
+Fix bugs in Botframework and ConsoleBot connectors that caused messages not to send. Resolves #1033.
+
+Fix typo in Twilio connector that caused attached media to fail. Thanks @jpowers! [PR #1023](https://github.com/howdyai/botkit/pull/1023)
+
+Fix missing `bodyParser` module in Facebook connector. Resolves #1041.
+
+Change: Facebook `message_echo` webhooks will now emit `message_echo` events instead of `message_received` events to distinguish them from messages sent by users.
+
+
 ## 0.6.0
 
 This version features some BIG CHANGES!
