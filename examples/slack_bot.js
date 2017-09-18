@@ -80,7 +80,7 @@ var bot = controller.spawn({
     token: process.env.token
 }).startRTM();
 
-controller.hears(['hello', 'hi'], 'direct_message,direct_mention,mention', function(bot, message) {
+controller.hears(['hello', 'hi'], ['direct_message','direct_mention','mention','ambient'], function(bot, message) {
 
     bot.api.reactions.add({
         timestamp: message.ts,
@@ -102,7 +102,7 @@ controller.hears(['hello', 'hi'], 'direct_message,direct_mention,mention', funct
     });
 });
 
-controller.hears(['call me (.*)', 'my name is (.*)'], 'direct_message,direct_mention,mention', function(bot, message) {
+controller.hears(['call me (.*)', 'my name is (.*)'], ['direct_message','direct_mention','mention','ambient'], function(bot, message) {
     var name = message.match[1];
     controller.storage.users.get(message.user, function(err, user) {
         if (!user) {
@@ -117,7 +117,7 @@ controller.hears(['call me (.*)', 'my name is (.*)'], 'direct_message,direct_men
     });
 });
 
-controller.hears(['what is my name', 'who am i'], 'direct_message,direct_mention,mention', function(bot, message) {
+controller.hears(['what is my name', 'who am i'], ['direct_message','direct_mention','mention','ambient'], function(bot, message) {
 
     controller.storage.users.get(message.user, function(err, user) {
         if (user && user.name) {
@@ -186,7 +186,7 @@ controller.hears(['what is my name', 'who am i'], 'direct_message,direct_mention
 });
 
 
-controller.hears(['shutdown'], 'direct_message,direct_mention,mention', function(bot, message) {
+controller.hears(['shutdown'], ['direct_message','direct_mention','mention','ambient'], function(bot, message) {
 
     bot.startConversation(message, function(err, convo) {
 
@@ -215,7 +215,7 @@ controller.hears(['shutdown'], 'direct_message,direct_mention,mention', function
 
 
 controller.hears(['uptime', 'identify yourself', 'who are you', 'what is your name'],
-    'direct_message,direct_mention,mention', function(bot, message) {
+   ['direct_message','direct_mention','mention','ambient'], function(bot, message) {
 
         var hostname = os.hostname();
         var uptime = formatUptime(process.uptime());
