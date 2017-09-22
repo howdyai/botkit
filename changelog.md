@@ -4,6 +4,14 @@
 
 [Want to contribute? Read our guide!](https://github.com/howdyai/botkit/blob/master/CONTRIBUTING.md)
 
+## 0.6.2
+
+Fix bug in Facebook connector: call `startTicking()` as part of object instantiation. This was missing in 0.6 and 0.6.1
+
+Move call to `startTicking()` in TwilioIPM connector to make it consistent with other connectors.
+
+Fix: Catch 202 response code that does not have a JSON response body. This status sometimes comes back from the MS Teams API when a message has been queued for delivery.
+
 ## 0.6.1
 
 Fix bugs in Botframework and ConsoleBot connectors that caused messages not to send. Resolves #1033.
