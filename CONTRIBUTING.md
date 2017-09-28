@@ -21,6 +21,7 @@ possible with your report. If you can, please include:
 
 ## Submitting Pull Requests
 
+* Pull requests should contain a concise topic and detailed accompanying text that clearly indentifies both the purpose and justification for acceptance of any changes.
 * Create, or link to an existing issue identifying the need driving your PR request. The issue can contain more details of the need for the PR as well as host debate as to which course of action the PR will take that will most serve the common good.
 * Include screenshots and animated GIFs in your pull request whenever possible.
 * Follow the JavaScript coding style with details from `.jscsrc` and `.editorconfig` files and use necessary plugins for your text editor.
