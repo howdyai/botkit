@@ -220,6 +220,77 @@ bot.startRTM(function(err, bot, payload) {
 setTimeout(bot.destroy.bind(bot), 10000)
 ```
 
+### Ephemeral Messages
+
+Using the Web API, messages can be sent to a user "ephemerally" which will only show to them, and no one else. Learn more about ephemeral messages at the [Slack API Documentation](https://api.slack.com/methods/chat.postEphemeral). When sending an ephemeral message, you must specify a valid `user` and `channel` id. Valid meaning the specified user is in the specified channel. Currently, updating interactive messages are not supported by ephemeral messages, but you can still create them and listen to the events. They will not have a reference to the original message, however.
+
+#### Ephemeral Message Authorship
+
+Slack allows you to post an ephemeral message as either the user you have an auth token for (would be your bot user in most cases), or as your app. The display name and icon will be different accordingly. The default is set to `as_user: true` for all functions except `bot.sendEphemeral()`. Override the default of any message by explicitly setting `as_user` on the outgoing message.
+
+
+#### bot.whisper()
+| Argument | Description
+|--- |---
+| src | Message object to reply to, **src.user is required**
+| message | _String_ or _Object_ Outgoing response
+| callback | _Optional_ Callback in the form function(err,response) { ... }
+
+Functions the same as `bot.reply()` but sends the message ephemerally. Note, src message must have a user field set in addition to a channel
+
+
+`bot.whisper()` defaults to `as_user: true` unless otherwise specified on the message object. This means messages will be attributed to your bot user, or whichever user who's token you are making the API call with.
+
+
+#### bot.sendEphemeral()
+| Argument | Description
+|--- |---
+| message | _String_ or _Object_ Outgoing response, **message.user is required**
+| callback | _Optional_ Callback in the form function(err,response) { ... }
+
+To send a spontaneous ephemeral message (which slack discourages you from doing) use `bot.sendEphemeral` which functions similarly as `bot.say()` and `bot.send()`
+
+
+```javascript
+controller.hears(['^spooky$'], function(bot, message) {
+	// default behavior, post as the bot user
+	bot.whisper(message, 'Booo! This message is ephemeral and private to you')
+})
+
+controller.hears(['^spaghetti$'], function(bot, message) {
+	// attribute slack message to app, not bot user
+	bot.whisper(message, {as_user: false, text: 'I may be a humble App, but I too love a good noodle'})
+})
+
+controller.on('custom_triggered_event', function(bot, trigger) {
+	// pretend to get a list of user ids from out analytics api...
+	fetch('users/champions', function(err, userArr) {
+		userArr.map(function(user) {
+			// iterate over every user and send them a message
+			bot.sendEphemeral({
+				channel: 'general',
+				user: user.id,
+				text: "Pssst! You my friend, are a true Bot Champion!"})
+		})
+	})
+})
+```
+
+#### Ephemeral Conversations
+
+To reply to a user ephemerally in a conversation, pass a message object to `convo.say()` `convo.sayFirst()` `convo.ask()` `convo.addMessage()` `convo.addQuestion()` that sets ephemeral to true.
+
+When using interactive message attachments with ephemeral messaging, Slack does not send the original message as part of the payload. With non-ephemeral interactive messages Slack sends a copy of the original message for you to edit and send back. To respond with an edited message when updating ephemeral interactive messages, you must construct a new message to send as the response, containing at least a text field.
+
+```javascript
+controller.hears(['^tell me a secret$'], 'direct_mention, ambient, mention', function(bot, message) {
+	bot.startConversation(message, function(err, convo) {
+		convo.say('Better take this private...')
+		convo.say({ ephemeral: true, text: 'These violent delights have violent ends' })
+	})
+})
+
+```
 
 ### Slack Threads
 
@@ -846,14 +917,8 @@ controller.on('interactive_message_callback', function(bot, message) {
 ### Using Interactive Messages in Conversations
 
 It is possible to use interactive messages in conversations, with the `convo.ask` function.
-In order to do this, you must instantiate your Botkit controller with the `interactive_replies` option set to `true`:
 
-```javascript
-var controller = Botkit.slackbot({interactive_replies: true});
-```
-
-This will cause Botkit to pass all interactive_message_callback messages into the normal conversation
-system. When used in conjunction with `convo.ask`, expect the response text to match the button `value` field.
+When used in conjunction with `convo.ask`, Botkit will treat the button's `value` field as if were a message typed by the user.
 
 ```javascript
 bot.startConversation(message, function(err, convo) {
@@ -913,9 +978,6 @@ The [Events API](https://api.slack.com/events-api) is a streamlined way to build
 
 During development, a tool such as [localtunnel.me](http://localtunnel.me) is useful for temporarily exposing a compatible webhook url to Slack while running Botkit privately.
 
-Note: Currently [presence](https://api.slack.com/docs/presence) is not supported by Slack Events API, so bot users will appear offline, but will still function normally.
-Developers may want to create an RTM connection in order to make the bot appear online - see note below.
-
 ### To get started with the Events API:
 
 1. Create a [Slack App](https://api.slack.com/apps/new)
@@ -971,19 +1033,20 @@ var controller = Botkit.slackbot({
 });
 ```
 
-
-## Documentation
+## Botkit Documentation Index
 
 * [Get Started](readme.md)
 * [Botkit Studio API](readme-studio.md)
 * [Function index](readme.md#developing-with-botkit)
 * [Extending Botkit with Plugins and Middleware](middleware.md)
+  * [Message Pipeline](readme-pipeline.md)
   * [List of current plugins](readme-middlewares.md)
 * [Storing Information](storage.md)
 * [Logging](logging.md)
 * Platforms
   * [Slack](readme-slack.md)
   * [Cisco Spark](readme-ciscospark.md)
+  * [Microsoft Teams](readme-teams.md)
   * [Facebook Messenger](readme-facebook.md)
   * [Twilio SMS](readme-twiliosms.md)
   * [Twilio IPM](readme-twilioipm.md)

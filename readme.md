@@ -25,6 +25,7 @@ Botkit features a comprehensive set of tools to deal with popular messaging plat
 
 * [Slack](docs/readme-slack.md)
 * [Cisco Spark](docs/readme-ciscospark.md)
+* [Microsoft Teams](docs/readme-teams.md)
 * [Facebook Messenger and Facebook @Workplace](docs/readme-facebook.md)
 * [Twilio SMS Messaging](docs/readme-twiliosms.md)
 * [Twilio IP Messaging](docs/readme-twilioipm.md)
@@ -79,6 +80,7 @@ are ready to submit to [Cisco Spark's Depot app store](https://depot.ciscospark.
 If you intend to create a bot that lives in Glip, [follow these instructions for configuring your Glip bot](readme-glip.md#getting-started).
 
 If you intend to create a bot that lives inside a Twilio IP Messaging client, [follow these instructions for configuring your app](readme-twilioipm.md#getting-started).
+> #### [![Remix on Glitch](docs/glitch.png)](https://glitch.com/~botkit-facebook)
 
 # Developer & Support Community
 
@@ -174,12 +176,14 @@ npm test -- --bail
 * [Botkit Studio API](docs/readme-studio.md)
 * [Function index](docs/readme.md#developing-with-botkit)
 * [Extending Botkit with Plugins and Middleware](docs/middleware.md)
+  * [Message Pipeline](docs/readme-pipeline.md)
   * [List of current plugins](docs/readme-middlewares.md)
 * [Storing Information](docs/storage.md)
 * [Logging](docs/logging.md)
 * Platforms
   * [Slack](docs/readme-slack.md)
   * [Cisco Spark](docs/readme-ciscospark.md)
+  * [Microsoft Teams](docs/readme-teams.md)
   * [Facebook Messenger](docs/readme-facebook.md)
   * [Twilio SMS](docs/readme-twiliosms.md)
   * [Twilio IPM](docs/readme-twilioipm.md)

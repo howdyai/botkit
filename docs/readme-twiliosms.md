@@ -59,8 +59,8 @@ Then you need to write your bot. First, create a TwilioSMSBot instance and pass 
 * `twilio_number`: your app's phone number, found in your [Phone Numbers Dashboard](https://www.twilio.com/console/phone-numbers/dashboard) **The phone number format must be: `+15551235555`**
 
 ```js
-const TwilioSMSBot = require('botkit-sms')
-const controller = TwilioSMSBot({
+const Botkit = require('botkit')
+const controller = Botkit.twiliosmsbot({
   account_sid: process.env.TWILIO_ACCOUNT_SID,
   auth_token: process.env.TWILIO_AUTH_TOKEN,
   twilio_number: process.env.TWILIO_NUMBER
@@ -103,19 +103,38 @@ controller.hears('.*', 'message_received', (bot, message) => {
 
 See full example in the `examples` directory of this repo.
 
+### Sending media attachments (MMS)
 
-## Documentation
+To send media attachments, pass a `mediaUrl` property to any of Botkit's outgoing messages functions (`reply`, `say`, `ask`, etc.) with an optional `text` property for text that goes along with your attachment.
+
+```js
+/*
+  Sending an attachment
+*/
+bot.reply(message, {
+  text: 'Optional text to go with attachment',
+  mediaUrl: 'https://i.imgur.com/9n3qoKx.png'
+})
+```
+
+> Note: your Twilio number as well as the recipient's phone must support MMS for media attachments to work
+
+For more details on outgoing media attachments and a full list of accepted MIME types, go to [Twilio's docs on media attachment](https://www.twilio.com/docs/api/rest/accepted-mime-types).
+
+## Botkit Documentation Index
 
 * [Get Started](readme.md)
 * [Botkit Studio API](readme-studio.md)
 * [Function index](readme.md#developing-with-botkit)
 * [Extending Botkit with Plugins and Middleware](middleware.md)
+  * [Message Pipeline](readme-pipeline.md)
   * [List of current plugins](readme-middlewares.md)
 * [Storing Information](storage.md)
 * [Logging](logging.md)
 * Platforms
   * [Slack](readme-slack.md)
   * [Cisco Spark](readme-ciscospark.md)
+  * [Microsoft Teams](readme-teams.md)
   * [Facebook Messenger](readme-facebook.md)
   * [Twilio SMS](readme-twiliosms.md)
   * [Twilio IPM](readme-twilioipm.md)

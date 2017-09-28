@@ -17,12 +17,18 @@ it is ready to be connected to a stream of incoming messages. Currently, Botkit 
 * [Slack Incoming Webhooks](http://api.slack.com/incoming-webhooks)
 * [Slack Slash Commands](http://api.slack.com/slash-commands)
 * [Cisco Spark Webhooks](https://developer.ciscospark.com/webhooks-explained.html)
+* [Microsoft Teams](https://msdn.microsoft.com/en-us/microsoft-teams/bots)
 * [Facebook Messenger Webhooks](https://developers.facebook.com/docs/messenger-platform/implementation)
 * [Twilio SMS](https://www.twilio.com/console/sms/dashboard)
 * [Twilio IP Messaging](https://www.twilio.com/console/chat/dashboard)
 * [Microsoft Bot Framework](http://botframework.com/)
 
-Read more about [connecting your bot to Slack](readme-slack.md#connecting-your-bot-to-slack), [connecting your bot to Cisco Spark](readme-ciscospark.md#getting-started), [connecting your bot to Facebook](readme-facebook.md#getting-started), [connecting your bot to Twilio](readme-twilioipm.md#getting-started),
+Read more about
+[connecting your bot to Slack](readme-slack.md#connecting-your-bot-to-slack),
+[connecting your bot to Cisco Spark](readme-ciscospark.md#getting-started),
+[connecting your bot to Microsoft Teams](readme-teams.md#getting-started),
+[connecting your bot to Facebook](readme-facebook.md#getting-started),
+[connecting your bot to Twilio](readme-twilioipm.md#getting-started),
 or [connecting your bot to Microsoft Bot Framework](readme-botframework.md#getting-started)
 
 ## Basic Usage
@@ -62,7 +68,7 @@ Table of Contents
 * [Receiving Messages](#receiving-messages)
 * [Sending Messages](#sending-messages)
 * [Multi-message Conversations](#multi-message-conversations)
-* [Middleware](#middleware)
+* [Middleware](middleware.md)
 * [Advanced Topics](#advanced-topics)
 
 ### Responding to events
@@ -130,7 +136,7 @@ specifies the keywords to match.
 |--- |---
 | patterns | An _array_ or a _comma separated string_ containing a list of regular expressions to match
 | types  | An _array_ or a _comma separated string_ of the message events in which to look for the patterns
-| middleware function | _optional_ function to redefine how patterns are matched. see [Botkit Middleware](#middleware)
+| middleware function | _optional_ function to redefine how patterns are matched. see [Botkit Middleware](middleware.md)
 | callback | callback function that receives a message object
 
 ```javascript
@@ -768,6 +774,7 @@ Botkit provides several built in variables that are automatically available to a
 |--- |---
 | bot.utterances.yes | Matches phrases like yes, yeah, yup, ok and sure.
 | bot.utterances.no | Matches phrases like no, nah, nope
+| bot.utterances.quit | Matches phrases like, cancel, exit, stop
 
 ##### Conversation Control Functions
 
@@ -935,12 +942,14 @@ Here is an example of [using an Express web server alongside Botkit](https://git
 * [Botkit Studio API](readme-studio.md)
 * [Function index](readme.md#developing-with-botkit)
 * [Extending Botkit with Plugins and Middleware](middleware.md)
+  * [Message Pipeline](readme-pipeline.md)
   * [List of current plugins](readme-middlewares.md)
 * [Storing Information](storage.md)
 * [Logging](logging.md)
 * Platforms
   * [Slack](readme-slack.md)
   * [Cisco Spark](readme-ciscospark.md)
+  * [Microsoft Teams](readme-teams.md)
   * [Facebook Messenger](readme-facebook.md)
   * [Twilio SMS](readme-twiliosms.md)
   * [Twilio IPM](readme-twilioipm.md)
