@@ -4,6 +4,15 @@
 
 [Want to contribute? Read our guide!](https://github.com/howdyai/botkit/blob/master/CONTRIBUTING.md)
 
+## 0.6.3
+
+New: Support for Slack dialogs -
+
+    * `bot.api.dialog.open()` function
+    * `bot.replyWithDialog()` function
+    * `bot.createDialog()` function
+    * `dialog_submission` event
+
 ## 0.6.2
 
 Fix bug in Facebook connector: call `startTicking()` as part of object instantiation. This was missing in 0.6 and 0.6.1
