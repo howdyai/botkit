@@ -8,10 +8,12 @@
 
 New: Support for Slack dialogs -
 
-    * `bot.api.dialog.open()` function
     * `bot.replyWithDialog()` function
     * `bot.createDialog()` function
+    * `bot.api.dialog.open()` function
     * `dialog_submission` event
+    * `bot.dialogOk()` function
+    * `bot.dialogError()` function
 
 ## 0.6.2
 
