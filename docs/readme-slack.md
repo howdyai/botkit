@@ -18,6 +18,8 @@ Table of Contents
 * [Working with Slack Custom Integrations](#working-with-slack-integrations)
 * [Using the Slack Button](#use-the-slack-button)
 * [Message Buttons](#message-buttons)
+* [Dialogs](#dialogs)
+* [Events API](#events-api)
 
 ---
 ## Getting Started
@@ -970,6 +972,250 @@ bot.startConversation(message, function(err, convo) {
     ]);
 });
 ```
+
+## Dialogs
+
+[Dialogs](https://api.slack.com/dialogs) allow bots to present multi-field pop-up forms in response to a button click or other interactive message interaction.
+Botkit provides helper functions and special events to make using dialogs in your app possible.
+
+### Create a dialogs
+
+Dialogs can be created in response to `interactive_message_callback` or `slash_command` events.
+Botkit provides a specialized reply function, `bot.replyWithDialog()` and an object builder function,
+`bot.createDialog()` that should be used to create and send the dialog.
+
+#### bot.createDialog()
+| Argument | Description
+|---  |---
+| title | title of dialog
+| callback_id | value for the callback_id field, used to identify the form
+| submit_label | the label for the submit button.
+| elements | an optional array of pre-specified [elements objects](https://api.slack.com/dialogs#elements)
+
+This function returns an `dialog object` with additional methods for creating the form elements,
+and using them with `bot.replyWithDialog`.  These functions can be chained together.
+
+
+```javascript
+var dialog = bot.createDialog(
+         'Title of dialog',
+         'callback_id',
+         'Button Label'
+       ).addText('Text','text','some text')
+        .addSelect('Select','select',null,[{label:'Foo',value:'foo'},{label:'Bar',value:'bar'}],{placeholder: 'Select One'})
+        .addTextarea('Textarea','textarea','some longer text',{placeholder: 'Put words here'})
+        .addUrl('Website','url','http://botkit.ai');
+
+bot.replyWithDialog(message, dialog.asObject());
+```
+
+##### dialog.title()
+| Argument | Description
+|---  |---
+| value | value for the dialog title
+
+##### dialog.callback_id()
+| Argument | Description
+|---  |---
+| value | value for the dialog title
+
+##### dialog.submit_label()
+| Argument | Description
+|---  |---
+| value | value for the dialog title
+
+##### dialog.addText()
+| Argument | Description
+|---  |---
+| label | label of field
+| name | name of field
+| value | optional value
+| options | an object defining additional parameters for this elements
+
+Add a one-line text element to the dialog. The `options` object can contain [any of the parameters listed in Slack's documentation for this element](https://api.slack.com/dialogs),
+including `placeholder`, `optional`, `min_length` and `max_length`
+
+##### dialog.addEmail()
+| Argument | Description
+|---  |---
+| label | label of field
+| name | name of field
+| value | optional value
+| options | an object defining additional parameters for this elements
+
+Add a one-line email address element to the dialog. The `options` object can contain [any of the parameters listed in Slack's documentation for this element](https://api.slack.com/dialogs),
+including `placeholder`, `optional`, `min_length` and `max_length`
+
+##### dialog.addNumber()
+| Argument | Description
+|---  |---
+| label | label of field
+| name | name of field
+| value | optional value
+| options | an object defining additional parameters for this elements
+
+Add a one-line number element to the dialog. The `options` object can contain [any of the parameters listed in Slack's documentation for this element](https://api.slack.com/dialogs),
+including `placeholder`, `optional`, `min_length` and `max_length`
+
+##### dialog.addTel()
+| Argument | Description
+|---  |---
+| label | label of field
+| name | name of field
+| value | optional value
+| options | an object defining additional parameters for this elements
+
+Add a one-line telephone number element to the dialog. The `options` object can contain [any of the parameters listed in Slack's documentation for this element](https://api.slack.com/dialogs),
+including `placeholder`, `optional`, `min_length` and `max_length`
+
+##### dialog.addUrl()
+| Argument | Description
+|---  |---
+| label | label of field
+| name | name of field
+| value | optional value
+| options | an object defining additional parameters for this elements
+
+Add a one-line url element to the dialog. The `options` object can contain [any of the parameters listed in Slack's documentation for this element](https://api.slack.com/dialogs),
+including `placeholder`, `optional`, `min_length` and `max_length`
+
+##### dialog.addTextarea()
+| Argument | Description
+|---  |---
+| label | label of field
+| name | name of field
+| value | optional value
+| options | an object defining additional parameters for this elements
+| subtype | optional: can be email, url, tel, number or text
+
+Add a one-line text element to the dialog. The `options` object can contain [any of the parameters listed in Slack's documentation for this element](https://api.slack.com/dialogs),
+including `placeholder`, `optional`, `min_length` and `max_length`
+
+##### dialog.addSelect()
+| Argument | Description
+|---  |---
+| label | label of field
+| name | name of field
+| value | optional value
+| option_list | an array of option objects in the form [{label:, value:}]
+| options | an object defining additional parameters for this elements
+| subtype | optional: can be email, url, tel, number or text
+
+Add a one-line text element to the dialog. The `options` object can contain [any of the parameters listed in Slack's documentation for this element](https://api.slack.com/dialogs),
+including `placeholder` and `optional`
+
+##### dialog.toObject()
+
+Return the dialog as a Javascript object
+
+##### dialog.asString()
+
+Return the dialog as JSON
+
+#### bot.replyWithDialog
+| Argument | Description
+|---  |---
+| src | incoming `interactive_message_callback` or `slash_command` event
+| dialog | a dialog object, created by `bot.createDialog().toObject()` or defined to Slack's spec
+
+Sends a dialog in response to a button click or slash command. The dialog will appear in Slack as a popup window.
+This function uses the API call `bot.api.dialog.open` to actually deliver the dialog.
+
+```javascript
+// launch a dialog from a button click
+controller.on('interactive_message_callback', function(bot, trigger) {
+
+  // is the name of the clicked button "dialog?"
+  if (trigger.actions[0].name.match(/^dialog/)) {
+
+        var dialog =bot.createDialog(
+              'Title of dialog',
+              'callback_id',
+              'Button Label'
+            ).addText('Text','text','some text')
+              .addSelect('Select','select',null,[{label:'Foo',value:'foo'},{label:'Bar',value:'bar'}],{placeholder: 'Select One'})
+             .addTextarea('Textarea','textarea','some longer text',{placeholder: 'Put words here'})
+             .addUrl('Website','url','http://botkit.ai');
+
+
+        bot.replyWithDialog(trigger, dialog.asObject(), function(err, res) {
+          // handle your errors!
+        });
+
+    }
+
+});
+```
+
+
+### Receive Dialog Submissions
+
+When a user in Slack submits a dialog, your bot will receive a `dialog_submission` event
+which can be handled using standard `controller.on('dialog_submission', function handler(bot, message) {})` format.
+
+The form submission values can be found in the `message.submission` field, which is an object containing
+key value pairs that match the fields specified in the dialog.
+In addition, the message will have a `message.callback_id` field which identifies the form.
+
+Slack recommends an additional layer of server-side validation of the values in `message.submission`.
+To respond with an error, use `bot.dialogError()`
+
+Otherwise, you must call `bot.dialogOk()` to tell Slack that the submission has been successfully received by your app.
+They also recommend that the bot respond in some other way, such as sending a follow-up message. You can use
+the normal `bot.reply` or `bot.whisper` functions to send such a message.
+
+In the example below, we define a `receive middleware` that performs additional validation on the submission.
+
+```javascript
+// use a receive middleware hook to validate a form submission
+// and use bot.dialogError to respond with an error before the submission
+// can be sent to the handler
+controller.middleware.receive.use(function validateDialog(bot, message, next) {
+
+
+  if (message.type=='dialog_submission') {
+
+    if (message.submission.number > 100) {
+       bot.dialogError({
+          "name":"number",
+          "error":"Please specify a value below 100"
+          });            
+      return;
+    }
+  }
+
+  next();
+
+});
+
+
+// handle a dialog submission
+// the values from the form are in event.submission    
+  controller.on('dialog_submission', function(bot, message) {
+    var submission = message.submission;
+    bot.reply(message, 'Got it!');
+
+    // call dialogOk or else Slack will think this is an error
+    bot.dialogOk();
+});
+```
+
+#### bot.dialogOk()
+
+Send a success acknowledgement back to Slack. You _must_ call either dialogOk() or dialogError() in response to `dialog_submission` events,
+otherwise Slack will display an error and will appear to reject the form submission.
+
+#### bot.dialogError()
+| Argument | Description
+|---  |---
+| error | a single error object {name:, error:} or an array of error objects
+
+Send one or more validation errors back to Slack to display in the dialog.
+The parameter can be one or more objects, where the `name` field matches the
+name of the field in which the error is present.
+
+
+
 
 
 ## Events API

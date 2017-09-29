@@ -4,6 +4,19 @@
 
 [Want to contribute? Read our guide!](https://github.com/howdyai/botkit/blob/master/CONTRIBUTING.md)
 
+## 0.6.3
+
+New: Support for [Slack Dialogs](https://api.slack.com/dialogs), including:
+
+* `bot.createDialog()` function [Docs](docs/readme-slack.md#dialogs)
+* `bot.replyWithDialog()` function [Docs](docs/readme-slack.md#botreplywithdialog)
+* `bot.api.dialog.open()` function
+* `dialog_submission` event [Docs](docs/readme-slack.md#receive-dialog-submissions)
+* `bot.dialogOk()` function [Docs](docs/readme-slack.md#botdialogok)
+* `bot.dialogError()` function [Docs](docs/readme-slack.md#botdialogerror)
+
+Fix: Cisco Spark bots will once again receive `direct_message` and `direct_mention` events. (Fix for [#1059](https://github.com/howdyai/botkit/issues/1059))
+
 ## 0.6.2
 
 Fix bug in Facebook connector: call `startTicking()` as part of object instantiation. This was missing in 0.6 and 0.6.1
