@@ -8,12 +8,12 @@
 
 New: Support for [Slack Dialogs](https://api.slack.com/dialogs), including:
 
-    * `bot.createDialog()` function [Docs](docs/readme-slack.md#dialogs)
-    * `bot.replyWithDialog()` function [Docs](docs/readme-slack.md#botreplywithdialog)
-    * `bot.api.dialog.open()` function
-    * `dialog_submission` event [Docs](docs/readme-slack.md#receive-dialog-submissions)
-    * `bot.dialogOk()` function [Docs](docs/readme-slack.md#botdialogok)
-    * `bot.dialogError()` function [Docs](docs/readme-slack.md#botdialogerror)
+* `bot.createDialog()` function [Docs](docs/readme-slack.md#dialogs)
+* `bot.replyWithDialog()` function [Docs](docs/readme-slack.md#botreplywithdialog)
+* `bot.api.dialog.open()` function
+* `dialog_submission` event [Docs](docs/readme-slack.md#receive-dialog-submissions)
+* `bot.dialogOk()` function [Docs](docs/readme-slack.md#botdialogok)
+* `bot.dialogError()` function [Docs](docs/readme-slack.md#botdialogerror)
 
 Fix: Cisco Spark bots will once again receive `direct_message` and `direct_mention` events. (Fix for [#1059](https://github.com/howdyai/botkit/issues/1059))
 
