@@ -279,7 +279,7 @@ declare namespace botkit {
     createHomepageEndpoint(webserver: any): this;
     createOauthEndpoints(webserver: any, callback: (err: Error, req: any, res: any) => void): this;
     createWebhookEndpoints(webserver: any, authenticationTokens?: string[]): this;
-    setupWebserver();
+    setupWebserver(port: number | string, cb: (err: Error, webserver: any) => void): this;
     getAuthorizeURL(team_id: string, redirect_params: any): string;
   }
   interface SlackMessage extends Message {
