@@ -11,6 +11,7 @@ jest.mock('../../lib/BotFramework', () => 'botframework');
 jest.mock('../../lib/CiscoSparkbot', () => 'spark');
 jest.mock('../../lib/ConsoleBot', () => 'console');
 jest.mock('../../lib/Sockets', () => 'socketbot');
+jest.mock('../../lib/Teams', () => 'teams');
 
 beforeEach(() => {
     jest.clearAllMocks();
@@ -25,6 +26,7 @@ test('exports bot interfaces', () => {
     expect(botkit.twiliosmsbot).toBe('twiliosms');
     expect(botkit.botframeworkbot).toBe('botframework');
     expect(botkit.sparkbot).toBe('spark');
+    expect(botkit.teamsbot).toBe('teams');
     expect(botkit.consolebot).toBe('console');
     expect(botkit.socketbot).toBe('socketbot');
 

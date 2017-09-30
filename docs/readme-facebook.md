@@ -80,6 +80,7 @@ Normal messages will be sent to your bot using the `message_received` event.  In
 | message_received | a message was received by the bot
 | facebook_postback | user clicked a button in an attachment and triggered a webhook postback
 | message_delivered | a confirmation from Facebook that a message has been received
+| message_echo | if enabled in Facebook, an "echo" of any message sent by the bot
 | message_read | a confirmation from Facebook that a message has been read
 | facebook_account_linking | a user has started the account linking
 | facebook_optin | a user has clicked the [Send-to-Messenger plugin](https://developers.facebook.com/docs/messenger-platform/implementation#send_to_messenger_plugin)
@@ -90,8 +91,6 @@ All incoming events will contain the fields `user` and `channel`, both of which 
 `message_received` events will also contain either a `text` field or an `attachment` field.
 
 `facebook_postback` events will contain a `payload` field.
-
-Notice also that `facebook_postback` events trigger the `message_received` event as well. That is why messages will have the `type` field as well. When the message is directly from the user (i.e. onlye `message_received` event) `type` will be set to `"user_message"` and when the message is originated in a `facebook_postback` then `type` will be set to `facebook_postback`.
 
 More information about the data found in these fields can be found [here](https://developers.facebook.com/docs/messenger-platform/webhook-reference).
 
@@ -153,22 +152,20 @@ controller.hears(['cookies'], 'message_received', function(bot, message) {
 Facebook Messenger supports including "postback" buttons, which, when clicked,
 send a specialized `facebook_postback` event.
 
-As an alternative to binding an event handler to the `facebook_postback` event,
-developers may find it useful if button clicks are treated as "typed" messages.
-This enables buttons to be more easily used as part of a conversation flow, and
-can reduce the complexity of the code necessary.
+Developers may find it useful if button clicks are treated as "typed" messages.
+In order to "hear" these events, add the `facebook_postback` event to the list of events specified in the second parameter to the `hears()` function.
+This enables buttons to be used as part of a conversation flow, with the button's
+`payload` field being used for the message text.
 
-Once enabled, the `payload` field of any postback button that is clicked will be
-treated as if the user typed the message, and will trigger any relevant `hears` triggers.
+When used in conjunction with `convo.ask`, Botkit will treat the button's `payload` field as if were a message typed by the user.
 
-To enable this option, pass in `{receive_via_postback: true}` to your Botkit Facebook controller, as below:
+```
+// receive a message whether it is typed or part of a button click
+controller.hears('hello','message_received,facebook_postback', function(bot,message) {
 
-```javascript
-var controller = Botkit.facebookbot({
-        access_token: process.env.access_token,
-        verify_token: process.env.verify_token,
-        receive_via_postback: true,
-})
+  bot.reply(message, 'Got it!');
+
+});
 ```
 
 ### Require Delivery Confirmation
@@ -548,7 +545,7 @@ If specified, `message.nlp.entities` will include a list of entities and intents
 
 Facebook's NLP option can be enabled by calling `controller.api.nlp.enable()` in your Botkit app.
 
-Facebook's NLP option can be disabled by calling `controller.api.nlp.enable()` in your Botkit app.
+Facebook's NLP option can be disabled by calling `controller.api.nlp.disable()` in your Botkit app.
 
 
 ## Message Tags
@@ -579,18 +576,21 @@ Instead of the web server generated with setupWebserver(), it is possible to use
 
 Here is an example of [using an Express web server alongside BotKit for Facebook Messenger](https://github.com/mvaragnat/botkit-messenger-express-demo).
 
-## Documentation
+
+## Botkit Documentation Index
 
 * [Get Started](readme.md)
 * [Botkit Studio API](readme-studio.md)
 * [Function index](readme.md#developing-with-botkit)
 * [Extending Botkit with Plugins and Middleware](middleware.md)
+  * [Message Pipeline](readme-pipeline.md)
   * [List of current plugins](readme-middlewares.md)
 * [Storing Information](storage.md)
 * [Logging](logging.md)
 * Platforms
   * [Slack](readme-slack.md)
   * [Cisco Spark](readme-ciscospark.md)
+  * [Microsoft Teams](readme-teams.md)
   * [Facebook Messenger](readme-facebook.md)
   * [Twilio SMS](readme-twiliosms.md)
   * [Twilio IPM](readme-twilioipm.md)
