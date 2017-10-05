@@ -23,12 +23,10 @@ Storage middleware can be used for storing attributes about a user or channel or
 * [CouchDB](#couchdb)
 
 ### [Statistics](#statistics)
-* [bCRM](#bcrm)
 * [Botmetrics](#botmetrics)
 * [Keen](#keen)
 
 ### [CRM](#crm-modules)
-* [bCRM](#bcrm)
 * [Dashbot](#dashbot)
 * [Wordhop](#wordhop)
 
@@ -96,9 +94,6 @@ A Couchdb storage module for botkit
 This middleware allows you to to understand how many messages are going through your system, run cohorts to measure retention, set up funnels to measure task completion, and any key metric unique to your bot. More information about the Keen platform [can be found on their website](https://keen.github.io/keen-botkit/)
 
 # CRM Modules
-## bCRM
-### [Project Page](https://github.com/howdyai/botkit-middleware-bcrm)
-This Botkit plugin enables support for bCRM, a customer CRM tool that enables bot developers to send broadcast messages to users of their bot. This plugin currently works with Slack and Facebook bots.
 
 ## Dashbot
 ### [Project Page Facebook](https://www.dashbot.io/sdk/facebook/botkit)
