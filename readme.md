@@ -1,5 +1,7 @@
 # [Botkit](https://botkit.ai) - Building Blocks for Building Bots
 
+[![Join the chat at https://gitter.im/botkitstudio/Lobby](https://badges.gitter.im/botkitstudio/Lobby.svg)](https://gitter.im/botkitstudio/Lobby?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+
 [![npm](https://img.shields.io/npm/v/botkit.svg)](https://www.npmjs.com/package/botkit)
 [![David](https://img.shields.io/david/howdyai/botkit.svg)](https://david-dm.org/howdyai/botkit)
 [![npm](https://img.shields.io/npm/l/botkit.svg)](https://spdx.org/licenses/MIT)
