@@ -1000,7 +1000,7 @@ and using them with `bot.replyWithDialog`.  These functions can be chained toget
 var dialog = bot.createDialog(
          'Title of dialog',
          'callback_id',
-         'Button Label'
+         'Submit'
        ).addText('Text','text','some text')
         .addSelect('Select','select',null,[{label:'Foo',value:'foo'},{label:'Bar',value:'bar'}],{placeholder: 'Select One'})
         .addTextarea('Textarea','textarea','some longer text',{placeholder: 'Put words here'})
@@ -1131,7 +1131,7 @@ controller.on('interactive_message_callback', function(bot, trigger) {
         var dialog =bot.createDialog(
               'Title of dialog',
               'callback_id',
-              'Button Label'
+              'Submit'
             ).addText('Text','text','some text')
               .addSelect('Select','select',null,[{label:'Foo',value:'foo'},{label:'Bar',value:'bar'}],{placeholder: 'Select One'})
              .addTextarea('Textarea','textarea','some longer text',{placeholder: 'Put words here'})
