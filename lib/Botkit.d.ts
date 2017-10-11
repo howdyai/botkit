@@ -231,6 +231,7 @@ declare namespace botkit {
     footer?: string;
     footer_icon?: string;
     image_url?: string;
+    mrkdwn_in?: string[];
     pretext?: string;
     text?: string;
     thumb_url?: string;
