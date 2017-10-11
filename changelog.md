@@ -4,6 +4,16 @@
 
 [Want to contribute? Read our guide!](https://github.com/howdyai/botkit/blob/master/CONTRIBUTING.md)
 
+## 0.6.4
+
+Fix for Cisco Spark: improved methodology for detecting and handling @mentions
+
+Fix for Slack: allow multiple validation errors to be passed in to `bot.dialogError()`.  Thanks @cfs! [PR #1080](https://github.com/howdyai/botkit/pull/1080)
+
+Fix for Slack: fix for `bot.whisper()` Thanks to @jonchurch and @fletchrichman!
+
+New: Botkit Studio scripts may now contain custom fields in message objects. This is in support of an upcoming feature in Botkit Studio which will allow developers to add define these custom fields in the Studio IDE.
+
 ## 0.6.3
 
 New: Support for [Slack Dialogs](https://api.slack.com/dialogs), including:
