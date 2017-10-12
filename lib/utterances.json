@@ -1,0 +1,5 @@
+{
+  "yes": "^(yes|yea|yup|yep|ya|sure|ok|y|yeah|yah)",
+  "no": "^(no|nah|nope|n)",
+  "quit": "^(quit|cancel|end|stop|done|exit|nevermind|never mind)"
+}
