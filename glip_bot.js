@@ -11,36 +11,42 @@ var os = require('os');
 var http = require('http');
 var request = require('request');
 
+if (!process.env.clientId || !process.env.clientSecret || !process.env.port) {
+    console.log('Error: Specify clientId clientSecret and port in environment');
+    process.exit(1);
+}
 
 var controller = Botkit.glipbot({
-    debug: false,
+    debug: true
+}).configureGlipApp({
+    clientId: process.env.clientId,
+    clientSecret: process.env.clientSecret,
+    redirectUri: process.env.redirectUri,
+    apiRoot: process.env.apiRoot,
+    accessToken: '',
+    subscriptionId: ''
 });
 
-var bot = controller.spawn({
-    server: process.env.GLIP_SERVER,
-    appKey: process.env.GLIP_APPKEY,
-    appSecret: process.env.GLIP_APPSECRET,
-    appName: 'GlipDemo',
-    appVersion: '1.0.0',
-    username: process.env.GLIP_USERNAME,
-    password: process.env.GLIP_PASSWORD,
-    extension: process.env.GLIP_EXTENSION,
-    port: process.env.GLIP_PORT,
-}).startRTM();
+
+var bot = controller.spawn({});
 
 controller.setupWebserver(process.env.port || 3000, function(err, webserver){
-    webserver.get('/', function (req ,res) {
-        res.send(':)');
+    controller.createWebhookEndpoints(webserver, bot,  function () {
+        console.log("Online");
     });
 
-    controller.createWebhookEndpoints(webserver, bot);
+    controller.createOauthEndpoints(webserver, bot, function(err, req, res) {
+        if(err) {
+            res.status(500).send('ERROR: ' + err);
+        } else {
+            res.send('Success!');
+        }
+    })
 
 });
-
 
 // Usage: uptime
 controller.hears(['uptime'],'message_received',function(bot, message) {
-    console.log(message);
     var hostname = os.hostname();
     var uptime = formatUptime(process.uptime());
     bot.reply(message,'I am a bot! I have been running for ' + uptime + ' on ' + hostname + '.');
