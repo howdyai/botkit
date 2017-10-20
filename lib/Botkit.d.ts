@@ -145,7 +145,7 @@ declare namespace botkit {
     multiple?: boolean;
   }
   interface FacebookAttachment {
-    type: 'audio' | 'file' | 'image' | 'video';
+    type: 'audio' | 'file' | 'image' | 'template' | 'video';
     payload: any;
   }
   interface FacebookBot extends Bot<FacebookSpawnConfiguration, FacebookMessage> {
