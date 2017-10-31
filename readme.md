@@ -123,7 +123,14 @@ in any type of project.
 
 ## Install Botkit from NPM or Github
 
-Botkit is available via NPM.
+Botkit is available via NPM. We recommend installing the Botkit command line tool, which will automate many of the follow-up steps!
+
+```bash
+npm install -g botkit
+botkit new --name "workbot9000"
+```
+
+To install Botkit as a dependency into an existing node project:
 
 ```bash
 npm install --save botkit
