@@ -5,6 +5,7 @@
   "main": "lib/Botkit.js",
   "types": "lib/Botkit.d.ts",
   "dependencies": {
+    "vorpal": "^1.12.0",
     "async": "^2.1.5",
     "back": "^1.0.1",
     "body-parser": "^1.17.1",
@@ -42,6 +43,9 @@
     "test": "jest --coverage",
     "test-legacy": "mocha ./tests/*.js",
     "test-watch": "jest --watch"
+  },
+  "bin": {
+    "botkit": "./bin/cli.js"
   },
   "repository": {
     "type": "git",
