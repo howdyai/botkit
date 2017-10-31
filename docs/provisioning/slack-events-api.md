@@ -40,9 +40,9 @@ Click on the "Bot Users" tab and specify a name for your bot. This is the name t
 
 In addition to a name, enable the option for "Always Show My Bot Online." This will ensure your Bot appears online to your team.
 
-## 5. Set up Interactive Messages
+## 5. Set up Interactive Components
 
-"Interactive messages" is Slack's fancy way of saying "buttons." In order to enable buttons, under Request URL, add `https://YOURURL/slack/receive`, then click save.
+"Interactive Components" is Slack's fancy way of saying "buttons, or dialogs, or menus." In order to enable these, under Request URL, add `https://YOURURL/slack/receive`, then click save.
 
 ![Setup Interactive images](IMG/slack-im.png)
 
