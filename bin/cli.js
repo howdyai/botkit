@@ -53,7 +53,7 @@ function askBotName(i) {
             self.prompt({
                 type: 'input',
                 name: 'name',
-                message: 'What would you like to name your bot? '
+                message: chalk.bold('What would you like to name your bot?\n> ')
             }, function(result) {
                 if (result.name) {
                     bot_vars.name = result.name;
@@ -78,7 +78,7 @@ function askBotPlatform(i) {
                 type: 'list',
                 choices: platforms,
                 name: 'platform',
-                message: 'What platform will this bot live on? '
+                message: 'What platform will this bot live on?'
             }, function(result) {
                 if (result.platform) {
                     bot_vars.platform = result.platform;
@@ -101,7 +101,7 @@ function askStudioKey(i) {
             self.prompt({
                 type: 'input',
                 name: 'studio_token',
-                message: '(Optional) Please enter your Botkit Studio token. Get one from https://studio.botkit.ai '
+                message: chalk.bold('(Optional) Please enter your Botkit Studio token. Get one from https://studio.botkit.ai\n> ')
             }, function(result) {
                 if (result.studio_token) {
                     bot_vars.studio_token = result.studio_token;
@@ -118,7 +118,7 @@ function askStudioKey(i) {
 function getBotInput(self, bot_vars) {
     return new Promise(function(resolve, reject) {
         askBotName(self).then(function(name) {
-            self.log(`Your bot shall be called ${name} bask in all of its glory!`);
+            self.log(`Your bot shall be called ${name}!`);
             askBotPlatform(self).then(function(platform) {
                 self.log(`We will build for the ${platform} platform!`);
                 askStudioKey(self).then(function(key) {
@@ -149,7 +149,6 @@ function buildBotKit(i, bot_vars, cb) {
             var temp_folder_name = String(now.getTime());
             var folder_name = makeDirname(bot_vars.name);
             var action = 'git clone ' + target[0].artifact + ' ' + folder_name + '&& cd ' + folder_name + ' && npm install'
-            self.log(action);
             exec(action, function(err, stdout, stderr) {
                 if (err) {
                     self.log('An error occured. You may already have that starter kit installed.');
@@ -161,13 +160,13 @@ function buildBotKit(i, bot_vars, cb) {
                     // self.log('bot_vars: ', bot_vars);
                     if (bot_vars.studio_token) {
                         writeStudioToken(self, bot_vars, function() {
-                            var final_msg = 'Installation complete. In your terminal please type "cd ' + folder_name + ' && node ." to start your bot';
-                            self.log(final_msg);
+                            self.log(chalk.bold('Installation complete! To start your bot, type:'));
+                            self.log('cd ' + folder_name + ' && node .');
                             cb();
                         });
                     } else {
-                        var final_msg = 'Installation complete. In your terminal please type "cd ' + folder_name + ' && node ." to start your bot';
-                        self.log(final_msg);
+                        self.log(chalk.bold('Installation complete! To start your bot, type:'));
+                        self.log('cd ' + folder_name + ' && node .');
                         cb();
                     }
                 }
@@ -250,6 +249,6 @@ botkit
 
 
 botkit
-    .delimiter(chalk.magenta('botkit~$'))
+    .delimiter(chalk.magenta('botkit $'))
     .show()
     .parse(process.argv)
