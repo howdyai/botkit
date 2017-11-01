@@ -79,48 +79,6 @@ are ready to submit to [Cisco Spark's Depot app store](https://depot.ciscospark.
 > The Facebook starter kit contains all the code necessary to stand up a Facebook bot on either Facebook Messenger, or Facebook Work Chat. With just a few pieces of configuration, set up a bot that automatically responds to messages sent to your Facebook page.
 > #### [![Remix on Glitch](docs/glitch.png)](https://glitch.com/~botkit-facebook)
 
-# Developer & Support Community
-
-Join our thriving community of Botkit developers and bot enthusiasts at large.
-Over 4500 members strong, [our open Slack group](https://community.botkit.ai) is
-_the place_ for people interested in the art and science of making bots.
-Come to ask questions, share your progress, and commune with your peers!
-
-You can also find help from members of the Botkit team [in our dedicated Cisco Spark room](https://eurl.io/#SyNZuomKx)!
-
-We also host a [regular meetup and annual conference called TALKABOT.](https://talkabot.ai)
-Come meet and learn from other bot developers! [Full video of our 2016 event is available on Youtube.](https://www.youtube.com/playlist?list=PLD3JNfKLDs7WsEHSal2cfwG0Fex7A6aok)
-
-
-
-# Botkit Core Library
-
-Botkit is designed around the idea of giving developers a language-like interface for building bots.
-Instead of dealing directly with messaging platform protocols and APIs, Botkit provides semantic functions
-designed around the normal parts of human conversation: _hearing things_ and _saying things_.
-
-On top of these basic build blocks, Botkit offers a powerful system for creating and managing dynamic
-conversational interfaces, and tapping into cutting edge technology like artificial intelligence (AI)
-and natural language understanding (NLP/NLU) tools.
-
-Practically speaking, this results in code that looks like this:
-
-```javascript
-// respond when a user sends a DM to the bot that says "hello"
-controller.hears('hello', 'direct_message', function(bot, message) {
-    bot.reply(message, 'Hello human.');
-});
-```
-
-All Botkit bots, built for any platform, use these same building blocks. This means developers are not required
-to learn the intricacies of each platform, and can build bots that port easily between them.
-
-Botkit can be used to build a stand-alone application, or it can be integrated into existing Node.js
-apps to offer a bot experience, or to send application notifications into messaging apps. It is released
-under the [MIT open source license](LICENSE.md), which means developers are free to use it any way they choose,
-in any type of project.
-
-
 ## Install Botkit from NPM or Github
 
 Botkit is available via NPM. We recommend installing the Botkit command line tool, which will automate many of the follow-up steps!
@@ -152,6 +110,47 @@ Use the `--production` flag to skip the installation of devDependencies from Bot
 ```bash
 npm install --production
 ```
+
+# Developer & Support Community
+
+Join our thriving community of Botkit developers and bot enthusiasts at large.
+Over 4500 members strong, [our open Slack group](https://community.botkit.ai) is
+_the place_ for people interested in the art and science of making bots.
+Come to ask questions, share your progress, and commune with your peers!
+
+You can also find help from members of the Botkit team [in our dedicated Cisco Spark room](https://eurl.io/#SyNZuomKx)!
+
+We also host a [regular meetup and annual conference called TALKABOT.](https://talkabot.ai)
+Come meet and learn from other bot developers! [Full video of our 2016 event is available on Youtube.](https://www.youtube.com/playlist?list=PLD3JNfKLDs7WsEHSal2cfwG0Fex7A6aok)
+
+
+# Botkit Core Library
+
+Botkit is designed around the idea of giving developers a language-like interface for building bots.
+Instead of dealing directly with messaging platform protocols and APIs, Botkit provides semantic functions
+designed around the normal parts of human conversation: _hearing things_ and _saying things_.
+
+On top of these basic build blocks, Botkit offers a powerful system for creating and managing dynamic
+conversational interfaces, and tapping into cutting edge technology like artificial intelligence (AI)
+and natural language understanding (NLP/NLU) tools.
+
+Practically speaking, this results in code that looks like this:
+
+```javascript
+// respond when a user sends a DM to the bot that says "hello"
+controller.hears('hello', 'direct_message', function(bot, message) {
+    bot.reply(message, 'Hello human.');
+});
+```
+
+All Botkit bots, built for any platform, use these same building blocks. This means developers are not required
+to learn the intricacies of each platform, and can build bots that port easily between them.
+
+Botkit can be used to build a stand-alone application, or it can be integrated into existing Node.js
+apps to offer a bot experience, or to send application notifications into messaging apps. It is released
+under the [MIT open source license](LICENSE.md), which means developers are free to use it any way they choose,
+in any type of project.
+
 
 ## Running Tests
 
