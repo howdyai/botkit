@@ -57,7 +57,6 @@ function askBotName(i) {
             }, function(result) {
                 if (result.name) {
                     bot_vars.name = result.name;
-                    // self.log(`Your bot shall be called ${result.name} bask in all of its glory!`);
                     resolve(result.name);
                 } else {
                     reject({});
@@ -157,7 +156,6 @@ function buildBotKit(i, bot_vars, cb) {
                     cb();
                 } else {
                     self.log('Installing dependencies...');
-                    // self.log('bot_vars: ', bot_vars);
                     if (bot_vars.studio_token) {
                         writeStudioToken(self, bot_vars, function() {
                             self.log(chalk.bold('Installation complete! To start your bot, type:'));
@@ -206,14 +204,12 @@ function writeStudioToken(i, bot_vars, cb) {
 
 botkit
     .command('new')
-    //  .option('-o, --object <obj>', 'What do you want to make? example: bot')
     .option('-n, --name [name]', 'Name of your Bot')
     .option('-p, --platform [platform]', 'Primary messaging platform')
     .option('-k, --studio_token [studio_token]', 'API token from Botkit Studio')
     .description('Configure a new Botkit-powered application')
     .action(function(args, cb) {
         var self = this;
-        // self.log('args: ', args)
         switch (args.obj) {
             default:
                 case 'bot':
@@ -227,23 +223,12 @@ botkit
             if (args.options.studio_token) {
                 bot_vars.studio_token = args.options.studio_token
             }
-            if (bot_vars.name && bot_vars.platform) {
-                // call the thing
+            getBotInput(self, bot_vars).then(function(res) {
                 buildBotKit(self, bot_vars, cb);
-                // cb();
-            } else {
-                getBotInput(self, bot_vars).then(function(res) {
-                    // self.log('res: ', res);
-                    buildBotKit(self, bot_vars, cb);
-                }).catch(function(err) {
-                    // self.log('err: ', err);
-                    cb();
-                });
-            }
+            }).catch(function(err) {
+                cb();
+            });
             break;
-            // default:
-            //   self.log('I do not understand!');
-            //   cb();
         }
     });
 
