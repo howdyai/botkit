@@ -543,9 +543,9 @@ More information can be found [in Facebook's official documentation of this feat
 
 If specified, `message.nlp.entities` will include a list of entities and intents extracted by Facebook.
 
-Facebook's NLP option can be enabled by calling `controller.api.nlp.enable()` in your Botkit app.
+Facebook's NLP option can be enabled by calling `controller.api.nlp.enable(OPTIONAL_WIT_TOKEN)` in your Botkit app.
 
-Facebook's NLP option can be disabled by calling `controller.api.nlp.disable()` in your Botkit app.
+Facebook's NLP option can be disabled by calling `controller.api.nlp.disable(OPTIONAL_WIT_TOKEN)` in your Botkit app.
 
 
 ## Message Tags
