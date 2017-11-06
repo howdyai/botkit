@@ -4,6 +4,14 @@
 
 [Want to contribute? Read our guide!](https://github.com/howdyai/botkit/blob/master/CONTRIBUTING.md)
 
+## 0.6.6
+
+Important fixes to Facebook and Cisco Spark connectors: A breaking change was introduced in 0.6.5 which has now been fixed.
+
+Remove `crypto` dependency, now use built-in crypto library.
+
+Update `botkit-studio-sdk` dependency to latest version.
+
 ## 0.6.5
 
 Introducing the Botkit command line tool!
