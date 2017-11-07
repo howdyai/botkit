@@ -23,12 +23,10 @@ Storage middleware can be used for storing attributes about a user or channel or
 * [CouchDB](#couchdb)
 
 ### [Statistics](#statistics)
-* [bCRM](#bcrm)
 * [Botmetrics](#botmetrics)
 * [Keen](#keen)
 
 ### [CRM](#crm-modules)
-* [bCRM](#bcrm)
 * [Dashbot](#dashbot)
 * [Wordhop](#wordhop)
 
@@ -96,9 +94,6 @@ A Couchdb storage module for botkit
 This middleware allows you to to understand how many messages are going through your system, run cohorts to measure retention, set up funnels to measure task completion, and any key metric unique to your bot. More information about the Keen platform [can be found on their website](https://keen.github.io/keen-botkit/)
 
 # CRM Modules
-## bCRM
-### [Project Page](https://github.com/howdyai/botkit-middleware-bcrm)
-This Botkit plugin enables support for bCRM, a customer CRM tool that enables bot developers to send broadcast messages to users of their bot. This plugin currently works with Slack and Facebook bots.
 
 ## Dashbot
 ### [Project Page Facebook](https://www.dashbot.io/sdk/facebook/botkit)
@@ -114,19 +109,20 @@ This module has been tested with Messenger, Slack, Skype, and Microsoft Webchat.
 # Have you created middleware?
 We would love to hear about it! [Contact the Howdy team](https://howdy.ai/) to be included in Botkit documentation, or [submit a PR on this documentation](https://github.com/howdyai/botkit-storage-firebase/blob/master/CONTRIBUTING.md)!
 
-
-## Documentation
+## Botkit Documentation Index
 
 * [Get Started](readme.md)
 * [Botkit Studio API](readme-studio.md)
 * [Function index](readme.md#developing-with-botkit)
 * [Extending Botkit with Plugins and Middleware](middleware.md)
+  * [Message Pipeline](readme-pipeline.md)
   * [List of current plugins](readme-middlewares.md)
 * [Storing Information](storage.md)
 * [Logging](logging.md)
 * Platforms
   * [Slack](readme-slack.md)
   * [Cisco Spark](readme-ciscospark.md)
+  * [Microsoft Teams](readme-teams.md)
   * [Facebook Messenger](readme-facebook.md)
   * [Twilio SMS](readme-twiliosms.md)
   * [Twilio IPM](readme-twilioipm.md)
