@@ -6,10 +6,10 @@ Currently the following types of middleware are available for Botkit:
 ### [Natural language processing](#natural-language-processing)
 Natural language processing allows for bots to understand conversational human inputs and interpt your users desires into actionable functions of your application. Once properly trained, these add-ons can dramtiacally improve the UX for your bot application.
 
-### [Storage Modules](#storage-modules)
+### [Storage Modules](#storage-modules-1)
 Storage middlewares can be used for storing attributes about a user or channel or team. Botkit supports most major storage methods.
 
-### [Statistics, Metrics, and CRM](#statistics)
+### [Statistics, Metrics, and CRM](#statistics-metrics-and-crm-1)
 These plugins help you measure the success of your bots, across a variety of measurable methods.
 
 
