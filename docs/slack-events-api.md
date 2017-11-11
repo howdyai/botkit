@@ -56,8 +56,9 @@ In addition to a name, enable the option for "Always Show My Bot Online."
 
 ## 5) Set up Interactive messages
 
-"Interactive messages" is Slack's fancy way of saying "buttons." In order to enable buttons,
-under Request URL, add `https://my-bot-url/slack/receive`, then click save.
+"Interactive messages" is Slack's fancy way of saying "buttons." 
+
+In order to enable buttons, click on the "Interactive Components" tab and under Request URL, add `https://my-bot-url/slack/receive`, then click save.
 
 ## 6) Set up Event Subscriptions
 

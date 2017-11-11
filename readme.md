@@ -79,6 +79,38 @@ are ready to submit to [Cisco Spark's Depot app store](https://depot.ciscospark.
 > The Facebook starter kit contains all the code necessary to stand up a Facebook bot on either Facebook Messenger, or Facebook Work Chat. With just a few pieces of configuration, set up a bot that automatically responds to messages sent to your Facebook page.
 > #### [![Remix on Glitch](docs/glitch.png)](https://glitch.com/~botkit-facebook)
 
+## Install Botkit from NPM or Github
+
+Botkit is available via NPM. We recommend installing the Botkit command line tool, which will automate many of the follow-up steps!
+
+```bash
+npm install -g botkit
+botkit new --name "workbot9000"
+```
+
+To install Botkit as a dependency into an existing node project:
+
+```bash
+npm install --save botkit
+```
+
+You can also check out Botkit directly from Git.
+If you want to use the example code and included bots, it may be preferable to use Github over NPM.
+
+```bash
+git clone git@github.com:howdyai/botkit.git
+```
+
+After cloning the Git repository, you have to install the node dependencies. Navigate to the root of your cloned repository and use npm to install all necessary dependencies.
+```bash
+npm install
+```
+
+Use the `--production` flag to skip the installation of devDependencies from Botkit. Useful if you just wish to run the example bot.
+```bash
+npm install --production
+```
+
 # Developer & Support Community
 
 Join our thriving community of Botkit developers and bot enthusiasts at large.
@@ -90,7 +122,6 @@ You can also find help from members of the Botkit team [in our dedicated Cisco S
 
 We also host a [regular meetup and annual conference called TALKABOT.](https://talkabot.ai)
 Come meet and learn from other bot developers! [Full video of our 2016 event is available on Youtube.](https://www.youtube.com/playlist?list=PLD3JNfKLDs7WsEHSal2cfwG0Fex7A6aok)
-
 
 
 # Botkit Core Library
@@ -120,31 +151,6 @@ apps to offer a bot experience, or to send application notifications into messag
 under the [MIT open source license](LICENSE.md), which means developers are free to use it any way they choose,
 in any type of project.
 
-
-## Install Botkit from NPM or Github
-
-Botkit is available via NPM.
-
-```bash
-npm install --save botkit
-```
-
-You can also check out Botkit directly from Git.
-If you want to use the example code and included bots, it may be preferable to use Github over NPM.
-
-```bash
-git clone git@github.com:howdyai/botkit.git
-```
-
-After cloning the Git repository, you have to install the node dependencies. Navigate to the root of your cloned repository and use npm to install all necessary dependencies.
-```bash
-npm install
-```
-
-Use the `--production` flag to skip the installation of devDependencies from Botkit. Useful if you just wish to run the example bot.
-```bash
-npm install --production
-```
 
 ## Running Tests
 
