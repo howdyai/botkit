@@ -87,7 +87,7 @@ declare namespace botkit {
   interface ConsoleSpawnConfiguration {
   }
   interface Controller<S, M extends Message, B extends Bot<S, M>> {
-    readonly changeEars: HearsFunction<M>;
+    readonly hears_regexp: HearsFunction<M>;
     readonly log: {
       (...params: any[]): void;
     }
@@ -111,6 +111,7 @@ declare namespace botkit {
       teams: Storage<Team>;
     };
     readonly studio: Studio<S, M, B>;
+    changeEars(new_test: HearsFunction<M>): void;
     hears(keywords: string | string[] | RegExp | RegExp[], events: string | string[], cb: HearsCallback<S, M, B>): this;
     hears(keywords: string | string[] | RegExp | RegExp[], events: string | string[], middleware_or_cb: HearsFunction<M>, cb: HearsCallback<S, M, B>): this;
     on(event: string, cb: HearsCallback<S, M, B>): this;
@@ -145,7 +146,7 @@ declare namespace botkit {
     multiple?: boolean;
   }
   interface FacebookAttachment {
-    type: 'audio' | 'file' | 'image' | 'video';
+    type: 'audio' | 'file' | 'image' | 'template' | 'video';
     payload: any;
   }
   interface FacebookBot extends Bot<FacebookSpawnConfiguration, FacebookMessage> {
@@ -231,6 +232,7 @@ declare namespace botkit {
     footer?: string;
     footer_icon?: string;
     image_url?: string;
+    mrkdwn_in?: string[];
     pretext?: string;
     text?: string;
     thumb_url?: string;
@@ -279,7 +281,7 @@ declare namespace botkit {
     createHomepageEndpoint(webserver: any): this;
     createOauthEndpoints(webserver: any, callback: (err: Error, req: any, res: any) => void): this;
     createWebhookEndpoints(webserver: any, authenticationTokens?: string[]): this;
-    setupWebserver();
+    setupWebserver(port: number | string, cb: (err: Error, webserver: any) => void): this;
     getAuthorizeURL(team_id: string, redirect_params: any): string;
   }
   interface SlackMessage extends Message {

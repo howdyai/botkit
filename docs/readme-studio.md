@@ -25,7 +25,7 @@ However, our intent is not to cover every base needed for building a successful 
 
 * **Easy to use SDK**: Our open source SDK provides simple mechanisms for accessing these features from within your application.  With only a few new functions: [studio.get](#controllerstudioget), [studio.run](#controllerstudiorun), and [studio.runTrigger](#controllerruntrigger), your bot has full access to all of the content managed by the cloud service. These functions can be used to build light weight integrations with Studio, or turn over complete control to the cloud brain.
 
-![Botkit Studio authoring tool](studio_script_author.png)
+![Botkit Studio authoring tool](studio_script_author2.png)
 
 The screenshot above shows the script authoring tool, where bot developers can write dialog,
 manage [conversation threads](readme.md#conversation-threads), define variables to capture user input, and set triggers that will automatically activate the bot.
@@ -344,18 +344,20 @@ controller.studio.beforeThread('search', 'results', function(convo, next) {
 ```
 
 
-## Documentation
+## Botkit Documentation Index
 
 * [Get Started](readme.md)
 * [Botkit Studio API](readme-studio.md)
 * [Function index](readme.md#developing-with-botkit)
 * [Extending Botkit with Plugins and Middleware](middleware.md)
+  * [Message Pipeline](readme-pipeline.md)
   * [List of current plugins](readme-middlewares.md)
 * [Storing Information](storage.md)
 * [Logging](logging.md)
 * Platforms
   * [Slack](readme-slack.md)
   * [Cisco Spark](readme-ciscospark.md)
+  * [Microsoft Teams](readme-teams.md)
   * [Facebook Messenger](readme-facebook.md)
   * [Twilio SMS](readme-twiliosms.md)
   * [Twilio IPM](readme-twilioipm.md)

@@ -1,5 +1,7 @@
 # Configure Botkit and Facebook Messenger
 
+*Note: This also applies for [Facebook Workplace](https://www.facebook.com/workplace)*
+
 Facebook is a constantly evolving platform, nominally you can find everything you [need to create a bot](https://developers.facebook.com/docs/messenger-platform/guides/quick-start) on their platform page, but that information is subject to change. 
 
 The easiest path to creating a new bot for Facebook Messenger is through Botkit Studio. [Sign up for an account here](https://studio.botkit.ai/signup/). This method will provide a guided path to hosting, along with other useful tools for creating and managing your bot.
@@ -52,4 +54,5 @@ If your application has been configured correctly, you will be able to talk to y
 *  [Botkit Facebook readme](https://github.com/howdyai/botkit/blob/master/docs/readme-facebook.md)
 *  [Botkit Facebook Starter Kit](https://github.com/howdyai/botkit-starter-facebook) 
 *  [Messenger Platform Documentation](https://developers.facebook.com/products/messenger/)
+*  [Submit your bot so it can be publically available](https://developers.facebook.com/docs/messenger-platform/submission-process)
 *  [Sign up for Botkit Studio](https://studio.botkit.ai/)
