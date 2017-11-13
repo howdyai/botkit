@@ -1,6 +1,6 @@
 {
   "name": "botkit",
-  "version": "0.6.4",
+  "version": "0.6.6",
   "description": "Building blocks for Building Bots",
   "main": "lib/Botkit.js",
   "types": "lib/Botkit.d.ts",
@@ -9,12 +9,11 @@
     "back": "^1.0.1",
     "body-parser": "^1.17.1",
     "botbuilder": "^3.8.4",
-    "botkit-studio-sdk": "^1.0.2",
+    "botkit-studio-sdk": "^1.0.3",
     "ciscospark": "1.8.0",
     "clone": "2.1.1",
     "command-line-args": "^4.0.2",
-    "crypto": "0.0.3",
-    "debug": "^2.6.6",
+    "debug": "^2.6.9",
     "express": "^4.15.2",
     "https-proxy-agent": "^2.0.0",
     "jfs": "^0.2.6",
@@ -25,6 +24,7 @@
     "request": "^2.81.0",
     "requestretry": "^1.12.0",
     "twilio": "^2.11.1",
+    "vorpal": "^1.12.0",
     "ware": "^1.3.0",
     "ws": "^2.2.2"
   },
@@ -42,6 +42,9 @@
     "test": "jest --coverage",
     "test-legacy": "mocha ./tests/*.js",
     "test-watch": "jest --watch"
+  },
+  "bin": {
+    "botkit": "./bin/cli.js"
   },
   "repository": {
     "type": "git",

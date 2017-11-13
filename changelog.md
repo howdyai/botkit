@@ -4,6 +4,33 @@
 
 [Want to contribute? Read our guide!](https://github.com/howdyai/botkit/blob/master/CONTRIBUTING.md)
 
+## 0.6.6
+
+Important fixes to Facebook and Cisco Spark connectors: A breaking change was introduced in 0.6.5 which has now been fixed.
+
+Remove `crypto` dependency, now use built-in crypto library.
+
+Update `botkit-studio-sdk` dependency to latest version.
+
+## 0.6.5
+
+Introducing the Botkit command line tool!
+
+Run: `npm install -g botkit`
+
+Then, you'll be able to set up a new Botkit project (based on one of our excellent starter kits!) by typing:
+
+`botkit new --name "my bot"`
+
+New helper functions:
+
+Botkit bots for Slack, Cisco Spark, Microsoft Teams and Facebook now have support for additional helper functions:
+
+`bot.getMessageUser(message)` returns a Promise that will receive a normalized user profile object for the user who sent the message.
+
+`bot.getInstanceInfo()` returns a Promise that will receive a normalized instance object, with `identity` and `team` fields.
+
+
 ## 0.6.4
 
 Fix for Cisco Spark: improved methodology for detecting and handling @mentions
