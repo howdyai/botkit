@@ -246,7 +246,6 @@ describe('api methods', () => {
 
     test('spot check api methods ', () => {
         // testing for all methods seems wasteful, but let's confirm the methods got built correctly and test the following scenarios
-
         // two levels
         expect(instance.auth).toBeDefined();
         expect(instance.auth.test).toBeDefined();
