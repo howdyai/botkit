@@ -4,6 +4,13 @@
 
 [Want to contribute? Read our guide!](https://github.com/howdyai/botkit/blob/master/CONTRIBUTING.md)
 
+
+# 0.6.7
+
+Add `controller.studio.getScripts()` to load all a list of available scripts from Botkit Studio [Docs](docs/readme-studio.md#controllerstudiogetscripts)
+
+Add handling (and error messages) for 401 response codes from Botkit Studio APIs that indicate a bad access token
+
 ## 0.6.6
 
 Important fixes to Facebook and Cisco Spark connectors: A breaking change was introduced in 0.6.5 which has now been fixed.

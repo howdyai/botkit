@@ -222,6 +222,38 @@ controller.studio.before('help', function(convo, next) {
 });
 ```
 
+
+### controller.studio.getScripts()
+| Argument | Description
+|---  |---
+| bot   | A bot instance
+
+This function will return a list of all Botkit STudio scripts available to the bot.
+It returns a promise that will resolve with an array of scripts. These scripts will contain
+the `name`, `description`, and a list of associated `triggers`. The `name` field can be used
+along with `controller.studio.get()` and `controller.studio.run()` to load the actual content of the script.
+
+```javascript
+controller.studio.getScripts(bot).then(function(list) {
+
+  // do something with this array of scripts.
+  // list an array in the form:
+  // [
+  //   {
+  //     name: 'script',
+  //     description: 'a script',
+  //     triggers: [
+  //       type: 'string',
+  //       pattern: 'trigger',
+  //     ]
+  //   }
+  // ]
+
+});
+```
+
+
+
 ### controller.studio.before()
 | Argument | Description
 |---  |---
