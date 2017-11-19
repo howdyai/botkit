@@ -5,6 +5,7 @@
   "main": "lib/Botkit.js",
   "types": "lib/Botkit.d.ts",
   "dependencies": {
+    "@google/chatbase": "^1.0.0",
     "async": "^2.1.5",
     "back": "^1.0.1",
     "body-parser": "^1.17.1",
