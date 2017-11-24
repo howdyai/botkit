@@ -1,4 +1,4 @@
-﻿const Botkit = require('../lib/Botkit.js');
+const Botkit = require('../lib/Botkit.js');
 const xml = require('@xmpp/xml');
 
 
@@ -8,9 +8,9 @@ var controller = Botkit.jabberbot({
 
 var bot = controller.spawn({
     client: {
-        jid: 'cupbot@alpha-cup.cisco.com',
-        password: 'cupbot',
-        host: "shn-alpha-cup011.cisco.com",
+        jid: 'xx@domain.com',
+        password: 'xxxxxx',
+        host: "host.domain.com",
         port: 5222
     }
 });
