@@ -43,8 +43,7 @@ These plugins help you measure the success of your bots, across a variety of mea
 |  Botimize | https://github.com/botimize/botimize-botkit-middleware | Optimize your bot for happier customers, scientifically.|
 |  Botkit Studio Metrics | https://github.com/howdyai/botkit-studio-metrics | This module enables the advanced analytics and extended metrics available in [Botkit Studio](http://www.botkit.ai). |
 |  Botmetrics | https://github.com/botmetrics/botkit-middleware-botmetrics | Botmetrics is an analytics and engagement platform for chatbots. |
-|  Chatbase | https://github.com/asopinka/chatbase-botkit | A middleware package for Botkit that easily logs your convos in Chatbase
-|
+|  Chatbase | https://github.com/asopinka/chatbase-botkit | A middleware package for Botkit that easily logs your convos in Chatbase|
 |  Dashbot Facebook | https://www.dashbot.io/sdk/slack/botkit | Increase user engagement, acquisition, and monetization through actionable bots analytics. |
 |  Dashbot Slack | https://www.dashbot.io/sdk/facebook/botkit | Increase user engagement, acquisition, and monetization through actionable bots analytics. |
 |  Keen | https://github.com/keen/keen-botkit | This middleware allows you to to understand how many messages are going through your system, run cohorts to measure retention, set up funnels to measure task completion, and any key metric unique to your bot. More information about the Keen platform can be found on their website |
