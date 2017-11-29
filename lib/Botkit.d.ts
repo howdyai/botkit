@@ -495,7 +495,9 @@ declare namespace botkit {
     send(src: SocketMessage, cb?: (err: Error, res: any) => void): void;
     findConversation(message: SocketMessage, cb: (convo?: Conversation<SocketMessage>) => void): void;
   }
-  interface SocketConfiguration extends Configuration {}
+  interface SocketConfiguration extends Configuration {
+    replyWithTyping?: boolean;
+  }
   interface SocketController extends Controller<SocketSpawnConfiguration, SocketMessage, SocketBot> {
     httpserver: http.Server;
     webserver: express.Express;
