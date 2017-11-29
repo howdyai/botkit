@@ -20,7 +20,6 @@ The full code for a simple Cisco Jabber bot is as below and you can find it in .
     var controller = Botkit({
     json_file_store: './bot_store/'
     });
-    
     var bot = controller.spawn({
     client: {
     jid: ‘xx@domain.com',
@@ -29,15 +28,12 @@ The full code for a simple Cisco Jabber bot is as below and you can find it in .
     port: 5222
     }
     });
-    
     controller.hears(['hello'], ['direct_mention', 'direct_message'], function (bot, message) {
     bot.reply(message, 'Hi');
     });
-    
     controller.on('direct_mention', function (bot, message) {
     bot.reply(message, 'You mentioned me in a group and said, "' + message.text + '"');
     });
-    
     controller.on('direct_message', function (bot, message) {
     bot.reply(message, 'I got your direct message. You said, "' + message.text + '"');
     });
@@ -326,6 +322,7 @@ Below is an example
 Jabber bot uses node-xmpp to connect to Cisco Unified IM & Presence server or Cisco WebEx Messenger and can only use the password authentication methods. The bot is relying on starndard XMPP protocol to send/receive messages. You can refer to [RFC6120](https://tools.ietf.org/html/rfc6120) and [RFC6121](https://tools.ietf.org/html/rfc6121) to learn more about how to connect to XMPP server and how to create the XMPP message stanza. 
 Below is an example for an xmpp message stanza with HTML payload. The bot developer can use this kind of message stanza to implement the functions.
 
+```html
 <message
        from='juliet@example.com/balcony'
        id='ktx72v49'
@@ -340,7 +337,7 @@ Art thou not Romeo, and a Montague?
 </h6>
 </div>
 </html> </message>
-
+```
 JabberBot uses node-simple-xmpp to build connection and exchange message with Cisco Unified IM & Presence server or Cisco WebEx Messenger.  If you would like to have more functions from XMPP, you can integrate more function into jabber_bot.js with the help of node-simple-xmpp and the underlying node-xmpp like what we have done in the JabberGroupManager.js.  Just handle stanza and underlying events, the bot can have all the functions that a xmpp client can do.
 
 
