@@ -19,7 +19,7 @@ Botkit offers everything you need to design, build and operate an app:
 
 Botkit is a Node.js module, and works with Node and npm.
 
-**Botkit Studio**
+### **Botkit Studio**
 
 Botkit Studio is a dashboard and IDE designed to super-charge Botkit. It includes a web-based interface for building and managing dialog, an activity console, third party integrations, and advanced analytics tools like customer segmenting, conversion funnels, and user retention metrics.
 
@@ -28,7 +28,7 @@ Sign up for a free Botkit Studio account, and it will guide you through the proc
 **[![Sign up for Botkit Studio](docs/studio.png)](https://studio.botkit.ai/signup?code=readme)**
 
 
-**Command Line Interface**
+### **Command Line Interface**
 
 The best way to get started locally with Botkit is by installing our command line tool, and using it to create a new Botkit project. This will install and configure one a starter kit for you!
 
@@ -37,13 +37,13 @@ npm install -g botkit
 botkit new
 ```
 
-**Remix on Glitch**
+### **Remix on Glitch**
 
 Want to dive right in? [Remix one of our starter kits on Glitch](https://glitch.com/botkit). You'll start with a fully functioning app that you can edit and run from the browser!
 
  [![Remix on Glitch](docs/glitch.png)](https://glitch.com/botkit)
 
-**Start from Scratch**
+### **Start from Scratch**
 
 You can also add Botkit into an existing Node application.
 
@@ -74,7 +74,7 @@ API calls, session management and authentication,
 allowing you to focus on building COOL FEATURES for your
 bot using middleware and event handlers.
 
-## Hearing Keywords
+### Hearing Keywords
 
 Most bots do their thing by listening for keywords, phrases or patterns in messages from users. Botkit has a special event handler called `hears()` that makes it easy to configure your bot to listen for this type of trigger.
 
@@ -87,7 +87,7 @@ controller.hears(['string','pattern .*',new RegExp('.*','i')],'message_received,
 });
 ```
 
-## Responding to Events
+### Responding to Events
 
 Bots can respond to non-verbal events as well, like when a new user joins a channel, a file gets uploaded, or a button gets clicked. These events are handled using an event handling pattern that should look familiar. Most events in Botkit can be replied to like normal messages.
 
@@ -99,7 +99,7 @@ controller.on('channel_join', function(bot, message) {
 });
 ```
 
-## Middleware
+### Middleware
 
 In addition to taking direct action in response to a certain message or type of event, Botkit can also take passive action on messages as they move through the application using middlewares. Middleware functions work by changing messages, adding new fields, firing alternate events, and modifying or overriding the behavior of Botkit's core features.
 
