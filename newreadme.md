@@ -15,6 +15,8 @@ Botkit offers everything you need to design, build and operate an app:
 * Built-in analytics and CRM tools (with [Botkit Studio](https://studio.botkit.ai))
 * [Tons of plugins and middlewares](docs/readme-middlewares.md)
 
+Plus, Botkit works with all the NLP services (like Microsoft LUIS and IBM Watson), can use any type of database you want, and runs on almost any hosting platform.
+
 # Install Botkit
 
 Botkit is a Node.js module, and works with Node and npm.
@@ -69,10 +71,14 @@ controller.hears('hello','direct_mesage', function(bot, message) {
 
 # Build Your Bot
 
+The goal of Botkit is to make it easier and more fun to build software that talks and works like a robot! Building a bot should feel cool, and not too technically complicated.
+
 Botkit handles all the nitty gritty details like
 API calls, session management and authentication,
 allowing you to focus on building COOL FEATURES for your
 bot using middleware and event handlers.
+
+The toolkit is designed to provide meaningful building blocks for creating conversational user interfaces - with functions like `hears()`, `ask()`, and `reply()` that do what they say they do.
 
 ### Hearing Keywords
 
