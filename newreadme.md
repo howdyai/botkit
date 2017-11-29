@@ -32,7 +32,7 @@ Sign up for a free Botkit Studio account, and it will guide you through the proc
 
 ### **Command Line Interface**
 
-The best way to get started locally with Botkit is by installing our command line tool, and using it to create a new Botkit project. This will install and configure one a starter kit for you!
+The best way to get started locally with Botkit is by installing our command line tool, and using it to create a new Botkit project. This will install and configure a starter kit for you!
 
 ```
 npm install -g botkit
