@@ -10,7 +10,7 @@
 Botkit offers everything you need to design, build and operate an app:
 
 * Easy-to-extend starter kits
-* Fully-featured developer SDK
+* Fully-featured SDK with support for all major platforms
 * Content management and design tools (with [Botkit Studio](https://studio.botkit.ai))
 * Built-in analytics and CRM tools (with [Botkit Studio](https://studio.botkit.ai))
 * [Tons of plugins and middlewares](docs/readme-middlewares.md)
