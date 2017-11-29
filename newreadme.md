@@ -30,6 +30,13 @@ Sign up for a free Botkit Studio account, and it will guide you through the proc
 **[![Sign up for Botkit Studio](docs/studio.png)](https://studio.botkit.ai/signup?code=readme)**
 
 
+### **Remix on Glitch**
+
+Want to dive right in? [Remix one of our starter kits on Glitch](https://glitch.com/botkit). You'll start with a fully functioning app that you can edit and run from the browser!
+
+ [![Remix on Glitch](docs/glitch.png)](https://glitch.com/botkit)
+
+
 ### **Command Line Interface**
 
 The best way to get started locally with Botkit is by installing our command line tool, and using it to create a new Botkit project. This will install and configure a starter kit for you!
@@ -38,12 +45,6 @@ The best way to get started locally with Botkit is by installing our command lin
 npm install -g botkit
 botkit new
 ```
-
-### **Remix on Glitch**
-
-Want to dive right in? [Remix one of our starter kits on Glitch](https://glitch.com/botkit). You'll start with a fully functioning app that you can edit and run from the browser!
-
- [![Remix on Glitch](docs/glitch.png)](https://glitch.com/botkit)
 
 ### **Start from Scratch**
 
