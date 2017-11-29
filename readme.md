@@ -108,7 +108,7 @@ controller.on('channel_join', function(bot, message) {
 });
 ```
 
-[See a full list of events and more information about handlign them &rsaquo;](docs/readme.md#responding-to-events)
+[See a full list of events and more information about handling them &rsaquo;](docs/readme.md#responding-to-events)
 
 ### Middleware
 
