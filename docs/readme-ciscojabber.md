@@ -9,9 +9,11 @@ This document covers the Cisco Jabber-specific implementation details only.
 Jabber bots can send and receive messages, and in many cases, appear alongside their human counterparts as normal Jabber users.
 
 ## Working with Cisco Jabber ##
-Jabber bot uses node-xmpp to connect to Cisco Unified IM & Presence server or Cisco WebEx Messenger and can only use the password authentication methods. Cisco Jabber bot can take part in 1-1 chat or group chat conversations and can provide information or other services for the conversations. It’s better to use persist store for the Botkit controller, otherwise when restart the bot, it will lose the group information and cannot received the message from a group chat.
+Cisco Jabber bot uses node-xmpp to connect to Cisco Unified IM & Presence server or Cisco WebEx Messenger and can only use the password authentication methods. The bot is relying on starndard XMPP protocol to send/receive messages. You can refer to [RFC6120](https://tools.ietf.org/html/rfc6120) and [RFC6121](https://tools.ietf.org/html/rfc6121) to learn more about how to connect to XMPP server and how to create the XMPP message stanza. 
 
-The full code for a simple Cisco Jabber bot is as below:
+Cisco Jabber bot can take part in 1-1 chat or group chat conversations and can provide information or other services for the conversations. It’s better to use persist store for the Botkit controller, otherwise when restart the bot, it will lose the group information and cannot received the message from a group chat.
+
+The full code for a simple Cisco Jabber bot is as below and you can find it in ../examples/jabber_bot.js:
 
 ~~~ javascript
     const Botkit = require('./lib/JabberBot.js');
@@ -21,9 +23,9 @@ The full code for a simple Cisco Jabber bot is as below:
     
     var bot = controller.spawn({
     client: {
-    jid: ‘john@alpha-cup.cisco.com',
+    jid: ‘xx@domain.com',
     password: *,
-    host: "shn-alpha-cup011.cisco.com",
+    host: "hostname.domain.com",
     port: 5222
     }
     });
@@ -319,4 +321,27 @@ Below is an example
     }
     });
 ~~~
-    
+
+## Extensible Messaging and Presence Protocol – API for jabber bot ##
+Jabber bot uses node-xmpp to connect to Cisco Unified IM & Presence server or Cisco WebEx Messenger and can only use the password authentication methods. The bot is relying on starndard XMPP protocol to send/receive messages. You can refer to [RFC6120](https://tools.ietf.org/html/rfc6120) and [RFC6121](https://tools.ietf.org/html/rfc6121) to learn more about how to connect to XMPP server and how to create the XMPP message stanza. 
+Below is an example for an xmpp message stanza with HTML payload. The bot developer can use this kind of message stanza to implement the functions.
+
+<message
+       from='juliet@example.com/balcony'
+       id='ktx72v49'
+       to='romeo@example.net'
+       type='chat'
+       xml:lang='en'>
+     <body>Art thou not Romeo, and a Montague?</body>
+<html xmlns="http://jabber.org/protocol/xhtml-im"> <body xmlns="http://www.w3.org/1999/xhtml">
+<div class="container">
+<h6>
+Art thou not Romeo, and a Montague?
+</h6>
+</div>
+</html> </message>
+
+JabberBot uses node-simple-xmpp to build connection and exchange message with Cisco Unified IM & Presence server or Cisco WebEx Messenger.  If you would like to have more functions from XMPP, you can integrate more function into jabber_bot.js with the help of node-simple-xmpp and the underlying node-xmpp like what we have done in the JabberGroupManager.js.  Just handle stanza and underlying events, the bot can have all the functions that a xmpp client can do.
+
+
+
