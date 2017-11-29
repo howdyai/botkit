@@ -94,6 +94,8 @@ controller.hears(['string','pattern .*',new RegExp('.*','i')],'message_received,
 });
 ```
 
+[Read more about hearing things](docs/readme.md#matching-patterns-and-keywords-with-hears)
+
 ### Responding to Events
 
 Bots can respond to non-verbal events as well, like when a new user joins a channel, a file gets uploaded, or a button gets clicked. These events are handled using an event handling pattern that should look familiar. Most events in Botkit can be replied to like normal messages.
@@ -105,6 +107,8 @@ controller.on('channel_join', function(bot, message) {
 
 });
 ```
+
+[Read more about responding to events](docs/readme.md#responding-to-events)
 
 ### Middleware
 
