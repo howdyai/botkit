@@ -94,7 +94,7 @@ controller.hears(['string','pattern .*',new RegExp('.*','i')],'message_received,
 });
 ```
 
-[Read more about hearing things](docs/readme.md#matching-patterns-and-keywords-with-hears)
+[Read more about hearing things &rsaquo;](docs/readme.md#matching-patterns-and-keywords-with-hears)
 
 ### Responding to Events
 
@@ -108,7 +108,7 @@ controller.on('channel_join', function(bot, message) {
 });
 ```
 
-[Read more about responding to events](docs/readme.md#responding-to-events)
+[Read more about responding to events &rsaquo;](docs/readme.md#responding-to-events)
 
 ### Middleware
 
