@@ -63,7 +63,7 @@ var Botkit = require('botkit');
 
 var controller = Botkit.slackbot(configuration);
 
-controller.hears('hello','direct_mesage', function(bot, message) {
+controller.hears('hello','direct_message', function(bot, message) {
     bot.reply(message,'Hello yourself!');
 });
 ```
