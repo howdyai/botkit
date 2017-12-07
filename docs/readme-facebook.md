@@ -21,6 +21,9 @@ Table of Contents
 * [Silent and No Notifications](#silent-and-no-notifications)
 * [Messenger code API](#messenger-code-api)
 * [Attachment upload API](#attachment-upload-api)
+* [Built-in NLP](#built-in-nlp)
+* [Message Tags](#message-tags)
+* [App Secret Proof](#app-secret-proof )
 * [Running Botkit with an Express server](#use-botkit-for-facebook-messenger-with-an-express-web-server)
 
 ## Getting Started
@@ -570,6 +573,20 @@ var taggedMessage = {
 bot.reply(message, taggedMessage);
 ```
 
+## App Secret Proof 
+
+To improve security and prevent your bot against man in the middle attack, it's highly recommended to send an app secret proof : 
+
+```javascript
+var controller = Botkit.facebookbot({
+    access_token: process.env.page_token,
+    verify_token: process.env.verify_token,
+    app_secret: process.env.app_secret,
+    require_appsecret_proof: true // Enable send app secret proof
+});
+``` 
+
+More information about how to secure Graph API Requests [here](https://developers.facebook.com/docs/graph-api/securing-requests/)
 
 ## Use BotKit for Facebook Messenger with an Express web server
 Instead of the web server generated with setupWebserver(), it is possible to use a different web server to receive webhooks, as well as serving web pages.
