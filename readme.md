@@ -74,7 +74,6 @@ are ready to submit to [Cisco Spark's Depot app store](https://depot.ciscospark.
 
 > ### [Cisco Jabber Bot Starter Kit](https://github.com/howdyai/botkit-starter-ciscojabber)
 > Build a bot inside Cisco Jabber's collaboration and messaging platform. 
-> #### [![Remix on Glitch](docs/glitch.png)](https://glitch.com/~botkit-ciscojabber)
 
 > ### [Microsoft Teams Bot Starter Kit](https://github.com/howdyai/botkit-starter-teams)
 > Connect your bot to Microsoft Teams, and it can do things like no other bot, like create tabs, compose extensions, and other deep integrations into the messaging UI.

@@ -22,20 +22,20 @@ The full code for a simple Cisco Jabber bot is as below and you can find it in .
     });
     var bot = controller.spawn({
     client: {
-    jid: ‘xx@domain.com',
-    password: *,
-    host: "hostname.domain.com",
-    port: 5222
-    }
+        jid: ‘xx@domain.com',
+        password: *,
+        host: "hostname.domain.com",
+        port: 5222
+        }
     });
     controller.hears(['hello'], ['direct_mention', 'direct_message'], function (bot, message) {
-    bot.reply(message, 'Hi');
+        bot.reply(message, 'Hi');
     });
     controller.on('direct_mention', function (bot, message) {
-    bot.reply(message, 'You mentioned me in a group and said, "' + message.text + '"');
+        bot.reply(message, 'You mentioned me in a group and said, "' + message.text + '"');
     });
     controller.on('direct_message', function (bot, message) {
-    bot.reply(message, 'I got your direct message. You said, "' + message.text + '"');
+        bot.reply(message, 'I got your direct message. You said, "' + message.text + '"');
     });
 ~~~
     
