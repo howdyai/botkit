@@ -21,6 +21,7 @@ Table of Contents
 * [Silent and No Notifications](#silent-and-no-notifications)
 * [Messenger code API](#messenger-code-api)
 * [Attachment upload API](#attachment-upload-api)
+* [Messaging type](#messaging-type)
 * [Running Botkit with an Express server](#use-botkit-for-facebook-messenger-with-an-express-web-server)
 
 ## Getting Started
@@ -570,6 +571,31 @@ var taggedMessage = {
 bot.reply(message, taggedMessage);
 ```
 
+
+## Messaging type
+
+You can identify the purpose of the message being sent to Facebook by adding `messaging_type: <MESSAGING_TYPE>` property when sending the message :
+ 
+```javascript
+var messageToSend = {
+        "text": "Hello Botkit !",
+        "messaging_type": "RESPONSE"
+};
+bot.reply(message, messageToSend);
+```
+
+This is a more explicit way to ensure bots are complying with Facebook policies for specific messaging types and respecting people's preferences.
+
+The following values for 'messaging_type' are supported :
+
+| Messaging Type | Description
+|-----|---
+| RESPONSE | Message is in response to a received message. This includes promotional and non-promotional messages sent inside the 24-hour standard messaging window or under the 24+1 policy. For example, use this tag to respond if a person asks for a reservation confirmation or an status update.
+| UPDATE | Message is being sent proactively and is not in response to a received message. This includes promotional and non-promotional messages sent inside the the 24-hour standard messaging window or under the 24+1 policy.
+| MESSAGE_TAG | Message is non-promotional and is being sent outside the 24-hour standard messaging window with a message tag. The message must match the allowed use case for the tag.
+| NON_PROMOTIONAL_SUBSCRIPTION | Message is non-promotional, and is being sent under the subscription messaging policy by a bot with the pages_messaging_subscriptions permission.
+
+By default Botkit will send a `RESPONSE` messaging type when you send a simple message with `bot.reply(message, "this is a simple message"")`, `conversation.say("this is a simple message")` or `conversation.ask("this is a simple message", ...)`.
 
 ## Use BotKit for Facebook Messenger with an Express web server
 Instead of the web server generated with setupWebserver(), it is possible to use a different web server to receive webhooks, as well as serving web pages.
