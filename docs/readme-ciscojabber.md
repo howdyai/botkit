@@ -145,10 +145,10 @@ Jabber provide 3 kinds of command as below examples to start group chat, start a
 startgroupchat:john@cisco.com;mick@cisco.com
 startconference:john@cisco.com;mick@cisco.com
 startmeeting:john@cisco.com;mick@cisco.com
-Below is an example, jabber need the jid to execute the related action, generally we can extract the jid from the message received from the user, function ExtractMentionJids is used to help extract @mention jid from the message.
+Below is an example, jabber need the jid to execute the related action, generally we can extract the jid from the message received from the user, function extractMentionJids is used to help extract @mention jid from the message.
 
 ~~~ javascript
-    function ExtractMentionJids(message) {
+    function extractMentionJids(message) {
     let direct_mention_reg = /href="xmpp:\s?(\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+)\s?"/ig;
     let email_reg = /\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+/i;
     let match = message.stanza.toString().match(direct_mention_reg);
@@ -170,7 +170,7 @@ Below is an example, jabber need the jid to execute the related action, generall
     let reply_message = {};
     let to = message.user;
     let type = message.group ? 'groupchat' : 'chat';
-    let mention_jids = ExtractMentionJids(message);
+    let mention_jids = extractMentionJids(message);
     let mentionJids = "";
     for (let i = 0; i < mention_jids.length; i++) {
         mentionJids += mention_jids[i];
