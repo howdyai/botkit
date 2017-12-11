@@ -22,7 +22,7 @@ The full code for a simple Cisco Jabber bot is as below and you can find it in .
     });
     var bot = controller.spawn({
     client: {
-        jid: ‘xx@domain.com',
+        jid: 'xx@domain.com',
         password: *,
         host: "hostname.domain.com",
         port: 5222
@@ -46,8 +46,8 @@ When spawn bot from the Botkit controller, there are several options available.
 |--- |---
 | jid | Jid of the jabber bot 
 | password | Password of the jabber bot
-| host | host of the Cisco Unified IM & Presence server, no need for bot of Cisco WebEx Messenger
-| port | Port of the Cisco Unified IM & Presence server, no need for bot of Cisco WebEx Messenger
+| host | Host of the Cisco Unified IM & Presence server, not neccessary for bot of Cisco WebEx Messenger
+| port | Port of the Cisco Unified IM & Presence server, not neccessary for bot of Cisco WebEx Messenger
 
 ## Jabber Specific Events ##
 Jabber support the following events
@@ -154,17 +154,17 @@ Below is an example, jabber need the jid to execute the related action, generall
     let match = message.stanza.toString().match(direct_mention_reg);
     let mention_jids = [];
     if (match) {
-    for (let i = 0; i < match.length; i++) {
-    let jid_match = match[i].match(email_reg);
-    if (jid_match) {
-    let jid = jid_match[0];
-    if (jid != bot.client_jid) {
-    mention_jids.push(jid);
+        for (let i = 0; i < match.length; i++) {
+            let jid_match = match[i].match(email_reg);
+            if (jid_match) {
+                let jid = jid_match[0];
+                if (jid != bot.client_jid) {
+                    mention_jids.push(jid);
+                }
+             } 
+        }
     }
-    }
-    }
-    }
-    return mention_jids;
+        return mention_jids;
     }
     
     let reply_message = {};
@@ -173,8 +173,8 @@ Below is an example, jabber need the jid to execute the related action, generall
     let mention_jids = ExtractMentionJids(message);
     let mentionJids = "";
     for (let i = 0; i < mention_jids.length; i++) {
-    mentionJids += mention_jids[i];
-    mentionJids += ";";
+        mentionJids += mention_jids[i];
+        mentionJids += ";";
     }
     
     let body = 'robot-executecommand demo(only for Jabber Windows)';
