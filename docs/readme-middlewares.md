@@ -24,6 +24,7 @@ These plugins help you measure the success of your bots, across a variety of mea
 |  Recast.ai | https://github.com/ouadie-lahdioui/botkit-middleware-recastai | You can use the Recast.AI API to analyse your text or your audio file, and extract useful informations from it, to personalize your IoT, classify your data or create bots.<br/><br/> |
 |  Wit.ai | https://github.com/howdyai/botkit-middleware-witai | Wit.ai provides a service that uses machine learning to help developers handle natural language input. The Wit API receives input from the user, and translates it into one or more "intents" which map to known actions or choices. The power of Wit is that it can continually be trained to understand more and more responses without changing the underlying bot code!<br/><br/> |
 |  Rasa | https://github.com/howdyai/botkit-rasa | This plugin provides Botkit developers a way to use the rasa NLU open source, self hosted natural language API.<br/><br/><br/> |
+|  Facebook | https://github.com/pinkku/botkit-middleware-facebookuser | This plugin allows you to collect Facebook Messenger user info to populate a Botkit message<br/><br/><br/> |
 
 ## Storage Modules
 |  Name | Project Page | Info |
