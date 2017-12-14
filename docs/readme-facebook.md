@@ -21,6 +21,7 @@ Table of Contents
 * [Silent and No Notifications](#silent-and-no-notifications)
 * [Messenger code API](#messenger-code-api)
 * [Attachment upload API](#attachment-upload-api)
+* [Messaging Insights API](#messaging-insights-api)
 * [Running Botkit with an Express server](#use-botkit-for-facebook-messenger-with-an-express-web-server)
 
 ## Getting Started
@@ -570,6 +571,24 @@ var taggedMessage = {
 bot.reply(message, taggedMessage);
 ```
 
+## Messaging Insights API
+
+The Messaging Insights API, allows you to programatically retrieve the same information that appears in the Page Insights tab of your Facebook Page.
+
+To get insights with Botkit, you shuld call ```controller.api.insights.get_insights(...)``` with parameters metrics, since and until :
+
+| Parameter | Description
+|---  |---
+| metrics | An array or a comma-separated list of metrics to return.
+| since | UNIX timestamp of the start time to get the metric for.
+| until | UNIX timestamp of the end time to get the metric for.
+
+```javascript
+controller.api.insights.get_insights('page_messages_active_threads_unique', null, null, function (err, body) {
+    console.log(body);
+    console.log(err);
+});
+```
 
 ## Use BotKit for Facebook Messenger with an Express web server
 Instead of the web server generated with setupWebserver(), it is possible to use a different web server to receive webhooks, as well as serving web pages.
