@@ -21,6 +21,7 @@ Table of Contents
 * [Silent and No Notifications](#silent-and-no-notifications)
 * [Messenger code API](#messenger-code-api)
 * [Attachment upload API](#attachment-upload-api)
+* [Handover Protocol](#handover-protocol)
 * [Running Botkit with an Express server](#use-botkit-for-facebook-messenger-with-an-express-web-server)
 
 ## Getting Started
@@ -86,9 +87,9 @@ Normal messages will be sent to your bot using the `message_received` event.  In
 | facebook_optin | a user has clicked the [Send-to-Messenger plugin](https://developers.facebook.com/docs/messenger-platform/implementation#send_to_messenger_plugin)
 | facebook_referral | a user has clicked on a [m.me URL with a referral param](https://developers.facebook.com/docs/messenger-platform/referral-params)
 | facebook_app_roles | This callback will occur when a page admin changes the role of your application.
-| facebook_standby | This callback will occur when a message has been sent to your page, but your application is not the current thread owner.
-| facebook_pass_thread_control | This callback will occur when thread ownership for a user has been passed to your application.
-| facebook_take_thread_control | This callback will occur when thread ownership for a user has been taken away from your application. 
+| standby | This callback will occur when a message has been sent to your page, but your application is not the current thread owner.
+| facebook_receive_thread_control | This callback will occur when thread ownership for a user has been passed to your application.
+| facebook_lose_thread_control | This callback will occur when thread ownership for a user has been taken away from your application. 
 
 All incoming events will contain the fields `user` and `channel`, both of which represent the Facebook user's ID, and a `timestamp` field.
 
@@ -593,22 +594,22 @@ controller.api.handover.get_secondary_receivers_list('id,name', function (result
 
 ### Take Thread Control
 
-Allows the Primary Receiver app to take control of a specific thread from a Secondary Receiver app. 
+The Primary Receiver app can take control of a specific thread from a Secondary Receiver app : 
 
 - To thread control :
 ```javascript
-controller.api.handover.take_thread_control('PSID', 'String to pass to the secondary receiver', function (result) {
+controller.api.handover.take_thread_control('<RECIPIENT_PSID>', 'String to pass to pass to the secondary receiver', function (result) {
    // result = {"success":true}
 });
 ```
 
-### Take Thread Control
+### Pass Thread Control
 
-Allows you to pass thread control from your app to another app.
+To pass the thread control from your app to another app :
 
 - To pass thread control :
 ```javascript
-controller.api.handover.pass_thread_control('PSID', '123456789', 'String to pass to the secondary receiver app', function (result) {
+controller.api.handover.pass_thread_control('<RECIPIENT_PSID>', '<TARGET_PSID>', 'String to pass to the secondary receiver app', function (result) {
    // result = {"success":true}
 });
 ```
