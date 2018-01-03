@@ -50,6 +50,7 @@ controller.hears(['uptime'],'message_received',function(bot, message) {
     var hostname = os.hostname();
     var uptime = formatUptime(process.uptime());
     bot.reply(message,'I am a bot! I have been running for ' + uptime + ' on ' + hostname + '.');
+    console.log('Access Token =' + controller.configureGlipApp().accessToken);
 });
 
 // Usage: question me
