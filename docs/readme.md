@@ -17,7 +17,7 @@ it is ready to be connected to a stream of incoming messages. Currently, Botkit 
 * [Slack Incoming Webhooks](http://api.slack.com/incoming-webhooks)
 * [Slack Slash Commands](http://api.slack.com/slash-commands)
 * [Cisco Spark Webhooks](https://developer.ciscospark.com/webhooks-explained.html)
-* [Cisco Jabber XMPP Protocol](readme-ciscojabber.md#Extensible Messaging and Presence Protocol ¨C API for jabber bot)
+* [Cisco Jabber XMPP Protocol](https://tools.ietf.org/html/rfc6120)
 * [Microsoft Teams](https://msdn.microsoft.com/en-us/microsoft-teams/bots)
 * [Facebook Messenger Webhooks](https://developers.facebook.com/docs/messenger-platform/implementation)
 * [Twilio SMS](https://www.twilio.com/console/sms/dashboard)

@@ -22,20 +22,20 @@ The full code for a simple Cisco Jabber bot is as below and you can find it in .
     });
     var bot = controller.spawn({
     client: {
-    jid: ‘xx@domain.com',
-    password: *,
-    host: "hostname.domain.com",
-    port: 5222
-    }
+        jid: 'xx@domain.com',
+        password: *,
+        host: "hostname.domain.com",
+        port: 5222
+        }
     });
     controller.hears(['hello'], ['direct_mention', 'direct_message'], function (bot, message) {
-    bot.reply(message, 'Hi');
+        bot.reply(message, 'Hi');
     });
     controller.on('direct_mention', function (bot, message) {
-    bot.reply(message, 'You mentioned me in a group and said, "' + message.text + '"');
+        bot.reply(message, 'You mentioned me in a group and said, "' + message.text + '"');
     });
     controller.on('direct_message', function (bot, message) {
-    bot.reply(message, 'I got your direct message. You said, "' + message.text + '"');
+        bot.reply(message, 'I got your direct message. You said, "' + message.text + '"');
     });
 ~~~
     
@@ -46,8 +46,8 @@ When spawn bot from the Botkit controller, there are several options available.
 |--- |---
 | jid | Jid of the jabber bot 
 | password | Password of the jabber bot
-| host | host of the Cisco Unified IM & Presence server, no need for bot of Cisco WebEx Messenger
-| port | Port of the Cisco Unified IM & Presence server, no need for bot of Cisco WebEx Messenger
+| host | Host of the Cisco Unified IM & Presence server, not neccessary for bot of Cisco WebEx Messenger
+| port | Port of the Cisco Unified IM & Presence server, not neccessary for bot of Cisco WebEx Messenger
 
 ## Jabber Specific Events ##
 Jabber support the following events
@@ -145,36 +145,36 @@ Jabber provide 3 kinds of command as below examples to start group chat, start a
 startgroupchat:john@cisco.com;mick@cisco.com
 startconference:john@cisco.com;mick@cisco.com
 startmeeting:john@cisco.com;mick@cisco.com
-Below is an example, jabber need the jid to execute the related action, generally we can extract the jid from the message received from the user, function ExtractMentionJids is used to help extract @mention jid from the message.
+Below is an example, jabber need the jid to execute the related action, generally we can extract the jid from the message received from the user, function extractMentionJids is used to help extract @mention jid from the message.
 
 ~~~ javascript
-    function ExtractMentionJids(message) {
+    function extractMentionJids(message) {
     let direct_mention_reg = /href="xmpp:\s?(\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+)\s?"/ig;
     let email_reg = /\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+/i;
     let match = message.stanza.toString().match(direct_mention_reg);
     let mention_jids = [];
     if (match) {
-    for (let i = 0; i < match.length; i++) {
-    let jid_match = match[i].match(email_reg);
-    if (jid_match) {
-    let jid = jid_match[0];
-    if (jid != bot.client_jid) {
-    mention_jids.push(jid);
+        for (let i = 0; i < match.length; i++) {
+            let jid_match = match[i].match(email_reg);
+            if (jid_match) {
+                let jid = jid_match[0];
+                if (jid != bot.client_jid) {
+                    mention_jids.push(jid);
+                }
+             } 
+        }
     }
-    }
-    }
-    }
-    return mention_jids;
+        return mention_jids;
     }
     
     let reply_message = {};
     let to = message.user;
     let type = message.group ? 'groupchat' : 'chat';
-    let mention_jids = ExtractMentionJids(message);
+    let mention_jids = extractMentionJids(message);
     let mentionJids = "";
     for (let i = 0; i < mention_jids.length; i++) {
-    mentionJids += mention_jids[i];
-    mentionJids += ";";
+        mentionJids += mention_jids[i];
+        mentionJids += ";";
     }
     
     let body = 'robot-executecommand demo(only for Jabber Windows)';
