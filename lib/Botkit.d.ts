@@ -302,11 +302,17 @@ declare namespace botkit {
     token: string;
   }
   interface SlackWebAPI {
+    api: {
+        test: SlackWebAPIMethod;
+    }
     auth: {
         test: SlackWebAPIMethod;
     },
     oauth: {
         access: SlackWebAPIMethod;
+    }
+    bots: {
+        info: SlackWebAPIMethod;
     }
     channels: {
         archive: SlackWebAPIMethod;
@@ -427,6 +433,7 @@ declare namespace botkit {
         getPresence: SlackWebAPIMethod;
         info: SlackWebAPIMethod;
         list: SlackWebAPIMethod;
+        lookupByEmail: SlackWebAPIMethod;
         setActive: SlackWebAPIMethod;
         setPresence: SlackWebAPIMethod;
         deletePhoto: SlackWebAPIMethod;
