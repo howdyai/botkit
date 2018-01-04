@@ -13,3 +13,4 @@ examples/db_team_bot/
 .vscode
 coverage
 .dat
+token.dat
