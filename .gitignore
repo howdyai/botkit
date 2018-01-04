@@ -12,3 +12,4 @@ examples/db_team_bot/
 .idea
 .vscode
 coverage
+.dat

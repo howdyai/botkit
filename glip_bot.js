@@ -10,6 +10,10 @@ var Botkit = require('./lib/Botkit.js');
 var os = require('os');
 var http = require('http');
 var request = require('request');
+var fs = require('fs');
+var accessToken = "";
+var platform = null;
+
 
 if (!process.env.clientId || !process.env.clientSecret || !process.env.port) {
     console.log('Error: Specify clientId clientSecret and port in environment');
@@ -22,11 +26,28 @@ var controller = Botkit.glipbot({
     clientId: process.env.clientId,
     clientSecret: process.env.clientSecret,
     redirectUri: process.env.redirectUri,
-    apiRoot: process.env.apiRoot,
-    accessToken: '',
-    subscriptionId: ''
+    apiRoot: process.env.apiRoot
+    // accessToken: '',
+    // subscriptionId: ''
 });
 
+readAccessToken()
+
+function readAccessToken(){
+  try {
+    fs.accessSync('token.dat');
+    accessToken = fs.readFileSync('token.dat', 'utf8');
+  }catch (e) {
+    accessToken = ""
+  }
+}
+
+function storeAccessToken(accessToken){
+  fs.writeFile('token.dat', accessToken, function(err) {
+    if(err)
+      console.log(err)
+  })
+}
 
 var bot = controller.spawn({});
 
@@ -35,11 +56,13 @@ controller.setupWebserver(process.env.port || 3000, function(err, webserver){
         console.log("Online");
     });
 
-    controller.createOauthEndpoints(webserver, bot, function(err, req, res) {
+    controller.createOauthEndpoints(webserver, bot, accessToken, function(err, req, res, token) {
         if(err) {
             res.status(500).send('ERROR: ' + err);
         } else {
-            res.send('Success!');
+            platform = controller.getRCPlatform();
+            storeAccessToken(token);
+            //res.send('Success!');
         }
     })
 
@@ -50,7 +73,7 @@ controller.hears(['uptime'],'message_received',function(bot, message) {
     var hostname = os.hostname();
     var uptime = formatUptime(process.uptime());
     bot.reply(message,'I am a bot! I have been running for ' + uptime + ' on ' + hostname + '.');
-    console.log('Access Token =' + controller.configureGlipApp().accessToken);
+    //console.log('Access Token =' + controller.configureGlipApp().accessToken);
 });
 
 // Usage: question me
@@ -153,7 +176,3 @@ function formatUptime(uptime) {
     uptime = uptime + ' ' + unit;
     return uptime;
 }
-
-
-
-

@@ -18,6 +18,7 @@
     "debug": "^2.6.9",
     "dotenv": "^4.0.0",
     "express": "^4.15.2",
+    "fs": "0.0.1-security",
     "http": "0.0.0",
     "https-proxy-agent": "^2.0.0",
     "jfs": "^0.2.6",
