@@ -1,25 +1,28 @@
 # Botkit Web Connector
 
+The power of bots and conversational software can included in any website or app using Botkit's new web connector!
+
 ## What is this?
 
-Botkit's Web Connector includes a built-in chat server that can send and receive messages using real-time websocket connections
-or asynchronous webhooks. This allows Botkit bots to live on the web, or be embedded into websites and native mobile apps.
+This connector provides a basic interface for Botkit to send and receive messages directly, rather than relying on a third party messaging service like Slack or Facebook messenger.
+It includes a built-in chat server that can send and receive messages using real-time websocket connections or asynchronous webhooks.
+This allows Botkit bots to live on the web, or be embedded into websites and native mobile apps.
 
-Botkit's built-in chat server does not require any third party services to work - messages are sent and received directly by your own app!
+The functionality provided in the connector is actually very simple, and requires integration with a webserver (to serve the application and host the chat server) and a front-end client (to provide a user interface and render messages). These components are provided in a separate project, [Botkit Anywhere](https://github.com/howdyai/botkit-starter-web).
 
 ## Getting Started
 
 Everything you need to build your bot is included in [Botkit Anywhere](https://github.com/howdyai/botkit-starter-web),
-a boilerplate project that includes all the components needed to operate your bot, as well as sample code and extra features.
+a boilerplate application that includes all the components needed to operate your bot, as well as sample code and extra features.
 
 * All the features of Botkit Core and Botkit Studio
 * A built-in chat server that can handle thousands of simultaneous conversations
 * A customizable front-end chat client built with HTML, CSS, and Javascript
 * A webserver for serving the application to users and hosting your bot's business logic
 
-*Most developers should start with the starter kit rather than make direct use of the Botkit Core library.*
+**Most developers should start with the starter kit rather than make direct use of the Botkit core library.**
 
-### **Botkit Studio**
+### Botkit Studio
 
 Botkit Studio is a dashboard and IDE designed to super-charge Botkit. It includes a web-based interface for building and managing dialog, an activity console, third party integrations, and advanced analytics tools like customer segmenting, conversion funnels, and user retention metrics.
 
@@ -37,35 +40,6 @@ botkit new --platform web
 ```
 
 ## Developing with Botkit for Web
-
- The full code for a simple bot is below:
-
- ~~~ javascript
- var Botkit = require('botkit');
-
- var controller = Botkit.socketbot({});
-
- controller.setupWebserver(process.env.PORT || 3000, function(err, webserver) {
-     controller.createWebhookEndpoints(webserver, function() {
-         console.log("BOTKIT: Webhooks set up!");
-     });
- });
-
- controller.hears('hello', 'direct_message,direct_mention', function(bot, message) {
-     bot.reply(message, 'Hi');
- });
-
- controller.on('direct_mention', function(bot, message) {
-     bot.reply(message, 'You mentioned me and said, "' + message.text + '"');
- });
-
- controller.on('direct_message', function(bot, message) {
-     bot.reply(message, 'I got your private message. You said, "' + message.text + '"');
- });
- ~~~
-
-
-## Working with Botkit for Web
 
 ### Message Objects
 
@@ -87,8 +61,6 @@ botkit new --platform web
 openSocketServer()
 
 replyWithTyping()
-
-
 
 
 ## Developer & Support Community
