@@ -1,21 +1,23 @@
-# Botkit for the Web
-
-Table of Contents
+# Botkit Web Connector
 
 ## What is this?
 
-Botkit includes a built-in chat server that can send and receive messages using real-time websocket connections,
+Botkit's Web Connector includes a built-in chat server that can send and receive messages using real-time websocket connections
 or asynchronous webhooks. This allows Botkit bots to live on the web, or be embedded into websites and native mobile apps.
 
 Botkit's built-in chat server does not require any third party services to work - messages are sent and received directly by your own app!
 
 ## Getting Started
 
-To use Botkit for the Web, grab the starter kit project. This includes all the pieces you'll need:
+Everything you need to build your bot is included in [Botkit Anywhere](https://github.com/howdyai/botkit-starter-web),
+a boilerplate project that includes all the components needed to operate your bot, as well as sample code and extra features.
 
-* Botkit and the built-in chat server
-* A customizable chat client built with HTML, CSS, and vanilla Javascript
-* A webserver for serving the application to users
+* All the features of Botkit Core and Botkit Studio
+* A built-in chat server that can handle thousands of simultaneous conversations
+* A customizable front-end chat client built with HTML, CSS, and Javascript
+* A webserver for serving the application to users and hosting your bot's business logic
+
+*Most developers should start with the starter kit rather than make direct use of the Botkit Core library.*
 
 ### **Botkit Studio**
 
@@ -33,13 +35,6 @@ Set up a boilerplate Botkit application using our command line tool. Using the c
 npm install -g botkit
 botkit new --platform web
 ```
-
-### **Remix on Glitch**
-
-Want to dive right in? [Remix one of our starter kits on Glitch](https://glitch.com/botkit). You'll start with a fully functioning app that you can edit and run from the browser!
-
- [![Remix on Glitch](../docs/glitch.png)](https://glitch.com/botkit)
-
 
 ## Developing with Botkit for Web
 
@@ -89,7 +84,9 @@ Want to dive right in? [Remix one of our starter kits on Glitch](https://glitch.
 
 ### Functions
 
-replyWithTyping
+openSocketServer()
+
+replyWithTyping()
 
 
 
