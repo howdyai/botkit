@@ -20,24 +20,7 @@ a boilerplate application that includes all the components needed to operate you
 * A customizable front-end chat client built with HTML, CSS, and Javascript
 * A webserver for serving the application to users and hosting your bot's business logic
 
-**Most developers should start with the starter kit rather than make direct use of the Botkit core library.**
-
-### Botkit Studio
-
-Botkit Studio is a dashboard and IDE designed to super-charge Botkit. It includes a web-based interface for building and managing dialog, an activity console, third party integrations, and advanced analytics tools like customer segmenting, conversion funnels, and user retention metrics.
-
-Sign up for a free Botkit Studio account, and it will guide you through the process to create, configure and deploy your Botkit app!
-
-**[![Sign up for Botkit Studio](../docs/studio.png)](https://studio.botkit.ai/signup?code=readme)**
-
-### Use the Botkit Command Line Tool
-
-Set up a boilerplate Botkit application using our command line tool. Using the commands highlighted below, install the command line tool from npm, then use it automatically create and configure a customizable app.
-
-```
-npm install -g botkit
-botkit new --platform web
-```
+**Most developers should start with [the starter kit](https://github.com/howdyai/botkit-starter-web) rather than make direct use of the Botkit core library.**
 
 ## Developing with Botkit for Web
 
