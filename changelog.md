@@ -10,26 +10,41 @@ BIG UPDATE:
 
 [Botkit now works on the web!](docs/readme-web.md) The new web connector supports websocket and webhook connections for sending and receiving messages. The brand new [Botkit Anywhere starter kit](https://github.com/howdyai/botkit-starter-web) includes a [customizable web chat client](https://github.com/howdyai/botkit-starter-web/blob/master/docs/botkit_web_client.md), and a [built-in chat server](https://github.com/howdyai/botkit-starter-web/blob/master/docs/botkit_chat_server.md).  Of course, this works with the existing stack of Botkit tools and plugins!
 
-Merged PRS:
+New for Botkit Studio:
 
-https://github.com/howdyai/botkit/pull/1154
-https://github.com/howdyai/botkit/pull/1164
-https://github.com/howdyai/botkit/pull/1166
-https://github.com/howdyai/botkit/pull/1197
-https://github.com/howdyai/botkit/pull/1147
-https://github.com/howdyai/botkit/pull/1170
-https://github.com/howdyai/botkit/pull/978
-https://github.com/howdyai/botkit/pull/1171
-https://github.com/howdyai/botkit/pull/1180
-https://github.com/howdyai/botkit/pull/1183
-https://github.com/howdyai/botkit/pull/1193
-https://github.com/howdyai/botkit/pull/1110
-https://github.com/howdyai/botkit/pull/1101
+Developers using Botkit Studio to create and manage script content can now utilize a new message action in their conditional statements, or at the end of any thread.
+It is now possible to direct your bot to seamlessly transition to a different Botkit Studio script. This allows for new patterns like interconnected menus, loops and branching conversations.
 
+Merged pull requests:
 
-slack
-https://github.com/howdyai/botkit/pull/981
-https://github.com/howdyai/botkit/pull/1203
+Our community of Botkit Core developers is more than 150 people strong! Thank you to all of the contributors who spent their precious time improving Botkit for everyone. There are more than a dozen pull requests included in this release!!
+
+Core:
+
+* Upgraded the `ws` dependency to latest [Thanks @naktibalda](https://github.com/howdyai/botkit/pull/1154)
+* Add delete method to in-memory store [Thanks @naktibalda](https://github.com/howdyai/botkit/pull/1164)
+* memory store: don't log warning after each save [Thanks @naktibalda](https://github.com/howdyai/botkit/pull/1197)
+
+Facebook:
+
+This release contains a ton of updates to the Facebook connector, many of which were contributed by @ouadie-lahdioui!
+
+* pass error object to the callbacks for failed send Api calls [Thanks @nishant-chaturvedi](https://github.com/howdyai/botkit/pull/1147)
+* Secures FB Graph API Requests with optional app secret [Docs](docs/readme-facebook.md#app-secret-proof) [Thanks @ouadie-lahdioui](https://github.com/howdyai/botkit/pull/1170)
+* Add Facebook Handover Protocol [Docs](docs/readme-facebook.md#handover-protocol) [Thanks @ouadie-lahdioui](https://github.com/howdyai/botkit/pull/978)
+* Include messaging_type property in all Botkit message sends [Docs](docs/readme-facebook.md#messaging-type)[Thanks @ouadie-lahdioui](https://github.com/howdyai/botkit/pull/1171)
+* Add FB Broadcast Messages API [Docs](https://github.com/howdyai/botkit/blob/068/docs/readme-facebook.md#broadcast-messages-api) [Thanks @ouadie-lahdioui](https://github.com/howdyai/botkit/pull/1180)
+* Add Facebook insights API [Docs](https://github.com/howdyai/botkit/blob/068/docs/readme-facebook.md#messaging-insights-api) [Thanks @ouadie-lahdioui](https://github.com/howdyai/botkit/pull/1183)
+* Include user's email in profile if returned from facebook API [Thanks @iniq](https://github.com/howdyai/botkit/pull/1193)
+* Properly trigger security session events from facebook workplace [Thanks @ariel-learningpool](https://github.com/howdyai/botkit/pull/1110)
+* fix bug when using Facebook Checkbox Plugin [Thanks @shmuelgutman](https://github.com/howdyai/botkit/pull/1101)
+
+Slack:
+
+These fixes for the Slack connector add more ways to protect your bot from potentially malicious incoming webhook events. Use them!!
+
+* Add optional Slack token verification to config [thanks @shishisharma](https://github.com/howdyai/botkit/pull/981)
+* Apply verification middleware only on the webhook endpoint [thanks @nishant-chaturvedi](https://github.com/howdyai/botkit/pull/1203)
 
 # 0.6.7
 
