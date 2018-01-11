@@ -488,6 +488,13 @@ controller.hears(['send tagged message'], 'message_received', function (bot, mes
     bot.reply(message, taggedMessage);
 });
 
+controller.hears(['send messaging type'], 'message_received', function (bot, message) {
+    var taggedMessage = {
+        "text": "Hello Botkit !",
+        "messaging_type": "UPDATE"
+    };
+    bot.reply(message, taggedMessage);
+});
 
 function formatUptime(uptime) {
     var unit = 'second';

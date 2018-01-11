@@ -18,7 +18,8 @@ https://github.com/howdyai/botkit/pull/1166
 https://github.com/howdyai/botkit/pull/1197
 https://github.com/howdyai/botkit/pull/1147
 https://github.com/howdyai/botkit/pull/1170
-
+https://github.com/howdyai/botkit/pull/978
+https://github.com/howdyai/botkit/pull/1171
 
 # 0.6.7
 
