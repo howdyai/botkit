@@ -64,6 +64,7 @@ We would love to hear about it! [Contact the Howdy team](https://howdy.ai/) to b
 * [Storing Information](storage.md)
 * [Logging](logging.md)
 * Platforms
+  * [Web and Apps](readme-web.md)
   * [Slack](readme-slack.md)
   * [Cisco Spark](readme-ciscospark.md)
   * [Facebook Messenger](readme-facebook.md)

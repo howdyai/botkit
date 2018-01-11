@@ -218,6 +218,7 @@ You can easily turn on the typing indicator on platforms that support that behav
 * [Storing Information](storage.md)
 * [Logging](logging.md)
 * Platforms
+  * [Web and Apps](readme-web.md)
   * [Slack](readme-slack.md)
   * [Cisco Spark](readme-ciscospark.md)
   * [Microsoft Teams](readme-teams.md)

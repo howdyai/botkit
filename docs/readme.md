@@ -13,6 +13,7 @@ To organize the things a bot says and does into useful units, Botkit bots have a
 After a bot has been told what to listen for and how to respond,
 it is ready to be connected to a stream of incoming messages. Currently, Botkit supports receiving messages from a variety of sources:
 
+* [Web and Apps](readme-web.md)
 * [Slack Real Time Messaging (RTM)](http://api.slack.com/rtm)
 * [Slack Incoming Webhooks](http://api.slack.com/incoming-webhooks)
 * [Slack Slash Commands](http://api.slack.com/slash-commands)
@@ -947,6 +948,7 @@ Here is an example of [using an Express web server alongside Botkit](https://git
 * [Storing Information](storage.md)
 * [Logging](logging.md)
 * Platforms
+  * [Web and Apps](readme-web.md)
   * [Slack](readme-slack.md)
   * [Cisco Spark](readme-ciscospark.md)
   * [Microsoft Teams](readme-teams.md)
