@@ -21,30 +21,30 @@ Our community of Botkit Core developers is more than 150 people strong! Thank yo
 
 Core:
 
-* Upgraded the `ws` dependency to latest [Thanks @naktibalda](https://github.com/howdyai/botkit/pull/1154)
-* Add delete method to in-memory store [Thanks @naktibalda](https://github.com/howdyai/botkit/pull/1164)
-* memory store: don't log warning after each save [Thanks @naktibalda](https://github.com/howdyai/botkit/pull/1197)
+* Upgraded the `ws` dependency to latest - [Thanks @naktibalda](https://github.com/howdyai/botkit/pull/1154)
+* Add delete method to in-memory store - [Thanks @naktibalda](https://github.com/howdyai/botkit/pull/1164)
+* memory store: don't log warning after each save - [Thanks @naktibalda](https://github.com/howdyai/botkit/pull/1197)
 
 Facebook:
 
 This release contains a ton of updates to the Facebook connector, many of which were contributed by @ouadie-lahdioui!
 
-* pass error object to the callbacks for failed send Api calls [Thanks @nishant-chaturvedi](https://github.com/howdyai/botkit/pull/1147)
-* Secures FB Graph API Requests with optional app secret [Docs](docs/readme-facebook.md#app-secret-proof) [Thanks @ouadie-lahdioui](https://github.com/howdyai/botkit/pull/1170)
-* Add Facebook Handover Protocol [Docs](docs/readme-facebook.md#handover-protocol) [Thanks @ouadie-lahdioui](https://github.com/howdyai/botkit/pull/978)
-* Include messaging_type property in all Botkit message sends [Docs](docs/readme-facebook.md#messaging-type)[Thanks @ouadie-lahdioui](https://github.com/howdyai/botkit/pull/1171)
-* Add FB Broadcast Messages API [Docs](https://github.com/howdyai/botkit/blob/068/docs/readme-facebook.md#broadcast-messages-api) [Thanks @ouadie-lahdioui](https://github.com/howdyai/botkit/pull/1180)
-* Add Facebook insights API [Docs](https://github.com/howdyai/botkit/blob/068/docs/readme-facebook.md#messaging-insights-api) [Thanks @ouadie-lahdioui](https://github.com/howdyai/botkit/pull/1183)
-* Include user's email in profile if returned from facebook API [Thanks @iniq](https://github.com/howdyai/botkit/pull/1193)
-* Properly trigger security session events from facebook workplace [Thanks @ariel-learningpool](https://github.com/howdyai/botkit/pull/1110)
-* fix bug when using Facebook Checkbox Plugin [Thanks @shmuelgutman](https://github.com/howdyai/botkit/pull/1101)
+* pass error object to the callbacks for failed send Api calls - [Thanks @nishant-chaturvedi](https://github.com/howdyai/botkit/pull/1147)
+* Secures FB Graph API Requests with optional app secret [Docs](docs/readme-facebook.md#app-secret-proof) - [Thanks @ouadie-lahdioui](https://github.com/howdyai/botkit/pull/1170)
+* Add Facebook Handover Protocol [Docs](docs/readme-facebook.md#handover-protocol) - [Thanks @ouadie-lahdioui](https://github.com/howdyai/botkit/pull/978)
+* Include messaging_type property in all Botkit message sends [Docs](docs/readme-facebook.md#messaging-type)- [Thanks @ouadie-lahdioui](https://github.com/howdyai/botkit/pull/1171)
+* Add FB Broadcast Messages API [Docs](https://github.com/howdyai/botkit/blob/068/docs/readme-facebook.md#broadcast-messages-api) - [Thanks @ouadie-lahdioui](https://github.com/howdyai/botkit/pull/1180)
+* Add Facebook insights API [Docs](https://github.com/howdyai/botkit/blob/068/docs/readme-facebook.md#messaging-insights-api) - [Thanks @ouadie-lahdioui](https://github.com/howdyai/botkit/pull/1183)
+* Include user's email in profile if returned from facebook API - [Thanks @iniq](https://github.com/howdyai/botkit/pull/1193)
+* Properly trigger security session events from facebook workplace - [Thanks @ariel-learningpool](https://github.com/howdyai/botkit/pull/1110)
+* fix bug when using Facebook Checkbox Plugin - [Thanks @shmuelgutman](https://github.com/howdyai/botkit/pull/1101)
 
 Slack:
 
 These fixes for the Slack connector add more ways to protect your bot from potentially malicious incoming webhook events. Use them!!
 
-* Add optional Slack token verification to config [thanks @shishisharma](https://github.com/howdyai/botkit/pull/981)
-* Apply verification middleware only on the webhook endpoint [thanks @nishant-chaturvedi](https://github.com/howdyai/botkit/pull/1203)
+* Add optional Slack token verification to config - [Thanks @shishisharma](https://github.com/howdyai/botkit/pull/981)
+* Apply verification middleware only on the webhook endpoint - [Thanks @nishant-chaturvedi](https://github.com/howdyai/botkit/pull/1203)
 
 # 0.6.7
 
