@@ -111,6 +111,7 @@ var controller = Botkit.slackbot({debug: true})
 | retry | Positive integer or `Infinity` | Maximum number of reconnect attempts after failed connection to Slack's real time messaging API. Retry is disabled by default
 | api_root | Alternative root URL which allows routing requests to the Slack API through a proxy, or use of a mocked endpoints for testing. defaults to `https://slack.com`
 | disable_startup_messages | Boolean | Disable start up messages, like: `"Initializing Botkit vXXX"`
+| clientVerificationToken | String | Value of verification token from Slack used to confirm source of incoming messages
 
 #### controller.spawn()
 | Argument | Description
@@ -532,6 +533,8 @@ from Slack.  Slack will generate a unique request token for each Slash command a
 outgoing webhook (see [Slack documentation](https://api.slack.com/slash-commands#validating_the_command)).
 You can configure the web server to validate that incoming requests contain a valid api token
 by adding an express middleware authentication module.
+
+This can also be achieved by passing a verification token as `clientVerificationToken` into the initial call `Botkit.slackbot()` used to create the controller.
 
 ```javascript
 controller.setupWebserver(port,function(err,express_webserver) {

@@ -23,6 +23,9 @@ https://github.com/howdyai/botkit/pull/1171
 https://github.com/howdyai/botkit/pull/1180
 https://github.com/howdyai/botkit/pull/1183
 
+slack
+https://github.com/howdyai/botkit/pull/981
+
 # 0.6.7
 
 Add `controller.studio.getScripts()` to load all a list of available scripts from Botkit Studio [Docs](docs/readme-studio.md#controllerstudiogetscripts)
