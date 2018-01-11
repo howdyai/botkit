@@ -1,6 +1,6 @@
 # Botkit Web Connector
 
-The power of bots and conversational software can included in any website or app using Botkit's new web connector!
+The power of bots and conversational software can included in any website or app using Botkit's new connector!
 
 ## What is this?
 
@@ -108,6 +108,8 @@ and a few extra ones that are specific to operating on the web!
 This function takes an instance of an http server object - that is, the results of a call to `http.createServer()`.
 
 It connects a `ws` powered websocket server to the web server, and allows the application to accept socket connections directly with the bot.
+
+[A compatible webserver is provided in the starter kit](https://github.com/howdyai/botkit-starter-web/blob/master/components/express_webserver.js).
 
 
 ### bot.replyWithTyping(message, reply)
