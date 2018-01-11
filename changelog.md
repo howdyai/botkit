@@ -22,6 +22,10 @@ https://github.com/howdyai/botkit/pull/978
 https://github.com/howdyai/botkit/pull/1171
 https://github.com/howdyai/botkit/pull/1180
 https://github.com/howdyai/botkit/pull/1183
+https://github.com/howdyai/botkit/pull/1193
+https://github.com/howdyai/botkit/pull/1110
+https://github.com/howdyai/botkit/pull/1101
+
 
 slack
 https://github.com/howdyai/botkit/pull/981
