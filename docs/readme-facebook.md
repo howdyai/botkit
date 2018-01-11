@@ -26,6 +26,8 @@ Table of Contents
 * [App Secret Proof](#app-secret-proof )
 * [Handover Protocol](#handover-protocol)
 * [Messaging type](#messaging-type)
+* [Broadcast Messages API](#broadcast-messages-api)
+>>>>>>> 669cec375d9db269d2fe9e2078c4106c12fc54ca
 * [Running Botkit with an Express server](#use-botkit-for-facebook-messenger-with-an-express-web-server)
 
 ## Getting Started
@@ -580,6 +582,7 @@ bot.reply(message, taggedMessage);
 ```
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 ## App Secret Proof
 
 To improve security and prevent your bot against man in the middle attack, it's highly recommended to send an app secret proof :
@@ -659,6 +662,150 @@ The following values for 'messaging_type' are supported :
 | NON_PROMOTIONAL_SUBSCRIPTION | Message is non-promotional, and is being sent under the subscription messaging policy by a bot with the pages_messaging_subscriptions permission.
 
 By default Botkit will send a `RESPONSE` messaging type when you send a simple message with `bot.reply(message, "this is a simple message"")`, `conversation.say("this is a simple message")` or `conversation.ask("this is a simple message", ...)`.
+=======
+## Broadcast Messages API
+
+Broadcast Messages API allows you to send a message to many recipients, this means sending messages in batches to avoid hitting the Messenger Platform's rate limit, which can take a very long time.
+
+More information about the Broadcast Messages API can be found [here](https://developers.facebook.com/docs/messenger-platform/send-messages/broadcast-messages)
+
+### Creating a Broadcast Message
+
+Messages sent with the Broadcast API must be defined in advance.
+
+To create a broadcast message :
+
+```javascript
+/* Simple example */
+controller.api.broadcast.create_message_creative("Hello friend !", function (err, body) {
+    // Your awesome code here
+    console.log(body['message_creative_id']);
+    // And here
+});
+
+/* Personalizing Messages example */
+controller.api.broadcast.create_message_creative({
+    'dynamic_text': {
+        'text': 'Hi, {{first_name}}!',
+        'fallback_text': 'Hello friend !'
+    }
+}, function (err, body) {
+    // Your awesome code here
+    console.log(body['message_creative_id']);
+    // And here
+});
+```
+
+### Sending a Broadcast Message
+
+To send a broadcast message, you call ```controller.api.broadcast.send(...)``` with the broadcast message ID.
+
+On success, Botkit will return a numeric broadcast_id that can be used to identify the broadcast for analytics purposes :
+
+```javascript
+controller.api.broadcast.send('<CREATIVE_ID>', null, function (err, body) {
+    // Your awesome code here
+    console.log(body['broadcast_id']);
+    // And here
+});
+```
+
+### Broadcast Metrics
+
+Once a broadcast has been delivered, you can find out the total number of people it reached by calling ```controller.api.broadcast.get_broadcast_metrics(...)```.
+
+```javascript
+controller.api.broadcast.get_broadcast_metrics("<BROADCAST_ID>", function (err, body) {
+    // Your awesome code here
+});
+```
+
+### Targeting a Broadcast Message
+
+By default, the Broadcast API sends your message to all open conversations with your Messenger bot. To allow you broadcast to a subset of conversations, the Broadcast API supports 'custom labels', which can be associated with individual PSIDs.
+
+#### Creating a Label
+
+To create a label :
+
+```javascript
+controller.api.broadcast.create_label("<LABEL_NAME>", function (err, body) {
+    // Your awesome code here
+});
+```
+
+#### Associating a Label to a user
+
+To associate a label to a specific user :
+
+```javascript
+controller.api.broadcast.add_user_to_label(message.user, "<LABEL_ID>", function (err, body) {
+    // Your awesome code here
+});
+```
+
+#### Sending a Message with a Label
+
+To send a broadcast message to the set of users associated with a label :
+
+```javascript
+controller.api.broadcast.send('<BROADCAST_MESSAGE_ID>', '<CUSTOM_LABEL_ID>', function (err, body) {
+    // Your awesome code here
+    console.log(body['broadcast_id']);
+    // And here
+});
+```
+
+#### Removing a Label From a user
+
+To remove a label currently associated with a user :
+
+```javascript
+controller.api.broadcast.remove_user_from_label(message.user, '<LABEL_ID>', function (err, body) {
+    // Your awesome code here
+});
+```
+
+#### Retrieving Labels Associated with a USER
+
+To retrieve the labels currently associated with a USER :
+
+```javascript
+controller.api.broadcast.get_labels_by_user(message.user, function (err, body) {
+    // Your awesome code here
+});
+```
+
+### Retrieving Label Details
+
+To retrieve a single label :
+
+```javascript
+controller.api.broadcast.get_label_details('<LABEL_ID>', ['name'], function (err, body) {
+    // Your awesome code here
+});
+```
+
+#### Retrieving a List of All Labels
+
+To retrieve the list of all the labels for the page :
+
+```javascript
+controller.api.broadcast.get_all_labels(['name'], function (err, body) {
+    // Your awesome code here
+});
+```
+
+#### Deleting a Label
+
+To delete a label :
+
+```javascript
+controller.api.broadcast.remove_label('<LABEL_ID>', function (err, body) {
+    // Your awesome code here
+});
+```
+>>>>>>> 669cec375d9db269d2fe9e2078c4106c12fc54ca
 
 ## Use BotKit for Facebook Messenger with an Express web server
 Instead of the web server generated with setupWebserver(), it is possible to use a different web server to receive webhooks, as well as serving web pages.
