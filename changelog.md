@@ -25,6 +25,7 @@ https://github.com/howdyai/botkit/pull/1183
 
 slack
 https://github.com/howdyai/botkit/pull/981
+https://github.com/howdyai/botkit/pull/1203
 
 # 0.6.7
 
