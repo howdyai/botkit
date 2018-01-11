@@ -24,6 +24,7 @@ Table of Contents
 * [Built-in NLP](#built-in-nlp)
 * [Message Tags](#message-tags)
 * [App Secret Proof](#app-secret-proof )
+* [Handover Protocol](#handover-protocol)
 * [Running Botkit with an Express server](#use-botkit-for-facebook-messenger-with-an-express-web-server)
 
 ## Getting Started
@@ -88,6 +89,10 @@ Normal messages will be sent to your bot using the `message_received` event.  In
 | facebook_account_linking | a user has started the account linking
 | facebook_optin | a user has clicked the [Send-to-Messenger plugin](https://developers.facebook.com/docs/messenger-platform/implementation#send_to_messenger_plugin)
 | facebook_referral | a user has clicked on a [m.me URL with a referral param](https://developers.facebook.com/docs/messenger-platform/referral-params)
+| facebook_app_roles | This callback will occur when a page admin changes the role of your application.
+| standby | This callback will occur when a message has been sent to your page, but your application is not the current thread owner.
+| facebook_receive_thread_control | This callback will occur when thread ownership for a user has been passed to your application.
+| facebook_lose_thread_control | This callback will occur when thread ownership for a user has been taken away from your application.
 
 All incoming events will contain the fields `user` and `channel`, both of which represent the Facebook user's ID, and a `timestamp` field.
 
@@ -573,9 +578,10 @@ var taggedMessage = {
 bot.reply(message, taggedMessage);
 ```
 
-## App Secret Proof 
+<<<<<<< HEAD
+## App Secret Proof
 
-To improve security and prevent your bot against man in the middle attack, it's highly recommended to send an app secret proof : 
+To improve security and prevent your bot against man in the middle attack, it's highly recommended to send an app secret proof :
 
 ```javascript
 var controller = Botkit.facebookbot({
@@ -584,9 +590,49 @@ var controller = Botkit.facebookbot({
     app_secret: process.env.app_secret,
     require_appsecret_proof: true // Enable send app secret proof
 });
-``` 
+```
 
 More information about how to secure Graph API Requests [here](https://developers.facebook.com/docs/graph-api/securing-requests/)
+=======
+## Handover Protocol
+
+The Messenger Platform handover protocol enables two or more applications to collaborate on the Messenger Platform for a Page.
+
+View the facebook [documentation](https://developers.facebook.com/docs/messenger-platform/handover-protocol) for more details.
+
+### Secondary Receivers List
+
+Allows the Primary Receiver app to retrieve the list of apps that are Secondary Receivers for a page. Only the app with the Primary Receiver role for the page may use this API.
+
+- To retrieve the list of Secondary Receivers :
+```javascript
+controller.api.handover.get_secondary_receivers_list('id,name', function (result) {
+   // result.data = list of Secondary Receivers
+});
+```
+
+### Take Thread Control
+
+The Primary Receiver app can take control of a specific thread from a Secondary Receiver app :
+
+- To thread control :
+```javascript
+controller.api.handover.take_thread_control('<RECIPIENT_PSID>', 'String to pass to pass to the secondary receiver', function (result) {
+   // result = {"success":true}
+});
+```
+
+### Pass Thread Control
+
+To pass the thread control from your app to another app :
+
+- To pass thread control :
+```javascript
+controller.api.handover.pass_thread_control('<RECIPIENT_PSID>', '<TARGET_PSID>', 'String to pass to the secondary receiver app', function (result) {
+   // result = {"success":true}
+});
+```
+>>>>>>> b8029ba60953c5bb31fd6415a868d3956bd27340
 
 ## Use BotKit for Facebook Messenger with an Express web server
 Instead of the web server generated with setupWebserver(), it is possible to use a different web server to receive webhooks, as well as serving web pages.
