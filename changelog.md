@@ -8,7 +8,7 @@
 
 BIG UPDATE:
 
-New Botkit Web Connector
+[Botkit now works on the web!](docs/readme-web.md) The new web connector supports websocket and webhook connections for sending and receiving messages. The brand new [Botkit Anywhere starter kit](https://github.com/howdyai/botkit-starter-web) includes a [customizable web chat client](https://github.com/howdyai/botkit-starter-web/blob/master/docs/botkit_web_client.md), and a [built-in chat server](https://github.com/howdyai/botkit-starter-web/blob/master/docs/botkit_chat_server.md).  Of course, this works with the existing stack of Botkit tools and plugins!
 
 Merged PRS:
 
