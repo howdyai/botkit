@@ -9,7 +9,7 @@
     "back": "^1.0.1",
     "body-parser": "^1.17.1",
     "botbuilder": "^3.8.4",
-    "botkit-studio-sdk": "^1.0.5",
+    "botkit-studio-sdk": "^1.0.6",
     "ciscospark": "1.8.0",
     "clone": "2.1.1",
     "command-line-args": "^4.0.2",

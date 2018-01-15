@@ -227,8 +227,9 @@ controller.studio.before('help', function(convo, next) {
 | Argument | Description
 |---  |---
 | bot   | A bot instance (required only when Botkit Studio token is associated with bot, not controller)
+| tag | (optional) require that all scripts returned have specified tag
 
-This function will return a list of all Botkit STudio scripts available to the bot.
+This function will return a list of all Botkit Studio scripts available to the bot.
 It returns a promise that will resolve with an array of scripts. These scripts will contain
 the `name`, `description`, and a list of associated `triggers`. The `name` field can be used
 along with `controller.studio.get()` and `controller.studio.run()` to load the actual content of the script.
