@@ -187,6 +187,8 @@ var controller = Botkit.facebookbot({
 })
 ```
 
+And subscribe the Facebook App to the [*message_deliveries* Webhook Event](https://developers.facebook.com/docs/messenger-platform/reference/webhook-events/message-deliveries)
+
 #### controller.setupWebserver()
 | Argument | Description
 |---  |---
