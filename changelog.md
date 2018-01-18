@@ -15,6 +15,14 @@ New for Botkit Studio:
 Developers using Botkit Studio to create and manage script content can now utilize a new message action in their conditional statements, or at the end of any thread.
 It is now possible to direct your bot to seamlessly transition to a different Botkit Studio script. This allows for new patterns like interconnected menus, loops and branching conversations.
 
+New core features:
+
+Developers can now exclude specific types of events from being included in conversations using `controller.excludeFromConversations(event_name)`.
+This has been applied to the Facebook connector, which will now exclude certain events automatically. [Docs](docs/readme.md#excluding-events-from-conversations)
+
+The tick interval used for driving conversations can now be adjusted using `controller.setTickDelay(ms)`.  [Docs](docs/readme.md#changing-the-speed-of-botkits-internal-tick)
+
+
 Merged pull requests:
 
 Our community of Botkit Core developers is more than 150 people strong! Thank you to all of the contributors who spent their precious time improving Botkit for everyone. There are more than a dozen pull requests included in this release!!
@@ -38,6 +46,9 @@ This release contains a ton of updates to the Facebook connector, many of which 
 * Include user's email in profile if returned from facebook API - [Thanks @iniq](https://github.com/howdyai/botkit/pull/1193)
 * Properly trigger security session events from facebook workplace - [Thanks @ariel-learningpool](https://github.com/howdyai/botkit/pull/1110)
 * fix bug when using Facebook Checkbox Plugin - [Thanks @shmuelgutman](https://github.com/howdyai/botkit/pull/1101)
+
+Botkit will now exclude `message_delivered`, `message_echo` and `message_read` events from inclusion in conversations using the new `excludeFromConversations()` function. [Docs](docs/readme.md#excluding-events-from-conversations)
+
 
 Slack:
 

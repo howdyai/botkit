@@ -931,11 +931,37 @@ var controller = Botkit.slackbot({
 
 # Advanced Topics
 
+## Excluding Events from Conversations
+
+Modern messaging platforms send all manner of events - some of which are initiated by the user like a written message or button click, and some of which are sent as background information or API alerts, such as message delivery confirmations or activity from other users.  Some of these events can cause chaos with Botkit's conversation system because they can be mistaken for iput from the user. To solve this, Botkit includes a list of events to exclude from consideration and inclusion in a conversation.
+
+Each platform has a different set of events that is excluded from conversations. If your application is receiving a certain type of event in conversations that you would rather be excluded, call `controller.excludeFromConversations(event_name)`.
+
+```js
+// always exclude facebook postback events from conversations
+controller.excludeFromConversations('facebook_postback')
+```
+
+## Changing the speed of Botkit's internal tick
+
+Botkit's conversation system is driven by an internal clock which ticks at a regular pace.
+Each tick of the clock causes Botkit to evaluate any ongoing conversations and send any messages waiting to be delivered.
+By default, this tick is set at 1.5 seconds, or 1500ms.
+
+The 1.5 second delay between sending messages serves two purposes: first, it creates a small delay between outgoing messages, giving some small simulation of typing time.
+Second, it helps to keep bots API use within a reasonable limit in order to prevent being rate limited by the message platform.
+
+In some cases, this delay is undesirable, or needs to be customized. In this event, the tick interval can be adjusted using `controller.setTickDelay(ms)`.
+
+```js
+// only wait 100ms between conversation loops
+controller.setTickDelay(100);
+```
+
 ## Use Botkit with an Express web server
 Instead of controller.setupWebserver(), it is possible to use a different web server to manage authentication flows, as well as serving web pages.
 
-Here is an example of [using an Express web server alongside Botkit](https://github.com/mvaragnat/botkit-express-demo).
-
+Our [starter kits](readme-starterkits.md) all include a customizable Express.js webserver that can be used as a model for building your own.
 
 ## Documentation
 
