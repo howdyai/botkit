@@ -401,11 +401,12 @@ controller.middleware.format.use(function(bot, message, platform_message, next) 
 });
 ```
 
-## Botkit Documentation Index
+## Documentation
 
 * [Get Started](readme.md)
 * [Botkit Studio API](readme-studio.md)
 * [Function index](readme.md#developing-with-botkit)
+* [Starter Kits](readme-starterkits.md)
 * [Extending Botkit with Plugins and Middleware](middleware.md)
   * [Message Pipeline](readme-pipeline.md)
   * [List of current plugins](readme-middlewares.md)
