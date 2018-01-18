@@ -488,14 +488,14 @@ controller.hears(['send tagged message'], 'message_received', function (bot, mes
     bot.reply(message, taggedMessage);
 });
 
-<<<<<<< HEAD
 controller.hears(['send messaging type'], 'message_received', function (bot, message) {
     var taggedMessage = {
         "text": "Hello Botkit !",
         "messaging_type": "UPDATE"
     };
     bot.reply(message, taggedMessage);
-=======
+});
+
 controller.hears(['insights'], 'message_received', function (bot, message) {
     controller.api.insights.get_insights(['page_messages_active_threads_unique', 'page_messages_blocked_conversations_unique'], null, null, function (err, body) {
         if (err) {
@@ -504,7 +504,6 @@ controller.hears(['insights'], 'message_received', function (bot, message) {
             bot.reply(message, JSON.stringify(body.data));
         }
     });
->>>>>>> 85ae1c925a9b4c3cb406fdbb5240637e91aea4ee
 });
 
 function formatUptime(uptime) {
