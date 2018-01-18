@@ -488,6 +488,23 @@ controller.hears(['send tagged message'], 'message_received', function (bot, mes
     bot.reply(message, taggedMessage);
 });
 
+controller.hears(['send messaging type'], 'message_received', function (bot, message) {
+    var taggedMessage = {
+        "text": "Hello Botkit !",
+        "messaging_type": "UPDATE"
+    };
+    bot.reply(message, taggedMessage);
+});
+
+controller.hears(['insights'], 'message_received', function (bot, message) {
+    controller.api.insights.get_insights(['page_messages_active_threads_unique', 'page_messages_blocked_conversations_unique'], null, null, function (err, body) {
+        if (err) {
+            bot.reply(message, 'Insights error');
+        } else {
+            bot.reply(message, JSON.stringify(body.data));
+        }
+    });
+});
 
 function formatUptime(uptime) {
     var unit = 'second';

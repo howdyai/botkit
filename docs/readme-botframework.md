@@ -207,17 +207,19 @@ You can easily turn on the typing indicator on platforms that support that behav
     bot.reply(message, { type: "typing" });
 ~~~
 
-## Botkit Documentation Index
+## Documentation
 
 * [Get Started](readme.md)
 * [Botkit Studio API](readme-studio.md)
 * [Function index](readme.md#developing-with-botkit)
+* [Starter Kits](readme-starterkits.md)
 * [Extending Botkit with Plugins and Middleware](middleware.md)
   * [Message Pipeline](readme-pipeline.md)
   * [List of current plugins](readme-middlewares.md)
 * [Storing Information](storage.md)
 * [Logging](logging.md)
 * Platforms
+  * [Web and Apps](readme-web.md)
   * [Slack](readme-slack.md)
   * [Cisco Spark](readme-ciscospark.md)
   * [Microsoft Teams](readme-teams.md)

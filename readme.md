@@ -61,7 +61,7 @@ Then, add Botkit to your application code:
 ```
 var Botkit = require('botkit');
 
-var controller = Botkit.slackbot(configuration);
+var controller = Botkit.anywhere(configuration);
 
 controller.hears('hello','direct_message', function(bot, message) {
     bot.reply(message,'Hello yourself!');
@@ -157,6 +157,7 @@ controller.middleware.send.use(function(bot, message, next) {
 * [Storing Information](docs/storage.md)
 * [Logging](docs/logging.md)
 * Platforms
+  * [Web and Apps](docs/readme-web.md)
   * [Slack](docs/readme-slack.md)
   * [Cisco Spark](docs/readme-ciscospark.md)
   * [Microsoft Teams](docs/readme-teams.md)
