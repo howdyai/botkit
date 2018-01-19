@@ -227,8 +227,9 @@ controller.studio.before('help', function(convo, next) {
 | Argument | Description
 |---  |---
 | bot   | A bot instance (required only when Botkit Studio token is associated with bot, not controller)
+| tag | (optional) require that all scripts returned have specified tag
 
-This function will return a list of all Botkit STudio scripts available to the bot.
+This function will return a list of all Botkit Studio scripts available to the bot.
 It returns a promise that will resolve with an array of scripts. These scripts will contain
 the `name`, `description`, and a list of associated `triggers`. The `name` field can be used
 along with `controller.studio.get()` and `controller.studio.run()` to load the actual content of the script.
@@ -375,18 +376,19 @@ controller.studio.beforeThread('search', 'results', function(convo, next) {
 });
 ```
 
-
-## Botkit Documentation Index
+## Documentation
 
 * [Get Started](readme.md)
 * [Botkit Studio API](readme-studio.md)
 * [Function index](readme.md#developing-with-botkit)
+* [Starter Kits](readme-starterkits.md)
 * [Extending Botkit with Plugins and Middleware](middleware.md)
   * [Message Pipeline](readme-pipeline.md)
   * [List of current plugins](readme-middlewares.md)
 * [Storing Information](storage.md)
 * [Logging](logging.md)
 * Platforms
+  * [Web and Apps](readme-web.md)
   * [Slack](readme-slack.md)
   * [Cisco Spark](readme-ciscospark.md)
   * [Microsoft Teams](readme-teams.md)

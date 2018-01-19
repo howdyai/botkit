@@ -19,11 +19,12 @@ These plugins help you measure the success of your bots, across a variety of mea
 |  ------ | ------ | ------ |
 |  Microsoft Luis | https://github.com/Stevenic/botkit-middleware-luis | The Luis middleware with Botkit causes every message sent to your bot to be first sent through Luis.ai's NLP services for processing. This middleware has deep integration with [Botkit Studio](https://botkit.groovehq.com/knowledge_base/topics/microsoft-luis)<br/><br/> |
 |  Amazon Lex | https://github.com/jonchurch/botkit-middleware-lex | This middleware allows you to send user input to AWS Lex. This gives you access to intent mapping, data slots, NLP, and other capabilites of the Lex service. You can use this middleware to extend your bots capabilites, add an interaction that lives in Lex to an existing bot, or to run a Lex bot with Botkit as the connector. |
-|  Api.ai | https://github.com/abeai/botkit-middleware-apiai | This middleware plugin for Botkit allows you to utilize Api.ai, a natural language classifier service directly into the Botkit corebot.<br/><br/> |
+|  Google Dialogflow | https://github.com/jschnurr/botkit-middleware-dialogflow | This middleware plugin for Botkit allows you to utilize Dialogflow (formerly Api.ai), a natural language classifier service directly into the Botkit corebot.<br/><br/> |
 |  IBM Watson | https://github.com/watson-developer-cloud/botkit-middleware | This middleware plugin for Botkit allows developers to easily integrate a Watson Conversation workspace with multiple social channels like Slack, Facebook, and Twilio. Customers can have simultaneous, independent conversations with a single workspace through different channels.<br/><br/> |
 |  Recast.ai | https://github.com/ouadie-lahdioui/botkit-middleware-recastai | You can use the Recast.AI API to analyse your text or your audio file, and extract useful informations from it, to personalize your IoT, classify your data or create bots.<br/><br/> |
 |  Wit.ai | https://github.com/howdyai/botkit-middleware-witai | Wit.ai provides a service that uses machine learning to help developers handle natural language input. The Wit API receives input from the user, and translates it into one or more "intents" which map to known actions or choices. The power of Wit is that it can continually be trained to understand more and more responses without changing the underlying bot code!<br/><br/> |
 |  Rasa | https://github.com/howdyai/botkit-rasa | This plugin provides Botkit developers a way to use the rasa NLU open source, self hosted natural language API.<br/><br/><br/> |
+|  Facebook | https://github.com/pinkku/botkit-middleware-facebookuser | This plugin allows you to collect Facebook Messenger user info to populate a Botkit message<br/><br/><br/> |
 
 ## Storage Modules
 |  Name | Project Page | Info |
@@ -52,20 +53,24 @@ These plugins help you measure the success of your bots, across a variety of mea
 # Have you created middleware?
 We would love to hear about it! [Contact the Howdy team](https://howdy.ai/) to be included in Botkit documentation, or [submit a PR on this documentation](https://github.com/howdyai/botkit-storage-firebase/blob/master/CONTRIBUTING.md)!
 
-
 ## Documentation
 
 * [Get Started](readme.md)
 * [Botkit Studio API](readme-studio.md)
 * [Function index](readme.md#developing-with-botkit)
+* [Starter Kits](readme-starterkits.md)
 * [Extending Botkit with Plugins and Middleware](middleware.md)
+  * [Message Pipeline](readme-pipeline.md)
   * [List of current plugins](readme-middlewares.md)
 * [Storing Information](storage.md)
 * [Logging](logging.md)
 * Platforms
+  * [Web and Apps](readme-web.md)
   * [Slack](readme-slack.md)
   * [Cisco Spark](readme-ciscospark.md)
+  * [Microsoft Teams](readme-teams.md)
   * [Facebook Messenger](readme-facebook.md)
+  * [Twilio SMS](readme-twiliosms.md)
   * [Twilio IPM](readme-twilioipm.md)
   * [Microsoft Bot Framework](readme-botframework.md)
 * Contributing to Botkit
