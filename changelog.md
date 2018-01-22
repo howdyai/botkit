@@ -4,6 +4,10 @@
 
 [Want to contribute? Read our guide!](https://github.com/howdyai/botkit/blob/master/CONTRIBUTING.md)
 
+# 0.6.9
+
+
+
 # 0.6.8
 
 BIG UPDATE:
