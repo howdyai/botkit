@@ -8,6 +8,8 @@
 
 * Fix for Botkit Studio scripts which used "end and mark successful" action from a condition. Previously this would end, but not mark successful.
 * Conversations powered by Botkit Studio will now include `convo.context.script_name` and `convo.context.script_id` which point back content provided by the Botkit Studio API
+* An additional event will now fire when a conversation is created, but before being activated.  `conversationCreated`
+
 
 # 0.6.8
 
