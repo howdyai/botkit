@@ -9,7 +9,9 @@ declare namespace botkit {
   function sparkbot(configuration: CiscoSparkConfiguration): CiscoSparkController;
   function twilioipmbot(configuration: TwilioIPMConfiguration): TwilioIPMController;
   function twiliosmsbot(configuration: TwilioSMSConfiguration): TwilioSMSController;
-  function socketbot(configuration: SocketConfiguration): SocketController;
+  function socketbot(configuration: WebConfiguration): WebController;
+  function anywhere(configuration: WebConfiguration): WebController;
+
   interface Bot<S, M extends Message> {
     readonly botkit: Controller<S, M, this>;
     readonly identity: Identity;
@@ -492,21 +494,21 @@ declare namespace botkit {
   }
   interface TwilioSMSSpawnConfiguration {
   }
-  interface SocketBot extends Bot<SocketSpawnConfiguration, SocketMessage> {
-    send(src: SocketMessage, cb?: (err: Error, res: any) => void): void;
-    findConversation(message: SocketMessage, cb: (convo?: Conversation<SocketMessage>) => void): void;
+  interface WebBot extends Bot<WebSpawnConfiguration, WebMessage> {
+    send(src: WebMessage, cb?: (err: Error, res: any) => void): void;
+    findConversation(message: WebMessage, cb: (convo?: Conversation<WebMessage>) => void): void;
   }
-  interface SocketConfiguration extends Configuration {
+  interface WebConfiguration extends Configuration {
     replyWithTyping?: boolean;
   }
-  interface SocketController extends Controller<SocketSpawnConfiguration, SocketMessage, SocketBot> {
+  interface WebController extends Controller<WebSpawnConfiguration, WebMessage, WebBot> {
     httpserver: http.Server;
     webserver: express.Express;
     openSocketServer(server: http.Server): void;
   }
-  export interface SocketMessage extends Message {
+  export interface WebMessage extends Message {
   }
-  interface SocketSpawnConfiguration {
+  interface WebSpawnConfiguration {
   }
   interface User {
     id: string;
