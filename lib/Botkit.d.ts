@@ -495,6 +495,7 @@ declare namespace botkit {
   interface TwilioSMSSpawnConfiguration {
   }
   interface WebBot extends Bot<WebSpawnConfiguration, WebMessage> {
+    connected: boolean;
     send(src: WebMessage, cb?: (err: Error, res: any) => void): void;
     findConversation(message: WebMessage, cb: (convo?: Conversation<WebMessage>) => void): void;
   }
