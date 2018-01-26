@@ -47,15 +47,17 @@ describe('authentication', () => {
             return {
                 getToken: jest.fn((cb) => {
                     configuration.token =  'token';
-                    configuration.token_expires_in = '20';
+                    configuration.token_expires_in = '1200';
                     cb(null);
                 })
             };
         }));
         let bot = require('../../lib/Teams')(config);
-        expect(bot.config.token_expires_in).toBe('20');
+        expect(bot.config.token_expires_in).toBe('1200');
         expect(bot.api.getToken).toHaveBeenCalledTimes(1);
-        jest.runTimersToTime(1000 * 60 * 11);
+        jest.runTimersToTime(1000 * 60 * 9);
+        expect(bot.api.getToken).toHaveBeenCalledTimes(1);
+        jest.runTimersToTime(1000 * 60 * 1.1);
         expect(bot.api.getToken).toHaveBeenCalledTimes(2);
     });
 });
