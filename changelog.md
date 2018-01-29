@@ -11,6 +11,9 @@
 * When using Botkit Studio's execute script action, the resulting conversation object will have 2 additional context fields `convo.context.transition_from` and `convo.context.transition_from_id` which will point to the script from which the user transitioned
 * Add 2 new middleware endpoints that occur during conversations - `conversationStart(bot, convo, next)` and `conversationEnd(bot, convo, next)`
 
+Merged Pull Requests:
+* Make sure Facebook API errors are passed to callback if specified [PR #1225](https://github.com/howdyai/botkit/pull/1225)
+* Refresh Microsoft Teams token when it has expired. [PR #1230](https://github.com/howdyai/botkit/pull/1230)
 
 
 # 0.6.8
