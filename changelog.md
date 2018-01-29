@@ -9,7 +9,7 @@
 * Fix for Botkit Studio scripts which used "end and mark successful" action from a condition. Previously this would end, but not mark successful.
 * Conversations powered by Botkit Studio will now include `convo.context.script_name` and `convo.context.script_id` which point back content provided by the Botkit Studio API
 * When using Botkit Studio's execute script action, the resulting conversation object will have 2 additional context fields `convo.context.transition_from` and `convo.context.transition_from_id` which will point to the script from which the user transitioned
-* Add 2 new middleware endpoints that occur during conversaitons - `conversationStart(bot, convo, next)` and `conversationEnd(bot, convo, next)`
+* Add 2 new middleware endpoints that occur during conversations - `conversationStart(bot, convo, next)` and `conversationEnd(bot, convo, next)`
 
 
 
