@@ -73,7 +73,7 @@ Your bot is now ready to receive messages!
 
 ## 7. Add your bot to your Slack team
 
-Now that your bot is configured, and your appliacation is up and running, you can login and add your bot. Visit `https://MYURL/`, and you will be automatically directed to Slack's login page. Login and choose a team. You'll get one more confirmation before being redirected back to your app.
+Now that your bot is configured, and your application is up and running, you can login and add your bot. Visit `https://MYURL/`, and you will be automatically directed to Slack's login page. Login and choose a team. You'll get one more confirmation before being redirected back to your app.
 
 Meanwhile, your bot should appear inside your Slack team. You should receive a friendly welcome message to indicates your bot is now online and working! 
 

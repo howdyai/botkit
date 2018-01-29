@@ -610,7 +610,7 @@ Allows the Primary Receiver app to retrieve the list of apps that are Secondary 
 
 - To retrieve the list of Secondary Receivers:
 ```javascript
-controller.api.handover.get_secondary_receivers_list('id,name', function (result) {
+controller.api.handover.get_secondary_receivers_list('id,name', function (err, result) {
    // result.data = list of Secondary Receivers
 });
 ```
