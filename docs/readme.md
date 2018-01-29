@@ -362,7 +362,7 @@ Only the user who sent the original incoming message will be able to respond to 
 | message   | message object containing {user: userId} of the user you would like to start a conversation with
 | callback  | a callback function in the form of  function(err,conversation) { ... }
 
-`startPrivateConversation()` is a function that initiates a conversation with a specific user. Note function is currently *Slack-only!*
+`startPrivateConversation()` is a function that initiates a conversation with a specific user. Note that this function only works on platforms with multiple channels where there are public and private channels, like Slack, Microsoft Teams and Cisco Spark.
 
 #### bot.createConversation()
 | Argument | Description
@@ -712,7 +712,7 @@ Set the action field of a message to `stop` end immediately, but mark as failed.
 
 Set the action field of a message to `timeout` to end immediately and indicate that the conversation has timed out.
 
-After the conversation ends, these values will be available in the `convo.status` field. This field can then be used to check the final outcome of a conversation. See [handling the end of conversations](#handling-end-of-conversation).
+After the conversation ends, these values will be available in the `convo.status` field. This field can then be used to check the final outcome of a conversation. See [handling the end of conversations](#conversation-events-and-middleware-endpoints).
 
 ### Using Variable Tokens and Templates in Conversation Threads
 
@@ -796,10 +796,55 @@ so that it is sent immediately, before any other queued messages.
 
 `convo.setTimeout(timeout)` times out conversation if no response from user after specified time period (in milliseconds).
 
-### Handling End of Conversation
+### Conversation Events and Middleware Endpoints
 
-Conversations trigger events during the course of their life.  Currently,
-only two events are fired, and only one is very useful: end.
+As conversations are conducted, Botkit will emit several types of events, and fire any developer-specified middleware functions that allow the conversation object to be observed and modified.
+
+**Conversation Events**
+| Event Name | Description
+|-- |--
+| conversationStarted | A conversation has begun
+| conversationEnded | A conversation has ended
+
+These events are emitted by the main Botkit controller, not the conversation object. They will fire for all conversations. This should not be confused with the `end` event emitted by an individual conversation object, [detailed here](#handling-end-of-conversation).
+
+Note that the signature for handler functions for these events is slightly different than other Botkit events.
+The second parameter for these events is the conversation object, not an individual message event.
+
+```js
+controller.on('conversationStarted', function(bot, convo) {
+  // do something with this convo object
+});
+
+controller.on('conversationEnded', function(bot, convo) {
+  // do something with this convo object
+});
+```
+
+**Conversation Middleware Endpoints**
+| Endpoint | Description
+|-- |--
+| conversationStart | Fires when a conversation is activated, but before the first message is sent
+| conversationEnd | Fires after a conversation is over, but the conversation object is marked completed
+
+If you need to not only inspect but also modify the content of the conversation as it begins or ends, use middleware instead of event handlers.  Middleware functions registered to these endpoints fire as the conversation transitions from one state to another, and fire synchronously, in the order they are added. They can be used to do things like initialize conversations with variable values, or capture responses to a database on a global basis.
+
+```js
+controller.middleware.conversationStart.use(function(bot, convo, next) {
+    console.log('CONVERSATION START MIDDLEWARE!!!!');
+
+    // this variable will be available in EVERY SINGLE conversation!
+    convo.setVar('foo','bar');
+    next();    
+});
+
+controller.middleware.conversationEnd.use(function(bot, convo, next) {
+    console.log('CONVERSATION END MIDDLEWARE!!!!');
+    next();    
+});  
+```
+
+### Handling End of Conversation
 
 Conversations end naturally when the last message has been sent and no messages remain in the queue.
 In this case, the value of `convo.status` will be `completed`. Other values for this field include `active`, `stopped`, and `timeout`.

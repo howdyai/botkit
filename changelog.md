@@ -6,10 +6,11 @@
 
 # 0.6.9
 
+* Add 2 new middleware endpoints that occur during conversations - `conversationStart(bot, convo, next)` and `conversationEnd(bot, convo, next)`.  [Some new documentation](docs/readme.md#conversation-events-and-middleware-endpoints)
+* Conversations powered by Botkit Studio will now include `convo.context.script_name` and `convo.context.script_id` which point back to the script loaded from the Botkit Studio API
+* When using Botkit Studio's execute script action, the resulting conversation object will have 2 additional context fields: `convo.context.transition_from` and `convo.context.transition_from_id` which will point to the script from which the user transitioned
+* When using Botkit Studio's execute script action, the original conversation from which the user is transitioning will have 2 additional context fields: `convo.context.transition_to` and `convo.context.transition_to_id` which will point to the script to which the user transitioned
 * Fix for Botkit Studio scripts which used "end and mark successful" action from a condition. Previously this would end, but not mark successful.
-* Conversations powered by Botkit Studio will now include `convo.context.script_name` and `convo.context.script_id` which point back content provided by the Botkit Studio API
-* When using Botkit Studio's execute script action, the resulting conversation object will have 2 additional context fields `convo.context.transition_from` and `convo.context.transition_from_id` which will point to the script from which the user transitioned
-* Add 2 new middleware endpoints that occur during conversations - `conversationStart(bot, convo, next)` and `conversationEnd(bot, convo, next)`
 
 Merged Pull Requests:
 * Make sure Facebook API errors are passed to callback if specified [PR #1225](https://github.com/howdyai/botkit/pull/1225)
