@@ -801,6 +801,7 @@ so that it is sent immediately, before any other queued messages.
 As conversations are conducted, Botkit will emit several types of events, and fire any developer-specified middleware functions that allow the conversation object to be observed and modified.
 
 **Conversation Events**
+
 | Event Name | Description
 |--- |---
 | conversationStarted | A conversation has begun
@@ -822,6 +823,7 @@ controller.on('conversationEnded', function(bot, convo) {
 ```
 
 **Conversation Middleware Endpoints**
+
 | Endpoint | Description
 |--- |---
 | conversationStart | Fires when a conversation is activated, but before the first message is sent
