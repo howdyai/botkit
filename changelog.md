@@ -14,7 +14,9 @@
 Merged Pull Requests:
 * Make sure Facebook API errors are passed to callback if specified [PR #1225](https://github.com/howdyai/botkit/pull/1225)
 * Refresh Microsoft Teams token when it has expired. [PR #1230](https://github.com/howdyai/botkit/pull/1230)
-
+* Update TypeScript definition for Web bots [PR #1231](https://github.com/howdyai/botkit/pull/1231)
+* Update TypeScript definition for bot.replyAndUpdate [PR #1232](https://github.com/howdyai/botkit/pull/1232)
+* Fix for Microsoft teams button builder function [PR #1233](https://github.com/howdyai/botkit/pull/1233)
 
 # 0.6.8
 
