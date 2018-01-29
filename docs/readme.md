@@ -802,7 +802,7 @@ As conversations are conducted, Botkit will emit several types of events, and fi
 
 **Conversation Events**
 | Event Name | Description
-|-- |--
+|--- |---
 | conversationStarted | A conversation has begun
 | conversationEnded | A conversation has ended
 
@@ -823,7 +823,7 @@ controller.on('conversationEnded', function(bot, convo) {
 
 **Conversation Middleware Endpoints**
 | Endpoint | Description
-|-- |--
+|--- |---
 | conversationStart | Fires when a conversation is activated, but before the first message is sent
 | conversationEnd | Fires after a conversation is over, but the conversation object is marked completed
 
