@@ -246,6 +246,9 @@ declare namespace botkit {
     title_link?: string;
     ts?: string;
   }
+  interface SlackUpdateMessageCallback {
+    (newResponse: string | SlackMessage, cb?: (err: Error) => void): void
+  }
   interface SlackBot extends Bot<SlackSpawnConfiguration, SlackMessage> {
     readonly api: SlackWebAPI;
     configureIncomingWebhook(config: { url: string; }): this;
@@ -256,7 +259,7 @@ declare namespace botkit {
     identifyTeam(): string;
     identifyBot(): { id: string; name: string; team_id: string; };
     replyAcknowledge(cb?: (err: Error) => void): void;
-    replyAndUpdate(src: SlackMessage, resp: string | SlackMessage, cb: (err: Error, res: string) => void): void;
+    replyAndUpdate(src: SlackMessage, resp: string | SlackMessage, cb: (err: Error, res: string, updateResponse: SlackUpdateMessageCallback) => void): void;
     replyInThread(src: SlackMessage, resp: string | SlackMessage, cb: (err: Error, res: string) => void): void;
     replyPrivate(src: SlackMessage, resp: string | SlackMessage, cb?: (err: Error) => void): void;
     replyPrivateDelayed(src: SlackMessage, resp: string | SlackMessage, cb?: (err: Error) => void): void;
