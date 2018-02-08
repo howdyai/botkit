@@ -32,7 +32,7 @@ Getting these elements in place is a multi-step process, but only takes a few mi
 The fastest way to get up and running with Botkit for Microsoft Teams is to use [Botkit Studio](https://studio.botkit.ai/signup?code=teams).
 Botkit Studio will guide you through the process of setting up the [Botkit Starter Kit for Microsoft Teams](https://github.com/howdyai/botkit-starter-teams), walk you through the process of configuring the Microsoft Teams and Bot Framework APIs, and deploy your bot to a stable hosting environment so that you can start building right away.
 
-**[![Sign up for Botkit Studio](docs/studio.png)](https://studio.botkit.ai/signup?code=readme)**
+**[![Sign up for Botkit Studio](studio.png)](https://studio.botkit.ai/signup?code=readme)**
 
 ### Manual Setup: Get the Starter Kit
 
@@ -66,7 +66,7 @@ An example of this can be seen [in the starter kit](https://github.com/howdyai/b
 
 The full code for a simple Microsoft Teams bot is below:
 
-~~~ javascript
+```javascript
 var Botkit = require('botkit');
 
 var controller = Botkit.teamsbot({
@@ -91,8 +91,7 @@ controller.on('direct_mention', function(bot, message) {
 controller.on('direct_message', function(bot, message) {
     bot.reply(message, 'I got your private message. You said, "' + message.text + '"');
 });
-~~~
-
+```
 
 #### App Package / Manifest File
 
@@ -122,14 +121,14 @@ Here is a [COMPLETE SAMPLE](../examples/teams/manifest.json)
 
 This function creates a Teams-ready Botkit controller. The values for clientId and clientSecret must be acquired from [Bot Framework](http://dev.botframework.com).
 
-~~~ javascript
+```javascript
 var controller = Botkit.teamsbot({
     debug: true,
     log: true,
     clientId: process.env.clientId,
     clientSecret: process.env.clientSecret
 });
-~~~
+```
 
 #### controller.spawn()
 | Argument | Description
