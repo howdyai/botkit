@@ -122,6 +122,18 @@ controller.setupWebserver(process.env.port || 3000, function(err, webserver) {
     });
 });
 
+// controller.on('conversation:start', function(bot, message) {
+//     bot.say({
+//         text: 'Hi this is a test notification',
+//         type: 'text',
+//         role: 'appMaker',
+//         name: 'Botler',
+//         user: message.appUser._id,
+//         appId: message.app._id,
+//         avatarUrl: 'https://pbs.twimg.com/profile_images/765915086082961408/gGnsM4f9.jpg'
+//     });
+// });
+
 controller.hears(['quick'], 'message_received', function(bot, message) {
     bot.reply(message, {
         text: 'Hey! This message has some quick replies attached.',
