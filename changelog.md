@@ -4,6 +4,16 @@
 
 [Want to contribute? Read our guide!](https://github.com/howdyai/botkit/blob/master/CONTRIBUTING.md)
 
+# 0.6.10
+
+* Add support for Cisco Jabber. Thanks to @qiongfangzhang and @panx981389 and their team at Cisco for the contribution!
+
+[Documentation for the Cisco Jabber adapter can be found here)(docs/readme-ciscojabber.md)
+
+* Updated `ciscospark` dependency to latest version and fixed some bugs in the example bot
+
+
+
 # 0.6.9
 
 * Add 2 new middleware endpoints that occur during conversations - `conversationStart(bot, convo, next)` and `conversationEnd(bot, convo, next)`.  [Some new documentation](docs/readme.md#conversation-events-and-middleware-endpoints)
