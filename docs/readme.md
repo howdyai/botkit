@@ -18,6 +18,7 @@ it is ready to be connected to a stream of incoming messages. Currently, Botkit 
 * [Slack Incoming Webhooks](http://api.slack.com/incoming-webhooks)
 * [Slack Slash Commands](http://api.slack.com/slash-commands)
 * [Cisco Spark Webhooks](https://developer.ciscospark.com/webhooks-explained.html)
+* [Cisco Jabber XMPP Protocol](https://tools.ietf.org/html/rfc6120)
 * [Microsoft Teams](https://msdn.microsoft.com/en-us/microsoft-teams/bots)
 * [Facebook Messenger Webhooks](https://developers.facebook.com/docs/messenger-platform/implementation)
 * [Twilio SMS](https://www.twilio.com/console/sms/dashboard)
@@ -27,6 +28,7 @@ it is ready to be connected to a stream of incoming messages. Currently, Botkit 
 Read more about
 [connecting your bot to Slack](readme-slack.md#connecting-your-bot-to-slack),
 [connecting your bot to Cisco Spark](readme-ciscospark.md#getting-started),
+[connecting your bot to Cisco Jabber](readme-ciscojabber.md#getting-started),
 [connecting your bot to Microsoft Teams](readme-teams.md#getting-started),
 [connecting your bot to Facebook](readme-facebook.md#getting-started),
 [connecting your bot to Twilio](readme-twilioipm.md#getting-started),
@@ -91,6 +93,9 @@ Due to the multi-channel, multi-user nature of Slack, Botkit does additional fil
 [List of Slack-specific Events](readme-slack.md#slack-specific-events)
 
 Similarly, bots in Cisco Spark will receive `direct_message` events to indicate a message has been sent directly to the bot, while `direct_mention` indicates that the bot has been mentioned in a multi-user channel. Several other Spark-specific events will also fire. [List of Cisco Spark-specific Events](readme-ciscospark.md#spark-specific-events)
+
+Bots in Cisco Jabber will receive `direct_message` to indicate a message has been sent directly to the bot from a 1-1 chat, while `direct_mention` indicates
+that the bot has received a message from a group chat and is mentioned by the message sender. [List of Cisco Jabber-Specific Events](readme-ciscojabber.md#jabber-specific-events)
 
 Twilio IPM bots can also exist in a multi-channel, multi-user environment. As a result, there are many additional events that will fire. In addition, Botkit will filter some messages, so that the bot will not receive it's own messages or messages outside of the channels in which it is present.
 [List of Twilio IPM-specific Events](readme-twilioipm.md#twilio-ipm-specific-events)
@@ -1025,6 +1030,7 @@ Our [starter kits](readme-starterkits.md) all include a customizable Express.js 
   * [Web and Apps](readme-web.md)
   * [Slack](readme-slack.md)
   * [Cisco Spark](readme-ciscospark.md)
+  * [Cisco Jabber](readme-ciscojabber.md)
   * [Microsoft Teams](readme-teams.md)
   * [Facebook Messenger](readme-facebook.md)
   * [Twilio SMS](readme-twiliosms.md)
