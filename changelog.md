@@ -12,7 +12,7 @@
 
 * Updated `ciscospark` dependency to latest version and fixed some bugs in the example bot
 
-
+* Update Twilio dependency to latest, along with small updates to adapter. Thanks @nishant-chaturvedi! [PR #1140](https://github.com/howdyai/botkit/pull/1140)
 
 # 0.6.9
 
