@@ -7,7 +7,7 @@
 # 0.6.11
 
 * For Botkit Studio users, added `controller.studio.getById()` for loading scripts
-by their unique ID rather than by name or trigger. [Docs here](docs/readme-studio.md#controller-studio-getbyid)
+by their unique ID rather than by name or trigger. [Docs here](docs/readme-studio.md#controllerstudiogetbyid)
 
 # 0.6.10
 
