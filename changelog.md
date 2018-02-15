@@ -4,6 +4,11 @@
 
 [Want to contribute? Read our guide!](https://github.com/howdyai/botkit/blob/master/CONTRIBUTING.md)
 
+# 0.6.11
+
+* For Botkit Studio users, added `controller.studio.getById()` for loading scripts
+by their unique ID rather than by name or trigger. [Docs here](docs/readme-studio.md#controller-studio-getbyid)
+
 # 0.6.10
 
 * Add support for Cisco Jabber. Thanks to @qiongfangzhang and @panx981389 and their team at Cisco for the contribution!
