@@ -1,4 +1,4 @@
-### Writing your own logging module
+# Writing your own logging module
 
 By default, your bot will log to the standard JavaScript `console` object
 available in Node.js. This will synchronously print logging messages to stdout

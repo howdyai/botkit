@@ -163,6 +163,31 @@ controller.studio.get(bot, 'hello', message.user, message.channel).then(function
 ```
 
 
+### controller.studio.getById()
+| Argument | Description
+|---  |---
+| bot   | A bot instance
+| id | The id of a script defined in Botkit Studio
+| user | the user id of the user having the conversation
+| channel | the channel id where the conversation is occurring
+
+`controller.studio.getById()` does the same thing as `get()`, but uses the scripts unique ID rather than it's name.
+
+While developers may still tap into the conversation as it is conducted using the [before](#controllerstudiobefore), [after](#controllerstudioafter), and [validate](#controllerstudiovalidate) hooks, it must first be activated using `convo.activate()` in the results of the promise returned by the function.
+
+This enables developers to add template variables to the conversation object before it sends its first message. Read about [using variables in messages](readme.md#using-variable-tokens-and-templates-in-conversation-threads)
+
+```javascript
+controller.studio.getById(bot, '5a7381d85d49c200142ed7bf', message.user, message.channel).then(function(convo) {
+    convo.setVar('date', new Date()); // available in message text as {{vars.date}}
+    convo.setVar('news', 'This is a news item!'); // ailable as {{vars.news}}
+
+    // crucial! call convo.activate to set it in motion
+    convo.activate();
+});
+```
+
+
 ### controller.studio.runTrigger()
 | Argument | Description
 |---  |---
