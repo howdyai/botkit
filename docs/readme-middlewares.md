@@ -45,8 +45,8 @@ These plugins help you measure the success of your bots, across a variety of mea
 |  Botkit Studio Metrics | https://github.com/howdyai/botkit-studio-metrics | This module enables the advanced analytics and extended metrics available in [Botkit Studio](http://www.botkit.ai). |
 |  Botmetrics | https://github.com/botmetrics/botkit-middleware-botmetrics | Botmetrics is an analytics and engagement platform for chatbots. |
 |  Chatbase | https://github.com/asopinka/chatbase-botkit | A middleware package for Botkit that easily logs your convos in Chatbase|
-|  Dashbot Facebook | https://www.dashbot.io/sdk/slack/botkit | Increase user engagement, acquisition, and monetization through actionable bots analytics. |
-|  Dashbot Slack | https://www.dashbot.io/sdk/facebook/botkit | Increase user engagement, acquisition, and monetization through actionable bots analytics. |
+|  Dashbot Facebook | https://www.dashbot.io/docs/facebook/botkit/ | Increase user engagement, acquisition, and monetization through actionable bots analytics. |
+|  Dashbot Slack | https://www.dashbot.io/docs/slack/botkit/ | Increase user engagement, acquisition, and monetization through actionable bots analytics. |
 |  Keen | https://github.com/keen/keen-botkit | This middleware allows you to to understand how many messages are going through your system, run cohorts to measure retention, set up funnels to measure task completion, and any key metric unique to your bot. More information about the Keen platform can be found on their website |
 |  Wordhop | https://github.com/wordhop-io/wordhop-npm | Wordhop monitors your Chatbot and alerts you on Slack in real-time when it detects conversational problems. You can watch your bot conversations with users in real-time without leaving Slack and take-over your bot to engage your customers directly. Simply add Wordhop to Slack and then drop in code into your Chatbot (You can use our examples as a starting point for a bot too). Wordhop integrates in minutes, and begins working immediately.<br/><br/> |
 
