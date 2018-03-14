@@ -107,7 +107,7 @@ controller.on('channel_join', function(bot, message) {
 });
 ```
 
-[See a full list of events and more information about handling them &rsaquo;](https://botkit.ai/docs/core.html#responding-to-events)
+[See a full list of events and more information about handling them &rsaquo;](https://botkit.ai/docs/core.html#receiving-messages-and-events)
 
 ### Middleware
 
