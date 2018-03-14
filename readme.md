@@ -147,7 +147,7 @@ controller.middleware.send.use(function(bot, message, next) {
 
 # Full Documentation
 
-* [Get Started](https://botkit.ai/get_started.html)
+* [Get Started](https://botkit.ai/getstarted.html)
 * [Introduction](https://botkit.ai/docs/)
 * [Core Features](https://botkit.ai/docs/core.html)
 * [Botkit Studio API](https://botkit.ai/docs/readme-studio.html)
@@ -161,7 +161,6 @@ controller.middleware.send.use(function(bot, message, next) {
   * [Twilio SMS](https://botkit.ai/docs/readme-twiliosms.html)
   * [Twilio IPM](https://botkit.ai/docs/readme-twilioipm.html)
   * [Microsoft Bot Framework](https://botkit.ai/docs/readme-botframework.html)
-
 * [Extending Botkit with Plugins and Middleware](https://botkit.ai/docs/middleware.html)
   * [Message Pipeline](https://botkit.ai/docs/readme-pipeline.html)
   * [List of current plugins](https://botkit.ai/docs/readme-middlewares.html)
