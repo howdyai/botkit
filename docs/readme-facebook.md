@@ -637,6 +637,18 @@ controller.api.handover.pass_thread_control('<RECIPIENT_PSID>', '<TARGET_PSID>',
 });
 ```
 
+### Request Thread Control
+
+The Request Thread Control API allows a Secondary Receiver app to notify the Primary Receiver that it wants control of the chat : 
+
+- To pass thread control:
+```javascript
+controller.api.handover.request_thread_control('<RECIPIENT_PSID>', 'String to pass to request the thread control', function (result) {
+   
+});
+```
+
+
 ## Messaging type
 
 You can identify the purpose of the message being sent to Facebook by adding `messaging_type: <MESSAGING_TYPE>` property when sending the message:
