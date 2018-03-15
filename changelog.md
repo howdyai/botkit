@@ -6,6 +6,8 @@
 
 * 0.6.12
 
+* [Botkit has a brand new docs site!](https://botkit.ai/docs) We have begun transitioning the documentation out of this repo into a [dedicated documentation repo](https://github.com/howdyai/botkit-docs).
+
 * Remove dependency on Python introduced in 0.6.10.  Thanks to @qiongfangzhang for the attention on that!
 
 * Fix for Facebook Messenger send broadcast function. [PR #1280](https://github.com/howdyai/botkit/pull/1280) Thanks @OmranAbazid
