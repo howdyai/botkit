@@ -710,6 +710,22 @@ controller.api.broadcast.send('<CREATIVE_ID>', null, function (err, body) {
 });
 ```
 
+If you would like to add notification type and tag you can pass an object:
+
+```javascript
+var message = {
+    message_creative_id: '<CREATIVE_ID>',
+    notification_type: '<REGULAR | SILENT_PUSH | NO_PUSH>',
+    tag: '<MESSAGE_TAG>'
+}
+
+controller.api.broadcast.send(message, null, function (err, body) {
+    // Your awesome code here
+    console.log(body['broadcast_id']);
+    // And here
+});
+```
+
 ### Broadcast Metrics
 
 Once a broadcast has been delivered, you can find out the total number of people it reached by calling ```controller.api.broadcast.get_broadcast_metrics(...)```.
