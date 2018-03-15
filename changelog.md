@@ -21,6 +21,8 @@
 * Add support for Slack's `users.lookupByEmail` API. [PR #1285](https://github.com/howdyai/botkit/pull/1285)
 Thanks to @piglovesyou
 
+* Fix to the way variables are copied between conversations while using Botkit Studio scripts
+
 # 0.6.11
 
 * For Botkit Studio users, added `controller.studio.getById()` for loading scripts
