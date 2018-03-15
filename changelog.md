@@ -4,6 +4,27 @@
 
 [Want to contribute? Read our guide!](https://github.com/howdyai/botkit/blob/master/CONTRIBUTING.md)
 
+* 0.6.12
+
+* [Botkit has a brand new docs site!](https://botkit.ai/docs) We have begun transitioning the documentation out of this repo into a [dedicated documentation repo](https://github.com/howdyai/botkit-docs).
+
+* Remove dependency on Python introduced in 0.6.10.  Thanks to @qiongfangzhang for the attention on that!
+
+* Fix for Facebook Messenger send broadcast function. [PR #1280](https://github.com/howdyai/botkit/pull/1280) Thanks @OmranAbazid
+
+* Extend Facebook's user profile object with locale. [PR #1265](https://github.com/howdyai/botkit/pull/1265) Thanks @julianusti
+
+* Added 'picture' to Facebook User Profile endpoint. [PR #1264](https://github.com/howdyai/botkit/pull/1264) Thanks @se
+
+* Add FB request thread control [PR #1257)(https://github.com/howdyai/botkit/pull/1257) Thanks as always to @oaudie-lahdioui
+
+* Remove requirement that Cisco Spark endpoint be SSL. [PR #1284](https://github.com/howdyai/botkit/pull/1284) thanks @akalsey and your beard.
+
+* Add support for Slack's `users.lookupByEmail` API. [PR #1285](https://github.com/howdyai/botkit/pull/1285)
+Thanks to @piglovesyou
+
+* Fix to the way variables are copied between conversations while using Botkit Studio scripts
+
 # 0.6.11
 
 * For Botkit Studio users, added `controller.studio.getById()` for loading scripts

@@ -637,6 +637,18 @@ controller.api.handover.pass_thread_control('<RECIPIENT_PSID>', '<TARGET_PSID>',
 });
 ```
 
+### Request Thread Control
+
+The Request Thread Control API allows a Secondary Receiver app to notify the Primary Receiver that it wants control of the chat : 
+
+- To pass thread control:
+```javascript
+controller.api.handover.request_thread_control('<RECIPIENT_PSID>', 'String to pass to request the thread control', function (result) {
+   
+});
+```
+
+
 ## Messaging type
 
 You can identify the purpose of the message being sent to Facebook by adding `messaging_type: <MESSAGING_TYPE>` property when sending the message:
@@ -704,6 +716,22 @@ On success, Botkit will return a numeric broadcast_id that can be used to identi
 
 ```javascript
 controller.api.broadcast.send('<CREATIVE_ID>', null, function (err, body) {
+    // Your awesome code here
+    console.log(body['broadcast_id']);
+    // And here
+});
+```
+
+If you would like to add notification type and tag you can pass an object:
+
+```javascript
+var message = {
+    message_creative_id: '<CREATIVE_ID>',
+    notification_type: '<REGULAR | SILENT_PUSH | NO_PUSH>',
+    tag: '<MESSAGE_TAG>'
+}
+
+controller.api.broadcast.send(message, null, function (err, body) {
     // Your awesome code here
     console.log(body['broadcast_id']);
     // And here
