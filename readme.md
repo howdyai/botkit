@@ -13,7 +13,7 @@ Botkit offers everything you need to design, build and operate an app:
 * Fully-featured SDK with support for all major platforms
 * Content management and design tools (with [Botkit Studio](https://studio.botkit.ai))
 * Built-in analytics and CRM tools (with [Botkit Studio](https://studio.botkit.ai))
-* [Tons of plugins and middlewares](docs/readme-middlewares.md)
+* [Tons of plugins and middlewares](https://botkit.ai/docs/readme-middlewares.html)
 
 Plus, Botkit works with all the NLP services (like Microsoft LUIS and IBM Watson), can use any type of database you want, and runs on almost any hosting platform.
 
@@ -67,7 +67,7 @@ controller.hears('hello','direct_message', function(bot, message) {
 });
 ```
 
-[Review the documentation](docs/readme.md) to learn how to configure Botkit's controller to work with the messaging platform of your choice.
+[Review the documentation](https://botkit.ai/docs/) to learn how to configure Botkit's controller to work with the messaging platform of your choice.
 
 # Build Your Bot
 
@@ -93,7 +93,7 @@ controller.hears(['string','pattern .*',new RegExp('.*','i')],'message_received,
 });
 ```
 
-[Read more about hearing things &rsaquo;](docs/readme.md#matching-patterns-and-keywords-with-hears)
+[Read more about hearing things &rsaquo;](https://botkit.ai/docs/core.html#matching-patterns-and-keywords-with-hears)
 
 ### Responding to Events
 
@@ -107,13 +107,13 @@ controller.on('channel_join', function(bot, message) {
 });
 ```
 
-[See a full list of events and more information about handling them &rsaquo;](docs/readme.md#responding-to-events)
+[See a full list of events and more information about handling them &rsaquo;](https://botkit.ai/docs/core.html#receiving-messages-and-events)
 
 ### Middleware
 
 In addition to taking direct action in response to a certain message or type of event, Botkit can also take passive action on messages as they move through the application using middlewares. Middleware functions work by changing messages, adding new fields, firing alternate events, and modifying or overriding the behavior of Botkit's core features.
 
-Middleware can be used to adjust how Botkit receives, processes, and sends messages. [Here is a list of available middleware endpoints](docs/readme-pipeline.md).
+Middleware can be used to adjust how Botkit receives, processes, and sends messages. [Here is a list of available middleware endpoints](https://botkit.ai/docs/readme-pipeline.html).
 
 ```
 // Log every message recieved
@@ -147,24 +147,25 @@ controller.middleware.send.use(function(bot, message, next) {
 
 # Full Documentation
 
-* [Get Started](docs/readme.md)
-* [Botkit Studio API](docs/readme-studio.md)
-* [Function index](docs/readme.md#developing-with-botkit)
-* [Extending Botkit with Plugins and Middleware](docs/middleware.md)
-  * [Message Pipeline](docs/readme-pipeline.md)
-  * [List of current plugins](docs/readme-middlewares.md)
-* [Storing Information](docs/storage.md)
-* [Logging](docs/logging.md)
+* [Get Started](https://botkit.ai/getstarted.html)
+* [Introduction](https://botkit.ai/docs/)
+* [Core Features](https://botkit.ai/docs/core.html)
+* [Botkit Studio API](https://botkit.ai/docs/readme-studio.html)
 * Platforms
-  * [Web and Apps](docs/readme-web.md)
-  * [Slack](docs/readme-slack.md)
-  * [Cisco Spark](docs/readme-ciscospark.md)
-  * [Cisco Jabber](docs/readme-ciscojabber.md)
-  * [Microsoft Teams](docs/readme-teams.md)
-  * [Facebook Messenger](docs/readme-facebook.md)
-  * [Twilio SMS](docs/readme-twiliosms.md)
-  * [Twilio IPM](docs/readme-twilioipm.md)
-  * [Microsoft Bot Framework](docs/readme-botframework.md)
+  * [Web and Apps](https://botkit.ai/docs/readme-web.html)
+  * [Slack](https://botkit.ai/docs/readme-slack.html)
+  * [Cisco Spark](https://botkit.ai/docs/readme-ciscospark.html)
+  * [Cisco Jabber](https://botkit.ai/docs/readme-ciscojabber.html)
+  * [Microsoft Teams](https://botkit.ai/docs/readme-teams.html)
+  * [Facebook Messenger](https://botkit.ai/docs/readme-facebook.html)
+  * [Twilio SMS](https://botkit.ai/docs/readme-twiliosms.html)
+  * [Twilio IPM](https://botkit.ai/docs/readme-twilioipm.html)
+  * [Microsoft Bot Framework](https://botkit.ai/docs/readme-botframework.html)
+* [Extending Botkit with Plugins and Middleware](https://botkit.ai/docs/middleware.html)
+  * [Message Pipeline](https://botkit.ai/docs/readme-pipeline.html)
+  * [List of current plugins](https://botkit.ai/docs/readme-middlewares.html)
+* [Storing Information](https://botkit.ai/docs/storage.html)
+* [Logging](https://botkit.ai/docs/logging.html)
 * Contributing to Botkit
   * [Contributing to Botkit Core](CONTRIBUTING.md)
   * [Building Middleware/plugins](docs/howto/build_middleware.md)
