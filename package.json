@@ -20,8 +20,6 @@
     "localtunnel": "^1.8.2",
     "md5": "^2.2.1",
     "mustache": "^2.3.0",
-    "node-ews": "^3.2.2",
-    "node-xmpp-caps": "0.0.2",
     "promise": "^8.0.0",
     "request": "^2.81.0",
     "requestretry": "^1.12.0",
