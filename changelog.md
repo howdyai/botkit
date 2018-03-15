@@ -4,7 +4,7 @@
 
 [Want to contribute? Read our guide!](https://github.com/howdyai/botkit/blob/master/CONTRIBUTING.md)
 
-* 0.6.12
+# 0.6.12
 
 * [Botkit has a brand new docs site!](https://botkit.ai/docs) We have begun transitioning the documentation out of this repo into a [dedicated documentation repo](https://github.com/howdyai/botkit-docs).
 
