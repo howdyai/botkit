@@ -4,6 +4,19 @@
 
 [Want to contribute? Read our guide!](https://github.com/howdyai/botkit/blob/master/CONTRIBUTING.md)
 
+* 0.6.12
+
+* Remove dependency on Python introduced in 0.6.10.  Thanks to @qiongfangzhang for the attention on that!
+
+* Fix for Facebook Messenger send broadcast function. [PR #1280](https://github.com/howdyai/botkit/pull/1280) Thanks @OmranAbazid
+
+* Extend Facebook's user profile object with locale. [PR #1265](https://github.com/howdyai/botkit/pull/1265) Thanks @julianusti
+
+* Added 'picture' to Facebook User Profile endpoint. [PR #1264](https://github.com/howdyai/botkit/pull/1264) Thanks @se
+
+
+
+
 # 0.6.11
 
 * For Botkit Studio users, added `controller.studio.getById()` for loading scripts
