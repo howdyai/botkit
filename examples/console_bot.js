@@ -60,13 +60,12 @@ var Botkit = require('../lib/Botkit.js');
 var os = require('os');
 
 var controller = Botkit.consolebot({
-    debug: false,
+    debug: false
 });
 
 var bot = controller.spawn();
 
 controller.hears(['hello', 'hi'], 'message_received', function(bot, message) {
-
     controller.storage.users.get(message.user, function(err, user) {
         if (user && user.name) {
             bot.reply(message, 'Hello ' + user.name + '!!');
@@ -81,7 +80,7 @@ controller.hears(['call me (.*)', 'my name is (.*)'], 'message_received', functi
     controller.storage.users.get(message.user, function(err, user) {
         if (!user) {
             user = {
-                id: message.user,
+                id: message.user
             };
         }
         user.name = name;
@@ -92,7 +91,6 @@ controller.hears(['call me (.*)', 'my name is (.*)'], 'message_received', functi
 });
 
 controller.hears(['what is my name', 'who am i'], 'message_received', function(bot, message) {
-
     controller.storage.users.get(message.user, function(err, user) {
         if (user && user.name) {
             bot.reply(message, 'Your name is ' + user.name);
@@ -100,35 +98,38 @@ controller.hears(['what is my name', 'who am i'], 'message_received', function(b
             bot.startConversation(message, function(err, convo) {
                 if (!err) {
                     convo.say('I do not know your name yet!');
-                    convo.ask('What should I call you?', function(response, convo) {
-                        convo.ask('You want me to call you `' + response.text + '`?', [
-                            {
-                                pattern: 'yes',
-                                callback: function(response, convo) {
-                                    // since no further messages are queued after this,
-                                    // the conversation will end naturally with status == 'completed'
-                                    convo.next();
+                    convo.ask(
+                        'What should I call you?',
+                        function(response, convo) {
+                            convo.ask('You want me to call you `' + response.text + '`?', [
+                                {
+                                    pattern: 'yes',
+                                    callback: function(response, convo) {
+                                        // since no further messages are queued after this,
+                                        // the conversation will end naturally with status == 'completed'
+                                        convo.next();
+                                    }
+                                },
+                                {
+                                    pattern: 'no',
+                                    callback: function(response, convo) {
+                                        // stop the conversation. this will cause it to end with status == 'stopped'
+                                        convo.stop();
+                                    }
+                                },
+                                {
+                                    default: true,
+                                    callback: function(response, convo) {
+                                        convo.repeat();
+                                        convo.next();
+                                    }
                                 }
-                            },
-                            {
-                                pattern: 'no',
-                                callback: function(response, convo) {
-                                    // stop the conversation. this will cause it to end with status == 'stopped'
-                                    convo.stop();
-                                }
-                            },
-                            {
-                                default: true,
-                                callback: function(response, convo) {
-                                    convo.repeat();
-                                    convo.next();
-                                }
-                            }
-                        ]);
+                            ]);
 
-                        convo.next();
-
-                    }, {'key': 'nickname'}); // store the results in a field called nickname
+                            convo.next();
+                        },
+                        { key: 'nickname' }
+                    ); // store the results in a field called nickname
 
                     convo.on('end', function(convo) {
                         if (convo.status == 'completed') {
@@ -137,17 +138,17 @@ controller.hears(['what is my name', 'who am i'], 'message_received', function(b
                             controller.storage.users.get(message.user, function(err, user) {
                                 if (!user) {
                                     user = {
-                                        id: message.user,
+                                        id: message.user
                                     };
                                 }
                                 user.name = convo.extractResponse('nickname');
                                 controller.storage.users.save(user, function(err, id) {
-                                    bot.reply(message, 'Got it. I will call you ' + user.name + ' from now on.');
+                                    bot.reply(
+                                        message,
+                                        'Got it. I will call you ' + user.name + ' from now on.'
+                                    );
                                 });
                             });
-
-
-
                         } else {
                             // this happens if the conversation ended prematurely for some reason
                             bot.reply(message, 'OK, nevermind!');
@@ -159,11 +160,8 @@ controller.hears(['what is my name', 'who am i'], 'message_received', function(b
     });
 });
 
-
 controller.hears(['shutdown'], 'message_received', function(bot, message) {
-
     bot.startConversation(message, function(err, convo) {
-
         convo.ask('Are you sure you want me to shutdown?', [
             {
                 pattern: bot.utterances.yes,
@@ -175,29 +173,35 @@ controller.hears(['shutdown'], 'message_received', function(bot, message) {
                     }, 3000);
                 }
             },
-        {
-            pattern: bot.utterances.no,
-            default: true,
-            callback: function(response, convo) {
-                convo.say('*Phew!*');
-                convo.next();
+            {
+                pattern: bot.utterances.no,
+                default: true,
+                callback: function(response, convo) {
+                    convo.say('*Phew!*');
+                    convo.next();
+                }
             }
-        }
         ]);
     });
 });
 
-
-controller.hears(['uptime', 'identify yourself', 'who are you', 'what is your name'],
-    'message_received', function(bot, message) {
-
+controller.hears(
+    ['uptime', 'identify yourself', 'who are you', 'what is your name'],
+    'message_received',
+    function(bot, message) {
         var hostname = os.hostname();
         var uptime = formatUptime(process.uptime());
 
-        bot.reply(message,
-            ':robot_face: I am ConsoleBot. I have been running for ' + uptime + ' on ' + hostname + '.');
-
-    });
+        bot.reply(
+            message,
+            ':robot_face: I am ConsoleBot. I have been running for ' +
+                uptime +
+                ' on ' +
+                hostname +
+                '.'
+        );
+    }
+);
 
 function formatUptime(uptime) {
     var unit = 'second';

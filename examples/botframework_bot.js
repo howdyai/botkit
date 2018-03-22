@@ -63,22 +63,33 @@ This bot demonstrates many of the core features of Botkit:
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 
-
 var Botkit = require('../lib/Botkit.js');
 var os = require('os');
 var commandLineArgs = require('command-line-args');
 var localtunnel = require('localtunnel');
 
 const ops = commandLineArgs([
-      {name: 'lt', alias: 'l', args: 1, description: 'Use localtunnel.me to make your bot available on the web.',
-      type: Boolean, defaultValue: false},
-      {name: 'ltsubdomain', alias: 's', args: 1,
-      description: 'Custom subdomain for the localtunnel.me URL. This option can only be used together with --lt.',
-      type: String, defaultValue: null},
-   ]);
+    {
+        name: 'lt',
+        alias: 'l',
+        args: 1,
+        description: 'Use localtunnel.me to make your bot available on the web.',
+        type: Boolean,
+        defaultValue: false
+    },
+    {
+        name: 'ltsubdomain',
+        alias: 's',
+        args: 1,
+        description:
+            'Custom subdomain for the localtunnel.me URL. This option can only be used together with --lt.',
+        type: String,
+        defaultValue: null
+    }
+]);
 
-if(ops.lt === false && ops.ltsubdomain !== null) {
-    console.log("error: --ltsubdomain can only be used together with --lt.");
+if (ops.lt === false && ops.ltsubdomain !== null) {
+    console.log('error: --ltsubdomain can only be used together with --lt.');
     process.exit();
 }
 
@@ -91,39 +102,43 @@ var bot = controller.spawn({
     appPassword: process.env.app_password
 });
 
-
-
 controller.setupWebserver(process.env.port || 3000, function(err, webserver) {
     controller.createWebhookEndpoints(webserver, bot, function() {
         console.log('ONLINE!');
-        if(ops.lt) {
-            var tunnel = localtunnel(process.env.port || 3000, {subdomain: ops.ltsubdomain}, function(err, tunnel) {
-                if (err) {
-                    console.log(err);
-                    process.exit();
+        if (ops.lt) {
+            var tunnel = localtunnel(
+                process.env.port || 3000,
+                { subdomain: ops.ltsubdomain },
+                function(err, tunnel) {
+                    if (err) {
+                        console.log(err);
+                        process.exit();
+                    }
+                    console.log(
+                        'Your bot is available on the web at the following URL: ' +
+                            tunnel.url +
+                            '/botframework/receive'
+                    );
                 }
-                console.log("Your bot is available on the web at the following URL: " + tunnel.url + '/botframework/receive');
-            });
+            );
 
             tunnel.on('close', function() {
-                console.log("Your bot is no longer available on the web at the localtunnnel.me URL.");
+                console.log(
+                    'Your bot is no longer available on the web at the localtunnnel.me URL.'
+                );
                 process.exit();
             });
         }
     });
 });
 
-
-
 controller.hears(['hello', 'hi'], 'message_received', function(bot, message) {
-
     controller.storage.users.get(message.user, function(err, user) {
         if (user && user.name) {
             bot.reply(message, 'Hello ' + user.name + '!!');
         } else {
             bot.reply(message, 'Hello.', function(err) {
-
-              console.error(err);
+                console.error(err);
             });
         }
     });
@@ -135,7 +150,7 @@ controller.hears(['call me (.*)'], 'message_received', function(bot, message) {
     controller.storage.users.get(message.user, function(err, user) {
         if (!user) {
             user = {
-                id: message.user,
+                id: message.user
             };
         }
         user.name = name;
@@ -146,21 +161,18 @@ controller.hears(['call me (.*)'], 'message_received', function(bot, message) {
 });
 
 controller.hears(['what is my name', 'who am i'], 'message_received', function(bot, message) {
-
     controller.storage.users.get(message.user, function(err, user) {
         if (user && user.name) {
-            bot.reply(message,'Your name is ' + user.name);
+            bot.reply(message, 'Your name is ' + user.name);
         } else {
-            bot.reply(message,'I don\'t know yet!');
+            bot.reply(message, "I don't know yet!");
         }
     });
 });
 
-
-controller.hears(['shutdown'],'message_received',function(bot, message) {
-
-    bot.startConversation(message,function(err, convo) {
-        convo.ask('Are you sure you want me to shutdown?',[
+controller.hears(['shutdown'], 'message_received', function(bot, message) {
+    bot.startConversation(message, function(err, convo) {
+        convo.ask('Are you sure you want me to shutdown?', [
             {
                 pattern: bot.utterances.yes,
                 callback: function(response, convo) {
@@ -168,30 +180,34 @@ controller.hears(['shutdown'],'message_received',function(bot, message) {
                     convo.next();
                     setTimeout(function() {
                         process.exit();
-                    },3000);
+                    }, 3000);
                 }
             },
-        {
-            pattern: bot.utterances.no,
-            default: true,
-            callback: function(response, convo) {
-                convo.say('*Phew!*');
-                convo.next();
+            {
+                pattern: bot.utterances.no,
+                default: true,
+                callback: function(response, convo) {
+                    convo.say('*Phew!*');
+                    convo.next();
+                }
             }
-        }
         ]);
     });
 });
 
+controller.hears(
+    ['uptime', 'identify yourself', 'who are you', 'what is your name'],
+    'message_received',
+    function(bot, message) {
+        var hostname = os.hostname();
+        var uptime = formatUptime(process.uptime());
 
-controller.hears(['uptime','identify yourself','who are you','what is your name'],'message_received',function(bot, message) {
-
-    var hostname = os.hostname();
-    var uptime = formatUptime(process.uptime());
-
-    bot.reply(message,'I am a bot! I have been running for ' + uptime + ' on ' + hostname + '.');
-
-});
+        bot.reply(
+            message,
+            'I am a bot! I have been running for ' + uptime + ' on ' + hostname + '.'
+        );
+    }
+);
 
 function formatUptime(uptime) {
     var unit = 'second';

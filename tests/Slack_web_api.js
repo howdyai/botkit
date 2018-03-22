@@ -23,14 +23,14 @@ describe('Test', function() {
 
 describe('Botkit', function() {
     this.timeout(5000);
-    it('should return a package version number', function(done){
-        var controller = Botkit.slackbot({debug: false});
+    it('should return a package version number', function(done) {
+        var controller = Botkit.slackbot({ debug: false });
         should.exist(controller.version());
         done();
     });
 
     it('should start and then stop', function(done) {
-        var controller = Botkit.slackbot({debug: false});
+        var controller = Botkit.slackbot({ debug: false });
         var openIsCalled = false;
 
         controller.on('rtm_open', function(bot) {
@@ -59,7 +59,7 @@ describe('Botkit', function() {
     it('should have fail with false token', function(done) {
         this.timeout(5000);
 
-        var controller = Botkit.slackbot({debug: false});
+        var controller = Botkit.slackbot({ debug: false });
 
         controller
             .spawn({
@@ -78,17 +78,15 @@ describe('Log', function() {
     it('should use an external logging provider', function(done) {
         var logFile = path.join(tmpdir, 'botkit.log');
         var logger = new winston.Logger({
-            transports: [
-                new (winston.transports.File)({ filename: logFile })
-            ]
+            transports: [new winston.transports.File({ filename: logFile })]
         });
 
         logger.cli();
 
         var controller = Botkit.slackbot({
-                debug: true,
-                logger: logger
-            });
+            debug: true,
+            logger: logger
+        });
 
         controller
             .spawn({
