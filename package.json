@@ -18,6 +18,7 @@
     "https-proxy-agent": "^2.0.0",
     "jfs": "^0.2.6",
     "localtunnel": "^1.8.2",
+    "ltx": "^2.7.1",
     "md5": "^2.2.1",
     "mustache": "^2.3.0",
     "promise": "^8.0.0",
