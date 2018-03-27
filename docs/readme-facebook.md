@@ -295,6 +295,15 @@ bot.stopTyping(message, function () {
 bot.replyWithTyping(message, 'Hello there, my friend!');
 ```
 
+By default a typing delay of "user is typing" signal will be calculated based on the length of the messsage. You can also override the default typing delay with `typingDelay` parameter.
+
+```javascript
+bot.replyWithTyping(message, {
+    text: 'Hello there, my friend!',
+    typingDelay: 2000 // reply to the user after 2000 ms.
+});
+```
+
 ## Silent and No Notifications
 When sending a user a message you can make the message have either no notification or have a notification that doesn't play a sound. Both of these features are unique to the mobile application messenger. To do this add the `notification_type` field to message. Notification type must be one of the following:
 - REGULAR will emit a sound/vibration and a phone notification

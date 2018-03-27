@@ -111,10 +111,20 @@ It connects a `ws` powered websocket server to the web server, and allows the ap
 
 [A compatible webserver is provided in the starter kit](https://github.com/howdyai/botkit-starter-web/blob/master/components/express_webserver.js).
 
-
-### bot.replyWithTyping(message, reply)
+```javascript
+bot.replyWithTyping(message, reply)
+```
 
 This works just like the normal `bot.reply()`, but instead of sending the message immediately, sends a typing indicator first, then waits for a short period before sending the actual message.
+
+By default typing indicator time will be calculated based on the length of the messsage. You can also override the default typing delay with `typingDelay` parameter.
+
+```javascript
+bot.replyWithTyping(message, {
+    text: 'Hello there, my friend!',
+    typingDelay: 2000 // reply to the user after 2000 ms.
+});
+```
 
 
 ## Developer & Support Community
