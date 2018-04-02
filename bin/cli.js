@@ -19,7 +19,7 @@ var platform_src = [{
         directory: 'botkit-starter-teams'
     },
     {
-        platform: 'spark',
+        platform: 'ciscospark',
         artifact: 'https://github.com/howdyai/botkit-starter-ciscospark.git',
         directory: 'botkit-starter-ciscospark'
     },
