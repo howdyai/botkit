@@ -7,7 +7,7 @@ var fs = require('fs');
 
 var botkit = Vorpal()
 
-var platforms = ['web', 'teams', 'spark', 'slack', 'facebook'];
+var platforms = ['web', 'teams', 'ciscospark', 'slack', 'facebook'];
 var platform_src = [{
         platform: 'web',
         artifact: 'https://github.com/howdyai/botkit-starter-web.git',
@@ -17,6 +17,12 @@ var platform_src = [{
         platform: 'teams',
         artifact: 'https://github.com/howdyai/botkit-starter-teams.git',
         directory: 'botkit-starter-teams'
+    },
+
+    {
+        platform: 'spark',
+        artifact: 'https://github.com/howdyai/botkit-starter-ciscospark.git',
+        directory: 'botkit-starter-ciscospark'
     },
     {
         platform: 'ciscospark',
