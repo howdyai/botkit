@@ -4,6 +4,16 @@
 
 [Want to contribute? Read our guide!](https://github.com/howdyai/botkit/blob/master/CONTRIBUTING.md)
 
+# 0.6.13
+
+* Fix bugs and refactor handling of message actions, particularly as they relate to Botkit Studio scripts
+
+* Adjust mechanism used to construct facebook quick reply payload in order to support future formats. [PR #1301](https://github.com/howdyai/botkit/pull/1301)
+
+* Promisify Facebook Messenger profile API. [PR #1300](https://github.com/howdyai/botkit/pull/1300)
+
+
+
 # 0.6.12
 
 * [Botkit has a brand new docs site!](https://botkit.ai/docs) We have begun transitioning the documentation out of this repo into a [dedicated documentation repo](https://github.com/howdyai/botkit-docs).
