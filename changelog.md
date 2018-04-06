@@ -12,6 +12,7 @@
 
 * Promisify Facebook Messenger profile API. [PR #1300](https://github.com/howdyai/botkit/pull/1300)
 
+* Lower the log priority from 'log' to 'debug' for several messages in Botkit Core and Botkit Slack.
 
 
 # 0.6.12
