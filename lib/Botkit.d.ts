@@ -221,13 +221,18 @@ declare namespace botkit {
     action?: string;
     channel?: string;
     match?: RegExpMatchArray;
+    replace_original?: boolean;
+    response_type?: string;
     text?: string;
     user?: string;
   }
   interface SlackAttachment {
+    attachment_type?: string;
+    actions?: any[];
     author_icon?: string;
     author_link?: string;
     author_name?: string;
+    callback_id?: string;
     color?: string;
     fallback?: string;
     fields?: {
