@@ -93,10 +93,10 @@ Normal messages will be sent to your bot using the `message_received` event.  In
 | facebook_optin | a user has clicked the [Send-to-Messenger plugin](https://developers.facebook.com/docs/messenger-platform/implementation#send_to_messenger_plugin)
 | facebook_referral | a user has clicked on a [m.me URL with a referral param](https://developers.facebook.com/docs/messenger-platform/referral-params)
 | facebook_app_roles | This callback will occur when a page admin changes the role of your application.
-| standby | This callback will occur when a message has been sent to your page, but your application is not the current thread owner.
-| facebook_receive_thread_control | This callback will occur when thread ownership for a user has been passed to your application.
-| facebook_lose_thread_control | This callback will occur when thread ownership for a user has been taken away from your application.
-| facebook_request_thread_control | This callback will occur when thread ownership is requested by another receiver. 
+| standby | This callback will occur when a message has been sent to your page, but your application is not the current thread owner. (Subscribe to the `standby` webhook to receive this event.)
+| facebook_receive_thread_control | This callback will occur when thread ownership for a user has been passed to your application. (Subscribe to the `messaging_handovers` webhook to receive this event.)
+| facebook_lose_thread_control | This callback will occur when thread ownership for a user has been taken away from your application. (Subscribe to the `messaging_handovers` webhook to receive this event.)
+| facebook_request_thread_control | This callback will occur when thread ownership is requested by another receiver. (Subscribe to the `messaging_handovers` webhook to receive this event.)
 
 All incoming events will contain the fields `user` and `channel`, both of which represent the Facebook user's ID, and a `timestamp` field.
 
