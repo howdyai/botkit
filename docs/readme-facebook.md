@@ -96,6 +96,7 @@ Normal messages will be sent to your bot using the `message_received` event.  In
 | standby | This callback will occur when a message has been sent to your page, but your application is not the current thread owner.
 | facebook_receive_thread_control | This callback will occur when thread ownership for a user has been passed to your application.
 | facebook_lose_thread_control | This callback will occur when thread ownership for a user has been taken away from your application.
+| facebook_request_thread_control | This callback will occur when thread ownership is requested by another receiver. 
 
 All incoming events will contain the fields `user` and `channel`, both of which represent the Facebook user's ID, and a `timestamp` field.
 
