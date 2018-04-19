@@ -21,6 +21,13 @@ Table of Contents
 * [Silent and No Notifications](#silent-and-no-notifications)
 * [Messenger code API](#messenger-code-api)
 * [Attachment upload API](#attachment-upload-api)
+* [Built-in NLP](#built-in-nlp)
+* [Message Tags](#message-tags)
+* [App Secret Proof](#app-secret-proof )
+* [Handover Protocol](#handover-protocol)
+* [Messaging type](#messaging-type)
+* [Broadcast Messages API](#broadcast-messages-api)
+* [Messaging Insights API](#messaging-insights-api)
 * [Running Botkit with an Express server](#use-botkit-for-facebook-messenger-with-an-express-web-server)
 
 ## Getting Started
@@ -85,6 +92,11 @@ Normal messages will be sent to your bot using the `message_received` event.  In
 | facebook_account_linking | a user has started the account linking
 | facebook_optin | a user has clicked the [Send-to-Messenger plugin](https://developers.facebook.com/docs/messenger-platform/implementation#send_to_messenger_plugin)
 | facebook_referral | a user has clicked on a [m.me URL with a referral param](https://developers.facebook.com/docs/messenger-platform/referral-params)
+| facebook_app_roles | This callback will occur when a page admin changes the role of your application.
+| standby | This callback will occur when a message has been sent to your page, but your application is not the current thread owner. (Subscribe to the `standby` webhook to receive this event.)
+| facebook_receive_thread_control | This callback will occur when thread ownership for a user has been passed to your application. (Subscribe to the `messaging_handovers` webhook to receive this event.)
+| facebook_lose_thread_control | This callback will occur when thread ownership for a user has been taken away from your application. (Subscribe to the `messaging_handovers` webhook to receive this event.)
+| facebook_request_thread_control | This callback will occur when thread ownership is requested by another receiver. (Subscribe to the `messaging_handovers` webhook to receive this event.)
 
 All incoming events will contain the fields `user` and `channel`, both of which represent the Facebook user's ID, and a `timestamp` field.
 
@@ -186,6 +198,8 @@ var controller = Botkit.facebookbot({
         require_delivery: true,
 })
 ```
+
+And subscribe the Facebook App to the [*message_deliveries* Webhook Event](https://developers.facebook.com/docs/messenger-platform/reference/webhook-events/message-deliveries)
 
 #### controller.setupWebserver()
 | Argument | Description
@@ -302,7 +316,7 @@ bot.reply(message, reply_message)
 
 Messenger Codes can be scanned in Messenger to instantly link the user to your bot, no typing needed. They're great for sticking on fliers, ads, or anywhere in the real world where you want people to try your bot.
 
-- Get Static Codes :
+- Get Static Codes:
 ```javascript
 controller.api.messenger_profile.get_messenger_code(2000, function (err, url) {
     if(err) {
@@ -313,7 +327,7 @@ controller.api.messenger_profile.get_messenger_code(2000, function (err, url) {
 });
 ```
 
-- Get Parametric Codes :
+- Get Parametric Codes:
 ```javascript
 controller.api.messenger_profile.get_messenger_code(2000, function (err, url) {
     if(err) {
@@ -326,7 +340,7 @@ controller.api.messenger_profile.get_messenger_code(2000, function (err, url) {
 
 ## Thread Settings API
 
-Thread settings API is now messenger profile API, it's highly recommended to use profile API instead of thread settings one, however, Botkit thread settings interface still available :
+Thread settings API is now messenger profile API, it's highly recommended to use profile API instead of thread settings one, however, Botkit thread settings interface still available:
 
 
 ```js
@@ -467,14 +481,14 @@ controller.api.messenger_profile.menu([{
 ]);
 controller.api.messenger_profile.account_linking('https://www.yourAwesomSite.com/oauth?response_type=code&client_id=1234567890&scope=basic');
 controller.api.messenger_profile.get_account_linking(function (err, accountLinkingUrl)  {
-    console.log('****** Account linkink URL :', accountLinkingUrl);
+    console.log('****** Account linkink URL:', accountLinkingUrl);
 });
 controller.api.messenger_profile.delete_account_linking();
 controller.api.messenger_profile.domain_whitelist('https://localhost');
 controller.api.messenger_profile.domain_whitelist(['https://127.0.0.1', 'https://0.0.0.0']);
 controller.api.messenger_profile.delete_domain_whitelist();
 controller.api.messenger_profile.get_domain_whitelist(function (err, data)  {
-    console.log('****** Whitelisted domains :', data);
+    console.log('****** Whitelisted domains:', data);
 });
 
 controller.api.messenger_profile.home_url({
@@ -484,7 +498,7 @@ controller.api.messenger_profile.home_url({
 })
 
 controller.api.messenger_profile.get_home_url(function (err, data)  {
-    console.log('****** Home url :', data);
+    console.log('****** Home url:', data);
 });
 
 controller.api.messenger_profile.delete_home_url();
@@ -498,7 +512,7 @@ controller.api.messenger_profile.target_audience({
 });
 controller.api.messenger_profile.delete_target_audience();
 controller.api.messenger_profile.get_target_audience(function (err, data)  {
-    console.log('****** Target Audience :', data);
+    console.log('****** Target Audience:', data);
 });
 
 
@@ -506,7 +520,7 @@ controller.api.messenger_profile.get_target_audience(function (err, data)  {
 
 ## Attachment upload API
 
-Attachment upload API allows you to upload an attachment that you may later send out to many users, without having to repeatedly upload the same data each time it is sent :
+Attachment upload API allows you to upload an attachment that you may later send out to many users, without having to repeatedly upload the same data each time it is sent:
 
 
 ```js
@@ -554,14 +568,14 @@ Adding a tag to a message allows you to send it outside the 24+1 window.
 
 View the facebook [documentation](https://developers.facebook.com/docs/messenger-platform/messenger-profile/home-url) for more details.
 
-- Get all tags :
+- Get all tags:
 ```javascript
 controller.api.tags.get_all(function (tags) {
    // use tags.data
 });
 ```
 
-- Send a tagged message :
+- Send a tagged message:
 ```javascript
 var taggedMessage = {
         "text": "Hello Botkit !",
@@ -570,24 +584,294 @@ var taggedMessage = {
 bot.reply(message, taggedMessage);
 ```
 
+## App Secret Proof
+
+To improve security and prevent your bot against man in the middle attack, it's highly recommended to send an app secret proof:
+
+```javascript
+var controller = Botkit.facebookbot({
+    access_token: process.env.page_token,
+    verify_token: process.env.verify_token,
+    app_secret: process.env.app_secret,
+    require_appsecret_proof: true // Enable send app secret proof
+});
+```
+
+More information about how to secure Graph API Requests [here](https://developers.facebook.com/docs/graph-api/securing-requests/)
+
+## Handover Protocol
+
+The Messenger Platform handover protocol enables two or more applications to collaborate on the Messenger Platform for a Page.
+
+View the facebook [documentation](https://developers.facebook.com/docs/messenger-platform/handover-protocol) for more details.
+
+### Secondary Receivers List
+
+Allows the Primary Receiver app to retrieve the list of apps that are Secondary Receivers for a page. Only the app with the Primary Receiver role for the page may use this API.
+
+- To retrieve the list of Secondary Receivers:
+```javascript
+controller.api.handover.get_secondary_receivers_list('id,name', function (err, result) {
+   // result.data = list of Secondary Receivers
+});
+```
+
+### Take Thread Control
+
+The Primary Receiver app can take control of a specific thread from a Secondary Receiver app:
+
+- To thread control:
+```javascript
+controller.api.handover.take_thread_control('<RECIPIENT_PSID>', 'String to pass to pass to the secondary receiver', function (result) {
+   // result = {"success":true}
+});
+```
+
+### Pass Thread Control
+
+To pass the thread control from your app to another app:
+
+- To pass thread control:
+```javascript
+controller.api.handover.pass_thread_control('<RECIPIENT_PSID>', '<TARGET_PSID>', 'String to pass to the secondary receiver app', function (result) {
+   // result = {"success":true}
+});
+```
+
+### Request Thread Control
+
+The Request Thread Control API allows a Secondary Receiver app to notify the Primary Receiver that it wants control of the chat : 
+
+- To pass thread control:
+```javascript
+controller.api.handover.request_thread_control('<RECIPIENT_PSID>', 'String to pass to request the thread control', function (result) {
+   
+});
+```
+
+
+## Messaging type
+
+You can identify the purpose of the message being sent to Facebook by adding `messaging_type: <MESSAGING_TYPE>` property when sending the message:
+
+```javascript
+var messageToSend = {
+        "text": "Hello Botkit !",
+        "messaging_type": "RESPONSE"
+};
+bot.reply(message, messageToSend);
+```
+
+This is a more explicit way to ensure bots are complying with Facebook policies for specific messaging types and respecting people's preferences.
+
+The following values for 'messaging_type' are supported:
+
+| Messaging Type | Description
+|-----|---
+| RESPONSE | Message is in response to a received message. This includes promotional and non-promotional messages sent inside the 24-hour standard messaging window or under the 24+1 policy. For example, use this tag to respond if a person asks for a reservation confirmation or an status update.
+| UPDATE | Message is being sent proactively and is not in response to a received message. This includes promotional and non-promotional messages sent inside the the 24-hour standard messaging window or under the 24+1 policy.
+| MESSAGE_TAG | Message is non-promotional and is being sent outside the 24-hour standard messaging window with a message tag. The message must match the allowed use case for the tag.
+| NON_PROMOTIONAL_SUBSCRIPTION | Message is non-promotional, and is being sent under the subscription messaging policy by a bot with the pages_messaging_subscriptions permission.
+
+By default Botkit will send a `RESPONSE` messaging type when you send a simple message with `bot.reply(message, "this is a simple message"")`, `conversation.say("this is a simple message")` or `conversation.ask("this is a simple message", ...)`.
+
+
+## Broadcast Messages API
+
+Broadcast Messages API allows you to send a message to many recipients, this means sending messages in batches to avoid hitting the Messenger Platform's rate limit, which can take a very long time.
+
+More information about the Broadcast Messages API can be found [here](https://developers.facebook.com/docs/messenger-platform/send-messages/broadcast-messages)
+
+### Creating a Broadcast Message
+
+Messages sent with the Broadcast API must be defined in advance.
+
+To create a broadcast message:
+
+```javascript
+/* Simple example */
+controller.api.broadcast.create_message_creative("Hello friend !", function (err, body) {
+    // Your awesome code here
+    console.log(body['message_creative_id']);
+    // And here
+});
+
+/* Personalizing Messages example */
+controller.api.broadcast.create_message_creative({
+    'dynamic_text': {
+        'text': 'Hi, {{first_name}}!',
+        'fallback_text': 'Hello friend !'
+    }
+}, function (err, body) {
+    // Your awesome code here
+    console.log(body['message_creative_id']);
+    // And here
+});
+```
+
+### Sending a Broadcast Message
+
+To send a broadcast message, you call ```controller.api.broadcast.send(...)``` with the broadcast message ID.
+
+On success, Botkit will return a numeric broadcast_id that can be used to identify the broadcast for analytics purposes:
+
+```javascript
+controller.api.broadcast.send('<CREATIVE_ID>', null, function (err, body) {
+    // Your awesome code here
+    console.log(body['broadcast_id']);
+    // And here
+});
+```
+
+If you would like to add notification type and tag you can pass an object:
+
+```javascript
+var message = {
+    message_creative_id: '<CREATIVE_ID>',
+    notification_type: '<REGULAR | SILENT_PUSH | NO_PUSH>',
+    tag: '<MESSAGE_TAG>'
+}
+
+controller.api.broadcast.send(message, null, function (err, body) {
+    // Your awesome code here
+    console.log(body['broadcast_id']);
+    // And here
+});
+```
+
+### Broadcast Metrics
+
+Once a broadcast has been delivered, you can find out the total number of people it reached by calling ```controller.api.broadcast.get_broadcast_metrics(...)```.
+
+```javascript
+controller.api.broadcast.get_broadcast_metrics("<BROADCAST_ID>", function (err, body) {
+    // Your awesome code here
+});
+```
+
+### Targeting a Broadcast Message
+
+By default, the Broadcast API sends your message to all open conversations with your Messenger bot. To allow you broadcast to a subset of conversations, the Broadcast API supports 'custom labels', which can be associated with individual PSIDs.
+
+#### Creating a Label
+
+To create a label:
+
+```javascript
+controller.api.broadcast.create_label("<LABEL_NAME>", function (err, body) {
+    // Your awesome code here
+});
+```
+
+#### Associating a Label to a user
+
+To associate a label to a specific user:
+
+```javascript
+controller.api.broadcast.add_user_to_label(message.user, "<LABEL_ID>", function (err, body) {
+    // Your awesome code here
+});
+```
+
+#### Sending a Message with a Label
+
+To send a broadcast message to the set of users associated with a label:
+
+```javascript
+controller.api.broadcast.send('<BROADCAST_MESSAGE_ID>', '<CUSTOM_LABEL_ID>', function (err, body) {
+    // Your awesome code here
+    console.log(body['broadcast_id']);
+    // And here
+});
+```
+
+#### Removing a Label From a user
+
+To remove a label currently associated with a user:
+
+```javascript
+controller.api.broadcast.remove_user_from_label(message.user, '<LABEL_ID>', function (err, body) {
+    // Your awesome code here
+});
+```
+
+#### Retrieving Labels Associated with a USER
+
+To retrieve the labels currently associated with a USER:
+
+```javascript
+controller.api.broadcast.get_labels_by_user(message.user, function (err, body) {
+    // Your awesome code here
+});
+```
+
+### Retrieving Label Details
+
+To retrieve a single label:
+
+```javascript
+controller.api.broadcast.get_label_details('<LABEL_ID>', ['name'], function (err, body) {
+    // Your awesome code here
+});
+```
+
+#### Retrieving a List of All Labels
+
+To retrieve the list of all the labels for the page:
+
+```javascript
+controller.api.broadcast.get_all_labels(['name'], function (err, body) {
+    // Your awesome code here
+});
+```
+
+#### Deleting a Label
+
+To delete a label:
+
+```javascript
+controller.api.broadcast.remove_label('<LABEL_ID>', function (err, body) {
+    // Your awesome code here
+});
+```
+
+## Messaging Insights API
+
+The Messaging Insights API, allows you to programatically retrieve the same information that appears in the Page Insights tab of your Facebook Page.
+
+To get insights with Botkit, you shuld call ```controller.api.insights.get_insights(...)``` with parameters metrics, since and until:
+
+| Parameter | Description
+|---  |---
+| metrics | An array or a comma-separated list of metrics to return.
+| since | UNIX timestamp of the start time to get the metric for.
+| until | UNIX timestamp of the end time to get the metric for.
+
+```javascript
+controller.api.insights.get_insights('page_messages_active_threads_unique', null, null, function (err, body) {
+    console.log(body);
+    console.log(err);
+});
+```
 
 ## Use BotKit for Facebook Messenger with an Express web server
 Instead of the web server generated with setupWebserver(), it is possible to use a different web server to receive webhooks, as well as serving web pages.
 
 Here is an example of [using an Express web server alongside BotKit for Facebook Messenger](https://github.com/mvaragnat/botkit-messenger-express-demo).
 
-
-## Botkit Documentation Index
+## Documentation
 
 * [Get Started](readme.md)
 * [Botkit Studio API](readme-studio.md)
 * [Function index](readme.md#developing-with-botkit)
+* [Starter Kits](readme-starterkits.md)
 * [Extending Botkit with Plugins and Middleware](middleware.md)
   * [Message Pipeline](readme-pipeline.md)
   * [List of current plugins](readme-middlewares.md)
 * [Storing Information](storage.md)
 * [Logging](logging.md)
 * Platforms
+  * [Web and Apps](readme-web.md)
   * [Slack](readme-slack.md)
   * [Cisco Spark](readme-ciscospark.md)
   * [Microsoft Teams](readme-teams.md)

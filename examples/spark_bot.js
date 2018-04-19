@@ -56,11 +56,11 @@ controller.hears(['^markdown'], 'direct_message,direct_mention', function(bot, m
 });
 
 controller.on('user_space_join', function(bot, message) {
-    bot.reply(message, 'Welcome, ' + message.original_message.data.personDisplayName);
+    bot.reply(message, 'Welcome, ' + message.raw_message.data.personDisplayName);
 });
 
 controller.on('user_space_leave', function(bot, message) {
-    bot.reply(message, 'Bye, ' + message.original_message.data.personDisplayName);
+    bot.reply(message, 'Bye, ' + message.raw_message.data.personDisplayName);
 });
 
 
@@ -77,8 +77,8 @@ controller.on('direct_mention', function(bot, message) {
 
 controller.on('direct_message', function(bot, message) {
     bot.reply(message, 'I got your private message. You said, "' + message.text + '"');
-    if (message.original_message.files) {
-        bot.retrieveFileInfo(message.original_message.files[0], function(err, file) {
+    if (message.raw_message.files) {
+        bot.retrieveFileInfo(message.raw_message.files[0], function(err, file) {
             bot.reply(message,'I also got an attached file called ' + file.filename);
         });
     }
