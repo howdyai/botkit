@@ -15,7 +15,7 @@ var accessToken = "";
 var platform = null;
 
 
-if (!process.env.clientId || !process.env.clientSecret || !process.env.port) {
+if (!process.env.CLIENT_ID || !process.env.CLIENT_SECRET || !process.env.PORT) {
     console.log('Error: Specify clientId clientSecret and port in environment');
     process.exit(1);
 }
@@ -23,10 +23,10 @@ if (!process.env.clientId || !process.env.clientSecret || !process.env.port) {
 var controller = Botkit.glipbot({
     debug: true
 }).configureGlipApp({
-    clientId: process.env.clientId,
-    clientSecret: process.env.clientSecret,
-    redirectUri: process.env.redirectUri,
-    apiRoot: process.env.apiRoot
+    clientId: process.env.CLIENT_ID,
+    clientSecret: process.env.CLIENT_SECRET,
+    redirectUri: process.env.REDIRECT_HOST,
+    apiRoot: process.env.RINGCENTRAL_ENV
     // accessToken: '',
     // subscriptionId: ''
 });
@@ -51,7 +51,7 @@ function storeAccessToken(accessToken){
 
 var bot = controller.spawn({});
 
-controller.setupWebserver(process.env.port || 3000, function(err, webserver){
+controller.setupWebserver(process.env.PORT || 3000, function(err, webserver){
     controller.createWebhookEndpoints(webserver, bot,  function () {
         console.log("Online");
     });
