@@ -854,6 +854,7 @@ controller.hears('interactive', 'direct_message', function(bot, message) {
         attachments:[
             {
                 title: 'Do you want to interact with my buttons?',
+                fallback: 'You need the Slack app to interact with these buttons',
                 callback_id: '123',
                 attachment_type: 'default',
                 actions: [
