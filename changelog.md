@@ -4,6 +4,16 @@
 
 [Want to contribute? Read our guide!](https://github.com/howdyai/botkit/blob/master/CONTRIBUTING.md)
 
+# 0.6.14
+
+* Fix for require_delivery option in Facebook bots. [PR #1312](https://github.com/howdyai/botkit/pull/1312)
+
+* Errors encountered during Slack RTM connection process will now be reprorted to the callback function [PR #1335](https://github.com/howdyai/botkit/pull/1335)
+
+* Updated dependencies to latest stable versions
+
+*
+
 # 0.6.13
 
 * Fix bugs and refactor handling of message actions, particularly as they relate to Botkit Studio scripts

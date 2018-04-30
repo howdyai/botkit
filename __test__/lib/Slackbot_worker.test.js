@@ -4,13 +4,15 @@ const util = require('util');
 const EventEmitter = require('events').EventEmitter;
 
 let mockWs;
-function MockWs(url) {
+function mockWebSocket(url) {
     this.url = url;
+    this.close = function() { };
+    this.ping = function() { };
     mockWs = this;
 }
-util.inherits(MockWs, EventEmitter);
+util.inherits(mockWebSocket, EventEmitter);
 
-jest.mock('ws', () => MockWs);
+jest.mock('ws', () => mockWebSocket);
 
 let mockResponse;
 let mockRequest = {
@@ -51,6 +53,8 @@ describe('startRTM', () => {
         expect(mockWs.url).toBe('http://mockurl');
         expect(cb).toHaveBeenCalledTimes(1);
 
+        bot.closeRTM();
+
         const errorArg = cb.mock.calls[0][0];
         expect(errorArg).toBeNull();
     });
@@ -70,6 +74,7 @@ describe('startRTM', () => {
         bot.startRTM(cb);
         expect(mockRequest.post).toHaveBeenCalledTimes(1);
         expect(cb).toHaveBeenCalledTimes(1);
+        bot.closeRTM();
 
         const errorArg = cb.mock.calls[0][0];
         expect(errorArg).toBe('test_error');
@@ -94,6 +99,8 @@ describe('startRTM', () => {
         mockWs.emit('error', 'test websocket error');
         expect(mockRequest.post).toHaveBeenCalledTimes(1);
         expect(cb).toHaveBeenCalledTimes(1);
+
+        bot.closeRTM();
 
         const errorArg = cb.mock.calls[0][0];
         expect(errorArg).toBe('test websocket error');
