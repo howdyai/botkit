@@ -166,14 +166,14 @@ bot.reply(message,{text: 'I made this file for you.', files:[fs.createReadStream
 
 ## Receiving files
 
-Your bot may receive messages with files attached. Attached files will appear in an array called `message.original_message.files`.
+Your bot may receive messages with files attached. Attached files will appear in an array called `message.data.files`.
 
 Botkit provides 2 methods for retrieving information about the file.
 
 ### bot.retrieveFileInfo(url, cb)
 | Parameter | Description
 |--- |---
-| url | url of file from message.original_message.files
+| url | url of file from message.data.files
 | cb | callback function in the form function(err, file_info)
 
 The callback function will receive an object with fields like `filename`, `content-type`, and `content-length`.
@@ -181,8 +181,8 @@ The callback function will receive an object with fields like `filename`, `conte
 ~~~ javascript
 controller.on('direct_message', function(bot, message) {
     bot.reply(message, 'I got your private message. You said, "' + message.text + '"');
-    if (message.original_message.files) {
-        bot.retrieveFileInfo(message.original_message.files[0], function(err, file_info) {
+    if (message.data.files) {
+        bot.retrieveFileInfo(message.data.files[0], function(err, file_info) {
             bot.reply(message,'I also got an attached file called ' + file_info.filename);
         });
     }
@@ -192,7 +192,7 @@ controller.on('direct_message', function(bot, message) {
 ### bot.retrieveFile(url, cb)
 | Parameter | Description
 |--- |---
-| url | url of file from message.original_message.files
+| url | url of file from message.data.files
 | cb | callback function in the form function(err, file_content)
 
 The callback function will receive the full content of the file.
@@ -200,10 +200,10 @@ The callback function will receive the full content of the file.
 ~~~ javascript
 controller.on('direct_message', function(bot, message) {
     bot.reply(message, 'I got your private message. You said, "' + message.text + '"');
-    if (message.original_message.files) {
-        bot.retrieveFileInfo(message.original_message.files[0], function(err, file_info) {
+    if (message.data.files) {
+        bot.retrieveFileInfo(message.data.files[0], function(err, file_info) {
             if (file_info['content-type'] == 'text/plain') {
-                bot.retrieveFile(message.original_message.files[0], function(err, file) {
+                bot.retrieveFile(message.data.files[0], function(err, file) {
                     bot.reply(message,'I got a text file with the following content: ' + file);
                 });
             }
