@@ -1,6 +1,6 @@
 {
   "name": "botkit",
-  "version": "0.6.13",
+  "version": "0.6.14",
   "description": "Building blocks for Building Bots",
   "main": "lib/Botkit.js",
   "types": "lib/Botkit.d.ts",
@@ -14,6 +14,7 @@
     "clone": "2.1.1",
     "command-line-args": "^5.0.2",
     "debug": "^3.1.0",
+    "email-addresses": "^3.0.1",
     "express": "^4.15.2",
     "https-proxy-agent": "^2.0.0",
     "jfs": "^0.3.0",
