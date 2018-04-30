@@ -10,9 +10,11 @@
 
 * Errors encountered during Slack RTM connection process will now be reprorted to the callback function [PR #1335](https://github.com/howdyai/botkit/pull/1335)
 
+* Updated methodology used to validate email addresses when restricting access to Cisco Spark bots
+
 * Updated dependencies to latest stable versions
 
-*
+
 
 # 0.6.13
 
