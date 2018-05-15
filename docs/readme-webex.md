@@ -93,7 +93,7 @@ controller.on('direct_message', function(bot, message) {
 
 When creating the Botkit controller, there are several platform-specific options available.
 
-### Botkit.webex
+### Botkit.webexbot
 | Argument | Description
 |--- |---
 | public_address | _required_ the root url of your application (https://mybot.com)
@@ -104,7 +104,7 @@ When creating the Botkit controller, there are several platform-specific options
 | `limit_to_domain` | _optional_ email domain (@howdy.ai) or array of domains [@howdy.ai, @botkit.ai] from which messages can be received
 
 ~~~ javascript
-var controller = Botkit.webex({
+var controller = Botkit.webexbot({
     debug: true,
     log: true,
     public_address: 'https://mybot.ngrok.io',
@@ -118,7 +118,7 @@ var controller = Botkit.webex({
 
 ### Webex rebrand
 
-Back in April 2018, Cisco announced a [rebrand from Cisco Spark to Webex]().
+Back in April 2018, Cisco announced a [rebrand from Cisco Spark to Webex](https://developer.webex.com/blog/blog-details-9738.html).
 In May 2018, starting with version **TODO**, Botkit reflected this rebrand by updated 'Spark' mentions from the framework API.
 
 **For backward compatibility purposes**, several references are now marked as deprecated, but still supported (except for Typescript code). Please migrate your code if your find references to:
