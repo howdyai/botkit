@@ -649,6 +649,17 @@ controller.api.handover.request_thread_control('<RECIPIENT_PSID>', 'String to pa
 });
 ```
 
+### Get Thread Owner
+
+Th Thread Owner API returns the app ID of the app the currently has thread control for a Page :
+
+- To get the app ID of the current thread owner :
+```javascript
+controller.api.handover.get_thread_owner('<RECIPIENT_PSID>', function (result) {
+   
+});
+```
+
 
 ## Messaging type
 
