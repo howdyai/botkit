@@ -649,7 +649,7 @@ controller.api.handover.request_thread_control('<RECIPIENT_PSID>', 'String to pa
 });
 ```
 
-### Cancelling a Scheduled Broadcast
+### Cancel a Scheduled Broadcast
 
 - To cancel a scheduled broadcast :
 ```javascript
@@ -658,6 +658,14 @@ controller.api.handover.cancel_scheduled_broadcast('<BROADCAST_ID>', function (r
 });
 ```
 
+### Get a Broadcast Status
+
+- To get a broadcast status :
+```javascript
+controller.api.handover.get_broadcast_status('<BROADCAST_ID>', ['scheduled_time', 'status'], function (result) {
+   
+});
+```
 
 ## Messaging type
 
