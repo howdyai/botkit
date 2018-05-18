@@ -39,7 +39,7 @@
 
 * Added 'picture' to Facebook User Profile endpoint. [PR #1264](https://github.com/howdyai/botkit/pull/1264) Thanks @se
 
-* Add FB request thread control [PR #1257](https://github.com/howdyai/botkit/pull/1257) Thanks as always to @oaudie-lahdioui
+* Add FB request thread control [PR #1257](https://github.com/howdyai/botkit/pull/1257) Thanks as always to @ouadie-lahdioui
 
 * Remove requirement that Cisco Spark endpoint be SSL. [PR #1284](https://github.com/howdyai/botkit/pull/1284) thanks @akalsey and your beard.
 
