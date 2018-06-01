@@ -221,8 +221,6 @@ declare namespace botkit {
     action?: string;
     channel?: string;
     match?: RegExpMatchArray;
-    replace_original?: boolean;
-    response_type?: string;
     text?: string;
     user?: string;
   }
@@ -305,6 +303,8 @@ declare namespace botkit {
     link_names?: boolean;
     parse?: string;
     reply_broadcast?: boolean;
+    replace_original?: boolean;
+    response_type?: string;
     type?: string;
     thread_ts?: string;
     ts?: string;
