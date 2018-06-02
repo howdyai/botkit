@@ -1108,6 +1108,16 @@ including `placeholder`, `optional`, `min_length` and `max_length`
 Add a one-line text element to the dialog. The `options` object can contain [any of the parameters listed in Slack's documentation for this element](https://api.slack.com/dialogs),
 including `placeholder` and `optional`
 
+##### dialog.addSelectWithDataSource()
+| Argument | Description
+|---  |---
+| label | label of field
+| name | name of field
+| data_source | data source for option list. Accepts static, users, channels, conversations, or external. Our clever default behavior is default, which means the menu's options are provided directly in the posted message under options. Defaults to static. Example: "channels". https://api.slack.com/docs/interactive-message-field-guide#option_fields
+
+Add a one-line text element to the dialog. The `options` object can contain [any of the parameters listed in Slack's documentation for this element](https://api.slack.com/dialogs),
+including `placeholder` and `optional`
+
 ##### dialog.toObject()
 
 Return the dialog as a Javascript object
