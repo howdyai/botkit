@@ -489,7 +489,57 @@ declare namespace botkit {
   interface Team {
     id: string;
   }
+  interface TeamsAPI {
+    getUserById(conversationId: string, userId: string, cb: (err: Error, user_profile: any) => void);
+    getUserByUpn(conversationId: string, upn: string, cb: (err: Error, user_profile: any) => void);
+    getConversationMembers(conversationId: string, cb: (err: Error, members: any[]) => void);
+    getTeamRoster(teamId: string, cb: (err: Error, members: any[]) => void);
+    updateMessage(conversationId: string, messageId: string, replacement: TeamsMessage, cb: (err: Error, results: any) => void)
+    getChannels(teamId: string, cb: (err: Error, channels: any[]) => void);
+  }
+  interface TeamsAttachment {
+    content: TeamsAttachmentContent;
+    contentType: string;
+
+    title(v: string): this;
+    subtitle(v: string): this;
+    text(v: string): this;
+    image(object: _TeamsAttachmentContentImage): this;
+    image(url: string, alt?: string): this;
+    button(object: _TeamsAttachmentContentButtonAction): this;
+    button(type: string, title: string, value: string): this;
+    tap(object: _TeamsAttachmentContentTapAction): this;
+    tap(type: string, title: string, payload: string): this;
+  }
+  interface TeamsAttachmentContent {
+    title?: string;
+    subtitle?: string;
+    text?: string;
+    images?: _TeamsAttachmentContentImage[];
+    buttons?: _TeamsAttachmentContentButtonAction[];
+    tap?: _TeamsAttachmentContentTapAction;
+  }
+  interface _TeamsAttachmentContentButtonAction {
+    type: string;
+    title: string;
+    image?: string;
+    value: string;
+  }
+  interface _TeamsAttachmentContentImage {
+    url: string;
+    alt?: string;
+  }
+  interface _TeamsAttachmentContentTapAction {
+    type: string;
+    value: string;
+  }
   interface TeamsBot extends Bot<TeamsSpawnConfiguration, TeamsMessage> {
+    api: TeamsAPI;
+
+    createHero(object: TeamsAttachmentContent): TeamsAttachment;
+    createHero(title?: string, subtitle?: string, text?: string, images?: _TeamsAttachmentContentImage[], buttons?: _TeamsAttachmentContentButtonAction[], tap?: _TeamsAttachmentContentTapAction): TeamsAttachment;
+    createThumbnail(object: TeamsAttachmentContent): TeamsAttachment;
+    createThumbnail(title?: string, subtitle?: string, text?: string, images?: _TeamsAttachmentContentImage[], buttons?: _TeamsAttachmentContentButtonAction[], tap?: _TeamsAttachmentContentTapAction): TeamsAttachment;
   }
   interface TeamsConfiguration extends Configuration {
     clientId?: string;
@@ -499,8 +549,30 @@ declare namespace botkit {
     createWebhookEndpoints(): this;
   }
   interface TeamsMessage extends Message {
+    // for outgoing message
+    summary: string,
+    attachments?: TeamsAttachment[];
+    attachmentLayout?: 'list' | 'grid';
+    // for incoming events
+    type?: [
+      'direct_message' |
+      'direct_mention' |
+      'mention' |
+      'bot_channel_join' |
+      'user_channel_join' |
+      'bot_channel_leave' |
+      'user_channel_leave' |
+      'channelDeleted' |
+      'channelRenamed' |
+      'channelCreated' |
+      'invoke' |
+      'composeExtension'
+    ]
+    raw_message?: any
   }
   interface TeamsSpawnConfiguration {
+    serviceUrl: string
+    team?: string // GUID
   }
   interface TwilioIPMBot extends Bot<TwilioIPMSpawnConfiguration, TwilioIPMMessage> {
     readonly api: any;
