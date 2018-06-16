@@ -1,0 +1,86 @@
+$ mkdir samplebot && cd samplebot
+$ npm init
+$ npm install --save botkit cron
+$ touch index.js
+$ token=<xoxb-381462237235-383623395814-k1MGsBk4GbaIEHFgdJozTt3W> node index.js
+if (!process.env.token) {
+    console.log('Error: Specify token in environment.');
+    process.exit(1);
+}
+
+var Botkit = require('botkit');
+// Add --
+var CronJob = require('cron').CronJob;
+// --
+var controller = Botkit.slackbot({
+    debug: false
+});
+
+var bot = controller.spawn({
+    token: process.env.token
+}).startRTM(function(err, bot, payload) {
+    if (err) {
+        console.log('Error: Cannot to Slack');
+        process.exit(1);
+    }
+    // Add --
+    new CronJob({
+        cronTime: '30 22 * * 1-7',
+        onTick: function() {
+            bot.say({
+                channel: 'general',
+                text: '食費箱に貯金したサボ？',
+                username: 'standupbot'
+            });
+        },
+        start: true,
+        timeZone: 'Asia/Tokyo'
+    });
+    // --
+});
+
+}).startRTM(function(err, bot, payload) {
+    if (err) {
+        console.log('Error: Cannot to Slack');
+        process.exit(1);
+    }
+    // Add --
+    new CronJob({
+        cronTime: '30 19 * * 1-5',
+        onTick: function() {
+            bot.say({
+                channel: 'general',
+                text: 'お仕事お疲れ様サボ！',
+                username: 'standupbot'
+            });
+        },
+        start: true,
+        timeZone: 'Asia/Tokyo'
+    });
+    // --
+});
+
+}).startRTM(function(err, bot, payload) {
+    if (err) {
+        console.log('Error: Cannot to Slack');
+        process.exit(1);
+    }
+    // Add --
+    new CronJob({
+        cronTime: '30 6 * * 1-7',
+        onTick: function() {
+            bot.say({
+                channel: 'general',
+                text: 'おはようサボ！',
+                username: 'standupbot'
+            });
+        },
+        start: true,
+        timeZone: 'Asia/Tokyo'
+    });
+    // --
+});
+
+controller.hears(['バグが', '不具合を発見', 'エラーが'], ['ambient'], function(bot, message) {
+    bot.reply(message, 'なに？:fearful:');
+});
