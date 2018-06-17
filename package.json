@@ -21,6 +21,7 @@
     "localtunnel": "^1.8.2",
     "md5": "^2.2.1",
     "mustache": "^2.3.0",
+    "opencollective": "^1.0.3",
     "promise": "^8.0.0",
     "request": "^2.81.0",
     "requestretry": "^1.12.0",
@@ -43,7 +44,8 @@
     "pretest": "jscs ./lib/ ./__test__ --fix",
     "test": "jest --coverage",
     "test-legacy": "mocha ./tests/*.js",
-    "test-watch": "jest --watch"
+    "test-watch": "jest --watch",
+    "postinstall": "opencollective postinstall"
   },
   "bin": {
     "botkit": "./bin/cli.js"
@@ -69,5 +71,9 @@
   "license": "MIT",
   "jest": {
     "testEnvironment": "node"
+  },
+  "collective": {
+    "type": "opencollective",
+    "url": "https://opencollective.com/botkit"
   }
 }
