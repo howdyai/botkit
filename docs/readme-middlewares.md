@@ -35,6 +35,7 @@ These plugins help you measure the success of your bots, across a variety of mea
 |  Firebase | https://github.com/howdyai/botkit-storage-firebase | A Firebase storage module for Botkit. |
 |  Postgres | https://github.com/lixhq/botkit-storage-postgres | Postgres storage module for Botkit<br/> |
 |  CouchDB | https://github.com/mbarlock/botkit-storage-couchdb/ | A Couchdb storage module for botkit |
+|  MySQL | https://github.com/getforgex/botkit-storage-mysql/ | A MySQL storage module for botkit |
 
 
 ## Statistics, Metrics, and CRM
