@@ -84,14 +84,15 @@ Normal messages will be sent to your bot using the `message_received` event.  In
 
 | Event | Description
 |--- |---
-| message_received | a message was received by the bot
-| facebook_postback | user clicked a button in an attachment and triggered a webhook postback
-| message_delivered | a confirmation from Facebook that a message has been received
-| message_echo | if enabled in Facebook, an "echo" of any message sent by the bot
-| message_read | a confirmation from Facebook that a message has been read
-| facebook_account_linking | a user has started the account linking
-| facebook_optin | a user has clicked the [Send-to-Messenger plugin](https://developers.facebook.com/docs/messenger-platform/implementation#send_to_messenger_plugin)
-| facebook_referral | a user has clicked on a [m.me URL with a referral param](https://developers.facebook.com/docs/messenger-platform/referral-params)
+| message_received | A message was received by the bot.
+| facebook_postback | A user clicked a button in an attachment and triggered a webhook postback.
+| facebook_quick_reply | A user clicked a "quick reply" and triggered a quick reply message.
+| message_delivered | A confirmation from Facebook that a message has been received.
+| message_echo | If enabled in Facebook, an "echo" of any message sent by the bot.
+| message_read | A confirmation from Facebook that a message has been read.
+| facebook_account_linking | A user has started the account linking.
+| facebook_optin | A user has clicked the [Send-to-Messenger plugin].(https://developers.facebook.com/docs/messenger-platform/implementation#send_to_messenger_plugin).
+| facebook_referral | A user has clicked on a [m.me URL with a referral param].(https://developers.facebook.com/docs/messenger-platform/referral-params).
 | facebook_app_roles | This callback will occur when a page admin changes the role of your application.
 | standby | This callback will occur when a message has been sent to your page, but your application is not the current thread owner. (Subscribe to the `standby` webhook to receive this event.)
 | facebook_receive_thread_control | This callback will occur when thread ownership for a user has been passed to your application. (Subscribe to the `messaging_handovers` webhook to receive this event.)
