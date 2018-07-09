@@ -10,6 +10,20 @@
 
 * For Botkit web adapter, add `typingDelayFactor` config option, as well as `controller.setTypingDelayFactor()` to change how fast the bot types. Values between 0-1 will speed up the bot's typing, values above 1 will slow it down. [PR #1387](https://github.com/howdyai/botkit/pull/1387) Thanks to @schmitzl
 
+* Add `collectResponse` to CoreBot's public types #1358 thanks to @pducks32
+* Add missing methods to d.ts #1359 thanks to @ypresto
+* Updating typings for interactive messages #1318 thanks to @jaalger
+
+
+* Add FB scheduled broadcast #1354
+* Add FB payment settings API #1369
+* Add FB Thread owner API #1353
+
+* Request Signing with Slack Signing Secret #1406
+
+* Externalize the utterances object #1085 thanks to @hannanabdul55
+
+
 # 0.6.14
 
 * Fix for require_delivery option in Facebook bots. [PR #1312](https://github.com/howdyai/botkit/pull/1312)
