@@ -4,6 +4,12 @@
 
 [Want to contribute? Read our guide!](https://github.com/howdyai/botkit/blob/master/CONTRIBUTING.md)
 
+# 0.6.15
+
+* Update to the way Webex Teams bots identify themselves [PR #1397](https://github.com/howdyai/botkit/pull/1397) Thank you to @jpjpjp
+
+* For Botkit web adapter, add `typingDelayFactor` config option, as well as `controller.setTypingDelayFactor()` to change how fast the bot types. Values between 0-1 will speed up the bot's typing, values above 1 will slow it down. [PR #1387](https://github.com/howdyai/botkit/pull/1387) Thanks to @schmitzl
+
 # 0.6.14
 
 * Fix for require_delivery option in Facebook bots. [PR #1312](https://github.com/howdyai/botkit/pull/1312)

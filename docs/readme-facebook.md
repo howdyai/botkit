@@ -655,12 +655,12 @@ controller.api.handover.pass_thread_control('<RECIPIENT_PSID>', '<TARGET_PSID>',
 
 ### Request Thread Control
 
-The Request Thread Control API allows a Secondary Receiver app to notify the Primary Receiver that it wants control of the chat : 
+The Request Thread Control API allows a Secondary Receiver app to notify the Primary Receiver that it wants control of the chat :
 
 - To pass thread control:
 ```javascript
 controller.api.handover.request_thread_control('<RECIPIENT_PSID>', 'String to pass to request the thread control', function (result) {
-   
+
 });
 ```
 
@@ -669,7 +669,7 @@ controller.api.handover.request_thread_control('<RECIPIENT_PSID>', 'String to pa
 - To cancel a scheduled broadcast :
 ```javascript
 controller.api.handover.cancel_scheduled_broadcast('<BROADCAST_ID>', function (result) {
-   
+
 });
 ```
 
@@ -678,7 +678,18 @@ controller.api.handover.cancel_scheduled_broadcast('<BROADCAST_ID>', function (r
 - To get a broadcast status :
 ```javascript
 controller.api.handover.get_broadcast_status('<BROADCAST_ID>', ['scheduled_time', 'status'], function (result) {
-   
+
+});
+```
+
+### Get Thread Owner
+
+Th Thread Owner API returns the app ID of the app the currently has thread control for a Page :
+
+- To get the app ID of the current thread owner :
+```javascript
+controller.api.handover.get_thread_owner('<RECIPIENT_PSID>', function (result) {
+
 });
 ```
 
