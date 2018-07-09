@@ -22,13 +22,13 @@ Several updates to the TypeScript definitions:
 
 Thanks to frequent contributor @ouadie-lahdioui for the updates to Facebook Messenger:
 
-* Add FB scheduled broadcast [#1354](https://github.com/howdyai/botkit/pull/1354)
-* Add FB payment settings API [#1369](https://github.com/howdyai/botkit/pull/1369)
-* Add FB Thread owner API [#1353](https://github.com/howdyai/botkit/pull/1353)
+* Add FB scheduled broadcast - [Docs](https://botkit.ai/docs/readme-facebook.html#cancel-a-scheduled-broadcast) - [#1354](https://github.com/howdyai/botkit/pull/1354)
+* Add FB payment settings API - [Docs](https://botkit.ai/docs/readme-facebook.html#controllerapimessenger_profilepayment_settings)[#1369](https://github.com/howdyai/botkit/pull/1369)
+* Add FB Thread owner API - [Docs](https://botkit.ai/docs/readme-facebook.html#get-thread-owner) [#1353](https://github.com/howdyai/botkit/pull/1353)
 
 Support for Slack's new security feature:
 
-* Request Signing with Slack Signing Secret [#1406](https://github.com/howdyai/botkit/pull/1406) thanks to @shishirsharma
+* Request Signing with Slack Signing Secret - [Docs](https://botkit.ai/docs/readme-slack.html#securing-outgoing-webhooks-and-slash-commands) - [#1406](https://github.com/howdyai/botkit/pull/1406) thanks to @shishirsharma
 
 
 # 0.6.14
