@@ -25,14 +25,14 @@ Botkit Studio is a dashboard and IDE designed to super-charge Botkit. It include
 
 Sign up for a free Botkit Studio account, and it will guide you through the process to create, configure and deploy your Botkit app!
 
-**[![Sign up for Botkit Studio](https://github.com/howdyai/botkit/raw/master/docs/studio.png)](https://studio.botkit.ai/signup?code=readme)**
+**[![Sign up for Botkit Studio](https://botkit.ai/docs/studio.png)](https://studio.botkit.ai/signup?code=readme)**
 
 
 ### **Remix on Glitch**
 
 Want to dive right in? [Remix one of our starter kits on Glitch](https://glitch.com/botkit). You'll start with a fully functioning app that you can edit and run from the browser!
 
- [![Remix on Glitch](https://github.com/howdyai/botkit/raw/master/docs/glitch.png)](https://glitch.com/botkit)
+ [![Remix on Glitch](https://botkit.ai/docs/glitch.png)](https://glitch.com/botkit)
 
 
 ### **Command Line Interface**
