@@ -441,6 +441,21 @@ Remove the home_url setting
 
 Get the home_url
 
+### controller.api.messenger_profile.payment_settings()
+| Argument | Description
+|---  |---
+| payload | A JSON object with the properties `privacy_url`, `public_key`, `testers`
+
+View [the facebook documentation](https://developers.facebook.com/docs/messenger-platform/reference/messenger-profile-api/payment-settings) for more details.
+
+### controller.api.messenger_profile.delete_payment_settings()
+
+Remove the payment_settings setting
+
+### controller.api.messenger_profile.get_payment_settings()
+
+Get the payment_settings property of your bot's Messenger Profile
+
 #### Using the The Messenger Profile API
 
 ```js
