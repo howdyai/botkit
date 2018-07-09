@@ -2,13 +2,15 @@ import * as express from 'express';
 import * as http from "http"
 
 declare namespace botkit {
-  function botframeworkbot(configuration: BotFrameworkConfiguration): BotFrameworkController;
-  function consolebot(configuration: ConsoleConfiguration): ConsoleController;
-  function facebookbot(configuration: FacebookConfiguration): FacebookController;
   function slackbot(configuration: SlackConfiguration): SlackController;
   function sparkbot(configuration: CiscoSparkConfiguration): CiscoSparkController;
+  function facebookbot(configuration: FacebookConfiguration): FacebookController;
   function twilioipmbot(configuration: TwilioIPMConfiguration): TwilioIPMController;
   function twiliosmsbot(configuration: TwilioSMSConfiguration): TwilioSMSController;
+  function botframeworkbot(configuration: BotFrameworkConfiguration): BotFrameworkController;
+  function teamsbot(configuration: TeamsConfiguration): TeamsController;
+  function consolebot(configuration: ConsoleConfiguration): ConsoleController;
+  function jabberbot(configuration: JabberConfiguration): JabberController;
   function socketbot(configuration: WebConfiguration): WebController;
   function anywhere(configuration: WebConfiguration): WebController;
 
@@ -20,16 +22,22 @@ declare namespace botkit {
       no: RegExp;
       quit: RegExp;
     };
-    createConversation(message: M, cb: (err: Error, convo: Conversation<M>) => void): void;
+    say(message: string | M, cb?: (err: Error, res?: any) => void): void
+    replyWithQuestion(src: M, question: string | M, cb: ConversationCallback<M>): void
     reply(src: M, resp: string | M, cb?: (err: Error, res: any) => void): void;
+    findConversation(message: M, cb: (convo?: Conversation<M>) => void): void;
+    createConversation(message: M, cb: (err: Error, convo: Conversation<M>) => void): void;
     startConversation(message: M, cb: (err: Error, convo: Conversation<M>) => void): void;
+
+    // abstract function
+    send(src: M, cb?: (err: Error, res?: any) => void): void;
   }
   interface BotFrameworkBot extends Bot<BotFrameworkSpawnConfiguration, BotFrameworkMessage> {
   }
   interface BotFrameworkConfiguration extends Configuration {
   }
   interface BotFrameworkController extends Controller<BotFrameworkSpawnConfiguration, BotFrameworkMessage, BotFrameworkBot> {
-    createWebhookEndpoints(webserver: any, bot: TwilioSMSBot, cb?: () => void): this;
+    createWebhookEndpoints(webserver: any, bot: BotFrameworkBot, cb?: () => void): this;
   }
   interface BotFrameworkMessage extends Message {
   }
@@ -216,6 +224,22 @@ declare namespace botkit {
   interface Identity {
     name: string;
     emails: string[];
+  }
+  interface JabberBot extends Bot<JabberSpawnConfiguration, JabberMessage> {
+  }
+  interface JabberConfiguration extends Configuration {
+  }
+  interface JabberController extends Controller<JabberSpawnConfiguration, JabberMessage, JabberBot> {
+  }
+  interface JabberMessage extends Message {
+  }
+  interface JabberSpawnConfiguration {
+    client: {
+      jid?: string,
+      password?: string,
+      host?: string,
+      port?: number
+    }
   }
   interface Message {
     action?: string;
@@ -465,6 +489,91 @@ declare namespace botkit {
   interface Team {
     id: string;
   }
+  interface TeamsAPI {
+    getUserById(conversationId: string, userId: string, cb: (err: Error, user_profile: any) => void);
+    getUserByUpn(conversationId: string, upn: string, cb: (err: Error, user_profile: any) => void);
+    getConversationMembers(conversationId: string, cb: (err: Error, members: any[]) => void);
+    getTeamRoster(teamId: string, cb: (err: Error, members: any[]) => void);
+    updateMessage(conversationId: string, messageId: string, replacement: TeamsMessage, cb: (err: Error, results: any) => void)
+    getChannels(teamId: string, cb: (err: Error, channels: any[]) => void);
+  }
+  interface TeamsAttachment {
+    content: TeamsAttachmentContent;
+    contentType: string;
+
+    title(v: string): this;
+    subtitle(v: string): this;
+    text(v: string): this;
+    image(object: _TeamsAttachmentContentImage): this;
+    image(url: string, alt?: string): this;
+    button(object: _TeamsAttachmentContentButtonAction): this;
+    button(type: string, title: string, value: string): this;
+    tap(object: _TeamsAttachmentContentTapAction): this;
+    tap(type: string, title: string, payload: string): this;
+  }
+  interface TeamsAttachmentContent {
+    title?: string;
+    subtitle?: string;
+    text?: string;
+    images?: _TeamsAttachmentContentImage[];
+    buttons?: _TeamsAttachmentContentButtonAction[];
+    tap?: _TeamsAttachmentContentTapAction;
+  }
+  interface _TeamsAttachmentContentButtonAction {
+    type: string;
+    title: string;
+    image?: string;
+    value: string;
+  }
+  interface _TeamsAttachmentContentImage {
+    url: string;
+    alt?: string;
+  }
+  interface _TeamsAttachmentContentTapAction {
+    type: string;
+    value: string;
+  }
+  interface TeamsBot extends Bot<TeamsSpawnConfiguration, TeamsMessage> {
+    api: TeamsAPI;
+
+    createHero(object: TeamsAttachmentContent): TeamsAttachment;
+    createHero(title?: string, subtitle?: string, text?: string, images?: _TeamsAttachmentContentImage[], buttons?: _TeamsAttachmentContentButtonAction[], tap?: _TeamsAttachmentContentTapAction): TeamsAttachment;
+    createThumbnail(object: TeamsAttachmentContent): TeamsAttachment;
+    createThumbnail(title?: string, subtitle?: string, text?: string, images?: _TeamsAttachmentContentImage[], buttons?: _TeamsAttachmentContentButtonAction[], tap?: _TeamsAttachmentContentTapAction): TeamsAttachment;
+  }
+  interface TeamsConfiguration extends Configuration {
+    clientId?: string;
+    clientSecret?: string;
+  }
+  interface TeamsController extends Controller<TeamsSpawnConfiguration, TeamsMessage, TeamsBot> {
+    createWebhookEndpoints(): this;
+  }
+  interface TeamsMessage extends Message {
+    // for outgoing message
+    summary: string,
+    attachments?: TeamsAttachment[];
+    attachmentLayout?: 'list' | 'grid';
+    // for incoming events
+    type?: [
+      'direct_message' |
+      'direct_mention' |
+      'mention' |
+      'bot_channel_join' |
+      'user_channel_join' |
+      'bot_channel_leave' |
+      'user_channel_leave' |
+      'channelDeleted' |
+      'channelRenamed' |
+      'channelCreated' |
+      'invoke' |
+      'composeExtension'
+    ]
+    raw_message?: any
+  }
+  interface TeamsSpawnConfiguration {
+    serviceUrl: string
+    team?: string // GUID
+  }
   interface TwilioIPMBot extends Bot<TwilioIPMSpawnConfiguration, TwilioIPMMessage> {
     readonly api: any;
   }
@@ -499,8 +608,6 @@ declare namespace botkit {
   }
   interface WebBot extends Bot<WebSpawnConfiguration, WebMessage> {
     connected: boolean;
-    send(src: WebMessage, cb?: (err: Error, res: any) => void): void;
-    findConversation(message: WebMessage, cb: (convo?: Conversation<WebMessage>) => void): void;
   }
   interface WebConfiguration extends Configuration {
     replyWithTyping?: boolean;
