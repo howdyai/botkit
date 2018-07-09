@@ -6,22 +6,29 @@
 
 # 0.6.15
 
+Some minor tweaks:
+
 * Update to the way Webex Teams bots identify themselves [PR #1397](https://github.com/howdyai/botkit/pull/1397) Thank you to @jpjpjp
+
+* Externalize the utterances object [#1085](https://github.com/howdyai/botkit/pull/1085) thanks to @hannanabdul55
 
 * For Botkit web adapter, add `typingDelayFactor` config option, as well as `controller.setTypingDelayFactor()` to change how fast the bot types. Values between 0-1 will speed up the bot's typing, values above 1 will slow it down. [PR #1387](https://github.com/howdyai/botkit/pull/1387) Thanks to @schmitzl
 
-* Add `collectResponse` to CoreBot's public types #1358 thanks to @pducks32
-* Add missing methods to d.ts #1359 thanks to @ypresto
-* Updating typings for interactive messages #1318 thanks to @jaalger
+Several updates to the TypeScript definitions:
 
+* Add `collectResponse` to CoreBot's public types [#1358](https://github.com/howdyai/botkit/pull/1358) thanks to @pducks32
+* Add missing methods to d.ts [#1359](https://github.com/howdyai/botkit/pull/1359) thanks to @ypresto
+* Updating typings for interactive messages [#1318](https://github.com/howdyai/botkit/pull/1318) thanks to @jaalger
 
-* Add FB scheduled broadcast #1354
-* Add FB payment settings API #1369
-* Add FB Thread owner API #1353
+Thanks to frequent contributor @ouadie-lahdioui for the updates to Facebook Messenger:
 
-* Request Signing with Slack Signing Secret #1406
+* Add FB scheduled broadcast [#1354](https://github.com/howdyai/botkit/pull/1354)
+* Add FB payment settings API [#1369](https://github.com/howdyai/botkit/pull/1369)
+* Add FB Thread owner API [#1353](https://github.com/howdyai/botkit/pull/1353)
 
-* Externalize the utterances object #1085 thanks to @hannanabdul55
+Support for Slack's new security feature:
+
+* Request Signing with Slack Signing Secret [#1406](https://github.com/howdyai/botkit/pull/1406) thanks to @shishirsharma
 
 
 # 0.6.14
