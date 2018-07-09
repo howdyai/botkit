@@ -12,7 +12,7 @@ Some minor tweaks:
 
 * Externalize the utterances object [#1085](https://github.com/howdyai/botkit/pull/1085) thanks to @hannanabdul55
 
-* For Botkit web adapter, add `typingDelayFactor` config option, as well as `controller.setTypingDelayFactor()` to change how fast the bot types. Values between 0-1 will speed up the bot's typing, values above 1 will slow it down. [PR #1387](https://github.com/howdyai/botkit/pull/1387) Thanks to @schmitzl
+* For Botkit web adapter, add `typingDelayFactor` config option, as well as `controller.setTypingDelayFactor()` to change how fast the bot types. Values between 0-1 will speed up the bot's typing, values above 1 will slow it down. - [Docs](https://botkit.ai/docs/readme-web.html#controllersettypingdelayfactordelayfactor) - [PR #1387](https://github.com/howdyai/botkit/pull/1387) Thanks to @schmitzl
 
 Several updates to the TypeScript definitions:
 
