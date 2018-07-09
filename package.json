@@ -16,7 +16,7 @@
     "debug": "^3.1.0",
     "email-addresses": "^3.0.1",
     "express": "^4.15.2",
-    "https-proxy-agent": "^2.0.0",
+    "https-proxy-agent": "^2.2.1",
     "jfs": "^0.3.0",
     "localtunnel": "^1.8.2",
     "md5": "^2.2.1",
