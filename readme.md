@@ -167,8 +167,7 @@ controller.middleware.send.use(function(bot, message, next) {
 * [Logging](https://botkit.ai/docs/logging.html)
 * Contributing to Botkit
   * [Contributing to Botkit Core](CONTRIBUTING.md)
-  * [Building Middleware/plugins](docs/howto/build_middleware.md)
-  * [Building platform connectors](docs/howto/build_connector.md)
+  * [Building platform connectors](https://botkit.ai/docs/howto/build_connector.md)
 
 
 # Community & Support
