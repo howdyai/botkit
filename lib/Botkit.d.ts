@@ -132,6 +132,7 @@ declare namespace botkit {
     addQuestion(message: string | M, cb: ConversationCallback<M>, capture_options: ConversationCaptureOptions, thread: string): void;
     ask(message: string | M, cb: ConversationCallback<M>, capture_options?: ConversationCaptureOptions): void;
     beforeThread(thread: string, callback: (convo: this, next: (err: string | Error) => void) => void): void;
+    collectResponse(key: string, value: string): void;
     extractResponse(key: string): string;
     extractResponses(): { [key: string]: string };
     gotoThread(thread: string): void;
