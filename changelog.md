@@ -6,6 +6,8 @@
 
 # 0.6.15
 
+* [The documentation has moved to a dedicated docs site!](https://botkit.ai/docs) The transition begun 3 versions ago is now complete. [Any future changes to documentation should be submitted to this repo](https://github.com/howdyai/botkit-docs).
+
 Some minor tweaks:
 
 * Update to the way Webex Teams bots identify themselves [PR #1397](https://github.com/howdyai/botkit/pull/1397) Thank you to @jpjpjp
