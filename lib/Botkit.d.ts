@@ -249,9 +249,12 @@ declare namespace botkit {
     user?: string;
   }
   interface SlackAttachment {
+    attachment_type?: string;
+    actions?: any[];
     author_icon?: string;
     author_link?: string;
     author_name?: string;
+    callback_id?: string;
     color?: string;
     fallback?: string;
     fields?: {
@@ -324,6 +327,8 @@ declare namespace botkit {
     link_names?: boolean;
     parse?: string;
     reply_broadcast?: boolean;
+    replace_original?: boolean;
+    response_type?: string;
     type?: string;
     thread_ts?: string;
     ts?: string;
