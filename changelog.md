@@ -4,6 +4,10 @@
 
 [Want to contribute? Read our guide!](https://github.com/howdyai/botkit/blob/master/CONTRIBUTING.md)
 
+# 0.6.16
+
+* Fixed issue in Cisco adapter introduced in 0.6.15
+
 # 0.6.15
 
 * [The documentation has moved to a dedicated docs site!](https://botkit.ai/docs) The transition begun 3 versions ago is now complete. [Any future changes to documentation should be submitted to this repo](https://github.com/howdyai/botkit-docs).
