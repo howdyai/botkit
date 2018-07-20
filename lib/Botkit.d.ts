@@ -496,12 +496,12 @@ declare namespace botkit {
     id: string;
   }
   interface TeamsAPI {
-    getUserById(conversationId: string, userId: string, cb: (err: Error, user_profile: any) => void);
-    getUserByUpn(conversationId: string, upn: string, cb: (err: Error, user_profile: any) => void);
-    getConversationMembers(conversationId: string, cb: (err: Error, members: any[]) => void);
-    getTeamRoster(teamId: string, cb: (err: Error, members: any[]) => void);
-    updateMessage(conversationId: string, messageId: string, replacement: TeamsMessage, cb: (err: Error, results: any) => void)
-    getChannels(teamId: string, cb: (err: Error, channels: any[]) => void);
+    getUserById(conversationId: string, userId: string, cb: (err: Error, user_profile: any) => void): void;
+    getUserByUpn(conversationId: string, upn: string, cb: (err: Error, user_profile: any) => void): void;
+    getConversationMembers(conversationId: string, cb: (err: Error, members: any[]) => void): void;
+    getTeamRoster(teamId: string, cb: (err: Error, members: any[]) => void): void;
+    updateMessage(conversationId: string, messageId: string, replacement: TeamsMessage, cb: (err: Error, results: any) => void): void;
+    getChannels(teamId: string, cb: (err: Error, channels: any[]) => void): void;
   }
   interface TeamsAttachment {
     content: TeamsAttachmentContent;
