@@ -158,6 +158,21 @@ controller.middleware.send.use(function(bot, message, next) {
   * [Contributing to Botkit Core](CONTRIBUTING.md)
   * [Building platform connectors](https://botkit.ai/docs/howto/build_connector.html)
 
+# Support Botkit
+
+## Platform Sponsors
+
+<object type="image/svg+xml" data="https://opencollective.com/botkit/tiers/platform-sponsor.svg?avatarHeight=36&width=600"></object>
+
+## Corporate Sponsors
+
+<object type="image/svg+xml" data="https://opencollective.com/botkit/tiers/corporate-sponsor.svg?avatarHeight=36&width=600"></object>
+
+## Individual Contributors
+
+<object type="image/svg+xml" data="https://opencollective.com/botkit/tiers/individual-sponsor.svg?avatarHeight=36&width=600"></object>
+
+
 # Community & Support
 
 Join our thriving community of Botkit developers and bot enthusiasts at large.
