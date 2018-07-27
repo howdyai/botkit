@@ -162,15 +162,15 @@ controller.middleware.send.use(function(bot, message, next) {
 
 ## Platform Sponsors
 
-![Platform Sponsors](https://opencollective.com/botkit/tiers/platform-sponsor.svg?avatarHeight=36&width=600)
+[![Platform Sponsors](https://opencollective.com/botkit/tiers/platform-sponsor.svg?avatarHeight=100&width=600)](https://opencollective.com/botkit)
 
 ## Corporate Sponsors
 
-![Corporate Sponsors](https://opencollective.com/botkit/tiers/corporate-sponsor.svg?avatarHeight=36&width=600)
+[![Corporate Sponsors](https://opencollective.com/botkit/tiers/corporate-sponsor.svg?avatarHeight=50&width=600)](https://opencollective.com/botkit)
 
 ## Individual Contributors
 
-![Individual Contributors](https://opencollective.com/botkit/tiers/individual-sponsor.svg?avatarHeight=36&width=600)
+[![Individual Contributors](https://opencollective.com/botkit/tiers/individual-sponsor.svg?avatarHeight=50&width=600)](https://opencollective.com/botkit)
 
 
 # Community & Support
