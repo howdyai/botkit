@@ -162,15 +162,15 @@ controller.middleware.send.use(function(bot, message, next) {
 
 ## Platform Sponsors
 
-<object type="image/svg+xml" data="https://opencollective.com/botkit/tiers/platform-sponsor.svg?avatarHeight=36&width=600"></object>
+![Platform Sponsors](https://opencollective.com/botkit/tiers/platform-sponsor.svg?avatarHeight=36&width=600)
 
 ## Corporate Sponsors
 
-<object type="image/svg+xml" data="https://opencollective.com/botkit/tiers/corporate-sponsor.svg?avatarHeight=36&width=600"></object>
+![Corporate Sponsors](https://opencollective.com/botkit/tiers/corporate-sponsor.svg?avatarHeight=36&width=600)
 
 ## Individual Contributors
 
-<object type="image/svg+xml" data="https://opencollective.com/botkit/tiers/individual-sponsor.svg?avatarHeight=36&width=600"></object>
+![Individual Contributors](https://opencollective.com/botkit/tiers/individual-sponsor.svg?avatarHeight=36&width=600)
 
 
 # Community & Support
