@@ -4,6 +4,8 @@
 [![David](https://img.shields.io/david/howdyai/botkit.svg)](https://david-dm.org/howdyai/botkit)
 [![npm](https://img.shields.io/npm/l/botkit.svg)](https://spdx.org/licenses/MIT)
 [![bitHound Overall Score](https://www.bithound.io/github/howdyai/botkit/badges/score.svg)](https://www.bithound.io/github/howdyai/botkit)
+[![Backers on Open Collective](https://opencollective.com/botkit/backers/badge.svg)](#backers)
+[![Sponsors on Open Collective](https://opencollective.com/botkit/sponsors/badge.svg)](#sponsors) 
 
 **Botkit is the leading developer tool for building chat bots, apps and custom integrations for major messaging platforms.**
 
@@ -183,6 +185,28 @@ You can also find help from members of the Botkit team [in our dedicated Cisco S
 
 We also host a [regular meetup and annual conference called TALKABOT.](https://talkabot.ai)
 Come meet and learn from other bot developers! [Full video of our 2016 event is available on Youtube.](https://www.youtube.com/playlist?list=PLD3JNfKLDs7WsEHSal2cfwG0Fex7A6aok)
+
+## Credits
+
+### Contributors
+
+This project exists thanks to all the people who contribute. 
+
+<a href="graphs/contributors"><img src="https://opencollective.com/botkit/contributors.svg?width=890&button=false" /></a>
+
+### Backers
+
+Thank you to all our backers! 🙏 [[Become a backer](https://opencollective.com/botkit#backer)]
+
+<a href="https://opencollective.com/botkit#backers" target="_blank"><img src="https://opencollective.com/botkit/backers.svg?width=890”></a>
+
+### Sponsors
+
+Support this project by becoming a sponsor. Your logo will show up here with a link to your website. [[Become a sponsor](https://opencollective.com/botkit#sponsor)]
+
+<a href="https://opencollective.com/botkit/sponsor/0/website" target="_blank"><img src="https://opencollective.com/botkit/sponsor/0/avatar.svg"></a>
+
+
 
 # About Botkit
 
