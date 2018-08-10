@@ -160,18 +160,23 @@ controller.middleware.send.use(function(bot, message, next) {
 
 # Support Botkit
 
-## Platform Sponsors
+This project exists thanks to all the people who contribute their own time, expertise and passion to make Botkit a better product.
 
-[![Platform Sponsors](https://opencollective.com/botkit/tiers/platform-sponsor.svg?avatarHeight=100&width=600)](https://opencollective.com/botkit)
+[!https://opencollective.com/botkit/contributors.svg?width=890&button=false]
+
+Please consider supporting our efforts as an official sponsor of Botkit!
+
+## Individual Sponsors
+
+[![Individual Contributors](https://opencollective.com/botkit/tiers/individual-sponsor.svg?avatarHeight=50&width=600)](https://opencollective.com/botkit)
 
 ## Corporate Sponsors
 
 [![Corporate Sponsors](https://opencollective.com/botkit/tiers/corporate-sponsor.svg?avatarHeight=50&width=600)](https://opencollective.com/botkit)
 
-## Individual Contributors
+## Platform Sponsors
 
-[![Individual Contributors](https://opencollective.com/botkit/tiers/individual-sponsor.svg?avatarHeight=50&width=600)](https://opencollective.com/botkit)
-
+[![Platform Sponsors](https://opencollective.com/botkit/tiers/platform-sponsor.svg?avatarHeight=100&width=600)](https://opencollective.com/botkit)
 
 # Community & Support
 
