@@ -1,5 +1,5 @@
 var should = require('should');
-var Botkit = require('../');
+var Botkit = require('../../');
 var path = require('path');
 var tmpdir = require('os').tmpdir();
 var fs = require('fs');

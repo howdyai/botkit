@@ -1,30 +1,59 @@
 var should = require('should');
 var sinon = require('sinon');
+var nock = require('nock');
 require('should-sinon');
 var winston = require('winston');
-var Botkit = require('../lib/Botkit.js');
+var Botkit = require('../../lib/Botkit.js');
+var configuration = {
+    api_host: 'testurl.com',
+    access_token: '1234',
+    verify_token: '5678',
+    app_secret: 'X'
+};
 
 describe('FacebookBot', function() {
+
+    // Mock the web request for getInstanceInfo()
+    beforeEach(function() {
+        nock(`https://${configuration.api_host}`)
+            .get(`/v2.11/me?access_token=${configuration.access_token}`)
+            .reply(200, {
+                identity: {
+                    name: 'MOCHA-IDENTITY-NAME',
+                    id: 'MOCHA-IDENTITY-ID'
+                },
+                team: {
+                    name: 'MOCHA-TEAM-NAME',
+                    url: 'MOCHA-TEAM-URL',
+                    id: 'MOCHA-TEAM-ID'
+                }
+            });
+    });
+
     describe('constructor()', function(done) {
+
         it('Should have a facebookbot function', function(done) {
             Botkit.should.have.property('facebookbot').which.is.a.Function();
             done();
         });
 
         it('FacebookBot should be an Object', function(done) {
-            var facebook_bot = Botkit.facebookbot({});
+            var facebook_bot = Botkit.facebookbot(configuration);
             facebook_bot.should.be.an.Object();
             done();
         });
     });
 
     describe('messenger profile api', function(done) {
-        var facebook_bot = Botkit.facebookbot({});
+        var facebook_bot = Botkit.facebookbot(configuration);
+        
         describe('home_url', function(done) {
+
             it('home_url should be a function', function(done) {
                 facebook_bot.api.messenger_profile.home_url.should.be.a.Function();
                 done();
             });
+
             it('home_url should post a payload', function(done) {
                 var expectedPayload = {
                     home_url: {
@@ -44,10 +73,12 @@ describe('FacebookBot', function() {
                 expectedApiCall.should.be.calledWith(expectedPayload);
                 done();
             });
+
             it('get_home_url should be a function', function(done) {
                 facebook_bot.api.messenger_profile.get_home_url.should.be.a.Function();
                 done();
             });
+
             it('get_home_url should trigger a callback', function(done) {
                 var apiGet = sinon.stub(facebook_bot.api.messenger_profile, 'getAPI').callsFake(function fakeFn(fields, cb) {
                     return cb(null, {
@@ -62,10 +93,12 @@ describe('FacebookBot', function() {
                     done();
                 });
             });
+
             it('delete_home_url should be a function', function(done) {
                 facebook_bot.api.messenger_profile.get_home_url.should.be.a.Function();
                 done();
             });
+
             it('delete_home_url should trigger a delete api call', function(done) {
                 var expectedApiCall = sinon.spy();
                 facebook_bot.api.messenger_profile.deleteAPI = expectedApiCall;
@@ -74,20 +107,20 @@ describe('FacebookBot', function() {
                 done();
             })
         });
-
-
     });
 
+
     describe('handleWebhookPayload()', function(done) {
+
         it('Should be function', function(done) {
             //Setup
-            var facebook_bot = Botkit.facebookbot({});
+            var facebook_bot = Botkit.facebookbot(configuration);
 
             //Assertions
             facebook_bot.handleWebhookPayload.should.be.a.Function();
             done();
         });
-
+    
         function mock_entry() {
             return {
                 sender: {id: "SENDER_ID"},
@@ -99,7 +132,7 @@ describe('FacebookBot', function() {
 
         it('Should call receiveMessage on facebook_message.message', function(done) {
             //Setup
-            var facebook_bot = Botkit.facebookbot({});
+            var facebook_bot = Botkit.facebookbot(configuration);
 
             //Spies
             facebook_bot.receiveMessage = sinon.spy();
@@ -125,7 +158,7 @@ describe('FacebookBot', function() {
 
         it('Should trigger \'facebook_postback\' on facebook_message.postback', function(done) {
             //Setup
-            var facebook_bot = Botkit.facebookbot({});
+            var facebook_bot = Botkit.facebookbot(configuration);
 
             //Spies
             facebook_bot.trigger = sinon.spy();
@@ -146,7 +179,7 @@ describe('FacebookBot', function() {
 
         it('Should trigger \'facebook_optin\' on facebook_message.optin', function(done) {
             //Setup
-            var facebook_bot = Botkit.facebookbot({});
+            var facebook_bot = Botkit.facebookbot(configuration);
 
             //Spies
             facebook_bot.trigger = sinon.spy();
@@ -164,7 +197,7 @@ describe('FacebookBot', function() {
 
         it('Should trigger \'message_delivered\' on facebook_message.delivery', function(done) {
             //Setup
-            var facebook_bot = Botkit.facebookbot({});
+            var facebook_bot = Botkit.facebookbot(configuration);
 
             //Spies
             facebook_bot.trigger = sinon.spy();
@@ -182,7 +215,7 @@ describe('FacebookBot', function() {
 
         it('Should trigger \'message_read\' on facebook_message.referral', function(done) {
             //Setup
-            var facebook_bot = Botkit.facebookbot({});
+            var facebook_bot = Botkit.facebookbot(configuration);
 
             //Spies
             facebook_bot.trigger = sinon.spy();
@@ -198,4 +231,5 @@ describe('FacebookBot', function() {
             done();
         });
     });
+
 });

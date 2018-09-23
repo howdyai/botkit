@@ -12,3 +12,8 @@ examples/db_team_bot/
 .idea
 .vscode
 coverage
+
+# simple_storage files
+channels
+teams/
+users/

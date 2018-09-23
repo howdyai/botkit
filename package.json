@@ -34,15 +34,18 @@
     "jest-cli": "^22.4.3",
     "jscs": "^3.0.7",
     "mocha": "^5.1.1",
+    "nock": "^10.0.0",
     "should": "^13.2.1",
     "should-sinon": "0.0.5",
     "sinon": "^5.0.1",
+    "unit.js": "^2.0.0",
     "winston": "^2.3.1"
   },
   "scripts": {
-    "pretest": "jscs ./lib/ ./__test__ --fix",
+    "pretest": "jscs ./lib/ ./tests/lib --fix",
     "test": "jest --coverage",
-    "test-legacy": "mocha ./tests/*.js",
+    "test-legacy": "mocha ./tests/legacy/*.mocha.js",
+    "test-unit": "mocha ./tests/unit/*.js",
     "test-watch": "jest --watch"
   },
   "bin": {
