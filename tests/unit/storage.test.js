@@ -8,7 +8,7 @@ If you build a new storage module,
 you must add it to this test file before your PR will be considered.
 */
 
-const fs = require('fs');
+const mkdirp = require('mkdirp');
 
 // Extend expect to include a matcher for null or undefined
 expect.extend({
@@ -36,8 +36,10 @@ const testObj1 = {id: 'TEST1', foo: 'bar1'};
 
 describe('Simple Storage', () => {
     // Setup - start with an empty data storage
-    fs.mkdirSync('tests/unit/temp/data');
-    const storage = require('../../lib/storage/simple_storage.js')({path: fs.mkdtempSync('tests/unit/temp/data/')});
+    let dataDir = __dirname + '/temp/data/';
+    mkdirp.sync(dataDir);
+
+    const storage = require('../../lib/storage/simple_storage.js')({path: dataDir});
 
     ['channels', 'teams', 'users'].forEach((key) => {
         const store = storage[key];
@@ -52,7 +54,7 @@ describe('Simple Storage', () => {
                 expect(store.delete).toBeInstanceOf(Function);
             });
         });
-    
+
         describe(`Operations for ${key}`, () => {
             const store = storage[key];
 

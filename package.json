@@ -33,6 +33,7 @@
   "devDependencies": {
     "jest-cli": "^22.4.3",
     "jscs": "^3.0.7",
+    "mkdirp": "^0.5.1",
     "mocha": "^5.1.1",
     "nock": "^10.0.0",
     "should": "^13.2.1",
