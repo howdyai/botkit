@@ -14,6 +14,9 @@ examples/db_team_bot/
 coverage
 
 # simple_storage files
-channels
-teams/
-users/
+/channels/
+/teams/
+/users/
+
+# temp test files
+tests/**/temp/

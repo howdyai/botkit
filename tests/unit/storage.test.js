@@ -6,16 +6,9 @@ This file currently test simple_storage.js.
 
 If you build a new storage module,
 you must add it to this test file before your PR will be considered.
-How to add it to this test file:
-
-Add the following to the bottom of this file:
-
-// Test <your_storage_module>
-<your_storage_module> = require('../../lib/storage/<your_storage_module>.js')(<appropriate config object for your storage module>);
-check(<your_storage_module>.users);
-check(<your_storage_module>.channels);
-check(<your_storage_module>.teams);
 */
+
+const fs = require('fs');
 
 // Extend expect to include a matcher for null or undefined
 expect.extend({
@@ -42,9 +35,11 @@ const testObj0 = {id: 'TEST0', foo: 'bar0'};
 const testObj1 = {id: 'TEST1', foo: 'bar1'};
 
 describe('Simple Storage', () => {
-    const storage = require('../../lib/storage/simple_storage.js')();
+    // Setup - start with an empty data storage
+    fs.mkdirSync('tests/unit/temp/data');
+    const storage = require('../../lib/storage/simple_storage.js')({path: fs.mkdtempSync('tests/unit/temp/data/')});
 
-    Object.keys(storage).forEach((key) => {
+    ['channels', 'teams', 'users'].forEach((key) => {
         const store = storage[key];
 
         describe('Has correct methods', () => {
@@ -79,11 +74,13 @@ describe('Simple Storage', () => {
                 });
             });
 
-            test('Get - data not present', (done) => {
-                store.get('TESTX', (err, data) => {
-                    expect(err).toBeTruthy();
-                    expect(data).toBeNullOrUndefined();
-                    done();
+            ['TESTX', undefined, null].forEach((id) => {
+                test(`Get - data not present (${typeof id})`, (done) => {
+                    store.get(id, (err, data) => {
+                        expect(err).toBeTruthy();
+                        expect(data).toBeNullOrUndefined();
+                        done();
+                    });
                 });
             });
 
@@ -106,10 +103,13 @@ describe('Simple Storage', () => {
                 });
             });
 
-            test('Delete - data not present', (done) => {
-                store.get('TESTX', (err) => {
-                    expect(err).toBeTruthy();
-                    done();
+            ['TESTX', undefined, null].forEach((id) => {
+                test(`Delete - data not present' (${typeof id})`, (done) => {
+                    store.delete(id, (err, data) => {
+                        expect(err).toBeTruthy();
+                        expect(data).toBeNullOrUndefined();
+                        done();
+                    });
                 });
             });
 
