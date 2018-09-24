@@ -17,6 +17,27 @@ check(<your_storage_module>.channels);
 check(<your_storage_module>.teams);
 */
 
+// Extend expect to include a matcher for null or undefined
+expect.extend({
+    toBeNullOrUndefined(received) {
+        const pass = received === null || received === undefined;
+        if (pass) {
+            return {
+                message: () =>
+                  `Ok`,
+                pass: true,
+            };
+        } else {
+            return {
+                message: () =>
+                  `expected ${received} to be either null or undefined`,
+                pass: false,
+            };
+        }
+    },
+});
+
+// Test data
 const testObj0 = {id: 'TEST0', foo: 'bar0'};
 const testObj1 = {id: 'TEST1', foo: 'bar1'};
 
@@ -51,12 +72,12 @@ describe('Simple Storage', () => {
 
     });
 
-    describe('Channels correct operations', () => {
+    describe('Channels operations', () => {
         const store = storage.channels;
 
         test('Save', (done) => {
             store.save(testObj0, (err) => {
-                expect(err).toBeFalsy();
+                expect(err).toBeNullOrUndefined();
                 store.save(testObj1, (err) => {
                     expect(err).toBeNull();
                     done();
@@ -66,15 +87,23 @@ describe('Simple Storage', () => {
 
         test('Get', (done) => {
             store.get(testObj0.id, (err, data) => {
-                expect(err).toBeFalsy();
+                expect(err).toBeNullOrUndefined();
                 expect(data).toEqual(testObj0);
+                done();
+            });
+        });
+
+        test('Get - data not present', (done) => {
+            store.get('TESTX', (err, data) => {
+                expect(err).toBeTruthy();
+                expect(data).toBeNullOrUndefined();
                 done();
             });
         });
 
         test('All', (done) => {
             store.all((err, data) => {
-                expect(err).toBeFalsy();
+                expect(err).toBeNullOrUndefined();
                 expect(data).toEqual([testObj0, testObj1]);
                 done();
             });
@@ -82,8 +111,7 @@ describe('Simple Storage', () => {
 
         test('Delete', (done) => {
             store.delete(testObj1.id, (err) => {
-                console.log(err);
-                expect(err).toBeFalsy();
+                expect(err).toBeNullOrUndefined();
                 store.all((err, data) => {
                     expect(err).toBeNull();
                     expect(data).toEqual([testObj0]);
@@ -92,12 +120,19 @@ describe('Simple Storage', () => {
             });
         });
 
+        test('Delete - data not present', (done) => {
+            store.get('TESTX', (err) => {
+                expect(err).toBeTruthy();
+                done();
+            });
+        });
+
         test('Overwrite', (done) => {
             const overwriteObject = {id: 'TEST0', foo: 'CHANGED'};
             store.save(overwriteObject, (err) => {
-                expect(err).toBeFalsy();
+                expect(err).toBeNullOrUndefined();
                 store.get(testObj0.id, (err, data) => {
-                    expect(err).toBeFalsy();
+                    expect(err).toBeNullOrUndefined();
                     expect(data).toEqual(overwriteObject);
                     done();
                 });
@@ -106,12 +141,12 @@ describe('Simple Storage', () => {
 
     });
 
-    describe('Teams correct operations', () => {
+    describe('Teams operations', () => {
         const store = storage.teams;
 
         test('Save', (done) => {
             store.save(testObj0, (err) => {
-                expect(err).toBeFalsy();
+                expect(err).toBeNullOrUndefined();
                 store.save(testObj1, (err) => {
                     expect(err).toBeNull();
                     done();
@@ -121,15 +156,23 @@ describe('Simple Storage', () => {
 
         test('Get', (done) => {
             store.get(testObj0.id, (err, data) => {
-                expect(err).toBeFalsy();
+                expect(err).toBeNullOrUndefined();
                 expect(data).toEqual(testObj0);
+                done();
+            });
+        });
+
+        test('Get - data not present', (done) => {
+            store.get('TESTX', (err, data) => {
+                expect(err).toBeTruthy();
+                expect(data).toBeNullOrUndefined();
                 done();
             });
         });
 
         test('All', (done) => {
             store.all((err, data) => {
-                expect(err).toBeFalsy();
+                expect(err).toBeNullOrUndefined();
                 expect(data).toEqual([testObj0, testObj1]);
                 done();
             });
@@ -137,8 +180,7 @@ describe('Simple Storage', () => {
 
         test('Delete', (done) => {
             store.delete(testObj1.id, (err) => {
-                console.log(err);
-                expect(err).toBeFalsy();
+                expect(err).toBeNullOrUndefined();
                 store.all((err, data) => {
                     expect(err).toBeNull();
                     expect(data).toEqual([testObj0]);
@@ -147,12 +189,19 @@ describe('Simple Storage', () => {
             });
         });
 
+        test('Delete - data not present', (done) => {
+            store.get('TESTX', (err) => {
+                expect(err).toBeTruthy();
+                done();
+            });
+        });
+
         test('Overwrite', (done) => {
             const overwriteObject = {id: 'TEST0', foo: 'CHANGED'};
             store.save(overwriteObject, (err) => {
-                expect(err).toBeFalsy();
+                expect(err).toBeNullOrUndefined();
                 store.get(testObj0.id, (err, data) => {
-                    expect(err).toBeFalsy();
+                    expect(err).toBeNullOrUndefined();
                     expect(data).toEqual(overwriteObject);
                     done();
                 });
@@ -161,12 +210,12 @@ describe('Simple Storage', () => {
 
     });
 
-    describe('Users correct operations', () => {
+    describe('Users operations', () => {
         const store = storage.users;
 
         test('Save', (done) => {
             store.save(testObj0, (err) => {
-                expect(err).toBeFalsy();
+                expect(err).toBeNullOrUndefined();
                 store.save(testObj1, (err) => {
                     expect(err).toBeNull();
                     done();
@@ -176,15 +225,23 @@ describe('Simple Storage', () => {
 
         test('Get', (done) => {
             store.get(testObj0.id, (err, data) => {
-                expect(err).toBeFalsy();
+                expect(err).toBeNullOrUndefined();
                 expect(data).toEqual(testObj0);
+                done();
+            });
+        });
+
+        test('Get - data not present', (done) => {
+            store.get('TESTX', (err, data) => {
+                expect(err).toBeTruthy();
+                expect(data).toBeNullOrUndefined();
                 done();
             });
         });
 
         test('All', (done) => {
             store.all((err, data) => {
-                expect(err).toBeFalsy();
+                expect(err).toBeNullOrUndefined();
                 expect(data).toEqual([testObj0, testObj1]);
                 done();
             });
@@ -192,8 +249,7 @@ describe('Simple Storage', () => {
 
         test('Delete', (done) => {
             store.delete(testObj1.id, (err) => {
-                console.log(err);
-                expect(err).toBeFalsy();
+                expect(err).toBeNullOrUndefined();
                 store.all((err, data) => {
                     expect(err).toBeNull();
                     expect(data).toEqual([testObj0]);
@@ -202,12 +258,19 @@ describe('Simple Storage', () => {
             });
         });
 
+        test('Delete - data not present', (done) => {
+            store.get('TESTX', (err) => {
+                expect(err).toBeTruthy();
+                done();
+            });
+        });
+
         test('Overwrite', (done) => {
             const overwriteObject = {id: 'TEST0', foo: 'CHANGED'};
             store.save(overwriteObject, (err) => {
-                expect(err).toBeFalsy();
+                expect(err).toBeNullOrUndefined();
                 store.get(testObj0.id, (err, data) => {
-                    expect(err).toBeFalsy();
+                    expect(err).toBeNullOrUndefined();
                     expect(data).toEqual(overwriteObject);
                     done();
                 });
@@ -217,4 +280,3 @@ describe('Simple Storage', () => {
     });
 
 });
-
