@@ -71,7 +71,7 @@ describe('Simple Storage', () => {
                 done();
             });
         });
-        
+
         test('All', (done) => {
             store.all((err, data) => {
                 expect(err).toBeFalsy();
@@ -79,7 +79,7 @@ describe('Simple Storage', () => {
                 done();
             });
         });
-        
+
         test('Delete', (done) => {
             store.delete(testObj1.id, (err) => {
                 console.log(err);
@@ -126,7 +126,7 @@ describe('Simple Storage', () => {
                 done();
             });
         });
-        
+
         test('All', (done) => {
             store.all((err, data) => {
                 expect(err).toBeFalsy();
@@ -134,7 +134,7 @@ describe('Simple Storage', () => {
                 done();
             });
         });
-        
+
         test('Delete', (done) => {
             store.delete(testObj1.id, (err) => {
                 console.log(err);
@@ -181,7 +181,7 @@ describe('Simple Storage', () => {
                 done();
             });
         });
-        
+
         test('All', (done) => {
             store.all((err, data) => {
                 expect(err).toBeFalsy();
@@ -189,7 +189,7 @@ describe('Simple Storage', () => {
                 done();
             });
         });
-        
+
         test('Delete', (done) => {
             store.delete(testObj1.id, (err) => {
                 console.log(err);

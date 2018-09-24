@@ -54,6 +54,7 @@ describe('startRTM', () => {
         expect(cb).toHaveBeenCalledTimes(1);
 
         bot.closeRTM();
+        bot.destroy();
 
         const errorArg = cb.mock.calls[0][0];
         expect(errorArg).toBeNull();
@@ -75,6 +76,7 @@ describe('startRTM', () => {
         expect(mockRequest.post).toHaveBeenCalledTimes(1);
         expect(cb).toHaveBeenCalledTimes(1);
         bot.closeRTM();
+        bot.destroy();
 
         const errorArg = cb.mock.calls[0][0];
         expect(errorArg).toBe('test_error');
@@ -101,6 +103,7 @@ describe('startRTM', () => {
         expect(cb).toHaveBeenCalledTimes(1);
 
         bot.closeRTM();
+        bot.destroy();
 
         const errorArg = cb.mock.calls[0][0];
         expect(errorArg).toBe('test websocket error');
