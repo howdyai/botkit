@@ -191,6 +191,7 @@ describe('FacebookBot', function() {
         it('Should call receiveMessage on facebook_message.message', function(done) {
             //Setup
             var facebook_bot = Botkit.facebookbot(configuration);
+            var worker = facebook_bot.spawn(configuration);
 
             //Spies
             facebook_bot.receiveMessage = sinon.spy();
@@ -207,7 +208,7 @@ describe('FacebookBot', function() {
                 quick_reply:"QUICK_REPLY"
             };
             var req = { body: { entry: [ { messaging: [ entry ] } ] } };
-            facebook_bot.handleWebhookPayload(req, res, facebook_bot);
+            facebook_bot.handleWebhookPayload(req, res, worker);
 
             //Assertions
             facebook_bot.receiveMessage.should.be.called();
@@ -218,6 +219,7 @@ describe('FacebookBot', function() {
         it('Should trigger \'facebook_postback\' on facebook_message.postback', function(done) {
             //Setup
             var facebook_bot = Botkit.facebookbot(configuration);
+            var worker = facebook_bot.spawn(configuration);
 
             //Spies
             facebook_bot.trigger = sinon.spy();
@@ -229,7 +231,7 @@ describe('FacebookBot', function() {
                 referral: "REFERRAL"
             };
             var req = { body: { entry: [ { messaging: [ entry ] } ] } };
-            facebook_bot.handleWebhookPayload(req, res, facebook_bot);
+            facebook_bot.handleWebhookPayload(req, res, worker);
 
             //Assertions
             facebook_bot.trigger.should.be.calledWithMatch('facebook_postback');
@@ -240,6 +242,7 @@ describe('FacebookBot', function() {
         it('Should trigger \'facebook_optin\' on facebook_message.optin', function(done) {
             //Setup
             var facebook_bot = Botkit.facebookbot(configuration);
+            var worker = facebook_bot.spawn(configuration);
 
             //Spies
             facebook_bot.trigger = sinon.spy();
@@ -248,7 +251,7 @@ describe('FacebookBot', function() {
             var entry = mock_entry();
             entry.optin = true;
             var req = { body: { entry: [ { messaging: [ entry ] } ] } };
-            facebook_bot.handleWebhookPayload(req, res, facebook_bot);
+            facebook_bot.handleWebhookPayload(req, res, worker);
 
             //Assertions
             facebook_bot.trigger.should.be.calledWithMatch('facebook_optin');
@@ -259,6 +262,7 @@ describe('FacebookBot', function() {
         it('Should trigger \'message_delivered\' on facebook_message.delivery', function(done) {
             //Setup
             var facebook_bot = Botkit.facebookbot(configuration);
+            var worker = facebook_bot.spawn(configuration);
 
             //Spies
             facebook_bot.trigger = sinon.spy();
@@ -267,7 +271,7 @@ describe('FacebookBot', function() {
             var entry = mock_entry();
             entry.delivery = true;
             var req = { body: { entry: [ { messaging: [ entry ] } ] } };
-            facebook_bot.handleWebhookPayload(req, res, facebook_bot);
+            facebook_bot.handleWebhookPayload(req, res, worker);
 
             //Assertions
             facebook_bot.trigger.should.be.calledWithMatch('message_delivered');
@@ -278,6 +282,7 @@ describe('FacebookBot', function() {
         it('Should trigger \'message_read\' on facebook_message.referral', function(done) {
             //Setup
             var facebook_bot = Botkit.facebookbot(configuration);
+            var worker = facebook_bot.spawn(configuration);
 
             //Spies
             facebook_bot.trigger = sinon.spy();
@@ -286,7 +291,7 @@ describe('FacebookBot', function() {
             var entry = mock_entry();
             entry.referral = true;
             var req = { body: { entry: [ { messaging: [ entry ] } ] } };
-            facebook_bot.handleWebhookPayload(req, res, facebook_bot);
+            facebook_bot.handleWebhookPayload(req, res, worker);
 
             //Assertions
             facebook_bot.trigger.should.be.calledWithMatch('facebook_referral');
