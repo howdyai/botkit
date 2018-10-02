@@ -30,6 +30,8 @@ describe('Botkit', function() {
     });
 
     it('should start and then stop', function(done) {
+        this.timeout(5000);
+
         var controller = Botkit.slackbot({debug: false});
         var openIsCalled = false;
 
@@ -49,10 +51,11 @@ describe('Botkit', function() {
             .spawn({
                 token: token
             })
-            .startRTM(function(err, bot, payload) {
+            .startRTM(function(err) {
                 (err === null).should.be.true;
-                should.exist(bot);
-                bot.closeRTM();
+            })
+            .closeRTM(function(err) {
+                (err === null).should.be.true;
             });
     });
 
