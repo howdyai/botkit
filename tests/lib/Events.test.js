@@ -25,3 +25,23 @@ test('events to accumulate appropriately', () => {
     expect(controller.events.toot.length).toBe(1);
 
 });
+
+
+test('all handlers bound to an event fire', (done) => {
+
+    const controller = botkit.core({});
+    controller.on('hello', function(data) {
+        expect(data).toEqual({foo: 'var'});
+    });
+
+    controller.on('hello', function(data) {
+        expect(data).toEqual({foo: 'var'});
+    });
+
+    controller.on('hello', function(data) {
+        expect(data).toEqual({foo: 'var'});
+        done();
+    });
+    controller.trigger('hello', [{foo: 'var'}]);
+
+});
