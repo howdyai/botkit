@@ -149,6 +149,7 @@ controller.middleware.send.use(function(bot, message, next) {
   * [Twilio SMS](https://botkit.ai/docs/readme-twiliosms.html)
   * [Twilio IPM](https://botkit.ai/docs/readme-twilioipm.html)
   * [Microsoft Bot Framework](https://botkit.ai/docs/readme-botframework.html)
+  * [Google Hangouts Chat](https://botkit.ai/docs/readme-google-hangouts.html)
 * [Extending Botkit with Plugins and Middleware](https://botkit.ai/docs/middleware.html)
   * [Message Pipeline](https://botkit.ai/docs/readme-pipeline.html)
   * [List of current plugins](https://botkit.ai/docs/readme-middlewares.html)

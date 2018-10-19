@@ -12,13 +12,17 @@ In addition to minor fixes, dependency version updates, and documentation update
 
     Get started with the [Botkit Starter Kit for Google Hangouts](https://github.com/howdyai/botkit-starter-googlehangouts).
 
-    [Botkit docs for Google Hangouts connector]()
+    [Botkit docs for Google Hangouts connector](https://botkit.ai/docs/readme-google-hangouts.html)
 
 * CiscoSpark bots are now officially WebexBots. Everything is backwards compatible thanks to the hard work of [@ObjectIsAdvantag](https://github.com/howdyai/botkit/pull/1349), but you should move to using `Botkit.webexbot()` instead of `Botkit.sparkbot()` ASAP.
 
+    [Botkit docs for Cisco Webex Teams](https://botkit.ai/docs/readme-webex.html)
+
+    [Read more about these changes](https://botkit.ai/docs/readme-webex.html#webex-rebrand).
+
 * Tests have been reorganized and updated thanks to [@fastbean-au](https://github.com/howdyai/botkit/pull/1468).
 
-* Errors that occur in the middleware pipeline will now cause `pipeline_error` event to be emitted. In addition, errors at specific stages of the pipeline will also emit their own events: `ingest_error`, `normalize_error`, `categorize_error` and `receive_error`. This should make it easier to debug problems in middleware. Thanks to [@Nop0x](https://github.com/howdyai/botkit/pull/1425).
+* Errors that occur in the middleware pipeline will now cause `pipeline_error` event to be emitted. In addition, errors at specific stages of the pipeline will also emit their own events: `ingest_error`, `normalize_error`, `categorize_error` and `receive_error`. This should make it easier to debug problems in middleware. Thanks to [@Nop0x](https://github.com/howdyai/botkit/pull/1425).  [Docs](https://botkit.ai/docs/core.html#middleware-error-events)
 
     Handle a pipeline error:
     ```javascript
