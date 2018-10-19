@@ -12,3 +12,11 @@ examples/db_team_bot/
 .idea
 .vscode
 coverage
+
+# simple_storage files
+/channels/
+/teams/
+/users/
+
+# temp test files
+tests/**/temp/

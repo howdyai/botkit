@@ -3,8 +3,8 @@ import * as http from "http"
 
 declare namespace botkit {
   function slackbot(configuration: SlackConfiguration): SlackController;
-  function sparkbot(configuration: CiscoSparkConfiguration): CiscoSparkController;
   function facebookbot(configuration: FacebookConfiguration): FacebookController;
+  function webexbot(configuration: WebexConfiguration): WebexController;
   function twilioipmbot(configuration: TwilioIPMConfiguration): TwilioIPMController;
   function twiliosmsbot(configuration: TwilioSMSConfiguration): TwilioSMSController;
   function botframeworkbot(configuration: BotFrameworkConfiguration): BotFrameworkController;
@@ -48,34 +48,34 @@ declare namespace botkit {
   interface Channel {
     id: string;
   }
-  interface CiscoSparkBot extends Bot<CiscoSparkSpawnConfiguration, CiscoSparkMessage> {
+  interface WebexBot extends Bot<WebexSpawnConfiguration, WebexMessage> {
     retrieveFile(url: string, cb: (err: Error, body: any) => void): void;
     retrieveFileInfo(url: string, cb: (err: Error, obj: any) => void): void;
-    startPrivateConversation(message: CiscoSparkMessage, cb: (err: Error, convo: Conversation<CiscoSparkMessage>) => void): void;
-    startPrivateConversationWithActor(message: CiscoSparkMessage, cb: (err: Error, convo: Conversation<CiscoSparkMessage>) => void): void;
-    startPrivateConversationWithPersonId(personId: string, cb: (err: Error, convo: Conversation<CiscoSparkMessage>) => void): void;
+    startPrivateConversation(message: WebexMessage, cb: (err: Error, convo: Conversation<WebexMessage>) => void): void;
+    startPrivateConversationWithActor(message: WebexMessage, cb: (err: Error, convo: Conversation<WebexMessage>) => void): void;
+    startPrivateConversationWithPersonId(personId: string, cb: (err: Error, convo: Conversation<WebexMessage>) => void): void;
   }
-  interface CiscoSparkConfiguration extends Configuration {
-    ciscospark_access_token: string;
+  interface WebexConfiguration extends Configuration {
+    access_token: string;
     limit_to_domain?: string | string[];
     limit_to_org?: string;
     public_address: string;
     secret?: string;
     webhook_name?: string;
   }
-  interface CiscoSparkController extends Controller<CiscoSparkSpawnConfiguration, CiscoSparkMessage, CiscoSparkBot> {
-    createWebhookEndpoints(webserver: any, bot: CiscoSparkBot, cb?: () => void): this;
+  interface WebexController extends Controller<WebexSpawnConfiguration, WebexMessage, WebexBot> {
+    createWebhookEndpoints(webserver: any, bot: WebexBot, cb?: () => void): this;
   }
-  interface CiscoSparkMessage extends Message {
+  interface WebexMessage extends Message {
     actorId?: string;
     data?: {
       personDisplayName: string;
     };
     files?: any[];
     markdown?: string;
-    original_message?: CiscoSparkMessage;
+    original_message?: WebexMessage;
   }
-  interface CiscoSparkSpawnConfiguration {
+  interface WebexSpawnConfiguration {
   }
   interface Configuration {
     debug?: boolean;

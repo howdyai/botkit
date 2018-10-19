@@ -1,6 +1,6 @@
 {
   "name": "botkit",
-  "version": "0.6.16",
+  "version": "0.6.17",
   "description": "Building blocks for Building Bots",
   "main": "lib/Botkit.js",
   "types": "lib/Botkit.d.ts",
@@ -16,6 +16,7 @@
     "debug": "^3.1.0",
     "email-addresses": "^3.0.1",
     "express": "^4.15.2",
+    "googleapis": "^32.0.0",
     "https-proxy-agent": "^2.2.1",
     "jfs": "^0.3.0",
     "localtunnel": "^1.9.1",
@@ -33,16 +34,18 @@
   "devDependencies": {
     "jest-cli": "^23.6.0",
     "jscs": "^3.0.7",
+    "mkdirp": "^0.5.1",
     "mocha": "^5.1.1",
+    "nock": "^10.0.0",
     "should": "^13.2.1",
     "should-sinon": "0.0.5",
     "sinon": "^5.0.1",
     "winston": "^2.3.1"
   },
   "scripts": {
-    "pretest": "jscs ./lib/ ./__test__ --fix",
-    "test": "jest --coverage --detectOpenHandles",
-    "test-legacy": "mocha ./tests/*.js",
+    "pretest": "jscs ./lib/ ./tests/lib ./tests/unit --fix",
+    "test": "jest --coverage",
+    "test-legacy": "mocha ./tests/legacy/*.mocha.js",
     "test-watch": "jest --watch"
   },
   "bin": {
@@ -61,9 +64,14 @@
     "chatbots",
     "slack",
     "cisco spark",
+    "webex",
     "facebook messenger",
-    "twilio ipm",
-    "microsoft bot framework"
+    "twilio",
+    "microsoft bot framework",
+    "web chat",
+    "jabber",
+    "microsoft teams",
+    "google hangouts"
   ],
   "author": "ben@howdy.ai",
   "license": "MIT",

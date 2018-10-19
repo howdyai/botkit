@@ -14,7 +14,8 @@ Botkit offers everything you need to design, build and operate an app:
 
 Plus, Botkit works with all the NLP services (like Microsoft LUIS and IBM Watson), can use any type of database you want, and runs on almost any hosting platform.
 
-# Install Botkit
+## Install Botkit
+
 Botkit is a Node.js module, and works with Node and npm.
 
 ### **Remix on Glitch**
@@ -22,7 +23,6 @@ Botkit is a Node.js module, and works with Node and npm.
 Want to dive right in? [Remix one of our starter kits on Glitch](https://glitch.com/botkit). You'll start with a fully functioning app that you can edit and run from the browser!
 
  [![Remix on Glitch](https://botkit.ai/docs/glitch.png)](https://glitch.com/botkit)
-
 
 ### **Command Line Interface**
 
@@ -57,7 +57,7 @@ controller.hears('hello','direct_message', function(bot, message) {
 
 [Review the documentation](https://botkit.ai/docs/) to learn how to configure Botkit's controller to work with the messaging platform of your choice.
 
-# Build Your Bot
+## Build Your Bot
 
 The goal of Botkit is to make it easier and more fun to build software that talks and works like a robot! Building a bot should feel cool, and not too technically complicated.
 
@@ -104,7 +104,7 @@ In addition to taking direct action in response to a certain message or type of 
 Middleware can be used to adjust how Botkit receives, processes, and sends messages. [Here is a list of available middleware endpoints](https://botkit.ai/docs/readme-pipeline.html).
 
 ```
-// Log every message recieved
+// Log every message received
 controller.middleware.receive.use(function(bot, message, next) {
 
   // log it
@@ -133,7 +133,7 @@ controller.middleware.send.use(function(bot, message, next) {
 });
 ```
 
-# Full Documentation
+## Full Documentation
 
 * [Get Started](https://botkit.ai/getstarted.html)
 * [Introduction](https://botkit.ai/docs/)
@@ -149,6 +149,7 @@ controller.middleware.send.use(function(bot, message, next) {
   * [Twilio SMS](https://botkit.ai/docs/readme-twiliosms.html)
   * [Twilio IPM](https://botkit.ai/docs/readme-twilioipm.html)
   * [Microsoft Bot Framework](https://botkit.ai/docs/readme-botframework.html)
+  * [Google Hangouts Chat](https://botkit.ai/docs/readme-google-hangouts.html)
 * [Extending Botkit with Plugins and Middleware](https://botkit.ai/docs/middleware.html)
   * [Message Pipeline](https://botkit.ai/docs/readme-pipeline.html)
   * [List of current plugins](https://botkit.ai/docs/readme-middlewares.html)
@@ -158,7 +159,7 @@ controller.middleware.send.use(function(bot, message, next) {
   * [Contributing to Botkit Core](CONTRIBUTING.md)
   * [Building platform connectors](https://botkit.ai/docs/howto/build_connector.html)
 
-# Community & Support
+## Community & Support
 
 Join our thriving community of Botkit developers and bot enthusiasts at large.
 Over 6500 members strong, [our open Slack group](https://community.botkit.ai) is
@@ -170,7 +171,7 @@ You can also find help from members of the Botkit team [in our dedicated Cisco S
 We also host a [regular meetup and annual conference called TALKABOT.](https://talkabot.ai)
 Come meet and learn from other bot developers! [Full video of our 2016 event is available on Youtube.](https://www.youtube.com/playlist?list=PLD3JNfKLDs7WsEHSal2cfwG0Fex7A6aok)
 
-# About Botkit
+## About Botkit
 
 Botkit is a product of [Howdy.ai](https://howdy.ai).
 
