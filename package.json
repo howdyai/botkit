@@ -10,7 +10,7 @@
     "body-parser": "^1.17.1",
     "botbuilder": "^3.8.4",
     "botkit-studio-sdk": "^1.0.8",
-    "ciscospark": "^1.26.0",
+    "ciscospark": "^1.32.23",
     "clone": "2.1.1",
     "command-line-args": "^5.0.2",
     "debug": "^3.1.0",
@@ -19,7 +19,7 @@
     "googleapis": "^32.0.0",
     "https-proxy-agent": "^2.2.1",
     "jfs": "^0.3.0",
-    "localtunnel": "^1.8.2",
+    "localtunnel": "^1.9.1",
     "md5": "^2.2.1",
     "mustache": "^2.3.0",
     "opencollective": "^1.0.3",
@@ -33,7 +33,7 @@
     "ws": "^5.1.1"
   },
   "devDependencies": {
-    "jest-cli": "^22.4.3",
+    "jest-cli": "^23.6.0",
     "jscs": "^3.0.7",
     "mocha": "^5.1.1",
     "should": "^13.2.1",
@@ -43,7 +43,7 @@
   },
   "scripts": {
     "pretest": "jscs ./lib/ ./__test__ --fix",
-    "test": "jest --coverage",
+    "test": "jest --coverage --detectOpenHandles",
     "test-legacy": "mocha ./tests/*.js",
     "test-watch": "jest --watch",
     "postinstall": "opencollective postinstall"
