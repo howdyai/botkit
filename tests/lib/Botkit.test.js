@@ -33,3 +33,4 @@ test('exports bot interfaces', () => {
     expect(botkit.googlehangoutsbot).toBe('googlehangoutsbot');
 
 });
+
