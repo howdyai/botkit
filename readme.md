@@ -132,6 +132,7 @@ controller.middleware.send.use(function(bot, message, next) {
 
 });
 ```
+## [Change Log](https://github.com/howdyai/botkit/blob/master/changelog.md)
 
 ## Full Documentation
 
