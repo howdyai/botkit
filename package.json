@@ -41,7 +41,7 @@
   },
   "scripts": {
     "pretest": "jscs ./lib/ ./__test__ --fix",
-    "test": "jest --coverage",
+    "test": "jest --coverage --detectOpenHandles",
     "test-legacy": "mocha ./tests/*.js",
     "test-watch": "jest --watch"
   },
