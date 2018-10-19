@@ -22,7 +22,7 @@ In addition to minor fixes, dependency version updates, and documentation update
 
     Handle a pipeline error:
     ```javascript
-    controller.on('pipeline_error', function(err, bot, message, stage) {
+    controller.on('pipeline_error', function(err, bot, message, stage_name) {
         // ... handle it!
     });
     ```
