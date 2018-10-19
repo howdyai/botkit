@@ -18,7 +18,21 @@ In addition to minor fixes, dependency version updates, and documentation update
 
 * Tests have been reorganized and updated thanks to [@fastbean-au](https://github.com/howdyai/botkit/pull/1468).
 
-* Errors that occur in the middleware pipeline will now cause `pipeline_error` event to be emitted. In addition, errors at specific steps of the pipeline will also emit their own events: `ingest_error`, `normalize_error`, `categorize_error` and `receive_error`. This should make it easier to debug problems in middleware. Thanks to [@Nop0x](https://github.com/howdyai/botkit/pull/1425)
+* Errors that occur in the middleware pipeline will now cause `pipeline_error` event to be emitted. In addition, errors at specific stages of the pipeline will also emit their own events: `ingest_error`, `normalize_error`, `categorize_error` and `receive_error`. This should make it easier to debug problems in middleware. Thanks to [@Nop0x](https://github.com/howdyai/botkit/pull/1425).
+
+    Handle a pipeline error:
+    ```javascript
+    controller.on('pipeline_error', function(err, bot, message, stage) {
+        // ... handle it!
+    });
+    ```
+
+    Handle a specific stage error:
+    ```javascript
+    controller.on('ingest_error', function(err, bot, message) {
+        // ... handle it!
+    });
+    ```
 
 
 # 0.6.16
