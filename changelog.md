@@ -4,6 +4,23 @@
 
 [Want to contribute? Read our guide!](https://github.com/howdyai/botkit/blob/master/CONTRIBUTING.md)
 
+# 0.6.17
+
+In addition to minor fixes, dependency version updates, and documentation updates, this version includes:
+
+* Google Hangouts support is here! Thanks to [@ouadie-lahdioui's hard work](https://github.com/howdyai/botkit/pull/1414), your bot can now operate in [Hangouts Chat](https://gsuite.google.com/products/chat/).
+
+    Get started with the [Botkit Starter Kit for Google Hangouts](https://github.com/howdyai/botkit-starter-googlehangouts).
+
+    [Botkit docs for Google Hangouts connector]()
+
+* CiscoSpark bots are now officially WebexBots. Everything is backwards compatible thanks to the hard work of [@ObjectIsAdvantag](https://github.com/howdyai/botkit/pull/1349), but you should move to using `Botkit.webexbot()` instead of `Botkit.sparkbot()` ASAP.
+
+* Tests have been reorganized and updated thanks to [@fastbean-au](https://github.com/howdyai/botkit/pull/1468).
+
+* Errors that occur in the middleware pipeline will now cause `pipeline_error` event to be emitted. In addition, errors at specific steps of the pipeline will also emit their own events: `ingest_error`, `normalize_error`, `categorize_error` and `receive_error`. This should make it easier to debug problems in middleware. Thanks to [@Nop0x](https://github.com/howdyai/botkit/pull/1425)
+
+
 # 0.6.16
 
 * Fixed issue in Cisco adapter introduced in 0.6.15
