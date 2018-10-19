@@ -11,3 +11,17 @@ test('events passed into .on should trim whitespace', () => {
     expect(controller.events.toot).toBeDefined();
 
 });
+
+
+test('events to accumulate appropriately', () => {
+
+    const controller = botkit.core({});
+    controller.on('hello, test,toot ', function() {});
+    controller.on('hello  ', function() {});
+    controller.on('test  ', function() {});
+
+    expect(controller.events.hello.length).toBe(2);
+    expect(controller.events.test.length).toBe(2);
+    expect(controller.events.toot.length).toBe(1);
+
+});
