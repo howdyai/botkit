@@ -1,4 +1,4 @@
-  /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+/*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
            ______     ______     ______   __  __     __     ______
           /\  == \   /\  __ \   /\__  _\ /\ \/ /    /\ \   /\__  _\
           \ \  __<   \ \ \/\ \  \/_/\ \/ \ \  _"-.  \ \ \  \/_/\ \/
@@ -6,11 +6,11 @@
             \/_____/   \/_____/     \/_/   \/_/\/_/   \/_/     \/_/
 
 
-This is a sample Cisco Spark bot built with Botkit.
+This is a sample Webex Teams bot built with Botkit.
 
 This bot demonstrates many of the core features of Botkit:
 
-* Connect to Cisco Spark's APIs
+* Connect to Cisco Webex Teams's APIs
 * Receive messages based on "spoken" patterns
 * Reply to messages
 * Use the conversation system to ask questions
@@ -29,14 +29,14 @@ This bot demonstrates many of the core features of Botkit:
 
 var Botkit = require('../lib/Botkit.js');
 
-var controller = Botkit.sparkbot({
+var controller = Botkit.webexbot({
     debug: false,
     log: false,
     public_address: process.env.public_address,
-    ciscospark_access_token: process.env.access_token,
+    access_token: process.env.access_token,
     studio_token: process.env.studio_token, // get one from studio.botkit.ai to enable content management, stats, message console and more
     secret: process.env.secret, // this is an RECOMMENDED but optional setting that enables validation of incoming webhooks
-    webhook_name: 'Cisco Spark bot created with Botkit, override me before going to production',
+    webhook_name: 'created with Botkit, override me before going to production',
 //    limit_to_domain: ['mycompany.com'],
 //    limit_to_org: 'my_cisco_org_id',
 });
@@ -45,7 +45,7 @@ var bot = controller.spawn({});
 
 controller.setupWebserver(process.env.PORT || 3000, function(err, webserver) {
     controller.createWebhookEndpoints(webserver, bot, function() {
-        console.log("Cisco Spark: Webhooks set up!");
+        console.log("Webex: Webhooks set up!");
     });
 });
 
