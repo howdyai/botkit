@@ -89,7 +89,7 @@
         {
           "id": "exampleCmd",
           "title": "Example Command",
-          "description": "Comamand Description e.g. Search on the web",
+          "description": "Command Description e.g. Search on the web",
           "initialRun": "true",
           "parameters": [
             {

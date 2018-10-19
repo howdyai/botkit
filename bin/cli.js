@@ -161,7 +161,7 @@ function buildBotKit(i, bot_vars, cb) {
             var action = 'git clone ' + target[0].artifact + ' ' + folder_name + '&& cd ' + folder_name + ' && npm install'
             exec(action, function(err, stdout, stderr) {
                 if (err) {
-                    self.log('An error occured. You may already have that starter kit installed.');
+                    self.log('An error occurred. You may already have that starter kit installed.');
                     self.log('Error:', err);
 
                     cb();
@@ -195,13 +195,13 @@ function writeStudioToken(i, bot_vars, cb) {
     var line_replacement = 'studio_token=' + bot_vars.studio_token;
     fs.readFile(dotenvfile, 'utf8', function(err, data) {
         if (err) {
-            self.log('An error occured: There was a problem reading ' + dotenvfile);
+            self.log('An error occurred: There was a problem reading ' + dotenvfile);
             cb();
         } else {
             var results = data.replace(/studio_token=/g, line_replacement);
             fs.writeFile(dotenvfile, results, 'utf8', function(err) {
                 if (err) {
-                    self.log('An error occured: There was a problem writing ' + dotenvfile);
+                    self.log('An error occurred: There was a problem writing ' + dotenvfile);
                     cb();
                 } else {
                     self.log('Your Botkit Studio token has been written to ' + dotenvfile);

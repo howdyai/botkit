@@ -1,1 +1,1 @@
-/* TODO bot that demonstrates sending incmoing webhooks to one specific team */
+/* TODO bot that demonstrates sending incoming webhooks to one specific team */
