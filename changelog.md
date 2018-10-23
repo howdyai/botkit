@@ -4,6 +4,12 @@
 
 [Want to contribute? Read our guide!](https://github.com/howdyai/botkit/blob/master/CONTRIBUTING.md)
 
+# next_release
+
+These features can be found in master, but have not yet been officially released on npm.
+
+* Add support for Google Hangouts "card_clicked" event. [Thanks to @ouadie-lahdioui](https://github.com/howdyai/botkit/pull/1487)  [NEEDS DOCS]()
+
 # 0.6.17
 
 In addition to minor fixes, dependency version updates, and documentation updates, this version includes:
