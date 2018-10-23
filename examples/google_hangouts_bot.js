@@ -89,3 +89,7 @@ controller.hears('cards', 'message_received', function (bot, message) {
         }
     });
 });
+
+controller.on('card_clicked', function (bot, message) {
+    bot.reply(message, 'This is a card click');
+});
