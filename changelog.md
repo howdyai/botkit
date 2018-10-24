@@ -8,7 +8,11 @@
 
 These features can be found in master, but have not yet been officially released on npm.
 
-* Add support for Google Hangouts "card_clicked" event. [Thanks to @ouadie-lahdioui](https://github.com/howdyai/botkit/pull/1487)  [NEEDS DOCS]()
+# 0.6.18
+
+* Fix syntax error in Web connector. Oops! Thanks for reporting this issue @iworkforthem!
+
+* Add support for Google Hangouts "card_clicked" event. [Thanks to @ouadie-lahdioui](https://github.com/howdyai/botkit/pull/1487)
 
 # 0.6.17
 
