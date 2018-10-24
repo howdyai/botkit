@@ -4,10 +4,6 @@
 
 [Want to contribute? Read our guide!](https://github.com/howdyai/botkit/blob/master/CONTRIBUTING.md)
 
-# next_release
-
-These features can be found in master, but have not yet been officially released on npm.
-
 # 0.6.18
 
 * Fix syntax error in Web connector. Oops! Thanks for reporting this issue @iworkforthem!
