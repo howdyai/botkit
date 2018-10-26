@@ -22,6 +22,9 @@ if (firstPass.version) {
 } else {
 
     switch (firstPass.command) {
+        case 'version':
+            console.log(PKG_VERSION);
+            break;
         case 'new':
             if (firstPass.help) {
                 showUsageForNew();
