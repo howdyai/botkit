@@ -24,7 +24,6 @@
     "localtunnel": "^1.9.1",
     "md5": "^2.2.1",
     "mustache": "^3.0.0",
-    "promise": "^8.0.2",
     "prompts": "^1.1.1",
     "request": "^2.81.0",
     "requestretry": "^3.0.2",
