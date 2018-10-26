@@ -43,7 +43,8 @@
     "winston": "^2.3.1"
   },
   "scripts": {
-    "pretest": "jscs ./lib/ ./tests/lib ./tests/unit --fix",
+    "pretest": "./node_modules/eslint/bin/eslint.js ./lib/ ./tests/lib ./tests/unit --fix",
+    "eslint": "./node_modules/eslint/bin/eslint.js ./lib/ ./tests/lib ./tests/unit --fix",
     "test": "jest --coverage",
     "test-legacy": "mocha ./tests/legacy/*.mocha.js",
     "test-watch": "jest --watch"
