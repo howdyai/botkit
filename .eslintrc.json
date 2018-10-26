@@ -1,0 +1,16 @@
+{
+  "rules": {
+    "no-with": 2,
+    "max-len": [
+      2,
+      250
+    ],
+    "indent": [
+      2,
+      4,
+      {
+        "SwitchCase": 1
+      }
+    ]
+  }
+}

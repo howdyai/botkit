@@ -8,7 +8,7 @@
     "async": "^2.1.5",
     "back": "^1.0.1",
     "body-parser": "^1.17.1",
-    "botbuilder": "^3.8.4",
+    "botbuilder": "^3.15.0",
     "botkit-studio-sdk": "^1.0.8",
     "ciscospark": "^1.32.23",
     "clone": "2.1.1",
@@ -33,7 +33,7 @@
   },
   "devDependencies": {
     "jest-cli": "^23.6.0",
-    "jscs": "^3.0.7",
+    "eslint": "^5.7.0",
     "mkdirp": "^0.5.1",
     "mocha": "^5.1.1",
     "nock": "^10.0.0",
