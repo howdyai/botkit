@@ -1,12 +1,12 @@
 'use strict';
 
 /*
-Tests for storage modules.
-This file currently test simple_storage.js.
-
-If you build a new storage module,
-you must add it to this test file before your PR will be considered.
-*/
+ * Tests for storage modules.
+ * This file currently test simple_storage.js.
+ *
+ * If you build a new storage module,
+ * you must add it to this test file before your PR will be considered.
+ */
 
 const mkdirp = require('mkdirp');
 
@@ -17,13 +17,13 @@ expect.extend({
         if (pass) {
             return {
                 message: () =>
-                  `Ok`,
+                    `Ok`,
                 pass: true,
             };
         } else {
             return {
                 message: () =>
-                  `expected ${received} to be either null or undefined`,
+                    `expected ${ received } to be either null or undefined`,
                 pass: false,
             };
         }
@@ -46,7 +46,7 @@ describe('Simple Storage', () => {
 
         describe('Has correct methods', () => {
 
-            test(`Interfaces for ${key}`, () => {
+            test(`Interfaces for ${ key }`, () => {
                 expect(store).toBeDefined();
                 expect(store.save).toBeInstanceOf(Function);
                 expect(store.get).toBeInstanceOf(Function);
@@ -55,7 +55,7 @@ describe('Simple Storage', () => {
             });
         });
 
-        describe(`Operations for ${key}`, () => {
+        describe(`Operations for ${ key }`, () => {
             const store = storage[key];
 
             test('Save', (done) => {
@@ -77,7 +77,7 @@ describe('Simple Storage', () => {
             });
 
             ['TESTX', undefined, null].forEach((id) => {
-                test(`Get - data not present (${typeof id})`, (done) => {
+                test(`Get - data not present (${ typeof id })`, (done) => {
                     store.get(id, (err, data) => {
                         expect(err).toBeTruthy();
                         expect(data).toBeNullOrUndefined();
@@ -106,7 +106,7 @@ describe('Simple Storage', () => {
             });
 
             ['TESTX', undefined, null].forEach((id) => {
-                test(`Delete - data not present' (${typeof id})`, (done) => {
+                test(`Delete - data not present' (${ typeof id })`, (done) => {
                     store.delete(id, (err, data) => {
                         expect(err).toBeTruthy();
                         expect(data).toBeNullOrUndefined();
