@@ -4,7 +4,7 @@
 [![David](https://img.shields.io/david/howdyai/botkit.svg)](https://david-dm.org/howdyai/botkit)
 [![npm](https://img.shields.io/npm/l/botkit.svg)](https://spdx.org/licenses/MIT)
 
-**Botkit is the leading developer tool for building chat bots, apps and custom integrations for major messaging platforms.**
+**Botkit is the leading developer tool for building chatbots, apps and custom integrations for major messaging platforms.**
 
 Botkit offers everything you need to design, build and operate an app:
 
@@ -16,7 +16,7 @@ Plus, Botkit works with all the NLP services (like Microsoft LUIS and IBM Watson
 
 ## Install Botkit
 
-Botkit is a Node.js module, and works with Node and npm.
+Botkit is a Node.js module and works with Node and npm.
 
 ### **Remix on Glitch**
 
@@ -26,7 +26,7 @@ Want to dive right in? [Remix one of our starter kits on Glitch](https://glitch.
 
 ### **Command Line Interface**
 
-The best way to get started locally with Botkit is by installing our command line tool, and using it to create a new Botkit project. This will install and configure a starter kit for you!
+The best way to get started locally with Botkit is by installing our command line tool and using it to create a new Botkit project. This will install and configure a starter kit for you!
 
 ```
 npm install -g botkit
@@ -61,7 +61,7 @@ controller.hears('hello','direct_message', function(bot, message) {
 
 The goal of Botkit is to make it easier and more fun to build software that talks and works like a robot! Building a bot should feel cool, and not too technically complicated.
 
-Botkit handles all the nitty gritty details like
+Botkit handles all the nitty-gritty details like
 API calls, session management and authentication,
 allowing you to focus on building COOL FEATURES for your
 bot using middleware and event handlers.
@@ -85,7 +85,7 @@ controller.hears(['string','pattern .*',new RegExp('.*','i')],'message_received,
 
 ### Responding to Events
 
-Bots can respond to non-verbal events as well, like when a new user joins a channel, a file gets uploaded, or a button gets clicked. These events are handled using an event handling pattern that should look familiar. Most events in Botkit can be replied to like normal messages.
+Bots can respond to non-verbal events as well as when a new user joins a channel, a file gets uploaded, or a button gets clicked. These events are handled using an event handling pattern that should look familiar. Most events in Botkit can be replied to like normal messages.
 
 ```
 controller.on('channel_join', function(bot, message) {
@@ -99,7 +99,7 @@ controller.on('channel_join', function(bot, message) {
 
 ### Middleware
 
-In addition to taking direct action in response to a certain message or type of event, Botkit can also take passive action on messages as they move through the application using middlewares. Middleware functions work by changing messages, adding new fields, firing alternate events, and modifying or overriding the behavior of Botkit's core features.
+In addition to taking direct action in response to a certain message or type of event, Botkit can also take passive action on messages as they move through the application using middlewares. Middleware functions work by changing messages, adding new fields, firing alternate events, and modifying or overriding the behaviour of Botkit's core features.
 
 Middleware can be used to adjust how Botkit receives, processes, and sends messages. [Here is a list of available middleware endpoints](https://botkit.ai/docs/readme-pipeline.html).
 
@@ -169,7 +169,7 @@ Come to ask questions, share your progress, and commune with your peers!
 
 You can also find help from members of the Botkit team [in our dedicated Cisco Spark room](https://eurl.io/#SyNZuomKx)!
 
-We also host a [regular meetup and annual conference called TALKABOT.](https://talkabot.ai)
+We also host a [regular meetup and an annual conference called TALKABOT.](https://talkabot.ai)
 Come meet and learn from other bot developers! [Full video of our 2016 event is available on Youtube.](https://www.youtube.com/playlist?list=PLD3JNfKLDs7WsEHSal2cfwG0Fex7A6aok)
 
 ## About Botkit
