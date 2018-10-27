@@ -13,6 +13,7 @@ declare namespace botkit {
   function jabberbot(configuration: JabberConfiguration): JabberController;
   function socketbot(configuration: WebConfiguration): WebController;
   function anywhere(configuration: WebConfiguration): WebController;
+  function viberbot(configuration: ViberConfiguration) : ViberController;
 
   interface Bot<S, M extends Message> {
     readonly botkit: Controller<S, M, this>;
@@ -637,6 +638,16 @@ declare namespace botkit {
   type HearsCallback<S, M extends Message, B extends Bot<S, M>> = (bot: B, message: M) => void;
   type HearsFunction<M extends Message> = (tests: string | string[] | RegExp | RegExp[], message: M) => boolean;
   type SlackWebAPIMethod = (data: any, cb: (err: Error, response: any) => void) => void;
+
+  interface ViberConfiguration extends Configuration {
+    viberToken: string,
+    webhookUri: string,
+    serverPort: string,
+    botName: string,
+    botAvatar: string
+  }
+  interface ViberSpawnConfiguration {
+  }
 }
 
 export = botkit;
