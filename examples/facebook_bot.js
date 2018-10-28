@@ -131,6 +131,70 @@ controller.setupWebserver(process.env.port || 3000, function(err, webserver) {
     });
 });
 
+/**
+ * FaceBook Personas API
+ */
+controller.hears('get all personas', 'message_received', function(bot, message) {
+
+    controller.api.personas.get_all_personas()
+        .then(result => {
+            bot.startTyping({
+                channel : message.channel,
+                persona_id : result.id
+            });
+
+            result.data.forEach((persona) => {
+                bot.reply(message, {
+                    'text' : 'Message send from ' + persona.name + ' at ' + new Date().toISOString(),
+                    'persona_id' : persona.id
+                });
+            });
+
+        })
+        .catch(reason => {
+            bot.reply(message, "Oops something was wrong");
+        });
+});
+
+controller.hears('delete latest persona', 'message_received', function(bot, message) {
+
+    controller.api.personas.get_all_personas()
+        .then(result => {
+            if(result.data.length > 0) {
+                var persona = result.data[result.data.length - 1];
+                controller.api.personas.delete_persona(persona.id)
+                    .then(result => {
+                        bot.reply(message, 'Done, the persona ' + persona.name + ' is deleted');
+                    });
+            } else {
+                bot.reply(message, 'No persona found to delete');
+            }
+        })
+        .catch(reason => {
+            bot.reply(message, "Oops something was wrong");
+        });
+});
+
+controller.hears(['create persona'], 'message_received', function(bot, message) {
+
+    controller.api.personas.create({
+        'name': 'Botkit',
+        'profile_picture_url': 'https://pbs.twimg.com/profile_images/803642201653858305/IAW1DBPw_400x400.png'
+    })
+        .then(result => {
+            bot.reply(message, {
+                'text' : 'Hello from the new created persona :)',
+                'persona_id' : result.id
+            });
+        })
+        .catch(reason => {
+            bot.reply(message, "Oops something was wrong");
+        });
+});
+
+/**
+ * End of FaceBook Personas API
+ */
 
 controller.hears(['attachment_upload'], 'message_received', function(bot, message) {
     var attachment = {
