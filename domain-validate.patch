@@ -1,0 +1,35 @@
+diff --git a/lib/CiscoSparkbot.js b/lib/CiscoSparkbot.js
+index 6b6b708..883a688 100644
+--- a/lib/CiscoSparkbot.js
++++ b/lib/CiscoSparkbot.js
+@@ -157,13 +157,16 @@ function Sparkbot(configuration) {
+                 domains = controller.config.limit_to_domain;
+             }
+ 
++            address = require("email-addresses")
++            var a = address.parseOneAddress(message.raw_message.data.personEmail);
++
+             var allowed = false;
+             for (var d = 0; d < domains.length; d++) {
+-                if (message.user.toLowerCase().indexOf(domains[d]) >= 0) {
++                if (a.domain.toLowerCase() == domains[d]) {
+                     allowed = true;
+                 }
+             }
+-
++            
+             if (!allowed) {
+                 console.log('WARNING: this message came from a domain that is outside of the allowed list', controller.config.limit_to_domain);
+                 // this message came from a domain that is outside of the allowed list.
+diff --git a/package.json b/package.json
+index 3b59d98..b18fe69 100644
+--- a/package.json
++++ b/package.json
+@@ -14,6 +14,7 @@
+     "clone": "2.1.1",
+     "command-line-args": "^4.0.2",
+     "debug": "^2.6.9",
++    "email-addresses": "^3.0.1",
+     "express": "^4.15.2",
+     "https-proxy-agent": "^2.0.0",
+     "jfs": "^0.2.6",
