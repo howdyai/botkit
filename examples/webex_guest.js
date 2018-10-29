@@ -33,10 +33,10 @@ async function start(){
         var controller = await Botkit.webexguest.init({
             debug: false,
             log: false,
-            guest_issuer_id: process.env.guest_issuer_id,
-            guest_issuer_secret: process.env.guest_issuer_secret,
-            guest_id: process.env.guest_id,
-            guest_name: process.env.guest_name,
+            guest_issuer_id: process.env.guest_issuer_id, // Your app's Guest Issuer ID, provided by Webex for Developers
+            guest_issuer_secret: process.env.guest_issuer_secret, // Your app's Shared Secret, provided by Webex for Developers
+            guest_id: process.env.guest_id, // A unique ID for your guest. All conversations with the same ID are the same "user"
+            guest_name: process.env.guest_name, // The display name for your guest
             public_address: process.env.public_address,
             studio_token: process.env.studio_token, // get one from studio.botkit.ai to enable content management, stats, message console and more
             secret: process.env.secret, // this is an RECOMMENDED but optional setting that enables validation of incoming webhooks
