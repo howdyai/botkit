@@ -24,6 +24,7 @@
     "mustache": "^2.3.0",
     "promise": "^8.0.0",
     "request": "^2.81.0",
+    "request-promise": "^4.2.2",
     "requestretry": "^1.12.0",
     "simple-xmpp": "^1.3.0",
     "twilio": "^3.11.0",
