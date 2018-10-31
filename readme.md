@@ -143,7 +143,7 @@ controller.middleware.send.use(function(bot, message, next) {
 * Platforms
   * [Web and Apps](https://botkit.ai/docs/readme-web.html)
   * [Slack](https://botkit.ai/docs/readme-slack.html)
-  * [Cisco Spark](https://botkit.ai/docs/readme-ciscospark.html)
+  * [Cisco Webex](https://botkit.ai/docs/readme-webex.html)
   * [Cisco Jabber](https://botkit.ai/docs/readme-ciscojabber.html)
   * [Microsoft Teams](https://botkit.ai/docs/readme-teams.html)
   * [Facebook Messenger](https://botkit.ai/docs/readme-facebook.html)
