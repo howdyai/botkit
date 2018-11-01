@@ -1,14 +1,206 @@
 #!/usr/bin/env node
-
-var Vorpal = require('vorpal');
-var chalk = Vorpal().chalk;
+const commandLineArgs = require('command-line-args');
+const commandLineUsage = require('command-line-usage');
+const prompts = require('prompts');
+const chalk = require('chalk');
 var exec = require('child_process').exec
 var fs = require('fs');
+var PKG_VERSION = require('../package.json').version;
 
-var botkit = Vorpal()
 
-var platforms = ['web', 'teams', 'ciscospark', 'webex', 'slack', 'facebook', 'googlehangouts'];
-var platform_src = [{
+// https://github.com/75lb/command-line-args/wiki/Implement-command-parsing-(git-style)
+const firstPass = commandLineArgs([
+    { name: 'command', defaultOption: true },
+    { name: 'version', alias: 'v', type: Boolean },
+    { name: 'help', alias: 'h', type: Boolean }
+], { stopAtFirstUnknown: true })
+
+const argv = firstPass._unknown || [];
+
+if (firstPass.version) {
+    console.log(PKG_VERSION);
+} else {
+
+    switch (firstPass.command) {
+        case 'version':
+            console.log(PKG_VERSION);
+            break;
+        case 'new':
+            if (firstPass.help) {
+                showUsageForNew();
+            } else {
+                const params = commandLineArgs([
+                    {
+                        name: 'name',
+                        alias: 'n',
+                        type: String,
+                    },
+                    {
+                        name: 'platform',
+                        alias: 'p',
+                        type: String,
+                    },
+                    {
+                        name: 'studio_token',
+                        alias: 'k',
+                        type: String,
+                    },
+                    {
+                        name: 'help',
+                        alias: 'h',
+                        type: Boolean
+                    }
+
+                ], { argv });
+                
+                buildBotkit(params);
+            }
+            break;
+        default: 
+            showUsage();
+    }
+
+}
+
+function showUsage() {
+    console.log(commandLineUsage(
+        [
+            {
+                header: 'Botkit CLI',
+                content: 'Building blocks for building bots\n\nGet started: {underline https://botkit.ai/getstarted.html}\nDocs: {underline https://botkit.ai/docs}'
+            },
+            {
+                    header: 'Example:',
+                    content: '$ botkit new\n$ botkit new --name marvin --platform web -k <token>'
+            },
+            {
+                header: 'Command List',
+                content: [
+                    {
+                        name: 'new',
+                        summary: 'Create a new Botkit Bot'
+                    },
+                    {
+                        name: 'help',
+                        summary: 'Display this help information',
+                    },
+                    {
+                        name: 'version',
+                        summary: 'Display version of Botkit cli'
+                    }
+                ]
+            }
+        ]
+    ));
+}
+
+function showUsageForNew() {
+    console.log(commandLineUsage(
+        [
+            {
+                header: 'Create a new bot:',
+                optionList: [
+                    {
+                        name: 'name',
+                        alias: 'n',
+                        description: 'Name for the new bot',
+                    },
+                    {
+                        name: 'platform',
+                        alias: 'p',
+                        description: 'Platform adapter selection',
+                    },
+                    {
+                        name: 'studio_token',
+                        alias: 'k',
+                        description: 'Botkit Studio API key'
+                    }
+                ]
+            },
+            {
+                header: 'Example:',
+                content: '$ botkit new --name marvin --platform web -k <token>'
+        },
+
+        ]
+    ));
+}
+
+async function buildBotkit(options) {
+
+    options.name = await getBotName(options);
+    options.platform = await getBotPlatform(options);
+    options.studio_token = await getBotToken(options);
+
+    return installBot(options);
+}
+
+async function getBotName(options) {
+    if (options.name) {
+        return options.name;
+    } else {
+        const response = await prompts([{
+            type: 'text',
+            name: 'name',
+            message: 'Name your bot:',
+            validate: value => value ? true : 'All bots have names!'
+        }]);
+
+        if (response.name === undefined) {
+            process.exit();
+        } else {
+            return response.name;
+        }
+    }
+}
+
+async function getBotPlatform(options) {
+    if (options.platform) {
+        options.platform = options.platform.toLowerCase();
+        if (platforms.map(platform => platform.platform).indexOf(options.platform) >= 0) {
+            return options.platform;
+        }
+    }
+    
+    const response = await prompts([{
+        type: 'select',
+        name: 'platform',
+        message: 'Choose platform:',
+        choices: platforms.filter(platform => platform.display != false).map((platform) => { return {title: platform.platform, value: platform.platform} }),
+    }]);
+
+    if (response.platform === undefined) {
+        process.exit();
+    } else {
+        return response.platform;
+    }
+}
+
+async function getBotToken(options) {
+    if (options.studio_token) {
+        return options.studio_token;
+    } else {
+        const response = await prompts([{
+            type: 'text',
+            name: 'token',
+            message: '(Optional) Please enter your Botkit Studio token. Get one from https://studio.botkit.ai',
+        }]);
+
+        if (response.token === undefined) {
+            process.exit();
+        } else {
+            return response.token;
+        }
+    }
+}
+
+function say(args) {
+    console.log(args);
+}
+
+
+var bot_vars;
+var platforms = [{
         platform: 'web',
         artifact: 'https://github.com/howdyai/botkit-starter-web.git',
         directory: 'botkit-starter-web'
@@ -21,7 +213,8 @@ var platform_src = [{
     {
         platform: 'spark',
         artifact: 'https://github.com/howdyai/botkit-starter-ciscospark.git',
-        directory: 'botkit-starter-ciscospark'
+        directory: 'botkit-starter-ciscospark',
+        display: false,
     },
     {
         platform: 'webex',
@@ -31,6 +224,7 @@ var platform_src = [{
     {
         platform: 'ciscospark',
         artifact: 'https://github.com/howdyai/botkit-starter-ciscospark.git',
+        display: false,
         directory: 'botkit-starter-ciscospark'
     },
     {
@@ -50,205 +244,64 @@ var platform_src = [{
     }
 ];
 
-var bot_vars;
-
-
 function makeDirname(name) {
 
     var dirname = name.toLowerCase().replace(/\s+/g, '_');
     return dirname;
 }
 
-function askBotName(i) {
-    return new Promise(function(resolve, reject) {
-        var self = i;
-        if (bot_vars.name) {
-            resolve(bot_vars.name);
-        } else {
-            self.prompt({
-                type: 'input',
-                name: 'name',
-                message: chalk.bold('What would you like to name your bot?\n> ')
-            }, function(result) {
-                if (result.name) {
-                    bot_vars.name = result.name;
-                    resolve(result.name);
-                } else {
-                    reject({});
-                }
-            });
-        }
-    });
-}
-
-
-function askBotPlatform(i) {
-    return new Promise(function(resolve, reject) {
-        var self = i;
-        if (bot_vars.platform) {
-            resolve(bot_vars.platform);
-        } else {
-            self.prompt({
-                type: 'list',
-                choices: platforms,
-                name: 'platform',
-                message: 'What platform will this bot live on?'
-            }, function(result) {
-                if (result.platform) {
-                    bot_vars.platform = result.platform;
-                    resolve(bot_vars.platform);
-                } else {
-                    reject({});
-                }
-            });
-        }
-    });
-}
-
-
-function askStudioKey(i) {
-    return new Promise(function(resolve, reject) {
-        var self = i;
-        if (bot_vars.studio_token) {
-            resolve(bot_vars.studio_token);
-        } else {
-            self.prompt({
-                type: 'input',
-                name: 'studio_token',
-                message: chalk.bold('(Optional) Please enter your Botkit Studio token. Get one from https://studio.botkit.ai\n> ')
-            }, function(result) {
-                if (result.studio_token) {
-                    bot_vars.studio_token = result.studio_token;
-                    resolve(bot_vars.studio_token);
-                } else {
-                    resolve();
-                }
-            });
-        }
-    });
-}
-
-
-function getBotInput(self, bot_vars) {
-    return new Promise(function(resolve, reject) {
-        askBotName(self).then(function(name) {
-            self.log(`Your bot shall be called ${name}!`);
-            askBotPlatform(self).then(function(platform) {
-                self.log(`We will build for the ${platform} platform!`);
-                askStudioKey(self).then(function(key) {
-                    if (key) {
-                        self.log(`Botkit Studio APIs enabled!`);
-                    } else {
-                        self.log(`Your bot will not use Botkit Studio.`);
-                    }
-                    resolve(bot_vars);
-                }).catch(reject);
-            }).catch(reject);
-        }).catch(reject);
-    });
-}
-
-function buildBotKit(i, bot_vars, cb) {
-    var self = i;
+async function installBot(bot_vars) {
     if (fs.existsSync(bot_vars.name)) {
-        self.log('A bot called ' + bot_vars.name + ' already exist in this directory. Please try again with a different name.');
-        cb();
+        say('A bot called ' + bot_vars.name + ' already exist in this directory. Please try again with a different name.');
     } else {
-        self.log('Installing Botkit...')
-        var target = platform_src.filter(function(p) {
+        say('Installing Botkit...')
+        var target = platforms.filter(function(p) {
             return p.platform === bot_vars.platform;
         });
         if (target.length > 0) {
-            var now = new Date();
-            var temp_folder_name = String(now.getTime());
             var folder_name = makeDirname(bot_vars.name);
             var action = 'git clone ' + target[0].artifact + ' ' + folder_name + '&& cd ' + folder_name + ' && npm install'
             exec(action, function(err, stdout, stderr) {
                 if (err) {
-                    self.log('An error occurred. You may already have that starter kit installed.');
-                    self.log('Error:', err);
-
-                    cb();
+                    say('An error occurred. You may already have that starter kit installed.');
+                    say('Error:', err);
                 } else {
-                    self.log('Installing dependencies...');
                     if (bot_vars.studio_token) {
-                        writeStudioToken(self, bot_vars, function() {
-                            self.log(chalk.bold('Installation complete! To start your bot, type:'));
-                            self.log('cd ' + folder_name + ' && node .');
-                            cb();
+                        writeStudioToken(bot_vars, function() {
+                            say(chalk.bold('Installation complete! To start your bot, type:'));
+                            say('cd ' + folder_name + ' && node .');
                         });
                     } else {
-                        self.log(chalk.bold('Installation complete! To start your bot, type:'));
-                        self.log('cd ' + folder_name + ' && node .');
-                        cb();
+                        say(chalk.bold('Installation complete! To start your bot, type:'));
+                        say('cd ' + folder_name + ' && node .');
                     }
                 }
             });
         } else {
-            bot_vars.platform = null;
-            self.log('Please try again with a valid platform.');
-            cb();
+            say('Please try again with a valid platform.');
         }
     }
 }
 
-function writeStudioToken(i, bot_vars, cb) {
-    var self = i;
-    self.log('Writing Botkit Studio token...')
+function writeStudioToken(bot_vars, cb) {
+    say('Writing Botkit Studio token...')
     var dotenvfile = makeDirname(bot_vars.name) + '/.env'
     var line_replacement = 'studio_token=' + bot_vars.studio_token;
     fs.readFile(dotenvfile, 'utf8', function(err, data) {
         if (err) {
-            self.log('An error occurred: There was a problem reading ' + dotenvfile);
+            say('An error occurred: There was a problem reading ' + dotenvfile);
             cb();
         } else {
             var results = data.replace(/studio_token=/g, line_replacement);
             fs.writeFile(dotenvfile, results, 'utf8', function(err) {
                 if (err) {
-                    self.log('An error occurred: There was a problem writing ' + dotenvfile);
+                    say('An error occurred: There was a problem writing ' + dotenvfile);
                     cb();
                 } else {
-                    self.log('Your Botkit Studio token has been written to ' + dotenvfile);
+                    say('Your Botkit Studio token has been written to ' + dotenvfile);
                     cb();
                 }
             });
         }
     })
 }
-
-
-botkit
-    .command('new')
-    .option('-n, --name [name]', 'Name of your Bot')
-    .option('-p, --platform [platform]', 'Primary messaging platform')
-    .option('-k, --studio_token [studio_token]', 'API token from Botkit Studio')
-    .description('Configure a new Botkit-powered application')
-    .action(function(args, cb) {
-        var self = this;
-        switch (args.obj) {
-            default:
-                case 'bot':
-                bot_vars = {};
-            if (args.options.name) {
-                bot_vars.name = args.options.name
-            }
-            if (args.options.platform) {
-                bot_vars.platform = args.options.platform;
-            }
-            if (args.options.studio_token) {
-                bot_vars.studio_token = args.options.studio_token
-            }
-            getBotInput(self, bot_vars).then(function(res) {
-                buildBotKit(self, bot_vars, cb);
-            }).catch(function(err) {
-                cb();
-            });
-            break;
-        }
-    });
-
-
-botkit
-    .delimiter(chalk.magenta('botkit $'))
-    .show()
-    .parse(process.argv)

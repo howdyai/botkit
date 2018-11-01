@@ -1,5 +1,4 @@
 'use strict';
-let teamsBot;
 let teamsApi;
 let config = {
     clientId: 'client',
