@@ -4,6 +4,16 @@
 
 [Want to contribute? Read our guide!](https://github.com/howdyai/botkit/blob/master/CONTRIBUTING.md)
 
+# 0.6.19
+
+No new features, but updates throughout the dependency tree for security and stability purposes.
+
+* Updated dependency versions to latest available
+
+* Rewrote Botkit command line tool to remove dependency on abandoned library. Upgrade to the latest: `npm install -g botkit`
+
+* Switched from using jscs to eslint for linting purposes. 
+
 # 0.6.18
 
 * Fix syntax error in Web connector. Oops! Thanks for reporting this issue @iworkforthem!
