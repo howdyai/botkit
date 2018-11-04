@@ -4,6 +4,10 @@
 
 [Want to contribute? Read our guide!](https://github.com/howdyai/botkit/blob/master/CONTRIBUTING.md)
 
+# nextrel
+
+* Emit a warning if Slack webhook validation is not enabled.
+
 # 0.6.19
 
 No new features, but updates throughout the dependency tree for security and stability purposes.
@@ -12,7 +16,7 @@ No new features, but updates throughout the dependency tree for security and sta
 
 * Rewrote Botkit command line tool to remove dependency on abandoned library. Upgrade to the latest: `npm install -g botkit`
 
-* Switched from using jscs to eslint for linting purposes. 
+* Switched from using jscs to eslint for linting purposes.
 
 # 0.6.18
 
