@@ -4,8 +4,9 @@
 
 [Want to contribute? Read our guide!](https://github.com/howdyai/botkit/blob/master/CONTRIBUTING.md)
 
-# nextrel
+# 0.6.20
 
+* Fix bug introduced in 0.6.19 that caused events to improperly fire twice.
 * Emit a warning if Slack webhook validation is not enabled.
 * To prepare for upcoming changes to Botkit Studio and Botkit stats collection:
     * Prevent bots without Botkit Studio credentials from sending stat events
