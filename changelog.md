@@ -7,6 +7,9 @@
 # nextrel
 
 * Emit a warning if Slack webhook validation is not enabled.
+* To prepare for upcoming changes to Botkit Studio and Botkit stats collection:
+    * Prevent bots without Botkit Studio credentials from sending stat events
+    * Emit a message about stats data collection at startup
 
 # 0.6.19
 
