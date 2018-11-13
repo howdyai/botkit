@@ -304,6 +304,7 @@ declare namespace botkit {
     clientId?: string;
     clientSecret?: string;
     clientSigningSecret?: string;
+    clientVerificationToken?: string;
     disable_startup_messages?: boolean;
     incoming_webhook?: { url: string; };
     interactive_replies?: boolean;
