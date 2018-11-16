@@ -4,6 +4,10 @@
 
 [Want to contribute? Read our guide!](https://github.com/howdyai/botkit/blob/master/CONTRIBUTING.md)
 
+# 0.6.21
+
+* Add support for Slack's chat.getPermalink
+
 # 0.6.20
 
 * Fix bug introduced in 0.6.19 that caused events to improperly fire twice.
