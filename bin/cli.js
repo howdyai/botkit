@@ -177,7 +177,10 @@ async function getBotPlatform(options) {
 }
 
 async function getBotToken(options) {
-    if (options.studio_token) {
+    if (options.studio_token !== undefined) {
+        if (options.studio_token == null) {
+            options.studio_token = "";
+        }
         return options.studio_token;
     } else {
         const response = await prompts([{
