@@ -264,7 +264,7 @@ async function installBot(bot_vars) {
             exec(action, function(err, stdout, stderr) {
                 if (err) {
                     say('An error occurred. You may already have that starter kit installed.');
-                    say('Error:', err);
+                    say('Error:' + err);
                 } else {
                     if (bot_vars.studio_token) {
                         writeStudioToken(bot_vars, function() {
