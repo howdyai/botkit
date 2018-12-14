@@ -4,7 +4,7 @@
 
 [Want to contribute? Read our guide!](https://github.com/howdyai/botkit/blob/master/CONTRIBUTING.md)
 
-# 1.0.0
+# 0.7.0
 
 This release is the first major step towards [deprecating Botkit Studio](https://github.com/howdyai/botkit/issues/1534),
 and introducing a more general system for scripted dialogs and content from [Botkit CMS](https://github.com/howdyai/botkit-cms).
