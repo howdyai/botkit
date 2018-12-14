@@ -19,6 +19,7 @@ We urge all Botkit users to update to the most recent version of Botkit. This ma
 New features and changes:
 
 * Support for Facebook Personas API. [Full docs here](https://botkit.ai/docs/readme-facebook.html#personas-api) -- [Thanks to @oaudie-lahdioui](https://github.com/howdyai/botkit/pull/1497)!
+* Many Facebook APIs [have been promisified](https://github.com/howdyai/botkit/pull/1520) by @htaidirt
 * Improved technique used to verify incoming webhooks from Slack [use hmac compare instead of direct compare](https://github.com/howdyai/botkit/pull/1539) - Thanks, @danhofer!
 # 0.6.21
 
