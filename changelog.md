@@ -9,13 +9,17 @@
 This release is the first major step towards [deprecating Botkit Studio](https://github.com/howdyai/botkit/issues/1534),
 and introducing a more general system for scripted dialogs and content from [Botkit CMS](https://github.com/howdyai/botkit-cms).
 
-Features removed from this version:
+We urge all Botkit users to update to the most recent version of Botkit. This may require an update to your project's package.json file.
+
 * Remove all functionality pertaining to Botkit Studio statistics and analytics APIs. All stats related services provided by Botkit Studio will cease operation on Dec 15.
 * Remove `stats_optout` flag from configuration.
+* Remove Botkit Studio options from command line interface.
 * Calls to Botkit Studio and/or Botkit CMS will no longer include the user's id
 
-* Support for Facebook Personas API. [Full docs here](https://botkit.ai/docs/readme-facebook.html#personas-api) -- [Thanks to @oaudie-lahdioui](https://github.com/howdyai/botkit/pull/1497)!
+New features and changes:
 
+* Support for Facebook Personas API. [Full docs here](https://botkit.ai/docs/readme-facebook.html#personas-api) -- [Thanks to @oaudie-lahdioui](https://github.com/howdyai/botkit/pull/1497)!
+* Improved technique used to verify incoming webhooks from Slack [use hmac compare instead of direct compare](https://github.com/howdyai/botkit/pull/1539) - Thanks, @danhofer!
 # 0.6.21
 
 * Add support for Slack's chat.getPermalink

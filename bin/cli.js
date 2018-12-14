@@ -41,11 +41,6 @@ if (firstPass.version) {
                         type: String,
                     },
                     {
-                        name: 'studio_token',
-                        alias: 'k',
-                        type: String,
-                    },
-                    {
                         name: 'help',
                         alias: 'h',
                         type: Boolean
@@ -71,7 +66,7 @@ function showUsage() {
             },
             {
                     header: 'Example:',
-                    content: '$ botkit new\n$ botkit new --name marvin --platform web -k <token>'
+                    content: '$ botkit new\n$ botkit new --name marvin --platform web'
             },
             {
                 header: 'Command List',
@@ -110,11 +105,6 @@ function showUsageForNew() {
                         alias: 'p',
                         description: 'Platform adapter selection',
                     },
-                    {
-                        name: 'studio_token',
-                        alias: 'k',
-                        description: 'Botkit Studio API key'
-                    }
                 ]
             },
             {
@@ -130,7 +120,6 @@ async function buildBotkit(options) {
 
     options.name = await getBotName(options);
     options.platform = await getBotPlatform(options);
-    options.studio_token = await getBotToken(options);
 
     return installBot(options);
 }
@@ -176,23 +165,6 @@ async function getBotPlatform(options) {
     }
 }
 
-async function getBotToken(options) {
-    if (options.studio_token) {
-        return options.studio_token;
-    } else {
-        const response = await prompts([{
-            type: 'text',
-            name: 'token',
-            message: '(Optional) Please enter your Botkit Studio token. Get one from https://studio.botkit.ai',
-        }]);
-
-        if (response.token === undefined) {
-            process.exit();
-        } else {
-            return response.token;
-        }
-    }
-}
 
 function say(args) {
     console.log(args);
@@ -266,42 +238,12 @@ async function installBot(bot_vars) {
                     say('An error occurred. You may already have that starter kit installed.');
                     say('Error:', err);
                 } else {
-                    if (bot_vars.studio_token) {
-                        writeStudioToken(bot_vars, function() {
-                            say(chalk.bold('Installation complete! To start your bot, type:'));
-                            say('cd ' + folder_name + ' && node .');
-                        });
-                    } else {
-                        say(chalk.bold('Installation complete! To start your bot, type:'));
-                        say('cd ' + folder_name + ' && node .');
-                    }
+                    say(chalk.bold('Installation complete! To start your bot, type:'));
+                    say('cd ' + folder_name + ' && node .');
                 }
             });
         } else {
             say('Please try again with a valid platform.');
         }
     }
-}
-
-function writeStudioToken(bot_vars, cb) {
-    say('Writing Botkit Studio token...')
-    var dotenvfile = makeDirname(bot_vars.name) + '/.env'
-    var line_replacement = 'studio_token=' + bot_vars.studio_token;
-    fs.readFile(dotenvfile, 'utf8', function(err, data) {
-        if (err) {
-            say('An error occurred: There was a problem reading ' + dotenvfile);
-            cb();
-        } else {
-            var results = data.replace(/studio_token=/g, line_replacement);
-            fs.writeFile(dotenvfile, results, 'utf8', function(err) {
-                if (err) {
-                    say('An error occurred: There was a problem writing ' + dotenvfile);
-                    cb();
-                } else {
-                    say('Your Botkit Studio token has been written to ' + dotenvfile);
-                    cb();
-                }
-            });
-        }
-    })
 }
