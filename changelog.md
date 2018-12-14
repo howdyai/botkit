@@ -4,6 +4,11 @@
 
 [Want to contribute? Read our guide!](https://github.com/howdyai/botkit/blob/master/CONTRIBUTING.md)
 
+# 0.7.0
+
+* Remove all functionality pertaining to Botkit Studio statistics and analytics APIs
+* Remove `stats_optout` flag from configuration
+
 # 0.6.21
 
 * Add support for Slack's chat.getPermalink
