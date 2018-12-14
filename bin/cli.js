@@ -236,7 +236,7 @@ async function installBot(bot_vars) {
             exec(action, function(err, stdout, stderr) {
                 if (err) {
                     say('An error occurred. You may already have that starter kit installed.');
-                    say('Error:', err);
+                    say('Error:' + err);
                 } else {
                     say(chalk.bold('Installation complete! To start your bot, type:'));
                     say('cd ' + folder_name + ' && node .');
