@@ -1,21 +1,44 @@
 {
   "rules": {
     "no-with": 2,
-    "template-curly-spacing": ["error", "always"],
+    "template-curly-spacing": [
+      "error",
+      "always"
+    ],
     "max-len": [
       2,
       250
     ],
     "no-undef": "off",
-    "no-extra-semi": ["error"],
-    "no-empty":["error"],
-    "multiline-comment-style": ["error", "starred-block"],
-    "linebreak-style": ["error", "unix"],
-    "no-unused-vars": ["error"],
-    "no-trailing-spaces": ["error"],
-    "no-console": ["warn",{
-      "allow": ["warn","error"]
-    }],
+    "no-extra-semi": [
+      "error"
+    ],
+    "no-empty": [
+      "error"
+    ],
+    "multiline-comment-style": [
+      "error",
+      "starred-block"
+    ],
+    "linebreak-style": [
+      "error",
+      "unix"
+    ],
+    "no-unused-vars": [
+      "error"
+    ],
+    "no-trailing-spaces": [
+      "error"
+    ],
+    "no-console": [
+      "warn",
+      {
+        "allow": [
+          "warn",
+          "error"
+        ]
+      }
+    ],
     "indent": [
       2,
       4,
@@ -25,6 +48,11 @@
     ]
   },
   "env": {
-    "es6": true
-}
+    "es6": true,
+    "jest": true,
+    "node": true
+  },
+  "extends": [
+    "eslint:recommended"
+  ]
 }
