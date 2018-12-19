@@ -1,0 +1,3 @@
+describe('Facebook insights API', () => {
+
+});
