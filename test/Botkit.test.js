@@ -28,7 +28,6 @@ describe('Botkit', () => {
         expect(botkit.consolebot).toBe('console');
         expect(botkit.anywhere).toBe('anywhere');
         expect(botkit.googlehangoutsbot).toBe('googlehangoutsbot');
-
     });
 
 });
