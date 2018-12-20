@@ -7,9 +7,9 @@
 
 # Next Release (in master on Github)
 
-* [set useQuerystring to true in Slack API](https://github.com/howdyai/botkit/pull/1547)
-* [hangouts chat: allow to consume auth data from env var instead of file](https://github.com/howdyai/botkit/pull/1543)
-
+* Slack: [set useQuerystring to true in Slack API](https://github.com/howdyai/botkit/pull/1547)
+* Slack: [Change 500 webserver status to 404 when team not found](https://github.com/howdyai/botkit/pull/1548)
+* Google Hangouts: [allow to consume auth data from env var instead of file](https://github.com/howdyai/botkit/pull/1543)
 
 # 0.7.0
 
