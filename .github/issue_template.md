@@ -9,11 +9,11 @@ Before posting, search the repository to see if there's already an issue opened 
 
 ### Are you sure this is an issue with the Botkit core module?
 
-For all other questions, requests or help, please feel free to join the discussion slack : https://dev4slack.slack.com
+For all other questions, requests or help, please feel free to join the discussion slack : https://community.botkit.ai
 
 ### What are you trying to achieve or the steps to reproduce?
 
-Describe your issue here, include as much detail as neccessary to reproduce the issue or implement a missing functionality.
+Describe your issue here, include as much detail as necessary to reproduce the issue or implement a missing functionality.
 
 ````
 // Wrap code in markdown source tags
@@ -28,7 +28,7 @@ Describe your issue here, include as much detail as neccessary to reproduce the 
 ### Context:
 
 - Botkit version:
+- Messaging Platform:
 - Node version: 
-- Platform:
 - Os:
 - Any other relevant information:
