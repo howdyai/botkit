@@ -1,8 +1,15 @@
 # Change Log
 
-[View the official Botkit roadmap](https://github.com/howdyai/botkit/projects/7) for upcoming changes and features.
+[View the official Botkit roadmap](https://github.com/howdyai/botkit/projects/9) for upcoming changes and features.
 
 [Want to contribute? Read our guide!](https://github.com/howdyai/botkit/blob/master/CONTRIBUTING.md)
+
+
+# Next Release (in master on Github)
+
+* Slack: [set useQuerystring to true in Slack API](https://github.com/howdyai/botkit/pull/1547)
+* Slack: [Change 500 webserver status to 404 when team not found](https://github.com/howdyai/botkit/pull/1548)
+* Google Hangouts: [allow to consume auth data from env var instead of file](https://github.com/howdyai/botkit/pull/1543)
 
 # 0.7.0
 
