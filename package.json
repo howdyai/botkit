@@ -4,6 +4,17 @@
   "description": "Building blocks for Building Bots",
   "main": "lib/Botkit.js",
   "types": "lib/Botkit.d.ts",
+  "jest": {
+    "verbose": true,
+    "testEnvironment": "node",
+    "testPathIgnorePatterns" : [
+      "/node_modules/", "/test/legacy/"
+    ],
+    "testMatch": [
+      "**/test/**/*.js"
+    ],
+    "collectCoverage": false
+  },
   "dependencies": {
     "async": "^2.6.1",
     "back": "^1.0.2",
@@ -38,16 +49,13 @@
     "mkdirp": "^0.5.1",
     "mocha": "^5.1.1",
     "nock": "^10.0.0",
-    "should": "^13.2.1",
-    "should-sinon": "0.0.5",
-    "sinon": "^5.0.1",
     "winston": "^2.3.1"
   },
   "scripts": {
-    "pretest": "./node_modules/eslint/bin/eslint.js ./lib/ ./tests/lib ./tests/unit --fix",
-    "eslint": "./node_modules/eslint/bin/eslint.js ./lib/ ./tests/lib ./tests/unit --fix",
-    "test": "jest --coverage",
-    "test-legacy": "mocha ./tests/legacy/*.mocha.js",
+    "pretest:disabled": "npm run lint",
+    "lint": "eslint .",
+    "test": "jest",
+    "test:facebook": "jest test/facebook --coverage",
     "test-watch": "jest --watch"
   },
   "bin": {
@@ -76,8 +84,5 @@
     "google hangouts"
   ],
   "author": "ben@howdy.ai",
-  "license": "MIT",
-  "jest": {
-    "testEnvironment": "node"
-  }
+  "license": "MIT"
 }
