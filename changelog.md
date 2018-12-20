@@ -4,6 +4,13 @@
 
 [Want to contribute? Read our guide!](https://github.com/howdyai/botkit/blob/master/CONTRIBUTING.md)
 
+
+# Next Release (in master on Github)
+
+* [set useQuerystring to true in Slack API](https://github.com/howdyai/botkit/pull/1547)
+* [hangouts chat: allow to consume auth data from env var instead of file](https://github.com/howdyai/botkit/pull/1543)
+
+
 # 0.7.0
 
 This release is the first major step towards [deprecating Botkit Studio](https://github.com/howdyai/botkit/issues/1534),
