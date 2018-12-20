@@ -1,6 +1,6 @@
 # Change Log
 
-[View the official Botkit roadmap](https://github.com/howdyai/botkit/projects/7) for upcoming changes and features.
+[View the official Botkit roadmap](https://github.com/howdyai/botkit/projects/9) for upcoming changes and features.
 
 [Want to contribute? Read our guide!](https://github.com/howdyai/botkit/blob/master/CONTRIBUTING.md)
 
