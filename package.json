@@ -19,7 +19,7 @@
     "async": "^2.6.1",
     "back": "^1.0.2",
     "body-parser": "^1.18.3",
-    "botbuilder": "^3.15.0",
+    "botbuilder": "^4.2.0",
     "botkit-studio-sdk": "^1.0.8",
     "chalk": "^2.4.1",
     "ciscospark": "^1.32.23",
