@@ -16,7 +16,21 @@ and some features currently included may be removed.
 * Reorganize some related projects into a monorepo
 * Inheret much goodness from [Bot Builder](https://github.com/microsoft/botbuilder-js)
 
-## Getting the code
+## Try the new version now
+
+Clone the entire Botkit project from Github.
+
+```bash
+git clone git@github.com:howdyai/botkit.git
+```
+
+Enter the new folder, and switch to the `next` branch.
+
+```bash
+cd botkit
+git checkout next
+```
+
 
 ## Building the packages with lerna and typescript
 
