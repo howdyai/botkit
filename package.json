@@ -2,8 +2,7 @@
   "name": "root",
   "private": true,
   "devDependencies": {
-    "lerna": "^3.4.0"
-  },
-  "dependencies": {
+    "lerna": "^3.4.0",
+    "typescript": "^3.2.4"
   }
 }
