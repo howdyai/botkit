@@ -1,0 +1,31 @@
+<div class="wrapper">
+
+    <h1>Slack Configuration</h1>
+    <P>
+        These values are controlled through the application's environment.
+    </P>
+
+    {{#if slack_config.botToken}}
+        <p>This Botkit instance is configured to operate with a single Slack team.</p>
+    {{/if}}
+    {{#if slack_config.clientId}} 
+        <p>
+            This Botkit instance is configured to operate with multiple Slack teams 
+            using Oauth.
+        </p>
+
+        <a href="{{install_link}}">Install Link</a>
+    {{/if}}
+
+    <p>
+        Make sure these values match the settings <a href="https://api.slack.com/">displayed on the Slack API portal.</a>
+    </p>
+    
+    <p>
+        <label>Your receive endpoint URL is:</label>
+        <input type="text" readonly value="{{protocol}}://{{host}}{{{botkit_config.webhook_uri}}}">
+    </p>
+
+
+
+</div>
