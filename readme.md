@@ -403,3 +403,7 @@ botkit.hears(['hello'], 'message', async(bot, message) => {
 ## Building & Using Plugins
 
 ... COMING SOON ...
+
+## Enable Conversation Persistence
+
+... COMING SOON ...
