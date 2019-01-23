@@ -56,7 +56,7 @@ Now, build the libraries:
 lerna run build
 ```
 
-A [test bot](packages/testbot) is included can be cloned. Eventually a scaffolding template will be added ([see project plan](https://github.com/howdyai/botkit/projects/9#card-15948794)), but for now use this.
+A [test bot](#using-test-bot) is included can be cloned. Eventually a scaffolding template will be added ([see project plan](https://github.com/howdyai/botkit/projects/9#card-15948794)), but for now use this.
 
 
 ## New Botkit Basics
@@ -399,6 +399,20 @@ botkit.hears(['hello'], 'message', async(bot, message) => {
     await bot.beginDialog('welcome');
 });
 ```
+
+## Using Test Bot
+
+This repo contains a [sample bot](packages/testbot) that can be used to test the SDK and adapters. 
+
+In its included form, it will work with the Bot Framework Emulator to provide a testing interface.  Also included (But commented out) are sample Slack and Webex adapter configurations which can be enabled to test the bot on those platforms.
+
+To start the test bot:
+```bash
+cd packages/testbot
+node .
+```
+
+Then, open the Bot Framework Emulator and find then load [testbot.bot](packages/testbot/testbot.bot) to connect.
 
 ## Building & Using Plugins
 
