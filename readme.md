@@ -18,6 +18,17 @@ GOALS:
 * Inherit much goodness from [Bot Builder](https://github.com/microsoft/botbuilder-js)
 * Provide a way for bots to be extended with plugins and modular features, and for those plugins to provide a consistent interface to administrators
 
+## Packages included in this repo
+
+| Package | Description
+|--- |---
+| [botkit](packages/botkit) | Botkit Core library
+| [botbuilder-slack](packages/botbuilder-slack) | A platform adapter for Slack
+| [botbuilder-webex](packages/botbuilder-webex) | A platform adapter for Webex Teams
+| [botbuilder-dialogs-botkit-cms](packages/botbuilder-dialogs-botkit-cms) | A library that allows using Botkit CMS content in Bot Builder apps (without Botkit)
+| [testbot](packages/testbot) | A simple testing harness for use while this project is being developed
+
+
 ## Try the new version now
 
 This repo contains multiple interlinked packages containing a new version of Botkit Core, new platform adapter packages, and some new and updated plugins. Until they're published on npm,
