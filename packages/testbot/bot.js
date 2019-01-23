@@ -30,15 +30,15 @@ const basicAuth = require('express-basic-auth');
  * Configure the Slack adapter
  * ----------------------------------------------------------------------
  */
-const adapter = new SlackAdapter({
-    verificationToken: process.env.verificationToken,
-    botToken: process.env.botToken,
-});
+// const adapter = new SlackAdapter({
+//     verificationToken: process.env.verificationToken,
+//     botToken: process.env.botToken,
+// });
 
 
 // // Use SlackEventMiddleware to modify incoming Activity objects so they have .type fields that match their original Slack event types.
 // // this may BREAK waterfall dailogs which only accept ActivityTypes.Message
-adapter.use(new SlackEventMiddleware());
+// adapter.use(new SlackEventMiddleware());
 
 // Use SlackMessageType middleware to furhter classify messages as direct_message, direct_mention, or mention
 // this will BREAK waterfall dailogs which only accept ActivityTypes.Message
@@ -48,7 +48,7 @@ adapter.use(new SlackEventMiddleware());
 const controller = new Botkit({
     debug: true,
     webhook_uri: '/api/messages',
-    adapter: adapter,
+    // adapter: adapter,
     authFunction:  basicAuth({
         users: { 'admin': 'supersecret' }, // TODO: externalize these
         challenge: true,
