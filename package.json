@@ -37,7 +37,7 @@
     "md5": "^2.2.1",
     "mustache": "^3.0.0",
     "prompts": "^1.1.1",
-    "request": "^2.81.0",
+    "request": "^2.88.0",
     "requestretry": "^3.0.2",
     "simple-xmpp": "^1.3.0",
     "twilio": "^3.23.1",
