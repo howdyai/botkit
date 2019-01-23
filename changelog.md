@@ -12,6 +12,15 @@
 * Google Hangouts: [allow to consume auth data from env var instead of file](https://github.com/howdyai/botkit/pull/1543)
 * Pull requests will now trigger Travis builds
 
+
+# 0.7.2
+
+Update dependency on `request` to latest to fix security warnings in dependency tree.
+
+# 0.7.1
+
+Update dependency on `botbuilder` to `3.16` to fix security warnings in dependency tree.
+
 # 0.7.0
 
 This release is the first major step towards [deprecating Botkit Studio](https://github.com/howdyai/botkit/issues/1534),
