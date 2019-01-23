@@ -1,14 +1,15 @@
 {
   "name": "botkit",
-  "version": "0.7.0",
+  "version": "0.7.1",
   "description": "Building blocks for Building Bots",
   "main": "lib/Botkit.js",
   "types": "lib/Botkit.d.ts",
   "jest": {
     "verbose": true,
     "testEnvironment": "node",
-    "testPathIgnorePatterns" : [
-      "/node_modules/", "/test/legacy/"
+    "testPathIgnorePatterns": [
+      "/node_modules/",
+      "/test/legacy/"
     ],
     "testMatch": [
       "**/test/**/*.js"
@@ -19,7 +20,7 @@
     "async": "^2.6.1",
     "back": "^1.0.2",
     "body-parser": "^1.18.3",
-    "botbuilder": "^3.15.0",
+    "botbuilder": "^3.16.0",
     "botkit-studio-sdk": "^1.0.8",
     "chalk": "^2.4.1",
     "ciscospark": "^1.32.23",
