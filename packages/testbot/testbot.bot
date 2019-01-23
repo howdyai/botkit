@@ -1,5 +1,5 @@
 {
-    "name": "LOCAL_TEST_BOT.bot",
+    "name": "testbot.bot",
     "description": "",
     "services": [
         {
@@ -14,5 +14,4 @@
     "padlock": "",
     "version": "2.0",
     "overrides": null,
-    "path": "/Users/benbrown/code/botkit/packages/testbot/testbot.bot"
 }
