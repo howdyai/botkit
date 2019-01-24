@@ -302,14 +302,14 @@ onboarding.ask('What is your name?', async(answer) => {
 onboarding.ask('Do you like tacos?', [
     {
         pattern: 'yes',
-        handler: async function() {
-            await this.gotoThread('likes_tacos');
+        handler: async function(answer, convo, bot) {
+            await convo.gotoThread('likes_tacos');
         }
     },
     {
         pattern: 'no',
-        handler: async function() {
-            await this.gotoThread('hates_life');
+        handler: async function(answer, convo, bot) {
+            await convo.gotoThread('hates_life');
         }
     }
 ],{key: 'tacos'});
@@ -321,7 +321,7 @@ onboarding.addMessage('HOORAY TACOS', 'likes_tacos');
 onboarding.addMessage('TOO BAD!', 'hates_life');
 
 // handle the end of the conversation
-onboarding.after(async(context, results) => {
+onboarding.after(async(results, bot) => {
     const name = results.name;
 });
 

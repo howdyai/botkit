@@ -79,11 +79,10 @@ class BotkitConversation extends botbuilder_dialogs_1.Dialog {
     }
     runBefore(thread_name, dc, step) {
         return __awaiter(this, void 0, void 0, function* () {
-            // console.log('Run hooks before ', thread_name);
+            debug('Before:', this.id, thread_name);
             // let convo = new BotkitConvo(dc, step);
             if (this._beforeHooks[thread_name]) {
                 // spawn a bot instance so devs can use API or other stuff as necessary
-                console.log('spawn a bot during a before');
                 const bot = yield this._controller.spawn(dc);
                 // create a convo controller object
                 const convo = new cms_1.BotkitDialogWrapper(dc, step);
@@ -100,8 +99,8 @@ class BotkitConversation extends botbuilder_dialogs_1.Dialog {
     }
     runAfter(context, results) {
         return __awaiter(this, void 0, void 0, function* () {
+            debug('After:', this.id);
             if (this._afterHooks.length) {
-                console.log('spawn a bot asfter');
                 const bot = yield this._controller.spawn(context);
                 for (let h = 0; h < this._afterHooks.length; h++) {
                     let handler = this._afterHooks[h];
@@ -118,9 +117,8 @@ class BotkitConversation extends botbuilder_dialogs_1.Dialog {
     }
     runOnChange(variable, value, dc, step) {
         return __awaiter(this, void 0, void 0, function* () {
-            // let convo = new BotkitConvo(dc, step);
+            debug('OnChange:', this.id, variable);
             if (this._changeHooks[variable] && this._changeHooks[variable].length) {
-                console.log('spawn a bot for onchange');
                 // spawn a bot instance so devs can use API or other stuff as necessary
                 const bot = yield this._controller.spawn(dc);
                 // create a convo controller object
@@ -138,7 +136,6 @@ class BotkitConversation extends botbuilder_dialogs_1.Dialog {
             // Initialize the state
             const state = dc.activeDialog.state;
             state.options = options || {};
-            // console.log('BEGIN A DIALOG, SET VALUES TO OPTIONS', options);
             state.values = Object.assign({}, options);
             // Add a prompt used for question turns
             if (!this._prompt) {
@@ -250,11 +247,6 @@ class BotkitConversation extends botbuilder_dialogs_1.Dialog {
     }
     runStep(dc, index, thread_name, reason, result) {
         return __awaiter(this, void 0, void 0, function* () {
-            // console.log('CURRENT POS', thread_name, index);
-            // Let's interpret the current line of the script.
-            // const thread = this.script.script.filter(function(thread) {
-            //     return thread.topic === thread_name;
-            // })[0]; // todo: protect against not found
             const thread = this.script[thread_name];
             if (index < thread.length) {
                 // Update the step index
@@ -310,7 +302,6 @@ class BotkitConversation extends botbuilder_dialogs_1.Dialog {
         else {
             outgoing = botbuilder_1.MessageFactory.text(line.text[Math.floor(Math.random() * line.text.length)]);
         }
-        // console.log('handling raw script line', JSON.stringify(line, null, 2));
         // handle slack attachments
         if (line.attachments) {
             outgoing.channelData = {
@@ -339,7 +330,6 @@ class BotkitConversation extends botbuilder_dialogs_1.Dialog {
         if (outgoing.channelData && outgoing.channelData.attachment) {
             outgoing.channelData.attachment = this.parseTemplatesRecursive(outgoing.channelData.attachment, vars);
         }
-        // console.log('formatted outgoing activity', JSON.stringify(outgoing, null, 2));
         return outgoing;
     }
     parseTemplatesRecursive(attachments, vars) {
@@ -386,9 +376,6 @@ class BotkitConversation extends botbuilder_dialogs_1.Dialog {
                 const index = step.index;
                 const thread_name = step.thread;
                 // spawn a bot instance so devs can use API or other stuff as necessary
-                console.log('spawn a mot during handleAction');
-                console.log('i am ', this);
-                console.log('my controller is ', this._controller);
                 const bot = yield this._controller.spawn(dc);
                 // create a convo controller object
                 const convo = new cms_1.BotkitDialogWrapper(dc, step);

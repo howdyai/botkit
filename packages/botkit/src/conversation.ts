@@ -95,13 +95,12 @@ export class BotkitConversation<O extends object = {}> extends Dialog<O> {
     }
 
      private async runBefore(thread_name, dc, step) {
-        // console.log('Run hooks before ', thread_name);
+        debug('Before:', this.id, thread_name);
         // let convo = new BotkitConvo(dc, step);
         
         if (this._beforeHooks[thread_name]) {
 
             // spawn a bot instance so devs can use API or other stuff as necessary
-            console.log('spawn a bot during a before');
             const bot = await this._controller.spawn(dc);
 
             // create a convo controller object
@@ -120,11 +119,9 @@ export class BotkitConversation<O extends object = {}> extends Dialog<O> {
     }
 
     private async runAfter(context, results) {
+        debug('After:', this.id);
         if (this._afterHooks.length) {
-
-            console.log('spawn a bot asfter');
-                const bot = await this._controller.spawn(context);
-
+            const bot = await this._controller.spawn(context);
             for (let h = 0; h < this._afterHooks.length; h++ ){
                 let handler = this._afterHooks[h];
 
@@ -142,11 +139,10 @@ export class BotkitConversation<O extends object = {}> extends Dialog<O> {
     }
 
     private async runOnChange(variable, value, dc, step) {
-        // let convo = new BotkitConvo(dc, step);
+        debug('OnChange:', this.id, variable);
 
         if (this._changeHooks[variable] && this._changeHooks[variable].length) {
 
-                console.log('spawn a bot for onchange');
             // spawn a bot instance so devs can use API or other stuff as necessary
             const bot = await this._controller.spawn(dc);
 
@@ -165,7 +161,6 @@ export class BotkitConversation<O extends object = {}> extends Dialog<O> {
         // Initialize the state
         const state = dc.activeDialog.state;
         state.options = options || {};
-        // console.log('BEGIN A DIALOG, SET VALUES TO OPTIONS', options);
         state.values = {...options};
 
         // Add a prompt used for question turns
@@ -292,15 +287,7 @@ export class BotkitConversation<O extends object = {}> extends Dialog<O> {
 
     async runStep(dc, index, thread_name, reason, result?) {
 
-        // console.log('CURRENT POS', thread_name, index);
-
-        // Let's interpret the current line of the script.
-        // const thread = this.script.script.filter(function(thread) {
-        //     return thread.topic === thread_name;
-        // })[0]; // todo: protect against not found
-
         const thread = this.script[thread_name];
-
 
         if (index < thread.length) {
             // Update the step index
@@ -361,8 +348,6 @@ export class BotkitConversation<O extends object = {}> extends Dialog<O> {
             outgoing = MessageFactory.text(line.text[Math.floor(Math.random()*line.text.length)]);
         }
 
-        // console.log('handling raw script line', JSON.stringify(line, null, 2));
-
         // handle slack attachments
         if (line.attachments) {
             outgoing.channelData = {
@@ -393,8 +378,6 @@ export class BotkitConversation<O extends object = {}> extends Dialog<O> {
         if (outgoing.channelData && outgoing.channelData.attachment) {
             outgoing.channelData.attachment = this.parseTemplatesRecursive(outgoing.channelData.attachment, vars);
         }
-
-        // console.log('formatted outgoing activity', JSON.stringify(outgoing, null, 2));
 
         return outgoing;
     }
@@ -444,9 +427,6 @@ export class BotkitConversation<O extends object = {}> extends Dialog<O> {
             const thread_name = step.thread;
 
             // spawn a bot instance so devs can use API or other stuff as necessary
-            console.log('spawn a mot during handleAction');
-            console.log('i am ', this);
-            console.log('my controller is ', this._controller);
             const bot = await this._controller.spawn(dc);
 
             // create a convo controller object
