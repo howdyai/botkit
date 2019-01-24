@@ -2,8 +2,8 @@ const { BotkitConversation } = require('botkit');
 
 
 module.exports = function(controller) {
-
-    const welcome = new BotkitConversation('dynamic', controller);
+    const DIALOG_ID = 'welcome_dialog';
+    const welcome = new BotkitConversation(DIALOG_ID, controller);
 
     welcome.say('Hey!');
     welcome.say('What is up??');
@@ -51,6 +51,10 @@ module.exports = function(controller) {
 
         // redirect the thread
         convo.vars.bar = 'YOU HAVE BEEN REDIRECTED HERE.';
+
+        // you can send adhoc messages you want using bot.say
+        bot.say('I refuse to accept that answer.');
+
         await convo.gotoThread('foo');
     });
 
@@ -59,8 +63,8 @@ module.exports = function(controller) {
     });
 
     controller.dialogSet.add(welcome);
-    controller.hears(['welcome'],'message', async (bot, message) => { 
-        await bot.beginDialog('dynamic'); 
+    controller.hears(['welcome'],'message', async (bot, message) => {
+        await bot.beginDialog(DIALOG_ID);
     })
 
 }
