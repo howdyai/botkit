@@ -8,17 +8,19 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+const cms_1 = require("./cms");
 const botbuilder_1 = require("botbuilder");
 const botbuilder_dialogs_1 = require("botbuilder-dialogs");
 const debug = require('debug')('botkit:conversation');
 const mustache = require("mustache");
 class BotkitConversation extends botbuilder_dialogs_1.Dialog {
-    constructor(dialogId) {
+    constructor(dialogId, controller) {
         super(dialogId);
         this._beforeHooks = {};
         this._afterHooks = [];
         this._changeHooks = {};
         this.script = {};
+        this._controller = controller;
         return this;
     }
     say(message) {
@@ -80,9 +82,14 @@ class BotkitConversation extends botbuilder_dialogs_1.Dialog {
             // console.log('Run hooks before ', thread_name);
             // let convo = new BotkitConvo(dc, step);
             if (this._beforeHooks[thread_name]) {
+                // spawn a bot instance so devs can use API or other stuff as necessary
+                console.log('spawn a bot during a before');
+                const bot = yield this._controller.spawn(dc);
+                // create a convo controller object
+                const convo = new cms_1.BotkitDialogWrapper(dc, step);
                 for (let h = 0; h < this._beforeHooks[thread_name].length; h++) {
                     let handler = this._beforeHooks[thread_name][h];
-                    yield handler.call(this, dc, step);
+                    yield handler.call(this, convo, bot);
                     // await handler.call(this, d);
                 }
             }
@@ -94,10 +101,11 @@ class BotkitConversation extends botbuilder_dialogs_1.Dialog {
     runAfter(context, results) {
         return __awaiter(this, void 0, void 0, function* () {
             if (this._afterHooks.length) {
+                console.log('spawn a bot asfter');
+                const bot = yield this._controller.spawn(context);
                 for (let h = 0; h < this._afterHooks.length; h++) {
                     let handler = this._afterHooks[h];
-                    // await handler.call(this, results);
-                    yield handler.call(this, context, results);
+                    yield handler.call(this, results, bot);
                 }
             }
         });
@@ -112,10 +120,15 @@ class BotkitConversation extends botbuilder_dialogs_1.Dialog {
         return __awaiter(this, void 0, void 0, function* () {
             // let convo = new BotkitConvo(dc, step);
             if (this._changeHooks[variable] && this._changeHooks[variable].length) {
+                console.log('spawn a bot for onchange');
+                // spawn a bot instance so devs can use API or other stuff as necessary
+                const bot = yield this._controller.spawn(dc);
+                // create a convo controller object
+                const convo = new cms_1.BotkitDialogWrapper(dc, step);
                 for (let h = 0; h < this._changeHooks[variable].length; h++) {
                     let handler = this._changeHooks[variable][h];
                     // await handler.call(this, value, convo);
-                    yield handler.call(this, value, dc, step);
+                    yield handler.call(this, value, convo, bot);
                 }
             }
         });
@@ -372,7 +385,14 @@ class BotkitConversation extends botbuilder_dialogs_1.Dialog {
             if (path.handler) {
                 const index = step.index;
                 const thread_name = step.thread;
-                yield path.handler.call(this, step.result, dc, step);
+                // spawn a bot instance so devs can use API or other stuff as necessary
+                console.log('spawn a mot during handleAction');
+                console.log('i am ', this);
+                console.log('my controller is ', this._controller);
+                const bot = yield this._controller.spawn(dc);
+                // create a convo controller object
+                const convo = new cms_1.BotkitDialogWrapper(dc, step);
+                yield path.handler.call(this, step.result, convo, bot);
                 // did we just change threads? if so, restart this turn
                 if (index != step.index || thread_name != step.thread) {
                     return yield this.runStep(dc, step.index, step.thread, botbuilder_dialogs_1.DialogReason.nextCalled, step.values);

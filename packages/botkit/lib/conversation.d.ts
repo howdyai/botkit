@@ -6,7 +6,8 @@ export declare class BotkitConversation<O extends object = {}> extends Dialog<O>
     private _beforeHooks;
     private _afterHooks;
     private _changeHooks;
-    constructor(dialogId: string);
+    private _controller;
+    constructor(dialogId: string, controller: any);
     say(message: any): void;
     addMessage(message: any, thread_name: any): void;
     ask(message: any, handlers: any, options: any): void;

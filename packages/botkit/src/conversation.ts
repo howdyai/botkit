@@ -1,9 +1,9 @@
 import { Botkit, BotkitMessage } from './core';
+import { BotkitDialogWrapper } from './cms';
 import { ActivityTypes, TurnContext, MessageFactory, ActionTypes, ConversationReference } from 'botbuilder';
 import { Dialog, DialogContext, DialogInstance, DialogSet, DialogReason, TextPrompt, DialogTurnStatus } from 'botbuilder-dialogs';
 const debug = require('debug')('botkit:conversation');
 import * as mustache from 'mustache';
-
 export class BotkitConversation<O extends object = {}> extends Dialog<O> {
 
     public script: any;
@@ -11,14 +11,17 @@ export class BotkitConversation<O extends object = {}> extends Dialog<O> {
     private _beforeHooks: {};
     private _afterHooks: { (context: TurnContext, results: any): void }[];
     private _changeHooks: {};
+    private _controller: Botkit;
 
-    constructor(dialogId: string) {
+    constructor(dialogId: string, controller) {
         super(dialogId);
 
         this._beforeHooks = {};
         this._afterHooks = [];
         this._changeHooks = {};
         this.script = {};
+
+        this._controller = controller;
 
         return this;
 
@@ -45,7 +48,6 @@ export class BotkitConversation<O extends object = {}> extends Dialog<O> {
     }
 
     public ask(message, handlers, options) {
-
         this.addQuestion(message, handlers, options, 'default');
     }
 
@@ -97,9 +99,17 @@ export class BotkitConversation<O extends object = {}> extends Dialog<O> {
         // let convo = new BotkitConvo(dc, step);
         
         if (this._beforeHooks[thread_name]) {
+
+            // spawn a bot instance so devs can use API or other stuff as necessary
+            console.log('spawn a bot during a before');
+            const bot = await this._controller.spawn(dc);
+
+            // create a convo controller object
+            const convo = new BotkitDialogWrapper(dc, step);
+
             for (let h = 0; h < this._beforeHooks[thread_name].length; h++ ){
                 let handler = this._beforeHooks[thread_name][h];
-                await handler.call(this, dc, step);
+                await handler.call(this, convo, bot);
                 // await handler.call(this, d);
             }
         }
@@ -111,10 +121,14 @@ export class BotkitConversation<O extends object = {}> extends Dialog<O> {
 
     private async runAfter(context, results) {
         if (this._afterHooks.length) {
+
+            console.log('spawn a bot asfter');
+                const bot = await this._controller.spawn(context);
+
             for (let h = 0; h < this._afterHooks.length; h++ ){
                 let handler = this._afterHooks[h];
-                // await handler.call(this, results);
-                await handler.call(this, context, results);
+
+                await handler.call(this, results, bot);
             }
         }
     }
@@ -131,10 +145,18 @@ export class BotkitConversation<O extends object = {}> extends Dialog<O> {
         // let convo = new BotkitConvo(dc, step);
 
         if (this._changeHooks[variable] && this._changeHooks[variable].length) {
+
+                console.log('spawn a bot for onchange');
+            // spawn a bot instance so devs can use API or other stuff as necessary
+            const bot = await this._controller.spawn(dc);
+
+            // create a convo controller object
+            const convo = new BotkitDialogWrapper(dc, step);
+
             for (let h = 0; h < this._changeHooks[variable].length; h++ ){
                 let handler = this._changeHooks[variable][h];
                 // await handler.call(this, value, convo);
-                await handler.call(this, value, dc, step);
+                await handler.call(this, value, convo, bot);
             }
         }
     }
@@ -420,7 +442,17 @@ export class BotkitConversation<O extends object = {}> extends Dialog<O> {
         if (path.handler) {
             const index = step.index;
             const thread_name = step.thread;
-            await path.handler.call(this, step.result, dc, step);
+
+            // spawn a bot instance so devs can use API or other stuff as necessary
+            console.log('spawn a mot during handleAction');
+            console.log('i am ', this);
+            console.log('my controller is ', this._controller);
+            const bot = await this._controller.spawn(dc);
+
+            // create a convo controller object
+            const convo = new BotkitDialogWrapper(dc, step);   
+
+            await path.handler.call(this, step.result, convo, bot);
 
             // did we just change threads? if so, restart this turn
             if (index != step.index || thread_name != step.thread) {
