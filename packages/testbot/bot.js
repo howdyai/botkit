@@ -1,6 +1,7 @@
 const { Botkit } = require('botkit');
 const { SlackAdapter, SlackMessageTypeMiddleware,  SlackEventMiddleware } = require('botbuilder-slack');
 const { WebexAdapter } = require('botbuilder-webex');
+const { ShowTypingMiddleware } = require('botbuilder');
 
 const basicAuth = require('express-basic-auth');
 
@@ -58,6 +59,25 @@ const controller = new Botkit({
         token: process.env.cms_token,
     }
 });
+
+// show typing indicator while bot "thinks"
+controller.adapter.use(new ShowTypingMiddleware());
+
+controller.adapter.use(async(context, next) => {
+    // console.log('---START TURN---');
+
+    // set a delay between each message sent.
+    context.onSendActivities(async (ctx, activities, inside_next) => {
+        return new Promise((resolve) => {
+            setTimeout(() => {
+                inside_next().then(resolve); 
+            },1500);
+        });
+    });
+
+    await next();
+    // console.log('---END TURN---');
+})
 
 
 // Once the bot has booted up its internal services, you can use them to do stuff.

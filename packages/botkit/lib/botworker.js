@@ -30,6 +30,7 @@ class BotWorker {
             return new Promise((resolve, reject) => {
                 const activity = ensureMessageFormat(message);
                 this._controller.middleware.send.run(this, activity, (err, bot, activity) => {
+                    // NOTE: This calls the BotBuilder middleware again...
                     this._controller.adapter.continueConversation(this._config.reference, (outgoing_context) => __awaiter(this, void 0, void 0, function* () {
                         resolve(yield outgoing_context.sendActivity(activity));
                     }));
@@ -47,6 +48,7 @@ class BotWorker {
                 const reference = botbuilder_1.TurnContext.getConversationReference(src.incoming_message);
                 // use the new reference to send the outgoing message
                 this._controller.middleware.send.run(this, activity, (err, bot, activity) => {
+                    // NOTE: This calls the BotBuilder middleware again...
                     this._controller.adapter.continueConversation(reference, (outgoing_context) => __awaiter(this, void 0, void 0, function* () {
                         resolve(yield outgoing_context.sendActivity(activity));
                     }));

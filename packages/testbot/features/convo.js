@@ -8,10 +8,13 @@ module.exports = function(controller) {
     welcome.say('Hey!');
     welcome.say('What is up??');
     welcome.ask('what is your name', async (answer, convo, bot) => {
-        console.log('INSIDE ASK HANDLER');
+        // noop
+        // answer contains the user's answer
+        // as does convo.vars.name
     },{key: 'name'});
-    welcome.say('hrrm');
-    welcome.say('ok {{vars.name}}');
+
+    welcome.say('hrrm!');
+    welcome.say('ok, {{vars.name}}!');
     welcome.ask('yes or no', [
         {
             pattern: 'yes',
@@ -65,6 +68,16 @@ module.exports = function(controller) {
     controller.dialogSet.add(welcome);
     controller.hears(['welcome'],'message', async (bot, message) => {
         await bot.beginDialog(DIALOG_ID);
-    })
+    });
+
+    controller.on('conversationUpdate', async(bot, message) => {
+        // check to see if this is the bot or another user.
+        var is_bot = message.incoming_message.membersAdded.filter((member) => {
+            return (member.id === message.incoming_message.recipient.id);
+        })
+        if (is_bot.length===0) {
+            await bot.beginDialog(DIALOG_ID);
+        }
+    });
 
 }
