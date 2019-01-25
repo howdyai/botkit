@@ -260,7 +260,7 @@ export class BotkitConversation<O extends object = {}> extends Dialog<O> {
         // This prompt must be a valid dialog defined somewhere in your code!
         if (line.collect) {
             try {
-                return await dc.prompt(this._prompt, this.makeOutgoing(line, step.values)); // todo: pick randomly
+                return await dc.prompt(this._prompt, this.makeOutgoing(line, step.values));
             } catch (err) {
                 console.error(err);
                 const res = await dc.context.sendActivity(`Failed to start prompt ${ line.prompt.id }`);
@@ -270,7 +270,7 @@ export class BotkitConversation<O extends object = {}> extends Dialog<O> {
         // This could be extended to include cards and other activity attributes.
         } else {
             if (line.text) {
-                await dc.context.sendActivity(this.makeOutgoing(line, step.values)); // todo: update to pick randomly from options
+                await dc.context.sendActivity(this.makeOutgoing(line, step.values)); 
             }
 
             if (line.action) {

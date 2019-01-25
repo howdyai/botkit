@@ -1,6 +1,6 @@
 import { BotFrameworkAdapter, Storage, ConversationReference } from 'botbuilder';
 import { DialogSet } from 'botbuilder-dialogs';
-import { BotkitCMS } from './cms';
+import { BotkitCMSHelper } from './cms';
 import { BotkitPluginLoader } from './plugin_loader';
 import { BotWorker } from './botworker';
 export interface BotkitConfiguration {
@@ -34,7 +34,7 @@ export declare class Botkit {
     private conversationState;
     private _deps;
     private _bootCompleteHandlers;
-    cms: BotkitCMS;
+    cms: BotkitCMSHelper;
     version: string;
     middleware: {
         spawn: any;

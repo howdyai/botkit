@@ -61,7 +61,7 @@ const controller = new Botkit({
 });
 
 // show typing indicator while bot "thinks"
-controller.adapter.use(new ShowTypingMiddleware());
+// controller.adapter.use(new ShowTypingMiddleware());
 
 controller.adapter.use(async(context, next) => {
     // console.log('---START TURN---');
@@ -100,11 +100,16 @@ controller.ready(() => {
     // controller.on('message', async (bot, message) => {
     if (controller.cms) {
         controller.middleware.receive.use(async (bot, message, next) => {
+            let results = false;
             if (message.type === 'message') {
-                let results = await controller.cms.testTrigger(bot, message);
+                results = await controller.cms.testTrigger(bot, message);
             }
 
-            next();
+            if (results === false) {
+                next();
+            } else {
+                // do not continue middelware!
+            }
         });
     }
 

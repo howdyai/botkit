@@ -221,7 +221,7 @@ class BotkitConversation extends botbuilder_dialogs_1.Dialog {
             // This prompt must be a valid dialog defined somewhere in your code!
             if (line.collect) {
                 try {
-                    return yield dc.prompt(this._prompt, this.makeOutgoing(line, step.values)); // todo: pick randomly
+                    return yield dc.prompt(this._prompt, this.makeOutgoing(line, step.values));
                 }
                 catch (err) {
                     console.error(err);
@@ -233,7 +233,7 @@ class BotkitConversation extends botbuilder_dialogs_1.Dialog {
             }
             else {
                 if (line.text) {
-                    yield dc.context.sendActivity(this.makeOutgoing(line, step.values)); // todo: update to pick randomly from options
+                    yield dc.context.sendActivity(this.makeOutgoing(line, step.values));
                 }
                 if (line.action) {
                     var res = yield this.handleAction(line, dc, step);

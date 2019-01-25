@@ -56,7 +56,7 @@ class Botkit {
             this.storage = this._config.storage;
         }
         this.conversationState = new botbuilder_1.ConversationState(this.storage);
-        // TODO: dialogState propertyname should maybe be used settable to avoid collision
+        // TODO: dialogState propertyname should maybe be settable to avoid collision
         const dialogState = this.conversationState.createProperty('dialogState');
         this.dialogSet = new botbuilder_dialogs_1.DialogSet(dialogState);
         if (!this._config.webserver) {
@@ -110,7 +110,7 @@ class Botkit {
             this.adapter = this._config.adapter;
         }
         if (this._config.cms && this._config.cms.cms_uri && this._config.cms.token) {
-            this.cms = new cms_1.BotkitCMS(this, this._config.cms);
+            this.cms = new cms_1.BotkitCMSHelper(this, this._config.cms);
         }
         this.configureWebhookEndpoint();
         this.plugins = new plugin_loader_1.BotkitPluginLoader(this);

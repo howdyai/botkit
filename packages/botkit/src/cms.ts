@@ -1,5 +1,6 @@
-import { BotkitHelper, BotkitDialog } from 'botbuilder-dialogs-botkit-cms';
-import { Botkit } from '.';
+import { Botkit, BotkitConversation } from '.';
+import * as BotkitCMS from 'botkit-studio-sdk';
+import { DialogSet } from 'botbuilder-dialogs';
 const debug = require('debug')('botkit:cms');
 
 export class BotkitDialogWrapper {
@@ -25,9 +26,9 @@ export class BotkitDialogWrapper {
     
 }
 
-export class BotkitCMS {
+export class BotkitCMSHelper {
 
-    private _cms: BotkitHelper;
+    private _cms: BotkitCMS;
     private _config: any;
     private _controller: Botkit;
 
@@ -39,62 +40,73 @@ export class BotkitCMS {
         this._config = config;
 
         // load the API accessor
-        this._cms = new BotkitHelper(this._config);
+        this._cms = new BotkitCMS({
+            studio_command_uri: this._config.cms_uri,
+            studio_token: this._config.token
+        });
 
         // pre-load all the scripts via the CMS api
-        this._cms.loadAllScripts(controller.dialogSet).then(() => {
+        this.loadAllScripts(controller.dialogSet).then(() => {
             debug('Dialogs loaded from Botkit CMS');
             controller.completeDep('cms');
         });
 
     }
 
+    async loadAllScripts(dialogSet: DialogSet) {
+
+        var scripts = await this._cms.getScripts();
+
+        scripts.forEach((script)=> {
+
+            // map threads from array to object
+            const threads = {};
+            script.script.forEach((thread) => {
+                threads[thread.topic] = thread.script;
+            });
+
+            let d = new BotkitConversation(script.command, this._controller);
+            d.script = threads;
+            dialogSet.add(d);
+        });
+    }
+
     public async testTrigger(bot, message) {
-        return this._cms.testTrigger(bot, message);
+        const command = await this._cms.evaluateTrigger(message.text);
+        if (command.command) {
+            return await bot.beginDialog(command.command);
+        } 
+        return false;
     }
 
-    public before(script_name: string, thread_name: string, handler: (bot, convo) => Promise<void>): void {
+    public before(script_name: string, thread_name: string, handler: (convo, bot) => Promise<void>): void {
 
-        let dialog = this._controller.dialogSet.find(script_name) as BotkitDialog;
-        dialog.before(thread_name, async (dc, step) => {
+        let dialog = this._controller.dialogSet.find(script_name) as BotkitConversation;
+        if (dialog) {
+            dialog.before(thread_name, handler);
+        } else {
+            throw new Error('Could not find dialog: ' + script_name);
+        }
 
-            // spawn a bot instance so devs can use API or other stuff as necessary
-            const bot = await this._controller.spawn(dc);
-
-            // create a convo controller object
-            const convo = new BotkitDialogWrapper(dc, step);
-
-            // finally, call the registered handler.
-            handler.call(this, bot, convo);
-        });
     }
 
-    public onChange(script_name: string, variable_name: string, handler: (bot, convo, value) => Promise<void>) {
-        let dialog = this._controller.dialogSet.find(script_name) as BotkitDialog;
-        dialog.onChange(variable_name, async (value, dc, step) => {
-
-            // spawn a bot instance so devs can use API or other stuff as necessary
-            const bot = await this._controller.spawn(dc);
-
-            // create a convo controller object
-            const convo = new BotkitDialogWrapper(dc, step);
-
-            // finally, call the registered handler.
-            handler.call(this,  bot, convo, value);
-        });
+    public onChange(script_name: string, variable_name: string, handler: (value, convo, bot) => Promise<void>) {
+        let dialog = this._controller.dialogSet.find(script_name) as BotkitConversation;
+        if (dialog) {
+            dialog.onChange(variable_name, handler);
+        } else {
+            throw new Error('Could not find dialog: ' + script_name);
+        }
     }
 
     // NOTE: currently this does not receive a dc, so can't call beginDialog from within an after handler
-    public after(script_name: string, handler: (bot, results) => Promise<void>) {
-
-        let dialog = this._controller.dialogSet.find(script_name) as BotkitDialog;
-        dialog.after(async (context, results) => {
-
-            const bot = await this._controller.spawn(context);
-
-            handler.call(this, bot, results);
-        });
-
+    public after(script_name: string, handler: (results, bot) => Promise<void>) {
+        let dialog = this._controller.dialogSet.find(script_name) as BotkitConversation;
+        if (dialog) {
+            dialog.after(handler);
+        } else {
+            throw new Error('Could not find dialog: ' + script_name);
+        }
     }
 
 

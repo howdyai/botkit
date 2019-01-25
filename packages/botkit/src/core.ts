@@ -1,6 +1,6 @@
 import { BotFrameworkAdapter, MemoryStorage, ConversationState, BotAdapter, Storage, ConversationReference, TurnContext, Activity } from 'botbuilder';
 import { DialogContext, DialogSet, DialogTurnStatus } from 'botbuilder-dialogs';
-import { BotkitCMS } from './cms';
+import { BotkitCMSHelper } from './cms';
 import { BotkitPluginLoader, BotkitPlugin } from './plugin_loader';
 import { BotWorker } from './botworker';
 
@@ -53,7 +53,7 @@ export class Botkit {
     private _deps: {};
     private _bootCompleteHandlers: { (): void }[];
 
-    public cms: BotkitCMS; // access to the botkit cms helper
+    public cms: BotkitCMSHelper; // access to the botkit cms helper
 
     public version: string = require('../package.json').version;
 
@@ -110,7 +110,7 @@ export class Botkit {
 
         this.conversationState = new ConversationState(this.storage);
 
-        // TODO: dialogState propertyname should maybe be used settable to avoid collision
+        // TODO: dialogState propertyname should maybe be settable to avoid collision
         const dialogState = this.conversationState.createProperty('dialogState');
 
         this.dialogSet = new DialogSet(dialogState);
@@ -170,7 +170,7 @@ export class Botkit {
         }
 
         if (this._config.cms && this._config.cms.cms_uri && this._config.cms.token) {
-            this.cms = new BotkitCMS(this, this._config.cms);
+            this.cms = new BotkitCMSHelper(this, this._config.cms);
         }
 
         this.configureWebhookEndpoint();

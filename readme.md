@@ -369,13 +369,13 @@ controller.ready(() => {
         convo.vars.foo = 'foo';
     });
 
-    controller.cms.onChange('onboarding','name', async(bot, convo, value) => {
+    controller.cms.onChange('onboarding','name', async(value, convo, bot) => {
         if (value === 'quit') {
             convo.gotoThread('quit');
         }
     });
 
-    controller.cms.after('onboarding', async(bot, results) => {
+    controller.cms.after('onboarding', async(results, bot) => {
         // do something with results
     });
 });
