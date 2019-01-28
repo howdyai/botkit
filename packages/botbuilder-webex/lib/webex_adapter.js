@@ -71,7 +71,7 @@ class WebexAdapter extends botbuilder_1.BotAdapter {
     init(botkit) {
         // when the bot is ready, register the webhook subscription with the Webex API
         botkit.ready(() => {
-            console.log('Registering webhook subscriptiong!');
+            console.log('Registering webhook subscription!');
             botkit.adapter.registerWebhookSubscription(botkit.getConfig('webhook_uri'));
         });
     }
