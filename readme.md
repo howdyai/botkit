@@ -11,7 +11,7 @@ and some features currently included may be removed.
 GOALS:
 * Keep as much of the feature set, syntax and special sauce developers know and love
 * Solve persistent and hard to solve problems in previous versions of Botkit
-* Use modern Javascript language features like async/await instead of callbacks
+* Use modern JavaScript language features like async/await instead of callbacks
 * Full Typescript support
 * Break platform adapters (and their large dependency trees) into optional packages
 * Reorganize some related projects into a monorepo
