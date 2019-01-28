@@ -97,7 +97,7 @@ Pass in values:
 dialogContext.beginDialog('my_dialog', { foo: true, bar: false });
 ```
 
-These values can then be referenced from within content from Botkit CMS as `{{vars.foo}}` and `{{vars.bar}}`. Variable substition happens automatically when the message is sent to the end user, and will be applied to the message text as well as all fields within any associated attachments.
+These values can then be referenced from within content from Botkit CMS as `{{vars.foo}}` and `{{vars.bar}}`. Variable substitution happens automatically when the message is sent to the end user, and will be applied to the message text as well as all fields within any associated attachments.
 
 Any values passed in will be available in `step.values`, and will persist through to the end of the dialog where they will be available as part of the `results` object passed to handlers bound with `after()`.
 
