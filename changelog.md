@@ -129,7 +129,7 @@ Support for Slack's new security feature:
 
 * Fix for require_delivery option in Facebook bots. [PR #1312](https://github.com/howdyai/botkit/pull/1312)
 
-* Errors encountered during Slack RTM connection process will now be reprorted to the callback function [PR #1335](https://github.com/howdyai/botkit/pull/1335)
+* Errors encountered during Slack RTM connection process will now be reported to the callback function [PR #1335](https://github.com/howdyai/botkit/pull/1335)
 
 * Updated methodology used to validate email addresses when restricting access to Cisco Spark bots
 
