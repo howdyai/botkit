@@ -328,7 +328,7 @@ onboarding.after(async(results, bot) => {
 // add the conversation to the dialogset
 controller.dialogSet.add(onboarding);
 
-// launch the dialog in resposne to a message or event
+// launch the dialog in response to a message or event
 controller.hears(['hello'], 'message', async(bot, message) => {
     bot.beginDialog('onboarding');
 });
