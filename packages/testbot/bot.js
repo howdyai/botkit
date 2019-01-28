@@ -108,7 +108,7 @@ controller.ready(() => {
             if (results === false) {
                 next();
             } else {
-                // do not continue middelware!
+                // do not continue middleware!
             }
         });
     }
