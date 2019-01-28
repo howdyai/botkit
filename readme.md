@@ -289,7 +289,7 @@ For example:
 ```javascript
 const { BotkitConversation } = require('botkit');
 
-// define the conversatio
+// define the conversation
 const onboarding = new BotkitConversation('onboarding');
 
 onboarding.say('Hello human!');
