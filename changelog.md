@@ -687,7 +687,7 @@ Improves Slack RTM reconnects thanks to @selfcontained [PR #274](https://github.
 
 ## 0.2
 
-Adds support for Twilio IP Messenging bots
+Adds support for Twilio IP Messaging bots
 
 Add example bot: twilio_ipm_bot.js
 
