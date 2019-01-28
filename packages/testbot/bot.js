@@ -41,7 +41,7 @@ const basicAuth = require('express-basic-auth');
 // // this may BREAK waterfall dailogs which only accept ActivityTypes.Message
 // adapter.use(new SlackEventMiddleware());
 
-// Use SlackMessageType middleware to furhter classify messages as direct_message, direct_mention, or mention
+// Use SlackMessageType middleware to further classify messages as direct_message, direct_mention, or mention
 // this will BREAK waterfall dailogs which only accept ActivityTypes.Message
 // adapter.use(new SlackMessageTypeMiddleware());
 
