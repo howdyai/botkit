@@ -160,7 +160,7 @@ const { SlackAdapter } = require('botbuilder-slack');
 
 Instantiate the adapter with a `clientId`, `clientSecret`, scopes, redirectUrl and verification secret as provided/configured in the Slack API dashboard.
 
-In addition, pass in a `getTokenForTeam` paramter containing a function in the form `async (teamId) => { return tokenForTeam; }`  This function is responsible for loading an API token from _somewhere_ and providing it to Botkit for use in handling incoming messages.
+In addition, pass in a `getTokenForTeam` parameter containing a function in the form `async (teamId) => { return tokenForTeam; }`  This function is responsible for loading an API token from _somewhere_ and providing it to Botkit for use in handling incoming messages.
 
 
 ```javascript
