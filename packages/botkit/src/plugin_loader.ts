@@ -114,6 +114,7 @@ export class BotkitPluginLoader {
     }
 
     public publicFolder(alias, path) {
+        debug('Make folder public: ', path,'at alias', alias);
         this.botkit.webserver.use(alias, express.static(path))
     }
   

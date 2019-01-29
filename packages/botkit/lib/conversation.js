@@ -171,6 +171,7 @@ class BotkitConversation extends botbuilder_dialogs_1.Dialog {
             //     return thread.topic === step.thread;
             // })[0];
             var line = thread[step.index];
+            // debug('STEP', line);
             var previous = (step.index >= 1) ? thread[step.index - 1] : null;
             // Capture the previous step value if there previous line included a prompt
             if (step.result && previous && previous.collect) {

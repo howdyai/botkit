@@ -202,6 +202,8 @@ export class BotkitConversation<O extends object = {}> extends Dialog<O> {
 
         var line = thread[step.index];
 
+        // debug('STEP', line);
+
         var previous = (step.index >= 1) ? thread[step.index - 1] : null;
         // Capture the previous step value if there previous line included a prompt
         if (step.result && previous && previous.collect) {

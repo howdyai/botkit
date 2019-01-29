@@ -83,7 +83,7 @@ class Botkit {
                 // make sure calls to anything in /admin/ is passed through a validation function
                 this.webserver.use((req, res, next) => {
                     if (req.url.match(/^\/admin/)) {
-                        console.log('CALL AUTH FUNCTION');
+                        // console.log('CALL AUTH FUNCTION');
                         this._config.authFunction(req, res, next);
                     }
                     else {
@@ -187,6 +187,7 @@ class Botkit {
                     };
                     yield this.ingest(bot, message);
                 }
+                // console.log('SAVING STATE');
                 // make sure changes to the state get persisted after the turn is over.
                 yield this.conversationState.saveChanges(turnContext);
             }));

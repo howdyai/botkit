@@ -284,7 +284,7 @@ export class SlackAdapter extends BotAdapter {
                 res.status(200);
                 res.end();
 
-                this.runMiddleware(context, logic)
+                await this.runMiddleware(context, logic)
                     .catch((err) => { console.error(err.toString()); });
             }
         } else if (event.type === 'event_callback') {
@@ -324,7 +324,7 @@ export class SlackAdapter extends BotAdapter {
                 res.status(200);
                 res.end();
 
-                this.runMiddleware(context, logic)
+                await this.runMiddleware(context, logic)
                     .catch((err) => { console.error(err.toString()); });
             }
         } else {
