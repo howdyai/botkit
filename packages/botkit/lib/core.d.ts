@@ -44,6 +44,7 @@ export declare class Botkit {
     };
     storage: Storage;
     webserver: any;
+    http: any;
     adapter: any;
     dialogSet: DialogSet;
     plugins: BotkitPluginLoader;

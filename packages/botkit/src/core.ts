@@ -3,7 +3,7 @@ import { DialogContext, DialogSet, DialogTurnStatus } from 'botbuilder-dialogs';
 import { BotkitCMSHelper } from './cms';
 import { BotkitPluginLoader, BotkitPlugin } from './plugin_loader';
 import { BotWorker } from './botworker';
-
+import * as http from 'http'
 import * as express from 'express';
 import * as bodyParser from 'body-parser';
 import * as hbs from 'hbs';
@@ -66,6 +66,7 @@ export class Botkit {
 
     public storage: Storage;
     public webserver: any;
+    public http: any;
     public adapter: any; // TODO: this should be BotAdapter, but missing adapter.processActivity causes errors
     public dialogSet: DialogSet;
     public plugins: BotkitPluginLoader;
@@ -123,6 +124,9 @@ export class Botkit {
             this.webserver.use(bodyParser.json());
             this.webserver.use(bodyParser.urlencoded({ extended: true }));
 
+            this.http = http.createServer(this.webserver);
+
+
             hbs.registerPartials(this.PATH + '/../views/partials');
             hbs.localsAsTemplateData(this.webserver);
             // hbs.handlebars.registerHelper('raw-helper', function(options) {
@@ -152,7 +156,7 @@ export class Botkit {
                 console.warn('No authFunction specified! Web routes will be disabled.');
             }
 
-            this.webserver.listen(process.env.port || process.env.PORT || 3000, () => {
+            this.http.listen(process.env.port || process.env.PORT || 3000, () => {
                 debug(`Webhook Endpoint online:  ${ this.webserver.url }${ this._config.webhook_uri }`);
                 this.completeDep('webserver');
             });

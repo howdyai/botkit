@@ -13,6 +13,7 @@ const botbuilder_dialogs_1 = require("botbuilder-dialogs");
 const cms_1 = require("./cms");
 const plugin_loader_1 = require("./plugin_loader");
 const botworker_1 = require("./botworker");
+const http = require("http");
 const express = require("express");
 const bodyParser = require("body-parser");
 const hbs = require("hbs");
@@ -65,6 +66,7 @@ class Botkit {
             this.webserver = express();
             this.webserver.use(bodyParser.json());
             this.webserver.use(bodyParser.urlencoded({ extended: true }));
+            this.http = http.createServer(this.webserver);
             hbs.registerPartials(this.PATH + '/../views/partials');
             hbs.localsAsTemplateData(this.webserver);
             // hbs.handlebars.registerHelper('raw-helper', function(options) {
@@ -92,7 +94,7 @@ class Botkit {
             else {
                 console.warn('No authFunction specified! Web routes will be disabled.');
             }
-            this.webserver.listen(process.env.port || process.env.PORT || 3000, () => {
+            this.http.listen(process.env.port || process.env.PORT || 3000, () => {
                 debug(`Webhook Endpoint online:  ${this.webserver.url}${this._config.webhook_uri}`);
                 this.completeDep('webserver');
             });
