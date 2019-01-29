@@ -117,6 +117,8 @@ class WebsocketAdapter extends botbuilder_1.BotAdapter {
                 });
                 ws.on('error', (err) => console.error('Websocket Error: ', err));
                 ws.on('close', function () {
+                    console.log('closing socket for', ws.user);
+                    delete (clients[ws.user]);
                     // bot.connected = false;
                 });
             });
