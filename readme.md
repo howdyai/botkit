@@ -11,7 +11,7 @@ and some features currently included may be removed.
 GOALS:
 * Keep as much of the feature set, syntax and special sauce developers know and love
 * Solve persistent and hard to solve problems in previous versions of Botkit
-* Use modern Javascript language features like async/await instead of callbacks
+* Use modern JavaScript language features like async/await instead of callbacks
 * Full Typescript support
 * Break platform adapters (and their large dependency trees) into optional packages
 * Reorganize some related projects into a monorepo
@@ -160,7 +160,7 @@ const { SlackAdapter } = require('botbuilder-slack');
 
 Instantiate the adapter with a `clientId`, `clientSecret`, scopes, redirectUrl and verification secret as provided/configured in the Slack API dashboard.
 
-In addition, pass in a `getTokenForTeam` paramter containing a function in the form `async (teamId) => { return tokenForTeam; }`  This function is responsible for loading an API token from _somewhere_ and providing it to Botkit for use in handling incoming messages.
+In addition, pass in a `getTokenForTeam` parameter containing a function in the form `async (teamId) => { return tokenForTeam; }`  This function is responsible for loading an API token from _somewhere_ and providing it to Botkit for use in handling incoming messages.
 
 
 ```javascript
@@ -289,7 +289,7 @@ For example:
 ```javascript
 const { BotkitConversation } = require('botkit');
 
-// define the conversatio
+// define the conversation
 const onboarding = new BotkitConversation('onboarding');
 
 onboarding.say('Hello human!');
@@ -328,7 +328,7 @@ onboarding.after(async(results, bot) => {
 // add the conversation to the dialogset
 controller.dialogSet.add(onboarding);
 
-// launch the dialog in resposne to a message or event
+// launch the dialog in response to a message or event
 controller.hears(['hello'], 'message', async(bot, message) => {
     bot.beginDialog('onboarding');
 });
@@ -338,7 +338,7 @@ controller.hears(['hello'], 'message', async(bot, message) => {
 
 [Botkit CMS](https://github.com/howdyai/botkit-cms) is an external content management system for dialogs systems. Botkit can automatically attach to a CMS instance and import content into dialogs automatically.
 
-In order to enable this functionaly, configure the botkit controller with information about your CMS instance:
+In order to enable this functionality, configure the botkit controller with information about your CMS instance:
 
 ```javascript
 const controller = new Botkit({
