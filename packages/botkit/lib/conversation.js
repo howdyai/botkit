@@ -143,7 +143,7 @@ class BotkitConversation extends botbuilder_dialogs_1.Dialog {
                 dc.dialogs.add(new botbuilder_dialogs_1.TextPrompt(this._prompt));
             }
             // Run the first step
-            return yield this.runStep(dc, 0, 'default', botbuilder_dialogs_1.DialogReason.beginCalled);
+            return yield this.runStep(dc, 0, state.options.thread || 'default', botbuilder_dialogs_1.DialogReason.beginCalled);
         });
     }
     continueDialog(dc) {
@@ -406,7 +406,7 @@ class BotkitConversation extends botbuilder_dialogs_1.Dialog {
                     // todo figure out how to goto thread
                     // todo figure out how to pass in existing values
                     // todo figure out how to capture responses from sub-script?
-                    return yield dc.beginDialog(path.execute.script, step.values);
+                    return yield dc.replaceDialog(path.execute.script, Object.assign({ thread: path.execute.thread }, step.values));
                     break;
                 case 'repeat':
                     return yield this.runStep(dc, step.index - 1, step.thread, botbuilder_dialogs_1.DialogReason.nextCalled);

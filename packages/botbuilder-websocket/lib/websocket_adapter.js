@@ -9,7 +9,6 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const botbuilder_1 = require("botbuilder");
-const botbuilder_dialogs_1 = require("botbuilder-dialogs");
 var WebSocket = require('ws');
 const Debug = require("debug");
 const debug = Debug('botkit:websocket');
@@ -43,6 +42,13 @@ class WebsocketAdapter extends botbuilder_1.BotAdapter {
                 handler: (req, res) => {
                     res.render(this.botkit.plugins.localView(__dirname + '/../public/chat.html'), {});
                 }
+            }
+        ];
+        this.menu = [
+            {
+                title: 'Chat',
+                url: '/chat/chat.html',
+                icon: '💬'
             }
         ];
     }
@@ -80,30 +86,8 @@ class WebsocketAdapter extends botbuilder_1.BotAdapter {
                             type: message.type === 'message' ? botbuilder_1.ActivityTypes.Message : message.type,
                         };
                         const context = new botbuilder_1.TurnContext(this, activity);
-                        this.runMiddleware(context, (turnContext) => __awaiter(this, void 0, void 0, function* () {
-                            const dialogContext = yield botkit.dialogSet.createContext(turnContext);
-                            // Continue dialog if one is present
-                            const dialog_results = yield dialogContext.continueDialog();
-                            if (dialog_results.status === botbuilder_dialogs_1.DialogTurnStatus.empty) {
-                                const bot = yield botkit.spawn(dialogContext);
-                                // pass through the websocket
-                                // this will later be used to send replies
-                                // bot.ws = ws;
-                                // Turn this turnContext into a Botkit message.
-                                const message = {
-                                    type: turnContext.activity.type,
-                                    incoming_message: turnContext.activity,
-                                    context: turnContext,
-                                    user: turnContext.activity.from.id,
-                                    text: turnContext.activity.text,
-                                    channel: turnContext.activity.conversation.id,
-                                    reference: botbuilder_1.TurnContext.getConversationReference(turnContext.activity),
-                                };
-                                yield botkit.ingest(bot, message);
-                            }
-                            // make sure changes to the state get persisted after the turn is over.
-                            yield botkit.conversationState.saveChanges(turnContext);
-                        })).catch((err) => { console.error(err.toString()); });
+                        this.runMiddleware(context, (context) => __awaiter(this, void 0, void 0, function* () { return botkit.handleTurn(context); }))
+                            .catch((err) => { console.error(err.toString()); });
                     }
                     catch (e) {
                         var alert = [
@@ -184,7 +168,8 @@ class WebsocketAdapter extends botbuilder_1.BotAdapter {
         return __awaiter(this, void 0, void 0, function* () {
             const request = botbuilder_1.TurnContext.applyConversationReference({ type: 'event', name: 'continueConversation' }, reference, true);
             const context = new botbuilder_1.TurnContext(this, request);
-            return this.runMiddleware(context, logic);
+            return this.runMiddleware(context, logic)
+                .catch((err) => { console.error(err.toString()); });
         });
     }
     processActivity(req, res, logic) {

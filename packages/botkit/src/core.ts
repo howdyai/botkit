@@ -48,6 +48,13 @@ export class Botkit {
         }[]
     } = {};
 
+    private _interrupts: {
+        [key: string]: { 
+            pattern: string;
+            handler: (bot: BotWorker, message: BotkitMessage) => Promise<any>;
+        }[]
+    } = {};
+
     private conversationState: ConversationState;
 
     private _deps: {};
@@ -242,37 +249,42 @@ export class Botkit {
             // Allow the Botbuilder middleware to fire.
             // this middleware is responsible for turning the incoming payload into a BotBuilder Activity
             // which we can then use to turn into a BotkitMessage
-            this.adapter.processActivity(req, res, async (turnContext) => {
-
-                const dialogContext = await this.dialogSet.createContext(turnContext);
-
-                // Continue dialog if one is present
-                const dialog_results = await dialogContext.continueDialog();
-                if (dialog_results.status === DialogTurnStatus.empty) {
-
-                    // TODO: What do we pass in to spawn?
-                    const bot = await this.spawn(dialogContext);
-
-                    // Turn this turnContext into a botkit message.
-                    const message = {
-                        type: turnContext.activity.type,
-                        incoming_message: turnContext.activity,
-                        context: turnContext,
-                        user: turnContext.activity.from.id,
-                        text: turnContext.activity.text,
-                        channel: turnContext.activity.conversation.id,
-                        reference: TurnContext.getConversationReference(turnContext.activity),
-                    } as BotkitMessage;
-
-                    await this.ingest(bot, message);
-                }
-
-                // console.log('SAVING STATE');
-                // make sure changes to the state get persisted after the turn is over.
-                await this.conversationState.saveChanges(turnContext);
-                
-            });
+            this.adapter.processActivity(req, res, this.handleTurn);
         });
+    }
+
+    public async handleTurn(turnContext): Promise<any> {
+        console.log('HANDLE TURN!');
+        const dialogContext = await this.dialogSet.createContext(turnContext);
+
+        const bot = await this.spawn(dialogContext);
+
+        // Turn this turnContext into a Botkit message.
+        const message = {
+            type: turnContext.activity.type,
+            incoming_message: turnContext.activity,
+            context: turnContext,
+            user: turnContext.activity.from.id,
+            text: turnContext.activity.text,
+            channel: turnContext.activity.conversation.id,
+            reference: TurnContext.getConversationReference(turnContext.activity),
+        } as BotkitMessage;
+
+        const interrupt_results = await this.listenForInterrupts(bot, message);
+
+        console.log('resulst of interrupts', interrupt_results);
+        if (interrupt_results === false) {
+            // Continue dialog if one is present
+            const dialog_results = await dialogContext.continueDialog();
+            if (dialog_results.status === DialogTurnStatus.empty) {
+                await this.ingest(bot, message);
+            }
+        }
+
+        // console.log('SAVING STATE');
+        // make sure changes to the state get persisted after the turn is over.
+        await this.conversationState.saveChanges(turnContext);
+        
     }
 
     public async saveState(bot) {
@@ -326,6 +338,26 @@ export class Botkit {
         }
     }
 
+    private async listenForInterrupts(bot: BotWorker, message: BotkitMessage): Promise<any> {
+        if (this._interrupts[message.type]) {
+            const triggers = this._interrupts[message.type];
+            for (var t = 0; t < triggers.length; t++) {
+                const test_results = await this.testTrigger(triggers[t], message);
+                if (test_results) {
+                    debug('Heard interruption: ', triggers[t].pattern);
+                    const trigger_results = await triggers[t].handler.call(this, bot, message);
+                    return trigger_results;
+                }
+            }
+
+            // nothing has triggered...return false
+            return false;
+        } else {
+            return false;
+        }
+    }
+
+
     private async testTrigger(trigger: any, message: BotkitMessage): Promise<boolean> {
         // TODO: handle for different types of triggers in the future.
         const test = new RegExp(trigger.pattern,'i');
@@ -360,6 +392,38 @@ export class Botkit {
                 }
 
                 this._triggers[event].push({
+                    pattern: pattern,
+                    handler: handler,
+                });
+
+            }
+        }
+    }
+
+    /* 
+     * interrupts()
+     * instruct your bot to listen for a pattern, and do something when that pattern is heard.
+     **/
+    public interrupts(patterns: string | string[], events: string | string[], handler: (bot: BotWorker, message: BotkitMessage) => Promise<boolean>) {
+
+        if (!Array.isArray(patterns)) {
+            patterns = [patterns];
+        }
+
+        if (!Array.isArray(events)) {
+            events = events.split(/\s+\,\s+/);
+        }
+
+        for (var p = 0; p < patterns.length; p++) {
+            for (var e = 0; e < events.length; e++) {
+                var event = events[e];
+                var pattern = patterns[p];
+
+                if (!this._interrupts[event]) {
+                    this._interrupts[event] = [];
+                }
+
+                this._interrupts[event].push({
                     pattern: pattern,
                     handler: handler,
                 });

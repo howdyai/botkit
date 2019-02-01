@@ -4,6 +4,7 @@ export declare class WebsocketAdapter extends BotAdapter {
     name: string;
     middlewares: any;
     web: any;
+    menu: any;
     wss: any;
     private botkit;
     constructor(config: any);

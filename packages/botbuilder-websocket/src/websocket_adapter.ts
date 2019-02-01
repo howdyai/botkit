@@ -15,6 +15,7 @@ export class WebsocketAdapter extends BotAdapter {
     public name: string;
     public middlewares;
     public web;
+    public menu;
 
     public wss;
     private botkit; // If set, points to an instance of Botkit
@@ -56,6 +57,14 @@ export class WebsocketAdapter extends BotAdapter {
                         {}
                     );
                 }
+            }
+        ]
+
+        this.menu = [
+            {
+                title: 'Chat',
+                url: '/chat/chat.html',
+                icon: '💬'
             }
         ]
     
@@ -105,41 +114,10 @@ export class WebsocketAdapter extends BotAdapter {
                         };
 
 
+
                         const context = new TurnContext(this, activity as Activity);
-                      
-                        this.runMiddleware(context, async(turnContext) => {
-
-                            const dialogContext = await botkit.dialogSet.createContext(turnContext);
-
-                            // Continue dialog if one is present
-                            const dialog_results = await dialogContext.continueDialog();
-                            if (dialog_results.status === DialogTurnStatus.empty) {
-            
-                                const bot = await botkit.spawn(dialogContext);
-
-                                // pass through the websocket
-                                // this will later be used to send replies
-                                // bot.ws = ws;
-
-                                // Turn this turnContext into a Botkit message.
-                                const message = {
-                                    type: turnContext.activity.type,
-                                    incoming_message: turnContext.activity,
-                                    context: turnContext,
-                                    user: turnContext.activity.from.id,
-                                    text: turnContext.activity.text,
-                                    channel: turnContext.activity.conversation.id,
-                                    reference: TurnContext.getConversationReference(turnContext.activity),
-                                };
-
-
-                                await botkit.ingest(bot, message);
-                            }
-
-                            // make sure changes to the state get persisted after the turn is over.
-                            await botkit.conversationState.saveChanges(turnContext);
-
-                        }).catch((err) => { console.error(err.toString()); });
+                        this.runMiddleware(context, async (context) => { return botkit.handleTurn(context) })
+                            .catch((err) => { console.error(err.toString()); });
 
                     } catch (e) {
                         var alert = [
@@ -228,7 +206,9 @@ export class WebsocketAdapter extends BotAdapter {
         );
         const context = new TurnContext(this, request);
 
-        return this.runMiddleware(context, logic);
+        return this.runMiddleware(context, logic)
+            .catch((err) => { console.error(err.toString()); });
+
     }
 
     async processActivity(req, res, logic) {
@@ -242,7 +222,7 @@ export class WebsocketAdapter extends BotAdapter {
         const context = new TurnContext(this, activity);
 
         this.runMiddleware(context, logic)
-        .catch((err) => { console.error(err.toString()); });
+            .catch((err) => { console.error(err.toString()); });
 
     }
 }
