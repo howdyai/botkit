@@ -27,6 +27,7 @@
     "clone": "2.1.2",
     "command-line-args": "^5.0.2",
     "command-line-usage": "^5.0.5",
+    "crypto": "^1.0.1",
     "debug": "^4.1.0",
     "email-addresses": "^3.0.2",
     "express": "^4.16.4",
