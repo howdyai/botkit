@@ -136,13 +136,6 @@ export class WebsocketAdapter extends BotAdapter {
         const responses = [];
         for (var a = 0; a < activities.length; a++) {
             const activity = activities[a];
-            debug('OUTGOING ACTIVITY', activity);
-            // const message = {
-            //     roomId: activity.conversation ? activity.conversation.id : null,
-            //     toPersonId: activity.conversation ? null : activity.recipient.id,
-            //     text: activity.text,
-            // }
-            // responses.push(await this._api.messages.create(message));
             var ws = clients[activity.recipient.id];
             if (ws) {
                 try {
@@ -151,7 +144,7 @@ export class WebsocketAdapter extends BotAdapter {
                     console.error(err);
                 }
             } else {
-                console.error('Could not send message, no websocket found');
+                console.error('Could not send message, no open websocket found');
             }
         }
 
