@@ -1,8 +1,6 @@
 import { Activity, ActivityTypes, BotAdapter, TurnContext } from 'botbuilder';
-import { DialogTurnStatus } from 'botbuilder-dialogs';
 var WebSocket = require('ws');
 import * as Debug from 'debug';
-import { networkInterfaces } from 'os';
 const debug = Debug('botkit:websocket');
 
 const clients = {};
@@ -13,7 +11,6 @@ export class WebsocketAdapter extends BotAdapter {
     private _config: any;
 
     public name: string;
-    public middlewares;
     public web;
     public menu;
 
@@ -30,22 +27,6 @@ export class WebsocketAdapter extends BotAdapter {
 
         // Botkit Plugin additions
         this.name = 'Websocket Adapter';
-        this.middlewares = {
-            // send: [
-            //     // make sure the outgoing message has a .ws attached
-            //     async(bot, message, next) => {
-            //         message.ws = bot.ws;
-            //         next();
-            //     }
-            // ]
-            // spawn: [
-            //     async (bot, next) => {
-            //         // make webex api directly available on a botkit instance.
-            //         bot.api = this._api;
-            //         next();
-            //     }
-            // ]
-        }
 
         this.web = [
             {
@@ -107,13 +88,10 @@ export class WebsocketAdapter extends BotAdapter {
                             channelId: 'websocket',
                             conversation: { id: message.channel },
                             from: { id: message.user },
-                            // recipient: this.identity.user_id,
                             channelData: message,
                             text: message.text,
-                            type: message.type==='message' ? ActivityTypes.Message : message.type,
+                            type: message.type === 'message' ? ActivityTypes.Message : message.type,
                         };
-
-
 
                         const context = new TurnContext(this, activity as Activity);
                         this.runMiddleware(context, async (context) => { return botkit.handleTurn(context) })
@@ -134,9 +112,7 @@ export class WebsocketAdapter extends BotAdapter {
                 ws.on('error', (err) => console.error('Websocket Error: ', err));
     
                 ws.on('close', function() {
-                    console.log('closing socket for', ws.user);
                     delete(clients[ws.user]);
-                    // bot.connected = false;
                 });
     
             });
@@ -146,7 +122,6 @@ export class WebsocketAdapter extends BotAdapter {
                     if (ws.isAlive === false) {
                         return ws.terminate();
                     }
-                    //  if (ws.isAlive === false) return ws.terminate()
                     ws.isAlive = false;
                     ws.ping('', false, true);
                 });
