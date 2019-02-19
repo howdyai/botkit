@@ -194,7 +194,7 @@ class Botkit {
     }
     saveState(bot) {
         return __awaiter(this, void 0, void 0, function* () {
-            yield this.conversationState.saveChanges(bot.context);
+            yield this.conversationState.saveChanges(bot._config.context);
         });
     }
     ingest(bot, message) {

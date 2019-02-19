@@ -52,6 +52,33 @@ class SlackAdapter extends botbuilder_1.BotAdapter {
                 (bot, next) => __awaiter(this, void 0, void 0, function* () {
                     // make the Slack API available to all bot instances.
                     bot.api = yield this.getAPI(bot.getConfig('activity'));
+                    bot.startPrivateConversation = function (userId) {
+                        return __awaiter(this, void 0, void 0, function* () {
+                            // create the new IM channel
+                            const channel = yield bot.api.im.open({ user: userId });
+                            if (channel.ok === true) {
+                                // now, switch contexts
+                                return this.changeContext({
+                                    conversation: { id: channel.channel.id },
+                                    user: { id: userId },
+                                    channelId: 'slack',
+                                });
+                            }
+                            else {
+                                console.error(channel);
+                                throw new Error('Error creating IM channel');
+                            }
+                        });
+                    };
+                    bot.startConversationInChannel = function (channelId, userId) {
+                        return __awaiter(this, void 0, void 0, function* () {
+                            return this.changeContext({
+                                conversation: { id: channelId },
+                                user: { id: userId },
+                                channelId: 'slack',
+                            });
+                        });
+                    };
                     next();
                 })
             ]

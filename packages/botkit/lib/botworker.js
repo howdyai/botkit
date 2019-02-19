@@ -60,11 +60,31 @@ class BotWorker {
     beginDialog(id, options) {
         return __awaiter(this, void 0, void 0, function* () {
             if (this._config.dialogContext) {
-                return yield this._config.dialogContext.beginDialog(id, options);
+                yield this._config.dialogContext.beginDialog(id, options);
+                // make sure we save the state change caused by the dialog.
+                // this may also get saved again at end of turn
+                yield this._controller.saveState(this);
             }
             else {
                 throw new Error('Call to beginDialog on a bot that did not receive a dialogContext during spawn');
             }
+        });
+    }
+    changeContext(reference) {
+        return __awaiter(this, void 0, void 0, function* () {
+            // change context of outbound activities to use this new address
+            this._config.reference = reference;
+            // Create an activity using this reference
+            const activity = botbuilder_1.TurnContext.applyConversationReference({ type: 'message' }, reference, true);
+            // console.log('APPLYING REFERENCE', reference);
+            // create a turn context
+            const turnContext = new botbuilder_1.TurnContext(this._controller.adapter, activity);
+            // create a new dialogContext so beginDialog works.
+            const dialogContext = yield this._controller.dialogSet.createContext(turnContext);
+            this._config.context = turnContext;
+            this._config.dialogContext = dialogContext;
+            this._config.activity = activity;
+            return this;
         });
     }
 }

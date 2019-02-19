@@ -1,4 +1,4 @@
-import { BotFrameworkAdapter, Storage, ConversationReference } from 'botbuilder';
+import { BotFrameworkAdapter, ConversationState, Storage, ConversationReference } from 'botbuilder';
 import { DialogSet } from 'botbuilder-dialogs';
 import { BotkitCMSHelper } from './cms';
 import { BotkitPluginLoader } from './plugin_loader';
@@ -31,7 +31,7 @@ export declare class Botkit {
     private _config;
     private _events;
     private _triggers;
-    private conversationState;
+    conversationState: ConversationState;
     private _deps;
     private _bootCompleteHandlers;
     cms: BotkitCMSHelper;

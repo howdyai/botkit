@@ -31,10 +31,10 @@ const basicAuth = require('express-basic-auth');
  * Configure the Slack adapter
  * ----------------------------------------------------------------------
  */
-// const adapter = new SlackAdapter({
-//     verificationToken: process.env.verificationToken,
-//     botToken: process.env.botToken,
-// });
+const adapter = new SlackAdapter({
+    verificationToken: process.env.verificationToken,
+    botToken: process.env.botToken,
+});
 
 
 // // Use SlackEventMiddleware to modify incoming Activity objects so they have .type fields that match their original Slack event types.
@@ -49,7 +49,7 @@ const basicAuth = require('express-basic-auth');
 const controller = new Botkit({
     debug: true,
     webhook_uri: '/api/messages',
-    // adapter: adapter,
+    adapter: adapter,
     authFunction:  basicAuth({
         users: { 'admin': 'supersecret' }, // TODO: externalize these
         challenge: true,

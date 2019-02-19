@@ -48,7 +48,7 @@ export class Botkit {
         }[]
     } = {};
 
-    private conversationState: ConversationState;
+    public conversationState: ConversationState;
 
     private _deps: {};
     private _bootCompleteHandlers: { (): void }[];
@@ -275,7 +275,7 @@ export class Botkit {
     }
 
     public async saveState(bot) {
-        await this.conversationState.saveChanges(bot.context);
+        await this.conversationState.saveChanges(bot._config.context);
     }
 
     public async ingest(bot: BotWorker, message: BotkitMessage): Promise<any> {

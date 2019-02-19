@@ -1,5 +1,5 @@
 import { Botkit, BotkitMessage } from './core';
-import { ConversationReference, TurnContext } from 'botbuilder';
+import { Activity, ConversationReference, TurnContext } from 'botbuilder';
 import { BotkitConversation } from './conversation';
 const debug = require('debug')('botkit:worker');
 
@@ -61,20 +61,42 @@ export class BotWorker {
     /* Begin a BotBuilder dialog */
     public async beginDialog(id, options) {
         if (this._config.dialogContext) {
-            return await this._config.dialogContext.beginDialog(id, options);
+            await this._config.dialogContext.beginDialog(id, options);
+
+            // make sure we save the state change caused by the dialog.
+            // this may also get saved again at end of turn
+            await this._controller.saveState(this);
         } else {
             throw new Error('Call to beginDialog on a bot that did not receive a dialogContext during spawn');
         }
     }
 
-    // /* Create a conversation based on an incoming message */
-    // public async startConversation(message: Partial<BotkitMessage>): Promise<any> {
+    public async changeContext(reference: Partial<ConversationReference>): Promise<BotWorker> {
 
-    //     // get conversation reference from incoming message
-    //     const reference = TurnContext.getConversationReference(message.incoming_message);
+        // change context of outbound activities to use this new address
+        this._config.reference = reference;
 
-    //     return new BotkitConversation(reference);
-    // }
+        // Create an activity using this reference
+        const activity = TurnContext.applyConversationReference(
+            { type: 'message' },
+            reference,
+            true
+        );
+
+        // console.log('APPLYING REFERENCE', reference);
+
+        // create a turn context
+        const turnContext = new TurnContext(this._controller.adapter, activity as Activity);
+
+        // create a new dialogContext so beginDialog works.
+        const dialogContext = await this._controller.dialogSet.createContext(turnContext);
+
+        this._config.context = turnContext;
+        this._config.dialogContext = dialogContext;
+        this._config.activity = activity;
+
+        return this;
+    }
 
 }
 

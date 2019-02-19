@@ -1,6 +1,7 @@
 import { Activity, ActivityTypes, BotAdapter, TurnContext, MiddlewareSet, ConversationReference} from 'botbuilder';
 import { WebClient, WebAPICallResult } from '@slack/client';
 import * as Debug from 'debug';
+import { MessageChannel } from 'worker_threads';
 const debug = Debug('botkit:slack');
 
 interface SlackAdapterOptions {
@@ -81,6 +82,34 @@ export class SlackAdapter extends BotAdapter {
                 async (bot, next) => {
                     // make the Slack API available to all bot instances.
                     bot.api = await this.getAPI(bot.getConfig('activity'));
+
+                    bot.startPrivateConversation = async function(userId: string): Promise<any> {
+                        // create the new IM channel
+                        const channel = await bot.api.im.open({user: userId});
+
+                        if (channel.ok === true) {
+                            // now, switch contexts
+                            return this.changeContext({
+                                conversation: { id: channel.channel.id },
+                                user: { id: userId },
+                                channelId: 'slack',
+                                // bot: { id: bot.id } // todo get bot id somehow?
+                            });
+                        } else {
+                            console.error(channel);
+                            throw new Error('Error creating IM channel');
+                        }
+                    }
+
+                    bot.startConversationInChannel = async function(channelId: string, userId: string): Promise<any> {
+                        return this.changeContext({
+                            conversation: { id: channelId },
+                            user: { id: userId },
+                            channelId: 'slack',
+                            // bot: { id: bot.id } // todo get bot id somehow?
+                        });
+                    }
+
                     next();
                 }
             ]
@@ -171,7 +200,7 @@ export class SlackAdapter extends BotAdapter {
         return message;
     }
 
-    public  async sendActivities(context: TurnContext, activities: Activity[]) {
+    public async sendActivities(context: TurnContext, activities: Activity[]) {
         const responses = [];
         for (var a = 0; a < activities.length; a++) {
             const activity = activities[a];
