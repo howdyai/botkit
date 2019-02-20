@@ -2,6 +2,7 @@ import { Activity, ActivityTypes, BotAdapter, TurnContext, MiddlewareSet, Conver
 import { WebClient, WebAPICallResult } from '@slack/client';
 import * as Debug from 'debug';
 import { MessageChannel } from 'worker_threads';
+import { isDate } from 'util';
 const debug = Debug('botkit:slack');
 
 interface SlackAdapterOptions {
@@ -110,6 +111,27 @@ export class SlackAdapter extends BotAdapter {
                         });
                     }
 
+
+                    bot.startConversationInThread = async function(channelId: string, userId: string, thread_ts: string): Promise<any> {
+                        return this.changeContext({
+                            conversation: { 
+                                id: channelId + '-' + thread_ts,
+                                // thread_ts: thread_ts
+                            },
+                            user: { id: userId },
+                            channelId: 'slack',
+                            // bot: { id: bot.id } // todo get bot id somehow?
+                        });
+                    }
+
+                    /* Send a reply to an inbound message, using information collected from that inbound message */
+                    bot.replyInThread = async function(src: any, resp: any): Promise<any> {
+                        // make sure the  thread_ts setting is set
+                        // this will be included in the conversation reference
+                        src.incoming_message.conversation.id = src.incoming_message.conversation.id + '-' + (src.incoming_message.channelData.thread_ts ? src.incoming_message.channelData.thread_ts : src.incoming_message.channelData.ts);
+                        return bot.reply(src, resp);
+                    }
+
                     next();
                 }
             ]
@@ -182,13 +204,20 @@ export class SlackAdapter extends BotAdapter {
             // TODO: What should we return here?
             throw new Error(results.error);
         }
-    }
+    }   
 
     private activityToSlack(activity: Partial<Activity>): any {
+
+        let [ channelId, thread_ts ] = activity.conversation.id.split('-');
+
         const message = {
-            channel: activity.conversation.id,
-            text: activity.text
+            channel: channelId,
+            text: activity.text,
+            // @ts-ignore
+            thread_ts: thread_ts,
         };
+
+        // TODO: add all other supported fields
 
         // if channelData is specified, overwrite any fields in message object
         if (activity.channelData) {
@@ -298,7 +327,10 @@ export class SlackAdapter extends BotAdapter {
                 const activity = {
                     timestamp: new Date(),
                     channelId: 'slack',
-                    conversation: { id: event.channel.id },
+                    conversation: { 
+                        id: event.channel.id + ( event.thread_ts ? '-' + event.thread_ts : ''),
+                        // thread_ts: event.thread_ts 
+                    },
                     from: { id: event.user.id },
                     // recipient: this.identity.user_id,
                     channelData: event,
@@ -306,6 +338,7 @@ export class SlackAdapter extends BotAdapter {
                 };
 
                 // create a conversation reference
+                // @ts-ignore
                 const context = new TurnContext(this, activity as Activity);
 
                 // send http response back
@@ -318,7 +351,6 @@ export class SlackAdapter extends BotAdapter {
             }
         } else if (event.type === 'event_callback') {
 
-            // console.log('RAW PAYLOAD', event);
             // this is an event api post
             if (event.token !== this.options.verificationToken) {
                 console.error('Rejected due to mismatched verificationToken:', event);
@@ -329,7 +361,10 @@ export class SlackAdapter extends BotAdapter {
                     id: event.event.ts,
                     timestamp: new Date(),
                     channelId: 'slack',
-                    conversation: { id: event.event.channel },
+                    conversation: { 
+                        id: event.event.channel + ( event.event.thread_ts ? '-' + event.event.thread_ts : ''),
+                        // thread_ts: event.event.thread_ts
+                    },
                     from: { id : event.event.user }, // TODO: bot_messages do not have a user field
                     // recipient: event.api_app_id, // TODO: what should this actually be? hard to make it consistent.
                     channelData: event.event,
@@ -347,6 +382,7 @@ export class SlackAdapter extends BotAdapter {
                 }
 
                 // create a conversation reference
+                // @ts-ignore
                 const context = new TurnContext(this, activity as Activity);
 
                 // send http response back
@@ -382,7 +418,6 @@ export class SlackMessageTypeMiddleware extends MiddlewareSet {
     async onTurn(context, next) {
         if (context.activity.type === 'message' && context.activity.channelData) {
             // is this a DM, a mention, or just ambient messages passing through?
-            // console.log('CONSIDER:', context.activity);
             if (context.activity.channelData.channel_type && context.activity.channelData.channel_type === 'im') {
                 context.activity.type = 'direct_message';
             }

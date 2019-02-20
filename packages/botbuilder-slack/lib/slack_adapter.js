@@ -79,6 +79,26 @@ class SlackAdapter extends botbuilder_1.BotAdapter {
                             });
                         });
                     };
+                    bot.startConversationInThread = function (channelId, userId, thread_ts) {
+                        return __awaiter(this, void 0, void 0, function* () {
+                            return this.changeContext({
+                                conversation: {
+                                    id: channelId + '-' + thread_ts,
+                                },
+                                user: { id: userId },
+                                channelId: 'slack',
+                            });
+                        });
+                    };
+                    /* Send a reply to an inbound message, using information collected from that inbound message */
+                    bot.replyInThread = function (src, resp) {
+                        return __awaiter(this, void 0, void 0, function* () {
+                            // make sure the  thread_ts setting is set
+                            // this will be included in the conversation reference
+                            src.incoming_message.conversation.id = src.incoming_message.conversation.id + '-' + (src.incoming_message.channelData.thread_ts ? src.incoming_message.channelData.thread_ts : src.incoming_message.channelData.ts);
+                            return bot.reply(src, resp);
+                        });
+                    };
                     next();
                 })
             ]
@@ -151,10 +171,14 @@ class SlackAdapter extends botbuilder_1.BotAdapter {
         });
     }
     activityToSlack(activity) {
+        let [channelId, thread_ts] = activity.conversation.id.split('-');
         const message = {
-            channel: activity.conversation.id,
-            text: activity.text
+            channel: channelId,
+            text: activity.text,
+            // @ts-ignore
+            thread_ts: thread_ts,
         };
+        // TODO: add all other supported fields
         // if channelData is specified, overwrite any fields in message object
         if (activity.channelData) {
             Object.keys(activity.channelData).forEach(function (key) {
@@ -264,13 +288,16 @@ class SlackAdapter extends botbuilder_1.BotAdapter {
                     const activity = {
                         timestamp: new Date(),
                         channelId: 'slack',
-                        conversation: { id: event.channel.id },
+                        conversation: {
+                            id: event.channel.id + (event.thread_ts ? '-' + event.thread_ts : ''),
+                        },
                         from: { id: event.user.id },
                         // recipient: this.identity.user_id,
                         channelData: event,
                         type: botbuilder_1.ActivityTypes.Event
                     };
                     // create a conversation reference
+                    // @ts-ignore
                     const context = new botbuilder_1.TurnContext(this, activity);
                     // send http response back
                     // TODO: Dialog submissions have other options including HTTP response codes
@@ -281,7 +308,6 @@ class SlackAdapter extends botbuilder_1.BotAdapter {
                 }
             }
             else if (event.type === 'event_callback') {
-                // console.log('RAW PAYLOAD', event);
                 // this is an event api post
                 if (event.token !== this.options.verificationToken) {
                     console.error('Rejected due to mismatched verificationToken:', event);
@@ -293,7 +319,9 @@ class SlackAdapter extends botbuilder_1.BotAdapter {
                         id: event.event.ts,
                         timestamp: new Date(),
                         channelId: 'slack',
-                        conversation: { id: event.event.channel },
+                        conversation: {
+                            id: event.event.channel + (event.event.thread_ts ? '-' + event.event.thread_ts : ''),
+                        },
                         from: { id: event.event.user },
                         // recipient: event.api_app_id, // TODO: what should this actually be? hard to make it consistent.
                         channelData: event.event,
@@ -308,6 +336,7 @@ class SlackAdapter extends botbuilder_1.BotAdapter {
                         activity.text = event.event.text;
                     }
                     // create a conversation reference
+                    // @ts-ignore
                     const context = new botbuilder_1.TurnContext(this, activity);
                     // send http response back
                     res.status(200);
@@ -345,7 +374,6 @@ class SlackMessageTypeMiddleware extends botbuilder_1.MiddlewareSet {
         return __awaiter(this, void 0, void 0, function* () {
             if (context.activity.type === 'message' && context.activity.channelData) {
                 // is this a DM, a mention, or just ambient messages passing through?
-                // console.log('CONSIDER:', context.activity);
                 if (context.activity.channelData.channel_type && context.activity.channelData.channel_type === 'im') {
                     context.activity.type = 'direct_message';
                 }

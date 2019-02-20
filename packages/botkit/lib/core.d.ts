@@ -65,7 +65,6 @@ export declare class Botkit {
     on(events: string | string[], handler: (bot: BotWorker, event: any) => Promise<boolean>): void;
     trigger(event: string, bot: BotWorker, message: BotkitMessage): Promise<any>;
     spawn(config: any): Promise<BotWorker>;
-    spawnPrivate(src: Partial<BotkitMessage>, user: any): Promise<any>;
     loadModule(path: string): void;
     loadModules(path: string): void;
 }

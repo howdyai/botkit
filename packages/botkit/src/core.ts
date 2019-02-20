@@ -246,6 +246,8 @@ export class Botkit {
 
                 const dialogContext = await this.dialogSet.createContext(turnContext);
 
+                console.log('GOT DIALOG CONTEXT', JSON.stringify(dialogContext.stack, null, 2));
+
                 // Continue dialog if one is present
                 const dialog_results = await dialogContext.continueDialog();
                 if (dialog_results.status === DialogTurnStatus.empty) {
@@ -268,6 +270,7 @@ export class Botkit {
                 }
 
                 // make sure changes to the state get persisted after the turn is over.
+                console.log('END OF TURN SAVE CHANGES');
                 await this.conversationState.saveChanges(turnContext);
                 
             });
@@ -275,6 +278,7 @@ export class Botkit {
     }
 
     public async saveState(bot) {
+        console.log('SAVING STATE');
         await this.conversationState.saveChanges(bot._config.context);
     }
 
@@ -424,6 +428,11 @@ export class Botkit {
          }
 
         const worker = new BotWorker(this, config);
+
+        if (config && config.reference) {
+            console.log('BOT REFERENCE', JSON.stringify(config.reference, null, 2));
+        }
+
         return new Promise((resolve, reject) => {
             this.middleware.spawn.run(worker, (err, worker) => {
                 if (err) {
@@ -433,28 +442,6 @@ export class Botkit {
                     resolve(worker);
                 }
             })
-        });
-    }
-
-    public spawnPrivate(src: Partial<BotkitMessage>, user: any): Promise<any> {
-        return new Promise((resolve, reject) => {
-            const reference = TurnContext.getConversationReference(src.incoming_message);
-            reference.tenant = src.incoming_message.channelData.tenant.id;
-            reference.user = user;
-            return this.adapter.createConversation(reference, async(new_context) => {
-                const new_reference = TurnContext.getConversationReference(new_context.activity);
-                const dc = await this.dialogSet.createContext(new_context);
-
-                // console.log('PRIVATE DC', JSON.stringify(dc,null,2));
-                const bot = await this.spawn({
-                    dialogContext: dc,
-                    reference: new_reference,
-                    context: new_context,
-                    activity: src.incoming_message
-                });
-
-                resolve(bot);
-            });
         });
     }
 

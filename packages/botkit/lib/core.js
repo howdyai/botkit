@@ -170,6 +170,7 @@ class Botkit {
             // which we can then use to turn into a BotkitMessage
             this.adapter.processActivity(req, res, (turnContext) => __awaiter(this, void 0, void 0, function* () {
                 const dialogContext = yield this.dialogSet.createContext(turnContext);
+                console.log('GOT DIALOG CONTEXT', JSON.stringify(dialogContext.stack, null, 2));
                 // Continue dialog if one is present
                 const dialog_results = yield dialogContext.continueDialog();
                 if (dialog_results.status === botbuilder_dialogs_1.DialogTurnStatus.empty) {
@@ -188,12 +189,14 @@ class Botkit {
                     yield this.ingest(bot, message);
                 }
                 // make sure changes to the state get persisted after the turn is over.
+                console.log('END OF TURN SAVE CHANGES');
                 yield this.conversationState.saveChanges(turnContext);
             }));
         });
     }
     saveState(bot) {
         return __awaiter(this, void 0, void 0, function* () {
+            console.log('SAVING STATE');
             yield this.conversationState.saveChanges(bot._config.context);
         });
     }
@@ -334,6 +337,9 @@ class Botkit {
             };
         }
         const worker = new botworker_1.BotWorker(this, config);
+        if (config && config.reference) {
+            console.log('BOT REFERENCE', JSON.stringify(config.reference, null, 2));
+        }
         return new Promise((resolve, reject) => {
             this.middleware.spawn.run(worker, (err, worker) => {
                 if (err) {
@@ -344,25 +350,6 @@ class Botkit {
                     resolve(worker);
                 }
             });
-        });
-    }
-    spawnPrivate(src, user) {
-        return new Promise((resolve, reject) => {
-            const reference = botbuilder_1.TurnContext.getConversationReference(src.incoming_message);
-            reference.tenant = src.incoming_message.channelData.tenant.id;
-            reference.user = user;
-            return this.adapter.createConversation(reference, (new_context) => __awaiter(this, void 0, void 0, function* () {
-                const new_reference = botbuilder_1.TurnContext.getConversationReference(new_context.activity);
-                const dc = yield this.dialogSet.createContext(new_context);
-                // console.log('PRIVATE DC', JSON.stringify(dc,null,2));
-                const bot = yield this.spawn({
-                    dialogContext: dc,
-                    reference: new_reference,
-                    context: new_context,
-                    activity: src.incoming_message
-                });
-                resolve(bot);
-            }));
         });
     }
     loadModule(path) {

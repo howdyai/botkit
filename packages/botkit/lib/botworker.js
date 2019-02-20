@@ -76,7 +76,6 @@ class BotWorker {
             this._config.reference = reference;
             // Create an activity using this reference
             const activity = botbuilder_1.TurnContext.applyConversationReference({ type: 'message' }, reference, true);
-            // console.log('APPLYING REFERENCE', reference);
             // create a turn context
             const turnContext = new botbuilder_1.TurnContext(this._controller.adapter, activity);
             // create a new dialogContext so beginDialog works.

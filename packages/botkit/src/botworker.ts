@@ -46,7 +46,7 @@ export class BotWorker {
 
             // get conversation reference from src
             const reference = TurnContext.getConversationReference(src.incoming_message);
-
+            
             // use the new reference to send the outgoing message
             this._controller.middleware.send.run(this, activity, (err, bot, activity) => {
                 // NOTE: This calls the BotBuilder middleware again...
@@ -55,7 +55,6 @@ export class BotWorker {
                 });
             });
         });
-
     }
 
     /* Begin a BotBuilder dialog */
@@ -82,8 +81,6 @@ export class BotWorker {
             reference,
             true
         );
-
-        // console.log('APPLYING REFERENCE', reference);
 
         // create a turn context
         const turnContext = new TurnContext(this._controller.adapter, activity as Activity);

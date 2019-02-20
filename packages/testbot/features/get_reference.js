@@ -9,6 +9,18 @@ module.exports = function(controller) {
 
     });
 
+    controller.hears('thread me', 'message', async (bot, message) => {
+
+        await bot.startConversationInThread(message.channel, message.user, message.incoming_message.channelData.ts);
+        await bot.beginDialog('waterfall_sample');
+
+    });
+
+
+    controller.hears('thread it', 'message', async (bot, message) => {
+        await bot.replyInThread(message,'THREADED');
+    });
+
     controller.hears('im me', 'message', async(bot, message) => {
 
         await bot.startPrivateConversation(message.user);
