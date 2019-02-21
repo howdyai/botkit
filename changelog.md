@@ -5,8 +5,9 @@
 [Want to contribute? Read our guide!](https://github.com/howdyai/botkit/blob/master/CONTRIBUTING.md)
 
 
-# Next Release (in master on Github)
+# 0.7.3
 
+* Slack: Messages can now contain a `blocks` field to support Slack's new [Block Kit feature](https://api.slack.com/reference/messaging/blocks). Thanks to [@ihorrusinko for this update](https://github.com/howdyai/botkit/pull/1594).
 * Slack: [set useQuerystring to true in Slack API](https://github.com/howdyai/botkit/pull/1547)
 * Slack: [Change 500 webserver status to 404 when team not found](https://github.com/howdyai/botkit/pull/1548)
 * Google Hangouts: [allow to consume auth data from env var instead of file](https://github.com/howdyai/botkit/pull/1543)
