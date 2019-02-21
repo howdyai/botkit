@@ -28,6 +28,13 @@ module.exports = function(controller) {
 
     });
 
+
+    controller.hears('webex me', 'message', async(bot, message) => {
+        // switch to a 1:1
+        delete message.incoming_message.conversation;
+        const response = await bot.reply(message, '');
+        console.log('GOT REPLY RESPONSE', response);
+    });
     controller.hears('\<\#.*?\>', 'message', async(bot, message) => {
 
         const channel = message.text.replace(/.*?\<\#(.*?)\|.*?\>.*/,"$1");
@@ -37,12 +44,12 @@ module.exports = function(controller) {
 
     });
 
-    async function foo() {
-        let bot = await controller.spawn();
-        await bot.startPrivateConversation('U024F7C89');
-        bot.say('I BOOTED');
-    }
+    // async function foo() {
+    //     let bot = await controller.spawn();
+    //     await bot.startPrivateConversation('U024F7C89');
+    //     bot.say('I BOOTED');
+    // }
 
-    foo();
+    // foo();
 
 }

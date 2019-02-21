@@ -70,6 +70,19 @@ export class WebexAdapter extends BotAdapter {
                 async (bot, next) => {
                     // make webex api directly available on a botkit instance.
                     bot.api = this._api;
+
+                    bot.startPrivateConversation = async function(userId: string) {
+
+                        // send a message with the toPersonId or toPersonEmail set
+                        // response will have the roomID
+                        return this.changeContext({
+                            from: { id: userId },
+                            conversation: { id: 'temp' }, // TODO: this is fake
+                            channelId: 'webex'
+                        });
+
+                    }
+
                     next();
                 }
             ]
@@ -158,13 +171,18 @@ export class WebexAdapter extends BotAdapter {
         for (var a = 0; a < activities.length; a++) {
             const activity = activities[a];
             debug('OUTGOING ACTIVITY', activity);
+
+            // TODO: support additional fields
+            // https://developer.webex.com/docs/api/v1/messages/create-a-message
             const message = {
                 roomId: activity.conversation ? activity.conversation.id : null,
                 toPersonId: activity.conversation ? null : activity.recipient.id,
                 text: activity.text,
             }
 
-            responses.push(await this._api.messages.create(message));
+            let response = await this._api.messages.create(message);
+
+            responses.push(response);
         
         }
 

@@ -15,10 +15,10 @@ const basicAuth = require('express-basic-auth');
  * Configure the Webex Teams adapter
  * ----------------------------------------------------------------------
  */
-// const adapter = new WebexAdapter({
-//     access_token: process.env.access_token,
-//     public_address: process.env.public_address
-// })
+const adapter = new WebexAdapter({
+    access_token: process.env.access_token,
+    public_address: process.env.public_address
+})
 
 
 
@@ -31,10 +31,10 @@ const basicAuth = require('express-basic-auth');
  * Configure the Slack adapter
  * ----------------------------------------------------------------------
  */
-const adapter = new SlackAdapter({
-    verificationToken: process.env.verificationToken,
-    botToken: process.env.botToken,
-});
+// const adapter = new SlackAdapter({
+//     verificationToken: process.env.verificationToken,
+//     botToken: process.env.botToken,
+// });
 
 
 // // Use SlackEventMiddleware to modify incoming Activity objects so they have .type fields that match their original Slack event types.
