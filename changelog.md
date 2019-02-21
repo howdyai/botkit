@@ -4,6 +4,9 @@
 
 [Want to contribute? Read our guide!](https://github.com/howdyai/botkit/blob/master/CONTRIBUTING.md)
 
+# Next minor release (changes in master)
+
+* only require simple_storage when used: [#1566](https://github.com/howdyai/botkit/pull/1566)
 
 # 0.7.3
 
