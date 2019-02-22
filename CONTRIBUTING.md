@@ -1,20 +1,20 @@
 # Instructions for Contributing Code
 
+This project welcomes contributions and suggestions.  Most contributions require you to agree to a
+Contributor License Agreement (CLA) declaring that you have the right to, and actually do, grant us
+the rights to use your contribution. For details, visit https://cla.microsoft.com.
+
+When you submit a pull request, a CLA-bot will automatically determine whether you need to provide
+a CLA and decorate the PR appropriately (e.g., label, comment). Simply follow the instructions
+provided by the bot. You will only need to do this once across all repos using our CLA.
+
+When you submit a pull request, a CLA-bot will automatically determine whether you need to provide
+a CLA and decorate the PR appropriately (e.g., label, comment). Simply follow the instructions
+provided by the bot. You will only need to do this once across all repos using our CLA.
+
 ## Code of Conduct
 
 This project has adopted the [Microsoft Open Source Code of Conduct](https://opensource.microsoft.com/codeofconduct/). For more information see the [Code of Conduct FAQ](https://opensource.microsoft.com/codeofconduct/faq/) or contact [opencode@microsoft.com](mailto:opencode@microsoft.com) with any additional questions or comments.
-
-## Legal
-
-If your contribution is more than 15 lines of code, you will need to complete a Contributor License Agreement (CLA). Briefly, this agreement testifies that you are granting us permission to use the submitted change according to the terms of the project's license, and that the work being submitted is under appropriate copyright.
-
-Please submit a Contributor License Agreement (CLA) before submitting a pull request. You may visit https://cla.azure.com to sign digitally. Alternatively, download the agreement ([Microsoft Contribution License Agreement.docx](https://www.codeplex.com/Download?ProjectName=typescript&DownloadId=822190) or [Microsoft Contribution License Agreement.pdf](https://www.codeplex.com/Download?ProjectName=typescript&DownloadId=921298)), sign, scan, and email it back to <cla@microsoft.com>. Be sure to include your github user name along with the agreement. Once we have received the signed CLA, we'll review the request. 
-
-# Contributing to Botkit
-
-The following is a set of guidelines for contributing to Botkit.
-These are just guidelines, not rules, use your best judgment and feel free to
-propose changes to this document in a pull request.
 
 ## Submitting Issues
 
@@ -36,7 +36,6 @@ possible with your report. If you can, please include:
 * Pull requests should contain a concise topic and detailed accompanying text that clearly identifies both the purpose and justification for acceptance of any changes.
 * Create, or link to an existing issue identifying the need driving your PR request. The issue can contain more details of the need for the PR as well as host debate as to which course of action the PR will take that will most serve the common good.
 * Include screenshots and animated GIFs in your pull request whenever possible.
-* Follow the JavaScript coding style with details from `.jscsrc` and `.editorconfig` files and use necessary plugins for your text editor.
 * Run `npm test` before submitting and fix any issues.
 * Add tests to cover any new functionality. Add and/or update tests for any updates to the code.
 * Write documentation in [Markdown](https://daringfireball.net/projects/markdown).
@@ -62,4 +61,3 @@ possible with your report. If you can, please include:
 * Use the imperative mood ("Move cursor to..." not "Moves cursor to...")
 * Limit the first line to 72 characters or less
 * Reference issues and pull requests liberally
-
