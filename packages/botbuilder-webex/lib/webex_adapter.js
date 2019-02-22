@@ -149,14 +149,14 @@ class WebexAdapter extends botbuilder_1.BotAdapter {
             for (var a = 0; a < activities.length; a++) {
                 const activity = activities[a];
                 debug('OUTGOING ACTIVITY', activity);
+                // TODO: support additional fields
+                // https://developer.webex.com/docs/api/v1/messages/create-a-message
                 const message = {
                     roomId: activity.conversation ? activity.conversation.id : null,
                     toPersonId: activity.conversation ? null : activity.recipient.id,
                     text: activity.text,
                 };
-                let response = yield this._api.messages.create(message).catch((err) => {
-                    throw new Error(err);
-                });
+                let response = yield this._api.messages.create(message);
                 responses.push(response);
             }
             return responses;

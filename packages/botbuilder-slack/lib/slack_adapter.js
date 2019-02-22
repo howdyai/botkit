@@ -303,7 +303,7 @@ class SlackAdapter extends botbuilder_1.BotAdapter {
                     // TODO: Dialog submissions have other options including HTTP response codes
                     res.status(200);
                     res.end();
-                    this.runMiddleware(context, logic)
+                    yield this.runMiddleware(context, logic)
                         .catch((err) => { console.error(err.toString()); });
                 }
             }
@@ -341,7 +341,7 @@ class SlackAdapter extends botbuilder_1.BotAdapter {
                     // send http response back
                     res.status(200);
                     res.end();
-                    this.runMiddleware(context, logic)
+                    yield this.runMiddleware(context, logic)
                         .catch((err) => { console.error(err.toString()); });
                 }
             }

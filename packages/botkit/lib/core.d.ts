@@ -1,4 +1,4 @@
-import { BotFrameworkAdapter, ConversationState, Storage, ConversationReference } from 'botbuilder';
+import { BotFrameworkAdapter, Storage, ConversationReference } from 'botbuilder';
 import { DialogSet } from 'botbuilder-dialogs';
 import { BotkitCMSHelper } from './cms';
 import { BotkitPluginLoader } from './plugin_loader';
@@ -31,7 +31,8 @@ export declare class Botkit {
     private _config;
     private _events;
     private _triggers;
-    conversationState: ConversationState;
+    private _interrupts;
+    private conversationState;
     private _deps;
     private _bootCompleteHandlers;
     cms: BotkitCMSHelper;
@@ -57,11 +58,14 @@ export declare class Botkit {
     private signalBootComplete;
     private ready;
     private configureWebhookEndpoint;
+    handleTurn(turnContext: any): Promise<any>;
     saveState(bot: any): Promise<void>;
     ingest(bot: BotWorker, message: BotkitMessage): Promise<any>;
     private listenForTriggers;
+    private listenForInterrupts;
     private testTrigger;
     hears(patterns: string | string[], events: string | string[], handler: (bot: BotWorker, message: BotkitMessage) => Promise<boolean>): void;
+    interrupts(patterns: string | string[], events: string | string[], handler: (bot: BotWorker, message: BotkitMessage) => Promise<boolean>): void;
     on(events: string | string[], handler: (bot: BotWorker, event: any) => Promise<boolean>): void;
     trigger(event: string, bot: BotWorker, message: BotkitMessage): Promise<any>;
     spawn(config: any): Promise<BotWorker>;

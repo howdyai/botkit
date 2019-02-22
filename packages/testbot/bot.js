@@ -2,6 +2,7 @@ const { Botkit } = require('botkit');
 const { SlackAdapter, SlackMessageTypeMiddleware,  SlackEventMiddleware } = require('botbuilder-slack');
 const { WebexAdapter } = require('botbuilder-webex');
 const { ShowTypingMiddleware } = require('botbuilder');
+const { WebsocketAdapter } = require('botbuilder-websocket');
 
 const basicAuth = require('express-basic-auth');
 
@@ -37,14 +38,15 @@ const adapter = new WebexAdapter({
 // });
 
 
-// // Use SlackEventMiddleware to modify incoming Activity objects so they have .type fields that match their original Slack event types.
-// // this may BREAK waterfall dailogs which only accept ActivityTypes.Message
+// Use SlackEventMiddleware to modify incoming Activity objects so they have .type fields that match their original Slack event types.
+// this may BREAK waterfall dailogs which only accept ActivityTypes.Message
 // adapter.use(new SlackEventMiddleware());
 
 // Use SlackMessageType middleware to further classify messages as direct_message, direct_mention, or mention
 // this will BREAK waterfall dailogs which only accept ActivityTypes.Message
 // adapter.use(new SlackMessageTypeMiddleware());
 
+const adapter = new WebsocketAdapter({});
 
 const controller = new Botkit({
     debug: true,
@@ -63,21 +65,21 @@ const controller = new Botkit({
 // show typing indicator while bot "thinks"
 // controller.adapter.use(new ShowTypingMiddleware());
 
-controller.adapter.use(async(context, next) => {
-    // console.log('---START TURN---');
+// controller.adapter.use(async(context, next) => {
+//     // console.log('---START TURN---');
 
-    // set a delay between each message sent.
-    context.onSendActivities(async (ctx, activities, inside_next) => {
-        return new Promise((resolve) => {
-            setTimeout(() => {
-                inside_next().then(resolve); 
-            },1500);
-        });
-    });
+//     // set a delay between each message sent.
+//     context.onSendActivities(async (ctx, activities, inside_next) => {
+//         return new Promise((resolve) => {
+//             setTimeout(() => {
+//                 inside_next().then(resolve); 
+//             },1500);
+//         });
+//     });
 
-    await next();
-    // console.log('---END TURN---');
-})
+//     await next();
+//     // console.log('---END TURN---');
+// })
 
 
 // Once the bot has booted up its internal services, you can use them to do stuff.
@@ -97,19 +99,19 @@ controller.ready(() => {
     controller.plugins.use(require('./plugins/sample/sample.js'));
 
     /* catch-all that uses the CMS to trigger dialogs */
-    // controller.on('message', async (bot, message) => {
     if (controller.cms) {
+        // controller.on('message', async (bot, message) => {
         controller.middleware.receive.use(async (bot, message, next) => {
             let results = false;
             if (message.type === 'message') {
                 results = await controller.cms.testTrigger(bot, message);
             }
 
-            if (results === false) {
-                next();
-            } else {
+            if (results !== false) {
+                // return false;
                 // do not continue middleware!
             }
+            if (next) { next(); }
         });
     }
 

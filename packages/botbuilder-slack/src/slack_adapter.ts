@@ -1,8 +1,6 @@
 import { Activity, ActivityTypes, BotAdapter, TurnContext, MiddlewareSet, ConversationReference} from 'botbuilder';
 import { WebClient, WebAPICallResult } from '@slack/client';
 import * as Debug from 'debug';
-import { MessageChannel } from 'worker_threads';
-import { isDate } from 'util';
 const debug = Debug('botkit:slack');
 
 interface SlackAdapterOptions {
@@ -346,7 +344,7 @@ export class SlackAdapter extends BotAdapter {
                 res.status(200);
                 res.end();
 
-                this.runMiddleware(context, logic)
+                await this.runMiddleware(context, logic)
                     .catch((err) => { console.error(err.toString()); });
             }
         } else if (event.type === 'event_callback') {
@@ -389,7 +387,7 @@ export class SlackAdapter extends BotAdapter {
                 res.status(200);
                 res.end();
 
-                this.runMiddleware(context, logic)
+                await this.runMiddleware(context, logic)
                     .catch((err) => { console.error(err.toString()); });
             }
         } else {

@@ -170,7 +170,7 @@ export class BotkitConversation<O extends object = {}> extends Dialog<O> {
         }
 
         // Run the first step
-        return await this.runStep(dc, 0, 'default', DialogReason.beginCalled);
+        return await this.runStep(dc, 0, state.options.thread || 'default', DialogReason.beginCalled);
     }
 
     async continueDialog(dc) {
@@ -201,6 +201,8 @@ export class BotkitConversation<O extends object = {}> extends Dialog<O> {
         // })[0];
 
         var line = thread[step.index];
+
+        // debug('STEP', line);
 
         var previous = (step.index >= 1) ? thread[step.index - 1] : null;
         // Capture the previous step value if there previous line included a prompt
@@ -461,7 +463,10 @@ export class BotkitConversation<O extends object = {}> extends Dialog<O> {
                 // todo figure out how to goto thread
                 // todo figure out how to pass in existing values
                 // todo figure out how to capture responses from sub-script?
-                return await dc.beginDialog(path.execute.script, step.values);
+                return await dc.replaceDialog(path.execute.script, {
+                    thread: path.execute.thread,
+                    ...step.values
+                });
                 break;
             case 'repeat':
                 return await this.runStep(dc, step.index - 1, step.thread, DialogReason.nextCalled);

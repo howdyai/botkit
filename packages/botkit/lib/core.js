@@ -28,6 +28,7 @@ class Botkit {
     constructor(config) {
         this._events = {};
         this._triggers = {};
+        this._interrupts = {};
         this.version = require('../package.json').version;
         this.middleware = {
             spawn: new ware(),
@@ -83,7 +84,7 @@ class Botkit {
                 // make sure calls to anything in /admin/ is passed through a validation function
                 this.webserver.use((req, res, next) => {
                     if (req.url.match(/^\/admin/)) {
-                        console.log('CALL AUTH FUNCTION');
+                        // console.log('CALL AUTH FUNCTION');
                         this._config.authFunction(req, res, next);
                     }
                     else {
@@ -168,30 +169,36 @@ class Botkit {
             // Allow the Botbuilder middleware to fire.
             // this middleware is responsible for turning the incoming payload into a BotBuilder Activity
             // which we can then use to turn into a BotkitMessage
-            this.adapter.processActivity(req, res, (turnContext) => __awaiter(this, void 0, void 0, function* () {
-                const dialogContext = yield this.dialogSet.createContext(turnContext);
-                console.log('GOT DIALOG CONTEXT', JSON.stringify(dialogContext.stack, null, 2));
+            this.adapter.processActivity(req, res, this.handleTurn);
+        });
+    }
+    handleTurn(turnContext) {
+        return __awaiter(this, void 0, void 0, function* () {
+            console.log('HANDLE TURN!');
+            const dialogContext = yield this.dialogSet.createContext(turnContext);
+            const bot = yield this.spawn(dialogContext);
+            // Turn this turnContext into a Botkit message.
+            const message = {
+                type: turnContext.activity.type,
+                incoming_message: turnContext.activity,
+                context: turnContext,
+                user: turnContext.activity.from.id,
+                text: turnContext.activity.text,
+                channel: turnContext.activity.conversation.id,
+                reference: botbuilder_1.TurnContext.getConversationReference(turnContext.activity),
+            };
+            const interrupt_results = yield this.listenForInterrupts(bot, message);
+            console.log('resulst of interrupts', interrupt_results);
+            if (interrupt_results === false) {
                 // Continue dialog if one is present
                 const dialog_results = yield dialogContext.continueDialog();
                 if (dialog_results.status === botbuilder_dialogs_1.DialogTurnStatus.empty) {
-                    // TODO: What do we pass in to spawn?
-                    const bot = yield this.spawn(dialogContext);
-                    // Turn this turnContext into a botkit message.
-                    const message = {
-                        type: turnContext.activity.type,
-                        incoming_message: turnContext.activity,
-                        context: turnContext,
-                        user: turnContext.activity.from.id,
-                        text: turnContext.activity.text,
-                        channel: turnContext.activity.conversation.id,
-                        reference: botbuilder_1.TurnContext.getConversationReference(turnContext.activity),
-                    };
                     yield this.ingest(bot, message);
                 }
-                // make sure changes to the state get persisted after the turn is over.
-                console.log('END OF TURN SAVE CHANGES');
-                yield this.conversationState.saveChanges(turnContext);
-            }));
+            }
+            // console.log('SAVING STATE');
+            // make sure changes to the state get persisted after the turn is over.
+            yield this.conversationState.saveChanges(turnContext);
         });
     }
     saveState(bot) {
@@ -247,6 +254,26 @@ class Botkit {
             }
         });
     }
+    listenForInterrupts(bot, message) {
+        return __awaiter(this, void 0, void 0, function* () {
+            if (this._interrupts[message.type]) {
+                const triggers = this._interrupts[message.type];
+                for (var t = 0; t < triggers.length; t++) {
+                    const test_results = yield this.testTrigger(triggers[t], message);
+                    if (test_results) {
+                        debug('Heard interruption: ', triggers[t].pattern);
+                        const trigger_results = yield triggers[t].handler.call(this, bot, message);
+                        return trigger_results;
+                    }
+                }
+                // nothing has triggered...return false
+                return false;
+            }
+            else {
+                return false;
+            }
+        });
+    }
     testTrigger(trigger, message) {
         return __awaiter(this, void 0, void 0, function* () {
             // TODO: handle for different types of triggers in the future.
@@ -276,6 +303,31 @@ class Botkit {
                     this._triggers[event] = [];
                 }
                 this._triggers[event].push({
+                    pattern: pattern,
+                    handler: handler,
+                });
+            }
+        }
+    }
+    /*
+     * interrupts()
+     * instruct your bot to listen for a pattern, and do something when that pattern is heard.
+     **/
+    interrupts(patterns, events, handler) {
+        if (!Array.isArray(patterns)) {
+            patterns = [patterns];
+        }
+        if (!Array.isArray(events)) {
+            events = events.split(/\s+\,\s+/);
+        }
+        for (var p = 0; p < patterns.length; p++) {
+            for (var e = 0; e < events.length; e++) {
+                var event = events[e];
+                var pattern = patterns[p];
+                if (!this._interrupts[event]) {
+                    this._interrupts[event] = [];
+                }
+                this._interrupts[event].push({
                     pattern: pattern,
                     handler: handler,
                 });
