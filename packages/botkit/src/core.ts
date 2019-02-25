@@ -43,14 +43,16 @@ export class Botkit {
 
     private _triggers: {
         [key: string]: { 
-            pattern: string;
+            pattern: string | RegExp | { (message: BotkitMessage):  Promise<boolean> };
+            type: string,
             handler: (bot: BotWorker, message: BotkitMessage) => Promise<any>;
         }[]
     } = {};
 
     private _interrupts: {
         [key: string]: { 
-            pattern: string;
+            pattern: string | RegExp | { (message: BotkitMessage):  Promise<boolean> };
+            type: string,
             handler: (bot: BotWorker, message: BotkitMessage) => Promise<any>;
         }[]
     } = {};
@@ -174,7 +176,7 @@ export class Botkit {
         if (!this._config.adapter) {
             const adapterConfig = {...this._config.adapterConfig};
             debug('Configuring BotFrameworkAdapter:', adapterConfig);
-            this.adapter = new FixedBotFrameworkAdapter(adapterConfig);
+            this.adapter = new BotFrameworkAdapter(adapterConfig);
         } else {
             debug('Using pre-configured adapter.');
             this.adapter = this._config.adapter;
@@ -249,12 +251,13 @@ export class Botkit {
             // Allow the Botbuilder middleware to fire.
             // this middleware is responsible for turning the incoming payload into a BotBuilder Activity
             // which we can then use to turn into a BotkitMessage
-            this.adapter.processActivity(req, res, this.handleTurn);
+            this.adapter.processActivity(req, res, this.handleTurn.bind(this));
         });
     }
 
     public async handleTurn(turnContext): Promise<any> {
         console.log('HANDLE TURN!');
+        console.log('this', this);
         const dialogContext = await this.dialogSet.createContext(turnContext);
 
         const bot = await this.spawn(dialogContext);
@@ -360,10 +363,18 @@ export class Botkit {
 
 
     private async testTrigger(trigger: any, message: BotkitMessage): Promise<boolean> {
-        // TODO: handle for different types of triggers in the future.
-        const test = new RegExp(trigger.pattern,'i');
-        if (message.text && message.text.match(test)) {
-            return true;
+        if (trigger.type === 'string') {
+            const test = new RegExp(trigger.pattern,'i');
+            if (message.text && message.text.match(test)) {
+                return true;
+            }
+        } else if (trigger.type === 'regexp') {
+            const test = trigger.pattern;
+            if (message.text && message.text.match(test)) {
+                return true;
+            }
+        } else if (trigger.type === 'function') {
+            return await trigger.pattern(message);
         }
 
         return false;
@@ -373,7 +384,7 @@ export class Botkit {
      * hears()
      * instruct your bot to listen for a pattern, and do something when that pattern is heard.
      **/
-    public hears(patterns: string | string[], events: string | string[], handler: (bot: BotWorker, message: BotkitMessage) => Promise<boolean>) {
+    public hears(patterns: ( string | RegExp | { (message: BotkitMessage): Promise<boolean> })[] | RegExp | RegExp[] | string | { (message: BotkitMessage): Promise<boolean> }, events: string | string[], handler: (bot: BotWorker, message: BotkitMessage) => Promise<boolean>) {
 
         if (!Array.isArray(patterns)) {
             patterns = [patterns];
@@ -385,17 +396,28 @@ export class Botkit {
 
         for (var p = 0; p < patterns.length; p++) {
             for (var e = 0; e < events.length; e++) {
-                var event = events[e];
-                var pattern = patterns[p];
+                const event = events[e];
+                const pattern = patterns[p];
 
                 if (!this._triggers[event]) {
                     this._triggers[event] = [];
                 }
 
-                this._triggers[event].push({
+                const trigger = {
                     pattern: pattern,
                     handler: handler,
-                });
+                    type: null,
+                };
+
+                if (typeof pattern === 'string') {
+                    trigger.type = 'string';
+                } else if (pattern instanceof RegExp) {
+                    trigger.type = 'regexp';
+                } else if (typeof pattern === 'function') {
+                    trigger.type = 'function';
+                }
+
+                this._triggers[event].push(trigger);
 
             }
         }
@@ -405,7 +427,7 @@ export class Botkit {
      * interrupts()
      * instruct your bot to listen for a pattern, and do something when that pattern is heard.
      **/
-    public interrupts(patterns: string | string[], events: string | string[], handler: (bot: BotWorker, message: BotkitMessage) => Promise<boolean>) {
+    public interrupts(patterns: ( string | RegExp | { (message: BotkitMessage): Promise<boolean> })[] | RegExp | RegExp[] | string | { (message: BotkitMessage): Promise<boolean> }, events: string | string[], handler: (bot: BotWorker, message: BotkitMessage) => Promise<boolean>) {
 
         if (!Array.isArray(patterns)) {
             patterns = [patterns];
@@ -424,10 +446,21 @@ export class Botkit {
                     this._interrupts[event] = [];
                 }
 
-                this._interrupts[event].push({
+                const trigger = {
                     pattern: pattern,
                     handler: handler,
-                });
+                    type: null,
+                };
+
+                if (typeof pattern === 'string') {
+                    trigger.type = 'string';
+                } else if (pattern instanceof RegExp) {
+                    trigger.type = 'regexp';
+                } else if (typeof pattern === 'function') {
+                    trigger.type = 'function';
+                }
+
+                this._interrupts[event].push(trigger);
 
             }
         }

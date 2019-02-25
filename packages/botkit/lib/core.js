@@ -20,7 +20,6 @@ const hbs = require("hbs");
 const ware = require("ware");
 const fs = require("fs");
 const debug = require('debug')('botkit');
-const FixedBotFrameworkAdapter_1 = require("./FixedBotFrameworkAdapter");
 class Botkit {
     /*
      * Create a new Botkit instance
@@ -106,7 +105,7 @@ class Botkit {
         if (!this._config.adapter) {
             const adapterConfig = Object.assign({}, this._config.adapterConfig);
             debug('Configuring BotFrameworkAdapter:', adapterConfig);
-            this.adapter = new FixedBotFrameworkAdapter_1.FixedBotFrameworkAdapter(adapterConfig);
+            this.adapter = new botbuilder_1.BotFrameworkAdapter(adapterConfig);
         }
         else {
             debug('Using pre-configured adapter.');
@@ -169,12 +168,13 @@ class Botkit {
             // Allow the Botbuilder middleware to fire.
             // this middleware is responsible for turning the incoming payload into a BotBuilder Activity
             // which we can then use to turn into a BotkitMessage
-            this.adapter.processActivity(req, res, this.handleTurn);
+            this.adapter.processActivity(req, res, this.handleTurn.bind(this));
         });
     }
     handleTurn(turnContext) {
         return __awaiter(this, void 0, void 0, function* () {
             console.log('HANDLE TURN!');
+            console.log('this', this);
             const dialogContext = yield this.dialogSet.createContext(turnContext);
             const bot = yield this.spawn(dialogContext);
             // Turn this turnContext into a Botkit message.
@@ -277,9 +277,20 @@ class Botkit {
     testTrigger(trigger, message) {
         return __awaiter(this, void 0, void 0, function* () {
             // TODO: handle for different types of triggers in the future.
-            const test = new RegExp(trigger.pattern, 'i');
-            if (message.text && message.text.match(test)) {
-                return true;
+            if (trigger.type === 'string') {
+                const test = new RegExp(trigger.pattern, 'i');
+                if (message.text && message.text.match(test)) {
+                    return true;
+                }
+            }
+            else if (trigger.type === 'regexp') {
+                const test = trigger.pattern;
+                if (message.text && message.text.match(test)) {
+                    return true;
+                }
+            }
+            else if (trigger.type === 'function') {
+                return yield trigger.pattern(message);
             }
             return false;
         });
@@ -297,15 +308,26 @@ class Botkit {
         }
         for (var p = 0; p < patterns.length; p++) {
             for (var e = 0; e < events.length; e++) {
-                var event = events[e];
-                var pattern = patterns[p];
+                const event = events[e];
+                const pattern = patterns[p];
                 if (!this._triggers[event]) {
                     this._triggers[event] = [];
                 }
-                this._triggers[event].push({
+                const trigger = {
                     pattern: pattern,
                     handler: handler,
-                });
+                    type: null,
+                };
+                if (typeof pattern === 'string') {
+                    trigger.type = 'string';
+                }
+                else if (pattern instanceof RegExp) {
+                    trigger.type = 'regexp';
+                }
+                else if (typeof pattern === 'function') {
+                    trigger.type = 'function';
+                }
+                this._triggers[event].push(trigger);
             }
         }
     }
@@ -327,10 +349,21 @@ class Botkit {
                 if (!this._interrupts[event]) {
                     this._interrupts[event] = [];
                 }
-                this._interrupts[event].push({
+                const trigger = {
                     pattern: pattern,
                     handler: handler,
-                });
+                    type: null,
+                };
+                if (typeof pattern === 'string') {
+                    trigger.type = 'string';
+                }
+                else if (pattern instanceof RegExp) {
+                    trigger.type = 'regexp';
+                }
+                else if (typeof pattern === 'function') {
+                    trigger.type = 'function';
+                }
+                this._interrupts[event].push(trigger);
             }
         }
     }

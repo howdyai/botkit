@@ -64,8 +64,16 @@ export declare class Botkit {
     private listenForTriggers;
     private listenForInterrupts;
     private testTrigger;
-    hears(patterns: string | string[], events: string | string[], handler: (bot: BotWorker, message: BotkitMessage) => Promise<boolean>): void;
-    interrupts(patterns: string | string[], events: string | string[], handler: (bot: BotWorker, message: BotkitMessage) => Promise<boolean>): void;
+    hears(patterns: (string | RegExp | {
+        (message: BotkitMessage): Promise<boolean>;
+    })[] | RegExp | RegExp[] | string | {
+        (message: BotkitMessage): Promise<boolean>;
+    }, events: string | string[], handler: (bot: BotWorker, message: BotkitMessage) => Promise<boolean>): void;
+    interrupts(patterns: (string | RegExp | {
+        (message: BotkitMessage): Promise<boolean>;
+    })[] | RegExp | RegExp[] | string | {
+        (message: BotkitMessage): Promise<boolean>;
+    }, events: string | string[], handler: (bot: BotWorker, message: BotkitMessage) => Promise<boolean>): void;
     on(events: string | string[], handler: (bot: BotWorker, event: any) => Promise<boolean>): void;
     trigger(event: string, bot: BotWorker, message: BotkitMessage): Promise<any>;
     spawn(config: any): Promise<BotWorker>;

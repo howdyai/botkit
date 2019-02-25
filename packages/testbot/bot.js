@@ -16,10 +16,10 @@ const basicAuth = require('express-basic-auth');
  * Configure the Webex Teams adapter
  * ----------------------------------------------------------------------
  */
-const adapter = new WebexAdapter({
-    access_token: process.env.access_token,
-    public_address: process.env.public_address
-})
+// const adapter = new WebexAdapter({
+//     access_token: process.env.access_token,
+//     public_address: process.env.public_address
+// })
 
 
 
@@ -46,12 +46,12 @@ const adapter = new WebexAdapter({
 // this will BREAK waterfall dailogs which only accept ActivityTypes.Message
 // adapter.use(new SlackMessageTypeMiddleware());
 
-const adapter = new WebsocketAdapter({});
+// const adapter = new WebsocketAdapter({});
 
 const controller = new Botkit({
     debug: true,
     webhook_uri: '/api/messages',
-    adapter: adapter,
+    // adapter: adapter,
     authFunction:  basicAuth({
         users: { 'admin': 'supersecret' }, // TODO: externalize these
         challenge: true,
