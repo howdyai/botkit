@@ -1,3 +1,6 @@
+/**
+ * @module botkit
+ */
 import { Botkit, BotkitConversation } from '.';
 import * as BotkitCMS from 'botkit-studio-sdk';
 import { DialogSet } from 'botbuilder-dialogs';

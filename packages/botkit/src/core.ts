@@ -1,3 +1,6 @@
+/**
+ * @module botkit
+ */
 import { BotFrameworkAdapter, MemoryStorage, ConversationState, BotAdapter, Storage, ConversationReference, TurnContext, Activity } from 'botbuilder';
 import { DialogContext, DialogSet, DialogTurnStatus } from 'botbuilder-dialogs';
 import { BotkitCMSHelper } from './cms';
@@ -12,7 +15,6 @@ import * as ware from 'ware';
 import * as fs from 'fs';
 
 const debug = require('debug')('botkit');
-import { FixedBotFrameworkAdapter } from './FixedBotFrameworkAdapter';
 
 export interface BotkitConfiguration {
     debug?: Boolean;
@@ -86,8 +88,9 @@ export class Botkit {
 
     /* 
      * Create a new Botkit instance
+     * @param config Configuration for this instance of Botkit
      */
-    constructor(config) {
+     constructor(config) {
         
         // Set the path where Botkit's core lib is found.
         this.PATH = __dirname;
@@ -197,6 +200,10 @@ export class Botkit {
         this.completeDep('booted');
     }
 
+    /* Get a value from the configuration
+     * @param {string} key The name of a value stored in the configuration
+     * @returns {any} The value stored in the configuration (or null if absent)
+     */
     public getConfig(key?: string) {
         if (key) {
             return this._config[key];

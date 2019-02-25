@@ -8,6 +8,9 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+/**
+ * @module botkit
+ */
 const _1 = require(".");
 const BotkitCMS = require("botkit-studio-sdk");
 const debug = require('debug')('botkit:cms');

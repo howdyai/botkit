@@ -8,6 +8,9 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+/**
+ * @module botkit
+ */
 const botbuilder_1 = require("botbuilder");
 const botbuilder_dialogs_1 = require("botbuilder-dialogs");
 const cms_1 = require("./cms");
@@ -23,6 +26,7 @@ const debug = require('debug')('botkit');
 class Botkit {
     /*
      * Create a new Botkit instance
+     * @param config Configuration for this instance of Botkit
      */
     constructor(config) {
         this._events = {};
@@ -121,6 +125,10 @@ class Botkit {
         this.plugins.use(this.adapter);
         this.completeDep('booted');
     }
+    /* Get a value from the configuration
+     * @param {string} key The name of a value stored in the configuration
+     * @returns {any} The value stored in the configuration (or null if absent)
+     */
     getConfig(key) {
         if (key) {
             return this._config[key];
@@ -276,7 +284,6 @@ class Botkit {
     }
     testTrigger(trigger, message) {
         return __awaiter(this, void 0, void 0, function* () {
-            // TODO: handle for different types of triggers in the future.
             if (trigger.type === 'string') {
                 const test = new RegExp(trigger.pattern, 'i');
                 if (message.text && message.text.match(test)) {

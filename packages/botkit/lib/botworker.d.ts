@@ -1,3 +1,6 @@
+/**
+ * @module botkit
+ */
 import { BotkitMessage } from './core';
 import { ConversationReference } from 'botbuilder';
 export declare class BotWorker {

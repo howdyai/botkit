@@ -1,3 +1,6 @@
+/**
+ * @module botkit
+ */
 import { Botkit } from ".";
 var debug = require('debug')('botkit:plugins');
 import * as path from 'path';

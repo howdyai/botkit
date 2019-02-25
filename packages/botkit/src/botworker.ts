@@ -1,3 +1,6 @@
+/**
+ * @module botkit
+ */
 import { Botkit, BotkitMessage } from './core';
 import { Activity, ConversationReference, TurnContext } from 'botbuilder';
 import { BotkitConversation } from './conversation';

@@ -1,3 +1,6 @@
+/**
+ * @module botkit
+ */
 import { Botkit } from ".";
 export interface BotkitPlugin {
     name: string;

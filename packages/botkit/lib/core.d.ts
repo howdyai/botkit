@@ -1,3 +1,6 @@
+/**
+ * @module botkit
+ */
 import { BotFrameworkAdapter, Storage, ConversationReference } from 'botbuilder';
 import { DialogSet } from 'botbuilder-dialogs';
 import { BotkitCMSHelper } from './cms';

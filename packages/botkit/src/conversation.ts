@@ -1,3 +1,6 @@
+/**
+ * @module botkit
+ */
 import { Botkit, BotkitMessage } from './core';
 import { BotkitDialogWrapper } from './cms';
 import { ActivityTypes, TurnContext, MessageFactory, ActionTypes, ConversationReference } from 'botbuilder';
