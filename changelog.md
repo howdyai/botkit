@@ -4,9 +4,12 @@
 
 [Want to contribute? Read our guide!](https://github.com/howdyai/botkit/blob/master/CONTRIBUTING.md)
 
-# Next minor release (changes in master)
+# 0.7.4
 
 * only require simple_storage when used: [#1566](https://github.com/howdyai/botkit/pull/1566)
+* Slack: [Extend support of blocks](https://github.com/howdyai/botkit/pull/1597) - Thanks to [@ihorrusinko](https://github.com/ihorrusinko)
+* Slack: [Add new block_actions events](https://github.com/howdyai/botkit/pull/1596) - Thanks to [@makstaks](https://github.com/makstaks)
+* [Updated docs for using blocks with Slack](https://botkit.ai/docs/readme-slack.html#interactive-messages) - Thanks to [@makstaks](https://github.com/makstaks)
 
 # 0.7.3
 
