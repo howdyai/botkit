@@ -99,6 +99,17 @@ class SlackAdapter extends botbuilder_1.BotAdapter {
                             return bot.reply(src, resp);
                         });
                     };
+                    /* Send a reply to an inbound message, using information collected from that inbound message */
+                    bot.replyEphemeral = function (src, resp) {
+                        return __awaiter(this, void 0, void 0, function* () {
+                            // make rure resp is in an object format.
+                            resp = bot.ensureMessageFormat(resp);
+                            // make sure ephemeral is set
+                            // fields set in channelData will end up in the final message to slack
+                            resp.channelData = Object.assign({}, resp.channelData, { ephemeral: true });
+                            return bot.reply(src, resp);
+                        });
+                    };
                     next();
                 })
             ]
@@ -132,7 +143,7 @@ class SlackAdapter extends botbuilder_1.BotAdapter {
     }
     getAPI(activity) {
         return __awaiter(this, void 0, void 0, function* () {
-            // TODO: use activity.channelData.team.id(the slack team id) and get the appropriate token using getTokenForTeam
+            // use activity.channelData.team.id (the slack team id) and get the appropriate token using getTokenForTeam
             if (this.slack) {
                 return this.slack;
             }
@@ -175,15 +186,33 @@ class SlackAdapter extends botbuilder_1.BotAdapter {
         const message = {
             channel: channelId,
             text: activity.text,
-            // @ts-ignore
-            thread_ts: thread_ts,
+            thread_ts: activity.thread_ts ? activity.thread_ts : thread_ts,
+            username: activity.username || null,
+            reply_broadcast: activity.reply_broadcast || null,
+            parse: activity.parse || null,
+            link_names: activity.link_names || null,
+            attachments: activity.attachments ? JSON.stringify(activity.attachments) : null,
+            blocks: activity.blocks ? JSON.stringify(activity.blocks) : null,
+            unfurl_links: typeof activity.unfurl_links !== 'undefined' ? activity.unfurl_links : null,
+            unfurl_media: typeof activity.unfurl_media !== 'undefined' ? activity.unfurl_media : null,
+            icon_url: activity.icon_url || null,
+            icon_emoji: activity.icon_emoji || null,
+            as_user: activity.as_user || true,
+            ephemeral: activity.ephemeral || false,
+            user: null,
         };
-        // TODO: add all other supported fields
         // if channelData is specified, overwrite any fields in message object
         if (activity.channelData) {
             Object.keys(activity.channelData).forEach(function (key) {
                 message[key] = activity.channelData[key];
             });
+        }
+        // should this message be sent as an ephemeral message
+        if (message.ephemeral) {
+            message.user = activity.recipient.id;
+        }
+        if (message.icon_url || message.icon_emoji || message.username) {
+            message.as_user = false;
         }
         return message;
     }
@@ -196,7 +225,15 @@ class SlackAdapter extends botbuilder_1.BotAdapter {
                     const message = this.activityToSlack(activity);
                     try {
                         const slack = yield this.getAPI(context.activity);
-                        const result = yield slack.chat.postMessage(message);
+                        let result = null;
+                        if (message.ephemeral) {
+                            debug('chat.postEphemeral:', message);
+                            result = (yield slack.chat.postEphemeral(message));
+                        }
+                        else {
+                            debug('chat.postMessage:', message);
+                            result = (yield slack.chat.postMessage(message));
+                        }
                         if (result.ok === true) {
                             responses.push({
                                 id: result.ts,
@@ -291,13 +328,12 @@ class SlackAdapter extends botbuilder_1.BotAdapter {
                         conversation: {
                             id: event.channel.id + (event.thread_ts ? '-' + event.thread_ts : ''),
                         },
-                        from: { id: event.user.id },
+                        from: { id: event.bot_id ? event.bot_id : event.user.id },
                         // recipient: this.identity.user_id,
                         channelData: event,
                         type: botbuilder_1.ActivityTypes.Event
                     };
                     // create a conversation reference
-                    // @ts-ignore
                     const context = new botbuilder_1.TurnContext(this, activity);
                     // send http response back
                     // TODO: Dialog submissions have other options including HTTP response codes
@@ -308,6 +344,7 @@ class SlackAdapter extends botbuilder_1.BotAdapter {
                 }
             }
             else if (event.type === 'event_callback') {
+                console.log('EVENT', event);
                 // this is an event api post
                 if (event.token !== this.options.verificationToken) {
                     console.error('Rejected due to mismatched verificationToken:', event);
@@ -322,7 +359,7 @@ class SlackAdapter extends botbuilder_1.BotAdapter {
                         conversation: {
                             id: event.event.channel + (event.event.thread_ts ? '-' + event.event.thread_ts : ''),
                         },
-                        from: { id: event.event.user },
+                        from: { id: event.event.bot_id ? event.event.bot_id : event.event.user },
                         // recipient: event.api_app_id, // TODO: what should this actually be? hard to make it consistent.
                         channelData: event.event,
                         text: null,
@@ -358,10 +395,10 @@ class SlackEventMiddleware extends botbuilder_1.MiddlewareSet {
             if (context.activity.type === botbuilder_1.ActivityTypes.Event && context.activity.channelData) {
                 // Handle message sub-types
                 if (context.activity.channelData.subtype) {
-                    context.activity.type = context.activity.channelData.subtype;
+                    context.activity.channelData.botkitEventType = context.activity.channelData.subtype;
                 }
                 else if (context.activity.channelData.type) {
-                    context.activity.type = context.activity.channelData.type;
+                    context.activity.channelData.botkitEventType = context.activity.channelData.type;
                 }
             }
             yield next();
@@ -375,7 +412,14 @@ class SlackMessageTypeMiddleware extends botbuilder_1.MiddlewareSet {
             if (context.activity.type === 'message' && context.activity.channelData) {
                 // is this a DM, a mention, or just ambient messages passing through?
                 if (context.activity.channelData.channel_type && context.activity.channelData.channel_type === 'im') {
-                    context.activity.type = 'direct_message';
+                    context.activity.channelData.botkitEventType = 'direct_message';
+                }
+                // if this is a message from the bot itself, we probably want to ignore it.
+                // switch the botkit event type to bot_message
+                // and the activity type to Event <-- will stop it from being included in dialogs
+                if (context.activity.channelData && context.activity.channelData.bot_id) {
+                    context.activity.channelData.botkitEventType = 'bot_message';
+                    context.activity.type = botbuilder_1.ActivityTypes.Event;
                 }
             }
             yield next();
@@ -392,10 +436,25 @@ class SlackIdentifyBotsMiddleware extends botbuilder_1.MiddlewareSet {
             // TODO: perhaps this should be cached somehow?
             // TODO: error checking on this API call!
             if (context.activity.channelData && context.activity.channelData.bot_id) {
-                const slack = yield context.adapter.getAPI(context.activity);
-                const bot_info = yield slack.bots.info({ bot: context.activity.channelData.bot_id });
-                context.activity.from.id = bot_info.bot.user_id;
-                // TODO: it is possible here to check if this is a message originating from THIS APP because bot_info has an app_id and the event also has one.
+                let botUserId = null;
+                if (this.botIds[context.activity.channelData.bot_id]) {
+                    console.log('GOT CACHED BOT ID');
+                    botUserId = this.botIds[context.activity.channelData.bot_id];
+                }
+                else {
+                    console.log('LOAD BOT ID');
+                    const slack = yield context.adapter.getAPI(context.activity);
+                    const bot_info = yield slack.bots.info({ bot: context.activity.channelData.bot_id });
+                    if (bot_info.ok) {
+                        this.botIds[context.activity.channelData.bot_id] = bot_info.bot.user_id;
+                        botUserId = this.botIds[context.activity.channelData.bot_id];
+                    }
+                }
+                // if we successfully loaded the bot's identity...
+                if (botUserId) {
+                    console.log('GOT A BOT USER MESSAGE HERE', context.activity);
+                    console.log('USER ID: ', botUserId);
+                }
             }
             // // TODO: getting identity out of adapter is brittle!
             // if (context.activity.from === context.adapter.identity.user_id) {

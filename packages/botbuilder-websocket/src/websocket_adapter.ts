@@ -90,8 +90,13 @@ export class WebsocketAdapter extends BotAdapter {
                             from: { id: message.user },
                             channelData: message,
                             text: message.text,
-                            type: message.type === 'message' ? ActivityTypes.Message : message.type,
+                            type: message.type === 'message' ? ActivityTypes.Message : ActivityTypes.Event,
                         };
+
+                        // set botkit's event type
+                        if (activity.type !== ActivityTypes.Message) {
+                            activity.channelData.botkitEventType = message.type;
+                        }
 
                         const context = new TurnContext(this, activity as Activity);
                         this.runMiddleware(context, async (context) => { return botkit.handleTurn(context) })

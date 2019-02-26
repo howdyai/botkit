@@ -12,4 +12,5 @@ export declare class BotWorker {
     reply(src: Partial<BotkitMessage>, resp: Partial<BotkitMessage>): Promise<any>;
     beginDialog(id: any, options: any): Promise<void>;
     changeContext(reference: Partial<ConversationReference>): Promise<BotWorker>;
+    ensureMessageFormat(msg: any): any;
 }

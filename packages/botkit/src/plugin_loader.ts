@@ -6,26 +6,30 @@ var debug = require('debug')('botkit:plugins');
 import * as path from 'path';
 import * as express from 'express';
 
+interface PluginMenu {
+    title: string;
+    icon?: string;
+    url: string;
+}
+
+interface PluginWebEndpoint {
+    url: string;
+    method: string;
+    handler: (req, res) => void;
+}
+
 export interface BotkitPlugin {
     name: string;
-    web?: {
-        url: string;
-        method: string;
-        handler: (req, res) => void;
-    }[];
-    menu?: {
-        title: string;
-        icon?: string;
-        url: string;
-    }[]; // TODO: typedef
+    web?: PluginWebEndpoint[];
+    menu?: PluginMenu[]; 
     middlewares?: {};
     init?: (botkit: Botkit) => void;
 }
 
 export class BotkitPluginLoader {
     public botkit: Botkit;
-    private menu: any[]; // TODO: typedef
-    private plugins: any[]; // TODO: typedef
+    private menu: PluginMenu[]; 
+    private plugins: string[]; 
 
     constructor(botkit) {
         this.botkit = botkit;
@@ -57,7 +61,7 @@ export class BotkitPluginLoader {
           }
     }
     
-    public register(name, endpoints) {
+    public register(name, endpoints: BotkitPlugin) {
 
         debug('Enabling plugin: ', name);
         if (this.plugins.indexOf(name) >= 0) {
@@ -77,7 +81,14 @@ export class BotkitPluginLoader {
                     case 'post':
                         this.botkit.webserver.post(endpoint.url, endpoint.handler);
                         break;
-                    // TODO: other http methods
+                    case 'put':
+                        this.botkit.webserver.put(endpoint.url, endpoint.handler);
+                        break;
+                    case 'delete':
+                        this.botkit.webserver.delete(endpoint.url, endpoint.handler);
+                        break;
+                    default: 
+                        throw new Error(`Unknown web endpoint method: ${ endpoint.method }`);
                 }
             }
         }
@@ -85,12 +96,7 @@ export class BotkitPluginLoader {
         // register menu extensions
         if (endpoints.menu) {
             for (var e = 0; e < endpoints.menu.length; e++) {
-                var endpoint = endpoints.menu[e];
-                this.menu.push({
-                    title: endpoint.title, 
-                    icon: endpoint.icon,
-                    url: endpoint.url
-                });
+                this.menu.push(endpoints.menu[e]);
             }
         }
 

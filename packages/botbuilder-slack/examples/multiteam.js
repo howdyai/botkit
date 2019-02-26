@@ -112,6 +112,9 @@ server.get('/install/auth', async (req, res) => {
         // Store token by team in bot state.
         tokenCache[results.team_id] = results.bot.bot_access_token;
 
+        // TODO: NEED TO ALSO CAPTURE BOT ID USER ID
+        // THIS WILL LET US DO DIRECT_MENTION, SELF_MESSAGE, ETC
+
         res.json('Success! Bot installed.');
 
     } catch (err) {

@@ -215,7 +215,7 @@ class WebexAdapter extends botbuilder_1.BotAdapter {
                 };
                 // this is the bot speaking
                 if (activity.from.id === this._identity.id) {
-                    activity.type = 'self_message';
+                    activity.channelData.botkitEventType = 'self_message';
                 }
                 if (decrypted_message.html) {
                     // strip the mention & HTML from the message

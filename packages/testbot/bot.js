@@ -1,5 +1,5 @@
 const { Botkit } = require('botkit');
-const { SlackAdapter, SlackMessageTypeMiddleware,  SlackEventMiddleware } = require('botbuilder-slack');
+const { SlackAdapter, SlackMessageTypeMiddleware, SlackIdentifyBotsMiddleware, SlackEventMiddleware } = require('botbuilder-slack');
 const { WebexAdapter } = require('botbuilder-webex');
 const { ShowTypingMiddleware } = require('botbuilder');
 const { WebsocketAdapter } = require('botbuilder-websocket');
@@ -21,8 +21,6 @@ const basicAuth = require('express-basic-auth');
 //     public_address: process.env.public_address
 // })
 
-
-
 /* ----------------------------------------------------------------------
  *  .--. .-.               .-.
  * : .--': :               : :.-.
@@ -32,26 +30,36 @@ const basicAuth = require('express-basic-auth');
  * Configure the Slack adapter
  * ----------------------------------------------------------------------
  */
-// const adapter = new SlackAdapter({
-//     verificationToken: process.env.verificationToken,
-//     botToken: process.env.botToken,
-// });
+const adapter = new SlackAdapter({
+    verificationToken: process.env.verificationToken,
+    botToken: process.env.botToken,
+});
 
-
-// Use SlackEventMiddleware to modify incoming Activity objects so they have .type fields that match their original Slack event types.
+// Use SlackEventMiddleware to emit events that match their original Slack event types.
 // this may BREAK waterfall dailogs which only accept ActivityTypes.Message
-// adapter.use(new SlackEventMiddleware());
+adapter.use(new SlackEventMiddleware());
 
 // Use SlackMessageType middleware to further classify messages as direct_message, direct_mention, or mention
-// this will BREAK waterfall dailogs which only accept ActivityTypes.Message
-// adapter.use(new SlackMessageTypeMiddleware());
+adapter.use(new SlackMessageTypeMiddleware());
 
+adapter.use(new SlackIdentifyBotsMiddleware());
+
+/* ----------------------------------------------------------------------
+ *  __      __      ___.                        __           __   
+ * /  \    /  \ ____\_ |__   __________   ____ |  | __ _____/  |_ 
+ * \   \/\/   // __ \| __ \ /  ___/  _ \_/ ___\|  |/ // __ \   __\
+ *  \        /\  ___/| \_\ \\___ (  <_> )  \___|    <\  ___/|  |  
+ *   \__/\  /  \___  >___  /____  >____/ \___  >__|_ \\___  >__|  
+ *        \/       \/    \/     \/           \/     \/    \/     
+ * Configure the Websocket adapter
+ * ----------------------------------------------------------------------
+ */
 // const adapter = new WebsocketAdapter({});
 
 const controller = new Botkit({
     debug: true,
     webhook_uri: '/api/messages',
-    // adapter: adapter,
+    adapter: adapter,
     authFunction:  basicAuth({
         users: { 'admin': 'supersecret' }, // TODO: externalize these
         challenge: true,
@@ -100,15 +108,15 @@ controller.ready(() => {
 
     /* catch-all that uses the CMS to trigger dialogs */
     if (controller.cms) {
-        // controller.on('message', async (bot, message) => {
-        controller.middleware.receive.use(async (bot, message, next) => {
+        controller.on('message,direct_message', async (bot, message) => {
+        // controller.middleware.receive.use(async (bot, message, next) => {
             let results = false;
-            if (message.type === 'message') {
+            // if (message.type === 'message') {
                 results = await controller.cms.testTrigger(bot, message);
-            }
+            // }
 
             if (results !== false) {
-                // return false;
+                return false;
                 // do not continue middleware!
             }
             if (next) { next(); }

@@ -384,6 +384,18 @@ export class BotkitConversation<O extends object = {}> extends Dialog<O> {
             outgoing.channelData.attachment = this.parseTemplatesRecursive(outgoing.channelData.attachment, vars);
         }
 
+        // handle meta data
+        if (line.meta) {
+            if (!outgoing.channelData) {
+                outgoing.channelData = {};
+            }
+            for (var a = 0; a < line.meta.length; a++) {
+                outgoing.channelData[line.meta[a].key] = line.meta[a].value;
+            }
+        }
+
+
+
         return outgoing;
     }
 
@@ -463,9 +475,6 @@ export class BotkitConversation<O extends object = {}> extends Dialog<O> {
                 return await dc.endDialog(step.result);
                 break;
             case 'execute_script':
-                // todo figure out how to goto thread
-                // todo figure out how to pass in existing values
-                // todo figure out how to capture responses from sub-script?
                 return await dc.replaceDialog(path.execute.script, {
                     thread: path.execute.thread,
                     ...step.values
@@ -475,15 +484,16 @@ export class BotkitConversation<O extends object = {}> extends Dialog<O> {
                 return await this.runStep(dc, step.index - 1, step.thread, DialogReason.nextCalled);
                 break;
             case 'wait':
+                // TODO 
                 console.log('NOT SURE WHAT TO DO WITH THIS!!', path);
                 // do not advance to the next step!
                 break;
             default:
-                // default behavior for unknown action in botkit is to gotothread
-                // if (this.script.script.filter((thread) => { return thread.topic === path.action }).length) {
+                // the default behavior for unknown action in botkit is to gotothread
                 if (this.script[path.action]) {
                    return await this.gotoThreadAction(path.action, dc, step);
                 } else {
+                    // TODO
                     console.log('NOT SURE WHAT TO DO WITH THIS!!', path);
                     break;
                 }

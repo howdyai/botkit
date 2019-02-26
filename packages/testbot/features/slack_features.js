@@ -1,5 +1,13 @@
 module.exports = function(controller) {
 
+    controller.hears('ephemeral', 'message,direct_message', async(bot, message) => {
+        await bot.replyEphemeral(message,'This is an ephemeral reply sent using bot.replyEphemeral()!');
+    });
+
+    controller.hears('threaded', 'message,direct_message', async(bot, message) => {
+        await bot.replyInThread(message,'This is a reply in a thread!');
+    });
+
     controller.on('interactive_message', async (bot, message) => {
         bot.api.dialog.open({
             trigger_id: message.incoming_message.channelData.trigger_id,

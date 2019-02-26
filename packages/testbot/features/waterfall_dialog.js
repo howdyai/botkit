@@ -29,7 +29,7 @@ module.exports = function(controller) {
     controller.dialogSet.add(new TextPrompt(PROMPT_ID));
     controller.dialogSet.add(sample_waterfall);
 
-    controller.hears(['waterfall'], 'message', async(bot, message) => {
+    controller.hears(['waterfall'], 'message, direct_message', async(bot) => {
         await bot.beginDialog(DIALOG_ID);
     });
 

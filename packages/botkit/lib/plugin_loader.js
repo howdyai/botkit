@@ -50,19 +50,21 @@ class BotkitPluginLoader {
                     case 'post':
                         this.botkit.webserver.post(endpoint.url, endpoint.handler);
                         break;
-                    // TODO: other http methods
+                    case 'put':
+                        this.botkit.webserver.put(endpoint.url, endpoint.handler);
+                        break;
+                    case 'delete':
+                        this.botkit.webserver.delete(endpoint.url, endpoint.handler);
+                        break;
+                    default:
+                        throw new Error(`Unknown web endpoint method: ${endpoint.method}`);
                 }
             }
         }
         // register menu extensions
         if (endpoints.menu) {
             for (var e = 0; e < endpoints.menu.length; e++) {
-                var endpoint = endpoints.menu[e];
-                this.menu.push({
-                    title: endpoint.title,
-                    icon: endpoint.icon,
-                    url: endpoint.url
-                });
+                this.menu.push(endpoints.menu[e]);
             }
         }
         if (endpoints.middlewares) {

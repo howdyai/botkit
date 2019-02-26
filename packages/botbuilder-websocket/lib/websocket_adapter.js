@@ -66,8 +66,12 @@ class WebsocketAdapter extends botbuilder_1.BotAdapter {
                             from: { id: message.user },
                             channelData: message,
                             text: message.text,
-                            type: message.type === 'message' ? botbuilder_1.ActivityTypes.Message : message.type,
+                            type: message.type === 'message' ? botbuilder_1.ActivityTypes.Message : botbuilder_1.ActivityTypes.Event,
                         };
+                        // set botkit's event type
+                        if (activity.type !== botbuilder_1.ActivityTypes.Message) {
+                            activity.channelData.botkitEventType = message.type;
+                        }
                         const context = new botbuilder_1.TurnContext(this, activity);
                         this.runMiddleware(context, (context) => __awaiter(this, void 0, void 0, function* () { return botkit.handleTurn(context); }))
                             .catch((err) => { console.error(err.toString()); });

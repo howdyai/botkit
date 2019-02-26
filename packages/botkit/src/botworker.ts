@@ -31,7 +31,7 @@ export class BotWorker {
     /* Send a message using information passed in during spawning */
     public async say(message: Partial<BotkitMessage>): Promise<any> {
         return new Promise((resolve, reject) => {
-            const activity = ensureMessageFormat(message);
+            const activity = this.ensureMessageFormat(message);
 
             this._controller.middleware.send.run(this, activity, (err, bot, activity) => {
                 // NOTE: This calls the BotBuilder middleware again...
@@ -45,7 +45,7 @@ export class BotWorker {
     /* Send a reply to an inbound message, using information collected from that inbound message */
     public async reply(src: Partial<BotkitMessage>, resp: Partial<BotkitMessage>): Promise<any> {
         return new Promise((resolve, reject) => {
-            const activity = ensureMessageFormat(resp);
+            const activity = this.ensureMessageFormat(resp);
 
             // get conversation reference from src
             const reference = TurnContext.getConversationReference(src.incoming_message);
@@ -98,16 +98,16 @@ export class BotWorker {
         return this;
     }
 
-}
-
-
-
-function ensureMessageFormat(msg: any) {
-    if (typeof(msg) === 'string') {
-        msg = {
-            text: msg
+    public ensureMessageFormat(msg: any) {
+        if (typeof(msg) === 'string') {
+            msg = {
+                text: msg
+            }
         }
+
+        return msg;
     }
 
-    return msg;
 }
+
+

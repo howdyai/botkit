@@ -158,7 +158,6 @@ export class Botkit {
                 // make sure calls to anything in /admin/ is passed through a validation function
                 this.webserver.use((req, res, next) => {
                     if (req.url.match(/^\/admin/)) {
-                        // console.log('CALL AUTH FUNCTION');
                         this._config.authFunction(req, res, next);
                     } else {
                         next();
@@ -263,17 +262,18 @@ export class Botkit {
     }
 
     public async handleTurn(turnContext): Promise<any> {
-        console.log('HANDLE TURN!');
-        console.log('this', this);
         const dialogContext = await this.dialogSet.createContext(turnContext);
 
         const bot = await this.spawn(dialogContext);
 
+        debug('INCOMING ACTIVITY:', turnContext.activity);
+
         // Turn this turnContext into a Botkit message.
         const message = {
-            type: turnContext.activity.type,
+            // if Botkit has further classified this message, use that sub-type rather than the Activity type
+            type: ( turnContext.activity.channelData && turnContext.activity.channelData.botkitEventType ) ? turnContext.activity.channelData.botkitEventType : turnContext.activity.type,
             incoming_message: turnContext.activity,
-            context: turnContext,
+            // context: turnContext,
             user: turnContext.activity.from.id,
             text: turnContext.activity.text,
             channel: turnContext.activity.conversation.id,
@@ -282,7 +282,6 @@ export class Botkit {
 
         const interrupt_results = await this.listenForInterrupts(bot, message);
 
-        console.log('resulst of interrupts', interrupt_results);
         if (interrupt_results === false) {
             // Continue dialog if one is present
             const dialog_results = await dialogContext.continueDialog();
@@ -291,14 +290,11 @@ export class Botkit {
             }
         }
 
-        // console.log('SAVING STATE');
         // make sure changes to the state get persisted after the turn is over.
-        await this.conversationState.saveChanges(turnContext);
-        
+        await this.saveState(bot);
     }
 
     public async saveState(bot) {
-        console.log('SAVING STATE');
         await this.conversationState.saveChanges(bot._config.context);
     }
 
@@ -397,10 +393,11 @@ export class Botkit {
             patterns = [patterns];
         }
 
-        if (!Array.isArray(events)) {
-            events = events.split(/\s+\,\s+/);
+        if (typeof events === 'string') {
+            events = events.split(/\,/).map(e => e.trim());
         }
-
+        debug('Registering hears for ', events);
+        
         for (var p = 0; p < patterns.length; p++) {
             for (var e = 0; e < events.length; e++) {
                 const event = events[e];
@@ -440,9 +437,10 @@ export class Botkit {
             patterns = [patterns];
         }
 
-        if (!Array.isArray(events)) {
-            events = events.split(/\s+\,\s+/);
+        if (typeof events === 'string') {
+            events = events.split(/\,/).map(e => e.trim());
         }
+        debug('Registering hears for ', events);
 
         for (var p = 0; p < patterns.length; p++) {
             for (var e = 0; e < events.length; e++) {
@@ -478,8 +476,9 @@ export class Botkit {
      * instruct your bot to respond to certain event types.
      **/
     public on(events: string | string[], handler: (bot: BotWorker, event: any) => Promise<boolean>) {
-        if (!Array.isArray(events)) {
-            events = events.split(/\s+\,\s+/);
+
+        if (typeof events === 'string') {
+            events = events.split(/\,/).map(e => e.trim());
         }
 
         debug('Registering handler for: ', events);
@@ -530,10 +529,6 @@ export class Botkit {
          }
 
         const worker = new BotWorker(this, config);
-
-        if (config && config.reference) {
-            console.log('BOT REFERENCE', JSON.stringify(config.reference, null, 2));
-        }
 
         return new Promise((resolve, reject) => {
             this.middleware.spawn.run(worker, (err, worker) => {

@@ -71,7 +71,7 @@ async function getTokenForTeam(teamId) {
 * write a readme
 * implement signed secrets: https://api.slack.com/docs/verifying-requests-from-slack#a_recipe_for_security
 
-
+* create conversationUpdate events?
 * build helpers for building attachments?
 * helpers for handling buttons or dialogs?
 * helper for starting a DM with a specific user?

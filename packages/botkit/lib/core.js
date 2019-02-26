@@ -87,7 +87,6 @@ class Botkit {
                 // make sure calls to anything in /admin/ is passed through a validation function
                 this.webserver.use((req, res, next) => {
                     if (req.url.match(/^\/admin/)) {
-                        // console.log('CALL AUTH FUNCTION');
                         this._config.authFunction(req, res, next);
                     }
                     else {
@@ -181,22 +180,21 @@ class Botkit {
     }
     handleTurn(turnContext) {
         return __awaiter(this, void 0, void 0, function* () {
-            console.log('HANDLE TURN!');
-            console.log('this', this);
             const dialogContext = yield this.dialogSet.createContext(turnContext);
             const bot = yield this.spawn(dialogContext);
+            debug('INCOMING ACTIVITY:', turnContext.activity);
             // Turn this turnContext into a Botkit message.
             const message = {
-                type: turnContext.activity.type,
+                // if Botkit has further classified this message, use that sub-type rather than the Activity type
+                type: (turnContext.activity.channelData && turnContext.activity.channelData.botkitEventType) ? turnContext.activity.channelData.botkitEventType : turnContext.activity.type,
                 incoming_message: turnContext.activity,
-                context: turnContext,
+                // context: turnContext,
                 user: turnContext.activity.from.id,
                 text: turnContext.activity.text,
                 channel: turnContext.activity.conversation.id,
                 reference: botbuilder_1.TurnContext.getConversationReference(turnContext.activity),
             };
             const interrupt_results = yield this.listenForInterrupts(bot, message);
-            console.log('resulst of interrupts', interrupt_results);
             if (interrupt_results === false) {
                 // Continue dialog if one is present
                 const dialog_results = yield dialogContext.continueDialog();
@@ -204,14 +202,12 @@ class Botkit {
                     yield this.ingest(bot, message);
                 }
             }
-            // console.log('SAVING STATE');
             // make sure changes to the state get persisted after the turn is over.
-            yield this.conversationState.saveChanges(turnContext);
+            yield this.saveState(bot);
         });
     }
     saveState(bot) {
         return __awaiter(this, void 0, void 0, function* () {
-            console.log('SAVING STATE');
             yield this.conversationState.saveChanges(bot._config.context);
         });
     }
@@ -310,9 +306,10 @@ class Botkit {
         if (!Array.isArray(patterns)) {
             patterns = [patterns];
         }
-        if (!Array.isArray(events)) {
-            events = events.split(/\s+\,\s+/);
+        if (typeof events === 'string') {
+            events = events.split(/\,/).map(e => e.trim());
         }
+        debug('Registering hears for ', events);
         for (var p = 0; p < patterns.length; p++) {
             for (var e = 0; e < events.length; e++) {
                 const event = events[e];
@@ -346,9 +343,10 @@ class Botkit {
         if (!Array.isArray(patterns)) {
             patterns = [patterns];
         }
-        if (!Array.isArray(events)) {
-            events = events.split(/\s+\,\s+/);
+        if (typeof events === 'string') {
+            events = events.split(/\,/).map(e => e.trim());
         }
+        debug('Registering hears for ', events);
         for (var p = 0; p < patterns.length; p++) {
             for (var e = 0; e < events.length; e++) {
                 var event = events[e];
@@ -379,8 +377,8 @@ class Botkit {
      * instruct your bot to respond to certain event types.
      **/
     on(events, handler) {
-        if (!Array.isArray(events)) {
-            events = events.split(/\s+\,\s+/);
+        if (typeof events === 'string') {
+            events = events.split(/\,/).map(e => e.trim());
         }
         debug('Registering handler for: ', events);
         events.forEach((event) => {
@@ -429,9 +427,6 @@ class Botkit {
             };
         }
         const worker = new botworker_1.BotWorker(this, config);
-        if (config && config.reference) {
-            console.log('BOT REFERENCE', JSON.stringify(config.reference, null, 2));
-        }
         return new Promise((resolve, reject) => {
             this.middleware.spawn.run(worker, (err, worker) => {
                 if (err) {

@@ -27,7 +27,10 @@ interface AuthTestResult extends WebAPICallResult {
     user: string;
     team: string;
 }
-  
+
+
+const userIdByBotId: { [key: string]: string } = {};
+
 
 export class SlackAdapter extends BotAdapter {
 
@@ -112,7 +115,7 @@ export class SlackAdapter extends BotAdapter {
 
                     bot.startConversationInThread = async function(channelId: string, userId: string, thread_ts: string): Promise<any> {
                         return this.changeContext({
-                            conversation: { 
+                            conversation: {
                                 id: channelId + '-' + thread_ts,
                                 // thread_ts: thread_ts
                             },
@@ -130,6 +133,24 @@ export class SlackAdapter extends BotAdapter {
                         return bot.reply(src, resp);
                     }
 
+                    /* Send a reply to an inbound message, using information collected from that inbound message */
+                    bot.replyEphemeral = async function(src: any, resp: any): Promise<any> {
+
+                        // make rure resp is in an object format.
+                        resp = bot.ensureMessageFormat(resp);
+
+                        // make sure ephemeral is set
+                        // fields set in channelData will end up in the final message to slack
+                        resp.channelData = {
+                            ...resp.channelData,
+                            ephemeral: true,
+                        }
+
+                        return bot.reply(src, resp);
+                    }
+                    
+
+
                     next();
                 }
             ]
@@ -142,7 +163,7 @@ export class SlackAdapter extends BotAdapter {
                 handler: (req, res) => {
                     res.render(
                         this.botkit.plugins.localView(__dirname + '/../views/slack.hbs'),
-                        { 
+                        {
                             slack_config: this.options,
                             botkit_config: this.botkit.getConfig(),
                             host: req.get('host'),
@@ -169,7 +190,7 @@ export class SlackAdapter extends BotAdapter {
     }
 
     public async getAPI(activity: Activity) {
-        // TODO: use activity.channelData.team.id(the slack team id) and get the appropriate token using getTokenForTeam
+        // use activity.channelData.team.id (the slack team id) and get the appropriate token using getTokenForTeam
         if (this.slack) {
             return this.slack;
         } else {
@@ -202,26 +223,45 @@ export class SlackAdapter extends BotAdapter {
             // TODO: What should we return here?
             throw new Error(results.error);
         }
-    }   
+    }
 
-    private activityToSlack(activity: Partial<Activity>): any {
+    private activityToSlack(activity: any): any {
 
         let [ channelId, thread_ts ] = activity.conversation.id.split('-');
 
         const message = {
             channel: channelId,
             text: activity.text,
-            // @ts-ignore
-            thread_ts: thread_ts,
-        };
-
-        // TODO: add all other supported fields
+            thread_ts: activity.thread_ts ? activity.thread_ts : thread_ts,
+            username: activity.username || null,
+            reply_broadcast: activity.reply_broadcast || null,
+            parse: activity.parse || null,
+            link_names:  activity.link_names || null,
+            attachments:  activity.attachments ? JSON.stringify(activity.attachments) : null,
+            blocks: activity.blocks ? JSON.stringify(activity.blocks): null,
+            unfurl_links:  typeof activity.unfurl_links !== 'undefined' ? activity.unfurl_links : null,
+            unfurl_media:  typeof activity.unfurl_media !== 'undefined' ? activity.unfurl_media : null,
+            icon_url: activity.icon_url || null,
+            icon_emoji:  activity.icon_emoji || null,
+            as_user: activity.as_user || true,
+            ephemeral: activity.ephemeral || false,
+            user: null,
+        }
 
         // if channelData is specified, overwrite any fields in message object
         if (activity.channelData) {
             Object.keys(activity.channelData).forEach(function(key) {
                 message[key] = activity.channelData[key];
             });
+        }
+
+        // should this message be sent as an ephemeral message
+        if (message.ephemeral) {
+            message.user = activity.recipient.id;
+        }
+
+        if (message.icon_url || message.icon_emoji || message.username) {
+            message.as_user = false;
         }
 
         return message;
@@ -236,7 +276,15 @@ export class SlackAdapter extends BotAdapter {
 
                 try {
                     const slack = await this.getAPI(context.activity);
-                    const result = await slack.chat.postMessage(message) as ChatPostMessageResult;
+                    let result = null;
+
+                    if (message.ephemeral) {
+                        debug('chat.postEphemeral:', message);
+                        result = await slack.chat.postEphemeral(message) as ChatPostMessageResult;
+                    } else {
+                        debug('chat.postMessage:', message);
+                        result = await slack.chat.postMessage(message) as ChatPostMessageResult;
+                    }
                     if (result.ok === true) {
                         responses.push({
                             id: result.ts,
@@ -247,7 +295,7 @@ export class SlackAdapter extends BotAdapter {
                         console.error('Error sending activity to Slack:', result);
                     }
                 } catch (err) {
-                    console.error('Error sending activity to Slack:', err);                    
+                    console.error('Error sending activity to Slack:', err);
                 }
             } else {
                 // TODO: Handle sending of other types of message?
@@ -311,7 +359,7 @@ export class SlackAdapter extends BotAdapter {
         // Create an Activity based on the incoming message from Slack.
         // There are a few different types of event that Slack might send.
         let event = req.body;
-        
+
         if (event.type === 'url_verification') {
             res.status(200);
             res.send(event.challenge);
@@ -325,18 +373,20 @@ export class SlackAdapter extends BotAdapter {
                 const activity = {
                     timestamp: new Date(),
                     channelId: 'slack',
-                    conversation: { 
+                    conversation: {
+                        // TODO: conversation address probably needs to include team and user as well
+                        // (otherwise other users in same channel can interfere)
+                        // but this comprimises what we do in the reverse inside botkit
+                        // to get a channel id back out...
                         id: event.channel.id + ( event.thread_ts ? '-' + event.thread_ts : ''),
-                        // thread_ts: event.thread_ts 
                     },
-                    from: { id: event.user.id },
+                    from: { id: event.bot_id ? event.bot_id : event.user.id },
                     // recipient: this.identity.user_id,
                     channelData: event,
                     type: ActivityTypes.Event
                 };
 
                 // create a conversation reference
-                // @ts-ignore
                 const context = new TurnContext(this, activity as Activity);
 
                 // send http response back
@@ -349,6 +399,8 @@ export class SlackAdapter extends BotAdapter {
             }
         } else if (event.type === 'event_callback') {
 
+            console.log('EVENT', event);
+
             // this is an event api post
             if (event.token !== this.options.verificationToken) {
                 console.error('Rejected due to mismatched verificationToken:', event);
@@ -359,11 +411,11 @@ export class SlackAdapter extends BotAdapter {
                     id: event.event.ts,
                     timestamp: new Date(),
                     channelId: 'slack',
-                    conversation: { 
+                    conversation: {
                         id: event.event.channel + ( event.event.thread_ts ? '-' + event.event.thread_ts : ''),
                         // thread_ts: event.event.thread_ts
                     },
-                    from: { id : event.event.user }, // TODO: bot_messages do not have a user field
+                    from: { id : event.event.bot_id ? event.event.bot_id : event.event.user }, // TODO: bot_messages do not have a user field
                     // recipient: event.api_app_id, // TODO: what should this actually be? hard to make it consistent.
                     channelData: event.event,
                     text: null,
@@ -402,9 +454,9 @@ export class SlackEventMiddleware extends MiddlewareSet {
         if (context.activity.type === ActivityTypes.Event && context.activity.channelData) {
             // Handle message sub-types
             if (context.activity.channelData.subtype) {
-                context.activity.type = context.activity.channelData.subtype;
+                context.activity.channelData.botkitEventType = context.activity.channelData.subtype;
             } else if (context.activity.channelData.type) {
-                context.activity.type = context.activity.channelData.type;
+                context.activity.channelData.botkitEventType = context.activity.channelData.type;
             }
         }
         await next();
@@ -417,14 +469,26 @@ export class SlackMessageTypeMiddleware extends MiddlewareSet {
         if (context.activity.type === 'message' && context.activity.channelData) {
             // is this a DM, a mention, or just ambient messages passing through?
             if (context.activity.channelData.channel_type && context.activity.channelData.channel_type === 'im') {
-                context.activity.type = 'direct_message';
+                context.activity.channelData.botkitEventType = 'direct_message';
             }
+
+            // if this is a message from a bot, we probably want to ignore it.
+            // switch the botkit event type to bot_message
+            // and the activity type to Event <-- will stop it from being included in dialogs
+            // NOTE: This catches any message from any bot, including this bot.
+            if (context.activity.channelData && context.activity.channelData.bot_id) {
+                context.activity.channelData.botkitEventType = 'bot_message';
+                context.activity.type = ActivityTypes.Event;
+            }
+
         }
         await next();
     }
 }
 
 export class SlackIdentifyBotsMiddleware extends MiddlewareSet {
+    private botIds: { [key: string]: string };
+
     async onTurn(context, next) {
         // prevent bots from being confused by self-messages.
         // PROBLEM: we don't have our own bot_id!
@@ -432,13 +496,28 @@ export class SlackIdentifyBotsMiddleware extends MiddlewareSet {
         // TODO: perhaps this should be cached somehow?
         // TODO: error checking on this API call!
         if (context.activity.channelData && context.activity.channelData.bot_id) {
-            const slack = await context.adapter.getAPI(context.activity);
-            const bot_info = await slack.bots.info({ bot: context.activity.channelData.bot_id });
-            context.activity.from.id = bot_info.bot.user_id;
+            let botUserId = null;
+            if (this.botIds[context.activity.channelData.bot_id]) {
+                console.log('GOT CACHED BOT ID');
+                botUserId = this.botIds[context.activity.channelData.bot_id]
+            } else {
+                console.log('LOAD BOT ID');
+                const slack = await context.adapter.getAPI(context.activity);
+                const bot_info = await slack.bots.info({ bot: context.activity.channelData.bot_id });
+                if (bot_info.ok) {
+                    this.botIds[context.activity.channelData.bot_id] = bot_info.bot.user_id;
+                    botUserId = this.botIds[context.activity.channelData.bot_id]
+                }
+            }
+            
+            // if we successfully loaded the bot's identity...
+            if (botUserId) {
 
-            // TODO: it is possible here to check if this is a message originating from THIS APP because bot_info has an app_id and the event also has one.
+                console.log('GOT A BOT USER MESSAGE HERE', context.activity);
+                console.log('USER ID: ', botUserId);
+            }
+
         }
-
         // // TODO: getting identity out of adapter is brittle!
         // if (context.activity.from === context.adapter.identity.user_id) {
         //     context.activity.type = 'self_' + context.activity.type;

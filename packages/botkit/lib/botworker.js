@@ -28,7 +28,7 @@ class BotWorker {
     say(message) {
         return __awaiter(this, void 0, void 0, function* () {
             return new Promise((resolve, reject) => {
-                const activity = ensureMessageFormat(message);
+                const activity = this.ensureMessageFormat(message);
                 this._controller.middleware.send.run(this, activity, (err, bot, activity) => {
                     // NOTE: This calls the BotBuilder middleware again...
                     this._controller.adapter.continueConversation(this._config.reference, (outgoing_context) => __awaiter(this, void 0, void 0, function* () {
@@ -43,7 +43,7 @@ class BotWorker {
     reply(src, resp) {
         return __awaiter(this, void 0, void 0, function* () {
             return new Promise((resolve, reject) => {
-                const activity = ensureMessageFormat(resp);
+                const activity = this.ensureMessageFormat(resp);
                 // get conversation reference from src
                 const reference = botbuilder_1.TurnContext.getConversationReference(src.incoming_message);
                 // use the new reference to send the outgoing message
@@ -86,14 +86,14 @@ class BotWorker {
             return this;
         });
     }
+    ensureMessageFormat(msg) {
+        if (typeof (msg) === 'string') {
+            msg = {
+                text: msg
+            };
+        }
+        return msg;
+    }
 }
 exports.BotWorker = BotWorker;
-function ensureMessageFormat(msg) {
-    if (typeof (msg) === 'string') {
-        msg = {
-            text: msg
-        };
-    }
-    return msg;
-}
 //# sourceMappingURL=botworker.js.map
