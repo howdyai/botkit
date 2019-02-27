@@ -26,10 +26,14 @@ interface ChatPostMessageResult extends WebAPICallResult {
 interface AuthTestResult extends WebAPICallResult {
     user: string;
     team: string;
+    team_id: string;
+    user_id: string;
+    ok: boolean;
 }
 
 
 const userIdByBotId: { [key: string]: string } = {};
+const userIdByTeamId: { [key: string]: string } = {};
 
 
 export class SlackAdapter extends BotAdapter {
@@ -61,6 +65,7 @@ export class SlackAdapter extends BotAdapter {
                 const identity = raw_identity as AuthTestResult;
                 debug('** Slack adapter running in single team mode.');
                 debug('** My Slack identity: ', identity.user,'on team',identity.team);
+                SlackAdapter.cacheBotUserInfo(identity.team_id, identity.user_id);
             }).catch((err) => {
                 // This is a fatal error! Invalid credentials have been provided and the bot can't start.
                 console.error(err);
@@ -194,8 +199,13 @@ export class SlackAdapter extends BotAdapter {
         if (this.slack) {
             return this.slack;
         } else {
-            const token = await this.options.getTokenForTeam(activity.channelData.team.id);
-            return new WebClient(token);
+            if (activity.channelData && activity.channelData.team) {
+                const token = await this.options.getTokenForTeam(activity.channelData.team.id);
+                return new WebClient(token);
+            } else {
+                // No API can be created, this is 
+                debug('Unable to create API based on activity: ', activity);
+            }
         }
     }
 
@@ -265,6 +275,10 @@ export class SlackAdapter extends BotAdapter {
         }
 
         return message;
+    }
+
+    static cacheBotUserInfo(team_id, user_id) {
+        userIdByTeamId[team_id] = user_id;
     }
 
     public async sendActivities(context: TurnContext, activities: Activity[]) {
@@ -466,10 +480,34 @@ export class SlackEventMiddleware extends MiddlewareSet {
 export class SlackMessageTypeMiddleware extends MiddlewareSet {
 
     async onTurn(context, next) {
+
         if (context.activity.type === 'message' && context.activity.channelData) {
+
+            // TODO: how will this work in multi-team scenarios?
+            const bot_user_id = userIdByTeamId[context.activity.channelData.team.id];
+
+            var mentionSyntax = '<@' + bot_user_id + '(\\|.*?)?>';
+            var mention = new RegExp(mentionSyntax, 'i');
+            var direct_mention = new RegExp('^' + mentionSyntax, 'i');
+
             // is this a DM, a mention, or just ambient messages passing through?
             if (context.activity.channelData.channel_type && context.activity.channelData.channel_type === 'im') {
                 context.activity.channelData.botkitEventType = 'direct_message';
+
+                // strip any potential leading @mention
+                context.activity.text = context.activity.text.replace(direct_mention, '')
+                    .replace(/^\s+/, '').replace(/^\:\s+/, '').replace(/^\s+/, '');
+
+            } else if (context.activity.text && context.activity.text.match(direct_mention)) {
+                context.activity.channelData.botkitEventType = 'direct_mention';
+
+                // strip the @mention
+                context.activity.text = context.activity.text.replace(direct_mention, '')
+                    .replace(/^\s+/, '').replace(/^\:\s+/, '').replace(/^\s+/, '');
+            } else if (context.activity.text && context.activity.text.match(mention)) {
+                context.activity.channelData.botkitEventType = 'mention';
+            } else {
+                // this is an "ambient" message
             }
 
             // if this is a message from a bot, we probably want to ignore it.

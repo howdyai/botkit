@@ -13,6 +13,8 @@ const client_1 = require("@slack/client");
 const Debug = require("debug");
 const debug = Debug('botkit:slack');
 ;
+const userIdByBotId = {};
+const userIdByTeamId = {};
 class SlackAdapter extends botbuilder_1.BotAdapter {
     // TODO: Define options
     constructor(options) {
@@ -27,6 +29,7 @@ class SlackAdapter extends botbuilder_1.BotAdapter {
                 const identity = raw_identity;
                 debug('** Slack adapter running in single team mode.');
                 debug('** My Slack identity: ', identity.user, 'on team', identity.team);
+                SlackAdapter.cacheBotUserInfo(identity.team_id, identity.user_id);
             }).catch((err) => {
                 // This is a fatal error! Invalid credentials have been provided and the bot can't start.
                 console.error(err);
@@ -148,8 +151,14 @@ class SlackAdapter extends botbuilder_1.BotAdapter {
                 return this.slack;
             }
             else {
-                const token = yield this.options.getTokenForTeam(activity.channelData.team.id);
-                return new client_1.WebClient(token);
+                if (activity.channelData && activity.channelData.team) {
+                    const token = yield this.options.getTokenForTeam(activity.channelData.team.id);
+                    return new client_1.WebClient(token);
+                }
+                else {
+                    // No API can be created, this is 
+                    debug('Unable to create API based on activity: ', activity);
+                }
             }
         });
     }
@@ -215,6 +224,9 @@ class SlackAdapter extends botbuilder_1.BotAdapter {
             message.as_user = false;
         }
         return message;
+    }
+    static cacheBotUserInfo(team_id, user_id) {
+        userIdByTeamId[team_id] = user_id;
     }
     sendActivities(context, activities) {
         return __awaiter(this, void 0, void 0, function* () {
@@ -326,6 +338,10 @@ class SlackAdapter extends botbuilder_1.BotAdapter {
                         timestamp: new Date(),
                         channelId: 'slack',
                         conversation: {
+                            // TODO: conversation address probably needs to include team and user as well
+                            // (otherwise other users in same channel can interfere)
+                            // but this comprimises what we do in the reverse inside botkit
+                            // to get a channel id back out...
                             id: event.channel.id + (event.thread_ts ? '-' + event.thread_ts : ''),
                         },
                         from: { id: event.bot_id ? event.bot_id : event.user.id },
@@ -410,13 +426,34 @@ class SlackMessageTypeMiddleware extends botbuilder_1.MiddlewareSet {
     onTurn(context, next) {
         return __awaiter(this, void 0, void 0, function* () {
             if (context.activity.type === 'message' && context.activity.channelData) {
+                // TODO: how will this work in multi-team scenarios?
+                const bot_user_id = userIdByTeamId[context.activity.channelData.team.id];
+                var mentionSyntax = '<@' + bot_user_id + '(\\|.*?)?>';
+                var mention = new RegExp(mentionSyntax, 'i');
+                var direct_mention = new RegExp('^' + mentionSyntax, 'i');
                 // is this a DM, a mention, or just ambient messages passing through?
                 if (context.activity.channelData.channel_type && context.activity.channelData.channel_type === 'im') {
                     context.activity.channelData.botkitEventType = 'direct_message';
+                    // strip any potential leading @mention
+                    context.activity.text = context.activity.text.replace(direct_mention, '')
+                        .replace(/^\s+/, '').replace(/^\:\s+/, '').replace(/^\s+/, '');
                 }
-                // if this is a message from the bot itself, we probably want to ignore it.
+                else if (context.activity.text && context.activity.text.match(direct_mention)) {
+                    context.activity.channelData.botkitEventType = 'direct_mention';
+                    // strip the @mention
+                    context.activity.text = context.activity.text.replace(direct_mention, '')
+                        .replace(/^\s+/, '').replace(/^\:\s+/, '').replace(/^\s+/, '');
+                }
+                else if (context.activity.text && context.activity.text.match(mention)) {
+                    context.activity.channelData.botkitEventType = 'mention';
+                }
+                else {
+                    // this is an "ambient" message
+                }
+                // if this is a message from a bot, we probably want to ignore it.
                 // switch the botkit event type to bot_message
                 // and the activity type to Event <-- will stop it from being included in dialogs
+                // NOTE: This catches any message from any bot, including this bot.
                 if (context.activity.channelData && context.activity.channelData.bot_id) {
                     context.activity.channelData.botkitEventType = 'bot_message';
                     context.activity.type = botbuilder_1.ActivityTypes.Event;

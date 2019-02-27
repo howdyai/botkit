@@ -6,6 +6,10 @@ const { WebsocketAdapter } = require('botbuilder-websocket');
 
 const basicAuth = require('express-basic-auth');
 
+// Load process.env values from .env file
+require('dotenv').config();
+
+
 
 /* ----------------------------------------------------------------------
  * .-.   .-.      .-.
@@ -33,7 +37,22 @@ const basicAuth = require('express-basic-auth');
 const adapter = new SlackAdapter({
     verificationToken: process.env.verificationToken,
     botToken: process.env.botToken,
+    clientId: process.env.clientId,
+    clientSecret: process.env.clientSecret,
+    scopes: ['bot'],
+    redirectUri: process.env.redirectUri,
+    getTokenForTeam: getTokenForTeam,
 });
+
+const tokenCache = [];
+
+async function getTokenForTeam(teamId) {
+    if (tokenCache[teamId]) {
+        return tokenCache[teamId];
+    } else {
+        console.error('Team not found in tokenCache: ', teamId);
+    }
+}
 
 // Use SlackEventMiddleware to emit events that match their original Slack event types.
 // this may BREAK waterfall dailogs which only accept ActivityTypes.Message
@@ -42,7 +61,7 @@ adapter.use(new SlackEventMiddleware());
 // Use SlackMessageType middleware to further classify messages as direct_message, direct_mention, or mention
 adapter.use(new SlackMessageTypeMiddleware());
 
-adapter.use(new SlackIdentifyBotsMiddleware());
+// adapter.use(new SlackIdentifyBotsMiddleware());
 
 /* ----------------------------------------------------------------------
  *  __      __      ___.                        __           __   
@@ -123,5 +142,31 @@ controller.ready(() => {
         });
     }
 
+        controller.webserver.get('/install', (req, res) => {
+            // getInstallLink points to slack's oauth endpoint and includes clientId and scopes
+            res.redirect(controller.adapter.getInstallLink());
+        });
+
+        controller.webserver.get('/install/auth', async (req, res) => {
+            try {
+                const results = await controller.adapter.validateOauthCode(req.query.code);
+
+                console.log('FULL OAUTH DETAILS', results);
+
+                // Store token by team in bot state.
+                tokenCache[results.team_id] = results.bot.bot_access_token;
+
+                // Capture team to bot id
+                // TODO: this will have to be customized
+                SlackAdapter.cacheBotUserInfo(results.team_id, results.bot.bot_user_id);
+
+                res.json('Success! Bot installed.');
+
+            } catch (err) {
+                console.error('OAUTH ERROR:', err);
+                res.status(401);
+                res.send(err.message);
+            }
+        });
 });
 

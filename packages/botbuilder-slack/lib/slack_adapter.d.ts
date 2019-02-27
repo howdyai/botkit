@@ -23,6 +23,7 @@ export declare class SlackAdapter extends BotAdapter {
     getInstallLink(): string;
     validateOauthCode(code: string): Promise<WebAPICallResult>;
     private activityToSlack;
+    static cacheBotUserInfo(team_id: any, user_id: any): void;
     sendActivities(context: TurnContext, activities: Activity[]): Promise<any[]>;
     updateActivity(context: TurnContext, activity: Activity): Promise<void>;
     deleteActivity(context: TurnContext, reference: ConversationReference): Promise<void>;
