@@ -257,14 +257,18 @@ export class Botkit {
             // Allow the Botbuilder middleware to fire.
             // this middleware is responsible for turning the incoming payload into a BotBuilder Activity
             // which we can then use to turn into a BotkitMessage
-            this.adapter.processActivity(req, res, this.handleTurn.bind(this));
+            this.adapter.processActivity(req, res, this.handleTurn.bind(this)).catch((err) => {
+                // todo: expose this as a global error handler?
+                console.error('Experienced an error inside the turn handler', err);
+                throw err;
+            });
         });
     }
 
     public async handleTurn(turnContext): Promise<any> {
         const dialogContext = await this.dialogSet.createContext(turnContext);
 
-        const bot = await this.spawn(dialogContext);
+        const bot = await this.spawn(dialogContext).catch((err) => { throw err });
 
         debug('INCOMING ACTIVITY:', turnContext.activity);
 
@@ -533,7 +537,6 @@ export class Botkit {
         return new Promise((resolve, reject) => {
             this.middleware.spawn.run(worker, (err, worker) => {
                 if (err) {
-                    console.error(err);
                     reject(err);
                 } else {
                     resolve(worker);

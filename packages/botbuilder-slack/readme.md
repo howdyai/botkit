@@ -71,15 +71,16 @@ async function getTokenForTeam(teamId) {
 * write a readme
 * implement signed secrets: https://api.slack.com/docs/verifying-requests-from-slack#a_recipe_for_security
 
-* create conversationUpdate events?
-* build helpers for building attachments?
-* helpers for handling buttons or dialogs?
-* helper for starting a DM with a specific user?
 * Implement a middleware that reformats activities into the appropriate framework activity type and populates fields like membersAdded membersRemoved reactionsAdded reactionsRemoved
-* figure out how to do mentions and direct_mentions
-* strip mentions from front of string
-* slash command replies
-* reply in thread
-* ephemeral
-* replyinteractive
+* build helpers for building attachments?
+
+* helpers for handling buttons or dialogs?
 * dialog stuff
+
+x slash command replies
+x replyinteractive
+x reply in thread
+x ephemeral
+x helper for starting a DM with a specific user?
+x figure out how to do mentions and direct_mentions
+x strip mentions from front of string
