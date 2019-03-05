@@ -16,6 +16,7 @@ const botbuilder_dialogs_1 = require("botbuilder-dialogs");
 const cms_1 = require("./cms");
 const plugin_loader_1 = require("./plugin_loader");
 const botworker_1 = require("./botworker");
+const conversationState_1 = require("./conversationState");
 const http = require("http");
 const express = require("express");
 const bodyParser = require("body-parser");
@@ -60,7 +61,7 @@ class Botkit {
         else {
             this.storage = this._config.storage;
         }
-        this.conversationState = new botbuilder_1.ConversationState(this.storage);
+        this.conversationState = new conversationState_1.BotkitConversationState(this.storage);
         // TODO: dialogState propertyname should maybe be settable to avoid collision
         const dialogState = this.conversationState.createProperty('dialogState');
         this.dialogSet = new botbuilder_dialogs_1.DialogSet(dialogState);

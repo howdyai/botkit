@@ -4,6 +4,7 @@ interface SlackAdapterOptions {
     verificationToken: string;
     botToken?: string;
     getTokenForTeam?: (teamId: string) => string;
+    getBotUserByTeam?: (teamId: string) => string;
     clientId?: string;
     clientSecret?: string;
     scopes?: string[];
@@ -12,6 +13,7 @@ interface SlackAdapterOptions {
 export declare class SlackAdapter extends BotAdapter {
     private options;
     private slack;
+    private identity;
     name: string;
     middlewares: any;
     web: any;
@@ -20,10 +22,10 @@ export declare class SlackAdapter extends BotAdapter {
     constructor(options: SlackAdapterOptions);
     init(botkit: any): void;
     getAPI(activity: Activity): Promise<WebClient>;
+    getBotUserByTeam(activity: Activity): Promise<string>;
     getInstallLink(): string;
     validateOauthCode(code: string): Promise<WebAPICallResult>;
     private activityToSlack;
-    static cacheBotUserInfo(team_id: any, user_id: any): void;
     sendActivities(context: TurnContext, activities: Activity[]): Promise<any[]>;
     updateActivity(context: TurnContext, activity: Activity): Promise<void>;
     deleteActivity(context: TurnContext, reference: ConversationReference): Promise<void>;

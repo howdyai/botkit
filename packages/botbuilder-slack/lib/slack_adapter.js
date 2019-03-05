@@ -30,16 +30,16 @@ class SlackAdapter extends botbuilder_1.BotAdapter {
                 const identity = raw_identity;
                 debug('** Slack adapter running in single team mode.');
                 debug('** My Slack identity: ', identity.user, 'on team', identity.team);
-                SlackAdapter.cacheBotUserInfo(identity.team_id, identity.user_id);
+                this.identity = { user_id: identity.user_id };
             }).catch((err) => {
                 // This is a fatal error! Invalid credentials have been provided and the bot can't start.
                 console.error(err);
                 process.exit(1);
             });
         }
-        else if (!this.options.getTokenForTeam) {
+        else if (!this.options.getTokenForTeam || !this.options.getBotUserByTeam) {
             // This is a fatal error. No way to get a token to interact with the Slack API.
-            console.error('Missing Slack API credentials! Provide either a botToken or a getTokenForTeam() function as part of the SlackAdapter options.');
+            console.error('Missing Slack API credentials! Provide either a botToken or a getTokenForTeam() and getBotUserByTeam function as part of the SlackAdapter options.');
             process.exit(1);
         }
         else if (!this.options.clientId || !this.options.clientSecret || !this.options.scopes || !this.options.redirectUri) {
@@ -212,12 +212,10 @@ class SlackAdapter extends botbuilder_1.BotAdapter {
                 return this.slack;
             }
             else {
-                // this location is risky
-                //            if (activity.channelData && activity.channelData.team) {
                 // @ts-ignore 
                 if (activity.conversation.team) {
                     // @ts-ignore 
-                    const token = yield this.options.getTokenForTeam(activity.conversation.team.id);
+                    const token = yield this.options.getTokenForTeam(activity.conversation.team);
                     if (!token) {
                         throw new Error('Missing credentials for team.');
                     }
@@ -226,6 +224,27 @@ class SlackAdapter extends botbuilder_1.BotAdapter {
                 else {
                     // No API can be created, this is 
                     debug('Unable to create API based on activity: ', activity);
+                }
+            }
+        });
+    }
+    getBotUserByTeam(activity) {
+        return __awaiter(this, void 0, void 0, function* () {
+            if (this.identity) {
+                return this.identity.user_id;
+            }
+            else {
+                // @ts-ignore
+                if (activity.conversation.team) {
+                    // @ts-ignore 
+                    const user_id = yield this.options.getBotUserByTeam(activity.conversation.team);
+                    if (!user_id) {
+                        throw new Error('Missing credentials for team.');
+                    }
+                    return user_id;
+                }
+                else {
+                    debug('Could not find bot user id based on activity: ', activity);
                 }
             }
         });
@@ -294,9 +313,6 @@ class SlackAdapter extends botbuilder_1.BotAdapter {
             message.as_user = false;
         }
         return message;
-    }
-    static cacheBotUserInfo(team_id, user_id) {
-        userIdByTeamId[team_id] = user_id;
     }
     sendActivities(context, activities) {
         return __awaiter(this, void 0, void 0, function* () {
@@ -416,7 +432,7 @@ class SlackAdapter extends botbuilder_1.BotAdapter {
                             // to get a channel id back out...
                             id: event.channel.id,
                             thread_ts: event.thread_ts,
-                            team: { id: event.team.id },
+                            team: event.team.id,
                         },
                         from: { id: event.bot_id ? event.bot_id : event.user.id },
                         // recipient: this.identity.user_id,
@@ -458,7 +474,7 @@ class SlackAdapter extends botbuilder_1.BotAdapter {
                         type: botbuilder_1.ActivityTypes.Event
                     };
                     // Normalize the location of the team id
-                    activity.channelData.team = { id: event.team_id };
+                    activity.channelData.team = event.team_id;
                     // add the team id to the conversation record
                     // @ts-ignore -- Tell Typescript to ignore this overload
                     activity.conversation.team = activity.channelData.team;
@@ -498,7 +514,7 @@ class SlackAdapter extends botbuilder_1.BotAdapter {
                         type: botbuilder_1.ActivityTypes.Event
                     };
                     // Normalize the location of the team id
-                    activity.channelData.team = { id: event.team_id };
+                    activity.channelData.team = event.team_id;
                     // add the team id to the conversation record
                     // @ts-ignore -- Tell Typescript to ignore this overload
                     activity.conversation.team = activity.channelData.team;
@@ -542,7 +558,7 @@ class SlackMessageTypeMiddleware extends botbuilder_1.MiddlewareSet {
         return __awaiter(this, void 0, void 0, function* () {
             if (context.activity.type === 'message' && context.activity.channelData) {
                 // TODO: how will this work in multi-team scenarios?
-                const bot_user_id = userIdByTeamId[context.activity.channelData.team.id];
+                const bot_user_id = yield context.adapter.getBotUserByTeam(context.activity);
                 var mentionSyntax = '<@' + bot_user_id + '(\\|.*?)?>';
                 var mention = new RegExp(mentionSyntax, 'i');
                 var direct_mention = new RegExp('^' + mentionSyntax, 'i');
@@ -553,13 +569,13 @@ class SlackMessageTypeMiddleware extends botbuilder_1.MiddlewareSet {
                     context.activity.text = context.activity.text.replace(direct_mention, '')
                         .replace(/^\s+/, '').replace(/^\:\s+/, '').replace(/^\s+/, '');
                 }
-                else if (context.activity.text && context.activity.text.match(direct_mention)) {
+                else if (bot_user_id && context.activity.text && context.activity.text.match(direct_mention)) {
                     context.activity.channelData.botkitEventType = 'direct_mention';
                     // strip the @mention
                     context.activity.text = context.activity.text.replace(direct_mention, '')
                         .replace(/^\s+/, '').replace(/^\:\s+/, '').replace(/^\s+/, '');
                 }
-                else if (context.activity.text && context.activity.text.match(mention)) {
+                else if (bot_user_id && context.activity.text && context.activity.text.match(mention)) {
                     context.activity.channelData.botkitEventType = 'mention';
                 }
                 else {

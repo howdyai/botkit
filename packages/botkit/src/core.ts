@@ -1,11 +1,12 @@
 /**
  * @module botkit
  */
-import { BotFrameworkAdapter, MemoryStorage, ConversationState, BotAdapter, Storage, ConversationReference, TurnContext, Activity } from 'botbuilder';
+import { BotFrameworkAdapter, MemoryStorage, BotAdapter, Storage, ConversationReference, TurnContext, Activity } from 'botbuilder';
 import { DialogContext, DialogSet, DialogTurnStatus } from 'botbuilder-dialogs';
 import { BotkitCMSHelper } from './cms';
 import { BotkitPluginLoader, BotkitPlugin } from './plugin_loader';
 import { BotWorker } from './botworker';
+import { BotkitConversationState } from './conversationState';
 import * as http from 'http'
 import * as express from 'express';
 import * as bodyParser from 'body-parser';
@@ -59,7 +60,7 @@ export class Botkit {
         }[]
     } = {};
 
-    private conversationState: ConversationState;
+    private conversationState: BotkitConversationState;
 
     private _deps: {};
     private _bootCompleteHandlers: { (): void }[];
@@ -121,7 +122,7 @@ export class Botkit {
             this.storage = this._config.storage;
         }
 
-        this.conversationState = new ConversationState(this.storage);
+        this.conversationState = new BotkitConversationState(this.storage);
 
         // TODO: dialogState propertyname should maybe be settable to avoid collision
         const dialogState = this.conversationState.createProperty('dialogState');

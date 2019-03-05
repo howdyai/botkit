@@ -42,9 +42,11 @@ const adapter = new SlackAdapter({
     scopes: ['bot'],
     redirectUri: process.env.redirectUri,
     getTokenForTeam: getTokenForTeam,
+    getBotUserByTeam: getBotUserByTeam,
 });
 
 const tokenCache = [];
+const userCache = [];
 
 async function getTokenForTeam(teamId) {
     if (tokenCache[teamId]) {
@@ -53,6 +55,15 @@ async function getTokenForTeam(teamId) {
         console.error('Team not found in tokenCache: ', teamId);
     }
 }
+
+async function getBotUserByTeam(teamId) {
+    if (userCache[teamId]) {
+        return userCache[teamId];
+    } else {
+        console.error('Team not found in userCache: ', teamId);
+    }
+}
+
 
 // Use SlackEventMiddleware to emit events that match their original Slack event types.
 // this may BREAK waterfall dailogs which only accept ActivityTypes.Message
@@ -158,7 +169,7 @@ controller.ready(() => {
 
                 // Capture team to bot id
                 // TODO: this will have to be customized
-                SlackAdapter.cacheBotUserInfo(results.team_id, results.bot.bot_user_id);
+                userCache[results.team_id] =  results.bot.bot_user_id;
 
                 res.json('Success! Bot installed.');
 
