@@ -29,6 +29,7 @@ const adapter = new SlackAdapter({
     scopes: ['bot'],
     redirectUri: process.env.redirectUri,
     getTokenForTeam: getTokenForTeam,
+    getBotUserByTeam: getBotUserByTeam,
     debug: true
 });
 ```
@@ -71,12 +72,16 @@ async function getTokenForTeam(teamId) {
 * write a readme
 * implement signed secrets: https://api.slack.com/docs/verifying-requests-from-slack#a_recipe_for_security
 
+* how do we spawn a bot for proactive messages in a multi-team scenario?
+
 * Implement a middleware that reformats activities into the appropriate framework activity type and populates fields like membersAdded membersRemoved reactionsAdded reactionsRemoved
-* build helpers for building attachments?
 
-* helpers for handling buttons or dialogs?
-* dialog stuff
+? stretch goals
+* build helpers for building attachments? and improve slackdialog to use getters/setters?
+* helpers for handling buttons or dialogs? -> not sure what i meant by this
 
+
+x dialog stuff
 x slash command replies
 x replyinteractive
 x reply in thread

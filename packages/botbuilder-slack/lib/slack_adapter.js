@@ -461,6 +461,9 @@ class SlackAdapter extends botbuilder_1.BotAdapter {
                     if (context.turnState.get('httpBody')) {
                         res.send(context.turnState.get('httpBody'));
                     }
+                    else {
+                        res.end();
+                    }
                 }
             }
             else if (event.type === 'event_callback') {
@@ -507,6 +510,9 @@ class SlackAdapter extends botbuilder_1.BotAdapter {
                     if (context.turnState.get('httpBody')) {
                         res.send(context.turnState.get('httpBody'));
                     }
+                    else {
+                        res.end();
+                    }
                 }
             }
             else if (event.command) {
@@ -546,6 +552,9 @@ class SlackAdapter extends botbuilder_1.BotAdapter {
                     if (context.turnState.get('httpBody')) {
                         res.send(context.turnState.get('httpBody'));
                     }
+                    else {
+                        res.end();
+                    }
                 }
             }
             else {
@@ -555,200 +564,4 @@ class SlackAdapter extends botbuilder_1.BotAdapter {
     }
 }
 exports.SlackAdapter = SlackAdapter;
-class SlackEventMiddleware extends botbuilder_1.MiddlewareSet {
-    onTurn(context, next) {
-        return __awaiter(this, void 0, void 0, function* () {
-            if (context.activity.type === botbuilder_1.ActivityTypes.Event && context.activity.channelData) {
-                // Handle message sub-types
-                if (context.activity.channelData.subtype) {
-                    context.activity.channelData.botkitEventType = context.activity.channelData.subtype;
-                }
-                else if (context.activity.channelData.type) {
-                    context.activity.channelData.botkitEventType = context.activity.channelData.type;
-                }
-            }
-            yield next();
-        });
-    }
-}
-exports.SlackEventMiddleware = SlackEventMiddleware;
-class SlackMessageTypeMiddleware extends botbuilder_1.MiddlewareSet {
-    onTurn(context, next) {
-        return __awaiter(this, void 0, void 0, function* () {
-            if (context.activity.type === 'message' && context.activity.channelData) {
-                // TODO: how will this work in multi-team scenarios?
-                const bot_user_id = yield context.adapter.getBotUserByTeam(context.activity);
-                var mentionSyntax = '<@' + bot_user_id + '(\\|.*?)?>';
-                var mention = new RegExp(mentionSyntax, 'i');
-                var direct_mention = new RegExp('^' + mentionSyntax, 'i');
-                // is this a DM, a mention, or just ambient messages passing through?
-                if (context.activity.channelData.channel_type && context.activity.channelData.channel_type === 'im') {
-                    context.activity.channelData.botkitEventType = 'direct_message';
-                    // strip any potential leading @mention
-                    context.activity.text = context.activity.text.replace(direct_mention, '')
-                        .replace(/^\s+/, '').replace(/^\:\s+/, '').replace(/^\s+/, '');
-                }
-                else if (bot_user_id && context.activity.text && context.activity.text.match(direct_mention)) {
-                    context.activity.channelData.botkitEventType = 'direct_mention';
-                    // strip the @mention
-                    context.activity.text = context.activity.text.replace(direct_mention, '')
-                        .replace(/^\s+/, '').replace(/^\:\s+/, '').replace(/^\s+/, '');
-                }
-                else if (bot_user_id && context.activity.text && context.activity.text.match(mention)) {
-                    context.activity.channelData.botkitEventType = 'mention';
-                }
-                else {
-                    // this is an "ambient" message
-                }
-                // if this is a message from a bot, we probably want to ignore it.
-                // switch the botkit event type to bot_message
-                // and the activity type to Event <-- will stop it from being included in dialogs
-                // NOTE: This catches any message from any bot, including this bot.
-                if (context.activity.channelData && context.activity.channelData.bot_id) {
-                    context.activity.channelData.botkitEventType = 'bot_message';
-                    context.activity.type = botbuilder_1.ActivityTypes.Event;
-                }
-            }
-            yield next();
-        });
-    }
-}
-exports.SlackMessageTypeMiddleware = SlackMessageTypeMiddleware;
-class SlackIdentifyBotsMiddleware extends botbuilder_1.MiddlewareSet {
-    onTurn(context, next) {
-        return __awaiter(this, void 0, void 0, function* () {
-            // prevent bots from being confused by self-messages.
-            // PROBLEM: we don't have our own bot_id!
-            // SOLUTION: load it up and compare!
-            // TODO: perhaps this should be cached somehow?
-            // TODO: error checking on this API call!
-            if (context.activity.channelData && context.activity.channelData.bot_id) {
-                let botUserId = null;
-                if (this.botIds[context.activity.channelData.bot_id]) {
-                    console.log('GOT CACHED BOT ID');
-                    botUserId = this.botIds[context.activity.channelData.bot_id];
-                }
-                else {
-                    console.log('LOAD BOT ID');
-                    const slack = yield context.adapter.getAPI(context.activity);
-                    const bot_info = yield slack.bots.info({ bot: context.activity.channelData.bot_id });
-                    if (bot_info.ok) {
-                        this.botIds[context.activity.channelData.bot_id] = bot_info.bot.user_id;
-                        botUserId = this.botIds[context.activity.channelData.bot_id];
-                    }
-                }
-                // if we successfully loaded the bot's identity...
-                if (botUserId) {
-                    console.log('GOT A BOT USER MESSAGE HERE', context.activity);
-                    console.log('USER ID: ', botUserId);
-                }
-            }
-            // // TODO: getting identity out of adapter is brittle!
-            // if (context.activity.from === context.adapter.identity.user_id) {
-            //     context.activity.type = 'self_' + context.activity.type;
-            // }
-            yield next();
-        });
-    }
-}
-exports.SlackIdentifyBotsMiddleware = SlackIdentifyBotsMiddleware;
-class SlackDialog {
-    /* helper functions for creating dialog attachments */
-    constructor(title, callback_id, submit_label, elements) {
-        this.data = {
-            title: title,
-            callback_id: callback_id,
-            submit_label: submit_label || null,
-            elements: elements || [],
-        };
-        return this;
-    }
-    state(v) {
-        this.data.state = v;
-        return this;
-    }
-    notifyOnCancel(set) {
-        this.data.notify_on_cancel = set;
-        return this;
-    }
-    title(v) {
-        this.data.title = v;
-        return this;
-    }
-    callback_id(v) {
-        this.data.callback_id = v;
-        return this;
-    }
-    submit_label(v) {
-        this.data.submit_label = v;
-        return this;
-    }
-    addText(label, name, value, options, subtype) {
-        var element = (typeof (label) === 'object') ? label : {
-            label: label,
-            name: name,
-            value: value,
-            type: 'text',
-            subtype: subtype || null,
-        };
-        if (typeof (options) === 'object') {
-            for (var key in options) {
-                element[key] = options[key];
-            }
-        }
-        this.data.elements.push(element);
-        return this;
-    }
-    addEmail(label, name, value, options) {
-        return this.addText(label, name, value, options, 'email');
-    }
-    addNumber(label, name, value, options) {
-        return this.addText(label, name, value, options, 'number');
-    }
-    addTel(label, name, value, options) {
-        return this.addText(label, name, value, options, 'tel');
-    }
-    addUrl(label, name, value, options) {
-        return this.addText(label, name, value, options, 'url');
-    }
-    addTextarea(label, name, value, options, subtype) {
-        var element = (typeof (label) === 'object') ? label : {
-            label: label,
-            name: name,
-            value: value,
-            type: 'textarea',
-            subtype: subtype || null,
-        };
-        if (typeof (options) === 'object') {
-            for (var key in options) {
-                element[key] = options[key];
-            }
-        }
-        this.data.elements.push(element);
-        return this;
-    }
-    addSelect(label, name, value, option_list, options) {
-        var element = {
-            label: label,
-            name: name,
-            value: value,
-            options: option_list,
-            type: 'select',
-        };
-        if (typeof (options) === 'object') {
-            for (var key in options) {
-                element[key] = options[key];
-            }
-        }
-        this.data.elements.push(element);
-        return this;
-    }
-    asString() {
-        return JSON.stringify(this.data, null, 2);
-    }
-    asObject() {
-        return this.data;
-    }
-}
-exports.SlackDialog = SlackDialog;
 //# sourceMappingURL=slack_adapter.js.map

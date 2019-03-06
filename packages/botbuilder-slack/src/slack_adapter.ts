@@ -520,6 +520,8 @@ export class SlackAdapter extends BotAdapter {
                 res.status(context.turnState.get('httpStatus'));
                 if (context.turnState.get('httpBody')) {
                     res.send(context.turnState.get('httpBody'));
+                } else {
+                    res.end();
                 }
 
             }
@@ -574,6 +576,8 @@ export class SlackAdapter extends BotAdapter {
                 res.status(context.turnState.get('httpStatus'));
                 if (context.turnState.get('httpBody')) {
                     res.send(context.turnState.get('httpBody'));
+                } else {
+                    res.end();
                 }
 
             }
@@ -621,6 +625,8 @@ export class SlackAdapter extends BotAdapter {
                 res.status(context.turnState.get('httpStatus'));
                 if (context.turnState.get('httpBody')) {
                     res.send(context.turnState.get('httpBody'));
+                } else {
+                    res.end();
                 }
 
             }
@@ -629,230 +635,4 @@ export class SlackAdapter extends BotAdapter {
             console.error('Unknown Slack event type: ', event);
         }
     }
-}
-
-export class SlackEventMiddleware extends MiddlewareSet {
-
-    async onTurn(context, next) {
-        if (context.activity.type === ActivityTypes.Event && context.activity.channelData) {
-            // Handle message sub-types
-            if (context.activity.channelData.subtype) {
-                context.activity.channelData.botkitEventType = context.activity.channelData.subtype;
-            } else if (context.activity.channelData.type) {
-                context.activity.channelData.botkitEventType = context.activity.channelData.type;
-            }
-        }
-        await next();
-    }
-}
-
-export class SlackMessageTypeMiddleware extends MiddlewareSet {
-
-    async onTurn(context, next) {
-
-        if (context.activity.type === 'message' && context.activity.channelData) {
-
-            // TODO: how will this work in multi-team scenarios?
-            const bot_user_id = await context.adapter.getBotUserByTeam(context.activity);
-            var mentionSyntax = '<@' + bot_user_id + '(\\|.*?)?>';
-            var mention = new RegExp(mentionSyntax, 'i');
-            var direct_mention = new RegExp('^' + mentionSyntax, 'i');
-
-            // is this a DM, a mention, or just ambient messages passing through?
-            if (context.activity.channelData.channel_type && context.activity.channelData.channel_type === 'im') {
-                context.activity.channelData.botkitEventType = 'direct_message';
-
-                // strip any potential leading @mention
-                context.activity.text = context.activity.text.replace(direct_mention, '')
-                    .replace(/^\s+/, '').replace(/^\:\s+/, '').replace(/^\s+/, '');
-
-            } else if (bot_user_id && context.activity.text && context.activity.text.match(direct_mention)) {
-                context.activity.channelData.botkitEventType = 'direct_mention';
-
-                // strip the @mention
-                context.activity.text = context.activity.text.replace(direct_mention, '')
-                    .replace(/^\s+/, '').replace(/^\:\s+/, '').replace(/^\s+/, '');
-            } else if (bot_user_id && context.activity.text && context.activity.text.match(mention)) {
-                context.activity.channelData.botkitEventType = 'mention';
-            } else {
-                // this is an "ambient" message
-            }
-
-            // if this is a message from a bot, we probably want to ignore it.
-            // switch the botkit event type to bot_message
-            // and the activity type to Event <-- will stop it from being included in dialogs
-            // NOTE: This catches any message from any bot, including this bot.
-            if (context.activity.channelData && context.activity.channelData.bot_id) {
-                context.activity.channelData.botkitEventType = 'bot_message';
-                context.activity.type = ActivityTypes.Event;
-            }
-
-        }
-        await next();
-    }
-}
-
-export class SlackIdentifyBotsMiddleware extends MiddlewareSet {
-    private botIds: { [key: string]: string };
-
-    async onTurn(context, next) {
-        // prevent bots from being confused by self-messages.
-        // PROBLEM: we don't have our own bot_id!
-        // SOLUTION: load it up and compare!
-        // TODO: perhaps this should be cached somehow?
-        // TODO: error checking on this API call!
-        if (context.activity.channelData && context.activity.channelData.bot_id) {
-            let botUserId = null;
-            if (this.botIds[context.activity.channelData.bot_id]) {
-                console.log('GOT CACHED BOT ID');
-                botUserId = this.botIds[context.activity.channelData.bot_id]
-            } else {
-                console.log('LOAD BOT ID');
-                const slack = await context.adapter.getAPI(context.activity);
-                const bot_info = await slack.bots.info({ bot: context.activity.channelData.bot_id });
-                if (bot_info.ok) {
-                    this.botIds[context.activity.channelData.bot_id] = bot_info.bot.user_id;
-                    botUserId = this.botIds[context.activity.channelData.bot_id]
-                }
-            }
-            
-            // if we successfully loaded the bot's identity...
-            if (botUserId) {
-
-                console.log('GOT A BOT USER MESSAGE HERE', context.activity);
-                console.log('USER ID: ', botUserId);
-            }
-
-        }
-        // // TODO: getting identity out of adapter is brittle!
-        // if (context.activity.from === context.adapter.identity.user_id) {
-        //     context.activity.type = 'self_' + context.activity.type;
-        // }
-
-        await next();
-    }
-}
-
-export class SlackDialog {
-
-    private data: any;
-
-    /* helper functions for creating dialog attachments */
-    constructor(title, callback_id, submit_label, elements) {
-
-        this.data = {
-            title: title,
-            callback_id: callback_id,
-            submit_label: submit_label || null,
-            elements: elements || [],
-        }
-
-        return this;
-    }
-
-    public state(v) {
-        this.data.state = v;
-        return this;
-    }
-
-    public notifyOnCancel(set: boolean) {
-        this.data.notify_on_cancel = set;
-        return this;
-    }
-
-    public title(v) {
-        this.data.title = v;
-        return this;
-    }
-
-    public callback_id (v) {
-        this.data.callback_id = v;
-        return this;
-    }
-    public submit_label (v) {
-        this.data.submit_label = v;
-        return this;
-    }
-
-    public addText (label, name, value, options, subtype) {
-        var element = (typeof(label) === 'object') ? label : {
-            label: label,
-            name: name,
-            value: value,
-            type: 'text',
-            subtype: subtype || null,
-        };
-
-        if (typeof(options) === 'object') {
-            for (var key in options) {
-                element[key] = options[key];
-            }
-        }
-
-        this.data.elements.push(element);
-        return this;
-    }
-    
-    public addEmail(label, name, value, options) {
-        return this.addText(label, name, value, options, 'email');
-    }
-  
-    public addNumber(label, name, value, options) {
-        return this.addText(label, name, value, options, 'number');
-    }
-    
-    public addTel(label, name, value, options) {
-        return this.addText(label, name, value, options, 'tel');
-    }
-
-    public addUrl(label, name, value, options) {
-        return this.addText(label, name, value, options, 'url');
-    }
-
-    public addTextarea(label, name, value, options, subtype) {
-
-        var element = (typeof(label) === 'object') ? label : {
-            label: label,
-            name: name,
-            value: value,
-            type: 'textarea',
-            subtype: subtype || null,
-        };
-
-        if (typeof(options) === 'object') {
-            for (var key in options) {
-                element[key] = options[key];
-            }
-        }
-
-        this.data.elements.push(element);
-        return this;
-    }
-
-    public addSelect(label, name, value, option_list, options) {
-        var element = {
-            label: label,
-            name: name,
-            value: value,
-            options: option_list,
-            type: 'select',
-        };
-        if (typeof(options) === 'object') {
-            for (var key in options) {
-                element[key] = options[key];
-            }
-        }
-
-        this.data.elements.push(element);
-        return this;
-    }
-
-    public asString() {
-        return JSON.stringify(this.data, null, 2);
-    }
-    
-    public asObject() {
-        return this.data;
-    }
-
 }

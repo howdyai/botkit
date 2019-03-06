@@ -2,7 +2,7 @@
   "name": "botbuilder-slack",
   "version": "1.0.0",
   "description": "",
-  "main": "lib/slack_adapter.js",
+  "main": "lib/index.js",
   "scripts": {
     "build": "tsc",
     "test": "echo \"Error: no test specified\" && exit 1",
