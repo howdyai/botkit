@@ -185,20 +185,21 @@ class Botkit {
     }
     handleTurn(turnContext) {
         return __awaiter(this, void 0, void 0, function* () {
-            const dialogContext = yield this.dialogSet.createContext(turnContext);
-            const bot = yield this.spawn(dialogContext).catch((err) => { throw err; });
             debug('INCOMING ACTIVITY:', turnContext.activity);
+            // Create a dialog context
+            const dialogContext = yield this.dialogSet.createContext(turnContext);
+            // Spawn a bot worker with the dialogContext
+            const bot = yield this.spawn(dialogContext).catch((err) => { throw err; });
             // Turn this turnContext into a Botkit message.
-            const message = {
+            const message = Object.assign({}, turnContext.activity.channelData, { 
                 // if Botkit has further classified this message, use that sub-type rather than the Activity type
-                type: (turnContext.activity.channelData && turnContext.activity.channelData.botkitEventType) ? turnContext.activity.channelData.botkitEventType : turnContext.activity.type,
-                incoming_message: turnContext.activity,
-                // context: turnContext,
-                user: turnContext.activity.from.id,
-                text: turnContext.activity.text,
-                channel: turnContext.activity.conversation.id,
-                reference: botbuilder_1.TurnContext.getConversationReference(turnContext.activity),
-            };
+                type: (turnContext.activity.channelData && turnContext.activity.channelData.botkitEventType) ? turnContext.activity.channelData.botkitEventType : turnContext.activity.type, 
+                // normalize the user, text and channel info
+                user: turnContext.activity.from.id, text: turnContext.activity.text, channel: turnContext.activity.conversation.id, 
+                // generate a conversation reference, for replies. TODO: do we need to this here?
+                reference: botbuilder_1.TurnContext.getConversationReference(turnContext.activity), 
+                // include the full unmodified record here
+                incoming_message: turnContext.activity });
             const interrupt_results = yield this.listenForInterrupts(bot, message);
             if (interrupt_results === false) {
                 // Continue dialog if one is present

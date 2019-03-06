@@ -13,4 +13,6 @@ export declare class BotWorker {
     beginDialog(id: any, options: any): Promise<void>;
     changeContext(reference: Partial<ConversationReference>): Promise<BotWorker>;
     ensureMessageFormat(msg: any): any;
+    httpStatus(status: number): void;
+    httpBody(body: any): void;
 }

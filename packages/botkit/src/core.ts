@@ -35,6 +35,7 @@ export interface BotkitMessage {
     channel: string;
     reference: ConversationReference;
     incoming_message: {[key: string]: any};
+    [key: string]: any; // allow any other fields to live alongside the defined fields.
 }
 
 export class Botkit {
@@ -267,22 +268,32 @@ export class Botkit {
     }
 
     public async handleTurn(turnContext): Promise<any> {
-        const dialogContext = await this.dialogSet.createContext(turnContext);
-
-        const bot = await this.spawn(dialogContext).catch((err) => { throw err });
 
         debug('INCOMING ACTIVITY:', turnContext.activity);
 
+        // Create a dialog context
+        const dialogContext = await this.dialogSet.createContext(turnContext);
+
+        // Spawn a bot worker with the dialogContext
+        const bot = await this.spawn(dialogContext).catch((err) => { throw err });
+
         // Turn this turnContext into a Botkit message.
         const message = {
+            ...turnContext.activity.channelData, // start with all the fields that were in the original incoming payload. TODO: this is a shallow copy, is that a problem?
+
             // if Botkit has further classified this message, use that sub-type rather than the Activity type
             type: ( turnContext.activity.channelData && turnContext.activity.channelData.botkitEventType ) ? turnContext.activity.channelData.botkitEventType : turnContext.activity.type,
-            incoming_message: turnContext.activity,
-            // context: turnContext,
+
+            // normalize the user, text and channel info
             user: turnContext.activity.from.id,
             text: turnContext.activity.text,
             channel: turnContext.activity.conversation.id,
+
+            // generate a conversation reference, for replies. TODO: do we need to this here?
             reference: TurnContext.getConversationReference(turnContext.activity),
+
+            // include the full unmodified record here
+            incoming_message: turnContext.activity,
         } as BotkitMessage;
 
         const interrupt_results = await this.listenForInterrupts(bot, message);

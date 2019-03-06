@@ -108,6 +108,23 @@ export class BotWorker {
         return msg;
     }
 
+    /* 
+     * set the http response status for this turn
+     * @param status (number) a valid http status code like 200 202 301 500 etc
+     */
+    public httpStatus(status: number) {
+        this.getConfig('context').turnState.set('httpStatus', status);
+    }
+
+    /* 
+     * set the http response body for this turn
+     * @param body (any) a value that will be returned as the http response body
+     */
+    public httpBody(body: any) {
+        this.getConfig('context').turnState.set('httpBody', body);
+    }
+
+
 }
 
 

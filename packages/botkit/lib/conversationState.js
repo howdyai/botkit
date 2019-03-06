@@ -23,7 +23,7 @@ class BotkitConversationState extends botbuilder_1.ConversationState {
         if (!conversationId) {
             throw new Error('missing activity.conversation.id');
         }
-        console.log('CID:', conversationId);
+        // @ts-ignore namespace is technically private
         return `${channelId}/conversations/${conversationId}/${this.namespace}`;
     }
 }

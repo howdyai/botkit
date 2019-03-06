@@ -29,6 +29,7 @@ export interface BotkitMessage {
     incoming_message: {
         [key: string]: any;
     };
+    [key: string]: any;
 }
 export declare class Botkit {
     private _config;

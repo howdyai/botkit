@@ -221,7 +221,28 @@ export class SlackAdapter extends BotAdapter {
                         }
                     };
                     
-
+                    bot.dialogError = function(errors) {
+                        if (!errors) {
+                            errors = [];
+                        }
+                
+                        if (Object.prototype.toString.call(errors) !== '[object Array]') {
+                            errors = [errors];
+                        }
+                
+                        bot.httpBody(JSON.stringify({ errors }));
+                    };
+                
+                    bot.replyWithDialog = async function(src, dialog_obj) {
+                
+                        var msg = {
+                            trigger_id: src.trigger_id,
+                            dialog: JSON.stringify(dialog_obj)
+                        };
+                
+                        return bot.api.dialog.open(msg);
+                    };
+                
 
                     next();
                 }
@@ -299,8 +320,6 @@ export class SlackAdapter extends BotAdapter {
         }
     }
 
-
-
     public getInstallLink(): string {
         if (this.options.clientId && this.options.scopes) {
             const redirect = 'https://slack.com/oauth/authorize?client_id=' + this.options.clientId + '&scope=' + this.options.scopes.join(',');
@@ -329,7 +348,6 @@ export class SlackAdapter extends BotAdapter {
 
     private activityToSlack(activity: any): any {
 
-//        let [ channelId, thread_ts ] = activity.conversation.id.split('-');
         let channelId = activity.conversation.id;
         let thread_ts = activity.conversation.thread_ts;
 
@@ -468,9 +486,7 @@ export class SlackAdapter extends BotAdapter {
             res.status(200);
             res.send(event.challenge);
         } else if (event.payload) {
-
-            // TODO: 
-            // What type of event is this? interactive callback?
+            // handle interactive_message callbacks and block_actions
 
             event = JSON.parse(event.payload);
             if (event.token !== this.options.verificationToken) {
@@ -482,16 +498,11 @@ export class SlackAdapter extends BotAdapter {
                     timestamp: new Date(),
                     channelId: 'slack',
                     conversation: {
-                        // TODO: conversation address probably needs to include team and user as well
-                        // (otherwise other users in same channel can interfere)
-                        // but this comprimises what we do in the reverse inside botkit
-                        // to get a channel id back out...
-                        id: event.channel.id, // + ( event.thread_ts ? '-' + event.thread_ts : ''),
+                        id: event.channel.id, 
                         thread_ts: event.thread_ts,
                         team: event.team.id,
                     },
                     from: { id: event.bot_id ? event.bot_id : event.user.id },
-                    // recipient: this.identity.user_id,
                     channelData: event,
                     type: ActivityTypes.Event
                 };
@@ -500,13 +511,17 @@ export class SlackAdapter extends BotAdapter {
                 // @ts-ignore
                 const context = new TurnContext(this, activity as Activity);
 
-                // send http response back
-                // TODO: Dialog submissions have other options including HTTP response codes
-                res.status(200);
-                res.end();
+                context.turnState.set('httpStatus', 200);
 
                 await this.runMiddleware(context, logic)
                     .catch((err) => { throw err; })
+
+                // send http response back
+                res.status(context.turnState.get('httpStatus'));
+                if (context.turnState.get('httpBody')) {
+                    res.send(context.turnState.get('httpBody'));
+                }
+
             }
         } else if (event.type === 'event_callback') {
 
@@ -523,9 +538,8 @@ export class SlackAdapter extends BotAdapter {
                     timestamp: new Date(),
                     channelId: 'slack',
                     conversation: {
-                        id: event.event.channel, // + ( event.event.thread_ts ? '-' + event.event.thread_ts : ''),
+                        id: event.event.channel, 
                         thread_ts: event.event.thread_ts,
-                        // thread_ts: event.event.thread_ts
                     },
                     from: { id : event.event.bot_id ? event.event.bot_id : event.event.user }, // TODO: bot_messages do not have a user field
                     // recipient: event.api_app_id, // TODO: what should this actually be? hard to make it consistent.
@@ -551,12 +565,17 @@ export class SlackAdapter extends BotAdapter {
                 // @ts-ignore
                 const context = new TurnContext(this, activity as Activity);
 
-                // send http response back
-                res.status(200);
-                res.end();
+                context.turnState.set('httpStatus', 200);
 
                 await this.runMiddleware(context, logic)
                     .catch((err) => { throw err; })
+
+                // send http response back
+                res.status(context.turnState.get('httpStatus'));
+                if (context.turnState.get('httpBody')) {
+                    res.send(context.turnState.get('httpBody'));
+                }
+
             }
         } else if (event.command) {
 
@@ -593,12 +612,17 @@ export class SlackAdapter extends BotAdapter {
                 // @ts-ignore
                 const context = new TurnContext(this, activity as Activity);
 
-                // send http response back
-                res.status(200);
-                res.end();
+                context.turnState.set('httpStatus', 200);
 
                 await this.runMiddleware(context, logic)
                     .catch((err) => { throw err; })
+
+                // send http response back
+                res.status(context.turnState.get('httpStatus'));
+                if (context.turnState.get('httpBody')) {
+                    res.send(context.turnState.get('httpBody'));
+                }
+
             }
 
         } else {
@@ -707,4 +731,128 @@ export class SlackIdentifyBotsMiddleware extends MiddlewareSet {
 
         await next();
     }
+}
+
+export class SlackDialog {
+
+    private data: any;
+
+    /* helper functions for creating dialog attachments */
+    constructor(title, callback_id, submit_label, elements) {
+
+        this.data = {
+            title: title,
+            callback_id: callback_id,
+            submit_label: submit_label || null,
+            elements: elements || [],
+        }
+
+        return this;
+    }
+
+    public state(v) {
+        this.data.state = v;
+        return this;
+    }
+
+    public notifyOnCancel(set: boolean) {
+        this.data.notify_on_cancel = set;
+        return this;
+    }
+
+    public title(v) {
+        this.data.title = v;
+        return this;
+    }
+
+    public callback_id (v) {
+        this.data.callback_id = v;
+        return this;
+    }
+    public submit_label (v) {
+        this.data.submit_label = v;
+        return this;
+    }
+
+    public addText (label, name, value, options, subtype) {
+        var element = (typeof(label) === 'object') ? label : {
+            label: label,
+            name: name,
+            value: value,
+            type: 'text',
+            subtype: subtype || null,
+        };
+
+        if (typeof(options) === 'object') {
+            for (var key in options) {
+                element[key] = options[key];
+            }
+        }
+
+        this.data.elements.push(element);
+        return this;
+    }
+    
+    public addEmail(label, name, value, options) {
+        return this.addText(label, name, value, options, 'email');
+    }
+  
+    public addNumber(label, name, value, options) {
+        return this.addText(label, name, value, options, 'number');
+    }
+    
+    public addTel(label, name, value, options) {
+        return this.addText(label, name, value, options, 'tel');
+    }
+
+    public addUrl(label, name, value, options) {
+        return this.addText(label, name, value, options, 'url');
+    }
+
+    public addTextarea(label, name, value, options, subtype) {
+
+        var element = (typeof(label) === 'object') ? label : {
+            label: label,
+            name: name,
+            value: value,
+            type: 'textarea',
+            subtype: subtype || null,
+        };
+
+        if (typeof(options) === 'object') {
+            for (var key in options) {
+                element[key] = options[key];
+            }
+        }
+
+        this.data.elements.push(element);
+        return this;
+    }
+
+    public addSelect(label, name, value, option_list, options) {
+        var element = {
+            label: label,
+            name: name,
+            value: value,
+            options: option_list,
+            type: 'select',
+        };
+        if (typeof(options) === 'object') {
+            for (var key in options) {
+                element[key] = options[key];
+            }
+        }
+
+        this.data.elements.push(element);
+        return this;
+    }
+
+    public asString() {
+        return JSON.stringify(this.data, null, 2);
+    }
+    
+    public asObject() {
+        return this.data;
+    }
+
 }

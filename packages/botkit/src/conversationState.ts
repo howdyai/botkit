@@ -28,6 +28,7 @@ export class BotkitConversationState extends ConversationState {
             throw new Error('missing activity.conversation.id');
         }
 
+        // @ts-ignore namespace is technically private
         return `${channelId}/conversations/${conversationId}/${ this.namespace }`;
     }
 
