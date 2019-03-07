@@ -432,7 +432,13 @@ class Botkit {
                 activity: config.context.activity
             };
         }
-        const worker = new botworker_1.BotWorker(this, config);
+        let worker = null;
+        if (this.adapter.botkit_worker) {
+            worker = new this.adapter.botkit_worker(this, config);
+        }
+        else {
+            worker = new botworker_1.BotWorker(this, config);
+        }
         return new Promise((resolve, reject) => {
             this.middleware.spawn.run(worker, (err, worker) => {
                 if (err) {

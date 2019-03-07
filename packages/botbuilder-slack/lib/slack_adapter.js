@@ -54,7 +54,6 @@ class SlackAdapter extends botbuilder_1.BotAdapter {
         this.middlewares = {
             spawn: [
                 (bot, next) => __awaiter(this, void 0, void 0, function* () {
-                    console.log('inside spawn');
                     // make the Slack API available to all bot instances.
                     bot.api = yield this.getAPI(bot.getConfig('activity')).catch((err) => {
                         return next(new Error('Could not spawn a Slack API instance'));
@@ -467,7 +466,6 @@ class SlackAdapter extends botbuilder_1.BotAdapter {
                 }
             }
             else if (event.type === 'event_callback') {
-                console.log('EVENT', event);
                 // this is an event api post
                 if (event.token !== this.options.verificationToken) {
                     console.error('Rejected due to mismatched verificationToken:', event);

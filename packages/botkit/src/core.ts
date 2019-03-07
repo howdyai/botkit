@@ -544,7 +544,12 @@ export class Botkit {
             }
          }
 
-        const worker = new BotWorker(this, config);
+         let worker: BotWorker = null;
+         if (this.adapter.botkit_worker) {
+             worker = new this.adapter.botkit_worker(this, config);
+         } else {
+             worker = new BotWorker(this, config);
+         }
 
         return new Promise((resolve, reject) => {
             this.middleware.spawn.run(worker, (err, worker) => {

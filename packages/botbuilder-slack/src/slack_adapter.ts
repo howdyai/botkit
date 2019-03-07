@@ -92,7 +92,6 @@ export class SlackAdapter extends BotAdapter {
         this.middlewares = {
             spawn: [
                 async (bot, next) => {
-                    console.log('inside spawn');
                     // make the Slack API available to all bot instances.
                     bot.api = await this.getAPI(bot.getConfig('activity')).catch((err) => {
                         return next(new Error('Could not spawn a Slack API instance'));
@@ -526,8 +525,6 @@ export class SlackAdapter extends BotAdapter {
 
             }
         } else if (event.type === 'event_callback') {
-
-            console.log('EVENT', event);
 
             // this is an event api post
             if (event.token !== this.options.verificationToken) {
