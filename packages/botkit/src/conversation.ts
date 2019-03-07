@@ -1,10 +1,10 @@
 /**
  * @module botkit
  */
-import { Botkit, BotkitMessage } from './core';
+import { Botkit } from './core';
 import { BotkitDialogWrapper } from './cms';
-import { ActivityTypes, TurnContext, MessageFactory, ActionTypes, ConversationReference } from 'botbuilder';
-import { Dialog, DialogContext, DialogInstance, DialogSet, DialogReason, TextPrompt, DialogTurnStatus } from 'botbuilder-dialogs';
+import { ActivityTypes, TurnContext, MessageFactory, ActionTypes } from 'botbuilder';
+import { Dialog, DialogInstance, DialogReason, TextPrompt } from 'botbuilder-dialogs';
 const debug = require('debug')('botkit:conversation');
 import * as mustache from 'mustache';
 export class BotkitConversation<O extends object = {}> extends Dialog<O> {

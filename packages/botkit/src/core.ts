@@ -1,10 +1,10 @@
 /**
  * @module botkit
  */
-import { BotFrameworkAdapter, MemoryStorage, BotAdapter, Storage, ConversationReference, TurnContext, Activity } from 'botbuilder';
+import { BotFrameworkAdapter, MemoryStorage,  Storage, ConversationReference, TurnContext } from 'botbuilder';
 import { DialogContext, DialogSet, DialogTurnStatus } from 'botbuilder-dialogs';
 import { BotkitCMSHelper } from './cms';
-import { BotkitPluginLoader, BotkitPlugin } from './plugin_loader';
+import { BotkitPluginLoader } from './plugin_loader';
 import { BotWorker } from './botworker';
 import { BotkitConversationState } from './conversationState';
 import * as path from 'path';
