@@ -2,6 +2,20 @@ const { SlackDialog } = require('botbuilder-slack');
 
 module.exports = function(controller) {
 
+    controller.ready(async () => {
+        if (process.env.MYTEAM) {
+            let bot = await controller.spawn(process.env.MYTEAM);
+            await bot.startConversationInChannel(process.env.MYCHAN,process.env.MYUSER);
+            bot.say('I AM AWOKEN.');
+        }
+    });
+
+    controller.hears('dm me', 'message', async(bot, message) => {
+        await bot.startPrivateConversation(message.user);
+        await bot.say(`Let's talk in private.`);
+    });
+
+
     controller.on('direct_mention', async(bot, message) => {
         await bot.reply(message, `I heard a direct mention that said "${ message.text }"`);
     });

@@ -3,12 +3,21 @@ const { SlackAdapter, SlackMessageTypeMiddleware, SlackIdentifyBotsMiddleware, S
 const { WebexAdapter } = require('botbuilder-webex');
 const { ShowTypingMiddleware } = require('botbuilder');
 const { WebsocketAdapter } = require('botbuilder-websocket');
+const { MongoDbStorage } = require('botbuilder-storage-mongodb');
 
 const basicAuth = require('express-basic-auth');
 
 // Load process.env values from .env file
 require('dotenv').config();
 
+let storage = null;
+if (process.env.MONGO_URI) {
+    storage = mongoStorage = new MongoDbStorage({
+        url : process.env.MONGO_URI,
+        // database: "botframework",
+        // collection: "botframework"
+    });
+}
 
 
 /* ----------------------------------------------------------------------
@@ -45,12 +54,24 @@ const adapter = new SlackAdapter({
     getBotUserByTeam: getBotUserByTeam,
 });
 
-const tokenCache = [];
-const userCache = [];
+let tokenCache = {};
+let userCache = {};
+
+if (process.env.TOKENS) {
+    tokenCache = JSON.parse(process.env.TOKENS);
+} 
+
+if (process.env.USERS) {
+    userCache = JSON.parse(process.env.USERS);
+} 
 
 async function getTokenForTeam(teamId) {
     if (tokenCache[teamId]) {
-        return tokenCache[teamId];
+        return new Promise((resolve) => {
+            setTimeout(function() {
+                resolve(tokenCache[teamId]);
+            }, 150);
+        });
     } else {
         console.error('Team not found in tokenCache: ', teamId);
     }
@@ -58,7 +79,11 @@ async function getTokenForTeam(teamId) {
 
 async function getBotUserByTeam(teamId) {
     if (userCache[teamId]) {
-        return userCache[teamId];
+        return new Promise((resolve) => {
+            setTimeout(function() {
+                resolve(userCache[teamId]);
+            }, 150);
+        });
     } else {
         console.error('Team not found in userCache: ', teamId);
     }
@@ -97,7 +122,8 @@ const controller = new Botkit({
     cms: {
         cms_uri: process.env.cms_uri,
         token: process.env.cms_token,
-    }
+    },
+    storage
 });
 
 // show typing indicator while bot "thinks"

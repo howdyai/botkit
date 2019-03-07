@@ -6,16 +6,31 @@ export class SlackBotWorker extends BotWorker {
     public api: WebClient;
 
     constructor(botkit, config) {
+
+        // allow a teamid to be passed in
+        if (typeof config === 'string') {
+            const team_id = config;
+            config = {
+                // an activity is required to spawn the bot via the api
+                activity: {
+                    conversation: {
+                        team: team_id
+                    }
+                },
+                // a reference is used to spawn an api instance inside the adapter...
+                // TODO: do we NEED to spawn them at both places? 
+                reference: {
+                    conversation: {
+                        team: team_id
+                    }
+                }            
+            }
+        }
+
         super(botkit, config);
 
-        // TODO: this call is async does this create chaos?
-        // make the Slack API available to all bot instances.
-        botkit.adapter.getAPI(this.getConfig('activity')).then((api) => {
-            this.api = api;
-        }).catch((err) => {
-            throw err;
-        });
     }
+
 
     async startPrivateConversation(userId: string): Promise<any> {
         // create the new IM channel
@@ -38,7 +53,7 @@ export class SlackBotWorker extends BotWorker {
         }
     }
 
-    async startConversationInChanne(channelId: string, userId: string): Promise<any> {
+    async startConversationInChannel(channelId: string, userId: string): Promise<any> {
         return this.changeContext({
             conversation: {
                 id: channelId,
