@@ -6,7 +6,6 @@ import * as Debug from 'debug';
 const debug = Debug('botkit:webex');
 
 export class WebexAdapter extends BotAdapter {
-
     // TODO: add typedefs to these
     private _config: any;
     private _api: any;
@@ -32,11 +31,11 @@ export class WebexAdapter extends BotAdapter {
                     }
                 }
             });
-    
+
             if (!this._api) {
                 throw new Error('Could not create the Webex Teams API client');
             }
-    
+
             this._api.people.get('me').then((identity) => {
                 debug('Webex: My identity is', identity);
                 this._identity = identity;
@@ -48,14 +47,12 @@ export class WebexAdapter extends BotAdapter {
         if (!this._config.public_address) {
             throw new Error('public_address parameter required to receive webhooks');
         } else {
-    
             var endpoint = url.parse(this._config.public_address);
             if (!endpoint.hostname) {
                 throw new Error('Could not determine hostname of public address: ' + this._config.public_address);
             } else {
                 this._config.public_address = endpoint.hostname + (endpoint.port ? ':' + endpoint.port : '');
             }
-    
         }
 
         if (!this._config.secret) {
@@ -72,7 +69,6 @@ export class WebexAdapter extends BotAdapter {
                     bot.api = this._api;
 
                     bot.startPrivateConversation = async function(userId: string) {
-
                         // send a message with the toPersonId or toPersonEmail set
                         // response will have the roomID
                         return this.changeContext({
@@ -80,25 +76,21 @@ export class WebexAdapter extends BotAdapter {
                             conversation: { id: 'temp' }, // TODO: this is fake
                             channelId: 'webex'
                         });
-
-                    }
+                    };
 
                     next();
                 }
             ]
-        }
-    
+        };
     }
 
     // Botkit init function, called only when used alongside Botkit
     public init(botkit) {
-
         // when the bot is ready, register the webhook subscription with the Webex API
         botkit.ready(() => {
             console.log('Registering webhook subscription!');
             botkit.adapter.registerWebhookSubscription(botkit.getConfig('webhook_uri'));
-        })
-
+        });
     }
 
     // TODO: make async
@@ -115,7 +107,6 @@ export class WebexAdapter extends BotAdapter {
     };
 
     public registerWebhookSubscription(webhook_path) {
-
         var webhook_name = this._config.webhook_name || 'Botkit Firehose';
 
         this._api.webhooks.list().then((list) => {
@@ -138,28 +129,26 @@ export class WebexAdapter extends BotAdapter {
                     targetUrl: hook_url,
                     event: 'all',
                     secret: this._config.secret,
-                    name: webhook_name,
+                    name: webhook_name
                 }).then(function() {
                     debug('Webex: SUCCESSFULLY UPDATED WEBEX WEBHOOKS');
                 }).catch(function(err) {
                     console.error('FAILED TO REGISTER WEBHOOK', err);
                     throw new Error(err);
                 });
-
             } else {
                 this._api.webhooks.create({
                     resource: 'all',
                     targetUrl: hook_url,
                     event: 'all',
                     secret: this._config.secret,
-                    name: webhook_name,
+                    name: webhook_name
                 }).then(function() {
                     debug('Webex: SUCCESSFULLY REGISTERED WEBEX WEBHOOKS');
                 }).catch(function(err) {
                     console.error('FAILED TO REGISTER WEBHOOK', err);
                     throw new Error(err);
                 });
-
             }
         }).catch(function(err) {
             throw new Error(err);
@@ -177,13 +166,12 @@ export class WebexAdapter extends BotAdapter {
             const message = {
                 roomId: activity.conversation ? activity.conversation.id : null,
                 toPersonId: activity.conversation ? null : activity.recipient.id,
-                text: activity.text,
-            }
+                text: activity.text
+            };
 
             let response = await this._api.messages.create(message);
 
             responses.push(response);
-        
         }
 
         return responses;
@@ -216,7 +204,6 @@ export class WebexAdapter extends BotAdapter {
     }
 
     async processActivity(req, res, logic) {
-
         res.status(200);
         res.end();
 
@@ -233,7 +220,6 @@ export class WebexAdapter extends BotAdapter {
         }
 
         if (payload.resource === 'messages' && payload.event === 'created') {
-
             const decrypted_message = await this._api.messages.get(payload.data);
             activity = {
                 id: decrypted_message.id,
@@ -252,7 +238,6 @@ export class WebexAdapter extends BotAdapter {
             }
 
             if (decrypted_message.html) {
-
                 // strip the mention & HTML from the message
                 var pattern = new RegExp('^(\<p\>)?\<spark\-mention .*?data\-object\-id\=\"' + this._identity.id + '\".*?\>.*?\<\/spark\-mention\>', 'im');
                 if (!decrypted_message.html.match(pattern)) {
@@ -267,7 +252,6 @@ export class WebexAdapter extends BotAdapter {
                 }
                 var action = decrypted_message.html.replace(pattern, '');
 
-
                 // strip the remaining HTML tags
                 action = action.replace(/\<.*?\>/img, '');
 
@@ -276,7 +260,6 @@ export class WebexAdapter extends BotAdapter {
 
                 // replace the message text with the the HTML version
                 activity.text = action;
-
             } else {
                 var pattern = new RegExp('^' + this._identity.displayName + '\\s+', 'i');
                 if (activity.text) {
@@ -288,10 +271,9 @@ export class WebexAdapter extends BotAdapter {
             const context = new TurnContext(this, activity);
 
             this.runMiddleware(context, logic)
-            .catch((err) => { console.error(err.toString()); });
-
+                .catch((err) => { console.error(err.toString()); });
         } else {
-            // type == payload.resource + '.' + payload.event 
+            // type == payload.resource + '.' + payload.event
             // memberships.deleted for example
             // payload.data contains stuff
 
@@ -299,7 +281,7 @@ export class WebexAdapter extends BotAdapter {
                 id: payload.id,
                 timestamp: new Date(),
                 channelId: 'webex',
-                conversation: {id: payload.data.roomId },
+                conversation: { id: payload.data.roomId },
                 from: { id: payload.actorId },
                 channelData: payload,
                 type: ActivityTypes.Event
@@ -308,9 +290,7 @@ export class WebexAdapter extends BotAdapter {
             const context = new TurnContext(this, activity);
 
             this.runMiddleware(context, logic)
-            .catch((err) => { console.error(err.toString()); });
-
-
+                .catch((err) => { console.error(err.toString()); });
         }
     }
 }

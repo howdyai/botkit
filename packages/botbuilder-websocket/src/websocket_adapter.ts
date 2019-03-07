@@ -1,12 +1,11 @@
 import { Activity, ActivityTypes, BotAdapter, TurnContext } from 'botbuilder';
-var WebSocket = require('ws');
 import * as Debug from 'debug';
+var WebSocket = require('ws');
 const debug = Debug('botkit:websocket');
 
 const clients = {};
 
 export class WebsocketAdapter extends BotAdapter {
-
     // TODO: add typedefs to these
     private _config: any;
 
@@ -24,7 +23,6 @@ export class WebsocketAdapter extends BotAdapter {
             ...config
         };
 
-
         // Botkit Plugin additions
         this.name = 'Websocket Adapter';
 
@@ -39,7 +37,7 @@ export class WebsocketAdapter extends BotAdapter {
                     );
                 }
             }
-        ]
+        ];
 
         this.menu = [
             {
@@ -47,20 +45,17 @@ export class WebsocketAdapter extends BotAdapter {
                 url: '/chat/chat.html',
                 icon: '💬'
             }
-        ]
-    
+        ];
     }
 
     // Botkit init function, called only when used alongside Botkit
     public init(botkit) {
-        
         this.botkit = botkit;
 
-        this.botkit.plugins.publicFolder('/chat',__dirname + '/../public');
+        this.botkit.plugins.publicFolder('/chat', __dirname + '/../public');
 
         // when the bot is ready, register the webhook subscription with the Webex API
         botkit.ready(() => {
-            
             let server = botkit.http;
             this.wss = new WebSocket.Server({
                 server
@@ -69,7 +64,7 @@ export class WebsocketAdapter extends BotAdapter {
             function heartbeat() {
                 this.isAlive = true;
             }
-    
+
             this.wss.on('connection', (ws) => {
                 ws.isAlive = true;
                 ws.on('pong', heartbeat);
@@ -81,7 +76,7 @@ export class WebsocketAdapter extends BotAdapter {
                         // note the websocket connection for this user
                         ws.user = message.user;
                         clients[message.user] = ws;
-                        
+
                         // this stuff normally lives inside Botkit.congfigureWebhookEndpoint
                         const activity = {
                             timestamp: new Date(),
@@ -90,7 +85,7 @@ export class WebsocketAdapter extends BotAdapter {
                             from: { id: message.user },
                             channelData: message,
                             text: message.text,
-                            type: message.type === 'message' ? ActivityTypes.Message : ActivityTypes.Event,
+                            type: message.type === 'message' ? ActivityTypes.Message : ActivityTypes.Event
                         };
 
                         // set botkit's event type
@@ -99,9 +94,8 @@ export class WebsocketAdapter extends BotAdapter {
                         }
 
                         const context = new TurnContext(this, activity as Activity);
-                        this.runMiddleware(context, async (context) => { return botkit.handleTurn(context) })
+                        this.runMiddleware(context, async (context) => { return botkit.handleTurn(context); })
                             .catch((err) => { console.error(err.toString()); });
-
                     } catch (e) {
                         var alert = [
                             `Error parsing incoming message from websocket.`,
@@ -111,17 +105,15 @@ export class WebsocketAdapter extends BotAdapter {
                         console.error(alert.join('\n'));
                         console.error(e);
                     }
-    
                 });
-    
+
                 ws.on('error', (err) => console.error('Websocket Error: ', err));
-    
+
                 ws.on('close', function() {
-                    delete(clients[ws.user]);
+                    delete (clients[ws.user]);
                 });
-    
             });
-    
+
             setInterval(() => {
                 this.wss.clients.forEach(function each(ws) {
                     if (ws.isAlive === false) {
@@ -131,10 +123,7 @@ export class WebsocketAdapter extends BotAdapter {
                     ws.ping('', false, true);
                 });
             }, 30000);
-    
-
-        })
-
+        });
     }
 
     async sendActivities(context, activities) {
@@ -145,7 +134,7 @@ export class WebsocketAdapter extends BotAdapter {
             if (ws) {
                 try {
                     ws.send(JSON.stringify(activity));
-                } catch(err) {
+                } catch (err) {
                     console.error(err);
                 }
             } else {
@@ -181,11 +170,9 @@ export class WebsocketAdapter extends BotAdapter {
 
         return this.runMiddleware(context, logic)
             .catch((err) => { console.error(err.toString()); });
-
     }
 
     async processActivity(req, res, logic) {
-
         res.status(200);
         res.end();
 
@@ -196,6 +183,5 @@ export class WebsocketAdapter extends BotAdapter {
 
         this.runMiddleware(context, logic)
             .catch((err) => { console.error(err.toString()); });
-
     }
 }

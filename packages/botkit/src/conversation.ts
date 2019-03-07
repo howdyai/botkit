@@ -70,7 +70,7 @@ export class BotkitConversation<O extends object = {}> extends Dialog<O> {
 
         message.collect = {
             key: options.key
-        }
+        };
 
         if (Array.isArray(handlers)) {
             message.collect.options = handlers;
@@ -84,7 +84,7 @@ export class BotkitConversation<O extends object = {}> extends Dialog<O> {
         }
 
         // ensure all options have a type field
-        message.collect.options.forEach((o) => { if (!o.type) { o.type = 'string' }});
+        message.collect.options.forEach((o) => { if (!o.type) { o.type = 'string'; }});
 
         this.script[thread_name].push(message);
     }
@@ -97,7 +97,7 @@ export class BotkitConversation<O extends object = {}> extends Dialog<O> {
         this._beforeHooks[thread_name].push(handler);
     }
 
-     private async runBefore(thread_name, dc, step) {
+    private async runBefore(thread_name, dc, step) {
         debug('Before:', this.id, thread_name);
         // let convo = new BotkitConvo(dc, step);
         
@@ -228,8 +228,8 @@ export class BotkitConversation<O extends object = {}> extends Dialog<O> {
 
             // handle conditions of previous step
             if (previous.collect.options) {
-                var paths = previous.collect.options.filter((option) => { return !option.default===true });
-                var default_path = previous.collect.options.filter((option) => { return option.default===true })[0];
+                var paths = previous.collect.options.filter((option) => { return !option.default===true; });
+                var default_path = previous.collect.options.filter((option) => { return option.default===true; })[0];
                 var path = null;
 
                 for (let p = 0; p < paths.length; p++) {
@@ -357,7 +357,7 @@ export class BotkitConversation<O extends object = {}> extends Dialog<O> {
         if (line.attachments) {
             outgoing.channelData = {
                 attachments: line.attachments,
-            }
+            };
         }
 
         // handle teams attachments
@@ -491,7 +491,7 @@ export class BotkitConversation<O extends object = {}> extends Dialog<O> {
             default:
                 // the default behavior for unknown action in botkit is to gotothread
                 if (this.script[path.action]) {
-                   return await this.gotoThreadAction(path.action, dc, step);
+                    return await this.gotoThreadAction(path.action, dc, step);
                 } else {
                     // TODO
                     console.log('NOT SURE WHAT TO DO WITH THIS!!', path);

@@ -17,7 +17,7 @@ export class BotkitHelper {
         this.cms = new BotkitCMS({
             studio_command_uri: config.cms_uri,
             studio_token: config.token
-        })
+        });
     }
 
     async loadAllScripts(dialogSet: DialogSet) {
@@ -78,7 +78,7 @@ export class BotkitDialog<O extends object = {}> extends Dialog<O> {
         this._beforeHooks[thread_name].push(handler);
     }
 
-     private async runBefore(thread_name, dc, step) {
+    private async runBefore(thread_name, dc, step) {
         // console.log('Run hooks before ', thread_name);
         // let convo = new BotkitConvo(dc, step);
         
@@ -206,8 +206,8 @@ export class BotkitDialog<O extends object = {}> extends Dialog<O> {
 
             // handle conditions of previous step
             if (previous.collect.options) {
-                var paths = previous.collect.options.filter((option) => { return !option.default===true });
-                var default_path = previous.collect.options.filter((option) => { return option.default===true })[0];
+                var paths = previous.collect.options.filter((option) => { return !option.default===true; });
+                var default_path = previous.collect.options.filter((option) => { return option.default===true; })[0];
                 var path = null;
 
                 for (let p = 0; p < paths.length; p++) {
@@ -343,7 +343,7 @@ export class BotkitDialog<O extends object = {}> extends Dialog<O> {
         if (line.attachments) {
             outgoing.channelData = {
                 attachments: line.attachments,
-            }
+            };
         }
 
         // handle teams attachments
@@ -445,8 +445,8 @@ export class BotkitDialog<O extends object = {}> extends Dialog<O> {
                 break;
             default:
                 // default behavior for unknown action in botkit is to gotothread
-                if (this.script.script.filter((thread) => { return thread.topic === path.action }).length) {
-                   return await this.gotoThreadAction(path.action, dc, step);
+                if (this.script.script.filter((thread) => { return thread.topic === path.action; }).length) {
+                    return await this.gotoThreadAction(path.action, dc, step);
                 } else {
                     console.log('NOT SURE WHAT TO DO WITH THIS!!', path);
                     break;

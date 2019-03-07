@@ -35,10 +35,10 @@ export class BotWorker {
 
             this._controller.middleware.send.run(this, activity, (err, bot, activity) => {
                 // NOTE: This calls the BotBuilder middleware again...
-                this._controller.adapter.continueConversation(this._config.reference, async(outgoing_context) => {
+                this._controller.adapter.continueConversation(this._config.reference, async (outgoing_context) => {
                     resolve(await outgoing_context.sendActivity(activity));
                 });
-            })
+            });
         });
     };
 
@@ -53,7 +53,7 @@ export class BotWorker {
             // use the new reference to send the outgoing message
             this._controller.middleware.send.run(this, activity, (err, bot, activity) => {
                 // NOTE: This calls the BotBuilder middleware again...
-                this._controller.adapter.continueConversation(reference, async(outgoing_context) => {
+                this._controller.adapter.continueConversation(reference, async (outgoing_context) => {
                     resolve(await outgoing_context.sendActivity(activity));
                 });
             });
@@ -102,7 +102,7 @@ export class BotWorker {
         if (typeof(msg) === 'string') {
             msg = {
                 text: msg
-            }
+            };
         }
 
         return msg;

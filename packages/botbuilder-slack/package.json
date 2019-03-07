@@ -16,6 +16,7 @@
     "botbuilder": "^4.2.0",
     "botbuilder-dialogs": "^4.2.0",
     "botframework-config": "^4.2.0",
+    "botkit": "^4.0.0",
     "debug": "^4.1.0",
     "dotenv": "^6.0.0",
     "restify": "^7.2.1"

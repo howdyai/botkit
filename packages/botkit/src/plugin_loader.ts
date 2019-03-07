@@ -1,7 +1,7 @@
 /**
  * @module botkit
  */
-import { Botkit } from ".";
+import { Botkit } from '.';
 var debug = require('debug')('botkit:plugins');
 import * as path from 'path';
 import * as express from 'express';
@@ -47,18 +47,18 @@ export class BotkitPluginLoader {
         }
     }
 
-    public use(plugin_or_function: (botkit: Botkit)=>BotkitPlugin | BotkitPlugin) {
-          let plugin: BotkitPlugin;
-          if (typeof(plugin_or_function)=='function') {
+    public use(plugin_or_function: (botkit: Botkit) => BotkitPlugin | BotkitPlugin) {
+        let plugin: BotkitPlugin;
+        if (typeof(plugin_or_function)=='function') {
             plugin = plugin_or_function(this.botkit);
-          } else {
+        } else {
             plugin = plugin_or_function;
-          }
-          try {
-              this.register(plugin.name, plugin);
-          } catch(err) {
-              console.error('ERROR IN PLUGIN REGISTER', err);
-          }
+        }
+        try {
+            this.register(plugin.name, plugin);
+        } catch(err) {
+            console.error('ERROR IN PLUGIN REGISTER', err);
+        }
     }
     
     public register(name, endpoints: BotkitPlugin) {
@@ -103,7 +103,7 @@ export class BotkitPluginLoader {
         if (endpoints.middlewares) {
             for (var mw in endpoints.middlewares) {
                 for (var e = 0; e < endpoints.middlewares[mw].length; e++) {
-                    this.botkit.middleware[mw].use(endpoints.middlewares[mw][e])
+                    this.botkit.middleware[mw].use(endpoints.middlewares[mw][e]);
                 }
             }
         }
@@ -124,7 +124,7 @@ export class BotkitPluginLoader {
 
     public publicFolder(alias, path) {
         debug('Make folder public: ', path,'at alias', alias);
-        this.botkit.webserver.use(alias, express.static(path))
+        this.botkit.webserver.use(alias, express.static(path));
     }
   
     public localView(path_to_view) {

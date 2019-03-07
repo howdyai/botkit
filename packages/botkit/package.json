@@ -19,6 +19,7 @@
     "express": "^4.16.4",
     "express-basic-auth": "^1.1.6",
     "hbs": "^4.0.1",
+    "path": "^0.12.7",
     "ware": "^1.3.0"
   },
   "devDependencies": {

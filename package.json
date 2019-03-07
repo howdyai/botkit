@@ -1,7 +1,14 @@
 {
   "name": "root",
   "private": true,
+  "scripts": {
+    "eslint": "./node_modules/.bin/eslint  ./packages/*/src/*.ts ./packages/*/src/**/*.ts",
+    "eslint-fix": "./node_modules/.bin/eslint  ./packages/*/src/*.ts ./packages/*/src/**/*.ts --fix"
+  },
   "devDependencies": {
+    "eslint": "^5.15.1",
+    "@typescript-eslint/eslint-plugin": "^1.4.2",
+    "@typescript-eslint/parser": "^1.4.2",
     "lerna": "^3.13.0",
     "typescript": "^3.2.4"
   }

@@ -1,14 +1,14 @@
-import { Activity, ActivityTypes, BotAdapter, TurnContext, MiddlewareSet, ConversationReference} from 'botbuilder';
+import { Activity, ActivityTypes, BotAdapter, TurnContext, MiddlewareSet, ConversationReference } from 'botbuilder';
 import { WebClient, WebAPICallResult } from '@slack/client';
+import { SlackBotWorker } from './botworker';
 import * as Debug from 'debug';
-import * as request from 'request';
 const debug = Debug('botkit:slack');
 
 interface SlackAdapterOptions {
     verificationToken: string;
     botToken?: string;
-    getTokenForTeam?: (teamId: string)=>string;
-    getBotUserByTeam?: (teamId: string)=>string;
+    getTokenForTeam?: (teamId: string) => string;
+    getBotUserByTeam?: (teamId: string) => string;
     clientId?: string;
     clientSecret?: string;
     scopes?: string[];
@@ -21,8 +21,8 @@ interface ChatPostMessageResult extends WebAPICallResult {
     channel: string;
     ts: string;
     message: {
-      text: string;
-    }
+        text: string;
+    };
 }
 
 interface AuthTestResult extends WebAPICallResult {
@@ -33,13 +33,10 @@ interface AuthTestResult extends WebAPICallResult {
     ok: boolean;
 }
 
-
 const userIdByBotId: { [key: string]: string } = {};
 const userIdByTeamId: { [key: string]: string } = {};
 
-
 export class SlackAdapter extends BotAdapter {
-
     private options: SlackAdapterOptions;
     private slack: WebClient;
     private identity: {
@@ -53,9 +50,11 @@ export class SlackAdapter extends BotAdapter {
     public menu;
     private botkit; // If set, points to an instance of Botkit
 
+    // tell botkit to use this type of worker
+    public botkit_worker = SlackBotWorker;
+
     // TODO: Define options
     constructor(options: SlackAdapterOptions) {
-
         super();
 
         this.options = options;
@@ -69,7 +68,7 @@ export class SlackAdapter extends BotAdapter {
             this.slack.auth.test().then((raw_identity) => {
                 const identity = raw_identity as AuthTestResult;
                 debug('** Slack adapter running in single team mode.');
-                debug('** My Slack identity: ', identity.user,'on team',identity.team);
+                debug('** My Slack identity: ', identity.user, 'on team', identity.team);
                 this.identity = { user_id: identity.user_id };
             }).catch((err) => {
                 // This is a fatal error! Invalid credentials have been provided and the bot can't start.
@@ -92,161 +91,158 @@ export class SlackAdapter extends BotAdapter {
         this.middlewares = {
             spawn: [
                 async (bot, next) => {
-                    // make the Slack API available to all bot instances.
-                    bot.api = await this.getAPI(bot.getConfig('activity')).catch((err) => {
-                        return next(new Error('Could not spawn a Slack API instance'));
-                    });
+                    // // make the Slack API available to all bot instances.
+                    // bot.api = await this.getAPI(bot.getConfig('activity')).catch((err) => {
+                    //     return next(new Error('Could not spawn a Slack API instance'));
+                    // });
 
-                    bot.startPrivateConversation = async function(userId: string): Promise<any> {
-                        // create the new IM channel
-                        const channel = await bot.api.im.open({user: userId});
+                    // bot.startPrivateConversation = async function(userId: string): Promise<any> {
+                    //     // create the new IM channel
+                    //     const channel = await bot.api.im.open({user: userId});
 
-                        if (channel.ok === true) {
-                            // now, switch contexts
-                            return this.changeContext({
-                                conversation: { 
-                                    id: channel.channel.id,
-                                    team: this.getConfig('activity').conversation.team,
-                                },
-                                user: { id: userId },
-                                channelId: 'slack',
-                                // bot: { id: bot.id } // todo get bot id somehow?
-                            });
-                        } else {
-                            console.error(channel);
-                            throw new Error('Error creating IM channel');
-                        }
-                    }
+                    //     if (channel.ok === true) {
+                    //         // now, switch contexts
+                    //         return this.changeContext({
+                    //             conversation: {
+                    //                 id: channel.channel.id,
+                    //                 team: this.getConfig('activity').conversation.team,
+                    //             },
+                    //             user: { id: userId },
+                    //             channelId: 'slack',
+                    //             // bot: { id: bot.id } // todo get bot id somehow?
+                    //         });
+                    //     } else {
+                    //         console.error(channel);
+                    //         throw new Error('Error creating IM channel');
+                    //     }
+                    // }
 
-                    bot.startConversationInChannel = async function(channelId: string, userId: string): Promise<any> {
-                        return this.changeContext({
-                            conversation: { 
-                                id: channelId,
-                                team: this.getConfig('activity').conversation.team,
-                             },
-                            user: { id: userId },
-                            channelId: 'slack',
-                            // bot: { id: bot.id } // todo get bot id somehow?
-                        });
-                    }
+                    // bot.startConversationInChannel = async function(channelId: string, userId: string): Promise<any> {
+                    //     return this.changeContext({
+                    //         conversation: {
+                    //             id: channelId,
+                    //             team: this.getConfig('activity').conversation.team,
+                    //          },
+                    //         user: { id: userId },
+                    //         channelId: 'slack',
+                    //         // bot: { id: bot.id } // todo get bot id somehow?
+                    //     });
+                    // }
 
+                    // bot.startConversationInThread = async function(channelId: string, userId: string, thread_ts: string): Promise<any> {
+                    //     return this.changeContext({
+                    //         conversation: {
+                    //             id: channelId, // + '-' + thread_ts,
+                    //             thread_ts: thread_ts,
+                    //             team: this.getConfig('activity').conversation.team,
+                    //         },
+                    //         user: { id: userId },
+                    //         channelId: 'slack',
+                    //         // bot: { id: bot.id } // todo get bot id somehow?
+                    //     });
+                    // }
 
-                    bot.startConversationInThread = async function(channelId: string, userId: string, thread_ts: string): Promise<any> {
-                        return this.changeContext({
-                            conversation: {
-                                id: channelId, // + '-' + thread_ts,
-                                thread_ts: thread_ts,
-                                team: this.getConfig('activity').conversation.team,
-                            },
-                            user: { id: userId },
-                            channelId: 'slack',
-                            // bot: { id: bot.id } // todo get bot id somehow?
-                        });
-                    }
+                    // /* Send a reply to an inbound message, using information collected from that inbound message */
+                    // bot.replyInThread = async function(src: any, resp: any): Promise<any> {
+                    //     // make sure the  thread_ts setting is set
+                    //     // this will be included in the conversation reference
+                    //     // src.incoming_message.conversation.id = src.incoming_message.conversation.id + '-' + (src.incoming_message.channelData.thread_ts ? src.incoming_message.channelData.thread_ts : src.incoming_message.channelData.ts);
+                    //     src.incoming_message.conversation.thread_ts = src.incoming_message.channelData.thread_ts ? src.incoming_message.channelData.thread_ts : src.incoming_message.channelData.ts;
+                    //     return bot.reply(src, resp);
+                    // }
 
-                    /* Send a reply to an inbound message, using information collected from that inbound message */
-                    bot.replyInThread = async function(src: any, resp: any): Promise<any> {
-                        // make sure the  thread_ts setting is set
-                        // this will be included in the conversation reference
-                        // src.incoming_message.conversation.id = src.incoming_message.conversation.id + '-' + (src.incoming_message.channelData.thread_ts ? src.incoming_message.channelData.thread_ts : src.incoming_message.channelData.ts);
-                        src.incoming_message.conversation.thread_ts = src.incoming_message.channelData.thread_ts ? src.incoming_message.channelData.thread_ts : src.incoming_message.channelData.ts;
-                        return bot.reply(src, resp);
-                    }
+                    // /* Send a reply to an inbound message, using information collected from that inbound message */
+                    // bot.replyEphemeral = async function(src: any, resp: any): Promise<any> {
 
-                    /* Send a reply to an inbound message, using information collected from that inbound message */
-                    bot.replyEphemeral = async function(src: any, resp: any): Promise<any> {
+                    //     // make rure resp is in an object format.
+                    //     resp = bot.ensureMessageFormat(resp);
 
-                        // make rure resp is in an object format.
-                        resp = bot.ensureMessageFormat(resp);
+                    //     // make sure ephemeral is set
+                    //     // fields set in channelData will end up in the final message to slack
+                    //     resp.channelData = {
+                    //         ...resp.channelData,
+                    //         ephemeral: true,
+                    //     }
 
-                        // make sure ephemeral is set
-                        // fields set in channelData will end up in the final message to slack
-                        resp.channelData = {
-                            ...resp.channelData,
-                            ephemeral: true,
-                        }
+                    //     return bot.reply(src, resp);
+                    // }
 
-                        return bot.reply(src, resp);
-                    }
+                    // /* send a public response to a slash command */
+                    // bot.replyPublic = async function(src: any, resp: any): Promise<any> {
+                    //     const msg = bot.ensureMessageFormat(resp);
+                    //     msg.response_type = 'in_channel';
 
-                    /* send a public response to a slash command */
-                    bot.replyPublic = async function(src: any, resp: any): Promise<any> {
-                        const msg = bot.ensureMessageFormat(resp);
-                        msg.response_type = 'in_channel';
-                        
-                        return bot.replyInteractive(src, msg);
-                    };
+                    //     return bot.replyInteractive(src, msg);
+                    // };
 
-                    /* send a private response to a slash command */
-                    bot.replyPrivate = async function(src: any, resp: any): Promise<any> {
-                        const msg = bot.ensureMessageFormat(resp);
-                        msg.response_type = 'ephemeral';
-                        msg.to = src.user;
+                    // /* send a private response to a slash command */
+                    // bot.replyPrivate = async function(src: any, resp: any): Promise<any> {
+                    //     const msg = bot.ensureMessageFormat(resp);
+                    //     msg.response_type = 'ephemeral';
+                    //     msg.to = src.user;
 
-                        return bot.replyInteractive(src, msg);
-                    };
+                    //     return bot.replyInteractive(src, msg);
+                    // };
 
+                    // bot.replyInteractive = async function(src: any, resp: any): Promise<any> {
+                    //     if (!src.incoming_message.channelData.response_url) {
+                    //         throw Error('No response_url found in incoming message');
+                    //     } else {
 
-                    bot.replyInteractive = async function(src: any, resp: any): Promise<any> {
-                        if (!src.incoming_message.channelData.response_url) {
-                            throw Error('No response_url found in incoming message');
-                        } else {
+                    //         let msg = bot.ensureMessageFormat(resp);
 
-                            let msg = bot.ensureMessageFormat(resp);
-                
-                            msg.channel = src.channel;
-                            msg.to = src.user;
-                
-                            // if source message is in a thread, reply should also be in the thread
-                            if (src.incoming_message.channelData.thread_ts) {
-                                msg.thread_ts = src.incoming_message.channelData.thread_ts;
-                            }
-                
-                            var requestOptions = {
-                                uri: src.incoming_message.channelData.response_url,
-                                method: 'POST',
-                                json: msg
-                            };
+                    //         msg.channel = src.channel;
+                    //         msg.to = src.user;
 
-                            return new Promise(function(resolve, reject) {
-                                request(requestOptions, function(err, res, body) {
-                                    if (err) {
-                                        reject(err);
-                                    } else {
-                                        resolve(body);
-                                    }
-                                });
-                            });
-                        }
-                    };
-                    
-                    bot.dialogError = function(errors) {
-                        if (!errors) {
-                            errors = [];
-                        }
-                
-                        if (Object.prototype.toString.call(errors) !== '[object Array]') {
-                            errors = [errors];
-                        }
-                
-                        bot.httpBody(JSON.stringify({ errors }));
-                    };
-                
-                    bot.replyWithDialog = async function(src, dialog_obj) {
-                
-                        var msg = {
-                            trigger_id: src.trigger_id,
-                            dialog: JSON.stringify(dialog_obj)
-                        };
-                
-                        return bot.api.dialog.open(msg);
-                    };
-                
+                    //         // if source message is in a thread, reply should also be in the thread
+                    //         if (src.incoming_message.channelData.thread_ts) {
+                    //             msg.thread_ts = src.incoming_message.channelData.thread_ts;
+                    //         }
+
+                    //         var requestOptions = {
+                    //             uri: src.incoming_message.channelData.response_url,
+                    //             method: 'POST',
+                    //             json: msg
+                    //         };
+
+                    //         return new Promise(function(resolve, reject) {
+                    //             request(requestOptions, function(err, res, body) {
+                    //                 if (err) {
+                    //                     reject(err);
+                    //                 } else {
+                    //                     resolve(body);
+                    //                 }
+                    //             });
+                    //         });
+                    //     }
+                    // };
+
+                    // bot.dialogError = function(errors) {
+                    //     if (!errors) {
+                    //         errors = [];
+                    //     }
+
+                    //     if (Object.prototype.toString.call(errors) !== '[object Array]') {
+                    //         errors = [errors];
+                    //     }
+
+                    //     bot.httpBody(JSON.stringify({ errors }));
+                    // };
+
+                    // bot.replyWithDialog = async function(src, dialog_obj) {
+
+                    //     var msg = {
+                    //         trigger_id: src.trigger_id,
+                    //         dialog: JSON.stringify(dialog_obj)
+                    //     };
+
+                    //     return bot.api.dialog.open(msg);
+                    // };
 
                     next();
                 }
             ]
-        }
+        };
 
         this.web = [
             {
@@ -260,7 +256,7 @@ export class SlackAdapter extends BotAdapter {
                             botkit_config: this.botkit.getConfig(),
                             host: req.get('host'),
                             protocol: req.protocol,
-                            install_link: this.getInstallLink(),
+                            install_link: this.getInstallLink()
                         }
                     );
                 }
@@ -286,16 +282,16 @@ export class SlackAdapter extends BotAdapter {
         if (this.slack) {
             return this.slack;
         } else {
-              // @ts-ignore 
-              if (activity.conversation.team) {
-                // @ts-ignore 
+            // @ts-ignore
+            if (activity.conversation.team) {
+                // @ts-ignore
                 const token = await this.options.getTokenForTeam(activity.conversation.team);
                 if (!token) {
                     throw new Error('Missing credentials for team.');
                 }
                 return new WebClient(token);
             } else {
-                // No API can be created, this is 
+                // No API can be created, this is
                 debug('Unable to create API based on activity: ', activity);
             }
         }
@@ -307,7 +303,7 @@ export class SlackAdapter extends BotAdapter {
         } else {
             // @ts-ignore
             if (activity.conversation.team) {
-                // @ts-ignore 
+                // @ts-ignore
                 const user_id = await this.options.getBotUserByTeam(activity.conversation.team);
                 if (!user_id) {
                     throw new Error('Missing credentials for team.');
@@ -346,7 +342,6 @@ export class SlackAdapter extends BotAdapter {
     }
 
     private activityToSlack(activity: any): any {
-
         let channelId = activity.conversation.id;
         let thread_ts = activity.conversation.thread_ts;
 
@@ -357,17 +352,17 @@ export class SlackAdapter extends BotAdapter {
             username: activity.username || null,
             reply_broadcast: activity.reply_broadcast || null,
             parse: activity.parse || null,
-            link_names:  activity.link_names || null,
-            attachments:  activity.attachments ? JSON.stringify(activity.attachments) : null,
-            blocks: activity.blocks ? JSON.stringify(activity.blocks): null,
-            unfurl_links:  typeof activity.unfurl_links !== 'undefined' ? activity.unfurl_links : null,
-            unfurl_media:  typeof activity.unfurl_media !== 'undefined' ? activity.unfurl_media : null,
+            link_names: activity.link_names || null,
+            attachments: activity.attachments ? JSON.stringify(activity.attachments) : null,
+            blocks: activity.blocks ? JSON.stringify(activity.blocks) : null,
+            unfurl_links: typeof activity.unfurl_links !== 'undefined' ? activity.unfurl_links : null,
+            unfurl_media: typeof activity.unfurl_media !== 'undefined' ? activity.unfurl_media : null,
             icon_url: activity.icon_url || null,
-            icon_emoji:  activity.icon_emoji || null,
+            icon_emoji: activity.icon_emoji || null,
             as_user: activity.as_user || true,
             ephemeral: activity.ephemeral || false,
-            user: null,
-        }
+            user: null
+        };
 
         // if channelData is specified, overwrite any fields in message object
         if (activity.channelData) {
@@ -410,7 +405,7 @@ export class SlackAdapter extends BotAdapter {
                         responses.push({
                             id: result.ts,
                             activityId: result.ts,
-                            conversation: result.channel,
+                            conversation: result.channel
                         });
                     } else {
                         console.error('Error sending activity to Slack:', result);
@@ -438,11 +433,9 @@ export class SlackAdapter extends BotAdapter {
                 if (!results.ok) {
                     console.error('Error updating activity on Slack:', results);
                 }
-
             } catch (err) {
                 console.error('Error updating activity on Slack:', err);
             }
-
         } else {
             throw new Error('Cannot update activity: activity is missing id');
         }
@@ -465,7 +458,7 @@ export class SlackAdapter extends BotAdapter {
         }
     }
 
-    async continueConversation(reference: ConversationReference, logic: (t: TurnContext)=>Promise<any>) {
+    async continueConversation(reference: ConversationReference, logic: (t: TurnContext) => Promise<any>) {
         const request = TurnContext.applyConversationReference(
             { type: 'event', name: 'continueConversation' },
             reference,
@@ -497,9 +490,9 @@ export class SlackAdapter extends BotAdapter {
                     timestamp: new Date(),
                     channelId: 'slack',
                     conversation: {
-                        id: event.channel.id, 
+                        id: event.channel.id,
                         thread_ts: event.thread_ts,
-                        team: event.team.id,
+                        team: event.team.id
                     },
                     from: { id: event.bot_id ? event.bot_id : event.user.id },
                     channelData: event,
@@ -513,7 +506,7 @@ export class SlackAdapter extends BotAdapter {
                 context.turnState.set('httpStatus', 200);
 
                 await this.runMiddleware(context, logic)
-                    .catch((err) => { throw err; })
+                    .catch((err) => { throw err; });
 
                 // send http response back
                 res.status(context.turnState.get('httpStatus'));
@@ -522,10 +515,8 @@ export class SlackAdapter extends BotAdapter {
                 } else {
                     res.end();
                 }
-
             }
         } else if (event.type === 'event_callback') {
-
             // this is an event api post
             if (event.token !== this.options.verificationToken) {
                 console.error('Rejected due to mismatched verificationToken:', event);
@@ -537,10 +528,10 @@ export class SlackAdapter extends BotAdapter {
                     timestamp: new Date(),
                     channelId: 'slack',
                     conversation: {
-                        id: event.event.channel, 
-                        thread_ts: event.event.thread_ts,
+                        id: event.event.channel,
+                        thread_ts: event.event.thread_ts
                     },
-                    from: { id : event.event.bot_id ? event.event.bot_id : event.event.user }, // TODO: bot_messages do not have a user field
+                    from: { id: event.event.bot_id ? event.event.bot_id : event.event.user }, // TODO: bot_messages do not have a user field
                     // recipient: event.api_app_id, // TODO: what should this actually be? hard to make it consistent.
                     channelData: event.event,
                     text: null,
@@ -567,7 +558,7 @@ export class SlackAdapter extends BotAdapter {
                 context.turnState.set('httpStatus', 200);
 
                 await this.runMiddleware(context, logic)
-                    .catch((err) => { throw err; })
+                    .catch((err) => { throw err; });
 
                 // send http response back
                 res.status(context.turnState.get('httpStatus'));
@@ -576,25 +567,22 @@ export class SlackAdapter extends BotAdapter {
                 } else {
                     res.end();
                 }
-
             }
         } else if (event.command) {
-
             if (event.token !== this.options.verificationToken) {
                 console.error('Rejected due to mismatched verificationToken:', event);
                 res.status(403);
                 res.end();
             } else {
-
                 // this is a slash command
                 const activity = {
                     id: event.trigger_id,
                     timestamp: new Date(),
                     channelId: 'slack',
                     conversation: {
-                        id: event.channel_id,
+                        id: event.channel_id
                     },
-                    from: { id : event.user_id},
+                    from: { id: event.user_id },
                     channelData: event,
                     text: event.text,
                     type: ActivityTypes.Event
@@ -616,7 +604,7 @@ export class SlackAdapter extends BotAdapter {
                 context.turnState.set('httpStatus', 200);
 
                 await this.runMiddleware(context, logic)
-                    .catch((err) => { throw err; })
+                    .catch((err) => { throw err; });
 
                 // send http response back
                 res.status(context.turnState.get('httpStatus'));
@@ -625,9 +613,7 @@ export class SlackAdapter extends BotAdapter {
                 } else {
                     res.end();
                 }
-
             }
-
         } else {
             console.error('Unknown Slack event type: ', event);
         }

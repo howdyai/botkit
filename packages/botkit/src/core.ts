@@ -7,7 +7,8 @@ import { BotkitCMSHelper } from './cms';
 import { BotkitPluginLoader, BotkitPlugin } from './plugin_loader';
 import { BotWorker } from './botworker';
 import { BotkitConversationState } from './conversationState';
-import * as http from 'http'
+import * as path from 'path';
+import * as http from 'http';
 import * as express from 'express';
 import * as bodyParser from 'body-parser';
 import * as hbs from 'hbs';
@@ -18,13 +19,13 @@ import * as fs from 'fs';
 const debug = require('debug')('botkit');
 
 export interface BotkitConfiguration {
-    debug?: Boolean;
+    debug?: boolean;
     webhook_uri?: string;
     adapter?: BotFrameworkAdapter;
     adapterConfig?: {[key: string]: any}; // object with stuff in it
     cms?: {[key: string]: any};
     webserver?: any;
-    storage?: Storage
+    storage?: Storage;
     authFunction?: (req, res, next) => void; 
 }
 
@@ -42,23 +43,23 @@ export class Botkit {
 
     private _config: BotkitConfiguration;
     private _events: {
-        [key: string]: { (bot: BotWorker, event: any): Promise<boolean> }[]
+        [key: string]: { (bot: BotWorker, event: any): Promise<boolean> }[];
     } = {};
 
     private _triggers: {
         [key: string]: { 
             pattern: string | RegExp | { (message: BotkitMessage):  Promise<boolean> };
-            type: string,
+            type: string;
             handler: (bot: BotWorker, message: BotkitMessage) => Promise<any>;
-        }[]
+        }[];
     } = {};
 
     private _interrupts: {
         [key: string]: { 
             pattern: string | RegExp | { (message: BotkitMessage):  Promise<boolean> };
-            type: string,
+            type: string;
             handler: (bot: BotWorker, message: BotkitMessage) => Promise<any>;
-        }[]
+        }[];
     } = {};
 
     private conversationState: BotkitConversationState;
@@ -92,7 +93,7 @@ export class Botkit {
      * Create a new Botkit instance
      * @param config Configuration for this instance of Botkit
      */
-     constructor(config) {
+    constructor(config) {
         
         // Set the path where Botkit's core lib is found.
         this.PATH = __dirname;
@@ -101,7 +102,7 @@ export class Botkit {
             debug: false,
             webhook_uri: '/botframework/receive',
             ...config
-        }
+        };
 
         // The _deps object contains references to dependencies that may take time to load and be ready.
         // new _deps are defined in the constructor.
@@ -152,7 +153,7 @@ export class Botkit {
                 return JSON.stringify(context);
             });
 
-            this.webserver.set('views', this.PATH + '/../views')
+            this.webserver.set('views', this.PATH + '/../views');
             this.webserver.set('view engine', 'hbs');
             this.webserver.use(express.static(__dirname + '/../public'));
 
@@ -275,7 +276,7 @@ export class Botkit {
         const dialogContext = await this.dialogSet.createContext(turnContext);
 
         // Spawn a bot worker with the dialogContext
-        const bot = await this.spawn(dialogContext).catch((err) => { throw err });
+        const bot = await this.spawn(dialogContext).catch((err) => { throw err; });
 
         // Turn this turnContext into a Botkit message.
         const message = {
@@ -326,7 +327,7 @@ export class Botkit {
                     if (listen_results !== false) {
                         resolve(listen_results);
                     } else {
-                        this.middleware.receive.run(bot, message, async(err, bot, message) => {
+                        this.middleware.receive.run(bot, message, async (err, bot, message) => {
                             if (err)  { 
                                 return reject(err); 
                             }
@@ -506,7 +507,7 @@ export class Botkit {
         });
     }
 
-     /* 
+    /* 
      * trigger()
      * trigger an event
      **/
@@ -522,7 +523,7 @@ export class Botkit {
         }
     }
 
-     /* 
+    /* 
      * spawn()
      * spawn a BotWorker to do stuff
      **/
@@ -534,22 +535,22 @@ export class Botkit {
                 context: config,
                 reference: TurnContext.getConversationReference(config.activity),
                 activity: config.activity,
-            }
-         } else if (config instanceof DialogContext) {
+            };
+        } else if (config instanceof DialogContext) {
             config = {
                 dialogContext: config,
                 reference: TurnContext.getConversationReference(config.context.activity),
                 context: config.context,
                 activity: config.context.activity
-            }
-         }
+            };
+        }
 
-         let worker: BotWorker = null;
-         if (this.adapter.botkit_worker) {
-             worker = new this.adapter.botkit_worker(this, config);
-         } else {
-             worker = new BotWorker(this, config);
-         }
+        let worker: BotWorker = null;
+        if (this.adapter.botkit_worker) {
+            worker = new this.adapter.botkit_worker(this, config);
+        } else {
+            worker = new BotWorker(this, config);
+        }
 
         return new Promise((resolve, reject) => {
             this.middleware.spawn.run(worker, (err, worker) => {
@@ -558,18 +559,19 @@ export class Botkit {
                 } else {
                     resolve(worker);
                 }
-            })
+            });
         });
     }
 
-    public loadModule(path: string): void {
-        debug('Load Module:',path);
-        require(path)(this);
+    public loadModule(p: string): void {
+        debug('Load Module:',p);
+        require(p)(this);
     }
 
-    public loadModules(path: string): void {
-        fs.readdirSync(path).forEach((file) => {
-            this.loadModule(path + '/' + file);
+    public loadModules(p: string): void {
+        // load all the .js files from this path
+        fs.readdirSync(p).filter((f) => { return (path.extname(f) === '.js'); }).forEach((file) => {
+            this.loadModule(path.join(p,file));
         });
     }
 }

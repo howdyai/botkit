@@ -1,17 +1,15 @@
 
 export class SlackDialog {
-
     private data: any;
 
     /* helper functions for creating dialog attachments */
     constructor(title, callback_id, submit_label, elements) {
-
         this.data = {
             title: title,
             callback_id: callback_id,
             submit_label: submit_label || null,
-            elements: elements || [],
-        }
+            elements: elements || []
+        };
 
         return this;
     }
@@ -31,25 +29,25 @@ export class SlackDialog {
         return this;
     }
 
-    public callback_id (v) {
+    public callback_id(v) {
         this.data.callback_id = v;
         return this;
     }
-    public submit_label (v) {
+    public submit_label(v) {
         this.data.submit_label = v;
         return this;
     }
 
-    public addText (label, name, value, options, subtype) {
-        var element = (typeof(label) === 'object') ? label : {
+    public addText(label, name, value, options, subtype) {
+        var element = (typeof (label) === 'object') ? label : {
             label: label,
             name: name,
             value: value,
             type: 'text',
-            subtype: subtype || null,
+            subtype: subtype || null
         };
 
-        if (typeof(options) === 'object') {
+        if (typeof (options) === 'object') {
             for (var key in options) {
                 element[key] = options[key];
             }
@@ -58,15 +56,15 @@ export class SlackDialog {
         this.data.elements.push(element);
         return this;
     }
-    
+
     public addEmail(label, name, value, options) {
         return this.addText(label, name, value, options, 'email');
     }
-  
+
     public addNumber(label, name, value, options) {
         return this.addText(label, name, value, options, 'number');
     }
-    
+
     public addTel(label, name, value, options) {
         return this.addText(label, name, value, options, 'tel');
     }
@@ -76,16 +74,15 @@ export class SlackDialog {
     }
 
     public addTextarea(label, name, value, options, subtype) {
-
-        var element = (typeof(label) === 'object') ? label : {
+        var element = (typeof (label) === 'object') ? label : {
             label: label,
             name: name,
             value: value,
             type: 'textarea',
-            subtype: subtype || null,
+            subtype: subtype || null
         };
 
-        if (typeof(options) === 'object') {
+        if (typeof (options) === 'object') {
             for (var key in options) {
                 element[key] = options[key];
             }
@@ -101,9 +98,9 @@ export class SlackDialog {
             name: name,
             value: value,
             options: option_list,
-            type: 'select',
+            type: 'select'
         };
-        if (typeof(options) === 'object') {
+        if (typeof (options) === 'object') {
             for (var key in options) {
                 element[key] = options[key];
             }
@@ -116,9 +113,8 @@ export class SlackDialog {
     public asString() {
         return JSON.stringify(this.data, null, 2);
     }
-    
+
     public asObject() {
         return this.data;
     }
-
 }

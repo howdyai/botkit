@@ -1,7 +1,6 @@
-import { ActivityTypes, MiddlewareSet} from 'botbuilder';
+import { ActivityTypes, MiddlewareSet } from 'botbuilder';
 
 export class SlackEventMiddleware extends MiddlewareSet {
-
     async onTurn(context, next) {
         if (context.activity.type === ActivityTypes.Event && context.activity.channelData) {
             // Handle message sub-types
