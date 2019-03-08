@@ -10,6 +10,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "botbuilder-ai": "^4.3.2",
     "botbuilder-dialogs": "^4.2.0",
     "botbuilder-dialogs-botkit-cms": "0.0.1",
     "botbuilder-slack": "1.0.0",

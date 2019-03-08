@@ -1,10 +1,5 @@
 module.exports = function(controller) {
 
-    // hear the word help, and interrupt whatever is happening to handle it first.
-    controller.interrupts('help', 'message', async(bot, message) => {
-        await bot.reply(message,'I heard you need help more than anything else.');
-    });
-
     // use a function to match a condition in the message
     controller.hears(async(message) => message.text.toLowerCase() === 'foo', ['message'], async (bot, message) => {
         await bot.reply(message, 'I heard foo via a function test');
