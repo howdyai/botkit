@@ -126,26 +126,6 @@ const controller = new Botkit({
     storage
 });
 
-// show typing indicator while bot "thinks"
-// controller.adapter.use(new ShowTypingMiddleware());
-
-// controller.adapter.use(async(context, next) => {
-//     // console.log('---START TURN---');
-
-//     // set a delay between each message sent.
-//     context.onSendActivities(async (ctx, activities, inside_next) => {
-//         return new Promise((resolve) => {
-//             setTimeout(() => {
-//                 inside_next().then(resolve); 
-//             },1500);
-//         });
-//     });
-
-//     await next();
-//     // console.log('---END TURN---');
-// })
-
-
 // Once the bot has booted up its internal services, you can use them to do stuff.
 controller.ready(() => {
 
@@ -165,45 +145,41 @@ controller.ready(() => {
     /* catch-all that uses the CMS to trigger dialogs */
     if (controller.cms) {
         controller.on('message,direct_message', async (bot, message) => {
-        // controller.middleware.receive.use(async (bot, message, next) => {
             let results = false;
-            // if (message.type === 'message') {
-                results = await controller.cms.testTrigger(bot, message);
-            // }
+            results = await controller.cms.testTrigger(bot, message);
 
             if (results !== false) {
-                return false;
                 // do not continue middleware!
+                return false;
             }
-            if (next) { next(); }
         });
     }
 
-        controller.webserver.get('/install', (req, res) => {
-            // getInstallLink points to slack's oauth endpoint and includes clientId and scopes
-            res.redirect(controller.adapter.getInstallLink());
-        });
+    controller.webserver.get('/install', (req, res) => {
+        // getInstallLink points to slack's oauth endpoint and includes clientId and scopes
+        res.redirect(controller.adapter.getInstallLink());
+    });
 
-        controller.webserver.get('/install/auth', async (req, res) => {
-            try {
-                const results = await controller.adapter.validateOauthCode(req.query.code);
+    controller.webserver.get('/install/auth', async (req, res) => {
+        try {
+            const results = await controller.adapter.validateOauthCode(req.query.code);
 
-                console.log('FULL OAUTH DETAILS', results);
+            console.log('FULL OAUTH DETAILS', results);
 
-                // Store token by team in bot state.
-                tokenCache[results.team_id] = results.bot.bot_access_token;
+            // Store token by team in bot state.
+            tokenCache[results.team_id] = results.bot.bot_access_token;
 
-                // Capture team to bot id
-                // TODO: this will have to be customized
-                userCache[results.team_id] =  results.bot.bot_user_id;
+            // Capture team to bot id
+            // TODO: this will have to be customized
+            userCache[results.team_id] =  results.bot.bot_user_id;
 
-                res.json('Success! Bot installed.');
+            res.json('Success! Bot installed.');
 
-            } catch (err) {
-                console.error('OAUTH ERROR:', err);
-                res.status(401);
-                res.send(err.message);
-            }
-        });
+        } catch (err) {
+            console.error('OAUTH ERROR:', err);
+            res.status(401);
+            res.send(err.message);
+        }
+    });
 });
 

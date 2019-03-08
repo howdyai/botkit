@@ -3,8 +3,8 @@
  */
 import { Botkit } from './core';
 import { BotkitDialogWrapper } from './cms';
-import { ActivityTypes, TurnContext, MessageFactory, ActionTypes } from 'botbuilder';
-import { Dialog, DialogInstance, DialogReason, TextPrompt } from 'botbuilder-dialogs';
+import { ActivityTypes, TurnContext, MessageFactory, ActionTypes, ConsoleTranscriptLogger } from 'botbuilder';
+import { Dialog, DialogContext, DialogInstance, DialogReason, TextPrompt, DialogTurnStatus } from 'botbuilder-dialogs';
 const debug = require('debug')('botkit:conversation');
 import * as mustache from 'mustache';
 export class BotkitConversation<O extends object = {}> extends Dialog<O> {
@@ -25,6 +25,11 @@ export class BotkitConversation<O extends object = {}> extends Dialog<O> {
         this.script = {};
 
         this._controller = controller;
+
+        // Make sure there is a prompt we can use. 
+        // TODO: maybe this ends up being managed by Botkit
+        this._prompt = this.id + '_default_prompt';
+        this._controller.dialogSet.add(new TextPrompt(this._prompt));
 
         return this;
 
@@ -166,12 +171,6 @@ export class BotkitConversation<O extends object = {}> extends Dialog<O> {
         state.options = options || {};
         state.values = {...options};
 
-        // Add a prompt used for question turns
-        if (!this._prompt) {
-            this._prompt = this.id + '_default_prompt';
-            dc.dialogs.add(new TextPrompt(this._prompt));
-        }
-
         // Run the first step
         return await this.runStep(dc, 0, state.options.thread || 'default', DialogReason.beginCalled);
     }
@@ -183,6 +182,7 @@ export class BotkitConversation<O extends object = {}> extends Dialog<O> {
             return Dialog.EndOfTurn;
         }
 
+
         // Run next step with the message text as the result.
         return await this.resumeDialog(dc, DialogReason.continueCalled, dc.context.activity.text);
     }
@@ -190,7 +190,6 @@ export class BotkitConversation<O extends object = {}> extends Dialog<O> {
     async resumeDialog(dc, reason, result) {
         // Increment step index and run step
         const state = dc.activeDialog.state;
-
         return await this.runStep(dc, state.stepIndex + 1, state.thread, reason, result);
     }
 
@@ -337,12 +336,26 @@ export class BotkitConversation<O extends object = {}> extends Dialog<O> {
         } else {
 
             // End of script so just return to parent
-            return await dc.endDialog(result);
+            return await this.end(dc, result);
         }
     }
 
+    async end(dc: DialogContext, value: any) {
+
+        // TODO: may have to move these around
+        // shallow copy todo: may need deep copy
+        const result = {
+            ...dc.activeDialog.state.values
+        };
+
+        await dc.endDialog(value);
+        await this.runAfter(dc, result);
+        return DialogTurnStatus.complete;
+
+    }
+
     async endDialog(context: TurnContext, instance: DialogInstance, reason: DialogReason) {
-        return await this.runAfter(context, instance.state.values);
+        // noop
     }
 
     private makeOutgoing(line, vars) {
@@ -464,15 +477,15 @@ export class BotkitConversation<O extends object = {}> extends Dialog<O> {
                 break;
             case 'complete':
                 step.values._status = 'completed';
-                return await dc.endDialog(step.result);
+                return await this.end(dc, step.result);
                 break;
             case 'stop':
                 step.values._status = 'canceled';
-                return await dc.endDialog(step.result);
+                return await this.end(dc, step.result);
                 break;
             case 'timeout':
                 step.values._status = 'timeout';
-                return await dc.endDialog(step.result);
+                return await this.end(dc, step.result);
                 break;
             case 'execute_script':
                 return await dc.replaceDialog(path.execute.script, {

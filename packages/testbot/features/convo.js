@@ -63,6 +63,12 @@ module.exports = function(controller) {
 
     welcome.after(async(results, bot) => {
         console.log('welcome completed', results);
+        await bot.beginDialog('tacos');
+    });
+
+    controller.cms.after('tacos', async(results, bot) => {
+        console.log('AFTER TACOS!!!!!!');
+        await bot.beginDialog('menu'); 
     });
 
     controller.dialogSet.add(welcome);
