@@ -293,22 +293,37 @@ export class Botkit {
             // generate a conversation reference, for replies. TODO: do we need to this here?
             reference: TurnContext.getConversationReference(turnContext.activity),
 
+            // include the context possible useful. 
+            context: turnContext,
+
             // include the full unmodified record here
             incoming_message: turnContext.activity,
         } as BotkitMessage;
 
-        const interrupt_results = await this.listenForInterrupts(bot, message);
+        return new Promise((resolve, reject) => {
+            this.middleware.ingest.run(bot, message, async (err, bot, message) => {
+                if (err) {
+                    reject(err);
+                } else {
 
-        if (interrupt_results === false) {
-            // Continue dialog if one is present
-            const dialog_results = await dialogContext.continueDialog();
-            if (dialog_results.status === DialogTurnStatus.empty) {
-                await this.ingest(bot, message);
-            }
-        }
+                    // TODO: this maybe should go inside ingest, so some botkit middlewares can fire first.
+                    const interrupt_results = await this.listenForInterrupts(bot, message);
 
-        // make sure changes to the state get persisted after the turn is over.
-        await this.saveState(bot);
+                    if (interrupt_results === false) {
+                        // Continue dialog if one is present
+                        const dialog_results = await dialogContext.continueDialog();
+                        if (dialog_results.status === DialogTurnStatus.empty) {
+                            await this.ingest(bot, message);
+                        }
+                    }
+
+                    // make sure changes to the state get persisted after the turn is over.
+                    await this.saveState(bot);
+                    resolve();
+                }
+            });
+        });
+
     }
 
     public async saveState(bot) {
@@ -316,11 +331,11 @@ export class Botkit {
     }
 
     public async ingest(bot: BotWorker, message: BotkitMessage): Promise<any> {
-        return new Promise((resolve, reject) => {
-            this.middleware.ingest.run(bot, message, async (err, bot, message) => {
-                if (err) {
-                    reject(err);
-                } else {
+        return new Promise(async (resolve, reject) => {
+            // this.middleware.ingest.run(bot, message, async (err, bot, message) => {
+            //     if (err) {
+            //         reject(err);
+            //     } else {
 
                     const listen_results = await this.listenForTriggers(bot, message);
 
@@ -338,8 +353,8 @@ export class Botkit {
                             resolve(trigger_results);
                         });
                     }
-                }
-            });
+                // }
+            // });
         });
     }
 
