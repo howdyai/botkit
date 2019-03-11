@@ -136,6 +136,17 @@ export class Botkit {
             this.addDep('webserver');
 
             this.webserver = express(); 
+
+            // capture raw body
+            this.webserver.use((req, res, next) => {
+                req.rawBody = '';
+                req.on('data', function(chunk) {
+                    req.rawBody += chunk;
+                });
+                next();
+            });
+
+
             this.webserver.use(bodyParser.json());
             this.webserver.use(bodyParser.urlencoded({ extended: true }));
 
@@ -166,6 +177,9 @@ export class Botkit {
                         next();
                     }
                 });
+
+
+
             } else {
                 console.warn('No authFunction specified! Web routes will be disabled.');
             }

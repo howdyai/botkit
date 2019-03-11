@@ -44,7 +44,8 @@ if (process.env.MONGO_URI) {
  * ----------------------------------------------------------------------
  */
 const adapter = new SlackAdapter({
-    verificationToken: process.env.verificationToken,
+   verificationToken: process.env.verificationToken,
+    clientSigningSecret: process.env.clientSigningSecret,  
     botToken: process.env.botToken,
     clientId: process.env.clientId,
     clientSecret: process.env.clientSecret,

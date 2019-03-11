@@ -1,11 +1,13 @@
 import { Activity, ActivityTypes, BotAdapter, TurnContext, MiddlewareSet, ConversationReference } from 'botbuilder';
 import { WebClient, WebAPICallResult } from '@slack/client';
 import { SlackBotWorker } from './botworker';
+import * as crypto from 'crypto';
 import * as Debug from 'debug';
 const debug = Debug('botkit:slack');
 
 interface SlackAdapterOptions {
-    verificationToken: string;
+    verificationToken?: string;
+    clientSigningSecret?: string;
     botToken?: string;
     getTokenForTeam?: (teamId: string) => string;
     getBotUserByTeam?: (teamId: string) => string;
@@ -59,8 +61,27 @@ export class SlackAdapter extends BotAdapter {
 
         this.options = options;
 
-        if (!this.options.verificationToken) {
-            throw new Error('Required: include a verificationToken to verify incoming Events API webhooks');
+        /*
+        * Check for security options. If these are not set, malicious actors can
+        * spoof messages from Slack.
+        * These will be required in upcoming versions of Botkit.
+        */
+        if (!this.options.verificationToken && !this.options.clientSigningSecret) {
+            const warning = [
+                ``,
+                `****************************************************************************************`,
+                `* WARNING: Your bot is operating without recommended security mechanisms in place.     *`,
+                `* Initialize your adapter with a clientSigningSecret parameter to enable               *`,
+                `* verification that all incoming webhooks originate with Slack:                        *`,
+                `*                                                                                      *`,
+                `* var adapter = new SlackAdapter({clientSigningSecret: <my secret from slack>});       *`,
+                `*                                                                                      *`,
+                `****************************************************************************************`,
+                `>> Slack docs: https://api.slack.com/docs/verifying-requests-from-slack`,
+                ``,
+            ];
+            console.warn(warning.join('\n'));
+            throw new Error('Required: include a verificationToken or clientSigningSecret to verify incoming Events API webhooks');
         }
 
         if (this.options.botToken) {
@@ -326,6 +347,44 @@ export class SlackAdapter extends BotAdapter {
         return this.runMiddleware(context, logic);
     }
 
+    async verifySignature(req, res) {
+         // is this an verified request from slack?
+         if (this.options.clientSigningSecret && req.rawBody) {
+            let timestamp = req.header('X-Slack-Request-Timestamp');
+            let body = req.rawBody;
+
+            let signature = [
+                'v0',
+                timestamp, // slack request timestamp
+                body // request body
+            ];
+            let basestring = signature.join(':');
+
+            const hash = 'v0=' + crypto.createHmac('sha256', this.options.clientSigningSecret)
+                .update(basestring)
+                .digest('hex');
+            let retrievedSignature = req.header('X-Slack-Signature');
+
+            // Compare the hash of the computed signature with the retrieved signature with a secure hmac compare function
+            const validSignature = () => {
+
+                const slackSigBuffer = Buffer.from(retrievedSignature);
+                const compSigBuffer = Buffer.from(hash);
+
+                return crypto.timingSafeEqual(slackSigBuffer, compSigBuffer);
+            }
+
+            // replace direct compare with the hmac result
+            if (!validSignature()) {
+                debug('Signature verification failed, Ignoring message');
+                res.status(401);
+                return false;
+            }
+        }
+
+        return true;
+    }
+
     async processActivity(req, res, logic) {
         // Create an Activity based on the incoming message from Slack.
         // There are a few different types of event that Slack might send.
@@ -334,11 +393,16 @@ export class SlackAdapter extends BotAdapter {
         if (event.type === 'url_verification') {
             res.status(200);
             res.send(event.challenge);
+            return;
+        }
+
+        if (!await this.verifySignature(req, res)) {
+            return;
         } else if (event.payload) {
             // handle interactive_message callbacks and block_actions
 
             event = JSON.parse(event.payload);
-            if (event.token !== this.options.verificationToken) {
+            if (this.options.verificationToken && event.token !== this.options.verificationToken) {
                 console.error('Rejected due to mismatched verificationToken:', event);
                 res.status(403);
                 res.end();
@@ -375,7 +439,7 @@ export class SlackAdapter extends BotAdapter {
             }
         } else if (event.type === 'event_callback') {
             // this is an event api post
-            if (event.token !== this.options.verificationToken) {
+            if (this.options.verificationToken && event.token !== this.options.verificationToken) {
                 console.error('Rejected due to mismatched verificationToken:', event);
                 res.status(403);
                 res.end();
@@ -426,7 +490,7 @@ export class SlackAdapter extends BotAdapter {
                 }
             }
         } else if (event.command) {
-            if (event.token !== this.options.verificationToken) {
+            if (this.options.verificationToken && event.token !== this.options.verificationToken) {
                 console.error('Rejected due to mismatched verificationToken:', event);
                 res.status(403);
                 res.end();
