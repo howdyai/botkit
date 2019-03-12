@@ -34,7 +34,7 @@ export interface BotkitMessage {
     text?: string;
     user: string;
     channel: string;
-    reference: ConversationReference;
+    // reference: ConversationReference;
     incoming_message: {[key: string]: any};
     [key: string]: any; // allow any other fields to live alongside the defined fields.
 }
@@ -305,7 +305,7 @@ export class Botkit {
             channel: turnContext.activity.conversation.id,
 
             // generate a conversation reference, for replies. TODO: do we need to this here?
-            reference: TurnContext.getConversationReference(turnContext.activity),
+            // reference: TurnContext.getConversationReference(turnContext.activity),
 
             // include the context possible useful. 
             context: turnContext,
@@ -320,7 +320,6 @@ export class Botkit {
                     reject(err);
                 } else {
 
-                    // TODO: this maybe should go inside ingest, so some botkit middlewares can fire first.
                     const interrupt_results = await this.listenForInterrupts(bot, message);
 
                     if (interrupt_results === false) {

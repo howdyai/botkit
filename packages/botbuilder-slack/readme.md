@@ -70,11 +70,10 @@ async function getTokenForTeam(teamId) {
 # TODO
 
 * write a readme
-* implement signed secrets: https://api.slack.com/docs/verifying-requests-from-slack#a_recipe_for_security
-
-* how do we spawn a bot for proactive messages in a multi-team scenario?
 
 * Implement a middleware that reformats activities into the appropriate framework activity type and populates fields like membersAdded membersRemoved reactionsAdded reactionsRemoved
+
+===
 
 ? stretch goals
 * build helpers for building attachments? and improve slackdialog to use getters/setters?
@@ -89,3 +88,5 @@ x ephemeral
 x helper for starting a DM with a specific user?
 x figure out how to do mentions and direct_mentions
 x strip mentions from front of string
+x implement signed secrets: https://api.slack.com/docs/verifying-requests-from-slack#a_recipe_for_security
+x how do we spawn a bot for proactive messages in a multi-team scenario?
