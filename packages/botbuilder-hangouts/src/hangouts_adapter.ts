@@ -94,7 +94,8 @@ export class HangoutsAdapter extends BotAdapter {
             if (activity.type === ActivityTypes.Message) {
                 const message = this.activityToHangouts(activity);
                 try {
-                    responses.push(await this.api.spaces.messages.create(message));
+                    const res = await this.api.spaces.messages.create(message);
+                    responses.push({ id: res.data.name });
                 } catch (err) {
                     console.error('Error sending activity to Slack:', err);
                 }

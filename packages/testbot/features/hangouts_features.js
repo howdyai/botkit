@@ -3,15 +3,15 @@ module.exports = function(controller) {
     if (controller.adapter.name === 'Google Hangouts Adapter') {
 
         controller.on('direct_message', async(bot, message) => {
-            bot.reply(message,'I heard a private message');
+            await bot.reply(message,'I heard a private message');
         });
 
         controller.on('message', async(bot, message) => {
-            bot.reply(message,'I heard a public message');
+            await bot.reply(message,'I heard a public message');
         });
 
         controller.on('bot_room_join', async(bot, message) => {
-            bot.reply(message,'I just joined this room!');
+            await bot.reply(message,'I just joined this room!');
         });
 
         controller.hears('thread dialog', ['message','direct_message'], async(bot, message) => {
@@ -20,7 +20,30 @@ module.exports = function(controller) {
         });
 
         controller.hears('thread', ['message','direct_message'], async(bot, message) => {
-            bot.replyInThread(message,'This is a new thread!');
+            await bot.replyInThread(message,'This is a new thread!');
+        });
+
+        controller.hears('update', ['message','direct_message'], async(bot, message) => {
+            const reply = await bot.reply(message,'This message will get updated in a few seconds.');
+            setTimeout(async function() {
+                await bot.api.spaces.messages.update({
+                    name: reply.id,
+                    updateMask: 'text',
+                    resource: {
+                        text: '[ this message was updated ]',
+                    }
+                });
+                }, 3000);
+        });
+
+        controller.hears('delete', ['message','direct_message'], async(bot, message) => {
+            const reply = await bot.reply(message,'This message will get deleted in a few seconds.');
+            setTimeout(async function() {
+                await bot.api.spaces.messages.delete({
+                    name: reply.id,
+                });
+                await bot.reply(message,'A message was deleted!');
+            }, 3000);
         });
 
 

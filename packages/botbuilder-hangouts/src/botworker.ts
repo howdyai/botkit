@@ -18,7 +18,6 @@ export class HangoutsBotWorker extends BotWorker {
         delete src.incoming_message.conversation.thread;
         src.incoming_message.conversation.threadKey = 'botkit/' + Math.random() * 100000 + '/' + Math.random() * 100000;
 
-
         return this.reply(src, resp);
     }
 
