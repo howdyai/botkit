@@ -309,6 +309,7 @@ declare namespace botkit {
     incoming_webhook?: { url: string; };
     interactive_replies?: boolean;
     rtm_receive_messages?: boolean;
+    rtm_receive_events_whitelist?: string[];
     require_delivery?: boolean;
     retry?: number;
     scopes?: string[];
