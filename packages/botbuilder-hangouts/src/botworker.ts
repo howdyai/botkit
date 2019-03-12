@@ -7,9 +7,9 @@ export class HangoutsBotWorker extends BotWorker {
         super(botkit, config);
     }
 
-    // reply to cardclick new
-    // reply to cardclick update
-    // reply in new thread
+    // TODO: reply to cardclick new
+    // TODO: reply to cardclick update
+    // TODO: wrapper for .update and .delete
 
     // change context to thread/user
     async replyInThread(src, resp) {

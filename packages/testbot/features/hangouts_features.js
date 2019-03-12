@@ -28,7 +28,7 @@ module.exports = function(controller) {
             setTimeout(async function() {
                 await bot.api.spaces.messages.update({
                     name: reply.id,
-                    updateMask: 'text',
+                    updateMask: 'text,cards',
                     resource: {
                         text: '[ this message was updated ]',
                     }
