@@ -101,7 +101,8 @@ export class BotWorker {
     public ensureMessageFormat(msg: any) {
         if (typeof(msg) === 'string') {
             msg = {
-                text: msg
+                text: msg,
+                channelData: {}
             };
         }
 

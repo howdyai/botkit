@@ -14,6 +14,7 @@
     "botbuilder-dialogs": "^4.2.0",
     "botbuilder-dialogs-botkit-cms": "0.0.1",
     "botbuilder-slack": "1.0.0",
+    "botbuilder-hangouts": "1.0.0",
     "botbuilder-storage-mongodb": "^0.9.5",
     "botbuilder-webex": "1.0.0",
     "botbuilder-websocket": "1.0.0",

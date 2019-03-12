@@ -34,7 +34,7 @@ export interface BotkitMessage {
     text?: string;
     user: string;
     channel: string;
-    // reference: ConversationReference;
+    reference: ConversationReference;
     incoming_message: {[key: string]: any};
     [key: string]: any; // allow any other fields to live alongside the defined fields.
 }
@@ -304,8 +304,9 @@ export class Botkit {
             text: turnContext.activity.text,
             channel: turnContext.activity.conversation.id,
 
-            // generate a conversation reference, for replies. TODO: do we need to this here?
-            // reference: TurnContext.getConversationReference(turnContext.activity),
+            // generate a conversation reference, for replies.
+            // included so people can easily capture it for resuming
+            reference: TurnContext.getConversationReference(turnContext.activity),
 
             // include the context possible useful. 
             context: turnContext,

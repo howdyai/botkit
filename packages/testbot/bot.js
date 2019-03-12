@@ -3,6 +3,7 @@ const { SlackAdapter, SlackMessageTypeMiddleware, SlackIdentifyBotsMiddleware, S
 const { WebexAdapter } = require('botbuilder-webex');
 const { ShowTypingMiddleware } = require('botbuilder');
 const { WebsocketAdapter } = require('botbuilder-websocket');
+const { HangoutsAdapter } = require('botbuilder-hangouts');
 const { MongoDbStorage } = require('botbuilder-storage-mongodb');
 
 const basicAuth = require('express-basic-auth');
@@ -18,7 +19,6 @@ if (process.env.MONGO_URI) {
         // collection: "botframework"
     });
 }
-
 
 /* ----------------------------------------------------------------------
  * .-.   .-.      .-.
@@ -43,17 +43,17 @@ if (process.env.MONGO_URI) {
  * Configure the Slack adapter
  * ----------------------------------------------------------------------
  */
-const adapter = new SlackAdapter({
-   verificationToken: process.env.verificationToken,
-    clientSigningSecret: process.env.clientSigningSecret,  
-    botToken: process.env.botToken,
-    clientId: process.env.clientId,
-    clientSecret: process.env.clientSecret,
-    scopes: ['bot'],
-    redirectUri: process.env.redirectUri,
-    getTokenForTeam: getTokenForTeam,
-    getBotUserByTeam: getBotUserByTeam,
-});
+// const adapter = new SlackAdapter({
+//    verificationToken: process.env.verificationToken,
+//     clientSigningSecret: process.env.clientSigningSecret,  
+//     botToken: process.env.botToken,
+//     clientId: process.env.clientId,
+//     clientSecret: process.env.clientSecret,
+//     scopes: ['bot'],
+//     redirectUri: process.env.redirectUri,
+//     getTokenForTeam: getTokenForTeam,
+//     getBotUserByTeam: getBotUserByTeam,
+// });
 
 let tokenCache = {};
 let userCache = {};
@@ -93,10 +93,10 @@ async function getBotUserByTeam(teamId) {
 
 // Use SlackEventMiddleware to emit events that match their original Slack event types.
 // this may BREAK waterfall dailogs which only accept ActivityTypes.Message
-adapter.use(new SlackEventMiddleware());
+// adapter.use(new SlackEventMiddleware());
 
 // Use SlackMessageType middleware to further classify messages as direct_message, direct_mention, or mention
-adapter.use(new SlackMessageTypeMiddleware());
+// adapter.use(new SlackMessageTypeMiddleware());
 
 // adapter.use(new SlackIdentifyBotsMiddleware());
 
@@ -111,6 +111,16 @@ adapter.use(new SlackMessageTypeMiddleware());
  * ----------------------------------------------------------------------
  */
 // const adapter = new WebsocketAdapter({});
+
+
+
+const adapter = new HangoutsAdapter({
+    token: process.env.GOOGLE_TOKEN,
+    google_auth_params: {
+        credentials: JSON.parse(process.env['GOOGLE_CREDS'])
+    }
+});
+
 
 const controller = new Botkit({
     debug: true,
