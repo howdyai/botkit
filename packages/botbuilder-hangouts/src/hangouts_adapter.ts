@@ -82,7 +82,7 @@ export class HangoutsAdapter extends BotAdapter {
             });
         }
 
-        console.log('OUTBOUND TO HANGOUTS', message);
+        debug('OUT TO HANGOUTS > ', message);
 
         return message;
     }
@@ -158,7 +158,7 @@ export class HangoutsAdapter extends BotAdapter {
     async processActivity(req, res, logic) {
         let event = req.body;
 
-        console.log('GOOGLE EVENT:', event);
+        debug('IN FROM HANGOUTS >', event);
 
         if (this.options.token && this.options.token !== event.token) {
             res.status(401);
@@ -218,7 +218,6 @@ export class HangoutsAdapter extends BotAdapter {
                 // send http response back
                 res.status(context.turnState.get('httpStatus'));
                 if (context.turnState.get('httpBody')) {
-                    console.log('sENDING BODY', context.turnState.get('httpBody'));
                     res.send(context.turnState.get('httpBody'));
                 } else {
                     res.end();
