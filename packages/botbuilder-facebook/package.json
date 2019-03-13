@@ -1,5 +1,5 @@
 {
-  "name": "botbuilder-slack",
+  "name": "botbuilder-facebook",
   "version": "1.0.0",
   "description": "",
   "main": "lib/index.js",
@@ -12,7 +12,6 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@slack/client": "^4.7.0",
     "botbuilder": "^4.2.0",
     "botbuilder-dialogs": "^4.2.0",
     "botframework-config": "^4.2.0",
