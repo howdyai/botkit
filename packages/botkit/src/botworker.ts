@@ -19,6 +19,10 @@ export class BotWorker {
 
     }
 
+    get controller() {
+        return this._controller;
+    }
+
     /* Return a value out of the configuration */
     public getConfig(key?: string) {
         if (key) {

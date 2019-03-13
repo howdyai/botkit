@@ -26,22 +26,17 @@ module.exports = function(controller) {
         controller.hears('update', ['message','direct_message'], async(bot, message) => {
             const reply = await bot.reply(message,'This message will get updated in a few seconds.');
             setTimeout(async function() {
-                await bot.api.spaces.messages.update({
-                    name: reply.id,
-                    updateMask: 'text,cards',
-                    resource: {
-                        text: '[ this message was updated ]',
-                    }
+                await bot.updateMessage({
+                    text: '[ this message was update ]',
+                    id: reply.id
                 });
-                }, 3000);
+            }, 3000);
         });
 
         controller.hears('delete', ['message','direct_message'], async(bot, message) => {
             const reply = await bot.reply(message,'This message will get deleted in a few seconds.');
             setTimeout(async function() {
-                await bot.api.spaces.messages.delete({
-                    name: reply.id,
-                });
+                await bot.deleteMessage(reply);
                 await bot.reply(message,'A message was deleted!');
             }, 3000);
         });
@@ -117,21 +112,9 @@ module.exports = function(controller) {
 
         // send a sync reply
         if (message.action.actionMethodName === 'new') {
-            // send response back via http
-            bot.httpBody({
-                actionResponse: {
-                    type: 'NEW_MESSAGE',
-                },
-                text: 'respond to card with new message',
-            });
+            await bot.replyWithNew(message, 'Card clicked, so I sent a new message.');
         } else if (message.action.actionMethodName === 'update') {
-            // send response back via http
-            bot.httpBody({
-                actionResponse: {
-                    type: 'UPDATE_MESSAGE',
-                },
-                text: '[ this message was updated. ]',
-            });
+            await bot.replyWithUpdate(message, '[ This message was updated after a card click. ]');
         }
 
         // send a normal async reply
