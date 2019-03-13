@@ -108,19 +108,22 @@ export class HangoutsAdapter extends BotAdapter {
     }
 
     async updateActivity(context: TurnContext, activity: Activity) {
-        if (activity.id && activity.conversation) {
+        if (activity.id) {
             try {
-                // const message = this.activityToSlack(activity);
+                const results = await this.api.spaces.messages.update({
+                    name: activity.id,
+                    updateMask: 'text,cards',
+                    resource: {
+                        text: activity.text,
+                        // @ts-ignore allow cards field
+                        cards: activity.cards ? activity.cards : (activity.channelData ? activity.channelData.cards : null),
+                    }
+                });
 
-                // // set the id of the message to be updated
-                // message.ts = activity.id;
-                // const slack = await this.getAPI(activity);
-                // const results = await slack.chat.update(message);
-                // if (!results.ok) {
-                //     console.error('Error updating activity on Slack:', results);
-                // }
+                // TODO: evaluate success
+
             } catch (err) {
-                console.error('Error updating activity on Slack:', err);
+                console.error('Error updating activity on Hangouts:', err);
             }
         } else {
             throw new Error('Cannot update activity: activity is missing id');
@@ -128,13 +131,14 @@ export class HangoutsAdapter extends BotAdapter {
     }
 
     async deleteActivity(context: TurnContext, reference: ConversationReference) {
-        if (reference.activityId && reference.conversation) {
+        if (reference.activityId) {
             try {
-                // const slack = await this.getAPI(context.activity);
-                // const results = await slack.chat.delete({ ts: reference.activityId, channel: reference.conversation.id });
-                // if (!results.ok) {
-                //     console.error('Error deleting activity:', results);
-                // }
+
+                const results = await this.api.spaces.messages.delete({
+                    name: reference.activityId,
+                });
+
+                // TODO: evaluate success
             } catch (err) {
                 console.error('Error deleting activity', err);
                 throw err;
