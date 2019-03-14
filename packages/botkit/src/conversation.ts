@@ -366,11 +366,11 @@ export class BotkitConversation<O extends object = {}> extends Dialog<O> {
             outgoing = MessageFactory.text(line.text[Math.floor(Math.random()*line.text.length)]);
         }
 
+        outgoing.channelData = {};
+
         // handle slack attachments
         if (line.attachments) {
-            outgoing.channelData = {
-                attachments: line.attachments,
-            };
+            outgoing.channelData.attachments = line.attachments;
         }
 
         // TODO: have to handle all the weird mappings
