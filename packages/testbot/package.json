@@ -17,6 +17,7 @@
     "botbuilder-storage-mongodb": "^0.9.5",
     "botbuilder-webex": "1.0.0",
     "botbuilder-websocket": "1.0.0",
+    "botbuilder-facebook": "1.0.0",
     "botkit": "^4.0.0",
     "dotenv": "^6.2.0",
     "express-basic-auth": "^1.1.6"

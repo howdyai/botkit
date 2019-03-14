@@ -1,6 +1,6 @@
 import { BotWorker, BotkitMessage } from 'botkit';
 
-export class FacebookWorker extends BotWorker {
+export class FacebookBotWorker extends BotWorker {
 
     constructor(botkit, config) {
         super(botkit, config);

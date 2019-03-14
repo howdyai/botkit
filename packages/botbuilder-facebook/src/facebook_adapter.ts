@@ -1,11 +1,15 @@
 import { Activity, ActivityTypes, BotAdapter, TurnContext, ConversationReference } from 'botbuilder';
 import * as Debug from 'debug';
 import { FacebookBotWorker } from './botworker';
+import { FacebookAPI } from './facebook_api';
 const debug = Debug('botkit:facebook');
 
 
 export interface FacebookAdapterOptions {
-    api_host: string;
+    api_host?: string;
+    verify_token: string;
+    app_secret: string;
+    access_token: string;
 }
 
 export class FacebookAdapter extends BotAdapter {
@@ -46,7 +50,21 @@ export class FacebookAdapter extends BotAdapter {
             ]
         };
 
-        this.web = [];
+        this.web = [
+            {
+                method: 'get',
+                url: '/api/messages', // TODO: CAN THIS USE CONTROLLER CONFIG?
+                handler: (req, res) => {
+                    if (req.query['hub.mode'] == 'subscribe') {
+                        if (req.query['hub.verify_token'] == this.options.verify_token) {
+                            res.send(req.query['hub.challenge']);
+                        } else {
+                            res.send('OK');
+                        }
+                    }
+                }
+            }
+        ];
 
         this.menu = [];
     }
@@ -54,19 +72,60 @@ export class FacebookAdapter extends BotAdapter {
     private activityToFacebook(activity: any): any {
 
         const message = {
-            parent: activity.conversation.id,
-            threadKey: activity.conversation.threadKey || null,
-            requestBody: { 
-                text: activity.text,
-                thread: activity.conversation.thread ? { name: activity.conversation.thread } : null
+            recipient: {
+                id: activity.conversation.id
             },
+            message: {
+                text: activity.text,
+                sticker_id: undefined,
+                attachment: undefined,
+                quick_replies: undefined,
+            },
+            messaging_type: 'RESPONSE',
+            tag: undefined,
+            notification_type: undefined,
+            persona_id: undefined,
+            sender_action: undefined,
         };
 
-        // if channelData is specified, overwrite any fields in message object
+            // map these fields to their appropriate place
         if (activity.channelData) {
-            Object.keys(activity.channelData).forEach(function(key) {
-                message.requestBody[key] = activity.channelData[key];
-            });
+            if (activity.channelData.messaging_type) {
+                message.messaging_type = activity.channelData.messaging_type;
+            }
+
+            if (activity.channelData.tag) {
+                message.tag = activity.channelData.tag;
+            }
+
+            if (activity.channelData.sticker_id) {
+                message.message.sticker_id = activity.channelData.sticker_id;
+            }
+
+            if (activity.channelData.attachment) {
+                message.message.attachment = activity.channelData.attachment;
+            }
+
+            if (activity.channelData.persona_id) {
+                message.persona_id = activity.channelData.persona_id;
+            }
+
+            if (activity.channelData.notification_type) {
+                message.notification_type = activity.channelData.notification_type;
+            }
+
+            if (activity.channelData.sender_action) {
+                message.sender_action = activity.channelData.sender_action;
+            }
+
+            // make sure the quick reply has a type
+            if (activity.channelData.quick_replies) {
+                message.message.quick_replies = activity.channelData.quick_replies.map(function(item) {
+                    var quick_reply = {...item};
+                    if (!item.content_type) quick_reply.content_type = 'text';
+                    return quick_reply;
+                });
+            }
         }
 
         debug('OUT TO FACEBOOK > ', message);
@@ -81,8 +140,13 @@ export class FacebookAdapter extends BotAdapter {
             if (activity.type === ActivityTypes.Message) {
                 const message = this.activityToFacebook(activity);
                 try {
-                    // const res = await this.api.spaces.messages.create(message);
-                    // responses.push({ id: res.data.name });
+                    // TODO: accessor function to allow multi-tenant
+                    message.access_token = this.options.access_token;
+                    
+                    var api = new FacebookAPI(this.options.access_token);
+                    const res = await api.callAPI('/me/messages', 'POST', message);
+                    responses.push({ id: res.message_id });
+                    debug('RESPONSE FROM FACEBOOK > ', res);
                 } catch (err) {
                     console.error('Error sending activity to Slack:', err);
                 }
@@ -149,71 +213,93 @@ export class FacebookAdapter extends BotAdapter {
     async processActivity(req, res, logic) {
         let event = req.body;
 
-        debug('IN FROM HANGOUTS >', event);
+        debug('IN FROM FACEBOOK >', event);
 
-        if (this.options.token && this.options.token !== event.token) {
+        if (false) {
             res.status(401);
             debug('Token verification failed, Ignoring message');
-        } else {
-            const activity = {
-                id: event.message ? event.message.name : event.eventTime,
-                timestamp: new Date(),
-                channelId: 'googlehangouts',
-                conversation: {
-                    id: event.space.name,
-                    thread: (event.message && !event.threadKey) ? event.message.thread.name : null,
-                    threadKey: event.threadKey ||  null
-                },
-                from: {
-                    id: event.user.name
-                }, 
-                channelData: event,
-                text: event.message ? (event.message.argumentText ? event.message.argumentText.trim() : '') : '',
-                type: event.message ? ActivityTypes.Message : ActivityTypes.Event
-            };
+        } else if (event.entry) {
 
-            // change type of message event for private messages
-            if (event.space.type === 'DM') {
-                activity.channelData.botkitEventType = 'direct_message';
-            }
-
-            if ('ADDED_TO_SPACE' === event.type) {
-                activity.channelData.botkitEventType = 'ROOM' === event.space.type ? 'bot_room_join' : 'bot_dm_join';
-            }
-    
-            if ('REMOVED_FROM_SPACE' === event.type) {
-                activity.channelData.botkitEventType = 'ROOM' === event.space.type ? 'bot_room_leave' : 'bot_dm_leave';
-            }
-    
-            if ('CARD_CLICKED' === event.type) {
-                activity.channelData.botkitEventType = event.type.toLowerCase();
-            }
-
-            // create a conversation reference
-            // @ts-ignore
-            const context = new TurnContext(this, activity as Activity);
-
-            if (event.type !== 'CARD_CLICKED') {
-                // send 200 status immediately, otherwise 
-                // hangouts does not mark the incoming message as received
-                res.status(200);
-                res.end();
-            } else {
-                context.turnState.set('httpStatus', 200);
-            }
-
-            await this.runMiddleware(context, logic)
-                .catch((err) => { throw err; });
-
-            if (event.type === 'CARD_CLICKED') {
-                // send http response back
-                res.status(context.turnState.get('httpStatus'));
-                if (context.turnState.get('httpBody')) {
-                    res.send(context.turnState.get('httpBody'));
-                } else {
-                    res.end();
+            for (var e = 0; e < event.entry.length; e++) {
+                let payload = null;
+                let entry = event.entry[e];
+                
+                // handle normal incoming stuff
+                if (entry.changes) {
+                    payload = entry.changes;
+                } else if (entry.messaging) {
+                    payload = entry.messaging;
                 }
+
+                for (var m = 0; m < payload.length; m++) {
+                    await this.processSingleMessage(payload[m], logic);
+                }
+
+                // handle standby messages (this bot is not the active receiver)
+                if (entry.standby) {
+                    payload = entry.standyby;
+
+
+                    for (var m = 0; m < payload.length; m++) {
+                        // TODO: do some stuff here to indicate
+                        let message = payload[m];
+                        message.standby = true;
+                        await this.processSingleMessage(message, logic);
+                    }
+                }
+
             }
+
+            res.status(200);
+            res.end();
+
+
         }
     }
+
+    async processSingleMessage(message: any, logic: any) {
+
+        //  in case of Checkbox Plug-in sender.id is not present, instead we should look at optin.user_ref
+        if (!message.sender && message.optin && message.optin.user_ref) {
+            message.sender = { id: message.optin.user_ref };
+        }
+
+        const activity = {
+            channelId: 'facebook',
+            timestamp: new Date(),
+            conversation: {
+                id: message.sender.id
+            },
+            from: {
+                id: message.sender.id,
+                name:message.sender.id
+            },
+            recipient: {
+                id: message.recipient.id
+            },
+            channelData: message,
+            type: ActivityTypes.Event,
+            text: null,
+        }
+
+        if (message.message) {
+            activity.type = ActivityTypes.Message;
+            activity.text = message.message.text;
+
+            // copy fields like attachments, sticker, quick_reply, nlp, etc.
+            for (let key in message.message) {
+                activity.channelData[key] = message.message[key];
+            }            
+
+        } else if (message.postback) {
+            activity.type = ActivityTypes.Message;
+            activity.text = message.postback.payload;
+        }
+
+        const context = new TurnContext(this, activity as Activity);
+        await this.runMiddleware(context, logic)
+        .catch((err) => { throw err; });
+
+    }
+
 }

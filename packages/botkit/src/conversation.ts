@@ -373,6 +373,40 @@ export class BotkitConversation<O extends object = {}> extends Dialog<O> {
             };
         }
 
+        // TODO: have to handle all the weird mappings
+
+        console.log('PROCESSING FOR OUTGOING', line);
+
+        // handle facebook attachments
+        if (line.fb_attachment) {
+
+            let attachment = line.fb_attachment;
+            if (attachment.template_type) {
+                if (attachment.template_type == 'button') {
+                    attachment.text = outgoing.text;
+                }
+                outgoing.channelData.attachment = {
+                    type: 'template',
+                    payload: attachment
+                };
+            } else if (attachment.type) {
+                outgoing.channelData.attachment = attachment;
+            }
+
+            // blank text, not allowed with attachment
+            outgoing.text = null;
+
+            // remove blank button array if specified
+            if (outgoing.channelData.attachment.payload.elements) {
+                for (var e = 0; e < outgoing.channelData.attachment.payload.elements.length; e++) {
+                    if (!outgoing.channelData.attachment.payload.elements[e].buttons || !outgoing.channelData.attachment.payload.elements[e].buttons.length) {
+                        delete(outgoing.channelData.attachment.payload.elements[e].buttons);
+                    }
+                }
+            }
+
+        }
+
         // handle teams attachments
         if (line.platforms && line.platforms.teams) {
             if (line.platforms.teams.attachments) {

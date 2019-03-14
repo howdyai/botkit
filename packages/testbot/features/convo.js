@@ -66,10 +66,10 @@ module.exports = function(controller) {
         await bot.beginDialog('tacos');
     });
 
-    controller.cms.after('tacos', async(results, bot) => {
-        console.log('AFTER TACOS!!!!!!');
-        await bot.beginDialog('menu'); 
-    });
+    // controller.cms.after('tacos', async(results, bot) => {
+    //     console.log('AFTER TACOS!!!!!!');
+    //     await bot.beginDialog('menu'); 
+    // });
 
     controller.dialogSet.add(welcome);
     controller.hears(['welcome'],'message', async (bot, message) => {
