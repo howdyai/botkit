@@ -366,20 +366,28 @@ export class BotkitConversation<O extends object = {}> extends Dialog<O> {
             outgoing = MessageFactory.text(line.text[Math.floor(Math.random()*line.text.length)]);
         }
 
-        outgoing.channelData = {};
+        console.log('BASE OUTGOING', outgoing);
+        console.log('PROCESSING FOR OUTGOING', line);
+
+        if (!outgoing.channelData) {
+            outgoing.channelData = {};
+        }
+
+        // TODO: have to handle all the weird mappings to handle legacy botkit cms content
+        // line.platforms.<platform> may contain extra fields.
 
         // handle slack attachments
         if (line.attachments) {
             outgoing.channelData.attachments = line.attachments;
         }
 
-        // TODO: have to handle all the weird mappings
-
-        console.log('PROCESSING FOR OUTGOING', line);
+        // Handle facebook quick replies
+        if (line.quick_replies) {
+            outgoing.channelData.quick_replies = line.quick_replies;
+        }
 
         // handle facebook attachments
         if (line.fb_attachment) {
-
             let attachment = line.fb_attachment;
             if (attachment.template_type) {
                 if (attachment.template_type == 'button') {
@@ -404,7 +412,6 @@ export class BotkitConversation<O extends object = {}> extends Dialog<O> {
                     }
                 }
             }
-
         }
 
         // handle teams attachments
@@ -421,27 +428,28 @@ export class BotkitConversation<O extends object = {}> extends Dialog<O> {
         if (outgoing.text) {
             outgoing.text = mustache.render(outgoing.text, {vars: vars});
         }
+
+        // process templates in native botframework attachments
         if (outgoing.attachments) {
             outgoing.attachments = this.parseTemplatesRecursive(outgoing.attachments, vars);
         }
-        if (outgoing.channelData && outgoing.channelData.attachments) {
+
+        // process templates in slack attachments
+        if (outgoing.channelData.attachments) {
             outgoing.channelData.attachments = this.parseTemplatesRecursive(outgoing.channelData.attachments, vars);
         }
-        if (outgoing.channelData && outgoing.channelData.attachment) {
+
+        // process templates in facebook attachments
+        if (outgoing.channelData.attachment) {
             outgoing.channelData.attachment = this.parseTemplatesRecursive(outgoing.channelData.attachment, vars);
         }
 
-        // handle meta data
+        // handle additional custom fields defined in Botkit-CMS
         if (line.meta) {
-            if (!outgoing.channelData) {
-                outgoing.channelData = {};
-            }
             for (var a = 0; a < line.meta.length; a++) {
                 outgoing.channelData[line.meta[a].key] = line.meta[a].value;
             }
         }
-
-
 
         return outgoing;
     }

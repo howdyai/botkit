@@ -107,6 +107,7 @@ export class BotWorker {
 
         // TODO: This should copy any fields outside the normal activity schema into the channelData field
         // that way botkit users can just do message.foo and it will map to the right place in the adapter level, which can then map as necessary
+        // Could be a small issue with attachments, as slack and botframework both use that field? maybe not?
 
         return msg;
     }
