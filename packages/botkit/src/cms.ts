@@ -63,15 +63,88 @@ export class BotkitCMSHelper {
         scripts.forEach((script)=> {
 
             // map threads from array to object
-            const threads = {};
+            let threads = {};
             script.script.forEach((thread) => {
-                threads[thread.topic] = thread.script;
+                threads[thread.topic] = thread.script.map(this.mapFields)
             });
 
             let d = new BotkitConversation(script.command, this._controller);
             d.script = threads;
             dialogSet.add(d);
         });
+
+    }
+
+    /**
+     * Map some less-than-ideal legacy fields to better places
+     */
+    private mapFields(line) { 
+
+        // Create the channelData field where any channel-specific stuff goes
+        if (!line.channelData) {
+            line.channelData = {};
+        }
+
+        // we might have a facebook attachment in fb_attachments
+        if (line.fb_attachment) {
+            let attachment = line.fb_attachment;
+            if (attachment.template_type) {
+                if (attachment.template_type === 'button') {
+                    attachment.text = line.text[0];
+                }
+                line.channelData.attachment = {
+                    type: 'template',
+                    payload: attachment
+                };
+            } else if (attachment.type) {
+                line.channelData.attachment = attachment;
+            }
+
+            // blank text, not allowed with attachment
+            line.text = null;
+
+            // remove blank button array if specified
+            if (line.channelData.attachment.payload.elements) {
+                for (var e = 0; e < line.channelData.attachment.payload.elements.length; e++) {
+                    if (!line.channelData.attachment.payload.elements[e].buttons || !line.channelData.attachment.payload.elements[e].buttons.length) {
+                        delete(line.channelData.attachment.payload.elements[e].buttons);
+                    }
+                }
+            }
+
+            delete(line.fb_attachment);
+        }
+
+        // Copy quick replies to channelData.
+        // This gives support for both "native" quick replies AND facebook quick replies
+        if (line.quick_replies) {
+            line.channelData.quick_replies = line.quick_replies;
+        }
+    
+        // handle teams attachments
+        if (line.platforms && line.platforms.teams) {
+            if (line.platforms.teams.attachments) {
+                line.attachments = line.platforms.teams.attachments.map((a) => {
+                    a.content = {...a};
+                    a.contentType = 'application/vnd.microsoft.card.' + a.type;
+                    return a;
+                });
+            }
+            delete(line.platforms.teams);
+        }
+
+        // handle additional custom fields defined in Botkit-CMS
+        if (line.meta) {
+            for (var a = 0; a < line.meta.length; a++) {
+                line.channelData[line.meta[a].key] = line.meta[a].value;
+            }
+            delete(line.meta);
+        }
+
+
+        console.log('REMAPPED CMS LINE', line);
+
+        return line;
     }
 
     public async testTrigger(bot, message) {

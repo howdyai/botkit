@@ -88,7 +88,7 @@ export class FacebookAdapter extends BotAdapter {
             sender_action: undefined,
         };
 
-            // map these fields to their appropriate place
+        // map these fields to their appropriate place
         if (activity.channelData) {
             if (activity.channelData.messaging_type) {
                 message.messaging_type = activity.channelData.messaging_type;

@@ -4,6 +4,7 @@ const { WebexAdapter } = require('botbuilder-webex');
 const { ShowTypingMiddleware } = require('botbuilder');
 const { WebsocketAdapter } = require('botbuilder-websocket');
 const { FacebookAdapter, FacebookEventTypeMiddleware } = require('botbuilder-facebook');
+const { HangoutsAdapter } = require('botbuilder-hangouts');
 const { MongoDbStorage } = require('botbuilder-storage-mongodb');
 
 const basicAuth = require('express-basic-auth');
@@ -19,7 +20,6 @@ if (process.env.MONGO_URI) {
         // collection: "botframework"
     });
 }
-
 
 /* ----------------------------------------------------------------------
  * .-.   .-.      .-.
@@ -93,7 +93,6 @@ async function getBotUserByTeam(teamId) {
 
 
 // Use SlackEventMiddleware to emit events that match their original Slack event types.
-// this may BREAK waterfall dailogs which only accept ActivityTypes.Message
 // adapter.use(new SlackEventMiddleware());
 
 // Use SlackMessageType middleware to further classify messages as direct_message, direct_mention, or mention
@@ -113,14 +112,23 @@ async function getBotUserByTeam(teamId) {
  */
 // const adapter = new WebsocketAdapter({});
 
-const adapter = new FacebookAdapter({
-    verify_token: process.env.FACEBOOK_VERIFY_TOKEN,
-    access_token: process.env.FACEBOOK_ACCESS_TOKEN,
-    app_secret: process.env.FACEBOOK_APP_SECRET,
-})
+// const adapter = new FacebookAdapter({
+//     verify_token: process.env.FACEBOOK_VERIFY_TOKEN,
+//     access_token: process.env.FACEBOOK_ACCESS_TOKEN,
+//     app_secret: process.env.FACEBOOK_APP_SECRET,
+// })
 
-// emit events based on the type of facebook event being received
-adapter.use(new FacebookEventTypeMiddleware());
+// // emit events based on the type of facebook event being received
+// adapter.use(new FacebookEventTypeMiddleware());
+
+
+const adapter = new HangoutsAdapter({
+    token: process.env.GOOGLE_TOKEN,
+    google_auth_params: {
+        credentials: JSON.parse(process.env['GOOGLE_CREDS'])
+    }
+});
+
 
 const controller = new Botkit({
     debug: true,

@@ -19,6 +19,10 @@ export class BotWorker {
 
     }
 
+    get controller() {
+        return this._controller;
+    }
+
     /* Return a value out of the configuration */
     public getConfig(key?: string) {
         if (key) {
@@ -31,7 +35,7 @@ export class BotWorker {
     /* Send a message using information passed in during spawning */
     public async say(message: Partial<BotkitMessage>): Promise<any> {
         return new Promise((resolve, reject) => {
-            const activity = this.ensureMessageFormat(message);
+            let activity = this.ensureMessageFormat(message);
 
             this._controller.middleware.send.run(this, activity, (err, bot, activity) => {
                 // NOTE: This calls the BotBuilder middleware again...
@@ -45,7 +49,7 @@ export class BotWorker {
     /* Send a reply to an inbound message, using information collected from that inbound message */
     public async reply(src: Partial<BotkitMessage>, resp: Partial<BotkitMessage>): Promise<any> {
         return new Promise((resolve, reject) => {
-            const activity = this.ensureMessageFormat(resp);
+            let activity = this.ensureMessageFormat(resp);
 
             // get conversation reference from src
             const reference = TurnContext.getConversationReference(src.incoming_message);
@@ -98,18 +102,57 @@ export class BotWorker {
         return this;
     }
 
-    public ensureMessageFormat(msg: any) {
-        if (typeof(msg) === 'string') {
-            msg = {
-                text: msg
+    /**
+     * Take a crudely-formed Botkit message with any sort of field
+     * and map it into a beautiful BotFramework activity
+     */
+    public ensureMessageFormat(message: any): Partial<Activity> {
+
+        let activity: Partial<Activity> = {};
+
+        if (typeof(message) === 'string') {
+            activity = {
+                type: 'message',
+                text: message,
+                channelData: {}
             };
+        } else {
+
+            // set up a base message activity
+            activity = {
+                type: 'message',
+                text: message.text,
+
+                attachmentLayout: message.attachmentLayout,
+                attachments: message.attachments,
+
+                suggestedActions: message.suggestedActions,
+
+                speak: message.speak,
+                inputHint: message.inputHint,
+                summary: message.summary,
+                textFormat: message.textFormat,
+                importance: message.importance,
+                deliveryMode: message.deliveryMode,
+                expiration: message.expiration,
+                value: message.value,
+                channelData: {
+                    ...message.channelData
+                }
+            }
+
+            // Now, copy any additional fields not in the activity into channelData
+            // This way, any fields added by the developer to the root object
+            // end up in the approved channelData location.
+            for (var key in message) {
+                if (key != 'channelData' && !activity[key]) {
+                    activity.channelData[key] = message[key];
+                }
+            }
+
         }
 
-        // TODO: This should copy any fields outside the normal activity schema into the channelData field
-        // that way botkit users can just do message.foo and it will map to the right place in the adapter level, which can then map as necessary
-        // Could be a small issue with attachments, as slack and botframework both use that field? maybe not?
-
-        return msg;
+        return activity;
     }
 
     /* 

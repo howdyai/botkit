@@ -104,8 +104,8 @@ export class SlackBotWorker extends BotWorker {
 
     /* send a public response to a slash command */
     async replyPublic(src: any, resp: any): Promise<any> {
-        const msg = this.ensureMessageFormat(resp);
-        msg.response_type = 'in_channel';
+        let msg = this.ensureMessageFormat(resp);
+        msg.channelData.response_type = 'in_channel';
 
         return this.replyInteractive(src, msg);
     };
@@ -113,8 +113,9 @@ export class SlackBotWorker extends BotWorker {
     /* send a private response to a slash command */
     async replyPrivate(src: any, resp: any): Promise<any> {
         const msg = this.ensureMessageFormat(resp);
-        msg.response_type = 'ephemeral';
-        msg.to = src.user;
+
+        msg.channelData.response_type = 'ephemeral';
+        msg.channelData.to = src.user;
 
         return this.replyInteractive(src, msg);
     };
@@ -124,14 +125,16 @@ export class SlackBotWorker extends BotWorker {
             throw Error('No response_url found in incoming message');
         } else {
             let msg = this.ensureMessageFormat(resp);
-
-            msg.channel = src.channel;
-            msg.to = src.user;
-
+            msg.conversation = {
+                id: src.channnel
+            };
+            msg.channelData.to = src.user;
             // if source message is in a thread, reply should also be in the thread
             if (src.incoming_message.channelData.thread_ts) {
-                msg.thread_ts = src.incoming_message.channelData.thread_ts;
+                msg.conversation.thread_ts = src.incoming_message.channelData.thread_ts;
             }
+
+            msg = this.controller.adapter.activityToSlack(msg);
 
             var requestOptions = {
                 uri: src.incoming_message.channelData.response_url,

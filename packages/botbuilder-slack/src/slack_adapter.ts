@@ -219,27 +219,17 @@ export class SlackAdapter extends BotAdapter {
         }
     }
 
-    private activityToSlack(activity: any): any {
+    public activityToSlack(activity: any): any {
         let channelId = activity.conversation.id;
         let thread_ts = activity.conversation.thread_ts;
 
-        const message = {
-            channel: channelId,
+        let message: any = {
+            ts: activity.id, 
             text: activity.text,
-            thread_ts: activity.thread_ts ? activity.thread_ts : thread_ts,
-            username: activity.username || null,
-            reply_broadcast: activity.reply_broadcast || null,
-            parse: activity.parse || null,
-            link_names: activity.link_names || null,
-            attachments: activity.attachments ? JSON.stringify(activity.attachments) : null,
-            blocks: activity.blocks ? JSON.stringify(activity.blocks) : null,
-            unfurl_links: typeof activity.unfurl_links !== 'undefined' ? activity.unfurl_links : null,
-            unfurl_media: typeof activity.unfurl_media !== 'undefined' ? activity.unfurl_media : null,
-            icon_url: activity.icon_url || null,
-            icon_emoji: activity.icon_emoji || null,
-            as_user: activity.as_user || true,
-            ephemeral: activity.ephemeral || false,
-            user: null
+            attachments: activity.attachments,
+
+            channel: channelId,
+            thread_ts: thread_ts,
         };
 
         // if channelData is specified, overwrite any fields in message object
@@ -257,6 +247,9 @@ export class SlackAdapter extends BotAdapter {
         if (message.icon_url || message.icon_emoji || message.username) {
             message.as_user = false;
         }
+
+        // if (message.attachments) { message.attachments = JSON.stringify(message.attachments) };
+        // if (message.blocks) { message.blocks = JSON.stringify(message.blocks) }
 
         return message;
     }
@@ -305,7 +298,7 @@ export class SlackAdapter extends BotAdapter {
                 const message = this.activityToSlack(activity);
 
                 // set the id of the message to be updated
-                message.ts = activity.id;
+                // message.ts = activity.id;
                 const slack = await this.getAPI(activity);
                 const results = await slack.chat.update(message);
                 if (!results.ok) {
