@@ -141,9 +141,6 @@ export class BotkitCMSHelper {
             delete(line.meta);
         }
 
-
-        console.log('REMAPPED CMS LINE', line);
-
         return line;
     }
 

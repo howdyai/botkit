@@ -11,7 +11,7 @@ module.exports = function(controller) {
     });
 
     // match any one of set of mixed patterns like a string, a regular expression
-    controller.hears(['allcaps', new RegExp(/^[A-Z]+$/)], ['message','direct_message'], async function(bot, message) {
+    controller.hears(['allcaps', new RegExp(/^[A-Z\s]+$/)], ['message','direct_message'], async function(bot, message) {
         await bot.reply(message,{ text: 'I HEARD ALL CAPS' });
     });
 
