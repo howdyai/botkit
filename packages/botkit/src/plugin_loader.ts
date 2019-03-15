@@ -63,7 +63,7 @@ export class BotkitPluginLoader {
     
     public register(name, endpoints: BotkitPlugin) {
 
-        debug('Enabling plugin: ', name);
+        console.log('Enabling plugin: ', name);
         if (this.plugins.indexOf(name) >= 0) {
             debug('Plugin already enabled:', name);
             return;

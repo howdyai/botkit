@@ -85,6 +85,8 @@ export class BotkitCMSHelper {
             line.channelData = {};
         }
 
+        // TODO: Port over all the other mappings
+
         // we might have a facebook attachment in fb_attachments
         if (line.fb_attachment) {
             let attachment = line.fb_attachment;

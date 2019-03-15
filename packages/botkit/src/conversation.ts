@@ -197,14 +197,7 @@ export class BotkitConversation<O extends object = {}> extends Dialog<O> {
 
         // Let's interpret the current line of the script.
         const thread = this.script[step.thread];
-        
-        // this.script.script.filter(function(thread) {
-        //     return thread.topic === step.thread;
-        // })[0];
-
-        var line = thread[step.index];
-
-        // debug('STEP', line);
+        let line = thread[step.index];
 
         var previous = (step.index >= 1) ? thread[step.index - 1] : null;
         // Capture the previous step value if there previous line included a prompt
@@ -214,15 +207,20 @@ export class BotkitConversation<O extends object = {}> extends Dialog<O> {
                 let index = step.index;
                 let thread_name = step.thread;
 
+                // capture the user input value into the array 
+                if (step.values[previous.collect.key] && previous.collect.multiple) {
+                    step.values[previous.collect.key] = [ step.values[previous.collect.key], step.result ].join('\n');
+                } else {
+                    step.values[previous.collect.key] = step.result;
+                }
+
                 // run onChange handlers
-                step.values[previous.collect.key] = step.result;
                 await this.runOnChange(previous.collect.key, step.result, dc, step);
 
                 // did we just change threads? if so, restart this turn
                 if (index != step.index || thread_name != step.thread) {
                     return await this.runStep(dc, step.index, step.thread, DialogReason.nextCalled, step.values);
                 }
-
             }
 
             // handle conditions of previous step
@@ -234,9 +232,9 @@ export class BotkitConversation<O extends object = {}> extends Dialog<O> {
                 for (let p = 0; p < paths.length; p++) {
                     let condition = paths[p];
                     let test;
-                    if (condition.type==='string') {
+                    if (condition.type === 'string') {
                         test = new RegExp(condition.pattern,'i');
-                    } else if (condition.type =='regex') {
+                    } else if (condition.type === 'regex') {
                         test = new RegExp(condition.pattern,'i');
                     }
 
@@ -252,6 +250,12 @@ export class BotkitConversation<O extends object = {}> extends Dialog<O> {
                 }
 
                 if (path) {
+
+                    if (path.action !== 'wait' && previous.collect && previous.collect.multiple) {
+                        // TODO: remove the final line of input
+                        // since this would represent the "end" message and probably not part of the input
+                    }
+
                     var res = await this.handleAction(path, dc, step);
                     if (res !== false) {
                         return res;
@@ -306,6 +310,7 @@ export class BotkitConversation<O extends object = {}> extends Dialog<O> {
             const step = {
                 index: index,
                 thread: thread_name,
+                state: state,
                 options: state.options,
                 reason: reason,
                 result: result,
@@ -485,9 +490,10 @@ export class BotkitConversation<O extends object = {}> extends Dialog<O> {
                 return await this.runStep(dc, step.index - 1, step.thread, DialogReason.nextCalled);
                 break;
             case 'wait':
-                // TODO 
-                console.log('NOT SURE WHAT TO DO WITH THIS!!', path);
-                // do not advance to the next step!
+                // reset the state so we're still on this step.
+                step.state.stepIndex = step.index - 1;
+                // send a waiting status
+                return { status: DialogTurnStatus.waiting };
                 break;
             default:
                 // the default behavior for unknown action in botkit is to gotothread
