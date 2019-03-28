@@ -1,0 +1,20 @@
+{
+  "name": "generator-botkit",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "files": [
+    "generators"
+  ],
+  "keywords": [
+    "yeoman-generator"
+  ],
+  "author": "benbrown@gmail.com",
+  "license": "MIT",
+  "dependencies": {
+    "yeoman-generator": "^3.2.0"
+  }
+}
