@@ -5,6 +5,7 @@ const { ShowTypingMiddleware } = require('botbuilder');
 const { WebsocketAdapter } = require('botbuilder-websocket');
 const { FacebookAdapter, FacebookEventTypeMiddleware } = require('botbuilder-facebook');
 const { HangoutsAdapter } = require('botbuilder-hangouts');
+const { TwilioAdapter } = require('botbuilder-twilio-sms');
 const { MongoDbStorage } = require('botbuilder-storage-mongodb');
 
 const basicAuth = require('express-basic-auth');
@@ -44,17 +45,17 @@ if (process.env.MONGO_URI) {
  * Configure the Slack adapter
  * ----------------------------------------------------------------------
  */
-const adapter = new SlackAdapter({
-   verificationToken: process.env.verificationToken,
-    clientSigningSecret: process.env.clientSigningSecret,  
-    botToken: process.env.botToken,
-    clientId: process.env.clientId,
-    clientSecret: process.env.clientSecret,
-    scopes: ['bot'],
-    redirectUri: process.env.redirectUri,
-    getTokenForTeam: getTokenForTeam,
-    getBotUserByTeam: getBotUserByTeam,
-});
+// const adapter = new SlackAdapter({
+//    verificationToken: process.env.verificationToken,
+//     clientSigningSecret: process.env.clientSigningSecret,  
+//     botToken: process.env.botToken,
+//     clientId: process.env.clientId,
+//     clientSecret: process.env.clientSecret,
+//     scopes: ['bot'],
+//     redirectUri: process.env.redirectUri,
+//     getTokenForTeam: getTokenForTeam,
+//     getBotUserByTeam: getBotUserByTeam,
+// });
 
 let tokenCache = {};
 let userCache = {};
@@ -93,10 +94,10 @@ async function getBotUserByTeam(teamId) {
 
 
 // Use SlackEventMiddleware to emit events that match their original Slack event types.
-adapter.use(new SlackEventMiddleware());
+// adapter.use(new SlackEventMiddleware());
 
 // Use SlackMessageType middleware to further classify messages as direct_message, direct_mention, or mention
-adapter.use(new SlackMessageTypeMiddleware());
+// adapter.use(new SlackMessageTypeMiddleware());
 
 /* ----------------------------------------------------------------------
  *  __      __      ___.                        __           __   
@@ -127,6 +128,11 @@ adapter.use(new SlackMessageTypeMiddleware());
 //     }
 // });
 
+const adapter = new TwilioAdapter({
+    twilio_number: process.env.TWILIO_NUMBER,
+    account_sid: process.env.TWILIO_ACCOUNT_SID,
+    auth_token: process.env.TWILIO_AUTH_TOKEN,
+});
 
 const controller = new Botkit({
     debug: true,

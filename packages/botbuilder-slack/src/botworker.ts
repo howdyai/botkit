@@ -125,12 +125,15 @@ export class SlackBotWorker extends BotWorker {
             throw Error('No response_url found in incoming message');
         } else {
             let msg = this.ensureMessageFormat(resp);
+            // @ts-ignore
             msg.conversation = {
                 id: src.channnel
             };
             msg.channelData.to = src.user;
+    
             // if source message is in a thread, reply should also be in the thread
             if (src.incoming_message.channelData.thread_ts) {
+                // @ts-ignore
                 msg.conversation.thread_ts = src.incoming_message.channelData.thread_ts;
             }
 
