@@ -1,0 +1,42 @@
+var Generator = require('yeoman-generator');
+
+module.exports = class extends Generator {
+    async prompting() {
+
+        this.platform = await this.prompt([
+            {
+                type: "input",
+                name: "access_token",
+                message: "Access Token",
+            },
+            {
+                type: "input",
+                name: "public_address",
+                message: "Public Address (in the form of https://<myhost.com/)",
+            },
+        ]);
+
+    }
+
+    writing() {
+
+        this.fs.copy(
+            this.templatePath('features'),
+            this.destinationPath('features')
+        );
+
+        this.fs.copyTpl(
+            this.templatePath('.env'),
+            this.destinationPath('.env'),
+            { 
+                platform: this.platform,
+                options: this.options,
+            },
+        );
+    }
+
+    install() {
+        this.npmInstall(['botbuilder-webex']);
+    }
+
+};

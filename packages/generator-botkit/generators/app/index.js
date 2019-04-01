@@ -1,4 +1,5 @@
 var Generator = require('yeoman-generator');
+var path = require('path');
 
 const platforms = [
     'botframework',
@@ -25,11 +26,34 @@ module.exports = class extends Generator {
                 name: "platform",
                 choices: platforms,
                 message: "Which messaging platform?",
+            },
+            {
+                type: "input",
+                name: "mongo_uri",
+                message: "(Optional) Mongo URI for state persistence:",
             }
         ]);
 
         this.answers.safe_name = this.answers.name.toLowerCase().replace(/\s+/,'-');
 
+    }
+
+    async composing() {
+        if (this.answers.platform === 'slack') {
+            this.composeWith(require.resolve(path.join(__dirname,'..','slack')), this.answers);
+        } else if (this.answers.platform === 'hangouts') {
+            this.composeWith(require.resolve(path.join(__dirname,'..','hangouts')), this.answers);
+        } else if (this.answers.platform === 'facebook') {
+            this.composeWith(require.resolve(path.join(__dirname,'..','facebook')), this.answers);
+        } else if (this.answers.platform === 'twilio-sms') {
+            this.composeWith(require.resolve(path.join(__dirname,'..','twilio-sms')), this.answers);
+        } else if (this.answers.platform === 'webex') {
+            this.composeWith(require.resolve(path.join(__dirname,'..','webex')), this.answers);
+        } else if (this.answers.platform === 'websocket') {
+            this.composeWith(require.resolve(path.join(__dirname,'..','websocket')), this.answers);
+        } else if (this.answers.platform === 'botframework') {
+            this.composeWith(require.resolve(path.join(__dirname,'..','botframework')), this.answers);
+        }
     }
 
     writing() {
@@ -39,7 +63,6 @@ module.exports = class extends Generator {
             this.destinationPath('package.json'),
             this.answers
         );
-
 
         this.fs.copyTpl(
             this.templatePath('bot.js'),
