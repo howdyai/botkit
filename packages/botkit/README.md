@@ -19,17 +19,6 @@ npm install -g yo generator-botkit
 yo botkit
 ```
 
-## Platform Support
-
-Botkit applications can be connected to many different messaging channels. [Platform specific documentation can be found on the main docs site.]()
-
-Botkit can connect to multiple messaging channels through the [Microsoft Bot Framework Service](https://dev.botframework.com).
-No plugins are necessary to use the Bot Framework service, and bots can be developed locally using the [Bot Framework Emulator](https://aka.ms/botemulator).
-
-The Botkit project includes official adapters for [self-hosted Websocket](), [Slack](), [Webex Teams](), [Facebook Messenger](), [Twilio SMS](), [Google Hangouts](). Using these plugins, your bot can communicate directly with the messaging platforms.
-
-Additional adapters can be found by searching npm for Bot Framework-compatible adapters.
-
 ### ** Remix on Glitch**
 
 Want to dive right in? [Remix one of our starter kits on Glitch](https://glitch.com/botkit). You'll start with a fully functioning app that you can edit and run from the browser!
@@ -49,6 +38,18 @@ bot using middleware and event handlers.
 The toolkit is designed to provide meaningful building blocks for creating conversational user interfaces - with functions like `hears()`, `ask()`, and `reply()` that do what they say they do.
 
 The [full documentation for Botkit's capabilities begins here &raquo;](../docs/index.md)
+
+## Platform Support
+
+Botkit applications can be connected to many different messaging channels. [Platform specific documentation can be found on the main docs site.]()
+
+Botkit can connect to multiple messaging channels through the [Microsoft Bot Framework Service](https://dev.botframework.com).
+No plugins are necessary to use the Bot Framework service, and bots can be developed locally using the [Bot Framework Emulator](https://aka.ms/botemulator).
+
+The Botkit project includes official adapters for [self-hosted Websocket](), [Slack](), [Webex Teams](), [Facebook Messenger](), [Twilio SMS](), [Google Hangouts](). Using these plugins, your bot can communicate directly with the messaging platforms.
+
+Additional adapters can be found by searching npm for Bot Framework-compatible adapters.
+
 
 ### Hearing Keywords
 
