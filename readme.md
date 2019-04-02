@@ -29,9 +29,12 @@ GOALS:
 | [botbuilder-hangouts](packages/botbuilder-hangouts) | A platform adapter for Google Hangouts
 | [botbuilder-facebook](packages/botbuilder-facebook) | A platform adapter for Facebook Messenger
 | [generator-botkit](packages/generator-botkit) | A Yeoman generator for creating a new Botkit project
-
 | [botbuilder-dialogs-botkit-cms](packages/botbuilder-dialogs-botkit-cms) | A library that allows using Botkit CMS content in Bot Builder apps (without Botkit)
 
+# Get Started
+
+[Install Botkit](packages/botkit)
+[Botkit Core Docs](docs/index.md)
 
 ## Build Botkit locally
 
@@ -70,9 +73,3 @@ Now, build all of the libraries:
 ```bash
 lerna run build
 ```
-
-# Docs
-
-[Get Started](packages/botkit)
-
-[Botkit Core Docs](docs/index.md)
