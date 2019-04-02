@@ -44,7 +44,7 @@ The [full documentation for Botkit's capabilities begins here &raquo;](../docs/i
 Botkit can connect to multiple messaging channels through the [Microsoft Bot Framework Service](https://dev.botframework.com).
 No plugins are necessary to use the Bot Framework service, and bots can be developed locally using the [Bot Framework Emulator](https://aka.ms/botemulator).
 
-The Botkit project includes official adapters for [self-hosted Websocket](../botbuilder-adapter-websocket), [Slack](), [Webex Teams](), [Facebook Messenger](), [Twilio SMS](), [Google Hangouts](). Using these plugins, your bot can communicate directly with the messaging platforms.
+The Botkit project includes official adapters for [self-hosted Websocket](../botbuilder-adapter-websocket), [Slack](../botbuilder-adapter-slack), [Webex Teams](../botbuilder-adapter-webex), [Facebook Messenger](../botbuilder-adapter-facebook), [Twilio SMS](../botbuilder-adapter-twilio-sms), [Google Hangouts](../botbuilder-adapter-hangouts). Using these plugins, your bot can communicate directly with the messaging platforms.
 
 Additional adapters can be found by searching npm for Bot Framework-compatible adapters.
 
