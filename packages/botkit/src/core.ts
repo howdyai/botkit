@@ -39,6 +39,11 @@ export interface BotkitMessage {
     [key: string]: any; // allow any other fields to live alongside the defined fields.
 }
 
+/**
+ * Create a new instance of Botkit to define the controller for a conversational app.
+ * To connect Botkit to a chat platform, pass in a fully configured `adapter`.
+ * If one is not specified, Botkit will expose an adapter for the Microsoft Bot Framework.
+ */
 export class Botkit {
 
     private _config: BotkitConfiguration;
@@ -216,7 +221,8 @@ export class Botkit {
         this.completeDep('booted');
     }
 
-    /* Get a value from the configuration
+    /**
+     * Get a value from the configuration
      * @param {string} key The name of a value stored in the configuration
      * @returns {any} The value stored in the configuration (or null if absent)
      */

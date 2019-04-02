@@ -19,6 +19,7 @@ const { FacebookAdapter, FacebookEventTypeMiddleware } = require('botbuilder-fac
 <% } else if (platform === 'twilio-sms') { %>const { TwilioAdapter } = require('botbuilder-twilio-sms');
 <% } else if (platform === 'hangouts') { %>const { HangoutsAdapter } = require('botbuilder-hangouts');<% } %>
 const { MongoDbStorage } = require('botbuilder-storage-mongodb');
+const basicAuth = require('express-basic-auth');
 
 // Load process.env values from .env file
 require('dotenv').config();
