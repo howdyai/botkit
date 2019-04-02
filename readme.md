@@ -18,6 +18,15 @@ GOALS:
 * Inherit much goodness from [Bot Builder](https://github.com/microsoft/botbuilder-js)
 * Provide a way for bots to be extended with plugins and modular features, and for those plugins to provide a consistent interface to administrators
 
+
+# Use Botkit
+
+* [Install Botkit and get started](packages/botkit)
+* [Botkit Core Docs](docs/index.md)
+* [Botkit for Slack](packages/botkit-slack/readme.md)
+* [Botkit for Webex Teams](packages/botkit-webex/readme.md)
+
+
 ## Packages included in this repo
 
 | Package | Description
@@ -30,11 +39,6 @@ GOALS:
 | [botbuilder-facebook](packages/botbuilder-facebook) | A platform adapter for Facebook Messenger
 | [generator-botkit](packages/generator-botkit) | A Yeoman generator for creating a new Botkit project
 | [botbuilder-dialogs-botkit-cms](packages/botbuilder-dialogs-botkit-cms) | A library that allows using Botkit CMS content in Bot Builder apps (without Botkit)
-
-# Get Started
-
-[Install Botkit](packages/botkit)
-[Botkit Core Docs](docs/index.md)
 
 ## Build Botkit locally
 
