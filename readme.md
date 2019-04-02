@@ -23,8 +23,8 @@ GOALS:
 
 * [Install Botkit and get started](packages/botkit#botkit---building-blocks-for-building-bots)
 * [Botkit Core Docs](packages/docs/index.md)
-* [Botkit for Slack](packages/botkit-slack/readme.md)
-* [Botkit for Webex Teams](packages/botkit-webex/readme.md)
+* [Botkit for Slack](packages/botbuilder-slack/readme.md)
+* [Botkit for Webex Teams](packages/botbuilder-webex/readme.md)
 
 
 ## Packages included in this repo
