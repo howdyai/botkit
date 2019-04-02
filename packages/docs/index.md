@@ -27,7 +27,6 @@ controller.on('event', async(bot, message) => {
 ### Building Features
 
 
-
 ### Using Bot Framework Channels
 
 Bot Framework provides a unified interface to many different platforms, including Microsoft products like Microsoft Teams, Skype, Cortana, but also including platforms like Slack, and email. 
@@ -48,7 +47,6 @@ const controller = new Botkit({
 ### Using Platform Adapters
 
 ....
-
 
 
 ### Multi-turn Conversations

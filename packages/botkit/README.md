@@ -48,6 +48,8 @@ bot using middleware and event handlers.
 
 The toolkit is designed to provide meaningful building blocks for creating conversational user interfaces - with functions like `hears()`, `ask()`, and `reply()` that do what they say they do.
 
+The [full documentation for Botkit's capabilities begins here &raquo;](../docs/index.md)
+
 ### Hearing Keywords
 
 Most bots do their thing by listening for keywords, phrases or patterns in messages from users. Botkit has a special event handler called `hears()` that makes it easy to configure your bot to listen for this type of trigger.
@@ -61,7 +63,7 @@ controller.hears(['string','pattern .*',new RegExp('.*','i')],'message,other_eve
 });
 ```
 
-[Read more about hearing things &rsaquo;](https://botkit.ai/docs/core.html#matching-patterns-and-keywords-with-hears)
+[Read more about hearing things &rsaquo;](../docs/index.md#matching-patterns-and-keywords-with-hears)
 
 ### Responding to Events
 
@@ -113,55 +115,3 @@ controller.middleware.send.use(function(bot, message, next) {
 });
 ```
 ## [Change Log](https://github.com/howdyai/botkit/blob/master/changelog.md)
-
-
-
-
-
-
-
-## New Botkit Basics
-
-In this simple example below, Botkit creates a webhook endpoint for communicating with the [Bot Framework Emulator](https://aka.ms/botemulator), and is configured with a single "hears" handler that instructs Botkit to listen for a wildcard pattern, and to respond to any incoming message.
-
-```javascript
-const { Botkit } = require('botkit');
-
-const controller = new Botkit({
-    debug: true,
-    webhook_uri: '/api/messages',
-});
-
-controller.hears('.*','message', async(bot, message) => {
-
-    await bot.reply(message, 'I heard: ' + message.text);
-
-});
-
-controller.on('event', async(bot, message) => {
-    await bot.reply(message,' I received an event of type ' + message.type);
-});
-```
-
-Note big differences here from previous versions of Botkit: 
-
-* async/await: the hears handler now takes an async function. We can now `await` the results of bot.reply.
-* without a platform, botkit now speaks the generic botframework adapter protocol, making it easy to use the emulator and other tools
-
-
-### Using Bot Framework Channels
-
-Bot Framework provides a unified interface to many different platforms, including Microsoft products like Microsoft Teams, Skype, Cortana, but also including platforms like Slack, and email. 
-
-To use Botkit with the Bot Framework channel service, pass in an `adapterConfig` parameter [matching this specification](https://docs.microsoft.com/en-us/javascript/api/botbuilder/botframeworkadaptersettings?view=botbuilder-ts-latest), and configure the channel service with the appropriate endpoint URL.
-
-```javascript
-const controller = new Botkit({
-    debug: true,
-    webhook_uri: '/api/messages',
-    adapterConfig: {
-        appId: process.env.appId,
-        appPassword: process.env.appPassword
-    }
-});
-```

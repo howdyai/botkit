@@ -1,14 +1,22 @@
-# Slack Adapter for Bot Builder
+# botbuilder-adapter-slack
 
-[lib/slack_adapter.js](lib/slack_adapter.js) is an adapter that connects bot builder to slack.
+## a Slack Adapter for BotBuilder and Botkit
 
-[index.js](index.js) is a single-team bot.
+[src/slack_adapter.ts](src/slack_adapter.ts) is an adapter that connects bot builder to slack.
 
-[multiteam.js](multiteam.js) is a multi-team bot that uses oauth.
+[examples/index.js](examples/index.js) is a single-team bot.
 
-## Single Team Bot
+[examples/multiteam.js](examples/multiteam.js) is a multi-team bot that uses oauth.
 
-To configure for a single team, pass in a botToken provided by Slack's API portal:
+#### Using the Slack adapter for a single team
+
+Import the Slack adapter.
+
+```javascript
+const { SlackAdapter } = require('botbuilder-slack');
+```
+
+Instantiate the adapter with a bot token and verification secret as provided in the Slack API dashboard.
 
 ```javascript
 const adapter = new SlackAdapter({
@@ -17,9 +25,30 @@ const adapter = new SlackAdapter({
 });
 ```
 
-## Multi-team Bot
+Now, pass the adapter into Botkit when creating the controller:
 
-Configure for multi-teams, pass in oauth client details and a function used to load the appropriate token for each team:
+```javascript
+const controller = new Botkit({
+    adapter: adapter
+});
+```
+
+Messages will arrive as type `message`, while most other events will arrive as `event` types.  This may change to more closely conform to previous Botkit event types (direct_message, etc).  See [Slack event middleware](#slack-event-middleware)
+
+#### Using the Slack adapter for multiple teams
+
+When used with multiple teams, developers must provide a mechanism for storing and retrieving tokens provided during the oauth flow.  See below.
+
+Import the Slack adapter.  
+
+```javascript
+const { SlackAdapter } = require('botbuilder-slack');
+```
+
+Instantiate the adapter with a `clientId`, `clientSecret`, scopes, redirectUrl and verification secret as provided/configured in the Slack API dashboard.
+
+In addition, pass in a `getTokenForTeam` parameter containing a function in the form `async (teamId) => { return tokenForTeam; }`  This function is responsible for loading an API token from _somewhere_ and providing it to Botkit for use in handling incoming messages.
+
 
 ```javascript
 const adapter = new SlackAdapter({
@@ -29,32 +58,11 @@ const adapter = new SlackAdapter({
     scopes: ['bot'],
     redirectUri: process.env.redirectUri,
     getTokenForTeam: getTokenForTeam,
-    getBotUserByTeam: getBotUserByTeam,
-    debug: true
 });
 ```
 
-In addition, configure at least an oauth redirect url to capture team configuration details:
+Here is a simple implementation of getTokenForTeam which loads tokens from an in-memory cache. Developers should store their tokens in an encrypted database.
 
-```javascript
-server.get('/install/auth', async (req, res) => {
-    try {
-        const results = await adapter.validateOauthCode(req.query.code);
-
-        // Store token by team somehow.
-        tokenCache[results.team_id] = results.bot.bot_access_token;
-
-        res.json('Success! Bot installed.');
-
-    } catch (err) {
-        console.error('OAUTH ERROR:', err);
-        res.status(401);
-        res.send(err.message);
-    }
-});
-```
-
-And a function to pull the token back out:
 ```javascript
 const tokenCache = [];
 async function getTokenForTeam(teamId) {
@@ -66,27 +74,61 @@ async function getTokenForTeam(teamId) {
 }
 ```
 
+Now, pass the adapter into Botkit when creating the controller:
 
-# TODO
+```javascript
+const controller = new Botkit({
+    adapter: adapter
+});
+```
 
-* write a readme
+Finally, expose new Oauth-related endpoints by binding new routes to the build in Express webserver accessible at `controller.webserver`.  Below is a simple implementation that stores the token provided by oauth in an in-memory cache.
 
-* Implement a middleware that reformats activities into the appropriate framework activity type and populates fields like membersAdded membersRemoved reactionsAdded reactionsRemoved
+```javascript
+controller.webserver.get('/install', (req, res) => {
+    // getInstallLink points to slack's oauth endpoint and includes clientId and scopes
+    res.redirect(controller.adapter.getInstallLink());
+});
 
-===
+controller.webserver.get('/install/auth', async (req, res) => {
+    try {
+        const results = await controller.adapter.validateOauthCode(req.query.code);
 
-? stretch goals
-* build helpers for building attachments? and improve slackdialog to use getters/setters?
-* helpers for handling buttons or dialogs? -> not sure what i meant by this
+        tokenCache[results.team_id] = results.bot.bot_access_token;
 
+        res.send('Success! Bot installed.');
 
-x dialog stuff
-x slash command replies
-x replyinteractive
-x reply in thread
-x ephemeral
-x helper for starting a DM with a specific user?
-x figure out how to do mentions and direct_mentions
-x strip mentions from front of string
-x implement signed secrets: https://api.slack.com/docs/verifying-requests-from-slack#a_recipe_for_security
-x how do we spawn a bot for proactive messages in a multi-team scenario?
+    } catch (err) {
+        console.error('OAUTH ERROR:', err);
+        res.status(401);
+        res.send(err.message);
+    }
+});
+```
+
+#### Slack event middleware
+
+The slack adapter includes an optional middleware that will modify the `.type` field of incoming events to match their slack event types (rather than being cast into generic "message or "event" types).
+
+NOTE that the technique currently used (changing the type field) can interfere with Microsoft BotBuilder dialogs, and will likely change in upcoming versions.
+
+Import the adapter and the middleware:
+
+```javascript
+// load SlackAdapter AND SlackEventMiddleware
+const { SlackAdapter, SlackEventMiddleware} = require('botbuilder-slack');
+```
+
+Create your adapter (as above), then bind the middleware to the adapter:
+
+```javascript
+adapter.use(new SlackEventMiddleware());
+```
+
+Now, Botkit will emit events with their original Slack names:
+
+```
+controller.on('channel_join', async(bot, message) => {
+    // do stuff
+});
+```
