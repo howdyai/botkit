@@ -21,7 +21,7 @@ GOALS:
 
 # Use Botkit
 
-* [Install Botkit and get started](packages/botkit)
+* [Install Botkit and get started](packages/botkit/README.md)
 * [Botkit Core Docs](docs/index.md)
 * [Botkit for Slack](packages/botkit-slack/readme.md)
 * [Botkit for Webex Teams](packages/botkit-webex/readme.md)
