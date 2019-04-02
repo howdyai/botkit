@@ -1,6 +1,8 @@
-# Botkit Core Docs
+# Botkit Core 
 
-## New Botkit Basics
+
+
+## Botkit Basics
 
 In this simple example below, Botkit creates a webhook endpoint for communicating with the [Bot Framework Emulator](https://aka.ms/botemulator), and is configured with a single "hears" handler that instructs Botkit to listen for a wildcard pattern, and to respond to any incoming message.
 
@@ -25,6 +27,17 @@ controller.on('event', async(bot, message) => {
 
 ### Building Features
 
+We recommend bundling your bot's features into simple JavaScript modules, and then loading them into your app using `controller.loadModules(path_to_feature_modules)`.
+
+Make sure your modules follow the form below:
+
+```javascript
+module.exports = function(controller) {
+
+    // define your dialogs, as well as your hears() or on() handlers
+    // ...
+}
+```
 
 ### Using Bot Framework Channels
 
@@ -46,6 +59,10 @@ const controller = new Botkit({
 ### Using Platform Adapters
 
 ....
+
+### Matching Patterns and Keywords with Hears
+
+### Receiving Messages and Events
 
 
 ### Multi-turn Conversations

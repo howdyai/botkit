@@ -23,20 +23,24 @@ GOALS:
 
 * [Install Botkit and get started](packages/botkit#botkit---building-blocks-for-building-bots)
 * [Botkit Core Docs](packages/docs/index.md)
-* [Botkit for Slack](packages/botbuilder-slack/readme.md)
-* [Botkit for Webex Teams](packages/botbuilder-webex/readme.md)
-
+* [Botkit for the Web](packages/botbuilder-adapter-websocket/readme.md)
+* [Botkit for Slack](packages/botbuilder-adapter-slack/readme.md)
+* [Botkit for Webex Teams](packages/botbuilder-adapter-webex/readme.md)
+* [Botkit for Google Hangouts](packages/botbuilder-adapter-hangouts/readme.md)
+* [Botkit for Twilio SMS](packages/botbuilder-adapter-twilio-sms/readme.md)
+* [Botkit for Facebook Messenger](packages/botbuilder-adapter-facebook/readme.md)
 
 ## Packages included in this repo
 
 | Package | Description
 |--- |---
 | [botkit](packages/botkit) | Botkit Core library
-| [botbuilder-websocket](packages/botbuilder-websocket) | A platform adapter for the web
-| [botbuilder-slack](packages/botbuilder-slack) | A platform adapter for Slack
-| [botbuilder-webex](packages/botbuilder-webex) | A platform adapter for Webex Teams
-| [botbuilder-hangouts](packages/botbuilder-hangouts) | A platform adapter for Google Hangouts
-| [botbuilder-facebook](packages/botbuilder-facebook) | A platform adapter for Facebook Messenger
+| [botbuilder-adapter-websocket](packages/botbuilder-adapter-websocket) | A platform adapter for the web
+| [botbuilder-adapter-slack](packages/botbuilder-adapter-slack) | A platform adapter for Slack
+| [botbuilder-adapter-webex](packages/botbuilder-adapter-webex) | A platform adapter for Webex Teams
+| [botbuilder-adapter-hangouts](packages/botbuilder-adapter-hangouts) | A platform adapter for Google Hangouts
+| [botbuilder-adapter-twilio-sms](packages/botbuilder-adapter-twilio-sms) | A platform adapter for Twilio SMS
+| [botbuilder-adapter-facebook](packages/botbuilder-facebook) | A platform adapter for Facebook Messenger
 | [generator-botkit](packages/generator-botkit) | A Yeoman generator for creating a new Botkit project
 | [botbuilder-dialogs-botkit-cms](packages/botbuilder-dialogs-botkit-cms) | A library that allows using Botkit CMS content in Bot Builder apps (without Botkit)
 

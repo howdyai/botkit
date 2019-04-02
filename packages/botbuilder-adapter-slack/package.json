@@ -1,5 +1,5 @@
 {
-  "name": "botbuilder-twilio-sms",
+  "name": "botbuilder-adapter-slack",
   "version": "1.0.0",
   "description": "",
   "main": "lib/index.js",
@@ -12,12 +12,14 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@slack/client": "^4.7.0",
     "botbuilder": "^4.2.0",
     "botbuilder-dialogs": "^4.2.0",
     "botframework-config": "^4.2.0",
     "botkit": "^4.0.0",
     "debug": "^4.1.0",
-    "twilio": "^3.29.2"
+    "dotenv": "^6.0.0",
+    "restify": "^7.2.1"
   },
   "devDependencies": {
     "eslint": "^5.5.0",

@@ -1,14 +1,15 @@
 const { Botkit } = require('botkit');
-const { SlackAdapter, SlackMessageTypeMiddleware, SlackIdentifyBotsMiddleware, SlackEventMiddleware } = require('botbuilder-slack');
-const { WebexAdapter } = require('botbuilder-webex');
 const { ShowTypingMiddleware } = require('botbuilder');
-const { WebsocketAdapter } = require('botbuilder-websocket');
-const { FacebookAdapter, FacebookEventTypeMiddleware } = require('botbuilder-facebook');
-const { HangoutsAdapter } = require('botbuilder-hangouts');
-const { TwilioAdapter } = require('botbuilder-twilio-sms');
 const { MongoDbStorage } = require('botbuilder-storage-mongodb');
-
 const basicAuth = require('express-basic-auth');
+
+const { SlackAdapter, SlackMessageTypeMiddleware, SlackIdentifyBotsMiddleware, SlackEventMiddleware } = require('botbuilder-adapter-slack');
+const { WebexAdapter } = require('botbuilder-adapter-webex');
+const { WebsocketAdapter } = require('botbuilder-adapter-websocket');
+const { FacebookAdapter, FacebookEventTypeMiddleware } = require('botbuilder-adapter-facebook');
+const { HangoutsAdapter } = require('botbuilder-adapter-hangouts');
+const { TwilioAdapter } = require('botbuilder-adapter-twilio-sms');
+
 
 // Load process.env values from .env file
 require('dotenv').config();

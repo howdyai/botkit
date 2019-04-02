@@ -1,5 +1,5 @@
 {
-  "name": "botbuilder-facebook",
+  "name": "botbuilder-adapter-twilio-sms",
   "version": "1.0.0",
   "description": "",
   "main": "lib/index.js",
@@ -17,8 +17,7 @@
     "botframework-config": "^4.2.0",
     "botkit": "^4.0.0",
     "debug": "^4.1.0",
-    "dotenv": "^6.0.0",
-    "restify": "^7.2.1"
+    "twilio": "^3.29.2"
   },
   "devDependencies": {
     "eslint": "^5.5.0",

@@ -42,7 +42,7 @@ module.exports = class extends Generator {
     }
 
     install() {
-        this.npmInstall(['botbuilder-twilio-sms']);
+        this.npmInstall(['botbuilder-adapter-twilio-sms']);
         this.npmInstall(['twilio']);
     }
 

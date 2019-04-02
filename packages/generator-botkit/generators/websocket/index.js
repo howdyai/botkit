@@ -28,7 +28,7 @@ module.exports = class extends Generator {
     }
 
     install() {
-        this.npmInstall(['botbuilder-websocket']);
+        this.npmInstall(['botbuilder-adapter-websocket']);
     }
 
 };

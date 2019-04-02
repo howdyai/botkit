@@ -39,7 +39,7 @@ module.exports = class extends Generator {
     }
 
     install() {
-        this.npmInstall(['botbuilder-hangouts']);
+        this.npmInstall(['botbuilder-adapter-hangouts']);
     }
 
 };

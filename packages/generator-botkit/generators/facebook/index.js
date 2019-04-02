@@ -46,7 +46,7 @@ module.exports = class extends Generator {
     }
 
     install() {
-        this.npmInstall(['botbuilder-facebook']);
+        this.npmInstall(['botbuilder-adapter-facebook']);
     }
 
 };

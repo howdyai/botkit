@@ -1,5 +1,5 @@
 {
-  "name": "botbuilder-webex",
+  "name": "botbuilder-adapter-webex",
   "version": "1.0.0",
   "description": "",
   "main": "lib/webex_adapter.js",

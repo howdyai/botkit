@@ -19,7 +19,7 @@ npm install -g yo generator-botkit
 yo botkit
 ```
 
-### ** Remix on Glitch**
+### Remix on Glitch
 
 Want to dive right in? [Remix one of our starter kits on Glitch](https://glitch.com/botkit). You'll start with a fully functioning app that you can edit and run from the browser!
 
@@ -41,15 +41,14 @@ The [full documentation for Botkit's capabilities begins here &raquo;](../docs/i
 
 ## Platform Support
 
-Botkit applications can be connected to many different messaging channels. [Platform specific documentation can be found on the main docs site.]()
-
 Botkit can connect to multiple messaging channels through the [Microsoft Bot Framework Service](https://dev.botframework.com).
 No plugins are necessary to use the Bot Framework service, and bots can be developed locally using the [Bot Framework Emulator](https://aka.ms/botemulator).
 
-The Botkit project includes official adapters for [self-hosted Websocket](), [Slack](), [Webex Teams](), [Facebook Messenger](), [Twilio SMS](), [Google Hangouts](). Using these plugins, your bot can communicate directly with the messaging platforms.
+The Botkit project includes official adapters for [self-hosted Websocket](../botbuilder-adapter-websocket), [Slack](), [Webex Teams](), [Facebook Messenger](), [Twilio SMS](), [Google Hangouts](). Using these plugins, your bot can communicate directly with the messaging platforms.
 
 Additional adapters can be found by searching npm for Bot Framework-compatible adapters.
 
+[Platform specific documentation can be found on the main docs site  &raquo;](../docs/index.md)
 
 ### Hearing Keywords
 
@@ -78,7 +77,7 @@ controller.on('channel_join', async (bot, message) => {
 });
 ```
 
-[See a full list of events and more information about handling them &rsaquo;](https://botkit.ai/docs/core.html#receiving-messages-and-events)
+[See a full list of events and more information about handling them &rsaquo;](../docs/index.md#receiving-messages-and-events)
 
 ### Middleware
 
