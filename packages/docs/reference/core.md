@@ -37,7 +37,7 @@ Note that adapters are likely to extend this class with additional platform-spec
 
 | Name | Type | Description
 |--- |--- |---
-| controller |  | For example, access the main controller's config:<br/>```javascript<br/>let my_webhook_uri = bot.controller.getConfig('webhook_uri');<br/>```<br/>
+| controller |  | Get a reference to the main Botkit controller.
 
 <a name="beginDialog"></a>
 ### beginDialog()

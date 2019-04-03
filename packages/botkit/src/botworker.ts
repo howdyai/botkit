@@ -29,13 +29,8 @@ export class BotWorker {
     
     /**
      * Get a reference to the main Botkit controller.
-     * 
-     * For example, access the main controller's config:
-     * ```javascript
-     * let my_webhook_uri = bot.controller.getConfig('webhook_uri');
-     * ```
      */
-    get controller() {
+    get controller(): Botkit {
         return this._controller;
     }
 
