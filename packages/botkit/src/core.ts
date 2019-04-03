@@ -1,7 +1,7 @@
 /**
  * @module botkit
  */
-import { BotFrameworkAdapter, MemoryStorage,  Storage, ConversationReference, TurnContext } from 'botbuilder';
+import { Activity, BotFrameworkAdapter, MemoryStorage,  Storage, ConversationReference, TurnContext } from 'botbuilder';
 import { DialogContext, DialogSet, DialogTurnStatus } from 'botbuilder-dialogs';
 import { BotkitCMSHelper } from './cms';
 import { BotkitPluginLoader } from './plugin_loader';

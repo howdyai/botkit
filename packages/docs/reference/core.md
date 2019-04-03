@@ -899,7 +899,7 @@ Will also contain any additional fields including in the incoming payload.
 | Name | Type | Description
 |--- |--- |---
 | channel | string | Unique identifier of the room/channel/space in which the message was sent. Typically contains the platform specific designator for that channel.<br/>
-| incoming_message |  | The original incoming BotBuilder Activity object as created by the adapter.<br/>
+| incoming_message | Activity | The original incoming BotBuilder Activity object as created by the adapter.<br/>
 | reference | ConversationReference | A full [ConversationReference](https://docs.microsoft.com/en-us/javascript/api/botframework-schema/conversationreference?view=botbuilder-ts-latest) object that defines the address of the message and all information necessary to send messages back to the originating location.<br/>Can be stored for later use, and used with [bot.changeContext()](#changeContext) to send proactive messages.<br/>
 | text | string | Text of the message sent by the user (or primary value in case of button click)<br/>
 | type | string | The type of event, in most cases defined by the messaging channel or adapter<br/>
