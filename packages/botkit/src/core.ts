@@ -18,14 +18,47 @@ import * as fs from 'fs';
 
 const debug = require('debug')('botkit');
 
+/**
+ * Configuration options used when instantiating Botkit to create the main app controller.
+ */
 export interface BotkitConfiguration {
-    debug?: boolean;
+    /**
+     * Path used to create incoming webhook URI.  Defaults to /api/messages
+     */
     webhook_uri?: string;
+
+    /**
+     * A fully configured BotBuilder Adapter, such as botbuilder-adapter-slack or botbuilder-adapter-websocket
+     * The adapter is responsible for translating platform-specific messages into the format understood by Botkit and BotBuilder
+     */
     adapter?: BotFrameworkAdapter;
+
+    /**
+     * If using the BotFramework service, options included in `adapterConfig` will be passed to the new Adapter when created internally.
+     * See [BotFrameworkAdapterSettings](https://docs.microsoft.com/en-us/javascript/api/botbuilder/botframeworkadaptersettings?view=azure-node-latest&viewFallbackFrom=botbuilder-ts-latest).
+     */
     adapterConfig?: {[key: string]: any}; // object with stuff in it
+
+    /**
+     * A configuration passed to the Botkit CMS helper.
+     */
     cms?: {[key: string]: any};
+
+    /**
+     * An instance of Express used to define web endpoints.  If not specified, oen will be created internally.
+     * Note: only use your own Express if you absolutely must for some reason. Otherwise, use `controller.webserver`
+     */
     webserver?: any;
+
+    /**
+     * A Storage interface compatible with [this specification](https://docs.microsoft.com/en-us/javascript/api/botbuilder-core/storage?view=botbuilder-ts-latest)
+     * Defaults to the ephemeral [MemoryStorage](https://docs.microsoft.com/en-us/javascript/api/botbuilder-core/memorystorage?view=botbuilder-ts-latest) implementation.
+     */
     storage?: Storage;
+
+    /**
+     * An Express middleware function used to authenticate requests to the /admin URI of your Botkit application.
+     */
     authFunction?: (req, res, next) => void; 
 }
 

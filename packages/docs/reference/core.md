@@ -859,20 +859,23 @@ controller.on('my_custom_event', async(bot, message) => {
 
 <a name="BotkitConfiguration"></a>
 ## Interface BotkitConfiguration
-
+Configuration options used when instantiating Botkit to create the main app controller.
 
 **Fields**
 
 | Name | Type | Description
 |--- |--- |---
-| adapter | BotFrameworkAdapter | 
-| adapterConfig |  | 
-| authFunction |  | 
-| cms |  | 
-| debug | boolean | 
-| storage | Storage | 
-| webhook_uri | string | 
-| webserver | any | 
+| adapter | BotFrameworkAdapter | A fully configured BotBuilder Adapter, such as botbuilder-adapter-slack or botbuilder-adapter-websocket
+The adapter is responsible for translating platform-specific messages into the format understood by Botkit and BotBuilder
+| adapterConfig |  | If using the BotFramework service, options included in &#x60;adapterConfig&#x60; will be passed to the new Adapter when created internally.
+See [BotFrameworkAdapterSettings](https://docs.microsoft.com/en-us/javascript/api/botbuilder/botframeworkadaptersettings?view&#x3D;azure-node-latest&amp;viewFallbackFrom&#x3D;botbuilder-ts-latest).
+| authFunction |  | An Express middleware function used to authenticate requests to the /admin URI of your Botkit application.
+| cms |  | A configuration passed to the Botkit CMS helper.
+| storage | Storage | A Storage interface compatible with [this specification](https://docs.microsoft.com/en-us/javascript/api/botbuilder-core/storage?view&#x3D;botbuilder-ts-latest)
+Defaults to the ephemeral [MemoryStorage](https://docs.microsoft.com/en-us/javascript/api/botbuilder-core/memorystorage?view&#x3D;botbuilder-ts-latest) implementation.
+| webhook_uri | string | Path used to create incoming webhook URI.  Defaults to /api/messages
+| webserver | any | An instance of Express used to define web endpoints.  If not specified, oen will be created internally.
+Note: only use your own Express if you absolutely must for some reason. Otherwise, use &#x60;controller.webserver&#x60;
 
 <a name="BotkitHandler"></a>
 ## Interface BotkitHandler
