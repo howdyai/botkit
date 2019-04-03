@@ -675,7 +675,7 @@ export class Botkit {
      * @param events {} A list of event types that should be evaluated for the given patterns
      * @param handler {BotkitHandler}  a function that will be called should the pattern be matched
      */
-    public interrupts(patterns: ( string | RegExp | { (message: BotkitMessage): Promise<boolean> })[] | RegExp | RegExp[] | string | { (message: BotkitMessage): Promise<boolean> }, events: string | string[], handler: (bot: BotWorker, message: BotkitMessage) => Promise<boolean>) {
+    public interrupts(patterns: ( string | RegExp | { (message: BotkitMessage): Promise<boolean> })[] | RegExp | RegExp[] | string | { (message: BotkitMessage): Promise<boolean> }, events: string | string[], handler: BotkitHandler) {
 
         if (!Array.isArray(patterns)) {
             patterns = [patterns];
@@ -818,15 +818,16 @@ export class Botkit {
 
     /**
      * Load a Botkit feature module
+     * 
      * @param p {string} path to module file
      */
     public loadModule(p: string): void {
-        debug('Load Module:',p);
+        debug('Load Module:', p);
         require(p)(this);
     }
 
     /**
-     * Load all Botkit feature modules located in a given folder
+     * Load all Botkit feature modules located in a given folder.
      * 
      * ```javascript
      * controller.ready(() => {
@@ -836,6 +837,7 @@ export class Botkit {
      * 
      * });
      * ```
+     * 
      * @param p {string} path to a folder of module files
      */
 s    public loadModules(p: string): void {

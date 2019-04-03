@@ -1,7 +1,7 @@
 {{#each classes}}
 <a name="{{name}}"></a>
 ## {{name}}
-{{comment.shortText}}
+{{{comment.shortText}}}
 {{#if comment.text}}
 
 {{{comment.text}}}
@@ -16,7 +16,7 @@
                 | name | type | description
                 |--- |--- |---
                 {{#each parameters}}
-                | {{name}} | {{#if type.id}}[{{type.name}}](#{{type.name}}){{else}}{{type.name}}{{/if}} | {{#if comment.text}}{{comment.text}}{{else}}{{comment.shortText}}{{/if}}
+                | {{name}} | {{#if type.id}}[{{type.name}}](#{{type.name}}){{else}}{{type.name}}{{/if}} | {{#if comment.text}}{{{comment.text}}}{{else}}{{{comment.shortText}}}{{/if}}
                 {{/each}}
             {{/if}}
         {{/each}}
@@ -28,7 +28,7 @@
     | name | type | comment
     |--- |--- |---
     {{#each props}}
-    | {{name}} | {{#if type.id}}[{{type.name}}](#{{type.name}}){{else}}{{type.name}}{{/if}} | {{#if comment.text}}{{comment.text}}{{else}}{{comment.shortText}}{{/if}}
+    | {{name}} | {{#if type.id}}[{{type.name}}](#{{type.name}}){{else}}{{type.name}}{{/if}} | {{#if comment.text}}{{{comment.text}}}{{else}}{{{comment.shortText}}}{{/if}}
     {{/each}}
     {{/if}}
 
@@ -44,7 +44,7 @@
                 | name | type | description
                 |--- |--- |---
                 {{#each parameters}}
-                | {{name}}{{#if flags.isOptional}} (optional){{/if}}| {{#if type.id}}[{{type.name}}](#{{type.name}}){{else}}{{type.name}}{{/if}} | {{#if comment.shortText}}{{comment.shortText}}\n{{/if}}{{#if comment.text}}{{comment.text}}{{/if}}
+                | {{name}}{{#if flags.isOptional}} (optional){{/if}}| {{#if type.id}}[{{type.name}}](#{{type.name}}){{else}}{{type.name}}{{/if}} | {{#if comment.shortText}}{{{comment.shortText}}}\n{{/if}}{{#if comment.text}}{{{comment.text}}}{{/if}}
                 {{/each}}
 
             {{/if}}

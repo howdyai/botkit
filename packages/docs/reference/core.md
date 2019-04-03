@@ -120,7 +120,7 @@ and map it into a beautiful BotFramework activity
 <a name="Botkit"></a>
 ## Botkit
 Create a new instance of Botkit to define the controller for a conversational app.
-To connect Botkit to a chat platform, pass in a fully configured &#x60;adapter&#x60;.
+To connect Botkit to a chat platform, pass in a fully configured `adapter`.
 If one is not specified, Botkit will expose an adapter for the Microsoft Bot Framework.
 ### constructor new Botkit()
 
@@ -140,14 +140,15 @@ If one is not specified, Botkit will expose an adapter for the Microsoft Bot Fra
 | dialogSet | DialogSet | A BotBuilder DialogSet that serves as the top level dialog container for the Botkit app
 | http | any | A direct reference to the underlying HTTP server object
 | plugins | [BotkitPluginLoader](#BotkitPluginLoader) | Provides an interface to interact with external Botkit plugins
-| s | any | &#x60;&#x60;&#x60;javascript
-controller.ready(() &#x3D;&gt; {
+| s | any | ```javascript
+controller.ready(() => {
 
  // load all modules from sub-folder features/
- controller.loadModules(&#x27;./features&#x27;);
+ controller.loadModules('./features');
 
 });
-&#x60;&#x60;&#x60;
+```
+
 | storage | Storage | a BotBuilder storage driver - defaults to MemoryStorage
 | version | string | The current version of Botkit Core
 | webserver | any | An Express webserver
@@ -227,7 +228,7 @@ NOTE: This method should only be used in custom adapters that receive messages t
 
 | name | type | description
 |--- |--- |---
-| turnContext| TurnContext | a TurnContext representing an incoming message, typically created by an adapter&#x27;s &#x60;processActivity()&#x60; method.
+| turnContext| TurnContext | a TurnContext representing an incoming message, typically created by an adapter's `processActivity()` method.
 
 
 
@@ -279,7 +280,7 @@ and thus handlers will interrupt the normal flow of messages through the process
 |--- |--- |---
 | patterns|  | One or more string, regular expression, or test function
 | events|  | A list of event types that should be evaluated for the given patterns
-| handler|  | a function that will be called should the pattern be matched
+| handler| [BotkitHandler](#BotkitHandler) | a function that will be called should the pattern be matched
 
 
 
@@ -373,7 +374,7 @@ Note: this is normally called internally and is only required when state changes
 
 | name | type | description
 |--- |--- |---
-| bot| [BotWorker](#BotWorker) | a BotWorker instance created using &#x60;controller.spawn()&#x60;
+| bot| [BotWorker](#BotWorker) | a BotWorker instance created using `controller.spawn()`
 
 
 
@@ -388,7 +389,7 @@ for handling platform-specific events or activities.
 
 | name | type | description
 |--- |--- |---
-| config| any | Preferably receives a DialogContext, though can also receive a TurnContext. If excluded, must call &#x60;bot.changeContext(reference)&#x60; before calling any other method.
+| config| any | Preferably receives a DialogContext, though can also receive a TurnContext. If excluded, must call `bot.changeContext(reference)` before calling any other method.
 
 
 
@@ -403,7 +404,7 @@ Note: This is normally used internally, but can be used to emit custom events.
 | name | type | description
 |--- |--- |---
 | event| string | the name of the event
-| bot| [BotWorker](#BotWorker) | a BotWorker instance created using &#x60;controller.spawn()&#x60;
+| bot| [BotWorker](#BotWorker) | a BotWorker instance created using `controller.spawn()`
 | message| [BotkitMessage](#BotkitMessage) | An incoming message or event
 
 
