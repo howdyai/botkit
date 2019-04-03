@@ -1,7 +1,8 @@
 /**
  * @module botkit
  */
-import { Botkit, BotWorker } from './core';
+import { Botkit } from './core';
+import { BotWorker } from './botworker';
 import { BotkitDialogWrapper } from './cms';
 import { ActivityTypes, TurnContext, MessageFactory, ActionTypes } from 'botbuilder';
 import { Dialog, DialogContext, DialogInstance, DialogReason, TextPrompt, DialogTurnStatus } from 'botbuilder-dialogs';
@@ -38,7 +39,7 @@ interface BotkitMessageTemplate {
  * const convo = new BotkitConversation('foo', controller);
  * convo.say('Hello!');
  * convo.ask('What is your name?', async(answer, convo, bot) => {
- *      bot.say('Your name is ' + answer);
+ *      await bot.say('Your name is ' + answer);
  * });
  * controller.dialogSet.add(convo);
  * 
@@ -50,7 +51,10 @@ interface BotkitMessageTemplate {
  */
 export class BotkitConversation<O extends object = {}> extends Dialog<O> {
 
-    public script: any;
+    /**
+     * A map of every message in the dialog, broken into threads
+     */
+    public script: any; // TODO: define this with typedefs
     private _prompt: string;
     private _beforeHooks: {};
     private _afterHooks: { (context: TurnContext, results: any): void }[];
