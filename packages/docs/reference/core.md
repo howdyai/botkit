@@ -6,8 +6,10 @@
 **Parameters**
 | name | type | description
 |--- |--- |---
-| controller | any | 
-| config | any | 
+| controller | any |
+| config | any |
+
+
 
 **Properties and Accessors**
 | name | type | comment
