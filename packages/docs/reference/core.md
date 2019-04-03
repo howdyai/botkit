@@ -4,30 +4,19 @@
 
 
 * <a href="#BotWorker">BotWorker</a>
-
 * <a href="#Botkit">Botkit</a>
-
 * <a href="#BotkitCMSHelper">BotkitCMSHelper</a>
-
 * <a href="#BotkitConversation">BotkitConversation</a>
-
 * <a href="#BotkitConversationState">BotkitConversationState</a>
-
 * <a href="#BotkitDialogWrapper">BotkitDialogWrapper</a>
-
 * <a href="#BotkitPluginLoader">BotkitPluginLoader</a>
-
 
 ## Interfaces
 
 * <a href="#BotkitConfiguration">BotkitConfiguration</a>
-
 * <a href="#BotkitHandler">BotkitHandler</a>
-
 * <a href="#BotkitMessage">BotkitMessage</a>
-
 * <a href="#BotkitPlugin">BotkitPlugin</a>
-
 
 ---
 

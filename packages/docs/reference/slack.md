@@ -4,17 +4,11 @@
 
 
 * <a href="#SlackAdapter">SlackAdapter</a>
-
 * <a href="#SlackBotWorker">SlackBotWorker</a>
-
 * <a href="#SlackDialog">SlackDialog</a>
-
 * <a href="#SlackEventMiddleware">SlackEventMiddleware</a>
-
 * <a href="#SlackIdentifyBotsMiddleware">SlackIdentifyBotsMiddleware</a>
-
 * <a href="#SlackMessageTypeMiddleware">SlackMessageTypeMiddleware</a>
-
 
 ## Interfaces
 

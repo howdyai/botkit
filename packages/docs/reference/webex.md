@@ -5,7 +5,6 @@
 
 * <a href="#WebexAdapter">WebexAdapter</a>
 
-
 ## Interfaces
 
 

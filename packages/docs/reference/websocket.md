@@ -5,7 +5,6 @@
 
 * <a href="#WebsocketAdapter">WebsocketAdapter</a>
 
-
 ## Interfaces
 
 

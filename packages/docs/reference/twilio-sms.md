@@ -5,11 +5,9 @@
 
 * <a href="#TwilioAdapter">TwilioAdapter</a>
 
-
 ## Interfaces
 
 * <a href="#TwilioAdapterOptions">TwilioAdapterOptions</a>
-
 
 ---
 

@@ -4,14 +4,11 @@
 
 
 * <a href="#HangoutsAdapter">HangoutsAdapter</a>
-
 * <a href="#HangoutsBotWorker">HangoutsBotWorker</a>
-
 
 ## Interfaces
 
 * <a href="#HangoutsAdapterOptions">HangoutsAdapterOptions</a>
-
 
 ---
 
