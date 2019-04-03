@@ -5,13 +5,13 @@
 
 **Parameters**
 
-| name | type | description
+| Argument | Type | Description
 |--- |--- |---
 | options | [TwilioAdapterOptions](#TwilioAdapterOptions) | 
 
 **Properties and Accessors**
 
-| name | type | comment
+| Name | Type | Description
 |--- |--- |---
 | menu | any | 
 | middlewares | any | 
@@ -24,7 +24,7 @@
 
 **Parameters**
 
-| name | type | description
+| Argument | Type | description
 |--- |--- |---
 | reference| ConversationReference | 
 | logic|  | 
@@ -37,7 +37,7 @@
 
 **Parameters**
 
-| name | type | description
+| Argument | Type | description
 |--- |--- |---
 | context| TurnContext | 
 | reference| ConversationReference | 
@@ -50,7 +50,7 @@
 
 **Parameters**
 
-| name | type | description
+| Argument | Type | description
 |--- |--- |---
 | req| any | 
 | res| any | 
@@ -64,7 +64,7 @@
 
 **Parameters**
 
-| name | type | description
+| Argument | Type | description
 |--- |--- |---
 | context| TurnContext | 
 | activities|  | 
@@ -77,7 +77,7 @@
 
 **Parameters**
 
-| name | type | description
+| Argument | Type | description
 |--- |--- |---
 | context| TurnContext | 
 | activity| Activity | 
@@ -94,7 +94,7 @@
 
 **Fields**
 
-| name | type | comment
+| Name | Type | Description
 |--- |--- |---
 | account_sid | string | 
 | auth_token | string | 

@@ -5,13 +5,13 @@
 
 **Parameters**
 
-| name | type | description
+| Argument | Type | Description
 |--- |--- |---
 | config | any | 
 
 **Properties and Accessors**
 
-| name | type | comment
+| Name | Type | Description
 |--- |--- |---
 | middlewares | any | 
 | name | string | 
@@ -22,7 +22,7 @@
 
 **Parameters**
 
-| name | type | description
+| Argument | Type | description
 |--- |--- |---
 | reference| any | 
 | logic| any | 
@@ -35,7 +35,7 @@
 
 **Parameters**
 
-| name | type | description
+| Argument | Type | description
 |--- |--- |---
 | context| any | 
 | reference| any | 
@@ -48,7 +48,7 @@
 
 **Parameters**
 
-| name | type | description
+| Argument | Type | description
 |--- |--- |---
 | botkit| any | 
 
@@ -60,7 +60,7 @@
 
 **Parameters**
 
-| name | type | description
+| Argument | Type | description
 |--- |--- |---
 | req| any | 
 | res| any | 
@@ -74,7 +74,7 @@
 
 **Parameters**
 
-| name | type | description
+| Argument | Type | description
 |--- |--- |---
 | webhook_path| any | 
 
@@ -91,7 +91,7 @@
 
 **Parameters**
 
-| name | type | description
+| Argument | Type | description
 |--- |--- |---
 | context| any | 
 | activities| any | 
@@ -104,7 +104,7 @@
 
 **Parameters**
 
-| name | type | description
+| Argument | Type | description
 |--- |--- |---
 | context| any | 
 | activity| any | 

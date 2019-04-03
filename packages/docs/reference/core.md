@@ -5,14 +5,14 @@
 
 **Parameters**
 
-| name | type | description
+| Argument | Type | Description
 |--- |--- |---
 | controller | any | 
 | config | any | 
 
 **Properties and Accessors**
 
-| name | type | comment
+| Name | Type | Description
 |--- |--- |---
 | controller |  | 
 
@@ -22,7 +22,7 @@
 
 **Parameters**
 
-| name | type | description
+| Argument | Type | description
 |--- |--- |---
 | id| any | 
 | options| any | 
@@ -35,7 +35,7 @@
 
 **Parameters**
 
-| name | type | description
+| Argument | Type | description
 |--- |--- |---
 | reference| Partial | 
 
@@ -48,7 +48,7 @@ and map it into a beautiful BotFramework activity
 
 **Parameters**
 
-| name | type | description
+| Argument | Type | description
 |--- |--- |---
 | message| any | 
 
@@ -60,7 +60,7 @@ and map it into a beautiful BotFramework activity
 
 **Parameters**
 
-| name | type | description
+| Argument | Type | description
 |--- |--- |---
 | key (optional)| string | 
 
@@ -72,7 +72,7 @@ and map it into a beautiful BotFramework activity
 
 **Parameters**
 
-| name | type | description
+| Argument | Type | description
 |--- |--- |---
 | body| any | 
 
@@ -84,7 +84,7 @@ and map it into a beautiful BotFramework activity
 
 **Parameters**
 
-| name | type | description
+| Argument | Type | description
 |--- |--- |---
 | status| number | 
 
@@ -96,7 +96,7 @@ and map it into a beautiful BotFramework activity
 
 **Parameters**
 
-| name | type | description
+| Argument | Type | description
 |--- |--- |---
 | src| Partial | 
 | resp| Partial | 
@@ -109,7 +109,7 @@ and map it into a beautiful BotFramework activity
 
 **Parameters**
 
-| name | type | description
+| Argument | Type | description
 |--- |--- |---
 | message| Partial | 
 
@@ -126,13 +126,13 @@ If one is not specified, Botkit will expose an adapter for the Microsoft Bot Fra
 
 **Parameters**
 
-| name | type | description
+| Argument | Type | Description
 |--- |--- |---
 | config | [BotkitConfiguration](#BotkitConfiguration) | 
 
 **Properties and Accessors**
 
-| name | type | comment
+| Name | Type | Description
 |--- |--- |---
 | PATH | string | The path of the main Botkit SDK, used to generate relative paths
 | adapter | any | A BotBuilder-compatible adapter - defaults to a Bot Framework adapter
@@ -151,7 +151,7 @@ Botkit's `controller.ready()` function will not fire until all dependencies have
 
 **Parameters**
 
-| name | type | description
+| Argument | Type | description
 |--- |--- |---
 | name| string | The name of the dependency that is being loaded.
 
@@ -174,7 +174,7 @@ Botkit's `controller.ready()` function will not fire until all dependencies have
 
 **Parameters**
 
-| name | type | description
+| Argument | Type | description
 |--- |--- |---
 | name| string | The name of the dependency that has completed loading.
 
@@ -187,7 +187,7 @@ Get a value from the configuration.
 
 **Parameters**
 
-| name | type | description
+| Argument | Type | description
 |--- |--- |---
 | key (optional)| string | The name of a value stored in the configuration
 
@@ -217,7 +217,7 @@ NOTE: This method should only be used in custom adapters that receive messages t
 
 **Parameters**
 
-| name | type | description
+| Argument | Type | description
 |--- |--- |---
 | turnContext| TurnContext | a TurnContext representing an incoming message, typically created by an adapter's `processActivity()` method.
 
@@ -232,7 +232,7 @@ To "hear" patterns _before_ dialogs are processed, use `controller.interrupts()`
 
 **Parameters**
 
-| name | type | description
+| Argument | Type | description
 |--- |--- |---
 | patterns|  | One or more string, regular expression, or test function
 | events|  | A list of event types that should be evaluated for the given patterns
@@ -267,7 +267,7 @@ and thus handlers will interrupt the normal flow of messages through the process
 
 **Parameters**
 
-| name | type | description
+| Argument | Type | description
 |--- |--- |---
 | patterns|  | One or more string, regular expression, or test function
 | events|  | A list of event types that should be evaluated for the given patterns
@@ -290,7 +290,7 @@ Load a Botkit feature module
 
 **Parameters**
 
-| name | type | description
+| Argument | Type | description
 |--- |--- |---
 | p| string | path to module file
 
@@ -303,7 +303,7 @@ Load all Botkit feature modules located in a given folder.
 
 **Parameters**
 
-| name | type | description
+| Argument | Type | description
 |--- |--- |---
 | p| string | path to a folder of module files
 
@@ -326,7 +326,7 @@ Bind a handler function to one or more events.
 
 **Parameters**
 
-| name | type | description
+| Argument | Type | description
 |--- |--- |---
 | events|  | One or more event names
 | handler| [BotkitHandler](#BotkitHandler) | a handler function that will fire whenever one of the named events is received.
@@ -350,7 +350,7 @@ This will ensure that the calls will not be made until all of the components hav
 
 **Parameters**
 
-| name | type | description
+| Argument | Type | description
 |--- |--- |---
 | handler|  | A function to run when Botkit is booted and ready to run.
 
@@ -374,7 +374,7 @@ Note: this is normally called internally and is only required when state changes
 
 **Parameters**
 
-| name | type | description
+| Argument | Type | description
 |--- |--- |---
 | bot| [BotWorker](#BotWorker) | a BotWorker instance created using `controller.spawn()`
 
@@ -389,7 +389,7 @@ for handling platform-specific events or activities.
 
 **Parameters**
 
-| name | type | description
+| Argument | Type | description
 |--- |--- |---
 | config| any | Preferably receives a DialogContext, though can also receive a TurnContext. If excluded, must call `bot.changeContext(reference)` before calling any other method.
 
@@ -403,7 +403,7 @@ Note: This is normally used internally, but can be used to emit custom events.
 
 **Parameters**
 
-| name | type | description
+| Argument | Type | description
 |--- |--- |---
 | event| string | the name of the event
 | bot| [BotWorker](#BotWorker) | a BotWorker instance created using `controller.spawn()`
@@ -432,7 +432,7 @@ controller.on('my_custom_event', async(bot, message) => {
 
 **Parameters**
 
-| name | type | description
+| Argument | Type | Description
 |--- |--- |---
 | controller | any | 
 | config | any | 
@@ -444,7 +444,7 @@ controller.on('my_custom_event', async(bot, message) => {
 
 **Parameters**
 
-| name | type | description
+| Argument | Type | description
 |--- |--- |---
 | script_name| string | 
 | handler|  | 
@@ -457,7 +457,7 @@ controller.on('my_custom_event', async(bot, message) => {
 
 **Parameters**
 
-| name | type | description
+| Argument | Type | description
 |--- |--- |---
 | script_name| string | 
 | thread_name| string | 
@@ -471,7 +471,7 @@ controller.on('my_custom_event', async(bot, message) => {
 
 **Parameters**
 
-| name | type | description
+| Argument | Type | description
 |--- |--- |---
 | dialogSet| DialogSet | 
 
@@ -483,7 +483,7 @@ controller.on('my_custom_event', async(bot, message) => {
 
 **Parameters**
 
-| name | type | description
+| Argument | Type | description
 |--- |--- |---
 | script_name| string | 
 | variable_name| string | 
@@ -497,7 +497,7 @@ controller.on('my_custom_event', async(bot, message) => {
 
 **Parameters**
 
-| name | type | description
+| Argument | Type | description
 |--- |--- |---
 | bot| any | 
 | message| any | 
@@ -513,14 +513,14 @@ controller.on('my_custom_event', async(bot, message) => {
 
 **Parameters**
 
-| name | type | description
+| Argument | Type | Description
 |--- |--- |---
 | dialogId | string | 
 | controller | any | 
 
 **Properties and Accessors**
 
-| name | type | comment
+| Name | Type | Description
 |--- |--- |---
 | script | any | 
 
@@ -530,7 +530,7 @@ controller.on('my_custom_event', async(bot, message) => {
 
 **Parameters**
 
-| name | type | description
+| Argument | Type | description
 |--- |--- |---
 | message| any | 
 | thread_name| any | 
@@ -543,7 +543,7 @@ controller.on('my_custom_event', async(bot, message) => {
 
 **Parameters**
 
-| name | type | description
+| Argument | Type | description
 |--- |--- |---
 | message| any | 
 | handlers| any | 
@@ -558,7 +558,7 @@ controller.on('my_custom_event', async(bot, message) => {
 
 **Parameters**
 
-| name | type | description
+| Argument | Type | description
 |--- |--- |---
 | handler|  | 
 
@@ -570,7 +570,7 @@ controller.on('my_custom_event', async(bot, message) => {
 
 **Parameters**
 
-| name | type | description
+| Argument | Type | description
 |--- |--- |---
 | message| any | 
 | handlers| any | 
@@ -584,7 +584,7 @@ controller.on('my_custom_event', async(bot, message) => {
 
 **Parameters**
 
-| name | type | description
+| Argument | Type | description
 |--- |--- |---
 | thread_name| any | 
 | handler| any | 
@@ -597,7 +597,7 @@ controller.on('my_custom_event', async(bot, message) => {
 
 **Parameters**
 
-| name | type | description
+| Argument | Type | description
 |--- |--- |---
 | dc| any | 
 | options| any | 
@@ -610,7 +610,7 @@ controller.on('my_custom_event', async(bot, message) => {
 
 **Parameters**
 
-| name | type | description
+| Argument | Type | description
 |--- |--- |---
 | dc| any | 
 
@@ -622,7 +622,7 @@ controller.on('my_custom_event', async(bot, message) => {
 
 **Parameters**
 
-| name | type | description
+| Argument | Type | description
 |--- |--- |---
 | dc| DialogContext | 
 | value| any | 
@@ -635,7 +635,7 @@ controller.on('my_custom_event', async(bot, message) => {
 
 **Parameters**
 
-| name | type | description
+| Argument | Type | description
 |--- |--- |---
 | context| TurnContext | 
 | instance| DialogInstance | 
@@ -649,7 +649,7 @@ controller.on('my_custom_event', async(bot, message) => {
 
 **Parameters**
 
-| name | type | description
+| Argument | Type | description
 |--- |--- |---
 | thread| any | 
 | dc| any | 
@@ -663,7 +663,7 @@ controller.on('my_custom_event', async(bot, message) => {
 
 **Parameters**
 
-| name | type | description
+| Argument | Type | description
 |--- |--- |---
 | variable| any | 
 | handler| any | 
@@ -676,7 +676,7 @@ controller.on('my_custom_event', async(bot, message) => {
 
 **Parameters**
 
-| name | type | description
+| Argument | Type | description
 |--- |--- |---
 | dc| any | 
 | step| any | 
@@ -689,7 +689,7 @@ controller.on('my_custom_event', async(bot, message) => {
 
 **Parameters**
 
-| name | type | description
+| Argument | Type | description
 |--- |--- |---
 | dc| any | 
 | reason| any | 
@@ -703,7 +703,7 @@ controller.on('my_custom_event', async(bot, message) => {
 
 **Parameters**
 
-| name | type | description
+| Argument | Type | description
 |--- |--- |---
 | dc| any | 
 | index| any | 
@@ -719,7 +719,7 @@ controller.on('my_custom_event', async(bot, message) => {
 
 **Parameters**
 
-| name | type | description
+| Argument | Type | description
 |--- |--- |---
 | message| any | 
 
@@ -734,7 +734,7 @@ controller.on('my_custom_event', async(bot, message) => {
 
 **Parameters**
 
-| name | type | description
+| Argument | Type | Description
 |--- |--- |---
 | storage | Storage | 
 | namespace | string | 
@@ -746,7 +746,7 @@ controller.on('my_custom_event', async(bot, message) => {
 
 **Parameters**
 
-| name | type | description
+| Argument | Type | description
 |--- |--- |---
 | context| TurnContext | 
 
@@ -761,14 +761,14 @@ controller.on('my_custom_event', async(bot, message) => {
 
 **Parameters**
 
-| name | type | description
+| Argument | Type | Description
 |--- |--- |---
 | dc | any | 
 | step | any | 
 
 **Properties and Accessors**
 
-| name | type | comment
+| Name | Type | Description
 |--- |--- |---
 | vars | __type | 
 
@@ -778,7 +778,7 @@ controller.on('my_custom_event', async(bot, message) => {
 
 **Parameters**
 
-| name | type | description
+| Argument | Type | description
 |--- |--- |---
 | thread| any | 
 
@@ -793,13 +793,13 @@ controller.on('my_custom_event', async(bot, message) => {
 
 **Parameters**
 
-| name | type | description
+| Argument | Type | Description
 |--- |--- |---
 | botkit | any | 
 
 **Properties and Accessors**
 
-| name | type | comment
+| Name | Type | Description
 |--- |--- |---
 | botkit | [Botkit](#Botkit) | 
 
@@ -809,7 +809,7 @@ controller.on('my_custom_event', async(bot, message) => {
 
 **Parameters**
 
-| name | type | description
+| Argument | Type | description
 |--- |--- |---
 | path_to_view| any | 
 
@@ -821,7 +821,7 @@ controller.on('my_custom_event', async(bot, message) => {
 
 **Parameters**
 
-| name | type | description
+| Argument | Type | description
 |--- |--- |---
 | alias| any | 
 | path| any | 
@@ -834,7 +834,7 @@ controller.on('my_custom_event', async(bot, message) => {
 
 **Parameters**
 
-| name | type | description
+| Argument | Type | description
 |--- |--- |---
 | name| any | 
 | endpoints| [BotkitPlugin](#BotkitPlugin) | 
@@ -847,7 +847,7 @@ controller.on('my_custom_event', async(bot, message) => {
 
 **Parameters**
 
-| name | type | description
+| Argument | Type | description
 |--- |--- |---
 | plugin_or_function|  | 
 
@@ -863,7 +863,7 @@ controller.on('my_custom_event', async(bot, message) => {
 
 **Fields**
 
-| name | type | comment
+| Name | Type | Description
 |--- |--- |---
 | adapter | BotFrameworkAdapter | 
 | adapterConfig |  | 
@@ -885,7 +885,7 @@ controller.on('my_custom_event', async(bot, message) => {
 
 **Fields**
 
-| name | type | comment
+| Name | Type | Description
 |--- |--- |---
 | channel | string | 
 | incoming_message |  | 
@@ -900,7 +900,7 @@ controller.on('my_custom_event', async(bot, message) => {
 
 **Fields**
 
-| name | type | comment
+| Name | Type | Description
 |--- |--- |---
 | init |  | 
 | menu |  | 
@@ -914,7 +914,7 @@ controller.on('my_custom_event', async(bot, message) => {
 
 **Fields**
 
-| name | type | comment
+| Name | Type | Description
 |--- |--- |---
 | handler | [BotkitHandler](#BotkitHandler) | 
 | pattern |  | 
@@ -926,7 +926,7 @@ controller.on('my_custom_event', async(bot, message) => {
 
 **Fields**
 
-| name | type | comment
+| Name | Type | Description
 |--- |--- |---
 | icon | string | 
 | title | string | 
@@ -938,7 +938,7 @@ controller.on('my_custom_event', async(bot, message) => {
 
 **Fields**
 
-| name | type | comment
+| Name | Type | Description
 |--- |--- |---
 | handler |  | 
 | method | string | 

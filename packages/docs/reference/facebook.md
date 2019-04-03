@@ -5,7 +5,7 @@
 
 **Parameters**
 
-| name | type | description
+| Argument | Type | Description
 |--- |--- |---
 | token | string | 
 | api_host | string | 
@@ -18,7 +18,7 @@
 
 **Parameters**
 
-| name | type | description
+| Argument | Type | description
 |--- |--- |---
 | uri| string | 
 | method| string | 
@@ -35,13 +35,13 @@
 
 **Parameters**
 
-| name | type | description
+| Argument | Type | Description
 |--- |--- |---
 | options | [FacebookAdapterOptions](#FacebookAdapterOptions) | 
 
 **Properties and Accessors**
 
-| name | type | comment
+| Name | Type | Description
 |--- |--- |---
 | botkit_worker | [FacebookBotWorker](#FacebookBotWorker) | 
 | menu | any | 
@@ -55,7 +55,7 @@
 
 **Parameters**
 
-| name | type | description
+| Argument | Type | description
 |--- |--- |---
 | reference| ConversationReference | 
 | logic|  | 
@@ -68,7 +68,7 @@
 
 **Parameters**
 
-| name | type | description
+| Argument | Type | description
 |--- |--- |---
 | context| TurnContext | 
 | reference| ConversationReference | 
@@ -81,7 +81,7 @@
 
 **Parameters**
 
-| name | type | description
+| Argument | Type | description
 |--- |--- |---
 | req| any | 
 | res| any | 
@@ -95,7 +95,7 @@
 
 **Parameters**
 
-| name | type | description
+| Argument | Type | description
 |--- |--- |---
 | message| any | 
 | logic| any | 
@@ -108,7 +108,7 @@
 
 **Parameters**
 
-| name | type | description
+| Argument | Type | description
 |--- |--- |---
 | context| TurnContext | 
 | activities|  | 
@@ -121,7 +121,7 @@
 
 **Parameters**
 
-| name | type | description
+| Argument | Type | description
 |--- |--- |---
 | context| TurnContext | 
 | activity| Activity | 
@@ -137,7 +137,7 @@
 
 **Parameters**
 
-| name | type | description
+| Argument | Type | Description
 |--- |--- |---
 | botkit | any | 
 | config | any | 
@@ -156,7 +156,7 @@
 
 **Parameters**
 
-| name | type | description
+| Argument | Type | description
 |--- |--- |---
 | context| any | 
 | next| any | 
@@ -173,7 +173,7 @@
 
 **Fields**
 
-| name | type | comment
+| Name | Type | Description
 |--- |--- |---
 | access_token | string | 
 | api_host | string | 

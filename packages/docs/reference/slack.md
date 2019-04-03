@@ -5,13 +5,13 @@
 
 **Parameters**
 
-| name | type | description
+| Argument | Type | Description
 |--- |--- |---
 | options | [SlackAdapterOptions](#SlackAdapterOptions) | 
 
 **Properties and Accessors**
 
-| name | type | comment
+| Name | Type | Description
 |--- |--- |---
 | botkit_worker | [SlackBotWorker](#SlackBotWorker) | 
 | menu | any | 
@@ -25,7 +25,7 @@
 
 **Parameters**
 
-| name | type | description
+| Argument | Type | description
 |--- |--- |---
 | activity| any | 
 
@@ -37,7 +37,7 @@
 
 **Parameters**
 
-| name | type | description
+| Argument | Type | description
 |--- |--- |---
 | reference| ConversationReference | 
 | logic|  | 
@@ -50,7 +50,7 @@
 
 **Parameters**
 
-| name | type | description
+| Argument | Type | description
 |--- |--- |---
 | context| TurnContext | 
 | reference| ConversationReference | 
@@ -63,7 +63,7 @@
 
 **Parameters**
 
-| name | type | description
+| Argument | Type | description
 |--- |--- |---
 | activity| Activity | 
 
@@ -75,7 +75,7 @@
 
 **Parameters**
 
-| name | type | description
+| Argument | Type | description
 |--- |--- |---
 | activity| Activity | 
 
@@ -92,7 +92,7 @@
 
 **Parameters**
 
-| name | type | description
+| Argument | Type | description
 |--- |--- |---
 | botkit| any | 
 
@@ -104,7 +104,7 @@
 
 **Parameters**
 
-| name | type | description
+| Argument | Type | description
 |--- |--- |---
 | req| any | 
 | res| any | 
@@ -118,7 +118,7 @@
 
 **Parameters**
 
-| name | type | description
+| Argument | Type | description
 |--- |--- |---
 | context| TurnContext | 
 | activities|  | 
@@ -131,7 +131,7 @@
 
 **Parameters**
 
-| name | type | description
+| Argument | Type | description
 |--- |--- |---
 | context| TurnContext | 
 | activity| Activity | 
@@ -144,7 +144,7 @@
 
 **Parameters**
 
-| name | type | description
+| Argument | Type | description
 |--- |--- |---
 | code| string | 
 
@@ -156,7 +156,7 @@
 
 **Parameters**
 
-| name | type | description
+| Argument | Type | description
 |--- |--- |---
 | req| any | 
 | res| any | 
@@ -172,14 +172,14 @@
 
 **Parameters**
 
-| name | type | description
+| Argument | Type | Description
 |--- |--- |---
 | botkit | any | 
 | config | any | 
 
 **Properties and Accessors**
 
-| name | type | comment
+| Name | Type | Description
 |--- |--- |---
 | api | WebClient | 
 
@@ -189,7 +189,7 @@
 
 **Parameters**
 
-| name | type | description
+| Argument | Type | description
 |--- |--- |---
 | errors| any | 
 
@@ -201,7 +201,7 @@
 
 **Parameters**
 
-| name | type | description
+| Argument | Type | description
 |--- |--- |---
 | src| any | 
 | resp| any | 
@@ -214,7 +214,7 @@
 
 **Parameters**
 
-| name | type | description
+| Argument | Type | description
 |--- |--- |---
 | src| any | 
 | resp| any | 
@@ -227,7 +227,7 @@
 
 **Parameters**
 
-| name | type | description
+| Argument | Type | description
 |--- |--- |---
 | src| any | 
 | resp| any | 
@@ -240,7 +240,7 @@
 
 **Parameters**
 
-| name | type | description
+| Argument | Type | description
 |--- |--- |---
 | src| any | 
 | resp| any | 
@@ -253,7 +253,7 @@
 
 **Parameters**
 
-| name | type | description
+| Argument | Type | description
 |--- |--- |---
 | src| any | 
 | resp| any | 
@@ -266,7 +266,7 @@
 
 **Parameters**
 
-| name | type | description
+| Argument | Type | description
 |--- |--- |---
 | src| any | 
 | dialog_obj| Dialog | 
@@ -279,7 +279,7 @@
 
 **Parameters**
 
-| name | type | description
+| Argument | Type | description
 |--- |--- |---
 | channelId| string | 
 | userId| string | 
@@ -292,7 +292,7 @@
 
 **Parameters**
 
-| name | type | description
+| Argument | Type | description
 |--- |--- |---
 | channelId| string | 
 | userId| string | 
@@ -306,7 +306,7 @@
 
 **Parameters**
 
-| name | type | description
+| Argument | Type | description
 |--- |--- |---
 | userId| string | 
 
@@ -321,7 +321,7 @@
 
 **Parameters**
 
-| name | type | description
+| Argument | Type | Description
 |--- |--- |---
 | title | any | 
 | callback_id | any | 
@@ -335,7 +335,7 @@
 
 **Parameters**
 
-| name | type | description
+| Argument | Type | description
 |--- |--- |---
 | label| any | 
 | name| any | 
@@ -350,7 +350,7 @@
 
 **Parameters**
 
-| name | type | description
+| Argument | Type | description
 |--- |--- |---
 | label| any | 
 | name| any | 
@@ -365,7 +365,7 @@
 
 **Parameters**
 
-| name | type | description
+| Argument | Type | description
 |--- |--- |---
 | label| any | 
 | name| any | 
@@ -381,7 +381,7 @@
 
 **Parameters**
 
-| name | type | description
+| Argument | Type | description
 |--- |--- |---
 | label| any | 
 | name| any | 
@@ -396,7 +396,7 @@
 
 **Parameters**
 
-| name | type | description
+| Argument | Type | description
 |--- |--- |---
 | label| any | 
 | name| any | 
@@ -412,7 +412,7 @@
 
 **Parameters**
 
-| name | type | description
+| Argument | Type | description
 |--- |--- |---
 | label| any | 
 | name| any | 
@@ -428,7 +428,7 @@
 
 **Parameters**
 
-| name | type | description
+| Argument | Type | description
 |--- |--- |---
 | label| any | 
 | name| any | 
@@ -453,7 +453,7 @@
 
 **Parameters**
 
-| name | type | description
+| Argument | Type | description
 |--- |--- |---
 | v| any | 
 
@@ -465,7 +465,7 @@
 
 **Parameters**
 
-| name | type | description
+| Argument | Type | description
 |--- |--- |---
 | set| boolean | 
 
@@ -477,7 +477,7 @@
 
 **Parameters**
 
-| name | type | description
+| Argument | Type | description
 |--- |--- |---
 | v| any | 
 
@@ -489,7 +489,7 @@
 
 **Parameters**
 
-| name | type | description
+| Argument | Type | description
 |--- |--- |---
 | v| any | 
 
@@ -501,7 +501,7 @@
 
 **Parameters**
 
-| name | type | description
+| Argument | Type | description
 |--- |--- |---
 | v| any | 
 
@@ -520,7 +520,7 @@
 
 **Parameters**
 
-| name | type | description
+| Argument | Type | description
 |--- |--- |---
 | context| any | 
 | next| any | 
@@ -540,7 +540,7 @@
 
 **Parameters**
 
-| name | type | description
+| Argument | Type | description
 |--- |--- |---
 | context| any | 
 | next| any | 
@@ -560,7 +560,7 @@
 
 **Parameters**
 
-| name | type | description
+| Argument | Type | description
 |--- |--- |---
 | context| any | 
 | next| any | 
@@ -577,7 +577,7 @@
 
 **Fields**
 
-| name | type | comment
+| Name | Type | Description
 |--- |--- |---
 | ok | boolean | 
 | team | string | 
@@ -591,7 +591,7 @@
 
 **Fields**
 
-| name | type | comment
+| Name | Type | Description
 |--- |--- |---
 | channel | string | 
 | message |  | 
@@ -603,7 +603,7 @@
 
 **Fields**
 
-| name | type | comment
+| Name | Type | Description
 |--- |--- |---
 | botToken | string | 
 | clientId | string | 

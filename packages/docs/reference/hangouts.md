@@ -5,13 +5,13 @@
 
 **Parameters**
 
-| name | type | description
+| Argument | Type | Description
 |--- |--- |---
 | options | [HangoutsAdapterOptions](#HangoutsAdapterOptions) | 
 
 **Properties and Accessors**
 
-| name | type | comment
+| Name | Type | Description
 |--- |--- |---
 | botkit_worker | [HangoutsBotWorker](#HangoutsBotWorker) | 
 | menu | any | 
@@ -25,7 +25,7 @@
 
 **Parameters**
 
-| name | type | description
+| Argument | Type | description
 |--- |--- |---
 | reference| ConversationReference | 
 | logic|  | 
@@ -38,7 +38,7 @@
 
 **Parameters**
 
-| name | type | description
+| Argument | Type | description
 |--- |--- |---
 | context| TurnContext | 
 | reference| ConversationReference | 
@@ -51,7 +51,7 @@
 
 **Parameters**
 
-| name | type | description
+| Argument | Type | description
 |--- |--- |---
 | req| any | 
 | res| any | 
@@ -65,7 +65,7 @@
 
 **Parameters**
 
-| name | type | description
+| Argument | Type | description
 |--- |--- |---
 | context| TurnContext | 
 | activities|  | 
@@ -78,7 +78,7 @@
 
 **Parameters**
 
-| name | type | description
+| Argument | Type | description
 |--- |--- |---
 | context| TurnContext | 
 | activity| Activity | 
@@ -94,7 +94,7 @@
 
 **Parameters**
 
-| name | type | description
+| Argument | Type | Description
 |--- |--- |---
 | botkit | any | 
 | config | any | 
@@ -106,7 +106,7 @@
 
 **Parameters**
 
-| name | type | description
+| Argument | Type | description
 |--- |--- |---
 | update| Partial | 
 
@@ -118,7 +118,7 @@
 
 **Parameters**
 
-| name | type | description
+| Argument | Type | description
 |--- |--- |---
 | src| any | 
 | resp| any | 
@@ -131,7 +131,7 @@
 
 **Parameters**
 
-| name | type | description
+| Argument | Type | description
 |--- |--- |---
 | src| any | 
 | resp| Partial | 
@@ -144,7 +144,7 @@
 
 **Parameters**
 
-| name | type | description
+| Argument | Type | description
 |--- |--- |---
 | src| any | 
 | resp| Partial | 
@@ -157,7 +157,7 @@
 
 **Parameters**
 
-| name | type | description
+| Argument | Type | description
 |--- |--- |---
 | spaceName| string | 
 | userId| string | 
@@ -171,7 +171,7 @@
 
 **Parameters**
 
-| name | type | description
+| Argument | Type | description
 |--- |--- |---
 | update| Partial | 
 
@@ -187,7 +187,7 @@
 
 **Fields**
 
-| name | type | comment
+| Name | Type | Description
 |--- |--- |---
 | google_auth_params | any | 
 | token | string | 
