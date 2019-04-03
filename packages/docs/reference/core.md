@@ -888,7 +888,7 @@ Configuration options used when instantiating Botkit to create the main app cont
 
 | Name | Type | Description
 |--- |--- |---
-| adapter | BotFrameworkAdapter | A fully configured BotBuilder Adapter, such as botbuilder-adapter-slack or botbuilder-adapter-websocket
+| adapter | BotFrameworkAdapter | A fully configured BotBuilder Adapter, such as `botbuilder-adapter-slack` or `botbuilder-adapter-websocket`
 The adapter is responsible for translating platform-specific messages into the format understood by Botkit and BotBuilder<br/>
 | adapterConfig |  | If using the BotFramework service, options included in `adapterConfig` will be passed to the new Adapter when created internally.
 See [BotFrameworkAdapterSettings](https://docs.microsoft.com/en-us/javascript/api/botbuilder/botframeworkadaptersettings?view=azure-node-latest&viewFallbackFrom=botbuilder-ts-latest).<br/>
