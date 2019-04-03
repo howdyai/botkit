@@ -20,7 +20,7 @@ export class BotWorker {
      * @param controller A pointer to the main Botkit controller
      * @param config An object typically containing { dialogContext, reference, context, activity }
      */
-    constructor(controller, config) {
+    constructor(controller: Botkit, config) {
         this._controller = controller;
         this._config = {
             ...config

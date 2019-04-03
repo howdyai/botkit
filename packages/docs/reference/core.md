@@ -25,7 +25,7 @@
 A base class for a `bot` instance, an object that contains the information and functionality for taking action in response to an incoming message.
 Note that adapters are likely to extend this class with additional platform-specific methods - refer to the adapter documentation for these extensions.
 ### constructor new BotWorker()
-
+Create a new BotWorker instance. Do not call this directly - instead, use [controller.spawn()](core.md#spawn).
 **Parameters**
 
 | Argument | Type | Description

@@ -23,7 +23,11 @@
     {{#each constructors}}
         {{#each signatures}}
             ### constructor {{name}}()
+            {{{comment.shortText}}}
+            {{#if comment.text}}
 
+            {{{comment.text}}}
+            {{/if}}
             {{#if parameters}}
                 **Parameters**
 
