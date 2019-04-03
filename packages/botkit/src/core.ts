@@ -39,6 +39,16 @@ export interface BotkitMessage {
     [key: string]: any; // allow any other fields to live alongside the defined fields.
 }
 
+export interface BotkitHandler {
+    (bot: BotWorker, message: BotkitMessage): Promise<any>;
+}
+
+export interface BotkitTrigger {
+    type: string;
+    pattern: string | RegExp | { (message: BotkitMessage):  Promise<boolean> };
+    handler: BotkitHandler;
+}
+
 /**
  * Create a new instance of Botkit to define the controller for a conversational app.
  * To connect Botkit to a chat platform, pass in a fully configured `adapter`.
@@ -57,7 +67,7 @@ export class Botkit {
      * Each key in this object points to an array of handler functions bound to that event.
      */
     private _events: {
-        [key: string]: { (bot: BotWorker, event: any): Promise<boolean> }[];
+        [key: string]: BotkitHandler[];
     } = {};
 
     /**
@@ -66,11 +76,7 @@ export class Botkit {
      * Each key represents an event type.
      */
     private _triggers: {
-        [key: string]: { 
-            pattern: string | RegExp | { (message: BotkitMessage):  Promise<boolean> };
-            type: string;
-            handler: (bot: BotWorker, message: BotkitMessage) => Promise<any>;
-        }[];
+        [key: string]: BotkitTrigger[];
     } = {};
 
     /**
@@ -79,11 +85,7 @@ export class Botkit {
      * Each key represents an event type.
      */
     private _interrupts: {
-        [key: string]: { 
-            pattern: string | RegExp | { (message: BotkitMessage):  Promise<boolean> };
-            type: string;
-            handler: (bot: BotWorker, message: BotkitMessage) => Promise<any>;
-        }[];
+        [key: string]: BotkitTrigger[];
     } = {};
 
     /**
@@ -367,6 +369,9 @@ export class Botkit {
 
     }
 
+    /**
+     * This function gets called when all of the bootup dependencies are completely loaded.
+     */
     private signalBootComplete() {
         this.booted = true;
         for (let h = 0; h < this._bootCompleteHandlers.length; h++) {
@@ -375,7 +380,22 @@ export class Botkit {
         }
     }
 
-    public ready(handler) {
+    /**
+     * Use `controller.ready()` to wrap any calls that require components loaded during the bootup process.
+     * This will ensure that the calls will not be made until all of the components have successfully been initialized.
+     * 
+     * For example:
+     * ```javascript
+     * controller.ready(() => {
+     * 
+     *   controller.loadModules(__dirname + '/features');
+     * 
+     * });
+     * ```
+     * 
+     * @param handler {function} A function to run when Botkit is booted and ready to run.
+     */
+    public ready(handler: () => any) {
         if (this.booted) {
             handler.call(this);
         } else {
@@ -400,7 +420,13 @@ export class Botkit {
         });
     }
 
-    public async handleTurn(turnContext): Promise<any> {
+    /**
+     * Accepts the result of a BotBuilder adapter's `processActivity()` method and processes it into a Botkit-style message and BotWorker instance
+     * which is then used to test for triggers and emit events. 
+     * NOTE: This method should only be used in custom adapters that receive messages through mechanisms other than the main webhook endpoint (such as those received via websocket, for example)
+     * @param turnContext {TurnContext} a TurnContext representing an incoming message, typically created by an adapter's `processActivity()` method.
+     */
+    public async handleTurn(turnContext: TurnContext): Promise<any> {
 
         debug('INCOMING ACTIVITY:', turnContext.activity);
 
@@ -458,38 +484,47 @@ export class Botkit {
 
     }
 
-    public async saveState(bot) {
-        await this.conversationState.saveChanges(bot._config.context);
+    /**
+     * Save the current conversation state pertaining to a given BotWorker's activities.
+     * Note: this is normally called internally and is only required when state changes happen outside of the normal processing flow.
+     * @param bot {BotWorker} a BotWorker instance created using `controller.spawn()` 
+     */
+    public async saveState(bot: BotWorker): Promise<void> {
+        await this.conversationState.saveChanges(bot.getConfig('context'));
     }
 
-    public async ingest(bot: BotWorker, message: BotkitMessage): Promise<any> {
+    /**
+     * Ingests a message and evaluates it for triggers, run the receive middleware, and triggers any events.
+     * Note: This is normally called automatically from inside `handleTurn()` and in most cases should not be called directly.
+     * @param bot {BotWorker} An instance of the bot
+     * @param message {BotkitMessage} an incoming message
+     */
+    private async ingest(bot: BotWorker, message: BotkitMessage): Promise<any> {
         return new Promise(async (resolve, reject) => {
-            // this.middleware.ingest.run(bot, message, async (err, bot, message) => {
-            //     if (err) {
-            //         reject(err);
-            //     } else {
+            const listen_results = await this.listenForTriggers(bot, message);
 
-                    const listen_results = await this.listenForTriggers(bot, message);
-
-                    if (listen_results !== false) {
-                        resolve(listen_results);
-                    } else {
-                        this.middleware.receive.run(bot, message, async (err, bot, message) => {
-                            if (err)  { 
-                                return reject(err); 
-                            }
-
-                            // Trigger event handlers
-                            const trigger_results = await this.trigger(message.type, bot, message);
-
-                            resolve(trigger_results);
-                        });
+            if (listen_results !== false) {
+                resolve(listen_results);
+            } else {
+                this.middleware.receive.run(bot, message, async (err, bot, message) => {
+                    if (err)  { 
+                        return reject(err); 
                     }
-                // }
-            // });
+
+                    // Trigger event handlers
+                    const trigger_results = await this.trigger(message.type, bot, message);
+
+                    resolve(trigger_results);
+                });
+            }
         });
     }
 
+    /**
+     * Evaluates an incoming message for triggers created with `controller.hears()` and fires any relevant handler functions.
+     * @param bot {BotWorker} An instance of the bot
+     * @param message {BotkitMessage} an incoming message
+     */
     private async listenForTriggers(bot: BotWorker, message: BotkitMessage): Promise<any> {
         if (this._triggers[message.type]) {
             const triggers = this._triggers[message.type];
@@ -509,6 +544,11 @@ export class Botkit {
         }
     }
 
+    /**
+     * Evaluates an incoming message for triggers created with `controller.interrupts()` and fires any relevant handler functions.
+     * @param bot {BotWorker} An instance of the bot
+     * @param message {BotkitMessage} an incoming message
+     */
     private async listenForInterrupts(bot: BotWorker, message: BotkitMessage): Promise<any> {
         if (this._interrupts[message.type]) {
             const triggers = this._interrupts[message.type];
@@ -528,30 +568,55 @@ export class Botkit {
         }
     }
 
-
-    private async testTrigger(trigger: any, message: BotkitMessage): Promise<boolean> {
+    /**
+     * Evaluates a single trigger and return true if the incoming message matches the conditions
+     * @param trigger {BotkitTrigger} a trigger definition 
+     * @param message {BotkitMessage} an incoming message
+     */
+    private async testTrigger(trigger: BotkitTrigger, message: BotkitMessage): Promise<boolean> {
         if (trigger.type === 'string') {
-            const test = new RegExp(trigger.pattern,'i');
+            const test = new RegExp(trigger.pattern as string,'i');
             if (message.text && message.text.match(test)) {
                 return true;
             }
         } else if (trigger.type === 'regexp') {
-            const test = trigger.pattern;
+            const test = trigger.pattern as RegExp;
             if (message.text && message.text.match(test)) {
                 return true;
             }
         } else if (trigger.type === 'function') {
-            return await trigger.pattern(message);
+            const test = trigger.pattern as (message) => Promise<boolean> ;
+            return await test(message);
         }
 
         return false;
     }
 
-    /* 
-     * hears()
-     * instruct your bot to listen for a pattern, and do something when that pattern is heard.
-     **/
-    public hears(patterns: ( string | RegExp | { (message: BotkitMessage): Promise<boolean> })[] | RegExp | RegExp[] | string | { (message: BotkitMessage): Promise<boolean> }, events: string | string[], handler: (bot: BotWorker, message: BotkitMessage) => Promise<boolean>) {
+    /**
+     * Instruct your bot to listen for a pattern, and do something when that pattern is heard.
+     * 
+     * For example:
+     * ```javascript
+     * // listen for a simple keyword
+     * controller.hears('hello','message', async(bot, message) => {
+     *  await bot.reply(message,'I heard you say hello.');
+     * });
+     * 
+     * // listen for a regular expression
+     * controller.hears(new RegExp(/^[A-Z\s]+$/), 'message', async(bot, message) => {
+     *  await bot.reply(message,'I heard a message IN ALL CAPS.');
+     * });
+     * 
+     * // listen using a function
+     * controller.hears(async (message) => { return (message.intent === 'hello') }, 'message', async(bot, message) => {
+     *  await bot.reply(message,'This message matches the hello intent.');
+     * });
+     * ```
+     * @param patterns One or more string, regular expression, or test function
+     * @param events A list of event types that should be evaluated for the given patterns
+     * @param handler {BotkitHandler}  a function that will be called should the pattern be matched
+     */
+    public hears(patterns: ( string | RegExp | { (message: BotkitMessage): Promise<boolean> })[] | RegExp | RegExp[] | string | { (message: BotkitMessage): Promise<boolean> }, events: string | string[], handler: BotkitHandler) {
 
         if (!Array.isArray(patterns)) {
             patterns = [patterns];
@@ -560,6 +625,7 @@ export class Botkit {
         if (typeof events === 'string') {
             events = events.split(/\,/).map(e => e.trim());
         }
+
         debug('Registering hears for ', events);
         
         for (var p = 0; p < patterns.length; p++) {

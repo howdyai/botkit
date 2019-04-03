@@ -211,42 +211,51 @@ let webhook_uri = controller.getConfig('webhook_uri');
 
 <a name="handleTurn"></a>
 ### handleTurn()
-
+Accepts the result of a BotBuilder adapter's `processActivity()` method and processes it into a Botkit-style message and BotWorker instance
+which is then used to test for triggers and emit events.
+NOTE: This method should only be used in custom adapters that receive messages through mechanisms other than the main webhook endpoint (such as those received via websocket, for example)
 
 **Parameters**
 
 | name | type | description
 |--- |--- |---
-| turnContext| any | 
+| turnContext| TurnContext | a TurnContext representing an incoming message, typically created by an adapter&#x27;s &#x60;processActivity()&#x60; method.
+
 
 
 
 <a name="hears"></a>
 ### hears()
-
-
-**Parameters**
-
-| name | type | description
-|--- |--- |---
-| patterns|  | 
-| events|  | 
-| handler|  | 
-
-
-
-<a name="ingest"></a>
-### ingest()
-
+Instruct your bot to listen for a pattern, and do something when that pattern is heard.
 
 **Parameters**
 
 | name | type | description
 |--- |--- |---
-| bot| [BotWorker](#BotWorker) | 
-| message| [BotkitMessage](#BotkitMessage) | 
+| patterns|  | One or more string, regular expression, or test function
+| events|  | A list of event types that should be evaluated for the given patterns
+| handler| [BotkitHandler](#BotkitHandler) | a function that will be called should the pattern be matched
 
 
+
+
+For example:
+```javascript
+// listen for a simple keyword
+controller.hears('hello','message', async(bot, message) => {
+ await bot.reply(message,'I heard you say hello.');
+});
+
+// listen for a regular expression
+controller.hears(new RegExp(/^[A-Z\s]+$/), 'message', async(bot, message) => {
+ await bot.reply(message,'I heard a message IN ALL CAPS.');
+});
+
+// listen using a function
+controller.hears(async (message) => { return (message.intent === 'hello') }, 'message', async(bot, message) => {
+ await bot.reply(message,'This message matches the hello intent.');
+});
+```
 
 <a name="interrupts"></a>
 ### interrupts()
@@ -301,25 +310,39 @@ let webhook_uri = controller.getConfig('webhook_uri');
 
 <a name="ready"></a>
 ### ready()
-
+Use `controller.ready()` to wrap any calls that require components loaded during the bootup process.
+This will ensure that the calls will not be made until all of the components have successfully been initialized.
 
 **Parameters**
 
 | name | type | description
 |--- |--- |---
-| handler| any | 
+| handler|  | A function to run when Botkit is booted and ready to run.
 
+
+
+
+For example:
+```javascript
+controller.ready(() => {
+
+  controller.loadModules(__dirname + '/features');
+
+});
+```
 
 
 <a name="saveState"></a>
 ### saveState()
-
+Save the current conversation state pertaining to a given BotWorker's activities.
+Note: this is normally called internally and is only required when state changes happen outside of the normal processing flow.
 
 **Parameters**
 
 | name | type | description
 |--- |--- |---
-| bot| any | 
+| bot| [BotWorker](#BotWorker) | a BotWorker instance created using &#x60;controller.spawn()&#x60;
+
 
 
 
@@ -800,6 +823,11 @@ let webhook_uri = controller.getConfig('webhook_uri');
 | webhook_uri | string | 
 | webserver | any | 
 
+<a name="BotkitHandler"></a>
+## Interface BotkitHandler
+
+
+
 <a name="BotkitMessage"></a>
 ## Interface BotkitMessage
 
@@ -828,6 +856,18 @@ let webhook_uri = controller.getConfig('webhook_uri');
 | middlewares | __type | 
 | name | string | 
 | web |  | 
+
+<a name="BotkitTrigger"></a>
+## Interface BotkitTrigger
+
+
+**Fields**
+
+| name | type | comment
+|--- |--- |---
+| handler | [BotkitHandler](#BotkitHandler) | 
+| pattern |  | 
+| type | string | 
 
 <a name="PluginMenu"></a>
 ## Interface PluginMenu

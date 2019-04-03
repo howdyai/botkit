@@ -81,3 +81,9 @@ Now, build all of the libraries:
 ```bash
 lerna run build
 ```
+
+To build updated versions of the class reference documents found in `packages/docs`, run:
+
+```bash
+lerna run build-docs
+```

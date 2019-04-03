@@ -37,7 +37,9 @@ function generateReference(src, dest) {
 
                 classes.push(aclass);
             } else if (aclass.kindString === 'Interface') {
-                aclass.props = aclass.children.filter((c) => { return c.kindString === 'Property' });
+                if (aclass.children) {
+                    aclass.props = aclass.children.filter((c) => { return c.kindString === 'Property' });
+                }
                 interfaces.push(aclass);
             }
         }
