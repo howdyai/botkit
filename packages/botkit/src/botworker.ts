@@ -7,23 +7,49 @@ import { BotkitConversation } from './conversation';
 const debug = require('debug')('botkit:worker');
 
 
+/**
+ * A base class for a `bot` instance, an object that contains the information and functionality for taking action in response to an incoming message.
+ * Note that adapters are likely to extend this class with additional platform-specific methods - refer to the adapter documentation for these extensions.
+ */
 export class BotWorker {
     private _controller: Botkit;
     private _config: any;
 
+    /**
+     * Create a new BotWorker instance. Do not call this directly - instead, use [controller.spawn()](core.md#spawn).
+     * @param controller A pointer to the main Botkit controller
+     * @param config An object typically containing { dialogContext, reference, context, activity }
+     */
     constructor(controller, config) {
         this._controller = controller;
         this._config = {
             ...config
         };
-
     }
-
+    
+    /**
+     * Get a reference to the main Botkit controller.
+     * 
+     * For example, access the main controller's config:
+     * ```javascript
+     * let my_webhook_uri = bot.controller.getConfig('webhook_uri');
+     * ```
+     */
     get controller() {
         return this._controller;
     }
 
-    /* Return a value out of the configuration */
+    /**
+     * Get a value from the BotWorker's configuration.
+     * 
+     * ```javascript
+     * let original_context = bot.getConfig('context');
+     * await original_context.sendActivity('send directly using the adapter instead of Botkit');
+     * ```
+     * 
+     * @param {string} key The name of a value stored in the configuration
+     * @returns {any} The value stored in the configuration (or null if absent)
+     */
     public getConfig(key?: string) {
         if (key) {
             return this._config[key];
@@ -32,7 +58,21 @@ export class BotWorker {
         }
     }
 
-    /* Send a message using information passed in during spawning */
+    /**
+     * Send a message.
+     * Message will be sent using the context originally passed in to `controller.spawn()`.
+     * Primarily used for sending proactive messages, in concert with [changeContext()](#changecontext).
+     * 
+     * ```javascript
+     * controller.on('event', async(bot, message) => {
+     * 
+     *  await bot.say('I received an event!');
+     * 
+     * });
+     * ```
+    * @param message A string containing the text of a reply, or more fully formed message object
+    * @returns Return value will contain the results of the send action, typically `{id: <id of message>}`
+     */
     public async say(message: Partial<BotkitMessage>): Promise<any> {
         return new Promise((resolve, reject) => {
             let activity = this.ensureMessageFormat(message);
@@ -46,7 +86,22 @@ export class BotWorker {
         });
     };
 
-    /* Send a reply to an inbound message, using information collected from that inbound message */
+    /**
+     * Reply to an incoming message.
+     * Message will be sent using the context attached to the source message, which may be different than the context used to spawn the bot.
+     * 
+     * ```javascript
+     * controller.on('event', async(bot, message) => {
+    * 
+    *  await bot.reply(message, 'I received an event and am replying to it.');
+    * 
+    * });
+    * ```
+    * 
+    * @param src An incoming message, usually passed in to a handler function
+    * @param resp A string containing the text of a reply, or more fully formed message object
+    * @returns Return value will contain the results of the send action, typically `{id: <id of message>}`
+    */
     public async reply(src: Partial<BotkitMessage>, resp: Partial<BotkitMessage>): Promise<any> {
         return new Promise((resolve, reject) => {
             let activity = this.ensureMessageFormat(resp);
@@ -64,8 +119,12 @@ export class BotWorker {
         });
     }
 
-    /* Begin a BotBuilder dialog */
-    public async beginDialog(id, options) {
+    /**
+     * Begin a pre-defined dialog by specifying its id. The dialog will be started in the same context (same user, same channel) in which the original incoming message was received.
+     * @param id id of dialog
+     * @param options object containing options to be passed into the dialog
+     */
+    public async beginDialog(id: string, options: any) {
         if (this._config.dialogContext) {
             await this._config.dialogContext.beginDialog(id, options);
 
@@ -77,6 +136,22 @@ export class BotWorker {
         }
     }
 
+    /**
+     * Alter the context in which a bot instance will send messages.
+     * Use this method to create or adjust a bot instance so that it can send messages to a predefined user/channel combination.
+     * 
+     * ```javascript
+     * // get the reference field and store it.
+     * const saved_reference = message.reference; 
+     * 
+     * // later on...
+     * let bot = await controller.spawn();
+     * bot.changeContext(saved_reference);
+     * bot.say('Hello!');
+     * ```
+     * 
+     * @param reference A [ConversationReference](https://docs.microsoft.com/en-us/javascript/api/botframework-schema/conversationreference?view=botbuilder-ts-latest), most likely captured from an incoming message and stored for use in proactive messaging scenarios.
+     */
     public async changeContext(reference: Partial<ConversationReference>): Promise<BotWorker> {
 
         // change context of outbound activities to use this new address

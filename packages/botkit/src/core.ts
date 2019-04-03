@@ -814,7 +814,7 @@ export class Botkit {
      * });
      * ```
      * 
-     * @param events {one_or_more_events} One or more event names
+     * @param events {} One or more event names
      * @param handler {BotkitHandler} a handler function that will fire whenever one of the named events is received.
      */
     public on(events: string | string[], handler: BotkitHandler) {
