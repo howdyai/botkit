@@ -3,12 +3,12 @@ const { ShowTypingMiddleware } = require('botbuilder');
 const { MongoDbStorage } = require('botbuilder-storage-mongodb');
 const basicAuth = require('express-basic-auth');
 
-const { SlackAdapter, SlackMessageTypeMiddleware, SlackIdentifyBotsMiddleware, SlackEventMiddleware } = require('botbuilder-adapter-slack');
-const { WebexAdapter } = require('botbuilder-adapter-webex');
-const { WebsocketAdapter } = require('botbuilder-adapter-websocket');
-const { FacebookAdapter, FacebookEventTypeMiddleware } = require('botbuilder-adapter-facebook');
-const { HangoutsAdapter } = require('botbuilder-adapter-hangouts');
-const { TwilioAdapter } = require('botbuilder-adapter-twilio-sms');
+// const { SlackAdapter, SlackMessageTypeMiddleware, SlackIdentifyBotsMiddleware, SlackEventMiddleware } = require('botbuilder-adapter-slack');
+// const { WebexAdapter } = require('botbuilder-adapter-webex');
+// const { WebsocketAdapter } = require('botbuilder-adapter-websocket');
+// const { FacebookAdapter, FacebookEventTypeMiddleware } = require('botbuilder-adapter-facebook');
+// const { HangoutsAdapter } = require('botbuilder-adapter-hangouts');
+// const { TwilioAdapter } = require('botbuilder-adapter-twilio-sms');
 
 
 // Load process.env values from .env file
@@ -129,16 +129,16 @@ async function getBotUserByTeam(teamId) {
 //     }
 // });
 
-const adapter = new TwilioAdapter({
-    twilio_number: process.env.TWILIO_NUMBER,
-    account_sid: process.env.TWILIO_ACCOUNT_SID,
-    auth_token: process.env.TWILIO_AUTH_TOKEN,
-});
+// const adapter = new TwilioAdapter({
+//     twilio_number: process.env.TWILIO_NUMBER,
+//     account_sid: process.env.TWILIO_ACCOUNT_SID,
+//     auth_token: process.env.TWILIO_AUTH_TOKEN,
+// });
 
 const controller = new Botkit({
     debug: true,
     webhook_uri: '/api/messages',
-    adapter: adapter,
+    // adapter: adapter,
     authFunction:  basicAuth({
         users: { 'admin': 'supersecret' }, // TODO: externalize these
         challenge: true,

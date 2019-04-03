@@ -26,7 +26,9 @@ export class BotkitDialogWrapper {
 
     public async repeat() {
         // reset the state so we're still on this step.
-        this.step.state.stepIndex = this.step.index - 1;
+//        this.step.state.stepIndex = this.step.index - 1;
+        // move back one step.
+        this.step.index--;
     }
 
     // TODO: Add other control mechanisms

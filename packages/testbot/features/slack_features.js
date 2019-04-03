@@ -1,4 +1,4 @@
-const { SlackDialog } = require('botbuilder-slack');
+const { SlackDialog } = require('botbuilder-adapter-slack');
 
 module.exports = function(controller) {
 

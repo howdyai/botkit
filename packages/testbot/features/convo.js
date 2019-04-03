@@ -28,13 +28,14 @@ module.exports = function(controller) {
             pattern: 'no',
             handler: async function(answer, convo, bot) { 
                 console.log(' NO HANDLER');
-                return await convo.gotoThread('bar');
+                await convo.gotoThread('bar');
             }
         },
         {
             default: true,
             handler: async (answer, convo, bot) => {
                 console.log('FALLBACK HANDLER');
+                await convo.repeat();
                 // do nothing
             }
         }
