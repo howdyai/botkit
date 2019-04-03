@@ -88,7 +88,7 @@ export interface BotkitMessage {
     channel: string;
 
     /**
-     * A full `ConversationReference` object that defines the address of the message and all information necessary to send messages back to the originating location.
+     * A full [ConversationReference](https://docs.microsoft.com/en-us/javascript/api/botframework-schema/conversationreference?view=botbuilder-ts-latest) object that defines the address of the message and all information necessary to send messages back to the originating location.
      * Can be stored for later use, and used with [bot.changeContext()](#changeContext) to send proactive messages.
      */
     reference: ConversationReference;
@@ -96,7 +96,7 @@ export interface BotkitMessage {
     /**
      * The original incoming BotBuilder Activity object as created by the adapter.
      */
-    incoming_message: {[key: string]: any};
+    incoming_message: Activity;
 
     /**
      * Any additional fields found in the incoming payload from the messaging platform.
