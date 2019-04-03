@@ -176,8 +176,7 @@ Botkit's `controller.ready()` function will not fire until all dependencies have
 
 | Argument | Type | description
 |--- |--- |---
-| name| string | The name of the dependency that is being loaded.
-
+| name| string | The name of the dependency that is being loaded.<br/>
 
 
 
@@ -199,8 +198,7 @@ Botkit's `controller.ready()` function will not fire until all dependencies have
 
 | Argument | Type | description
 |--- |--- |---
-| name| string | The name of the dependency that has completed loading.
-
+| name| string | The name of the dependency that has completed loading.<br/>
 
 
 
@@ -242,8 +240,7 @@ NOTE: This method should only be used in custom adapters that receive messages t
 
 | Argument | Type | description
 |--- |--- |---
-| turnContext| TurnContext | a TurnContext representing an incoming message, typically created by an adapter's `processActivity()` method.
-
+| turnContext| TurnContext | a TurnContext representing an incoming message, typically created by an adapter's `processActivity()` method.<br/>
 
 
 
@@ -259,8 +256,7 @@ To "hear" patterns _before_ dialogs are processed, use `controller.interrupts()`
 |--- |--- |---
 | patterns|  | One or more string, regular expression, or test function
 | events|  | A list of event types that should be evaluated for the given patterns
-| handler| [BotkitHandler](#BotkitHandler) | a function that will be called should the pattern be matched
-
+| handler| [BotkitHandler](#BotkitHandler) | a function that will be called should the pattern be matched<br/>
 
 
 
@@ -294,8 +290,7 @@ and thus handlers will interrupt the normal flow of messages through the process
 |--- |--- |---
 | patterns|  | One or more string, regular expression, or test function
 | events|  | A list of event types that should be evaluated for the given patterns
-| handler| [BotkitHandler](#BotkitHandler) | a function that will be called should the pattern be matched
-
+| handler| [BotkitHandler](#BotkitHandler) | a function that will be called should the pattern be matched<br/>
 
 
 
@@ -315,8 +310,7 @@ Load a Botkit feature module
 
 | Argument | Type | description
 |--- |--- |---
-| p| string | path to module file
-
+| p| string | path to module file<br/>
 
 
 
@@ -328,8 +322,7 @@ Load all Botkit feature modules located in a given folder.
 
 | Argument | Type | description
 |--- |--- |---
-| p| string | path to a folder of module files
-
+| p| string | path to a folder of module files<br/>
 
 
 
@@ -352,8 +345,7 @@ Bind a handler function to one or more events.
 | Argument | Type | description
 |--- |--- |---
 | events|  | One or more event names
-| handler| [BotkitHandler](#BotkitHandler) | a handler function that will fire whenever one of the named events is received.
-
+| handler| [BotkitHandler](#BotkitHandler) | a handler function that will fire whenever one of the named events is received.<br/>
 
 
 
@@ -375,8 +367,7 @@ This will ensure that the calls will not be made until all of the components hav
 
 | Argument | Type | description
 |--- |--- |---
-| handler|  | A function to run when Botkit is booted and ready to run.
-
+| handler|  | A function to run when Botkit is booted and ready to run.<br/>
 
 
 
@@ -399,8 +390,7 @@ Note: this is normally called internally and is only required when state changes
 
 | Argument | Type | description
 |--- |--- |---
-| bot| [BotWorker](#BotWorker) | a BotWorker instance created using `controller.spawn()`
-
+| bot| [BotWorker](#BotWorker) | a BotWorker instance created using `controller.spawn()`<br/>
 
 
 
@@ -414,8 +404,7 @@ for handling platform-specific events or activities.
 
 | Argument | Type | description
 |--- |--- |---
-| config| any | Preferably receives a DialogContext, though can also receive a TurnContext. If excluded, must call `bot.changeContext(reference)` before calling any other method.
-
+| config| any | Preferably receives a DialogContext, though can also receive a TurnContext. If excluded, must call `bot.changeContext(reference)` before calling any other method.<br/>
 
 
 
@@ -430,8 +419,7 @@ Note: This is normally used internally, but can be used to emit custom events.
 |--- |--- |---
 | event| string | the name of the event
 | bot| [BotWorker](#BotWorker) | a BotWorker instance created using `controller.spawn()`
-| message| [BotkitMessage](#BotkitMessage) | An incoming message or event
-
+| message| [BotkitMessage](#BotkitMessage) | An incoming message or event<br/>
 
 
 
@@ -882,7 +870,7 @@ controller.on('my_custom_event', async(bot, message) => {
 
 <a name="BotkitConfiguration"></a>
 ## Interface BotkitConfiguration
-Configuration options used when instantiating Botkit to create the main app controller.
+Defines the options used when instantiating Botkit to create the main app controller with &#x60;new Botkit(options)&#x60;
 
 **Fields**
 

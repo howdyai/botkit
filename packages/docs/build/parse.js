@@ -9,10 +9,13 @@ markup = markup.replace(/^ +/img,'');
 const template = Handlebars.compile(markup);
 
 Handlebars.registerHelper('no-newline', function(str) {
-  
-    return new Handlebars.SafeString(
-        str.replace(/\n/g,'<br/>')
-    );
+    if (str) {
+        return new Handlebars.SafeString(
+            str.replace(/\n/g,'<br/>')
+        );
+    } else { 
+        return '';
+    }
 });
 
 
