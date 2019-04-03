@@ -35,7 +35,7 @@
                 | Argument | Type | Description
                 |--- |--- |---
                 {{#each parameters}}
-                | {{name}} | {{#if type.id}}[{{type.name}}](#{{type.name}}){{else}}{{type.name}}{{/if}}{{#if type.typeArguments}}<{{type.typeArguments.[0].name}}>{{/if}} | {{#if comment.text}}{{{no-newline comment.text}}}{{else}}{{{no-newline comment.shortText}}}{{/if}}
+                | {{name}} | {{#if type.id}}[{{type.name}}](#{{type.name}}){{else}}{{type.name}}{{/if}}{{#if type.typeArguments}}&lt;{{type.typeArguments.[0].name}}&gt;{{/if}} | {{#if comment.text}}{{{no-newline comment.text}}}{{else}}{{{no-newline comment.shortText}}}{{/if}}
                 {{/each}}
             {{/if}}
         {{/each}}
@@ -47,7 +47,7 @@
     | Name | Type | Description
     |--- |--- |---
     {{#each props}}
-    | {{name}} | {{#if type.id}}[{{type.name}}](#{{type.name}}){{else}}{{type.name}}{{/if}}{{#if type.typeArguments}}<{{type.typeArguments.[0].name}}>{{/if}} | {{#if comment.text}}{{{no-newline comment.text}}}{{else}}{{{no-newline comment.shortText}}}{{/if}}
+    | {{name}} | {{#if type.id}}[{{type.name}}](#{{type.name}}){{else}}{{type.name}}{{/if}}{{#if type.typeArguments}}&lt;{{type.typeArguments.[0].name}}&gt;{{/if}} | {{#if comment.text}}{{{no-newline comment.text}}}{{else}}{{{no-newline comment.shortText}}}{{/if}}
     {{/each}}
     {{/if}}
 
@@ -63,7 +63,7 @@
                 | Argument | Type | description
                 |--- |--- |---
                 {{#each parameters}}
-                | {{name}}{{#if flags.isOptional}} (optional){{/if}}| {{#if type.id}}[{{type.name}}](#{{type.name}}){{else}}{{type.name}}{{/if}}{{#if type.typeArguments}}<{{type.typeArguments.[0].name}}>{{/if}} | {{#if comment.shortText}}{{{no-newline comment.shortText}}}<br/>{{/if}}{{#if comment.text}}{{{no-newline comment.text}}}{{/if}}
+                | {{name}}{{#if flags.isOptional}} (optional){{/if}}| {{#if type.id}}[{{type.name}}](#{{type.name}}){{else}}{{type.name}}{{/if}}{{#if type.typeArguments}}&lt;{{type.typeArguments.[0].name}}&gt;{{/if}} | {{#if comment.shortText}}{{{no-newline comment.shortText}}}<br/>{{/if}}{{#if comment.text}}{{{no-newline comment.text}}}{{/if}}
                 {{/each}}
 
             {{/if}}
@@ -103,7 +103,7 @@
     | Name | Type | Description
     |--- |--- |---
     {{#each props}}
-    | {{name}} | {{#if type.id}}[{{type.name}}](#{{type.name}}){{else}}{{type.name}}{{/if}}{{#if type.typeArguments}}<{{type.typeArguments.[0].name}}>{{/if}} | {{#if comment.shortText}}{{{no-newline comment.shortText}}}<br/>{{/if}}{{#if comment.text}}{{{no-newline comment.text}}}{{/if}}
+    | {{name}} | {{#if type.id}}[{{type.name}}](#{{type.name}}){{else}}{{type.name}}{{/if}}{{#if type.typeArguments}}&lt;{{type.typeArguments.[0].name}}&gt;{{/if}} | {{#if comment.shortText}}{{{no-newline comment.shortText}}}<br/>{{/if}}{{#if comment.text}}{{{no-newline comment.text}}}{{/if}}
     {{/each}}
     {{/if}}
 {{/if}}
