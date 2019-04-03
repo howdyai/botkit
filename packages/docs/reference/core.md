@@ -599,16 +599,33 @@ controller.on('my_custom_event', async(bot, message) => {
 
 <a name="BotkitConversation"></a>
 ## BotkitConversation
+An extension on the [BotBuilder Dialog Class](https://docs.microsoft.com/en-us/javascript/api/botbuilder-dialogs/dialog?view=botbuilder-ts-latest) that provides a Botkit-friendly interface for
+defining and interacting with multi-message dialogs. Dialogs can be constructed using `say()`, `ask()` and other helper methods.
+
+```javascript
+// define the structure of your dialog...
+const convo = new BotkitConversation('foo', controller);
+convo.say('Hello!');
+convo.ask('What is your name?', async(answer, convo, bot) => {
+     bot.say('Your name is ' + answer);
+});
+controller.dialogSet.add(convo);
+
+// later on, trigger this dialog by its id
+controller.on('event', async(bot, message) => {
+ await bot.beginDialog('foo');
+})
+```
 
 ### constructor new BotkitConversation()
-
+Create a new BotkitConversation object
 
 **Parameters**
 
 | Argument | Type | Description
 |--- |--- |---
-| dialogId | string | 
-| controller | any | 
+| dialogId | string | A unique identifier for this dialog, used to later trigger this dialog
+| controller | [Botkit](#Botkit) | A pointer to the main Botkit controller<br/>
 
 **Properties and Accessors**
 
@@ -618,29 +635,30 @@ controller.on('my_custom_event', async(bot, message) => {
 
 <a name="addMessage"></a>
 ### addMessage()
-
+Add a message to a specific thread
+Messages added with `say()` and `addMessage()` will _not_ wait for a response, will be sent one after another without a pause.
 
 **Parameters**
 
 | Argument | Type | description
 |--- |--- |---
-| message| any | 
-| thread_name| any | 
+| message|  | Message template to be sent
+| thread_name| string | Name of thread to which message will be added<br/>
 
 
 
 <a name="addQuestion"></a>
 ### addQuestion()
-
+Identical to `ask()`, but accepts the name of a thread to which the question is added.
 
 **Parameters**
 
 | Argument | Type | description
 |--- |--- |---
-| message| any | 
-| handlers| any | 
-| options| any | 
-| thread_name| any | 
+| message|  | a message that will be used as the prompt
+| handlers|  | one or more handler functions defining possible conditional actions based on the response to the question
+| options|  | 
+| thread_name| string | Name of thread to which message will be added<br/>
 
 
 
@@ -658,16 +676,50 @@ controller.on('my_custom_event', async(bot, message) => {
 
 <a name="ask"></a>
 ### ask()
-
+Add a question to the default thread.
 
 **Parameters**
 
 | Argument | Type | description
 |--- |--- |---
-| message| any | 
-| handlers| any | 
-| options| any | 
+| message|  | a message that will be used as the prompt
+| handlers|  | one or more handler functions defining possible conditional actions based on the response to the question
+| options|  | <br/>
 
+
+
+```javascript
+// ask a question, handle the response with a function
+convo.ask('What is your name?', async(response, convo, bot) => {
+ await bot.say('Oh your name is ' + response);
+}, {key: 'name'});
+
+// ask a question, evaluate answer, take conditional action based on response
+convo.ask('Do you want to eat a taco?', [
+ {
+     pattern: 'yes',
+     type: 'string',
+     handler: async(response, convo, bot) => {
+         return await convo.gotoThread('yes_taco');
+     }
+ },
+ {
+     pattern: 'no',
+     type: 'string',
+     handler: async(response, convo, bot) => {
+         return await convo.gotoThread('no_taco');
+     }
+  },s
+  {
+      default: true,
+      handler: async(response, convo, bot) => {
+          await bot.say('I do not understand your response!');
+          // start over!
+          return await convo.repeat();
+      }
+  }
+], {key: 'tacos'});
+```
 
 
 <a name="before"></a>
@@ -807,13 +859,14 @@ controller.on('my_custom_event', async(bot, message) => {
 
 <a name="say"></a>
 ### say()
-
+Add a non-interactive message to the default thread.
+Messages added with `say()` and `addMessage()` will _not_ wait for a response, will be sent one after another without a pause.
 
 **Parameters**
 
 | Argument | Type | description
 |--- |--- |---
-| message| any | 
+| message|  | Message template to be sent<br/>
 
 
 
@@ -873,6 +926,11 @@ controller.on('my_custom_event', async(bot, message) => {
 | Argument | Type | description
 |--- |--- |---
 | thread| any | 
+
+
+
+<a name="repeat"></a>
+### repeat()
 
 
 

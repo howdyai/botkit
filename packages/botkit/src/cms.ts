@@ -24,6 +24,11 @@ export class BotkitDialogWrapper {
         this.step.thread = thread;
     }
 
+    public async repeat() {
+        // reset the state so we're still on this step.
+        this.step.state.stepIndex = this.step.index - 1;
+    }
+
     // TODO: Add other control mechanisms
     // Botkit currently has things convo.repeat, convo.stop, etc
     

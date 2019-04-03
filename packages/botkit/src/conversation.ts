@@ -12,18 +12,18 @@ interface BotkitConvoHandler {
     (answer: string, convo: BotkitDialogWrapper, bot: BotWorker): Promise<any>;
 }
 
+interface BotkitConvoTrigger {
+        type?: string;
+        pattern?: string | RegExp;
+        handler: BotkitConvoHandler;
+        default?: boolean;
+}
+
 interface BotkitMessageTemplate {
     text: string[];
     collect: {
         key: string;
-        options?: [
-            {
-                type?: string;
-                pattern?: string | RegExp;
-                handler: BotkitConvoHandler;
-                default?: boolean;
-            }
-        ]
+        options?: BotkitConvoTrigger[]
     }
 
 }
@@ -113,16 +113,57 @@ export class BotkitConversation<O extends object = {}> extends Dialog<O> {
     }
 
     /**
+     * Add a question to the default thread.
      * 
-     * @param message 
-     * @param handlers 
-     * @param options 
+     * ```javascript
+     * // ask a question, handle the response with a function
+     * convo.ask('What is your name?', async(response, convo, bot) => {
+     *  await bot.say('Oh your name is ' + response);
+     * }, {key: 'name'});
+     * 
+     * // ask a question, evaluate answer, take conditional action based on response
+     * convo.ask('Do you want to eat a taco?', [
+     *  {
+     *      pattern: 'yes',
+     *      type: 'string',
+     *      handler: async(response, convo, bot) => {
+     *          return await convo.gotoThread('yes_taco');
+     *      }
+     *  },
+     *  {
+     *      pattern: 'no',
+     *      type: 'string',
+     *      handler: async(response, convo, bot) => {
+     *          return await convo.gotoThread('no_taco');
+     *      }
+     *   },s
+     *   {
+     *       default: true,
+     *       handler: async(response, convo, bot) => {
+     *           await bot.say('I do not understand your response!');
+     *           // start over!
+     *           return await convo.repeat();
+     *       }  
+     *   }
+     * ], {key: 'tacos'});
+     * ```
+     * 
+     * @param message a message that will be used as the prompt
+     * @param handlers one or more handler functions defining possible conditional actions based on the response to the question
+     * @param options {key: <name of key to store response in>}
      */
-    public ask(message: Partial<BotkitMessageTemplate> | string, handlers, options: any) {
+    public ask(message: Partial<BotkitMessageTemplate> | string, handlers: BotkitConvoTrigger | BotkitConvoTrigger[], options: {key: string}) {
         this.addQuestion(message, handlers, options, 'default');
     }
 
-    public addQuestion(message: Partial<BotkitMessageTemplate> | string, handlers, options: any, thread_name: string) {
+    /**
+     * Identical to `ask()`, but accepts the name of a thread to which the question is added.
+     * @param message a message that will be used as the prompt
+     * @param handlers one or more handler functions defining possible conditional actions based on the response to the question
+     * @param options {key: <name of key to store response in>}
+     * @param thread_name Name of thread to which message will be added
+     */
+    public addQuestion(message: Partial<BotkitMessageTemplate> | string, handlers: BotkitConvoTrigger | BotkitConvoTrigger[], options: {key: string}, thread_name: string) {
 
         if (!thread_name) {
             thread_name = 'default';
