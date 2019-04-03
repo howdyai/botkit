@@ -19,6 +19,7 @@
 
 ### constructor new FacebookAPI()
 
+
 **Parameters**
 
 | Argument | Type | Description
@@ -47,6 +48,7 @@
 ## FacebookAdapter
 
 ### constructor new FacebookAdapter()
+
 
 **Parameters**
 
@@ -148,6 +150,7 @@
 ## FacebookBotWorker
 
 ### constructor new FacebookBotWorker()
+
 
 **Parameters**
 

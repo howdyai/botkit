@@ -20,6 +20,7 @@
 
 ### constructor new SlackAdapter()
 
+
 **Parameters**
 
 | Argument | Type | Description
@@ -186,6 +187,7 @@
 
 ### constructor new SlackBotWorker()
 
+
 **Parameters**
 
 | Argument | Type | Description
@@ -333,6 +335,7 @@
 ## SlackDialog
 
 ### constructor new SlackDialog()
+
 
 **Parameters**
 

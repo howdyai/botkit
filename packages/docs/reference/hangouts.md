@@ -17,6 +17,7 @@
 
 ### constructor new HangoutsAdapter()
 
+
 **Parameters**
 
 | Argument | Type | Description
@@ -104,6 +105,7 @@
 ## HangoutsBotWorker
 
 ### constructor new HangoutsBotWorker()
+
 
 **Parameters**
 

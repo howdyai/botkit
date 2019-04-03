@@ -26,11 +26,12 @@ A base class for a `bot` instance, an object that contains the information and f
 Note that adapters are likely to extend this class with additional platform-specific methods - refer to the adapter documentation for these extensions.
 ### constructor new BotWorker()
 Create a new BotWorker instance. Do not call this directly - instead, use [controller.spawn()](core.md#spawn).
+
 **Parameters**
 
 | Argument | Type | Description
 |--- |--- |---
-| controller | any | A pointer to the main Botkit controller
+| controller | [Botkit](#Botkit) | A pointer to the main Botkit controller
 | config | any | An object typically containing { dialogContext, reference, context, activity }<br/>
 
 **Properties and Accessors**
@@ -201,6 +202,7 @@ Create a new instance of Botkit to define the controller for a conversational ap
 To connect Botkit to a chat platform, pass in a fully configured `adapter`.
 If one is not specified, Botkit will expose an adapter for the Microsoft Bot Framework.
 ### constructor new Botkit()
+
 
 **Parameters**
 
@@ -495,6 +497,7 @@ controller.on('my_custom_event', async(bot, message) => {
 
 ### constructor new BotkitCMSHelper()
 
+
 **Parameters**
 
 | Argument | Type | Description
@@ -574,6 +577,7 @@ controller.on('my_custom_event', async(bot, message) => {
 ## BotkitConversation
 
 ### constructor new BotkitConversation()
+
 
 **Parameters**
 
@@ -795,6 +799,7 @@ controller.on('my_custom_event', async(bot, message) => {
 
 ### constructor new BotkitConversationState()
 
+
 **Parameters**
 
 | Argument | Type | Description
@@ -820,6 +825,7 @@ controller.on('my_custom_event', async(bot, message) => {
 ## BotkitDialogWrapper
 
 ### constructor new BotkitDialogWrapper()
+
 
 **Parameters**
 
@@ -851,6 +857,7 @@ controller.on('my_custom_event', async(bot, message) => {
 ## BotkitPluginLoader
 
 ### constructor new BotkitPluginLoader()
+
 
 **Parameters**
 

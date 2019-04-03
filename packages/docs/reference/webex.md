@@ -15,6 +15,7 @@
 
 ### constructor new WebexAdapter()
 
+
 **Parameters**
 
 | Argument | Type | Description
