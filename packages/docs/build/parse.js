@@ -46,7 +46,7 @@ function generateReference(src, dest) {
     classes = classes.sort((a, b) => { return a.name > b.name });
     interfaces = interfaces.sort((a, b) => { return a.name > b.name });
 
-    fs.writeFileSync(dest, template({classes: classes, interfaces: interfaces}).replace(/\n/g,"\r\n"));
+    fs.writeFileSync(dest, template({classes: classes, interfaces: interfaces}));
 }
 
 generateReference('./botkit.json','../reference/core.md');

@@ -4,6 +4,7 @@
 ### constructor new BotWorker()
 
 **Parameters**
+
 | name | type | description
 |--- |--- |---
 | controller | any | 
@@ -19,6 +20,7 @@
 
 
 **Parameters**
+
 | name | type | description
 |--- |--- |---
 | id| any | 
@@ -31,6 +33,7 @@
 
 
 **Parameters**
+
 | name | type | description
 |--- |--- |---
 | reference| Partial | 
@@ -43,6 +46,7 @@ Take a crudely-formed Botkit message with any sort of field
 and map it into a beautiful BotFramework activity
 
 **Parameters**
+
 | name | type | description
 |--- |--- |---
 | message| any | 
@@ -54,6 +58,7 @@ and map it into a beautiful BotFramework activity
 
 
 **Parameters**
+
 | name | type | description
 |--- |--- |---
 | key (optional)| string | 
@@ -65,6 +70,7 @@ and map it into a beautiful BotFramework activity
 
 
 **Parameters**
+
 | name | type | description
 |--- |--- |---
 | body| any | 
@@ -76,6 +82,7 @@ and map it into a beautiful BotFramework activity
 
 
 **Parameters**
+
 | name | type | description
 |--- |--- |---
 | status| number | 
@@ -87,6 +94,7 @@ and map it into a beautiful BotFramework activity
 
 
 **Parameters**
+
 | name | type | description
 |--- |--- |---
 | src| Partial | 
@@ -99,6 +107,7 @@ and map it into a beautiful BotFramework activity
 
 
 **Parameters**
+
 | name | type | description
 |--- |--- |---
 | message| Partial | 
@@ -115,6 +124,7 @@ If one is not specified, Botkit will expose an adapter for the Microsoft Bot Fra
 ### constructor new Botkit()
 
 **Parameters**
+
 | name | type | description
 |--- |--- |---
 | config | [BotkitConfiguration](#BotkitConfiguration) | 
@@ -138,6 +148,7 @@ If one is not specified, Botkit will expose an adapter for the Microsoft Bot Fra
 Botkit's `controller.ready()` function will not fire until all dependencies have been marked complete.
 
 **Parameters**
+
 | name | type | description
 |--- |--- |---
 | name| string | The name of the dependency that is being loaded.
@@ -160,6 +171,7 @@ somethingAsync().then(function() {
 Botkit's `controller.ready()` function will not fire until all dependencies have been marked complete.
 
 **Parameters**
+
 | name | type | description
 |--- |--- |---
 | name| string | The name of the dependency that has completed loading.
@@ -172,12 +184,14 @@ Botkit's `controller.ready()` function will not fire until all dependencies have
 Get a value from the configuration.
 
 **Parameters**
+
 | name | type | description
 |--- |--- |---
 | key (optional)| string | The name of a value stored in the configuration
 
 
 **Returns**
+
 The value stored in the configuration (or null if absent)
 
 
@@ -198,6 +212,7 @@ let webhook_uri = controller.getConfig('webhook_uri');
 
 
 **Parameters**
+
 | name | type | description
 |--- |--- |---
 | turnContext| any | 
@@ -209,6 +224,7 @@ let webhook_uri = controller.getConfig('webhook_uri');
 
 
 **Parameters**
+
 | name | type | description
 |--- |--- |---
 | patterns|  | 
@@ -222,6 +238,7 @@ let webhook_uri = controller.getConfig('webhook_uri');
 
 
 **Parameters**
+
 | name | type | description
 |--- |--- |---
 | bot| [BotWorker](#BotWorker) | 
@@ -234,6 +251,7 @@ let webhook_uri = controller.getConfig('webhook_uri');
 
 
 **Parameters**
+
 | name | type | description
 |--- |--- |---
 | patterns|  | 
@@ -247,6 +265,7 @@ let webhook_uri = controller.getConfig('webhook_uri');
 
 
 **Parameters**
+
 | name | type | description
 |--- |--- |---
 | p| string | 
@@ -258,6 +277,7 @@ let webhook_uri = controller.getConfig('webhook_uri');
 
 
 **Parameters**
+
 | name | type | description
 |--- |--- |---
 | p| string | 
@@ -269,6 +289,7 @@ let webhook_uri = controller.getConfig('webhook_uri');
 
 
 **Parameters**
+
 | name | type | description
 |--- |--- |---
 | events|  | 
@@ -281,6 +302,7 @@ let webhook_uri = controller.getConfig('webhook_uri');
 
 
 **Parameters**
+
 | name | type | description
 |--- |--- |---
 | handler| any | 
@@ -292,6 +314,7 @@ let webhook_uri = controller.getConfig('webhook_uri');
 
 
 **Parameters**
+
 | name | type | description
 |--- |--- |---
 | bot| any | 
@@ -303,6 +326,7 @@ let webhook_uri = controller.getConfig('webhook_uri');
 
 
 **Parameters**
+
 | name | type | description
 |--- |--- |---
 | config| any | 
@@ -314,6 +338,7 @@ let webhook_uri = controller.getConfig('webhook_uri');
 
 
 **Parameters**
+
 | name | type | description
 |--- |--- |---
 | event| string | 
@@ -330,6 +355,7 @@ let webhook_uri = controller.getConfig('webhook_uri');
 ### constructor new BotkitCMSHelper()
 
 **Parameters**
+
 | name | type | description
 |--- |--- |---
 | controller | any | 
@@ -341,6 +367,7 @@ let webhook_uri = controller.getConfig('webhook_uri');
 
 
 **Parameters**
+
 | name | type | description
 |--- |--- |---
 | script_name| string | 
@@ -353,6 +380,7 @@ let webhook_uri = controller.getConfig('webhook_uri');
 
 
 **Parameters**
+
 | name | type | description
 |--- |--- |---
 | script_name| string | 
@@ -366,6 +394,7 @@ let webhook_uri = controller.getConfig('webhook_uri');
 
 
 **Parameters**
+
 | name | type | description
 |--- |--- |---
 | dialogSet| DialogSet | 
@@ -377,6 +406,7 @@ let webhook_uri = controller.getConfig('webhook_uri');
 
 
 **Parameters**
+
 | name | type | description
 |--- |--- |---
 | script_name| string | 
@@ -390,6 +420,7 @@ let webhook_uri = controller.getConfig('webhook_uri');
 
 
 **Parameters**
+
 | name | type | description
 |--- |--- |---
 | bot| any | 
@@ -405,6 +436,7 @@ let webhook_uri = controller.getConfig('webhook_uri');
 ### constructor new BotkitConversation()
 
 **Parameters**
+
 | name | type | description
 |--- |--- |---
 | dialogId | string | 
@@ -420,6 +452,7 @@ let webhook_uri = controller.getConfig('webhook_uri');
 
 
 **Parameters**
+
 | name | type | description
 |--- |--- |---
 | message| any | 
@@ -432,6 +465,7 @@ let webhook_uri = controller.getConfig('webhook_uri');
 
 
 **Parameters**
+
 | name | type | description
 |--- |--- |---
 | message| any | 
@@ -446,6 +480,7 @@ let webhook_uri = controller.getConfig('webhook_uri');
 
 
 **Parameters**
+
 | name | type | description
 |--- |--- |---
 | handler|  | 
@@ -457,6 +492,7 @@ let webhook_uri = controller.getConfig('webhook_uri');
 
 
 **Parameters**
+
 | name | type | description
 |--- |--- |---
 | message| any | 
@@ -470,6 +506,7 @@ let webhook_uri = controller.getConfig('webhook_uri');
 
 
 **Parameters**
+
 | name | type | description
 |--- |--- |---
 | thread_name| any | 
@@ -482,6 +519,7 @@ let webhook_uri = controller.getConfig('webhook_uri');
 
 
 **Parameters**
+
 | name | type | description
 |--- |--- |---
 | dc| any | 
@@ -494,6 +532,7 @@ let webhook_uri = controller.getConfig('webhook_uri');
 
 
 **Parameters**
+
 | name | type | description
 |--- |--- |---
 | dc| any | 
@@ -505,6 +544,7 @@ let webhook_uri = controller.getConfig('webhook_uri');
 
 
 **Parameters**
+
 | name | type | description
 |--- |--- |---
 | dc| DialogContext | 
@@ -517,6 +557,7 @@ let webhook_uri = controller.getConfig('webhook_uri');
 
 
 **Parameters**
+
 | name | type | description
 |--- |--- |---
 | context| TurnContext | 
@@ -530,6 +571,7 @@ let webhook_uri = controller.getConfig('webhook_uri');
 
 
 **Parameters**
+
 | name | type | description
 |--- |--- |---
 | thread| any | 
@@ -543,6 +585,7 @@ let webhook_uri = controller.getConfig('webhook_uri');
 
 
 **Parameters**
+
 | name | type | description
 |--- |--- |---
 | variable| any | 
@@ -555,6 +598,7 @@ let webhook_uri = controller.getConfig('webhook_uri');
 
 
 **Parameters**
+
 | name | type | description
 |--- |--- |---
 | dc| any | 
@@ -567,6 +611,7 @@ let webhook_uri = controller.getConfig('webhook_uri');
 
 
 **Parameters**
+
 | name | type | description
 |--- |--- |---
 | dc| any | 
@@ -580,6 +625,7 @@ let webhook_uri = controller.getConfig('webhook_uri');
 
 
 **Parameters**
+
 | name | type | description
 |--- |--- |---
 | dc| any | 
@@ -595,6 +641,7 @@ let webhook_uri = controller.getConfig('webhook_uri');
 
 
 **Parameters**
+
 | name | type | description
 |--- |--- |---
 | message| any | 
@@ -609,6 +656,7 @@ let webhook_uri = controller.getConfig('webhook_uri');
 ### constructor new BotkitConversationState()
 
 **Parameters**
+
 | name | type | description
 |--- |--- |---
 | storage | Storage | 
@@ -620,6 +668,7 @@ let webhook_uri = controller.getConfig('webhook_uri');
 
 
 **Parameters**
+
 | name | type | description
 |--- |--- |---
 | context| TurnContext | 
@@ -634,6 +683,7 @@ let webhook_uri = controller.getConfig('webhook_uri');
 ### constructor new BotkitDialogWrapper()
 
 **Parameters**
+
 | name | type | description
 |--- |--- |---
 | dc | any | 
@@ -649,6 +699,7 @@ let webhook_uri = controller.getConfig('webhook_uri');
 
 
 **Parameters**
+
 | name | type | description
 |--- |--- |---
 | thread| any | 
@@ -663,6 +714,7 @@ let webhook_uri = controller.getConfig('webhook_uri');
 ### constructor new BotkitPluginLoader()
 
 **Parameters**
+
 | name | type | description
 |--- |--- |---
 | botkit | any | 
@@ -677,6 +729,7 @@ let webhook_uri = controller.getConfig('webhook_uri');
 
 
 **Parameters**
+
 | name | type | description
 |--- |--- |---
 | path_to_view| any | 
@@ -688,6 +741,7 @@ let webhook_uri = controller.getConfig('webhook_uri');
 
 
 **Parameters**
+
 | name | type | description
 |--- |--- |---
 | alias| any | 
@@ -700,6 +754,7 @@ let webhook_uri = controller.getConfig('webhook_uri');
 
 
 **Parameters**
+
 | name | type | description
 |--- |--- |---
 | name| any | 
@@ -712,6 +767,7 @@ let webhook_uri = controller.getConfig('webhook_uri');
 
 
 **Parameters**
+
 | name | type | description
 |--- |--- |---
 | plugin_or_function|  | 
@@ -727,6 +783,7 @@ let webhook_uri = controller.getConfig('webhook_uri');
 
 
 **Fields**
+
 | name | type | comment
 |--- |--- |---
 | adapter | BotFrameworkAdapter | 
@@ -743,6 +800,7 @@ let webhook_uri = controller.getConfig('webhook_uri');
 
 
 **Fields**
+
 | name | type | comment
 |--- |--- |---
 | channel | string | 
@@ -757,6 +815,7 @@ let webhook_uri = controller.getConfig('webhook_uri');
 
 
 **Fields**
+
 | name | type | comment
 |--- |--- |---
 | init |  | 
@@ -770,6 +829,7 @@ let webhook_uri = controller.getConfig('webhook_uri');
 
 
 **Fields**
+
 | name | type | comment
 |--- |--- |---
 | icon | string | 
@@ -781,6 +841,7 @@ let webhook_uri = controller.getConfig('webhook_uri');
 
 
 **Fields**
+
 | name | type | comment
 |--- |--- |---
 | handler |  | 

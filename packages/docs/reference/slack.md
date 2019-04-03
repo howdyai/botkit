@@ -4,6 +4,7 @@
 ### constructor new SlackAdapter()
 
 **Parameters**
+
 | name | type | description
 |--- |--- |---
 | options | [SlackAdapterOptions](#SlackAdapterOptions) | 
@@ -22,6 +23,7 @@
 
 
 **Parameters**
+
 | name | type | description
 |--- |--- |---
 | activity| any | 
@@ -33,6 +35,7 @@
 
 
 **Parameters**
+
 | name | type | description
 |--- |--- |---
 | reference| ConversationReference | 
@@ -45,6 +48,7 @@
 
 
 **Parameters**
+
 | name | type | description
 |--- |--- |---
 | context| TurnContext | 
@@ -57,6 +61,7 @@
 
 
 **Parameters**
+
 | name | type | description
 |--- |--- |---
 | activity| Activity | 
@@ -68,6 +73,7 @@
 
 
 **Parameters**
+
 | name | type | description
 |--- |--- |---
 | activity| Activity | 
@@ -84,6 +90,7 @@
 
 
 **Parameters**
+
 | name | type | description
 |--- |--- |---
 | botkit| any | 
@@ -95,6 +102,7 @@
 
 
 **Parameters**
+
 | name | type | description
 |--- |--- |---
 | req| any | 
@@ -108,6 +116,7 @@
 
 
 **Parameters**
+
 | name | type | description
 |--- |--- |---
 | context| TurnContext | 
@@ -120,6 +129,7 @@
 
 
 **Parameters**
+
 | name | type | description
 |--- |--- |---
 | context| TurnContext | 
@@ -132,6 +142,7 @@
 
 
 **Parameters**
+
 | name | type | description
 |--- |--- |---
 | code| string | 
@@ -143,6 +154,7 @@
 
 
 **Parameters**
+
 | name | type | description
 |--- |--- |---
 | req| any | 
@@ -158,6 +170,7 @@
 ### constructor new SlackBotWorker()
 
 **Parameters**
+
 | name | type | description
 |--- |--- |---
 | botkit | any | 
@@ -173,6 +186,7 @@
 
 
 **Parameters**
+
 | name | type | description
 |--- |--- |---
 | errors| any | 
@@ -184,6 +198,7 @@
 
 
 **Parameters**
+
 | name | type | description
 |--- |--- |---
 | src| any | 
@@ -196,6 +211,7 @@
 
 
 **Parameters**
+
 | name | type | description
 |--- |--- |---
 | src| any | 
@@ -208,6 +224,7 @@
 
 
 **Parameters**
+
 | name | type | description
 |--- |--- |---
 | src| any | 
@@ -220,6 +237,7 @@
 
 
 **Parameters**
+
 | name | type | description
 |--- |--- |---
 | src| any | 
@@ -232,6 +250,7 @@
 
 
 **Parameters**
+
 | name | type | description
 |--- |--- |---
 | src| any | 
@@ -244,6 +263,7 @@
 
 
 **Parameters**
+
 | name | type | description
 |--- |--- |---
 | src| any | 
@@ -256,6 +276,7 @@
 
 
 **Parameters**
+
 | name | type | description
 |--- |--- |---
 | channelId| string | 
@@ -268,6 +289,7 @@
 
 
 **Parameters**
+
 | name | type | description
 |--- |--- |---
 | channelId| string | 
@@ -281,6 +303,7 @@
 
 
 **Parameters**
+
 | name | type | description
 |--- |--- |---
 | userId| string | 
@@ -295,6 +318,7 @@
 ### constructor new SlackDialog()
 
 **Parameters**
+
 | name | type | description
 |--- |--- |---
 | title | any | 
@@ -308,6 +332,7 @@
 
 
 **Parameters**
+
 | name | type | description
 |--- |--- |---
 | label| any | 
@@ -322,6 +347,7 @@
 
 
 **Parameters**
+
 | name | type | description
 |--- |--- |---
 | label| any | 
@@ -336,6 +362,7 @@
 
 
 **Parameters**
+
 | name | type | description
 |--- |--- |---
 | label| any | 
@@ -351,6 +378,7 @@
 
 
 **Parameters**
+
 | name | type | description
 |--- |--- |---
 | label| any | 
@@ -365,6 +393,7 @@
 
 
 **Parameters**
+
 | name | type | description
 |--- |--- |---
 | label| any | 
@@ -380,6 +409,7 @@
 
 
 **Parameters**
+
 | name | type | description
 |--- |--- |---
 | label| any | 
@@ -395,6 +425,7 @@
 
 
 **Parameters**
+
 | name | type | description
 |--- |--- |---
 | label| any | 
@@ -419,6 +450,7 @@
 
 
 **Parameters**
+
 | name | type | description
 |--- |--- |---
 | v| any | 
@@ -430,6 +462,7 @@
 
 
 **Parameters**
+
 | name | type | description
 |--- |--- |---
 | set| boolean | 
@@ -441,6 +474,7 @@
 
 
 **Parameters**
+
 | name | type | description
 |--- |--- |---
 | v| any | 
@@ -452,6 +486,7 @@
 
 
 **Parameters**
+
 | name | type | description
 |--- |--- |---
 | v| any | 
@@ -463,6 +498,7 @@
 
 
 **Parameters**
+
 | name | type | description
 |--- |--- |---
 | v| any | 
@@ -481,6 +517,7 @@
 
 
 **Parameters**
+
 | name | type | description
 |--- |--- |---
 | context| any | 
@@ -500,6 +537,7 @@
 
 
 **Parameters**
+
 | name | type | description
 |--- |--- |---
 | context| any | 
@@ -519,6 +557,7 @@
 
 
 **Parameters**
+
 | name | type | description
 |--- |--- |---
 | context| any | 
@@ -535,6 +574,7 @@
 
 
 **Fields**
+
 | name | type | comment
 |--- |--- |---
 | ok | boolean | 
@@ -548,6 +588,7 @@
 
 
 **Fields**
+
 | name | type | comment
 |--- |--- |---
 | channel | string | 
@@ -559,6 +600,7 @@
 
 
 **Fields**
+
 | name | type | comment
 |--- |--- |---
 | botToken | string | 
