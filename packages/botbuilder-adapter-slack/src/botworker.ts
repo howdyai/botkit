@@ -1,3 +1,7 @@
+/**
+ * @module botbuilder-adapter-slack
+ */
+
 import { BotWorker } from 'botkit';
 import { WebClient, Dialog } from '@slack/client';
 import * as request from 'request';

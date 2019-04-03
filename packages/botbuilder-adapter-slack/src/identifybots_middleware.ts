@@ -1,3 +1,7 @@
+/**
+ * @module botbuilder-adapter-slack
+ */
+
 import { MiddlewareSet } from 'botbuilder';
 
 export class SlackIdentifyBotsMiddleware extends MiddlewareSet {

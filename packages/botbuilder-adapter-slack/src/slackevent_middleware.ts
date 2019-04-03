@@ -1,3 +1,6 @@
+/**
+ * @module botbuilder-adapter-slack
+ */
 import { ActivityTypes, MiddlewareSet } from 'botbuilder';
 
 export class SlackEventMiddleware extends MiddlewareSet {

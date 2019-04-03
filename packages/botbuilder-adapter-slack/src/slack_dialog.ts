@@ -1,3 +1,6 @@
+/**
+ * @module botbuilder-adapter-slack
+ */
 
 export class SlackDialog {
     private data: any;

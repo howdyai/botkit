@@ -1,3 +1,6 @@
+/**
+ * @module botkit
+ */
 import { Activity, ConversationState, Storage, TurnContext } from 'botbuilder';
 
 export class BotkitConversationState extends ConversationState {

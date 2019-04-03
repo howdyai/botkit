@@ -46,11 +46,25 @@ export interface BotkitMessage {
  */
 export class Botkit {
 
+    /** 
+     * _config contains the options passed to the constructor.
+     * this property should never be accessed directly - use `getConfig()` instead.
+     */
     private _config: BotkitConfiguration;
+
+    /**
+     * _events contains the list of all events for which Botkit has registered handlers.
+     * Each key in this object points to an array of handler functions bound to that event.
+     */
     private _events: {
         [key: string]: { (bot: BotWorker, event: any): Promise<boolean> }[];
     } = {};
 
+    /**
+     * _triggers contains a list of trigger patterns htat Botkit will watch for.
+     * Each key in this object points to an array of patterns and their associated handlers.
+     * Each key represents an event type.
+     */
     private _triggers: {
         [key: string]: { 
             pattern: string | RegExp | { (message: BotkitMessage):  Promise<boolean> };
@@ -59,6 +73,11 @@ export class Botkit {
         }[];
     } = {};
 
+    /**
+     * _interrupts contains a list of trigger patterns htat Botkit will watch for and fire BEFORE firing any normal triggers.
+     * Each key in this object points to an array of patterns and their associated handlers.
+     * Each key represents an event type.
+     */
     private _interrupts: {
         [key: string]: { 
             pattern: string | RegExp | { (message: BotkitMessage):  Promise<boolean> };
@@ -67,15 +86,44 @@ export class Botkit {
         }[];
     } = {};
 
+    /**
+     * conversationState is used to track and persist the state of any ongoing conversations.
+     * See https://docs.microsoft.com/en-us/azure/bot-service/bot-builder-howto-v4-state?view=azure-bot-service-4.0&tabs=javascript
+     */
     private conversationState: BotkitConversationState;
 
+    /**
+     * _deps contains a list of all dependencies that Botkit must load before being ready to operate.
+     * see addDep(), completeDep() and ready()
+     */
     private _deps: {};
+
+    /**
+     * contains an array of functions that will fire when Botkit has completely booted.
+     */
     private _bootCompleteHandlers: { (): void }[];
 
-    public cms: BotkitCMSHelper; // access to the botkit cms helper
-
+ 
+    /**
+     * The current version of Botkit Core
+     */
     public version: string = require('../package.json').version;
 
+    /**
+     * Middleware endpoints available for plugins and features to extend Botkit.
+     * Endpoints available are: spawn, ingest, receive, send.
+     * 
+     * To bind a middleware function to Botkit:
+     * ```javascript
+     * controller.middleware.receive.use(function(bot, message, next) {
+     *  
+     *  // do something with bot or message
+     * 
+     *  // always call next, or your bot will freeze!
+     *  next();
+     * });
+     * ```
+     */
     public middleware = {
         spawn: new ware(),
         ingest: new ware(),
@@ -83,22 +131,56 @@ export class Botkit {
         receive: new ware(),
     }
 
+    /**
+     * a BotBuilder storage driver - defaults to MemoryStorage
+     */
     public storage: Storage;
+
+    /**
+     * An Express webserver
+     */
     public webserver: any;
+
+    /**
+     * A direct reference to the underlying HTTP server object
+     */
     public http: any;
+
+    /**
+     * A BotBuilder-compatible adapter - defaults to a Bot Framework adapter
+     */
     public adapter: any; // TODO: this should be BotAdapter, but missing adapter.processActivity causes errors
+
+    /**
+     * A BotBuilder DialogSet that serves as the top level dialog container for the Botkit app
+     */
     public dialogSet: DialogSet;
+
+    /**
+     * Provides an interface to interact with external Botkit plugins
+     */
     public plugins: BotkitPluginLoader;
 
+    /**
+     * provides an interface to interact with an instance of Botkit CMS
+     */
+    public cms: BotkitCMSHelper; 
+
+    /**
+     * The path of the main Botkit SDK, used to generate relative paths
+     */
     public PATH: string;
 
-    public booted: boolean;
+    /**
+     * Indicates whether or not Botkit has fully booted.
+     */
+    private booted: boolean;
 
     /* 
      * Create a new Botkit instance
      * @param config Configuration for this instance of Botkit
      */
-    constructor(config) {
+    constructor(config: BotkitConfiguration) {
         
         // Set the path where Botkit's core lib is found.
         this.PATH = __dirname;
@@ -222,7 +304,17 @@ export class Botkit {
     }
 
     /**
-     * Get a value from the configuration
+     * Get a value from the configuration.
+     * 
+     * For example:
+     * ```javascript
+     * // get entire config object
+     * let config = controller.getConfig();
+     * 
+     * // get a specific value from the config
+     * let webhook_uri = controller.getConfig('webhook_uri');
+     * ```
+     * 
      * @param {string} key The name of a value stored in the configuration
      * @returns {any} The value stored in the configuration (or null if absent)
      */
@@ -234,12 +326,32 @@ export class Botkit {
         }
     }
 
-    public addDep(name) {
+    /**
+     * (For use by plugins only) - Add a dependency to Botkit's bootup process that must be marked as completed using `completeDep()`.
+     * Botkit's `controller.ready()` function will not fire until all dependencies have been marked complete.
+     * 
+     * For example, a plugin that needs to do an asynchronous task before Botkit proceeds might do:
+     * ```javascript
+     * controller.addDep('my_async_plugin');
+     * somethingAsync().then(function() {
+     *  controller.completeDep('my_async_plugin');
+     * });
+     * ```
+     * 
+     * @param name {string} The name of the dependency that is being loaded.
+     */
+    public addDep(name: string) {
         debug(`Waiting for ${ name }`);
         this._deps[name] = false;
     }
 
-    public completeDep(name) {
+    /**
+     * (For use by plugins only) - Mark a bootup dependency as loaded and ready to use
+     * Botkit's `controller.ready()` function will not fire until all dependencies have been marked complete.
+
+     * @param name {string} The name of the dependency that has completed loading.
+     */
+    public completeDep(name: string) {
         debug(`${ name } ready`);
 
         this._deps[name] = true;
@@ -263,7 +375,7 @@ export class Botkit {
         }
     }
 
-    private ready(handler) {
+    public ready(handler) {
         if (this.booted) {
             handler.call(this);
         } else {

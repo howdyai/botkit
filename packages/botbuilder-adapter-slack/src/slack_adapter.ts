@@ -1,3 +1,7 @@
+/**
+ * @module botbuilder-adapter-slack
+ */
+
 import { Activity, ActivityTypes, BotAdapter, TurnContext, MiddlewareSet, ConversationReference } from 'botbuilder';
 import { WebClient, WebAPICallResult } from '@slack/client';
 import { SlackBotWorker } from './botworker';
