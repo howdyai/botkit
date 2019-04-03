@@ -11,6 +11,7 @@
 | config | any | 
 
 **Properties and Accessors**
+
 | name | type | comment
 |--- |--- |---
 | controller |  | 
@@ -130,6 +131,7 @@ If one is not specified, Botkit will expose an adapter for the Microsoft Bot Fra
 | config | [BotkitConfiguration](#BotkitConfiguration) | 
 
 **Properties and Accessors**
+
 | name | type | comment
 |--- |--- |---
 | PATH | string | The path of the main Botkit SDK, used to generate relative paths
@@ -443,6 +445,7 @@ let webhook_uri = controller.getConfig('webhook_uri');
 | controller | any | 
 
 **Properties and Accessors**
+
 | name | type | comment
 |--- |--- |---
 | script | any | 
@@ -690,6 +693,7 @@ let webhook_uri = controller.getConfig('webhook_uri');
 | step | any | 
 
 **Properties and Accessors**
+
 | name | type | comment
 |--- |--- |---
 | vars | __type | 
@@ -720,6 +724,7 @@ let webhook_uri = controller.getConfig('webhook_uri');
 | botkit | any | 
 
 **Properties and Accessors**
+
 | name | type | comment
 |--- |--- |---
 | botkit | [Botkit](#Botkit) | 

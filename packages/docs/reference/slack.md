@@ -10,6 +10,7 @@
 | options | [SlackAdapterOptions](#SlackAdapterOptions) | 
 
 **Properties and Accessors**
+
 | name | type | comment
 |--- |--- |---
 | botkit_worker | [SlackBotWorker](#SlackBotWorker) | 
@@ -177,6 +178,7 @@
 | config | any | 
 
 **Properties and Accessors**
+
 | name | type | comment
 |--- |--- |---
 | api | WebClient | 
