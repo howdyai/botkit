@@ -2,22 +2,32 @@
 
 ## Classes
 
+
 * <a href="#BotWorker">BotWorker</a>
+
 * <a href="#Botkit">Botkit</a>
+
 * <a href="#BotkitCMSHelper">BotkitCMSHelper</a>
+
 * <a href="#BotkitConversation">BotkitConversation</a>
+
 * <a href="#BotkitConversationState">BotkitConversationState</a>
+
 * <a href="#BotkitDialogWrapper">BotkitDialogWrapper</a>
+
 * <a href="#BotkitPluginLoader">BotkitPluginLoader</a>
 
+
 ## Interfaces
+
 * <a href="#BotkitConfiguration">BotkitConfiguration</a>
+
 * <a href="#BotkitHandler">BotkitHandler</a>
+
 * <a href="#BotkitMessage">BotkitMessage</a>
+
 * <a href="#BotkitPlugin">BotkitPlugin</a>
-* <a href="#BotkitTrigger">BotkitTrigger</a>
-* <a href="#PluginMenu">PluginMenu</a>
-* <a href="#PluginWebEndpoint">PluginWebEndpoint</a>
+
 
 ---
 
@@ -135,7 +145,6 @@ and map it into a beautiful BotFramework activity
 | Argument | Type | description
 |--- |--- |---
 | message| Partial | 
-
 
 
 
@@ -435,7 +444,6 @@ controller.on('my_custom_event', async(bot, message) => {
 
 
 
-
 <a name="BotkitCMSHelper"></a>
 ## BotkitCMSHelper
 
@@ -512,7 +520,6 @@ controller.on('my_custom_event', async(bot, message) => {
 |--- |--- |---
 | bot| any | 
 | message| any | 
-
 
 
 
@@ -737,7 +744,6 @@ controller.on('my_custom_event', async(bot, message) => {
 
 
 
-
 <a name="BotkitConversationState"></a>
 ## BotkitConversationState
 
@@ -760,7 +766,6 @@ controller.on('my_custom_event', async(bot, message) => {
 | Argument | Type | description
 |--- |--- |---
 | context| TurnContext | 
-
 
 
 
@@ -792,7 +797,6 @@ controller.on('my_custom_event', async(bot, message) => {
 | Argument | Type | description
 |--- |--- |---
 | thread| any | 
-
 
 
 
@@ -867,7 +871,6 @@ controller.on('my_custom_event', async(bot, message) => {
 
 
 
-
 <a name="BotkitConfiguration"></a>
 ## Interface BotkitConfiguration
 Defines the options used when instantiating Botkit to create the main app controller with `new Botkit(options)`
@@ -883,7 +886,6 @@ Defines the options used when instantiating Botkit to create the main app contro
 | storage | Storage | A Storage interface compatible with [this specification](https://docs.microsoft.com/en-us/javascript/api/botbuilder-core/storage?view=botbuilder-ts-latest)<br/>Defaults to the ephemeral [MemoryStorage](https://docs.microsoft.com/en-us/javascript/api/botbuilder-core/memorystorage?view=botbuilder-ts-latest) implementation.<br/>
 | webhook_uri | string | Path used to create incoming webhook URI.  Defaults to `/api/messages`<br/>
 | webserver | any | An instance of Express used to define web endpoints.  If not specified, oen will be created internally.<br/>Note: only use your own Express if you absolutely must for some reason. Otherwise, use `controller.webserver`<br/>
-
 <a name="BotkitHandler"></a>
 ## Interface BotkitHandler
 A handler function passed into `hears()` or `on()` that receives a [BotWorker](#botworker) instance and a [BotkitMessage](#botkitmessage).  Should be defined as an async function and/or return a Promise.
@@ -904,7 +906,6 @@ controller.on('event', async(bot, message) => {
 ```
 
 
-
 <a name="BotkitMessage"></a>
 ## Interface BotkitMessage
 Defines the expected form of a message or event object being handled by Botkit.
@@ -920,7 +921,6 @@ Will also contain any additional fields including in the incoming payload.
 | text | string | Text of the message sent by the user (or primary value in case of button click)<br/>
 | type | string | The type of event, in most cases defined by the messaging channel or adapter<br/>
 | user | string | Unique identifier of user who sent the message. Typically contains the platform specific user id.<br/>
-
 <a name="BotkitPlugin"></a>
 ## Interface BotkitPlugin
 
@@ -934,40 +934,3 @@ Will also contain any additional fields including in the incoming payload.
 | middlewares | __type | 
 | name | string | 
 | web |  | 
-
-<a name="BotkitTrigger"></a>
-## Interface BotkitTrigger
-Defines a trigger, including the type, pattern and handler function to fire if triggered.
-
-**Fields**
-
-| Name | Type | Description
-|--- |--- |---
-| handler | [BotkitHandler](#BotkitHandler) | 
-| pattern |  | 
-| type | string | string, regexp or function<br/>
-
-<a name="PluginMenu"></a>
-## Interface PluginMenu
-
-
-**Fields**
-
-| Name | Type | Description
-|--- |--- |---
-| icon | string | 
-| title | string | 
-| url | string | 
-
-<a name="PluginWebEndpoint"></a>
-## Interface PluginWebEndpoint
-
-
-**Fields**
-
-| Name | Type | Description
-|--- |--- |---
-| handler |  | 
-| method | string | 
-| url | string | 
-

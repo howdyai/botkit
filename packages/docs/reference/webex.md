@@ -2,9 +2,12 @@
 
 ## Classes
 
+
 * <a href="#WebexAdapter">WebexAdapter</a>
 
+
 ## Interfaces
+
 
 ---
 
@@ -118,7 +121,6 @@
 |--- |--- |---
 | context| any | 
 | activity| any | 
-
 
 
 

@@ -2,18 +2,19 @@
 
 ## Classes
 
-{{#each classes}}
+{{#each classes}}{{#if flags.isExported}}
 * <a href="#{{name}}">{{name}}</a>
-{{/each}}
+{{/if}}{{/each}}
 
 ## Interfaces
-{{#each interfaces}}
+{{#each interfaces}}{{#if flags.isExported}}
 * <a href="#{{name}}">{{name}}</a>
-{{/each}}
+{{/if}}{{/each}}
 
 ---
 
 {{#each classes}}
+{{#if flags.isExported}}
 <a name="{{name}}"></a>
 ## {{name}}
 {{{comment.shortText}}}
@@ -79,11 +80,12 @@
 
     {{/each}}
 
-
+{{/if}}
 {{/each}}
 
 
 {{#each interfaces}}
+{{#if flags.isExported}}
 <a name="{{name}}"></a>
 ## Interface {{name}}
 {{{comment.shortText}}}
@@ -101,5 +103,5 @@
     | {{name}} | {{#if type.id}}[{{type.name}}](#{{type.name}}){{else}}{{type.name}}{{/if}} | {{#if comment.shortText}}{{{no-newline comment.shortText}}}<br/>{{/if}}{{#if comment.text}}{{{no-newline comment.text}}}{{/if}}
     {{/each}}
     {{/if}}
-
+{{/if}}
 {{/each}}

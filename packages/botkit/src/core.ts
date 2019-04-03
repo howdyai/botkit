@@ -277,7 +277,6 @@ export class Botkit {
         this.PATH = __dirname;
 
         this._config = {
-            debug: false,
             webhook_uri: '/botframework/receive',
             ...config
         };

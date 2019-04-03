@@ -2,13 +2,20 @@
 
 ## Classes
 
+
 * <a href="#FacebookAPI">FacebookAPI</a>
+
 * <a href="#FacebookAdapter">FacebookAdapter</a>
+
 * <a href="#FacebookBotWorker">FacebookBotWorker</a>
+
 * <a href="#FacebookEventTypeMiddleware">FacebookEventTypeMiddleware</a>
 
+
 ## Interfaces
+
 * <a href="#FacebookAdapterOptions">FacebookAdapterOptions</a>
+
 
 ---
 
@@ -37,7 +44,6 @@
 | uri| string | 
 | method| string | 
 | payload| any | 
-
 
 
 
@@ -143,7 +149,6 @@
 
 
 
-
 <a name="FacebookBotWorker"></a>
 ## FacebookBotWorker
 
@@ -155,7 +160,6 @@
 |--- |--- |---
 | botkit | any | 
 | config | any | 
-
 
 
 
@@ -180,7 +184,6 @@
 
 
 
-
 <a name="FacebookAdapterOptions"></a>
 ## Interface FacebookAdapterOptions
 
@@ -193,4 +196,3 @@
 | api_host | string | 
 | app_secret | string | 
 | verify_token | string | 
-

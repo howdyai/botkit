@@ -2,9 +2,12 @@
 
 ## Classes
 
+
 * <a href="#WebsocketAdapter">WebsocketAdapter</a>
 
+
 ## Interfaces
+
 
 ---
 
@@ -103,7 +106,6 @@
 |--- |--- |---
 | context| any | 
 | activity| any | 
-
 
 
 

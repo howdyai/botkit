@@ -2,10 +2,14 @@
 
 ## Classes
 
+
 * <a href="#TwilioAdapter">TwilioAdapter</a>
 
+
 ## Interfaces
+
 * <a href="#TwilioAdapterOptions">TwilioAdapterOptions</a>
+
 
 ---
 
@@ -98,7 +102,6 @@
 
 
 
-
 <a name="TwilioAdapterOptions"></a>
 ## Interface TwilioAdapterOptions
 
@@ -111,4 +114,3 @@
 | auth_token | string | 
 | twilio_number | string | 
 | validation_url | string | 
-

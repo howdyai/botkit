@@ -2,11 +2,16 @@
 
 ## Classes
 
+
 * <a href="#HangoutsAdapter">HangoutsAdapter</a>
+
 * <a href="#HangoutsBotWorker">HangoutsBotWorker</a>
 
+
 ## Interfaces
+
 * <a href="#HangoutsAdapterOptions">HangoutsAdapterOptions</a>
+
 
 ---
 
@@ -94,7 +99,6 @@
 |--- |--- |---
 | context| TurnContext | 
 | activity| Activity | 
-
 
 
 
@@ -192,7 +196,6 @@
 
 
 
-
 <a name="HangoutsAdapterOptions"></a>
 ## Interface HangoutsAdapterOptions
 
@@ -203,4 +206,3 @@
 |--- |--- |---
 | google_auth_params | any | 
 | token | string | 
-

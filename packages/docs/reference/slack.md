@@ -2,17 +2,22 @@
 
 ## Classes
 
+
 * <a href="#SlackAdapter">SlackAdapter</a>
+
 * <a href="#SlackBotWorker">SlackBotWorker</a>
+
 * <a href="#SlackDialog">SlackDialog</a>
+
 * <a href="#SlackEventMiddleware">SlackEventMiddleware</a>
+
 * <a href="#SlackIdentifyBotsMiddleware">SlackIdentifyBotsMiddleware</a>
+
 * <a href="#SlackMessageTypeMiddleware">SlackMessageTypeMiddleware</a>
 
+
 ## Interfaces
-* <a href="#AuthTestResult">AuthTestResult</a>
-* <a href="#ChatPostMessageResult">ChatPostMessageResult</a>
-* <a href="#SlackAdapterOptions">SlackAdapterOptions</a>
+
 
 ---
 
@@ -182,7 +187,6 @@
 
 
 
-
 <a name="SlackBotWorker"></a>
 ## SlackBotWorker
 
@@ -327,7 +331,6 @@
 | Argument | Type | description
 |--- |--- |---
 | userId| string | 
-
 
 
 
@@ -526,7 +529,6 @@
 
 
 
-
 <a name="SlackEventMiddleware"></a>
 ## SlackEventMiddleware
 
@@ -546,7 +548,6 @@
 
 
 
-
 <a name="SlackIdentifyBotsMiddleware"></a>
 ## SlackIdentifyBotsMiddleware
 
@@ -562,7 +563,6 @@
 |--- |--- |---
 | context| any | 
 | next| any | 
-
 
 
 
@@ -587,49 +587,4 @@
 
 
 
-
-
-<a name="AuthTestResult"></a>
-## Interface AuthTestResult
-
-
-**Fields**
-
-| Name | Type | Description
-|--- |--- |---
-| ok | boolean | 
-| team | string | 
-| team_id | string | 
-| user | string | 
-| user_id | string | 
-
-<a name="ChatPostMessageResult"></a>
-## Interface ChatPostMessageResult
-
-
-**Fields**
-
-| Name | Type | Description
-|--- |--- |---
-| channel | string | 
-| message |  | 
-| ts | string | 
-
-<a name="SlackAdapterOptions"></a>
-## Interface SlackAdapterOptions
-
-
-**Fields**
-
-| Name | Type | Description
-|--- |--- |---
-| botToken | string | 
-| clientId | string | 
-| clientSecret | string | 
-| clientSigningSecret | string | 
-| getBotUserByTeam |  | 
-| getTokenForTeam |  | 
-| redirectUri | string | 
-| scopes |  | 
-| verificationToken | string | 
 
