@@ -18,8 +18,8 @@ interface BotkitMessageTemplate {
         key: string;
         options?: [
             {
-                type: string;
-                pattern: string | RegExp;
+                type?: string;
+                pattern?: string | RegExp;
                 handler: BotkitConvoHandler;
                 default?: boolean;
             }
