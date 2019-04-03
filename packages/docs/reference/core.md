@@ -232,7 +232,7 @@ Instruct your bot to listen for a pattern, and do something when that pattern is
 
 | name | type | description
 |--- |--- |---
-| patterns|  | )[] | RegExp | string | { (message: BotkitMessage): Promise&lt;boolean&gt; }} One or more string, regular expression, or test function
+| patterns|  | One or more string, regular expression, or test function
 | events|  | A list of event types that should be evaluated for the given patterns
 | handler| [BotkitHandler](#BotkitHandler) | a function that will be called should the pattern be matched
 
