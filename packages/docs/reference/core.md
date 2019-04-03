@@ -62,7 +62,7 @@ Use this method to create or adjust a bot instance so that it can send messages 
 
 | Argument | Type | description
 |--- |--- |---
-| reference| Partial<> | A [ConversationReference](https://docs.microsoft.com/en-us/javascript/api/botframework-schema/conversationreference?view=botbuilder-ts-latest), most likely captured from an incoming message and stored for use in proactive messaging scenarios.<br/>
+| reference| Partial<ConversationReference> | A [ConversationReference](https://docs.microsoft.com/en-us/javascript/api/botframework-schema/conversationreference?view=botbuilder-ts-latest), most likely captured from an incoming message and stored for use in proactive messaging scenarios.<br/>
 
 
 
@@ -147,8 +147,8 @@ Message will be sent using the context attached to the source message, which may
 
 | Argument | Type | description
 |--- |--- |---
-| src| Partial<> | An incoming message, usually passed in to a handler function
-| resp| Partial<> | A string containing the text of a reply, or more fully formed message object
+| src| Partial<BotkitMessage> | An incoming message, usually passed in to a handler function
+| resp| Partial<BotkitMessage> | A string containing the text of a reply, or more fully formed message object
 
 
 **Returns**
@@ -177,7 +177,7 @@ Primarily used for sending proactive messages, in concert with [changeContext()]
 
 | Argument | Type | description
 |--- |--- |---
-| message| Partial<> | A string containing the text of a reply, or more fully formed message object
+| message| Partial<BotkitMessage> | A string containing the text of a reply, or more fully formed message object
 
 
 **Returns**

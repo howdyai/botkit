@@ -123,7 +123,7 @@
 
 | Argument | Type | description
 |--- |--- |---
-| update| Partial<> | 
+| update| Partial<BotkitMessage> | 
 
 
 
@@ -149,7 +149,7 @@
 | Argument | Type | description
 |--- |--- |---
 | src| any | 
-| resp| Partial<> | 
+| resp| Partial<BotkitMessage> | 
 
 
 
@@ -162,7 +162,7 @@
 | Argument | Type | description
 |--- |--- |---
 | src| any | 
-| resp| Partial<> | 
+| resp| Partial<BotkitMessage> | 
 
 
 
@@ -188,7 +188,7 @@
 
 | Argument | Type | description
 |--- |--- |---
-| update| Partial<> | 
+| update| Partial<BotkitMessage> | 
 
 
 
