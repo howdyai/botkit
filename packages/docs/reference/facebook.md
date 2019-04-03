@@ -1,3 +1,17 @@
+# Botkit for Facebook Class Reference
+
+## Classes
+
+* <a href="#FacebookAPI">FacebookAPI</a>
+* <a href="#FacebookAdapter">FacebookAdapter</a>
+* <a href="#FacebookBotWorker">FacebookBotWorker</a>
+* <a href="#FacebookEventTypeMiddleware">FacebookEventTypeMiddleware</a>
+
+## Interfaces
+* <a href="#FacebookAdapterOptions">FacebookAdapterOptions</a>
+
+---
+
 <a name="FacebookAPI"></a>
 ## FacebookAPI
 

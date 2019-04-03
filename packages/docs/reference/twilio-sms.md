@@ -1,3 +1,14 @@
+# Botkit for Twilio SMS Class Reference
+
+## Classes
+
+* <a href="#TwilioAdapter">TwilioAdapter</a>
+
+## Interfaces
+* <a href="#TwilioAdapterOptions">TwilioAdapterOptions</a>
+
+---
+
 <a name="TwilioAdapter"></a>
 ## TwilioAdapter
 

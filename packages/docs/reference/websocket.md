@@ -1,3 +1,13 @@
+# Botkit for the Web Class Reference
+
+## Classes
+
+* <a href="#WebsocketAdapter">WebsocketAdapter</a>
+
+## Interfaces
+
+---
+
 <a name="WebsocketAdapter"></a>
 ## WebsocketAdapter
 

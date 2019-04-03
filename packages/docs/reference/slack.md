@@ -1,3 +1,21 @@
+# Botkit for Slack Class Reference
+
+## Classes
+
+* <a href="#SlackAdapter">SlackAdapter</a>
+* <a href="#SlackBotWorker">SlackBotWorker</a>
+* <a href="#SlackDialog">SlackDialog</a>
+* <a href="#SlackEventMiddleware">SlackEventMiddleware</a>
+* <a href="#SlackIdentifyBotsMiddleware">SlackIdentifyBotsMiddleware</a>
+* <a href="#SlackMessageTypeMiddleware">SlackMessageTypeMiddleware</a>
+
+## Interfaces
+* <a href="#AuthTestResult">AuthTestResult</a>
+* <a href="#ChatPostMessageResult">ChatPostMessageResult</a>
+* <a href="#SlackAdapterOptions">SlackAdapterOptions</a>
+
+---
+
 <a name="SlackAdapter"></a>
 ## SlackAdapter
 

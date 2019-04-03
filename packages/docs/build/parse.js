@@ -48,7 +48,7 @@ function generateReference(src, dest) {
     classes = classes.sort(sortByName);
     interfaces = interfaces.sort(sortByName);
 
-    fs.writeFileSync(dest, template({classes: classes, interfaces: interfaces}));
+    fs.writeFileSync(dest, template({classes: classes, interfaces: interfaces, name: data.name}));
 }
 
 function sortByName(a,b) {

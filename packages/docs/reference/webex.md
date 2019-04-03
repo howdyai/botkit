@@ -1,3 +1,13 @@
+# Botkit for Webex Teams Class Reference
+
+## Classes
+
+* <a href="#WebexAdapter">WebexAdapter</a>
+
+## Interfaces
+
+---
+
 <a name="WebexAdapter"></a>
 ## WebexAdapter
 
