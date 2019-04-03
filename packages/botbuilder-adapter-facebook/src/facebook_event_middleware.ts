@@ -1,3 +1,6 @@
+/**
+ * @module botbuilder-adapter-facebook
+ */
 import { ActivityTypes, MiddlewareSet } from 'botbuilder';
 
 export class FacebookEventTypeMiddleware extends MiddlewareSet {

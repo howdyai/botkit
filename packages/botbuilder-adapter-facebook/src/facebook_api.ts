@@ -1,3 +1,6 @@
+/**
+ * @module botbuilder-adapter-facebook
+ */
 import * as request from 'request';
 
 export class FacebookAPI {

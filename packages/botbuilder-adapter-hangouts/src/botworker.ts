@@ -1,3 +1,6 @@
+/**
+ * @module botbuilder-adapter-hangouts
+ */
 import { BotWorker, BotkitMessage } from 'botkit';
 
 export class HangoutsBotWorker extends BotWorker {

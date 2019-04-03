@@ -1,4 +1,8 @@
-import { Activity, ActivityTypes, BotAdapter, TurnContext } from 'botbuilder';
+/**
+ * @module botbuilder-adapter-websocket
+ */
+
+ import { Activity, ActivityTypes, BotAdapter, TurnContext } from 'botbuilder';
 import * as Debug from 'debug';
 var WebSocket = require('ws');
 const debug = Debug('botkit:websocket');

@@ -2,7 +2,7 @@
 
 const fs = require('fs');
 const Handlebars = require('handlebars');
-let markup = fs.readFileSync('template.hbs','utf8');
+let markup = fs.readFileSync(__dirname + '/template.hbs','utf8');
 
 // get rid of leading whitepsace on every line
 markup = markup.replace(/^ +/img,'');
@@ -55,5 +55,10 @@ function sortByName(a,b) {
     return 0;
 }
 
-generateReference('./botkit.json','../reference/core.md');
-generateReference('./slack.json','../reference/slack.md');
+generateReference(__dirname + '/botkit.json',__dirname + '/../reference/core.md');
+generateReference(__dirname + '/slack.json',__dirname + '/../reference/slack.md');
+generateReference(__dirname + '/facebook.json',__dirname + '/../reference/facebook.md');
+generateReference(__dirname + '/hangouts.json',__dirname + '/../reference/hangouts.md');
+generateReference(__dirname + '/twilio-sms.json',__dirname + '/../reference/twilio-sms.md');
+generateReference(__dirname + '/webex.json',__dirname + '/../reference/webex.md');
+generateReference(__dirname + '/websocket.json',__dirname + '/../reference/websocket.md');

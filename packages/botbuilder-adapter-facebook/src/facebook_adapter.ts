@@ -1,4 +1,8 @@
-import { Activity, ActivityTypes, BotAdapter, TurnContext, ConversationReference } from 'botbuilder';
+/**
+ * @module botbuilder-adapter-facebook
+ */
+
+ import { Activity, ActivityTypes, BotAdapter, TurnContext, ConversationReference } from 'botbuilder';
 import * as Debug from 'debug';
 import { FacebookBotWorker } from './botworker';
 import { FacebookAPI } from './facebook_api';

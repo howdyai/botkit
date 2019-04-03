@@ -1,3 +1,6 @@
+/**
+ * @module botbuilder-adapter-facebook
+ */
 import { BotWorker, BotkitMessage } from 'botkit';
 
 export class FacebookBotWorker extends BotWorker {

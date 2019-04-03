@@ -1,4 +1,8 @@
-import { Activity, ActivityTypes, BotAdapter, TurnContext, ConversationReference } from 'botbuilder';
+/**
+ * @module botbuilder-adapter-twilio-sms
+ */
+
+ import { Activity, ActivityTypes, BotAdapter, TurnContext, ConversationReference } from 'botbuilder';
 import * as Debug from 'debug';
 import * as Twilio from 'twilio';
 const debug = Debug('botkit:twilio');

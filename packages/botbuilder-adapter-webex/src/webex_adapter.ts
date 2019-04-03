@@ -1,4 +1,8 @@
-import { ActivityTypes, BotAdapter, TurnContext, MiddlewareSet } from 'botbuilder';
+/**
+ * @module botbuilder-adapter-webex
+ */
+
+ import { ActivityTypes, BotAdapter, TurnContext, MiddlewareSet } from 'botbuilder';
 import * as ciscospark from 'ciscospark';
 import * as url from 'url';
 import * as crypto from 'crypto';

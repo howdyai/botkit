@@ -1,3 +1,6 @@
+/**
+ * @module botbuilder-adapter-hangouts
+ */
 import { Activity, ActivityTypes, BotAdapter, TurnContext, ConversationReference } from 'botbuilder';
 import * as Debug from 'debug';
 import { google } from 'googleapis';

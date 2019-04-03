@@ -1,0 +1,16 @@
+{
+  "name": "botkit-docs",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "./build/build.sh"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "typedoc": "^0.14.2",
+    "typedoc-plugin-external-module-name": "^2.0.0"
+  }
+}
