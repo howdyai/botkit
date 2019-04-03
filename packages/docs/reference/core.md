@@ -890,7 +890,7 @@ A handler function passed into `hears()` or `on()` that receives a [BotWorker](#
 
 The form of these handlers should be:
 ```javascript
-async(bot, message) => {
+async (bot, message) => {
 // stuff.
 }
 ```
@@ -937,7 +937,7 @@ Will also contain any additional fields including in the incoming payload.
 
 <a name="BotkitTrigger"></a>
 ## Interface BotkitTrigger
-
+Defines a trigger, including the type, pattern and handler function to fire if triggered.
 
 **Fields**
 
@@ -945,7 +945,7 @@ Will also contain any additional fields including in the incoming payload.
 |--- |--- |---
 | handler | [BotkitHandler](#BotkitHandler) | 
 | pattern |  | 
-| type | string | 
+| type | string | string, regexp or function<br/>
 
 <a name="PluginMenu"></a>
 ## Interface PluginMenu

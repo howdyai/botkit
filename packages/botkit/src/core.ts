@@ -109,7 +109,7 @@ export interface BotkitMessage {
  * 
  * The form of these handlers should be:
  * ```javascript
- * async(bot, message) => { 
+ * async (bot, message) => { 
  * // stuff.
  * }
  * ```
@@ -126,7 +126,13 @@ export interface BotkitHandler {
     (bot: BotWorker, message: BotkitMessage): Promise<any>;
 }
 
-export interface BotkitTrigger {
+/**
+ * Defines a trigger, including the type, pattern and handler function to fire if triggered.
+ */
+interface BotkitTrigger {
+    /**
+     * string, regexp or function
+     */
     type: string;
     pattern: string | RegExp | { (message: BotkitMessage):  Promise<boolean> };
     handler: BotkitHandler;
