@@ -8,6 +8,13 @@ let markup = fs.readFileSync(__dirname + '/template.hbs','utf8');
 markup = markup.replace(/^ +/img,'');
 const template = Handlebars.compile(markup);
 
+Handlebars.registerHelper('no-newline', function(str) {
+  
+    return new Handlebars.SafeString(
+        str.replace(/\n/g,'<br/>')
+    );
+});
+
 
 function generateReference(src, dest) {
 

@@ -888,17 +888,13 @@ Configuration options used when instantiating Botkit to create the main app cont
 
 | Name | Type | Description
 |--- |--- |---
-| adapter | BotFrameworkAdapter | A fully configured BotBuilder Adapter, such as `botbuilder-adapter-slack` or `botbuilder-adapter-websocket`
-The adapter is responsible for translating platform-specific messages into the format understood by Botkit and BotBuilder<br/>
-| adapterConfig |  | If using the BotFramework service, options included in `adapterConfig` will be passed to the new Adapter when created internally.
-See [BotFrameworkAdapterSettings](https://docs.microsoft.com/en-us/javascript/api/botbuilder/botframeworkadaptersettings?view=azure-node-latest&viewFallbackFrom=botbuilder-ts-latest).<br/>
+| adapter | BotFrameworkAdapter | A fully configured BotBuilder Adapter, such as `botbuilder-adapter-slack` or `botbuilder-adapter-websocket`<br/>The adapter is responsible for translating platform-specific messages into the format understood by Botkit and BotBuilder<br/>
+| adapterConfig |  | If using the BotFramework service, options included in `adapterConfig` will be passed to the new Adapter when created internally.<br/>See [BotFrameworkAdapterSettings](https://docs.microsoft.com/en-us/javascript/api/botbuilder/botframeworkadaptersettings?view=azure-node-latest&viewFallbackFrom=botbuilder-ts-latest).<br/>
 | authFunction |  | An Express middleware function used to authenticate requests to the /admin URI of your Botkit application.<br/>
 | cms |  | A configuration passed to the Botkit CMS helper.<br/>
-| storage | Storage | A Storage interface compatible with [this specification](https://docs.microsoft.com/en-us/javascript/api/botbuilder-core/storage?view=botbuilder-ts-latest)
-Defaults to the ephemeral [MemoryStorage](https://docs.microsoft.com/en-us/javascript/api/botbuilder-core/memorystorage?view=botbuilder-ts-latest) implementation.<br/>
+| storage | Storage | A Storage interface compatible with [this specification](https://docs.microsoft.com/en-us/javascript/api/botbuilder-core/storage?view=botbuilder-ts-latest)<br/>Defaults to the ephemeral [MemoryStorage](https://docs.microsoft.com/en-us/javascript/api/botbuilder-core/memorystorage?view=botbuilder-ts-latest) implementation.<br/>
 | webhook_uri | string | Path used to create incoming webhook URI.  Defaults to /api/messages<br/>
-| webserver | any | An instance of Express used to define web endpoints.  If not specified, oen will be created internally.
-Note: only use your own Express if you absolutely must for some reason. Otherwise, use `controller.webserver`<br/>
+| webserver | any | An instance of Express used to define web endpoints.  If not specified, oen will be created internally.<br/>Note: only use your own Express if you absolutely must for some reason. Otherwise, use `controller.webserver`<br/>
 
 <a name="BotkitHandler"></a>
 ## Interface BotkitHandler
