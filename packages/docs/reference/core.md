@@ -140,6 +140,14 @@ If one is not specified, Botkit will expose an adapter for the Microsoft Bot Fra
 | dialogSet | DialogSet | A BotBuilder DialogSet that serves as the top level dialog container for the Botkit app
 | http | any | A direct reference to the underlying HTTP server object
 | plugins | [BotkitPluginLoader](#BotkitPluginLoader) | Provides an interface to interact with external Botkit plugins
+| s | any | &#x60;&#x60;&#x60;javascript
+controller.ready(() &#x3D;&gt; {
+
+ // load all modules from sub-folder features/
+ controller.loadModules(&#x27;./features&#x27;);
+
+});
+&#x60;&#x60;&#x60;
 | storage | Storage | a BotBuilder storage driver - defaults to MemoryStorage
 | version | string | The current version of Botkit Core
 | webserver | any | An Express webserver
@@ -227,6 +235,8 @@ NOTE: This method should only be used in custom adapters that receive messages t
 <a name="hears"></a>
 ### hears()
 Instruct your bot to listen for a pattern, and do something when that pattern is heard.
+Patterns will be "heard" only if the message is not already handled by an in-progress dialog.
+To "hear" patterns _before_ dialogs are processed, use `controller.interrupts()` instead.
 
 **Parameters**
 
@@ -259,27 +269,39 @@ controller.hears(async (message) => { return (message.intent === 'hello') }, 'me
 
 <a name="interrupts"></a>
 ### interrupts()
-
+Instruct your bot to listen for a pattern, and do something when that pattern is heard.
+Interruptions work just like "hears" triggers, but fire _before_ the dialog system is engaged,
+and thus handlers will interrupt the normal flow of messages through the processing pipeline.
 
 **Parameters**
 
 | name | type | description
 |--- |--- |---
-| patterns|  | 
-| events|  | 
-| handler|  | 
+| patterns|  | One or more string, regular expression, or test function
+| events|  | A list of event types that should be evaluated for the given patterns
+| handler|  | a function that will be called should the pattern be matched
 
 
+
+
+```javascript
+controller.interrupts('help','message', async(bot, message) => {
+
+ await bot.reply(message,'Before anything else, you need some help!')
+
+});
+```
 
 <a name="loadModule"></a>
 ### loadModule()
-
+Load a Botkit feature module
 
 **Parameters**
 
 | name | type | description
 |--- |--- |---
-| p| string | 
+| p| string | path to module file
+
 
 
 
@@ -297,15 +319,25 @@ controller.hears(async (message) => { return (message.intent === 'hello') }, 'me
 
 <a name="on"></a>
 ### on()
-
+Bind a handler function to one or more events.
 
 **Parameters**
 
 | name | type | description
 |--- |--- |---
-| events|  | 
-| handler|  | 
+| events|  | One or more event names
+| handler| [BotkitHandler](#BotkitHandler) | a handler function that will fire whenever one of the named events is received.
 
+
+
+
+```javascript
+controller.on('conversationUpdate', async(bot, message) => {
+
+ await bot.reply(message,'I received a conversationUpdate event.');
+
+});
+```
 
 
 <a name="ready"></a>
@@ -348,28 +380,44 @@ Note: this is normally called internally and is only required when state changes
 
 <a name="spawn"></a>
 ### spawn()
-
+Create a platform-specific BotWorker instance that can be used to respond to messages or generate new outbound messages.
+The spawned `bot` contains all information required to process outbound messages and handle dialog state, and may also contain extensions
+for handling platform-specific events or activities.
 
 **Parameters**
 
 | name | type | description
 |--- |--- |---
-| config| any | 
+| config| any | Preferably receives a DialogContext, though can also receive a TurnContext. If excluded, must call &#x60;bot.changeContext(reference)&#x60; before calling any other method.
+
 
 
 
 <a name="trigger"></a>
 ### trigger()
-
+Trigger an event to be fired.  This will cause any bound handlers to be executed.
+Note: This is normally used internally, but can be used to emit custom events.
 
 **Parameters**
 
 | name | type | description
 |--- |--- |---
-| event| string | 
-| bot| [BotWorker](#BotWorker) | 
-| message| [BotkitMessage](#BotkitMessage) | 
+| event| string | the name of the event
+| bot| [BotWorker](#BotWorker) | a BotWorker instance created using &#x60;controller.spawn()&#x60;
+| message| [BotkitMessage](#BotkitMessage) | An incoming message or event
 
+
+
+
+```javascript
+// fire a custom event
+controller.trigger('my_custom_event', bot, message);
+
+// handle the custom event
+controller.on('my_custom_event', async(bot, message) => {
+ //... do something
+});
+```
 
 
 

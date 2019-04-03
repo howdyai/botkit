@@ -594,6 +594,8 @@ export class Botkit {
 
     /**
      * Instruct your bot to listen for a pattern, and do something when that pattern is heard.
+     * Patterns will be "heard" only if the message is not already handled by an in-progress dialog.
+     * To "hear" patterns _before_ dialogs are processed, use `controller.interrupts()` instead.
      * 
      * For example:
      * ```javascript
@@ -612,8 +614,8 @@ export class Botkit {
      *  await bot.reply(message,'This message matches the hello intent.');
      * });
      * ```
-     * @param patterns {string or regexp or function or array of any} One or more string, regular expression, or test function
-     * @param events {string or array of strings} A list of event types that should be evaluated for the given patterns
+     * @param patterns {} One or more string, regular expression, or test function
+     * @param events {} A list of event types that should be evaluated for the given patterns
      * @param handler {BotkitHandler}  a function that will be called should the pattern be matched
      */
     public hears(patterns: ( string | RegExp | { (message: BotkitMessage): Promise<boolean> })[] | RegExp | string | { (message: BotkitMessage): Promise<boolean> }, events: string | string[], handler: BotkitHandler) {
@@ -657,10 +659,22 @@ export class Botkit {
         }
     }
 
-    /* 
-     * interrupts()
-     * instruct your bot to listen for a pattern, and do something when that pattern is heard.
-     **/
+    /**
+     * Instruct your bot to listen for a pattern, and do something when that pattern is heard.
+     * Interruptions work just like "hears" triggers, but fire _before_ the dialog system is engaged,
+     * and thus handlers will interrupt the normal flow of messages through the processing pipeline.
+     * 
+     * ```javascript
+     * controller.interrupts('help','message', async(bot, message) => {
+     * 
+     *  await bot.reply(message,'Before anything else, you need some help!')
+     * 
+     * });
+     * ```
+     * @param patterns {} One or more string, regular expression, or test function
+     * @param events {} A list of event types that should be evaluated for the given patterns
+     * @param handler {BotkitHandler}  a function that will be called should the pattern be matched
+     */
     public interrupts(patterns: ( string | RegExp | { (message: BotkitMessage): Promise<boolean> })[] | RegExp | RegExp[] | string | { (message: BotkitMessage): Promise<boolean> }, events: string | string[], handler: (bot: BotWorker, message: BotkitMessage) => Promise<boolean>) {
 
         if (!Array.isArray(patterns)) {
@@ -701,11 +715,21 @@ export class Botkit {
         }
     }
 
-    /* 
-     * on()
-     * instruct your bot to respond to certain event types.
-     **/
-    public on(events: string | string[], handler: (bot: BotWorker, event: any) => Promise<boolean>) {
+    /**
+     * Bind a handler function to one or more events.
+     * 
+     * ```javascript
+     * controller.on('conversationUpdate', async(bot, message) => {
+     * 
+     *  await bot.reply(message,'I received a conversationUpdate event.');
+     * 
+     * });
+     * ```
+     * 
+     * @param events {string | string[]} One or more event names
+     * @param handler {BotkitHandler} a handler function that will fire whenever one of the named events is received.
+     */
+    public on(events: string | string[], handler: BotkitHandler) {
 
         if (typeof events === 'string') {
             events = events.split(/\,/).map(e => e.trim());
@@ -720,10 +744,24 @@ export class Botkit {
         });
     }
 
-    /* 
-     * trigger()
-     * trigger an event
-     **/
+    /**
+     * Trigger an event to be fired.  This will cause any bound handlers to be executed.
+     * Note: This is normally used internally, but can be used to emit custom events.
+     * 
+     * ```javascript
+     * // fire a custom event
+     * controller.trigger('my_custom_event', bot, message);
+     * 
+     * // handle the custom event
+     * controller.on('my_custom_event', async(bot, message) => {
+     *  //... do something
+     * });
+     * ```
+     * 
+     * @param event {string} the name of the event
+     * @param bot {BotWorker} a BotWorker instance created using `controller.spawn()`
+     * @param message {BotkitMessagE} An incoming message or event
+     */
     public async trigger(event: string, bot: BotWorker, message: BotkitMessage): Promise<any> {
         debug('Trigger event: ', event);
         if (this._events[event] && this._events[event].length) {
@@ -736,10 +774,12 @@ export class Botkit {
         }
     }
 
-    /* 
-     * spawn()
-     * spawn a BotWorker to do stuff
-     **/
+    /**
+     * Create a platform-specific BotWorker instance that can be used to respond to messages or generate new outbound messages.
+     * The spawned `bot` contains all information required to process outbound messages and handle dialog state, and may also contain extensions
+     * for handling platform-specific events or activities.
+     * @param config {any} Preferably receives a DialogContext, though can also receive a TurnContext. If excluded, must call `bot.changeContext(reference)` before calling any other method.
+     */
     public spawn(config: any): Promise<BotWorker> {
    
         if (config instanceof TurnContext) {
@@ -776,12 +816,29 @@ export class Botkit {
         });
     }
 
+    /**
+     * Load a Botkit feature module
+     * @param p {string} path to module file
+     */
     public loadModule(p: string): void {
         debug('Load Module:',p);
         require(p)(this);
     }
 
-    public loadModules(p: string): void {
+    /**
+     * Load all Botkit feature modules located in a given folder
+     * 
+     * ```javascript
+     * controller.ready(() => {
+     * 
+     *  // load all modules from sub-folder features/
+     *  controller.loadModules('./features');
+     * 
+     * });
+     * ```
+     * @param p {string} path to a folder of module files
+     */
+s    public loadModules(p: string): void {
         // load all the .js files from this path
         fs.readdirSync(p).filter((f) => { return (path.extname(f) === '.js'); }).forEach((file) => {
             this.loadModule(path.join(p,file));
