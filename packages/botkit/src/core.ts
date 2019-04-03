@@ -62,14 +62,46 @@ export interface BotkitConfiguration {
     authFunction?: (req, res, next) => void; 
 }
 
+/**
+ * Defines the expected form of a message or event object being handled by Botkit.
+ * Will also contain any additional fields including in the incoming payload.
+ */
 export interface BotkitMessage {
+    /**
+     * The type of event, in most cases defined by the messaging channel or adapter
+     */
     type: string;
+
+    /**
+     * Text of the message sent by the user (or primary value in case of button click)
+     */
     text?: string;
+
+    /**
+     * Unique identifier of user who sent the message. Typically contains the platform specific user id.
+     */
     user: string;
+
+    /**
+     * Unique identifier of the room/channel/space in which the message was sent. Typically contains the platform specific designator for that channel.
+     */
     channel: string;
+
+    /**
+     * A full `ConversationReference` object that defines the address of the message and all information necessary to send messages back to the originating location.
+     * Can be stored for later use, and used with [bot.changeContext()](#changeContext) to send proactive messages.
+     */
     reference: ConversationReference;
+
+    /**
+     * The original incoming BotBuilder Activity object as created by the adapter.
+     */
     incoming_message: {[key: string]: any};
-    [key: string]: any; // allow any other fields to live alongside the defined fields.
+
+    /**
+     * Any additional fields found in the incoming payload from the messaging platform.
+     */
+    [key: string]: any;
 }
 
 export interface BotkitHandler {

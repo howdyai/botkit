@@ -891,18 +891,19 @@ Defines the options used when instantiating Botkit to create the main app contro
 
 <a name="BotkitMessage"></a>
 ## Interface BotkitMessage
-
+Defines the expected form of a message or event object being handled by Botkit.
+Will also contain any additional fields including in the incoming payload.
 
 **Fields**
 
 | Name | Type | Description
 |--- |--- |---
-| channel | string | 
-| incoming_message |  | 
-| reference | ConversationReference | 
-| text | string | 
-| type | string | 
-| user | string | 
+| channel | string | Unique identifier of the room/channel/space in which the message was sent. Typically contains the platform specific designator for that channel.<br/>
+| incoming_message |  | The original incoming BotBuilder Activity object as created by the adapter.<br/>
+| reference | ConversationReference | A full `ConversationReference` object that defines the address of the message and all information necessary to send messages back to the originating location.<br/>Can be stored for later use, and used with [bot.changeContext()](#changeContext) to send proactive messages.<br/>
+| text | string | Text of the message sent by the user (or primary value in case of button click)<br/>
+| type | string | The type of event, in most cases defined by the messaging channel or adapter<br/>
+| user | string | Unique identifier of user who sent the message. Typically contains the platform specific user id.<br/>
 
 <a name="BotkitPlugin"></a>
 ## Interface BotkitPlugin
