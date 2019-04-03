@@ -79,14 +79,21 @@ bot.say('Hello!');
 
 <a name="ensureMessageFormat"></a>
 ### ensureMessageFormat()
-Take a crudely-formed Botkit message with any sort of field
-and map it into a beautiful BotFramework activity
+Take a crudely-formed Botkit message with any sort of field (may just be a string, may be a partial message object)
+and map it into a beautiful BotFramework Activity.
+Any fields not found in the Activity definition will be moved to activity.channelData.
 
 **Parameters**
 
 | Argument | Type | description
 |--- |--- |---
-| message| any | 
+| message| Partial&lt;BotkitMessage&gt; | 
+
+
+**Returns**
+
+a properly formed Activity object
+
 
 
 
@@ -116,26 +123,43 @@ await original_context.sendActivity('send directly using the adapter instead of 
 
 <a name="httpBody"></a>
 ### httpBody()
-
+Set the http response body for this turn.
+Use this to define the response value when the platform requires a synchronous response to the incoming webhook.
 
 **Parameters**
 
 | Argument | Type | description
 |--- |--- |---
-| body| any | 
+| body| any | (any) a value that will be returned as the http response body<br/>
 
+
+
+Example handling of a /slash command from Slack:
+```javascript
+controller.on('slash_command', async(bot, message) {
+ bot.httpBody('This is a reply to the slash command.');
+})
+```
 
 
 <a name="httpStatus"></a>
 ### httpStatus()
-
+Set the http response status code for this turn
 
 **Parameters**
 
 | Argument | Type | description
 |--- |--- |---
-| status| number | 
+| status| number | a valid http status code like 200 202 301 500 etc<br/>
 
+
+
+```javascript
+controller.on('event', async(bot, message) => {
+  // respond with a 500 error code for some reason!
+  bot.httpStatus(500);
+});
+```
 
 
 <a name="reply"></a>

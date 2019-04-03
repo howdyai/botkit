@@ -173,10 +173,13 @@ export class BotWorker {
     }
 
     /**
-     * Take a crudely-formed Botkit message with any sort of field
-     * and map it into a beautiful BotFramework activity
+     * Take a crudely-formed Botkit message with any sort of field (may just be a string, may be a partial message object)
+     * and map it into a beautiful BotFramework Activity.
+     * Any fields not found in the Activity definition will be moved to activity.channelData.
+     * @params message a string or partial outgoing message object
+     * @returns a properly formed Activity object
      */
-    public ensureMessageFormat(message: any): Partial<Activity> {
+    public ensureMessageFormat(message: Partial<BotkitMessage>): Partial<Activity> {
 
         let activity: Partial<Activity> = {};
 
@@ -225,22 +228,38 @@ export class BotWorker {
         return activity;
     }
 
-    /* 
-     * set the http response status for this turn
-     * @param status (number) a valid http status code like 200 202 301 500 etc
+    /**
+     * Set the http response status code for this turn
+     * 
+     * ```javascript
+     * controller.on('event', async(bot, message) => {
+     *   // respond with a 500 error code for some reason!
+     *   bot.httpStatus(500);
+     * });
+     * ```
+     * 
+     * @param status {number} a valid http status code like 200 202 301 500 etc
      */
     public httpStatus(status: number) {
         this.getConfig('context').turnState.set('httpStatus', status);
     }
 
-    /* 
-     * set the http response body for this turn
+    /**
+     * Set the http response body for this turn.
+     * Use this to define the response value when the platform requires a synchronous response to the incoming webhook.
+     * 
+     * Example handling of a /slash command from Slack:
+     * ```javascript
+     * controller.on('slash_command', async(bot, message) {
+     *  bot.httpBody('This is a reply to the slash command.');
+     * })
+     * ```
+     * 
      * @param body (any) a value that will be returned as the http response body
      */
     public httpBody(body: any) {
         this.getConfig('context').turnState.set('httpBody', body);
     }
-
 
 }
 
