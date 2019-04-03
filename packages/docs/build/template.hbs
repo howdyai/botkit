@@ -1,0 +1,85 @@
+{{#each classes}}
+<a name="{{name}}"></a>
+## {{name}}
+{{comment.shortText}}
+{{#if comment.text}}
+
+{{{comment.text}}}
+{{/if}}
+    {{#each constructors}}
+        {{#each signatures}}
+            ### constructor {{name}}()
+
+            {{#if parameters}}
+                **Parameters**
+                | name | type | description
+                |--- |--- |---
+                {{#each parameters}}
+                | {{name}} | {{#if type.id}}[{{type.name}}](#{{type.name}}){{else}}{{type.name}}{{/if}} | {{#if comment.text}}{{comment.text}}{{else}}{{comment.shortText}}{{/if}}
+                {{/each}}
+            {{/if}}
+        {{/each}}
+    {{/each}}
+
+    {{#if props}}
+    **Properties and Accessors**
+    | name | type | comment
+    |--- |--- |---
+    {{#each props}}
+    | {{name}} | {{#if type.id}}[{{type.name}}](#{{type.name}}){{else}}{{type.name}}{{/if}} | {{#if comment.text}}{{comment.text}}{{else}}{{comment.shortText}}{{/if}}
+    {{/each}}
+    {{/if}}
+
+    {{#each methods}}
+        <a name="{{name}}"></a>
+        ### {{name}}()
+        {{#each signatures}}
+            {{{comment.shortText}}}
+            {{#if parameters}}
+
+                **Parameters**
+                | name | type | description
+                |--- |--- |---
+                {{#each parameters}}
+                | {{name}}{{#if flags.isOptional}} (optional){{/if}}| {{#if type.id}}[{{type.name}}](#{{type.name}}){{else}}{{type.name}}{{/if}} | {{#if comment.shortText}}{{comment.shortText}}\n{{/if}}{{#if comment.text}}{{comment.text}}{{/if}}
+                {{/each}}
+
+            {{/if}}
+            {{#if comment.returns}}
+            
+            **Returns**
+            {{comment.returns}}
+
+            {{/if}}
+
+            {{#if comment.text}}
+
+            {{{comment.text}}}
+            {{/if}}
+        {{/each}}
+
+    {{/each}}
+
+
+{{/each}}
+
+
+{{#each interfaces}}
+<a name="{{name}}"></a>
+## Interface {{name}}
+{{comment.shortText}}
+{{#if comment.text}}
+
+{{{comment.text}}}
+{{/if}}
+
+    {{#if props}}
+    **Fields**
+    | name | type | comment
+    |--- |--- |---
+    {{#each props}}
+    | {{name}} | {{#if type.id}}[{{type.name}}](#{{type.name}}){{else}}{{type.name}}{{/if}} | {{#if comment.text}}{{comment.text}}{{else}}{{comment.shortText}}{{/if}}
+    {{/each}}
+    {{/if}}
+
+{{/each}}
