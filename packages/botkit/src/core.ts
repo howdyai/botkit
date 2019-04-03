@@ -612,11 +612,11 @@ export class Botkit {
      *  await bot.reply(message,'This message matches the hello intent.');
      * });
      * ```
-     * @param patterns One or more string, regular expression, or test function
-     * @param events A list of event types that should be evaluated for the given patterns
+     * @param patterns {( string | RegExp | { (message: BotkitMessage): Promise<boolean> })[] | RegExp | string | { (message: BotkitMessage): Promise<boolean> }} One or more string, regular expression, or test function
+     * @param events {string | string[]} A list of event types that should be evaluated for the given patterns
      * @param handler {BotkitHandler}  a function that will be called should the pattern be matched
      */
-    public hears(patterns: ( string | RegExp | { (message: BotkitMessage): Promise<boolean> })[] | RegExp | RegExp[] | string | { (message: BotkitMessage): Promise<boolean> }, events: string | string[], handler: BotkitHandler) {
+    public hears(patterns: ( string | RegExp | { (message: BotkitMessage): Promise<boolean> })[] | RegExp | string | { (message: BotkitMessage): Promise<boolean> }, events: string | string[], handler: BotkitHandler) {
 
         if (!Array.isArray(patterns)) {
             patterns = [patterns];
