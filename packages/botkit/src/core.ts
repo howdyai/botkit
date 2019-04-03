@@ -814,7 +814,7 @@ export class Botkit {
      * });
      * ```
      * 
-     * @param events {string | string[]} One or more event names
+     * @param events {one_or_more_events} One or more event names
      * @param handler {BotkitHandler} a handler function that will fire whenever one of the named events is received.
      */
     public on(events: string | string[], handler: BotkitHandler) {
@@ -907,7 +907,7 @@ export class Botkit {
     /**
      * Load a Botkit feature module
      * 
-     * @param path {string} path to module file
+     * @param p {string} path to module file
      */
     public loadModule(p: string): void {
         debug('Load Module:', p);
@@ -926,7 +926,7 @@ export class Botkit {
      * });
      * ```
      * 
-     * @param path {string} path to a folder of module files
+     * @param p {string} path to a folder of module files
      */
     public loadModules(p: string): void {
         // load all the .js files from this path
