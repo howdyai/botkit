@@ -43,10 +43,16 @@ function generateReference(src, dest) {
         }
     }
 
-    classes = classes.sort((a, b) => { return a.name > b.name });
-    interfaces = interfaces.sort((a, b) => { return a.name > b.name });
+    classes = classes.sort(sortByName);
+    interfaces = interfaces.sort(sortByName);
 
     fs.writeFileSync(dest, template({classes: classes, interfaces: interfaces}));
+}
+
+function sortByName(a,b) {
+    if(a.name < b.name) { return -1; }
+    if(a.name > b.name) { return 1; }
+    return 0;
 }
 
 generateReference('./botkit.json','../reference/core.md');
