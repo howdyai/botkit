@@ -1,12 +1,53 @@
 /**
  * @module botkit
  */
-import { Botkit } from './core';
+import { Botkit, BotWorker } from './core';
 import { BotkitDialogWrapper } from './cms';
-import { ActivityTypes, TurnContext, MessageFactory, ActionTypes, ConsoleTranscriptLogger } from 'botbuilder';
+import { ActivityTypes, TurnContext, MessageFactory, ActionTypes } from 'botbuilder';
 import { Dialog, DialogContext, DialogInstance, DialogReason, TextPrompt, DialogTurnStatus } from 'botbuilder-dialogs';
 const debug = require('debug')('botkit:conversation');
 import * as mustache from 'mustache';
+
+interface BotkitConvoHandler {
+    (answer: string, convo: BotkitDialogWrapper, bot: BotWorker): Promise<any>;
+}
+
+interface BotkitMessageTemplate {
+    text: string[];
+    collect: {
+        key: string;
+        options?: [
+            {
+                type: string;
+                pattern: string | RegExp;
+                handler: BotkitConvoHandler;
+                default?: boolean;
+            }
+        ]
+    }
+
+}
+
+
+/**
+ * An extension on the [BotBuilder Dialog Class](https://docs.microsoft.com/en-us/javascript/api/botbuilder-dialogs/dialog?view=botbuilder-ts-latest) that provides a Botkit-friendly interface for
+ * defining and interacting with multi-message dialogs. Dialogs can be constructed using `say()`, `ask()` and other helper methods.
+ * 
+ * ```javascript
+ * // define the structure of your dialog...
+ * const convo = new BotkitConversation('foo', controller);
+ * convo.say('Hello!');
+ * convo.ask('What is your name?', async(answer, convo, bot) => {
+ *      bot.say('Your name is ' + answer);
+ * });
+ * controller.dialogSet.add(convo);
+ * 
+ * // later on, trigger this dialog by its id
+ * controller.on('event', async(bot, message) => {
+ *  await bot.beginDialog('foo');
+ * })
+ * ```
+ */
 export class BotkitConversation<O extends object = {}> extends Dialog<O> {
 
     public script: any;
@@ -16,7 +57,12 @@ export class BotkitConversation<O extends object = {}> extends Dialog<O> {
     private _changeHooks: {};
     private _controller: Botkit;
 
-    constructor(dialogId: string, controller) {
+    /**
+     * Create a new BotkitConversation object
+     * @param dialogId A unique identifier for this dialog, used to later trigger this dialog
+     * @param controller A pointer to the main Botkit controller
+     */
+    constructor(dialogId: string, controller: Botkit) {
         super(dialogId);
 
         this._beforeHooks = {};
@@ -35,11 +81,22 @@ export class BotkitConversation<O extends object = {}> extends Dialog<O> {
 
     }
 
-    public say(message) {
+    /**
+     * Add a non-interactive message to the default thread.
+     * Messages added with `say()` and `addMessage()` will _not_ wait for a response, will be sent one after another without a pause.
+     * @param message Message template to be sent
+     */
+    public say(message: Partial<BotkitMessageTemplate> | string) {
         this.addMessage(message, 'default');
     }
 
-    public addMessage(message, thread_name) {
+    /**
+     * Add a message to a specific thread
+     * Messages added with `say()` and `addMessage()` will _not_ wait for a response, will be sent one after another without a pause.
+     * @param message Message template to be sent
+     * @param thread_name Name of thread to which message will be added
+     */
+    public addMessage(message: Partial<BotkitMessageTemplate> | string, thread_name: string) {
         if (!thread_name) {
             thread_name = 'default';
         }
@@ -55,11 +112,17 @@ export class BotkitConversation<O extends object = {}> extends Dialog<O> {
         this.script[thread_name].push(message);
     }
 
-    public ask(message, handlers, options) {
+    /**
+     * 
+     * @param message 
+     * @param handlers 
+     * @param options 
+     */
+    public ask(message: Partial<BotkitMessageTemplate> | string, handlers, options: any) {
         this.addQuestion(message, handlers, options, 'default');
     }
 
-    public addQuestion(message, handlers, options, thread_name) {
+    public addQuestion(message: Partial<BotkitMessageTemplate> | string, handlers, options: any, thread_name: string) {
 
         if (!thread_name) {
             thread_name = 'default';
@@ -70,7 +133,7 @@ export class BotkitConversation<O extends object = {}> extends Dialog<O> {
         }
 
         if (typeof(message)==='string') {
-            message = { text: [message] };
+            message = { text: [message as string] };
         }
 
         message.collect = {
