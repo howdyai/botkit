@@ -19,7 +19,7 @@ import * as fs from 'fs';
 const debug = require('debug')('botkit');
 
 /**
- * Configuration options used when instantiating Botkit to create the main app controller.
+ * Defines the options used when instantiating Botkit to create the main app controller.
  */
 export interface BotkitConfiguration {
     /**
