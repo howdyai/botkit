@@ -94,7 +94,7 @@ export interface BotkitMessage {
     reference: ConversationReference;
 
     /**
-     * The original incoming BotBuilder Activity object as created by the adapter.
+     * The original incoming [BotBuilder Activity](https://docs.microsoft.com/en-us/javascript/api/botframework-schema/activity?view=botbuilder-ts-latest) object as created by the adapter.
      */
     incoming_message: Activity;
 
@@ -104,6 +104,24 @@ export interface BotkitMessage {
     [key: string]: any;
 }
 
+/**
+ * A handler function passed into `hears()` or `on()` that receives a [BotWorker](#botworker) instance and a [BotkitMessage](#botkitmessage).  Should be defined as an async function and/or return a Promise.
+ * 
+ * The form of these handlers should be:
+ * ```javascript
+ * async(bot, message) => { 
+ * // stuff.
+ * }
+ * ```
+ * 
+ * For example:
+ * ```javascript
+ * controller.on('event', async(bot, message) => {
+ *  // do somethign using bot and message like...
+ *  await bot.reply(message,'Received an event.');
+ * });
+ * ```
+ */
 export interface BotkitHandler {
     (bot: BotWorker, message: BotkitMessage): Promise<any>;
 }
