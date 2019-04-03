@@ -23,7 +23,7 @@ const debug = require('debug')('botkit');
  */
 export interface BotkitConfiguration {
     /**
-     * Path used to create incoming webhook URI.  Defaults to /api/messages
+     * Path used to create incoming webhook URI.  Defaults to `/api/messages`
      */
     webhook_uri?: string;
 

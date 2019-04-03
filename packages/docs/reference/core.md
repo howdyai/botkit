@@ -870,7 +870,7 @@ controller.on('my_custom_event', async(bot, message) => {
 
 <a name="BotkitConfiguration"></a>
 ## Interface BotkitConfiguration
-Defines the options used when instantiating Botkit to create the main app controller with &#x60;new Botkit(options)&#x60;
+Defines the options used when instantiating Botkit to create the main app controller with `new Botkit(options)`
 
 **Fields**
 
