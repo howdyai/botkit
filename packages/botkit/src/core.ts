@@ -840,7 +840,7 @@ export class Botkit {
      * 
      * @param p {string} path to a folder of module files
      */
-s    public loadModules(p: string): void {
+    public loadModules(p: string): void {
         // load all the .js files from this path
         fs.readdirSync(p).filter((f) => { return (path.extname(f) === '.js'); }).forEach((file) => {
             this.loadModule(path.join(p,file));

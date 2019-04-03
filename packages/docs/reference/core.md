@@ -140,15 +140,6 @@ If one is not specified, Botkit will expose an adapter for the Microsoft Bot Fra
 | dialogSet | DialogSet | A BotBuilder DialogSet that serves as the top level dialog container for the Botkit app
 | http | any | A direct reference to the underlying HTTP server object
 | plugins | [BotkitPluginLoader](#BotkitPluginLoader) | Provides an interface to interact with external Botkit plugins
-| s | any | ```javascript
-controller.ready(() => {
-
- // load all modules from sub-folder features/
- controller.loadModules('./features');
-
-});
-```
-
 | storage | Storage | a BotBuilder storage driver - defaults to MemoryStorage
 | version | string | The current version of Botkit Core
 | webserver | any | An Express webserver
@@ -308,14 +299,25 @@ Load a Botkit feature module
 
 <a name="loadModules"></a>
 ### loadModules()
-
+Load all Botkit feature modules located in a given folder.
 
 **Parameters**
 
 | name | type | description
 |--- |--- |---
-| p| string | 
+| p| string | path to a folder of module files
 
+
+
+
+```javascript
+controller.ready(() => {
+
+ // load all modules from sub-folder features/
+ controller.loadModules('./features');
+
+});
+```
 
 
 <a name="on"></a>
