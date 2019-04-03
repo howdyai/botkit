@@ -308,7 +308,7 @@ Load a Botkit feature module
 
 | Argument | Type | description
 |--- |--- |---
-| p| string | path to module file<br/>
+| p| string | 
 
 
 
@@ -320,7 +320,7 @@ Load all Botkit feature modules located in a given folder.
 
 | Argument | Type | description
 |--- |--- |---
-| p| string | path to a folder of module files<br/>
+| p| string | 
 
 
 

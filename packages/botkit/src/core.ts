@@ -907,7 +907,7 @@ export class Botkit {
     /**
      * Load a Botkit feature module
      * 
-     * @param p {string} path to module file
+     * @param path {string} path to module file
      */
     public loadModule(p: string): void {
         debug('Load Module:', p);
@@ -926,7 +926,7 @@ export class Botkit {
      * });
      * ```
      * 
-     * @param p {string} path to a folder of module files
+     * @param path {string} path to a folder of module files
      */
     public loadModules(p: string): void {
         // load all the .js files from this path
