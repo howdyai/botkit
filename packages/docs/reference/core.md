@@ -4,6 +4,7 @@
 ### constructor new BotWorker()
 
 **Parameters**
+
 | name | type | description
 |--- |--- |---
 | controller | any |
