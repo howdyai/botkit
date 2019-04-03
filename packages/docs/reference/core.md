@@ -866,16 +866,16 @@ Configuration options used when instantiating Botkit to create the main app cont
 | Name | Type | Description
 |--- |--- |---
 | adapter | BotFrameworkAdapter | A fully configured BotBuilder Adapter, such as botbuilder-adapter-slack or botbuilder-adapter-websocket
-The adapter is responsible for translating platform-specific messages into the format understood by Botkit and BotBuilder
-| adapterConfig |  | If using the BotFramework service, options included in &#x60;adapterConfig&#x60; will be passed to the new Adapter when created internally.
-See [BotFrameworkAdapterSettings](https://docs.microsoft.com/en-us/javascript/api/botbuilder/botframeworkadaptersettings?view&#x3D;azure-node-latest&amp;viewFallbackFrom&#x3D;botbuilder-ts-latest).
-| authFunction |  | An Express middleware function used to authenticate requests to the /admin URI of your Botkit application.
-| cms |  | A configuration passed to the Botkit CMS helper.
-| storage | Storage | A Storage interface compatible with [this specification](https://docs.microsoft.com/en-us/javascript/api/botbuilder-core/storage?view&#x3D;botbuilder-ts-latest)
-Defaults to the ephemeral [MemoryStorage](https://docs.microsoft.com/en-us/javascript/api/botbuilder-core/memorystorage?view&#x3D;botbuilder-ts-latest) implementation.
-| webhook_uri | string | Path used to create incoming webhook URI.  Defaults to /api/messages
+The adapter is responsible for translating platform-specific messages into the format understood by Botkit and BotBuilder\n
+| adapterConfig |  | If using the BotFramework service, options included in `adapterConfig` will be passed to the new Adapter when created internally.
+See [BotFrameworkAdapterSettings](https://docs.microsoft.com/en-us/javascript/api/botbuilder/botframeworkadaptersettings?view=azure-node-latest&viewFallbackFrom=botbuilder-ts-latest).\n
+| authFunction |  | An Express middleware function used to authenticate requests to the /admin URI of your Botkit application.\n
+| cms |  | A configuration passed to the Botkit CMS helper.\n
+| storage | Storage | A Storage interface compatible with [this specification](https://docs.microsoft.com/en-us/javascript/api/botbuilder-core/storage?view=botbuilder-ts-latest)
+Defaults to the ephemeral [MemoryStorage](https://docs.microsoft.com/en-us/javascript/api/botbuilder-core/memorystorage?view=botbuilder-ts-latest) implementation.\n
+| webhook_uri | string | Path used to create incoming webhook URI.  Defaults to /api/messages\n
 | webserver | any | An instance of Express used to define web endpoints.  If not specified, oen will be created internally.
-Note: only use your own Express if you absolutely must for some reason. Otherwise, use &#x60;controller.webserver&#x60;
+Note: only use your own Express if you absolutely must for some reason. Otherwise, use `controller.webserver`\n
 
 <a name="BotkitHandler"></a>
 ## Interface BotkitHandler
