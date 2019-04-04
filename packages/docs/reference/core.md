@@ -607,7 +607,7 @@ defining and interacting with multi-message dialogs. Dialogs can be constructed 
 const convo = new BotkitConversation('foo', controller);
 convo.say('Hello!');
 convo.ask('What is your name?', async(answer, convo, bot) => {
-     bot.say('Your name is ' + answer);
+     await bot.say('Your name is ' + answer);
 });
 controller.dialogSet.add(convo);
 
@@ -631,7 +631,7 @@ Create a new BotkitConversation object
 
 | Name | Type | Description
 |--- |--- |---
-| script | any | 
+| script | any | A map of every message in the dialog, broken into threads
 
 <a name="addMessage"></a>
 ### addMessage()
@@ -664,13 +664,15 @@ Identical to `ask()`, but accepts the name of a thread to which the question is 
 
 <a name="after"></a>
 ### after()
-
+Bind a function to run after the dialog has completed.
+The first parameter to the handler will include a hash of all variables set and values collected from the user during the conversation.
+The second parameter to the handler is a BotWorker object that can be used to start new dialogs or take other actions.
 
 **Parameters**
 
 | Argument | Type | description
 |--- |--- |---
-| handler|  | 
+| handler|  | in the form async(results, bot) { ... }<br/>
 
 
 
@@ -724,136 +726,114 @@ convo.ask('Do you want to eat a taco?', [
 
 <a name="before"></a>
 ### before()
-
+Register a handler function that will fire before a given thread begins.
+Use this hook to set variables, call APIs, or change the flow of the conversation using `convo.gotoThread`
 
 **Parameters**
 
 | Argument | Type | description
 |--- |--- |---
-| thread_name| any | 
-| handler| any | 
+| thread_name| string | A valid thread defined in this conversation
+| handler| [BotkitConvoHandler](#BotkitConvoHandler) | A handler function in the form async(convo, bot) => { ... }<br/>
 
+
+
+```javascript
+convo.addMessage('This is the foo thread: var == {{vars.foo}}', 'foo');
+convo.before('foo', async(convo, bot) => {
+ // set a variable here that can be used in the message template
+ convo.setVar('foo','THIS IS FOO');
+
+});
+```
 
 
 <a name="beginDialog"></a>
 ### beginDialog()
-
+Called automatically when a dialog begins. Do not call this directly!
 
 **Parameters**
 
 | Argument | Type | description
 |--- |--- |---
-| dc| any | 
-| options| any | 
+| dc| DialogContext | the current DialogContext
+| options| any | an object containing initialization parameters passed to the dialog. may include `thread` which will cause the dialog to begin with that thread instead of the `default` thread.<br/>
 
 
 
 <a name="continueDialog"></a>
 ### continueDialog()
-
+Called automatically when an already active dialog is continued. Do not call this directly!
 
 **Parameters**
 
 | Argument | Type | description
 |--- |--- |---
-| dc| any | 
+| dc| DialogContext | the current DialogContext<br/>
 
 
 
 <a name="end"></a>
 ### end()
-
-
-**Parameters**
-
-| Argument | Type | description
-|--- |--- |---
-| dc| DialogContext | 
-| value| any | 
-
-
-
-<a name="endDialog"></a>
-### endDialog()
-
+Automatically called when the the dialog ends and causes any handlers bound using `after()` to fire. Do not call this directly!
 
 **Parameters**
 
 | Argument | Type | description
 |--- |--- |---
-| context| TurnContext | 
-| instance| DialogInstance | 
-| reason| DialogReason | 
+| dc| DialogContext | The current DialogContext
+| value| any | The final value collected by the dialog.<br/>
 
 
 
 <a name="gotoThread"></a>
 ### gotoThread()
-
+Cause the dialog to jump to a new thread as defined by the thread name.
 
 **Parameters**
 
 | Argument | Type | description
 |--- |--- |---
-| thread| any | 
-| dc| any | 
-| step| any | 
+| thread| string | The name of the thread to jump to
+| dc| DialogContext | The current DialogContext
+| step| [BotkitConversationStep](#BotkitConversationStep) | The current step object<br/>
 
 
 
 <a name="onChange"></a>
 ### onChange()
-
-
-**Parameters**
-
-| Argument | Type | description
-|--- |--- |---
-| variable| any | 
-| handler| any | 
-
-
-
-<a name="onStep"></a>
-### onStep()
-
+Bind a function to run whenever a user answers a specific question.  Can be used to validate input and take conditional actions.
 
 **Parameters**
 
 | Argument | Type | description
 |--- |--- |---
-| dc| any | 
-| step| any | 
+| variable| string | name of the variable to watch for changes
+| handler|  | a handler function that will fire whenever a user's response is used to change the value of the watched variable<br/>
 
 
+
+```javascript
+convo.ask('What is your name?', async(response, convo, bot) { ... }, {key: 'name'});
+convo.onChange('name', async(response, convo, bot) {
+
+ // user changed their name!
+ // do something...
+
+});
+```
 
 <a name="resumeDialog"></a>
 ### resumeDialog()
-
-
-**Parameters**
-
-| Argument | Type | description
-|--- |--- |---
-| dc| any | 
-| reason| any | 
-| result| any | 
-
-
-
-<a name="runStep"></a>
-### runStep()
-
+Called automatically when a dialog moves forward a step. Do not call this directly!
 
 **Parameters**
 
 | Argument | Type | description
 |--- |--- |---
-| dc| any | 
-| index| any | 
-| thread_name| any | 
-| reason| any | 
-| result (optional)| any | 
+| dc| any | The current DialogContext
+| reason| any | Reason for resuming the dialog
+| result| any | Result of previous step<br/>
 
 
 
@@ -919,18 +899,33 @@ Messages added with `say()` and `addMessage()` will _not_ wait for a response, w
 
 <a name="gotoThread"></a>
 ### gotoThread()
-
+Jump immediately to the first message in a different thread.
 
 **Parameters**
 
 | Argument | Type | description
 |--- |--- |---
-| thread| any | 
+| thread| string | Name of a thread<br/>
 
 
 
 <a name="repeat"></a>
 ### repeat()
+Repeat the last message sent on the next turn.
+
+
+<a name="setVar"></a>
+### setVar()
+Set the value of a variable that will be available to messages in the conversation.
+Equivalent to convo.vars.key = val;
+Results in {{vars.key}} being replaced with the value in val.
+
+**Parameters**
+
+| Argument | Type | description
+|--- |--- |---
+| key| any | the name of the variable
+| val| any | the value for the variable<br/>
 
 
 

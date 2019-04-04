@@ -46,6 +46,11 @@ module.exports = function(controller) {
     welcome.addMessage('YES!!! {{vars.foo}} {{vars.bar}}','foo');
     welcome.addMessage('NOOOOOO', 'bar');
 
+    welcome.onChange('name', async(response, convo, bot) => {
+        await bot.say('NO! NEVER!!!');
+        await convo.gotoThread('bar');
+    });
+
     welcome.before('foo', async(convo, bot) => {
         // set a variable
         convo.vars.foo = 'this was set in a before handler!';

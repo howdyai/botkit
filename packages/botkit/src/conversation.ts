@@ -29,6 +29,16 @@ interface BotkitMessageTemplate {
 
 }
 
+interface BotkitConversationStep {
+    index: number;
+    thread: string;
+    state: any;
+    options: any;
+    reason: DialogReason;
+    result: any;
+    values: any;
+    next: (stepResult)=>Promise<any>;
+}
 
 /**
  * An extension on the [BotBuilder Dialog Class](https://docs.microsoft.com/en-us/javascript/api/botbuilder-dialogs/dialog?view=botbuilder-ts-latest) that provides a Botkit-friendly interface for
@@ -55,6 +65,7 @@ export class BotkitConversation<O extends object = {}> extends Dialog<O> {
      * A map of every message in the dialog, broken into threads
      */
     public script: any; // TODO: define this with typedefs
+
     private _prompt: string;
     private _beforeHooks: {};
     private _afterHooks: { (context: TurnContext, results: any): void }[];
@@ -202,7 +213,23 @@ export class BotkitConversation<O extends object = {}> extends Dialog<O> {
         this.script[thread_name].push(message);
     }
 
-    public before(thread_name, handler) {
+    /**
+     * Register a handler function that will fire before a given thread begins.
+     * Use this hook to set variables, call APIs, or change the flow of the conversation using `convo.gotoThread`
+     * 
+     * ```javascript
+     * convo.addMessage('This is the foo thread: var == {{vars.foo}}', 'foo');
+     * convo.before('foo', async(convo, bot) => {
+     *  // set a variable here that can be used in the message template
+     *  convo.setVar('foo','THIS IS FOO');
+     * 
+     * });
+     * ```
+     * 
+     * @param thread_name A valid thread defined in this conversation
+     * @param handler A handler function in the form async(convo, bot) => { ... }
+     */
+    public before(thread_name: string, handler: BotkitConvoHandler) {
         if (!this._beforeHooks[thread_name]) {
             this._beforeHooks[thread_name] = [];
         }
@@ -210,9 +237,14 @@ export class BotkitConversation<O extends object = {}> extends Dialog<O> {
         this._beforeHooks[thread_name].push(handler);
     }
 
-    private async runBefore(thread_name, dc, step) {
+    /**
+     * This private method is called before a thread begins, and causes any bound handler functions to be executed.
+     * @param thread_name the thread about to begin
+     * @param dc the current DialogContext
+     * @param step the current step object
+     */
+    private async runBefore(thread_name: string, dc: DialogContext, step: BotkitConversationStep) {
         debug('Before:', this.id, thread_name);
-        // let convo = new BotkitConvo(dc, step);
         
         if (this._beforeHooks[thread_name]) {
 
@@ -225,16 +257,26 @@ export class BotkitConversation<O extends object = {}> extends Dialog<O> {
             for (let h = 0; h < this._beforeHooks[thread_name].length; h++ ){
                 let handler = this._beforeHooks[thread_name][h];
                 await handler.call(this, convo, bot);
-                // await handler.call(this, d);
             }
         }
     }    
     
-    public after(handler: (context: TurnContext, results: any) => void) {
+    /**
+     * Bind a function to run after the dialog has completed.
+     * The first parameter to the handler will include a hash of all variables set and values collected from the user during the conversation.
+     * The second parameter to the handler is a BotWorker object that can be used to start new dialogs or take other actions.
+     * @param handler in the form async(results, bot) { ... }
+     */
+    public after(handler: (results: any, bot: BotWorker) => void) {
         this._afterHooks.push(handler);
     }
 
-    private async runAfter(context, results) {
+    /**
+     * This private method is called at the end of the conversation, and causes any bound handler functions to be executed.
+     * @param context the current dialog context
+     * @param results an object containing the final results of the dialog
+     */
+    private async runAfter(context: DialogContext, results: any) {
         debug('After:', this.id);
         if (this._afterHooks.length) {
             const bot = await this._controller.spawn(context);
@@ -246,7 +288,22 @@ export class BotkitConversation<O extends object = {}> extends Dialog<O> {
         }
     }
 
-    public onChange(variable, handler) {
+    /**
+     * Bind a function to run whenever a user answers a specific question.  Can be used to validate input and take conditional actions.
+     * 
+     * ```javascript
+     * convo.ask('What is your name?', async(response, convo, bot) { ... }, {key: 'name'});
+     * convo.onChange('name', async(response, convo, bot) { 
+     *  
+     *  // user changed their name!
+     *  // do something...
+     * 
+     * });
+     * ```
+     * @param variable name of the variable to watch for changes
+     * @param handler a handler function that will fire whenever a user's response is used to change the value of the watched variable
+     */
+    public onChange(variable: string, handler: (response, convo, bot)=>Promise<any>) {
         if (!this._changeHooks[variable]) {
             this._changeHooks[variable] = [];
         }
@@ -254,7 +311,14 @@ export class BotkitConversation<O extends object = {}> extends Dialog<O> {
         this._changeHooks[variable].push(handler);
     }
 
-    private async runOnChange(variable, value, dc, step) {
+    /**
+     * This private method is responsible for firing any bound onChange handlers when a variable changes
+     * @param variable the name of the variable that is changing
+     * @param value the new value of the variable
+     * @param dc the current DialogContext
+     * @param step the current step object
+     */
+    private async runOnChange(variable: string, value: any, dc: DialogContext, step: BotkitConversationStep) {
         debug('OnChange:', this.id, variable);
 
         if (this._changeHooks[variable] && this._changeHooks[variable].length) {
@@ -273,7 +337,12 @@ export class BotkitConversation<O extends object = {}> extends Dialog<O> {
         }
     }
 
-    async beginDialog(dc, options) {
+    /**
+     * Called automatically when a dialog begins. Do not call this directly!
+     * @param dc the current DialogContext
+     * @param options an object containing initialization parameters passed to the dialog. may include `thread` which will cause the dialog to begin with that thread instead of the `default` thread.
+     */
+    async beginDialog(dc: DialogContext, options: any) {
         // Initialize the state
         const state = dc.activeDialog.state;
         state.options = options || {};
@@ -283,7 +352,11 @@ export class BotkitConversation<O extends object = {}> extends Dialog<O> {
         return await this.runStep(dc, 0, state.options.thread || 'default', DialogReason.beginCalled);
     }
 
-    async continueDialog(dc) {
+    /**
+     * Called automatically when an already active dialog is continued. Do not call this directly!
+     * @param dc the current DialogContext
+     */
+    async continueDialog(dc: DialogContext) {
 
         // Don't do anything for non-message activities
         if (dc.context.activity.type !== ActivityTypes.Message) {
@@ -295,13 +368,25 @@ export class BotkitConversation<O extends object = {}> extends Dialog<O> {
         return await this.resumeDialog(dc, DialogReason.continueCalled, dc.context.activity.text);
     }
 
+    /**
+     * Called automatically when a dialog moves forward a step. Do not call this directly!
+     * @param dc The current DialogContext
+     * @param reason Reason for resuming the dialog
+     * @param result Result of previous step
+     */
     async resumeDialog(dc, reason, result) {
         // Increment step index and run step
         const state = dc.activeDialog.state;
         return await this.runStep(dc, state.stepIndex + 1, state.thread, reason, result);
     }
 
-    async onStep(dc, step) {
+
+    /**
+     * Called automatically to process the turn, interpret the script, and take any necessary actions based on that script. Do not call this directly!
+     * @param dc The current dialog context
+     * @param step The current step object
+     */
+   private async onStep(dc, step) {
 
         // Let's interpret the current line of the script.
         const thread = this.script[step.thread];
@@ -402,7 +487,15 @@ export class BotkitConversation<O extends object = {}> extends Dialog<O> {
         }
     }
 
-    async runStep(dc, index, thread_name, reason, result?) {
+    /**
+     * Run a dialog step, based on the index and thread_name passed in.
+     * @param dc The current DialogContext
+     * @param index The index of the current step
+     * @param thread_name The name of the current thread
+     * @param reason The reason given for running this step
+     * @param result The result of the previous turn if any
+     */
+    private async runStep(dc: DialogContext, index: number, thread_name: string, reason: DialogReason, result?: any) {
 
         const thread = this.script[thread_name];
 
@@ -454,6 +547,11 @@ export class BotkitConversation<O extends object = {}> extends Dialog<O> {
         }
     }
 
+    /**
+     * Automatically called when the the dialog ends and causes any handlers bound using `after()` to fire. Do not call this directly!
+     * @param dc The current DialogContext
+     * @param value The final value collected by the dialog.
+     */
     async end(dc: DialogContext, value: any) {
 
         // TODO: may have to move these around
@@ -468,10 +566,11 @@ export class BotkitConversation<O extends object = {}> extends Dialog<O> {
 
     }
 
-    async endDialog(context: TurnContext, instance: DialogInstance, reason: DialogReason) {
-        // noop
-    }
-
+    /**
+     * Translates a line from the dialog script into an Activity. Responsible for doing token replacement.
+     * @param line a message template from the script
+     * @param vars an object containing key/value pairs used to do token replacement on fields in the message template
+     */
     private makeOutgoing(line, vars) {
         let outgoing;
 
@@ -513,9 +612,12 @@ export class BotkitConversation<O extends object = {}> extends Dialog<O> {
         return outgoing;
     }
 
-
-    private parseTemplatesRecursive(attachments, vars) {
-
+    /**
+     * Responsible for doing token replacements recursively in attachments and other multi-field properties of the message.
+     * @param attachments some object or array containing values for which token replacements should be made.
+     * @param vars an object defining key/value pairs used for the token replacements
+     */
+    private parseTemplatesRecursive(attachments: any, vars: any) {
         if (attachments && attachments.length) {
             for (let a = 0; a < attachments.length; a++) {
                 for (let key in attachments[a]) {
@@ -540,17 +642,34 @@ export class BotkitConversation<O extends object = {}> extends Dialog<O> {
         return attachments;
     }
 
-    public async gotoThread(thread, dc, step) {
+    /**
+     * Cause the dialog to jump to a new thread as defined by the thread name.
+     * @param thread The name of the thread to jump to
+     * @param dc The current DialogContext
+     * @param step The current step object
+     */
+    public async gotoThread(thread: string, dc: DialogContext, step: BotkitConversationStep) {
         step.thread = thread;
         step.index = 0;
     }
 
-    private async gotoThreadAction(thread, dc, step) {
+    /**
+     * Handle the scripted "gotothread" action - requires an additional call to runStep.
+     * @param thread The name of the thread to jump to
+     * @param dc The current DialogContext
+     * @param step The current step object
+     */
+    private async gotoThreadAction(thread: string, dc: DialogContext, step: BotkitConversationStep) {
         await this.gotoThread(thread, dc, step);
-        // await this.runBefore(step.thread, dc, step);
         return await this.runStep(dc, step.index, step.thread, DialogReason.nextCalled, step.values);
     }
 
+    /**
+     * Accepts a Botkit script action, and performs that action
+     * @param path A conditional path in the form {action: 'some action', handler?: some handler function, maybe_other_fields}
+     * @param dc The current DialogContext
+     * @param step The current stpe object
+     */
     private async handleAction(path, dc, step) {
 
         if (path.handler) {
