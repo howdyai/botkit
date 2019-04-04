@@ -310,6 +310,19 @@ let webhook_uri = controller.getConfig('webhook_uri');
 ```
 
 
+<a name="getLocalView"></a>
+### getLocalView()
+Convert a local path from a plugin folder to a full path relative to the webserver's main views folder
+Allows a plugin to bundle views/layouts.
+
+**Parameters**
+
+| Argument | Type | description
+|--- |--- |---
+| path_to_view| any | something like path.join(__dirname,'views')<br/>
+
+
+
 <a name="handleTurn"></a>
 ### handleTurn()
 Accepts the result of a BotBuilder adapter's `processActivity()` method and processes it into a Botkit-style message and BotWorker instance
@@ -441,6 +454,7 @@ controller.on('conversationUpdate', async(bot, message) => {
 <a name="publicFolder"></a>
 ### publicFolder()
 Expose a folder to the web as a set of static files
+Useful for plugins that need to bundle additional assets!
 
 **Parameters**
 

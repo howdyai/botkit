@@ -158,12 +158,7 @@ controller.ready(() => {
 
     // load "packaged" plugins
     // turn on verbose console logging of send/receive/web requests
-    controller.plugins.use(require('./plugins/verbose/index.js'));
-
-    // landing page
-    // turn on verbose console logging of send/receive/web requests
-    controller.plugins.use(require('./plugins/verbose/index.js'));
-
+    controller.usePlugin(require('./plugins/verbose/index.js'));
 
     /* catch-all that uses the CMS to trigger dialogs */
     if (controller.cms) {

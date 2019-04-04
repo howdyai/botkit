@@ -9,8 +9,11 @@ module.exports = function(botkit) {
                 next();
             });
 
-            botkit.publicFolder('/public',__dirname + '/public');
+            botkit.webserver.get('/', function(req, res) {
+                res.render(botkit.getLocalView(__dirname + '/views/template'),{layout: botkit.getLocalView(__dirname + '/views/layout')});
+            });
 
+            botkit.publicFolder('/public',__dirname + '/public');
 
         },
         middlewares: {

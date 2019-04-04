@@ -369,6 +369,9 @@ export class Botkit {
 
         this.configureWebhookEndpoint();
 
+        // initialize the plugins array.
+        this.plugins = [];
+
         // MAGIC: Treat the adapter as a botkit plugin
         // which allows them to be carry their own platform-specific behaviors
         this.usePlugin(this.adapter);
@@ -454,12 +457,22 @@ export class Botkit {
 
     /**
      * Expose a folder to the web as a set of static files
+     * Useful for plugins that need to bundle additional assets!
      * @param alias the public alias ie /myfiles
      * @param path the actual path ie /some/folder/path
      */
     public publicFolder(alias, path) {
         debug('Make folder public: ', path,'at alias', alias);
         this.webserver.use(alias, express.static(path));
+    }
+
+    /**
+     * Convert a local path from a plugin folder to a full path relative to the webserver's main views folder
+     * Allows a plugin to bundle views/layouts.
+     * @param path_to_view something like path.join(__dirname,'views')
+     */
+    public getLocalView(path_to_view) {
+        return path.relative(path.join(this.webserver.get('views')), path_to_view);
     }
 
     /**
