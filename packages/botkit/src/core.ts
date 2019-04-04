@@ -337,8 +337,6 @@ export class Botkit {
 
             this.http = http.createServer(this.webserver);
 
-
-            hbs.registerPartials(this.PATH + '/../views/partials');
             hbs.localsAsTemplateData(this.webserver);
 
             // From https://stackoverflow.com/questions/10232574/handlebars-js-parse-object-instead-of-object-object
@@ -346,25 +344,7 @@ export class Botkit {
                 return JSON.stringify(context);
             });
 
-            this.webserver.set('views', this.PATH + '/../views');
             this.webserver.set('view engine', 'hbs');
-            this.webserver.use(express.static(__dirname + '/../public'));
-
-            if (this._config.authFunction) {
-                // make sure calls to anything in /admin/ is passed through a validation function
-                this.webserver.use((req, res, next) => {
-                    if (req.url.match(/^\/admin/)) {
-                        this._config.authFunction(req, res, next);
-                    } else {
-                        next();
-                    }
-                });
-
-
-
-            } else {
-                console.warn('No authFunction specified! Web routes will be disabled.');
-            }
 
             this.http.listen(process.env.port || process.env.PORT || 3000, () => {
                 debug(`Webhook Endpoint online:  ${ this.webserver.url }${ this._config.webhook_uri }`);
@@ -472,6 +452,15 @@ export class Botkit {
 
     }
 
+    /**
+     * Expose a folder to the web as a set of static files
+     * @param alias the public alias ie /myfiles
+     * @param path the actual path ie /some/folder/path
+     */
+    public publicFolder(alias, path) {
+        debug('Make folder public: ', path,'at alias', alias);
+        this.webserver.use(alias, express.static(path));
+    }
 
     /**
      * (For use by plugins only) - Add a dependency to Botkit's bootup process that must be marked as completed using `completeDep()`.

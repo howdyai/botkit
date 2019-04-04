@@ -4,7 +4,7 @@
   "description": "building blocks for building bots",
   "main": "lib/index.js",
   "scripts": {
-    "build": "tsc ; ./node_modules/.bin/sass --update sass:public/css",
+    "build": "tsc",
     "test": "tsc ; DEBUG=botkit* node testbot.js",
     "nodemon": "concurrently --kill-others \"tsc -w\" \"DEBUG=botkit* nodemon testbot.js\""
   },

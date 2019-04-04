@@ -8,6 +8,10 @@ module.exports = function(botkit) {
                 console.log('> ', req.url);
                 next();
             });
+
+            botkit.publicFolder('/public',__dirname + '/public');
+
+
         },
         middlewares: {
             ingest: [

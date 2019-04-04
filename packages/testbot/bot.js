@@ -160,11 +160,10 @@ controller.ready(() => {
     // turn on verbose console logging of send/receive/web requests
     controller.plugins.use(require('./plugins/verbose/index.js'));
 
-    // turn on /admin route
-    controller.plugins.use(require('./plugins/admin/index.js'));
+    // landing page
+    // turn on verbose console logging of send/receive/web requests
+    controller.plugins.use(require('./plugins/verbose/index.js'));
 
-    // turn on the /sample route
-    controller.plugins.use(require('./plugins/sample/sample.js'));
 
     /* catch-all that uses the CMS to trigger dialogs */
     if (controller.cms) {
