@@ -3,9 +3,6 @@
  */
 import { Botkit, BotkitMessage } from './core';
 import { Activity, ConversationReference, TurnContext } from 'botbuilder';
-import { BotkitConversation } from './conversation';
-const debug = require('debug')('botkit:worker');
-
 
 /**
  * A base class for a `bot` instance, an object that contains the information and functionality for taking action in response to an incoming message.

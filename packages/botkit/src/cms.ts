@@ -6,6 +6,26 @@ import * as BotkitCMS from 'botkit-studio-sdk';
 import { DialogSet } from 'botbuilder-dialogs';
 const debug = require('debug')('botkit:cms');
 
+
+/**
+ * Provides access to an instance of Botkit CMS, including the ability to load script content into a DialogSet
+ * and bind before, after and onChange handlers to those dynamically imported dialogs by name.
+ * 
+ * TODO: This should be a plugin/external module not part of core.
+ * 
+ * ```javascript
+ * await controller.cms.loadAllScripts(controller.dialogSet);
+ * controller.cms.before('my_script', 'default', async(convo, bot) => {
+ *  /// do something before default thread of the my_script runs.
+ * });
+ * 
+ * // use the cms to test remote triggers
+ * controller.on('message', async(bot, message) => {
+ *   await controller.cms.testTrigger(bot, message);
+ * });
+ * ```
+ * 
+ */
 export class BotkitCMSHelper {
 
     private _cms: BotkitCMS;
@@ -151,7 +171,6 @@ export class BotkitCMSHelper {
         }
     }
 
-    // NOTE: currently this does not receive a dc, so can't call beginDialog from within an after handler
     public after(script_name: string, handler: (results, bot) => Promise<void>) {
         let dialog = this._controller.dialogSet.find(script_name) as BotkitConversation;
         if (dialog) {
