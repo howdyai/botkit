@@ -142,7 +142,9 @@ interface BotkitTrigger {
  */
 export interface BotkitPlugin {
     name: string;
-    middlewares?: {};
+    middlewares?: {
+        [key: string]: any[];   
+    };
     init?: (botkit: Botkit) => void;
 }
 

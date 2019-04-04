@@ -998,7 +998,7 @@ Grants access to convo.vars convo.gotoThread() convo.setVar() and convo.repeat()
 
 | Name | Type | Description
 |--- |--- |---
-| vars | __type | 
+| vars |  | 
 
 <a name="gotoThread"></a>
 ### gotoThread()
@@ -1110,5 +1110,5 @@ An interface for plugins that can contain multiple middlewares as well as an ini
 | Name | Type | Description
 |--- |--- |---
 | init |  | 
-| middlewares | __type | 
+| middlewares |  | 
 | name | string | 
