@@ -271,7 +271,7 @@ export class BotkitConversation<O extends object = {}> extends Dialog<O> {
      * @param thread_name A valid thread defined in this conversation
      * @param handler A handler function in the form async(convo, bot) => { ... }
      */
-    public before(thread_name: string, handler: BotkitConvoHandler) {
+    public before(thread_name: string, handler: (convo: BotkitDialogWrapper, bot: BotWorker) => Promise<any>) {
         if (!this._beforeHooks[thread_name]) {
             this._beforeHooks[thread_name] = [];
         }
