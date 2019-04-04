@@ -10,6 +10,9 @@ export class BotkitDialogWrapper {
 
     private dc: DialogContext;
     private step: BotkitConversationStep;
+    /**
+     * An object containing variables and user responses from this conversation.
+     */
     public vars: {
         [key: string]: any;
     }

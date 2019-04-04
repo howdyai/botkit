@@ -998,7 +998,7 @@ Grants access to convo.vars convo.gotoThread() convo.setVar() and convo.repeat()
 
 | Name | Type | Description
 |--- |--- |---
-| vars |  | 
+| vars |  | An object containing variables and user responses from this conversation.
 
 <a name="gotoThread"></a>
 ### gotoThread()
