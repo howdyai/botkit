@@ -123,7 +123,7 @@ function hear_intent(patterns, message) {
 
 
 /* note this uses example middlewares defined above */
-controller.hears(['hello'],'direct_message,direct_mention,mention',hear_intent, function(bot, message) {
+controller.hears(['hello'],['direct_message','direct_mention,mention'],hear_intent, function(bot, message) {
 
     bot.api.reactions.add({
         timestamp: message.ts,
@@ -145,7 +145,7 @@ controller.hears(['hello'],'direct_message,direct_mention,mention',hear_intent, 
     });
 });
 
-controller.hears(['call me (.*)','my name is (.*)'],'direct_message,direct_mention,mention',function(bot, message) {
+controller.hears(['call me (.*)','my name is (.*)'],['direct_message','direct_mention,mention'],function(bot, message) {
 
     // the name will be stored in the message.match field
     var name = message.match[1];
@@ -162,7 +162,7 @@ controller.hears(['call me (.*)','my name is (.*)'],'direct_message,direct_menti
     });
 });
 
-controller.hears(['what is my name','who am i'],'direct_message,direct_mention,mention',function(bot, message) {
+controller.hears(['what is my name','who am i'],['direct_message','direct_mention,mention'],function(bot, message) {
 
     controller.storage.users.get(message.user,function(err, user) {
         if (user && user.name) {
@@ -174,7 +174,7 @@ controller.hears(['what is my name','who am i'],'direct_message,direct_mention,m
 });
 
 
-controller.hears(['shutdown'],'direct_message,direct_mention,mention',function(bot, message) {
+controller.hears(['shutdown'],['direct_message','direct_mention,mention'],function(bot, message) {
 
     bot.startConversation(message,function(err, convo) {
 
@@ -202,8 +202,7 @@ controller.hears(['shutdown'],'direct_message,direct_mention,mention',function(b
 });
 
 
-controller.hears(['uptime','identify yourself','who are you','what is your name'],'direct_message,direct_mention,mention',function(bot, message) {
-
+controller.hears(['uptime','identify yourself','who are you','what is your name'],['direct_message','direct_mention','mention'],function(bot, message) {
     var hostname = os.hostname();
     var uptime = formatUptime(process.uptime());
 
