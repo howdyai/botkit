@@ -885,7 +885,9 @@ conversation.say('Let us get started...');
 
 <a name="BotkitDialogWrapper"></a>
 ## BotkitDialogWrapper
-
+This class is used to provide easy access to common actions taken on active BotkitConversation instances.
+These objects are passed into handlers bound to BotkitConversations using .before .onChange and conditional handler functions passed to .ask and .addQuestion
+Grants access to convo.vars convo.gotoThread() convo.setVar() and convo.repeat().
 ### constructor new BotkitDialogWrapper()
 
 
@@ -893,8 +895,8 @@ conversation.say('Let us get started...');
 
 | Argument | Type | Description
 |--- |--- |---
-| dc | any | 
-| step | any | 
+| dc | DialogContext | 
+| step | [BotkitConversationStep](#BotkitConversationStep) | 
 
 **Properties and Accessors**
 

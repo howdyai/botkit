@@ -3,7 +3,7 @@
  */
 import { Botkit } from './core';
 import { BotWorker } from './botworker';
-import { BotkitDialogWrapper } from './cms';
+import { BotkitDialogWrapper } from './dialogWrapper';
 import { ActivityTypes, TurnContext, MessageFactory, ActionTypes } from 'botbuilder';
 import { Dialog, DialogContext, DialogInstance, DialogReason, TextPrompt, DialogTurnStatus } from 'botbuilder-dialogs';
 const debug = require('debug')('botkit:conversation');

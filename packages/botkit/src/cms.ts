@@ -6,52 +6,6 @@ import * as BotkitCMS from 'botkit-studio-sdk';
 import { DialogSet } from 'botbuilder-dialogs';
 const debug = require('debug')('botkit:cms');
 
-export class BotkitDialogWrapper {
-
-    private dc;
-    private step;
-    public vars: {};
-
-
-    constructor(dc, step) {
-        this.dc = dc;
-        this.step = step;
-        this.vars = this.step.values;
-    }
-
-    /**
-     * Jump immediately to the first message in a different thread.
-     * @param thread Name of a thread
-     */
-    public async gotoThread(thread: string) {
-        this.step.index = 0;
-        this.step.thread = thread;
-    }
-
-    /**
-     * Repeat the last message sent on the next turn.
-     */
-    public async repeat() {
-        // move back one step next turn the bot will repeat with the last message sent.
-        this.step.index--;
-    }
-
-    /**
-     * Set the value of a variable that will be available to messages in the conversation.
-     * Equivalent to convo.vars.key = val;
-     * Results in {{vars.key}} being replaced with the value in val.
-     * @param key the name of the variable
-     * @param val the value for the variable
-     */
-    public setVar(key, val) {
-        this.vars[key] = val;
-    }
-
-    // TODO: Add other control mechanisms
-    // Botkit currently has things convo.repeat, convo.stop, etc
-    
-}
-
 export class BotkitCMSHelper {
 
     private _cms: BotkitCMS;
