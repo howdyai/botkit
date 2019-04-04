@@ -50,7 +50,7 @@ Begin a pre-defined dialog by specifying its id. The dialog will be started in t
 | Argument | Type | description
 |--- |--- |---
 | id| string | id of dialog
-| options| any | object containing options to be passed into the dialog<br/>
+| options (optional)| any | object containing options to be passed into the dialog<br/>
 
 
 
@@ -550,67 +550,106 @@ controller.on('message', async(bot, message) => {
 
 <a name="after"></a>
 ### after()
-
+Bind a handler function that will fire after a given dialog ends.
+Provides a way to use BotkitConversation.after() on dialogs loaded dynamically via the CMS api instead of being created in code.
 
 **Parameters**
 
 | Argument | Type | description
 |--- |--- |---
-| script_name| string | 
-| handler|  | 
+| script_name| string | The name of the script to bind to
+| handler|  | A handler function in the form async(results, bot) => {}<br/>
 
+
+
+```javascript
+controller.cms.after('my_script', async(results, bot) => {
+
+console.log('my_script just ended! here are the results', results);
+
+});
+```
 
 
 <a name="before"></a>
 ### before()
-
+Bind a handler function that will fire before a given script and thread begin.
+Provides a way to use BotkitConversation.before() on dialogs loaded dynamically via the CMS api instead of being created in code.
 
 **Parameters**
 
 | Argument | Type | description
 |--- |--- |---
-| script_name| string | 
-| thread_name| string | 
-| handler|  | 
+| script_name| string | The name of the script to bind to
+| thread_name| string | The name of a thread within the script to bind to
+| handler|  | A handler function in the form async(convo, bot) => {}<br/>
 
+
+
+```javascript
+controller.cms.before('my_script','my_thread', async(convo, bot) => {
+
+ // do stuff
+ console.log('starting my_thread as part of my_script');
+ // other stuff including convo.setVar convo.gotoThread
+
+});
+```
 
 
 <a name="loadAllScripts"></a>
 ### loadAllScripts()
-
+Load all script content from the configured CMS instance into a DialogSet and prepare them to be used.
 
 **Parameters**
 
 | Argument | Type | description
 |--- |--- |---
-| dialogSet| DialogSet | 
+| dialogSet| DialogSet | A DialogSet into which the dialogs should be loaded.  In most cases, this is `controller.dialogSet`, allowing Botkit to access these dialogs through `bot.beginDialog()`.<br/>
 
 
 
 <a name="onChange"></a>
 ### onChange()
-
+Bind a handler function that will fire when a given variable is set within a a given script.
+Provides a way to use BotkitConversation.onChange() on dialogs loaded dynamically via the CMS api instead of being created in code.
 
 **Parameters**
 
 | Argument | Type | description
 |--- |--- |---
-| script_name| string | 
-| variable_name| string | 
-| handler|  | 
+| script_name| string | The name of the script to bind to
+| variable_name| string | The name of a variable within the script to bind to
+| handler|  | A handler function in the form async(value, convo, bot) => {}<br/>
 
+
+
+```javascript
+controller.cms.onChange('my_script','my_variable', async(new_value, convo, bot) => {
+
+console.log('A new value got set for my_variable inside my_script: ', new_value);
+
+});
+```
 
 
 <a name="testTrigger"></a>
 ### testTrigger()
-
+Uses the Botkit CMS trigger API to test an incoming message against a list of predefined triggers.
+If a trigger is matched, the appropriate dialog will begin immediately.
 
 **Parameters**
 
 | Argument | Type | description
 |--- |--- |---
-| bot| any | 
-| message| any | 
+| bot| [BotWorker](#BotWorker) | The current bot worker instance
+| message| Partial&lt;BotkitMessage&gt; | An incoming message to be interpretted
+
+
+**Returns**
+
+Returns false if a dialog is NOT triggered, otherwise returns void.
+
 
 
 

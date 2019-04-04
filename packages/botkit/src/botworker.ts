@@ -116,7 +116,7 @@ export class BotWorker {
      * @param id id of dialog
      * @param options object containing options to be passed into the dialog
      */
-    public async beginDialog(id: string, options: any) {
+    public async beginDialog(id: string, options?: any) {
         if (this._config.dialogContext) {
             await this._config.dialogContext.beginDialog(id, options);
 

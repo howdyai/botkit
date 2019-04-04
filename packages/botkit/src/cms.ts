@@ -1,7 +1,8 @@
 /**
  * @module botkit
  */
-import { Botkit, BotkitConversation } from '.';
+import { Botkit, BotkitMessage, BotWorker, BotkitConversation } from '.';
+import { BotkitDialogWrapper } from './dialogWrapper';
 import * as BotkitCMS from 'botkit-studio-sdk';
 import { DialogSet } from 'botbuilder-dialogs';
 const debug = require('debug')('botkit:cms');
@@ -53,6 +54,10 @@ export class BotkitCMSHelper {
 
     }
 
+    /**
+     * Load all script content from the configured CMS instance into a DialogSet and prepare them to be used.
+     * @param dialogSet A DialogSet into which the dialogs should be loaded.  In most cases, this is `controller.dialogSet`, allowing Botkit to access these dialogs through `bot.beginDialog()`.
+     */
     async loadAllScripts(dialogSet: DialogSet) {
 
         var scripts = await this._cms.getScripts();
@@ -143,7 +148,14 @@ export class BotkitCMSHelper {
         return line;
     }
 
-    public async testTrigger(bot, message) {
+    /**
+     * Uses the Botkit CMS trigger API to test an incoming message against a list of predefined triggers.
+     * If a trigger is matched, the appropriate dialog will begin immediately.
+     * @param bot The current bot worker instance
+     * @param message An incoming message to be interpretted
+     * @returns Returns false if a dialog is NOT triggered, otherwise returns void.
+     */
+    public async testTrigger(bot: BotWorker, message: Partial<BotkitMessage>): Promise<any> {
         const command = await this._cms.evaluateTrigger(message.text);
         if (command.command) {
             return await bot.beginDialog(command.command);
@@ -151,7 +163,25 @@ export class BotkitCMSHelper {
         return false;
     }
 
-    public before(script_name: string, thread_name: string, handler: (convo, bot) => Promise<void>): void {
+    /**
+     * Bind a handler function that will fire before a given script and thread begin.
+     * Provides a way to use BotkitConversation.before() on dialogs loaded dynamically via the CMS api instead of being created in code.
+     * 
+     * ```javascript
+     * controller.cms.before('my_script','my_thread', async(convo, bot) => {
+     *  
+     *  // do stuff
+     *  console.log('starting my_thread as part of my_script');
+     *  // other stuff including convo.setVar convo.gotoThread
+     *
+     * });
+     * ```
+     * 
+     * @param script_name The name of the script to bind to
+     * @param thread_name The name of a thread within the script to bind to
+     * @param handler A handler function in the form async(convo, bot) => {}
+     */
+    public before(script_name: string, thread_name: string, handler: (convo: BotkitDialogWrapper, bot: BotWorker) => Promise<void>): void {
 
         let dialog = this._controller.dialogSet.find(script_name) as BotkitConversation;
         if (dialog) {
@@ -162,7 +192,23 @@ export class BotkitCMSHelper {
 
     }
 
-    public onChange(script_name: string, variable_name: string, handler: (value, convo, bot) => Promise<void>) {
+     /**
+     * Bind a handler function that will fire when a given variable is set within a a given script.
+     * Provides a way to use BotkitConversation.onChange() on dialogs loaded dynamically via the CMS api instead of being created in code.
+     * 
+     * ```javascript
+     * controller.cms.onChange('my_script','my_variable', async(new_value, convo, bot) => {
+    *  
+    * console.log('A new value got set for my_variable inside my_script: ', new_value);
+    *
+    * });
+    * ```
+    * 
+    * @param script_name The name of the script to bind to
+    * @param variable_name The name of a variable within the script to bind to
+    * @param handler A handler function in the form async(value, convo, bot) => {}
+    */
+    public onChange(script_name: string, variable_name: string, handler: (value: any, convo: BotkitDialogWrapper, bot: BotWorker) => Promise<void>) {
         let dialog = this._controller.dialogSet.find(script_name) as BotkitConversation;
         if (dialog) {
             dialog.onChange(variable_name, handler);
@@ -171,7 +217,22 @@ export class BotkitCMSHelper {
         }
     }
 
-    public after(script_name: string, handler: (results, bot) => Promise<void>) {
+    /**
+    * Bind a handler function that will fire after a given dialog ends.
+    * Provides a way to use BotkitConversation.after() on dialogs loaded dynamically via the CMS api instead of being created in code.
+    * 
+    * ```javascript
+    * controller.cms.after('my_script', async(results, bot) => {
+    * 
+    * console.log('my_script just ended! here are the results', results);
+    *
+    * });
+    * ```
+    * 
+    * @param script_name The name of the script to bind to
+    * @param handler A handler function in the form async(results, bot) => {}
+    */
+    public after(script_name: string, handler: (results: any, bot: BotWorker) => Promise<void>) {
         let dialog = this._controller.dialogSet.find(script_name) as BotkitConversation;
         if (dialog) {
             dialog.after(handler);
