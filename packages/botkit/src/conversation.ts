@@ -30,13 +30,37 @@ interface BotkitMessageTemplate {
 }
 
 export interface BotkitConversationStep {
+    /**
+     * The number pointing to the current message in the current thread in this dialog's script
+     */
     index: number;
+    /**
+     * The name of the current thread
+     */
     thread: string;
+    /**
+     * A pointer to the current dialog state
+     */
     state: any;
+    /**
+     * A pointer to any options passed into the dialog when it began
+     */
     options: any;
+    /**
+     * The reason for this step being called
+     */
     reason: DialogReason;
+    /**
+     * The results of the previous turn
+     */
     result: any;
+    /**
+     * A pointer directly to state.values
+     */
     values: any;
+    /**
+     * A function to call when the step is completed.
+     */
     next: (stepResult)=>Promise<any>;
 }
 

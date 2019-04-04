@@ -14,6 +14,7 @@
 ## Interfaces
 
 * <a href="#BotkitConfiguration">BotkitConfiguration</a>
+* <a href="#BotkitConversationStep">BotkitConversationStep</a>
 * <a href="#BotkitHandler">BotkitHandler</a>
 * <a href="#BotkitMessage">BotkitMessage</a>
 * <a href="#BotkitPlugin">BotkitPlugin</a>
@@ -1002,6 +1003,22 @@ Defines the options used when instantiating Botkit to create the main app contro
 | storage | Storage | A Storage interface compatible with [this specification](https://docs.microsoft.com/en-us/javascript/api/botbuilder-core/storage?view=botbuilder-ts-latest)<br/>Defaults to the ephemeral [MemoryStorage](https://docs.microsoft.com/en-us/javascript/api/botbuilder-core/memorystorage?view=botbuilder-ts-latest) implementation.<br/>
 | webhook_uri | string | Path used to create incoming webhook URI.  Defaults to `/api/messages`<br/>
 | webserver | any | An instance of Express used to define web endpoints.  If not specified, oen will be created internally.<br/>Note: only use your own Express if you absolutely must for some reason. Otherwise, use `controller.webserver`<br/>
+<a name="BotkitConversationStep"></a>
+## Interface BotkitConversationStep
+
+
+**Fields**
+
+| Name | Type | Description
+|--- |--- |---
+| index | number | The number pointing to the current message in the current thread in this dialog's script<br/>
+| next |  | A function to call when the step is completed.<br/>
+| options | any | A pointer to any options passed into the dialog when it began<br/>
+| reason | DialogReason | The reason for this step being called<br/>
+| result | any | The results of the previous turn<br/>
+| state | any | A pointer to the current dialog state<br/>
+| thread | string | The name of the current thread<br/>
+| values | any | A pointer directly to state.values<br/>
 <a name="BotkitHandler"></a>
 ## Interface BotkitHandler
 A handler function passed into `hears()` or `on()` that receives a [BotWorker](#botworker) instance and a [BotkitMessage](#botkitmessage).  Should be defined as an async function and/or return a Promise.
