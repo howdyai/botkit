@@ -642,16 +642,16 @@ export class BotkitConversation<O extends object = {}> extends Dialog<O> {
         return attachments;
     }
 
-    /**
-     * Cause the dialog to jump to a new thread as defined by the thread name.
-     * @param thread The name of the thread to jump to
-     * @param dc The current DialogContext
-     * @param step The current step object
-     */
-    public async gotoThread(thread: string, dc: DialogContext, step: BotkitConversationStep) {
-        step.thread = thread;
-        step.index = 0;
-    }
+    // /**
+    //  * Cause the dialog to jump to a new thread as defined by the thread name.
+    //  * @param thread The name of the thread to jump to
+    //  * @param dc The current DialogContext
+    //  * @param step The current step object
+    //  */
+    // public async gotoThread(thread: string, dc: DialogContext, step: BotkitConversationStep) {
+    //     step.thread = thread;
+    //     step.index = 0;
+    // }
 
     /**
      * Handle the scripted "gotothread" action - requires an additional call to runStep.
@@ -660,6 +660,8 @@ export class BotkitConversation<O extends object = {}> extends Dialog<O> {
      * @param step The current step object
      */
     private async gotoThreadAction(thread: string, dc: DialogContext, step: BotkitConversationStep) {
+        step.thread = thread;
+        step.index = 0;
         await this.gotoThread(thread, dc, step);
         return await this.runStep(dc, step.index, step.thread, DialogReason.nextCalled, step.values);
     }
