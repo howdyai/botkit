@@ -9,7 +9,6 @@
 * <a href="#BotkitConversation">BotkitConversation</a>
 * <a href="#BotkitConversationState">BotkitConversationState</a>
 * <a href="#BotkitDialogWrapper">BotkitDialogWrapper</a>
-* <a href="#BotkitPluginLoader">BotkitPluginLoader</a>
 
 ## Interfaces
 
@@ -244,7 +243,6 @@ If one is not specified, Botkit will expose an adapter for the Microsoft Bot Fra
 | cms | [BotkitCMSHelper](#BotkitCMSHelper) | provides an interface to interact with an instance of Botkit CMS
 | dialogSet | DialogSet | A BotBuilder DialogSet that serves as the top level dialog container for the Botkit app
 | http | any | A direct reference to the underlying HTTP server object
-| plugins | [BotkitPluginLoader](#BotkitPluginLoader) | Provides an interface to interact with external Botkit plugins
 | storage | Storage | a BotBuilder storage driver - defaults to MemoryStorage
 | version | string | The current version of Botkit Core
 | webserver | any | An Express webserver
@@ -514,6 +512,18 @@ controller.on('my_custom_event', async(bot, message) => {
  //... do something
 });
 ```
+
+
+<a name="usePlugin"></a>
+### usePlugin()
+Load a plugin module and bind all included middlewares to their respective endpoints.
+
+**Parameters**
+
+| Argument | Type | description
+|--- |--- |---
+| plugin_or_function|  | A plugin module in the form of function(botkit) {...} that returns {name, middlewares, init} or an object in the same form.<br/>
+
 
 
 
@@ -996,50 +1006,6 @@ Results in {{vars.key}} being replaced with the value in val.
 
 
 
-<a name="BotkitPluginLoader"></a>
-## BotkitPluginLoader
-
-### constructor new BotkitPluginLoader()
-
-
-**Parameters**
-
-| Argument | Type | Description
-|--- |--- |---
-| botkit | any | 
-
-**Properties and Accessors**
-
-| Name | Type | Description
-|--- |--- |---
-| botkit | [Botkit](#Botkit) | 
-
-<a name="register"></a>
-### register()
-
-
-**Parameters**
-
-| Argument | Type | description
-|--- |--- |---
-| name| any | 
-| endpoints| [BotkitPlugin](#BotkitPlugin) | 
-
-
-
-<a name="use"></a>
-### use()
-
-
-**Parameters**
-
-| Argument | Type | description
-|--- |--- |---
-| plugin_or_function|  | 
-
-
-
-
 
 
 <a name="BotkitConfiguration"></a>
@@ -1110,7 +1076,7 @@ Will also contain any additional fields including in the incoming payload.
 | user | string | Unique identifier of user who sent the message. Typically contains the platform specific user id.<br/>
 <a name="BotkitPlugin"></a>
 ## Interface BotkitPlugin
-
+An interface for plugins that can contain multiple middlewares as well as an init function.
 
 **Fields**
 

@@ -4,7 +4,6 @@
 import { Activity, BotFrameworkAdapter, MemoryStorage,  Storage, ConversationReference, TurnContext } from 'botbuilder';
 import { DialogContext, DialogSet, DialogTurnStatus } from 'botbuilder-dialogs';
 import { BotkitCMSHelper } from './cms';
-import { BotkitPluginLoader } from './plugin_loader';
 import { BotWorker } from './botworker';
 import { BotkitConversationState } from './conversationState';
 import * as path from 'path';
@@ -139,6 +138,15 @@ interface BotkitTrigger {
 }
 
 /**
+ * An interface for plugins that can contain multiple middlewares as well as an init function.
+ */
+export interface BotkitPlugin {
+    name: string;
+    middlewares?: {};
+    init?: (botkit: Botkit) => void;
+}
+
+/**
  * Create a new instance of Botkit to define the controller for a conversational app.
  * To connect Botkit to a chat platform, pass in a fully configured `adapter`.
  * If one is not specified, Botkit will expose an adapter for the Microsoft Bot Framework.
@@ -223,6 +231,11 @@ export class Botkit {
     }
 
     /**
+     * A list of all the installed plugins.
+     */
+    private plugins: string[]; 
+
+    /**
      * a BotBuilder storage driver - defaults to MemoryStorage
      */
     public storage: Storage;
@@ -246,11 +259,6 @@ export class Botkit {
      * A BotBuilder DialogSet that serves as the top level dialog container for the Botkit app
      */
     public dialogSet: DialogSet;
-
-    /**
-     * Provides an interface to interact with external Botkit plugins
-     */
-    public plugins: BotkitPluginLoader;
 
     /**
      * provides an interface to interact with an instance of Botkit CMS
@@ -381,11 +389,9 @@ export class Botkit {
 
         this.configureWebhookEndpoint();
 
-        this.plugins = new BotkitPluginLoader(this);
-
         // MAGIC: Treat the adapter as a botkit plugin
         // which allows them to be carry their own platform-specific behaviors
-        this.plugins.use(this.adapter);
+        this.usePlugin(this.adapter);
 
         this.completeDep('booted');
     }
@@ -412,6 +418,60 @@ export class Botkit {
             return this._config;
         }
     }
+
+    /**
+     * Load a plugin module and bind all included middlewares to their respective endpoints.
+     * @param plugin_or_function A plugin module in the form of function(botkit) {...} that returns {name, middlewares, init} or an object in the same form.
+     */
+    public usePlugin(plugin_or_function: (botkit: Botkit) => BotkitPlugin | BotkitPlugin) {
+        let plugin: BotkitPlugin;
+        if (typeof(plugin_or_function)=='function') {
+            plugin = plugin_or_function(this);
+        } else {
+            plugin = plugin_or_function;
+        }
+        try {
+            this.registerPlugin(plugin.name, plugin);
+        } catch(err) {
+            console.error('ERROR IN PLUGIN REGISTER', err);
+        }
+    }
+    
+    /**
+     * Called from usePlugin -- do the actual binding of middlewares for a plugin that is being loaded.
+     * @param name name of the plugin
+     * @param endpoints the plugin object that contains middleware endpoint definitions
+     */
+    private registerPlugin(name: string, endpoints: BotkitPlugin) {
+        console.log('Enabling plugin: ', name);
+        if (this.plugins.indexOf(name) >= 0) {
+            debug('Plugin already enabled:', name);
+            return;
+        }
+        this.plugins.push(name);
+
+        if (endpoints.middlewares) {
+            for (var mw in endpoints.middlewares) {
+                for (var e = 0; e < endpoints.middlewares[mw].length; e++) {
+                    this.middleware[mw].use(endpoints.middlewares[mw][e]);
+                }
+            }
+        }
+
+        if (endpoints.init) {
+            try {
+                endpoints.init(this);
+            } catch(err) {
+                if (err) {
+                    throw new Error(err);
+                }
+            }
+        }
+
+        debug('Plugin Enabled: ', name);
+
+    }
+
 
     /**
      * (For use by plugins only) - Add a dependency to Botkit's bootup process that must be marked as completed using `completeDep()`.
