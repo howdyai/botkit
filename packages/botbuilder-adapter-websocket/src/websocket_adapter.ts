@@ -110,7 +110,7 @@ export class WebsocketAdapter extends BotAdapter {
                     }
 
                     const context = new TurnContext(this, activity as Activity);
-                    this.runMiddleware(context, async (context) => { return logic(context); })
+                    this.runMiddleware(context, logic)
                         .catch((err) => { console.error(err.toString()); });
                 } catch (e) {
                     var alert = [
