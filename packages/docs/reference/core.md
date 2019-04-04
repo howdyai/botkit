@@ -438,6 +438,19 @@ controller.on('conversationUpdate', async(bot, message) => {
 ```
 
 
+<a name="publicFolder"></a>
+### publicFolder()
+Expose a folder to the web as a set of static files
+
+**Parameters**
+
+| Argument | Type | description
+|--- |--- |---
+| alias| any | the public alias ie /myfiles
+| path| any | the actual path ie /some/folder/path<br/>
+
+
+
 <a name="ready"></a>
 ### ready()
 Use `controller.ready()` to wrap any calls that require components loaded during the bootup process.
