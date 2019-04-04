@@ -1014,31 +1014,6 @@ Results in {{vars.key}} being replaced with the value in val.
 |--- |--- |---
 | botkit | [Botkit](#Botkit) | 
 
-<a name="localView"></a>
-### localView()
-
-
-**Parameters**
-
-| Argument | Type | description
-|--- |--- |---
-| path_to_view| any | 
-
-
-
-<a name="publicFolder"></a>
-### publicFolder()
-
-
-**Parameters**
-
-| Argument | Type | description
-|--- |--- |---
-| alias| any | 
-| path| any | 
-
-
-
 <a name="register"></a>
 ### register()
 
@@ -1142,7 +1117,5 @@ Will also contain any additional fields including in the incoming payload.
 | Name | Type | Description
 |--- |--- |---
 | init |  | 
-| menu |  | 
 | middlewares | __type | 
 | name | string | 
-| web |  | 
