@@ -32,10 +32,8 @@
 | Name | Type | Description
 |--- |--- |---
 | botkit_worker | [SlackBotWorker](#SlackBotWorker) | 
-| menu | any | 
 | middlewares | any | 
 | name | string | 
-| web | any | 
 
 <a name="activityToSlack"></a>
 ### activityToSlack()
@@ -101,18 +99,6 @@
 
 <a name="getInstallLink"></a>
 ### getInstallLink()
-
-
-
-<a name="init"></a>
-### init()
-
-
-**Parameters**
-
-| Argument | Type | description
-|--- |--- |---
-| botkit| any | 
 
 
 

@@ -6,29 +6,14 @@ var debug = require('debug')('botkit:plugins');
 import * as path from 'path';
 import * as express from 'express';
 
-interface PluginMenu {
-    title: string;
-    icon?: string;
-    url: string;
-}
-
-interface PluginWebEndpoint {
-    url: string;
-    method: string;
-    handler: (req, res) => void;
-}
-
 export interface BotkitPlugin {
     name: string;
-    web?: PluginWebEndpoint[];
-    menu?: PluginMenu[]; 
     middlewares?: {};
     init?: (botkit: Botkit) => void;
 }
 
 export class BotkitPluginLoader {
     public botkit: Botkit;
-    private menu: PluginMenu[]; 
     private plugins: string[]; 
 
     constructor(botkit) {

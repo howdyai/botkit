@@ -10,53 +10,22 @@ const debug = Debug('botkit:websocket');
 const clients = {};
 
 export class WebsocketAdapter extends BotAdapter {
-    // TODO: add typedefs to these
-    private _config: any;
-
     public name: string;
     public web;
     public menu;
 
     public wss;
-    private botkit; // If set, points to an instance of Botkit
 
-    constructor(config) {
+    constructor() {
         super();
-
-        this._config = {
-            ...config
-        };
 
         // Botkit Plugin additions
         this.name = 'Websocket Adapter';
 
-        this.web = [
-            {
-                method: 'get',
-                url: '/admin/web',
-                handler: (req, res) => {
-                    res.render(
-                        this.botkit.plugins.localView(__dirname + '/../public/chat.html'),
-                        {}
-                    );
-                }
-            }
-        ];
-
-        this.menu = [
-            {
-                title: 'Chat',
-                url: '/chat/chat.html',
-                icon: '💬'
-            }
-        ];
     }
 
     // Botkit init function, called only when used alongside Botkit
     public init(botkit) {
-        this.botkit = botkit;
-
-        this.botkit.plugins.publicFolder('/chat', __dirname + '/../public');
 
         // when the bot is ready, register the webhook subscription with the Webex API
         botkit.ready(() => {
@@ -150,18 +119,11 @@ export class WebsocketAdapter extends BotAdapter {
     }
 
     async updateActivity(context, activity) {
-        if (activity.activityId && activity.conversation) {
-
-        } else {
-            throw new Error('Cannot update activity: activity is missing id');
-        }
+        debug('Websocket adapter does not support updateActivity.');
     }
 
     async deleteActivity(context, reference) {
-        if (reference.activityId && reference.conversation) {
-        } else {
-            throw new Error('Cannot delete activity: reference is missing activityId');
-        }
+        debug('Websocket adapter does not support deleteActivity.');
     }
 
     async continueConversation(reference, logic) {

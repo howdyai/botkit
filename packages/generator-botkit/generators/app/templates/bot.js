@@ -9,17 +9,16 @@ const { Botkit } = require('botkit');
 
 // Import a platform-specific adapter for <%= platform %>.
 <% if (platform === 'slack') { %>
-const { SlackAdapter, SlackMessageTypeMiddleware, SlackEventMiddleware } = require('botbuilder-slack');
+const { SlackAdapter, SlackMessageTypeMiddleware, SlackEventMiddleware } = require('botbuilder-adapter-slack');
 <% } else if (platform === 'webex') { %>
-const { WebexAdapter } = require('botbuilder-webex');
+const { WebexAdapter } = require('botbuilder-adapter-webex');
 <% } else if (platform === 'websocket') { %>
-const { WebsocketAdapter } = require('botbuilder-websocket');
+const { WebsocketAdapter } = require('botbuilder-adapter-websocket');
 <% } else if (platform === 'facebook') { %>
-const { FacebookAdapter, FacebookEventTypeMiddleware } = require('botbuilder-facebook');
-<% } else if (platform === 'twilio-sms') { %>const { TwilioAdapter } = require('botbuilder-twilio-sms');
-<% } else if (platform === 'hangouts') { %>const { HangoutsAdapter } = require('botbuilder-hangouts');<% } %>
+const { FacebookAdapter, FacebookEventTypeMiddleware } = require('botbuilder-adapter-facebook');
+<% } else if (platform === 'twilio-sms') { %>const { TwilioAdapter } = require('botbuilder-adapter-twilio-sms');
+<% } else if (platform === 'hangouts') { %>const { HangoutsAdapter } = require('botbuilder-adapter-hangouts');<% } %>
 const { MongoDbStorage } = require('botbuilder-storage-mongodb');
-const basicAuth = require('express-basic-auth');
 
 // Load process.env values from .env file
 require('dotenv').config();
@@ -102,10 +101,6 @@ const controller = new Botkit({
 <% } else { %>
     adapter: adapter,
 <% } %>
-    authFunction:  basicAuth({
-        users: { 'admin': 'supersecret' }, // TODO: externalize these
-        challenge: true,
-    }),
     cms: {
         cms_uri: process.env.cms_uri,
         token: process.env.cms_token,

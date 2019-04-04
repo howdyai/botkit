@@ -39,9 +39,6 @@ interface AuthTestResult extends WebAPICallResult {
     ok: boolean;
 }
 
-const userIdByBotId: { [key: string]: string } = {};
-const userIdByTeamId: { [key: string]: string } = {};
-
 export class SlackAdapter extends BotAdapter {
     private options: SlackAdapterOptions;
     private slack: WebClient;
@@ -52,9 +49,6 @@ export class SlackAdapter extends BotAdapter {
     // Botkit Plugin fields
     public name: string;
     public middlewares;
-    public web;
-    public menu;
-    private botkit; // If set, points to an instance of Botkit
 
     // tell botkit to use this type of worker
     public botkit_worker = SlackBotWorker;
@@ -125,38 +119,6 @@ export class SlackAdapter extends BotAdapter {
                 }
             ]
         };
-
-        this.web = [
-            {
-                method: 'get',
-                url: '/admin/slack',
-                handler: (req, res) => {
-                    res.render(
-                        this.botkit.plugins.localView(__dirname + '/../views/slack.hbs'),
-                        {
-                            slack_config: this.options,
-                            botkit_config: this.botkit.getConfig(),
-                            host: req.get('host'),
-                            protocol: req.protocol,
-                            install_link: this.getInstallLink()
-                        }
-                    );
-                }
-            }
-        ];
-
-        this.menu = [
-            {
-                title: 'Slack',
-                url: '/admin/slack',
-                icon: '#'
-            }
-        ];
-    }
-
-    public init(botkit) {
-        // capture Botkit controller for use in web endpoints
-        this.botkit = botkit;
     }
 
     public async getAPI(activity: Activity) {

@@ -332,9 +332,6 @@ export class Botkit {
 
             hbs.registerPartials(this.PATH + '/../views/partials');
             hbs.localsAsTemplateData(this.webserver);
-            // hbs.handlebars.registerHelper('raw-helper', function(options) {
-            //     return options.fn();
-            // });
 
             // From https://stackoverflow.com/questions/10232574/handlebars-js-parse-object-instead-of-object-object
             hbs.registerHelper('json', function(context) {

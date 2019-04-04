@@ -16,6 +16,15 @@ module.exports = class extends Generator {
             this.destinationPath('features')
         );
 
+        this.fs.copy(
+            this.templatePath('public'),
+            this.destinationPath('public')
+        );
+
+        this.fs.copy(
+            this.templatePath('sass'),
+            this.destinationPath('sass')
+        );
 
         this.fs.copyTpl(
             this.templatePath('.env'),
@@ -29,6 +38,11 @@ module.exports = class extends Generator {
 
     install() {
         this.npmInstall(['botbuilder-adapter-websocket']);
+
+        // TODO: Install sass?
+        // TODO: Add build step to package.json
+        // TODO: Add public folder definition in bot.js and/or in a skill somewhere
+        
     }
 
 };

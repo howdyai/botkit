@@ -16,11 +16,6 @@
 ### constructor new WebsocketAdapter()
 
 
-**Parameters**
-
-| Argument | Type | Description
-|--- |--- |---
-| config | any | 
 
 **Properties and Accessors**
 
