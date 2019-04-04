@@ -9,10 +9,16 @@ import { Dialog, DialogContext, DialogInstance, DialogReason, TextPrompt, Dialog
 const debug = require('debug')('botkit:conversation');
 import * as mustache from 'mustache';
 
+/**
+ * Definition of the handler functions used to handle .ask conditions
+ */
 interface BotkitConvoHandler {
     (answer: string, convo: BotkitDialogWrapper, bot: BotWorker): Promise<any>;
 }
 
+/**
+ * Definition of the format used to store event handlers
+ */
 interface BotkitConvoTrigger {
         type?: string;
         pattern?: string | RegExp;

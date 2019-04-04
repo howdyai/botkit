@@ -746,7 +746,7 @@ Use this hook to set variables, call APIs, or change the flow of the conversatio
 | Argument | Type | description
 |--- |--- |---
 | thread_name| string | A valid thread defined in this conversation
-| handler| [BotkitConvoHandler](#BotkitConvoHandler) | A handler function in the form async(convo, bot) => { ... }<br/>
+| handler|  | A handler function in the form async(convo, bot) => { ... }<br/>
 
 
 
