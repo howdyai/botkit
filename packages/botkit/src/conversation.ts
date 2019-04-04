@@ -10,14 +10,14 @@ const debug = require('debug')('botkit:conversation');
 import * as mustache from 'mustache';
 
 /**
- * Definition of the handler functions used to handle .ask conditions
+ * Definition of the handler functions used to handle .ask and .addQuestion conditions
  */
 interface BotkitConvoHandler {
     (answer: string, convo: BotkitDialogWrapper, bot: BotWorker): Promise<any>;
 }
 
 /**
- * Definition of the format used to store event handlers
+ * Definition of the trigger pattern passed into .ask or .addQuestion
  */
 interface BotkitConvoTrigger {
         type?: string;
@@ -26,13 +26,19 @@ interface BotkitConvoTrigger {
         default?: boolean;
 }
 
+/**
+ * Template for definiting a BotkitConversation template
+ */
 interface BotkitMessageTemplate {
     text: string[];
+    action?: string;
+    quick_replies?: [any];
+    attachments?: [];
+    channelData?: any;
     collect: {
         key: string;
         options?: BotkitConvoTrigger[]
     }
-
 }
 
 export interface BotkitConversationStep {
