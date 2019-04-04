@@ -648,6 +648,17 @@ Messages added with `say()` and `addMessage()` will _not_ wait for a response, w
 
 
 
+```javascript
+let conversation = new BotkitConversation('welcome', controller);
+conversation.say('Hello! Welcome to my app.');
+conversation.say('Let us get started...');
+// pass in a message with an action that will cause gotoThread to be called...
+conversation.say({action: 'continuation'});
+
+conversation.addMessage('This is a different thread completely', 'continuation');
+```
+
+
 <a name="addQuestion"></a>
 ### addQuestion()
 Identical to `ask()`, but accepts the name of a thread to which the question is added.
@@ -835,6 +846,13 @@ Messages added with `say()` and `addMessage()` will _not_ wait for a response, w
 |--- |--- |---
 | message|  | Message template to be sent<br/>
 
+
+
+```javascript
+let conversation = new BotkitConversation('welcome', controller);
+conversation.say('Hello! Welcome to my app.');
+conversation.say('Let us get started...');
+```
 
 
 

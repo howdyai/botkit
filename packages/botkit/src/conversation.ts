@@ -123,6 +123,13 @@ export class BotkitConversation<O extends object = {}> extends Dialog<O> {
     /**
      * Add a non-interactive message to the default thread.
      * Messages added with `say()` and `addMessage()` will _not_ wait for a response, will be sent one after another without a pause.
+     * 
+     * ```javascript
+     * let conversation = new BotkitConversation('welcome', controller);
+     * conversation.say('Hello! Welcome to my app.');
+     * conversation.say('Let us get started...');
+     * ```
+     * 
      * @param message Message template to be sent
      */
     public say(message: Partial<BotkitMessageTemplate> | string) {
@@ -132,6 +139,17 @@ export class BotkitConversation<O extends object = {}> extends Dialog<O> {
     /**
      * Add a message to a specific thread
      * Messages added with `say()` and `addMessage()` will _not_ wait for a response, will be sent one after another without a pause.
+     *
+     * ```javascript
+     * let conversation = new BotkitConversation('welcome', controller);
+     * conversation.say('Hello! Welcome to my app.');
+     * conversation.say('Let us get started...');
+     * // pass in a message with an action that will cause gotoThread to be called...
+     * conversation.say({action: 'continuation'});
+     * 
+     * conversation.addMessage('This is a different thread completely', 'continuation');
+     * ```
+     * 
      * @param message Message template to be sent
      * @param thread_name Name of thread to which message will be added
      */
