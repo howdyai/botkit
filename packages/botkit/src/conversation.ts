@@ -29,7 +29,7 @@ interface BotkitMessageTemplate {
 
 }
 
-interface BotkitConversationStep {
+export interface BotkitConversationStep {
     index: number;
     thread: string;
     state: any;
@@ -662,7 +662,6 @@ export class BotkitConversation<O extends object = {}> extends Dialog<O> {
     private async gotoThreadAction(thread: string, dc: DialogContext, step: BotkitConversationStep) {
         step.thread = thread;
         step.index = 0;
-        await this.gotoThread(thread, dc, step);
         return await this.runStep(dc, step.index, step.thread, DialogReason.nextCalled, step.values);
     }
 

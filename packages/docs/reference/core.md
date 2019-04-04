@@ -786,20 +786,6 @@ Automatically called when the the dialog ends and causes any handlers bound usin
 
 
 
-<a name="gotoThread"></a>
-### gotoThread()
-Cause the dialog to jump to a new thread as defined by the thread name.
-
-**Parameters**
-
-| Argument | Type | description
-|--- |--- |---
-| thread| string | The name of the thread to jump to
-| dc| DialogContext | The current DialogContext
-| step| [BotkitConversationStep](#BotkitConversationStep) | The current step object<br/>
-
-
-
 <a name="onChange"></a>
 ### onChange()
 Bind a function to run whenever a user answers a specific question.  Can be used to validate input and take conditional actions.
