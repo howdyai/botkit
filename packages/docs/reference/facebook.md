@@ -60,11 +60,8 @@
 
 | Name | Type | Description
 |--- |--- |---
-| botkit_worker | [FacebookBotWorker](#FacebookBotWorker) | 
-| menu | any | 
 | middlewares | any | 
 | name | string | 
-| web | any | 
 
 <a name="continueConversation"></a>
 ### continueConversation()
@@ -74,7 +71,7 @@
 
 | Argument | Type | description
 |--- |--- |---
-| reference| ConversationReference | 
+| reference| Partial&lt;ConversationReference&gt; | 
 | logic|  | 
 
 
@@ -88,7 +85,19 @@
 | Argument | Type | description
 |--- |--- |---
 | context| TurnContext | 
-| reference| ConversationReference | 
+| reference| Partial&lt;ConversationReference&gt; | 
+
+
+
+<a name="init"></a>
+### init()
+
+
+**Parameters**
+
+| Argument | Type | description
+|--- |--- |---
+| botkit| any | 
 
 
 
@@ -102,20 +111,7 @@
 |--- |--- |---
 | req| any | 
 | res| any | 
-| logic| any | 
-
-
-
-<a name="processSingleMessage"></a>
-### processSingleMessage()
-
-
-**Parameters**
-
-| Argument | Type | description
-|--- |--- |---
-| message| any | 
-| logic| any | 
+| logic|  | 
 
 
 
@@ -141,7 +137,7 @@
 | Argument | Type | description
 |--- |--- |---
 | context| TurnContext | 
-| activity| Activity | 
+| activity| Partial&lt;Activity&gt; | 
 
 
 
@@ -149,15 +145,6 @@
 <a name="FacebookBotWorker"></a>
 ## FacebookBotWorker
 
-### constructor new FacebookBotWorker()
-
-
-**Parameters**
-
-| Argument | Type | Description
-|--- |--- |---
-| botkit | any | 
-| config | any | 
 
 
 

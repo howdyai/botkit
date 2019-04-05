@@ -1,7 +1,7 @@
 /**
  * @module botbuilder-adapter-hangouts
  */
-import { Activity, ActivityTypes, BotAdapter, TurnContext, ConversationReference } from 'botbuilder';
+import { Activity, ActivityTypes, BotAdapter, TurnContext, ConversationReference, ResourceResponse } from 'botbuilder';
 import * as Debug from 'debug';
 import { google } from 'googleapis';
 import { HangoutsBotWorker } from './botworker';

@@ -2,13 +2,15 @@
  * @module botbuilder-adapter-slack
  */
 
-import { ActivityTypes, MiddlewareSet } from 'botbuilder';
+import { ActivityTypes, TurnContext, MiddlewareSet } from 'botbuilder';
+import { SlackAdapter } from './slack_adapter';
 
 export class SlackMessageTypeMiddleware extends MiddlewareSet {
     public async onTurn(context: TurnContext, next: () => Promise<any>): Promise<void> {
         if (context.activity.type === 'message' && context.activity.channelData) {
             // TODO: how will this work in multi-team scenarios?
-            const bot_user_id = await context.adapter.getBotUserByTeam(context.activity);
+            let adapter = context.adapter as SlackAdapter;
+            const bot_user_id = await adapter.getBotUserByTeam(context.activity);
             var mentionSyntax = '<@' + bot_user_id + '(\\|.*?)?>';
             var mention = new RegExp(mentionSyntax, 'i');
             var direct_mention = new RegExp('^' + mentionSyntax, 'i');

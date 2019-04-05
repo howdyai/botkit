@@ -54,8 +54,8 @@ Create a new websocket adapter. No parameters required, though Botkit must have 
 
 | Argument | Type | description
 |--- |--- |---
-| reference| any | 
-| logic| any | 
+| reference| Partial&lt;ConversationReference&gt; | 
+| logic|  | 
 
 
 
@@ -81,8 +81,8 @@ Note: Create the server using Node's http.createServer - NOT an Express or Resti
 
 | Argument | Type | description
 |--- |--- |---
-| context| any | 
-| reference| any | 
+| context| TurnContext | 
+| reference| Partial&lt;ConversationReference&gt; | 
 
 
 
@@ -108,7 +108,7 @@ Called automatically when Botkit uses this adapter - calls createSocketServer an
 |--- |--- |---
 | req| any | 
 | res| any | 
-| logic| any | 
+| logic|  | 
 
 
 
@@ -120,8 +120,8 @@ Called automatically when Botkit uses this adapter - calls createSocketServer an
 
 | Argument | Type | description
 |--- |--- |---
-| context| any | 
-| activities| any | 
+| context| TurnContext | 
+| activities|  | 
 
 
 
@@ -133,8 +133,8 @@ Called automatically when Botkit uses this adapter - calls createSocketServer an
 
 | Argument | Type | description
 |--- |--- |---
-| context| any | 
-| activity| any | 
+| context| TurnContext | 
+| activity| Partial&lt;Activity&gt; | 
 
 
 

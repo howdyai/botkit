@@ -55,7 +55,7 @@
 
 | Argument | Type | description
 |--- |--- |---
-| reference| ConversationReference | 
+| reference| Partial&lt;ConversationReference&gt; | 
 | logic|  | 
 
 
@@ -69,7 +69,7 @@
 | Argument | Type | description
 |--- |--- |---
 | context| TurnContext | 
-| reference| ConversationReference | 
+| reference| Partial&lt;ConversationReference&gt; | 
 
 
 
@@ -81,7 +81,7 @@
 
 | Argument | Type | description
 |--- |--- |---
-| activity| Activity | 
+| activity| Partial&lt;Activity&gt; | 
 
 
 
@@ -112,7 +112,7 @@
 |--- |--- |---
 | req| any | 
 | res| any | 
-| logic| any | 
+| logic|  | 
 
 
 
@@ -138,7 +138,7 @@
 | Argument | Type | description
 |--- |--- |---
 | context| TurnContext | 
-| activity| Activity | 
+| activity| Partial&lt;Activity&gt; | 
 
 
 
@@ -327,10 +327,10 @@
 
 | Argument | Type | Description
 |--- |--- |---
-| title | any | 
-| callback_id | any | 
-| submit_label | any | 
-| elements | any | 
+| title | string | 
+| callback_id | string | 
+| submit_label | string | 
+| elements | string | 
 
 
 <a name="addEmail"></a>
@@ -402,11 +402,11 @@
 
 | Argument | Type | description
 |--- |--- |---
-| label| any | 
-| name| any | 
-| value| any | 
-| options| any | 
-| subtype| any | 
+| label|  | 
+| name| string | 
+| value| string | 
+| options|  | 
+| subtype (optional)| string | 
 
 
 
@@ -459,7 +459,7 @@
 
 | Argument | Type | description
 |--- |--- |---
-| v| any | 
+| v| string | 
 
 
 
@@ -495,7 +495,7 @@
 
 | Argument | Type | description
 |--- |--- |---
-| v| any | 
+| v| string | 
 
 
 
@@ -507,7 +507,7 @@
 
 | Argument | Type | description
 |--- |--- |---
-| v| any | 
+| v| string | 
 
 
 
@@ -525,8 +525,8 @@
 
 | Argument | Type | description
 |--- |--- |---
-| context| any | 
-| next| any | 
+| context| TurnContext | 
+| next|  | 
 
 
 
@@ -563,8 +563,8 @@
 
 | Argument | Type | description
 |--- |--- |---
-| context| any | 
-| next| any | 
+| context| TurnContext | 
+| next|  | 
 
 
 

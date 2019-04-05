@@ -29,10 +29,8 @@
 | Name | Type | Description
 |--- |--- |---
 | botkit_worker | [HangoutsBotWorker](#HangoutsBotWorker) | 
-| menu | any | 
 | middlewares | any | 
 | name | string | 
-| web | any | 
 
 <a name="continueConversation"></a>
 ### continueConversation()
@@ -42,7 +40,7 @@
 
 | Argument | Type | description
 |--- |--- |---
-| reference| ConversationReference | 
+| reference| Partial&lt;ConversationReference&gt; | 
 | logic|  | 
 
 
@@ -56,7 +54,7 @@
 | Argument | Type | description
 |--- |--- |---
 | context| TurnContext | 
-| reference| ConversationReference | 
+| reference| Partial&lt;ConversationReference&gt; | 
 
 
 
@@ -70,7 +68,7 @@
 |--- |--- |---
 | req| any | 
 | res| any | 
-| logic| any | 
+| logic|  | 
 
 
 
@@ -96,7 +94,7 @@
 | Argument | Type | description
 |--- |--- |---
 | context| TurnContext | 
-| activity| Activity | 
+| activity| Partial&lt;Activity&gt; | 
 
 
 
@@ -104,26 +102,17 @@
 <a name="HangoutsBotWorker"></a>
 ## HangoutsBotWorker
 
-### constructor new HangoutsBotWorker()
-
-
-**Parameters**
-
-| Argument | Type | Description
-|--- |--- |---
-| botkit | any | 
-| config | any | 
 
 
 <a name="deleteMessage"></a>
 ### deleteMessage()
-
+Delete an existing message
 
 **Parameters**
 
 | Argument | Type | description
 |--- |--- |---
-| update| Partial&lt;BotkitMessage&gt; | 
+| update| Partial&lt;BotkitMessage&gt; | An object containing {id}<br/>
 
 
 
@@ -142,27 +131,27 @@
 
 <a name="replyWithNew"></a>
 ### replyWithNew()
-
+Reply to a card_click event with a new message
 
 **Parameters**
 
 | Argument | Type | description
 |--- |--- |---
-| src| any | 
-| resp| Partial&lt;BotkitMessage&gt; | 
+| src| any | An incoming event object representing a card_clicked event
+| resp| Partial&lt;BotkitMessage&gt; | A reply message containing text and/or cards<br/>
 
 
 
 <a name="replyWithUpdate"></a>
 ### replyWithUpdate()
-
+Reply to a card_click event by updating the original message
 
 **Parameters**
 
 | Argument | Type | description
 |--- |--- |---
-| src| any | 
-| resp| Partial&lt;BotkitMessage&gt; | 
+| src| any | An incoming event object representing a card_clicked event
+| resp| Partial&lt;BotkitMessage&gt; | A reply message containing text and/or cards<br/>
 
 
 
@@ -182,13 +171,13 @@
 
 <a name="updateMessage"></a>
 ### updateMessage()
-
+Update an existing message with a new version
 
 **Parameters**
 
 | Argument | Type | description
 |--- |--- |---
-| update| Partial&lt;BotkitMessage&gt; | 
+| update| Partial&lt;BotkitMessage&gt; | An object containing {id, text, cards}<br/>
 
 
 

@@ -27,10 +27,8 @@
 
 | Name | Type | Description
 |--- |--- |---
-| menu | any | 
 | middlewares | any | 
 | name | string | 
-| web | any | 
 
 <a name="continueConversation"></a>
 ### continueConversation()
@@ -40,7 +38,7 @@
 
 | Argument | Type | description
 |--- |--- |---
-| reference| ConversationReference | 
+| reference| Partial&lt;ConversationReference&gt; | 
 | logic|  | 
 
 
@@ -54,7 +52,7 @@
 | Argument | Type | description
 |--- |--- |---
 | context| TurnContext | 
-| reference| ConversationReference | 
+| reference| Partial&lt;ConversationReference&gt; | 
 
 
 
@@ -68,7 +66,7 @@
 |--- |--- |---
 | req| any | 
 | res| any | 
-| logic| any | 
+| logic|  | 
 
 
 
@@ -94,7 +92,7 @@
 | Argument | Type | description
 |--- |--- |---
 | context| TurnContext | 
-| activity| Activity | 
+| activity| Partial&lt;Activity&gt; | 
 
 
 

@@ -1,7 +1,7 @@
 /**
  * @module botbuilder-adapter-webex
  */
-import { ActivityTypes, BotAdapter, TurnContext } from 'botbuilder';
+import { Activity, ActivityTypes, BotAdapter, ResourceResponse, ConversationReference, TurnContext } from 'botbuilder';
 import * as ciscospark from 'ciscospark';
 import * as url from 'url';
 import * as crypto from 'crypto';
@@ -182,8 +182,8 @@ export class WebexAdapter extends BotAdapter {
     }
 
     public async updateActivity(context: TurnContext, activity: Partial<Activity>): Promise<void> {
-        if (activity.activityId && activity.conversation) {
-
+        if (activity.id && activity.conversation) {
+            // TODO: Does webex support replacing messages
         } else {
             throw new Error('Cannot update activity: activity is missing id');
         }
@@ -191,6 +191,7 @@ export class WebexAdapter extends BotAdapter {
 
     public async deleteActivity(context: TurnContext, reference: Partial<ConversationReference>): Promise<void> {
         if (reference.activityId && reference.conversation) {
+            // TODO: Does webex support deleting messages
         } else {
             throw new Error('Cannot delete activity: reference is missing activityId');
         }
@@ -207,7 +208,7 @@ export class WebexAdapter extends BotAdapter {
         return this.runMiddleware(context, logic);
     }
 
-    public async processActivity(req, res, logic: (context: TurnContext) => Promise<void>): Promise<void> {
+    public async processActivity(req, res, logic: (context: TurnContext) => Promise<void>): Promise<any> {
         res.status(200);
         res.end();
 

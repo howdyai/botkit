@@ -2,9 +2,9 @@
  * @module botbuilder-adapter-facebook
  */
 
-import { Activity, ActivityTypes, BotAdapter, TurnContext, ConversationReference } from 'botbuilder';
+import { Activity, ActivityTypes, BotAdapter, TurnContext, ConversationReference, ResourceResponse } from 'botbuilder';
 import * as Debug from 'debug';
-import { FacebookBotWorker } from './botworker';
+// import { FacebookBotWorker } from './botworker';
 import { FacebookAPI } from './facebook_api';
 const debug = Debug('botkit:facebook');
 
@@ -24,7 +24,7 @@ export class FacebookAdapter extends BotAdapter {
     private api; // Facebook api
 
     // tell botkit to use this type of worker
-    public botkit_worker = FacebookBotWorker;
+    // public botkit_worker = FacebookBotWorker;
 
     private api_version: string = 'v2.11';
     private api_host: string = 'graph.facebook.com';
@@ -50,7 +50,7 @@ export class FacebookAdapter extends BotAdapter {
         };
     }
 
-    public async init(botkit: Botkit): Promise<any> {
+    public async init(botkit): Promise<any> {
         debug('Add GET webhook endpoint for verification at: ', botkit.getConfig('webhook_uri'));
         botkit.webserver.get(botkit.getConfig('webhook_uri', function(req, res) {
             if (req.query['hub.mode'] === 'subscribe') {

@@ -581,7 +581,7 @@ controller.on('message', async(bot, message) => {
 
 | Argument | Type | Description
 |--- |--- |---
-| controller | any | 
+| controller | [Botkit](#Botkit) | 
 | config | any | 
 
 
@@ -955,15 +955,6 @@ A customized version of [ConversationState](https://docs.microsoft.com/en-us/jav
 This allows Botkit to automatically track conversation state in scenarios where multiple users are present in a single channel,
 or when threads or sub-channels parent channel that would normally collide based on the information defined in the conversation address field.
 Note: This is used automatically inside Botkit and developers should not need to directly interact with it.
-### constructor new BotkitConversationState()
-
-
-**Parameters**
-
-| Argument | Type | Description
-|--- |--- |---
-| storage | Storage | 
-| namespace | string | 
 
 
 <a name="getStorageKey"></a>

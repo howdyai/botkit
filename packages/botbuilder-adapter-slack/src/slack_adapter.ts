@@ -2,7 +2,7 @@
  * @module botbuilder-adapter-slack
  */
 
-import { Activity, ActivityTypes, BotAdapter, TurnContext, ConversationReference } from 'botbuilder';
+import { Activity, ActivityTypes, BotAdapter, TurnContext, ConversationReference, ResourceResponse } from 'botbuilder';
 import { WebClient, WebAPICallResult } from '@slack/client';
 import { SlackBotWorker } from './botworker';
 import * as crypto from 'crypto';
@@ -121,7 +121,7 @@ export class SlackAdapter extends BotAdapter {
         };
     }
 
-    public async getAPI(activity: Activity): Promise<WebClient> {
+    public async getAPI(activity: Partial<Activity>): Promise<WebClient> {
         // use activity.channelData.team.id (the slack team id) and get the appropriate token using getTokenForTeam
         if (this.slack) {
             return this.slack;

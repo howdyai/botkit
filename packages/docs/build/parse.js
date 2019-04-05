@@ -36,15 +36,16 @@ function generateReference(src, dest) {
             let aclass = module.children[c];
             if (aclass.kindString === 'Class') {
                 console.log('>',aclass.name, aclass.kindString);
-                aclass.props = aclass.children.filter((c) => { return c.kindString === 'Property' });
-                aclass.props = [...aclass.props, ...aclass.children.filter((c) => { return c.kindString === 'Accessor' })];
+                if (aclass.children) {
+                    aclass.props = aclass.children.filter((c) => { return c.kindString === 'Property' });
+                    aclass.props = [...aclass.props, ...aclass.children.filter((c) => { return c.kindString === 'Accessor' })];
 
-                // controller.middleware is an object literal
-                // aclass.props = [...aclass.props, ...aclass.children.filter((c) => { return c.kindString === 'Object literal' })];
+                    // controller.middleware is an object literal
+                    // aclass.props = [...aclass.props, ...aclass.children.filter((c) => { return c.kindString === 'Object literal' })];
 
-                aclass.methods = aclass.children.filter((c) => { return c.kindString === 'Method' });
-                aclass.constructors = aclass.children.filter((c) => { return c.kindString === 'Constructor' });
-
+                    aclass.methods = aclass.children.filter((c) => { return c.kindString === 'Method' });
+                    aclass.constructors = aclass.children.filter((c) => { return c.kindString === 'Constructor' });
+                }
                 classes.push(aclass);
             } else if (aclass.kindString === 'Interface') {
                 if (aclass.children) {

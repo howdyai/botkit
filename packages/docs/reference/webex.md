@@ -37,8 +37,8 @@
 
 | Argument | Type | description
 |--- |--- |---
-| reference| any | 
-| logic| any | 
+| reference| Partial&lt;ConversationReference&gt; | 
+| logic|  | 
 
 
 
@@ -50,8 +50,8 @@
 
 | Argument | Type | description
 |--- |--- |---
-| context| any | 
-| reference| any | 
+| context| TurnContext | 
+| reference| Partial&lt;ConversationReference&gt; | 
 
 
 
@@ -77,7 +77,7 @@
 |--- |--- |---
 | req| any | 
 | res| any | 
-| logic| any | 
+| logic|  | 
 
 
 
@@ -106,8 +106,8 @@
 
 | Argument | Type | description
 |--- |--- |---
-| context| any | 
-| activities| any | 
+| context| TurnContext | 
+| activities|  | 
 
 
 
@@ -119,8 +119,8 @@
 
 | Argument | Type | description
 |--- |--- |---
-| context| any | 
-| activity| any | 
+| context| TurnContext | 
+| activity| Partial&lt;Activity&gt; | 
 
 
 

@@ -1,7 +1,7 @@
 /**
  * @module botbuilder-adapter-slack
  */
-import { ActivityTypes, MiddlewareSet } from 'botbuilder';
+import { ActivityTypes, MiddlewareSet, TurnContext } from 'botbuilder';
 
 export class SlackEventMiddleware extends MiddlewareSet {
     public async onTurn(context: TurnContext, next: () => Promise<any>): Promise<any> {
