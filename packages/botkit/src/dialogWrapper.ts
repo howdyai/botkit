@@ -7,7 +7,6 @@ import { BotkitConversationStep } from './conversation';
  * Grants access to convo.vars convo.gotoThread() convo.setVar() and convo.repeat().
  */
 export class BotkitDialogWrapper {
-
     private dc: DialogContext;
     private step: BotkitConversationStep;
     /**
@@ -17,8 +16,7 @@ export class BotkitDialogWrapper {
         [key: string]: any;
     }
 
-
-    constructor(dc: DialogContext, step: BotkitConversationStep) {
+    public constructor(dc: DialogContext, step: BotkitConversationStep) {
         this.dc = dc;
         this.step = step;
         this.vars = this.step.values;
@@ -28,7 +26,7 @@ export class BotkitDialogWrapper {
      * Jump immediately to the first message in a different thread.
      * @param thread Name of a thread
      */
-    public async gotoThread(thread: string) {
+    public async gotoThread(thread: string): Promise<void> {
         this.step.index = 0;
         this.step.thread = thread;
     }
@@ -36,7 +34,7 @@ export class BotkitDialogWrapper {
     /**
      * Repeat the last message sent on the next turn.
      */
-    public async repeat() {
+    public async repeat(): Promise<void> {
         // move back one step next turn the bot will repeat with the last message sent.
         this.step.index--;
     }
@@ -48,11 +46,10 @@ export class BotkitDialogWrapper {
      * @param key the name of the variable
      * @param val the value for the variable
      */
-    public setVar(key, val) {
+    public setVar(key, val): void {
         this.vars[key] = val;
     }
 
     // TODO: Add other control mechanisms
     // Botkit currently has things convo.repeat, convo.stop, etc
-    
 }

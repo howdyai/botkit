@@ -1,7 +1,7 @@
 /**
  * @module botkit
  */
-import { Activity, BotFrameworkAdapter, MemoryStorage,  Storage, ConversationReference, TurnContext } from 'botbuilder';
+import { Activity, BotFrameworkAdapter, MemoryStorage, Storage, ConversationReference, TurnContext } from 'botbuilder';
 import { DialogContext, DialogSet, DialogTurnStatus } from 'botbuilder-dialogs';
 import { BotkitCMSHelper } from './cms';
 import { BotWorker } from './botworker';
@@ -12,7 +12,7 @@ import * as express from 'express';
 import * as bodyParser from 'body-parser';
 import * as hbs from 'hbs';
 
-import * as ware from 'ware';
+import * as Ware from 'ware';
 import * as fs from 'fs';
 
 const debug = require('debug')('botkit');
@@ -58,7 +58,7 @@ export interface BotkitConfiguration {
     /**
      * An Express middleware function used to authenticate requests to the /admin URI of your Botkit application.
      */
-    authFunction?: (req, res, next) => void; 
+    authFunction?: (req, res, next) => void;
 }
 
 /**
@@ -105,14 +105,14 @@ export interface BotkitMessage {
 
 /**
  * A handler function passed into `hears()` or `on()` that receives a [BotWorker](#botworker) instance and a [BotkitMessage](#botkitmessage).  Should be defined as an async function and/or return a Promise.
- * 
+ *
  * The form of these handlers should be:
  * ```javascript
- * async (bot, message) => { 
+ * async (bot, message) => {
  * // stuff.
  * }
  * ```
- * 
+ *
  * For example:
  * ```javascript
  * controller.on('event', async(bot, message) => {
@@ -133,7 +133,7 @@ interface BotkitTrigger {
      * string, regexp or function
      */
     type: string;
-    pattern: string | RegExp | { (message: BotkitMessage):  Promise<boolean> };
+    pattern: string | RegExp | { (message: BotkitMessage): Promise<boolean> };
     handler: BotkitHandler;
 }
 
@@ -143,7 +143,7 @@ interface BotkitTrigger {
 export interface BotkitPlugin {
     name: string;
     middlewares?: {
-        [key: string]: any[];   
+        [key: string]: any[];
     };
     init?: (botkit: Botkit) => void;
 }
@@ -154,8 +154,7 @@ export interface BotkitPlugin {
  * If one is not specified, Botkit will expose an adapter for the Microsoft Bot Framework.
  */
 export class Botkit {
-
-    /** 
+    /**
      * _config contains the options passed to the constructor.
      * this property should never be accessed directly - use `getConfig()` instead.
      */
@@ -204,7 +203,6 @@ export class Botkit {
      */
     private _bootCompleteHandlers: { (): void }[];
 
- 
     /**
      * The current version of Botkit Core
      */
@@ -213,29 +211,29 @@ export class Botkit {
     /**
      * Middleware endpoints available for plugins and features to extend Botkit.
      * Endpoints available are: spawn, ingest, receive, send.
-     * 
+     *
      * To bind a middleware function to Botkit:
      * ```javascript
      * controller.middleware.receive.use(function(bot, message, next) {
-     *  
+     *
      *  // do something with bot or message
-     * 
+     *
      *  // always call next, or your bot will freeze!
      *  next();
      * });
      * ```
      */
     public middleware = {
-        spawn: new ware(),
-        ingest: new ware(),
-        send: new ware(),
-        receive: new ware(),
+        spawn: new Ware(),
+        ingest: new Ware(),
+        send: new Ware(),
+        receive: new Ware()
     }
 
     /**
      * A list of all the installed plugins.
      */
-    private plugins: string[]; 
+    private plugins: string[];
 
     /**
      * a BotBuilder storage driver - defaults to MemoryStorage
@@ -265,7 +263,7 @@ export class Botkit {
     /**
      * provides an interface to interact with an instance of Botkit CMS
      */
-    public cms: BotkitCMSHelper; 
+    public cms: BotkitCMSHelper;
 
     /**
      * The path of the main Botkit SDK, used to generate relative paths
@@ -277,12 +275,11 @@ export class Botkit {
      */
     private booted: boolean;
 
-    /* 
+    /*
      * Create a new Botkit instance
      * @param config Configuration for this instance of Botkit
      */
-    constructor(config: BotkitConfiguration) {
-        
+    public constructor(config: BotkitConfiguration) {
         // Set the path where Botkit's core lib is found.
         this.PATH = __dirname;
 
@@ -322,7 +319,7 @@ export class Botkit {
             // Create HTTP server
             this.addDep('webserver');
 
-            this.webserver = express(); 
+            this.webserver = express();
 
             // capture raw body
             this.webserver.use((req, res, next) => {
@@ -332,7 +329,6 @@ export class Botkit {
                 });
                 next();
             });
-
 
             this.webserver.use(bodyParser.json());
             this.webserver.use(bodyParser.urlencoded({ extended: true }));
@@ -357,7 +353,7 @@ export class Botkit {
         }
 
         if (!this._config.adapter) {
-            const adapterConfig = {...this._config.adapterConfig};
+            const adapterConfig = { ...this._config.adapterConfig };
             debug('Configuring BotFrameworkAdapter:', adapterConfig);
             this.adapter = new BotFrameworkAdapter(adapterConfig);
         } else {
@@ -383,20 +379,20 @@ export class Botkit {
 
     /**
      * Get a value from the configuration.
-     * 
+     *
      * For example:
      * ```javascript
      * // get entire config object
      * let config = controller.getConfig();
-     * 
+     *
      * // get a specific value from the config
      * let webhook_uri = controller.getConfig('webhook_uri');
      * ```
-     * 
+     *
      * @param {string} key The name of a value stored in the configuration
      * @returns {any} The value stored in the configuration (or null if absent)
      */
-    public getConfig(key?: string) {
+    public getConfig(key?: string): any {
         if (key) {
             return this._config[key];
         } else {
@@ -408,26 +404,26 @@ export class Botkit {
      * Load a plugin module and bind all included middlewares to their respective endpoints.
      * @param plugin_or_function A plugin module in the form of function(botkit) {...} that returns {name, middlewares, init} or an object in the same form.
      */
-    public usePlugin(plugin_or_function: (botkit: Botkit) => BotkitPlugin | BotkitPlugin) {
+    public usePlugin(plugin_or_function: (botkit: Botkit) => BotkitPlugin | BotkitPlugin): void {
         let plugin: BotkitPlugin;
-        if (typeof(plugin_or_function)=='function') {
+        if (typeof (plugin_or_function) === 'function') {
             plugin = plugin_or_function(this);
         } else {
             plugin = plugin_or_function;
         }
         try {
             this.registerPlugin(plugin.name, plugin);
-        } catch(err) {
+        } catch (err) {
             console.error('ERROR IN PLUGIN REGISTER', err);
         }
     }
-    
+
     /**
      * Called from usePlugin -- do the actual binding of middlewares for a plugin that is being loaded.
      * @param name name of the plugin
      * @param endpoints the plugin object that contains middleware endpoint definitions
      */
-    private registerPlugin(name: string, endpoints: BotkitPlugin) {
+    private registerPlugin(name: string, endpoints: BotkitPlugin): void {
         console.log('Enabling plugin: ', name);
         if (this.plugins.indexOf(name) >= 0) {
             debug('Plugin already enabled:', name);
@@ -446,7 +442,7 @@ export class Botkit {
         if (endpoints.init) {
             try {
                 endpoints.init(this);
-            } catch(err) {
+            } catch (err) {
                 if (err) {
                     throw new Error(err);
                 }
@@ -454,7 +450,6 @@ export class Botkit {
         }
 
         debug('Plugin Enabled: ', name);
-
     }
 
     /**
@@ -463,8 +458,8 @@ export class Botkit {
      * @param alias the public alias ie /myfiles
      * @param path the actual path ie /some/folder/path
      */
-    public publicFolder(alias, path) {
-        debug('Make folder public: ', path,'at alias', alias);
+    public publicFolder(alias, path): void {
+        debug('Make folder public: ', path, 'at alias', alias);
         this.webserver.use(alias, express.static(path));
     }
 
@@ -473,14 +468,14 @@ export class Botkit {
      * Allows a plugin to bundle views/layouts.
      * @param path_to_view something like path.join(__dirname,'views')
      */
-    public getLocalView(path_to_view) {
+    public getLocalView(path_to_view): string {
         return path.relative(path.join(this.webserver.get('views')), path_to_view);
     }
 
     /**
      * (For use by plugins only) - Add a dependency to Botkit's bootup process that must be marked as completed using `completeDep()`.
      * Botkit's `controller.ready()` function will not fire until all dependencies have been marked complete.
-     * 
+     *
      * For example, a plugin that needs to do an asynchronous task before Botkit proceeds might do:
      * ```javascript
      * controller.addDep('my_async_plugin');
@@ -488,10 +483,10 @@ export class Botkit {
      *  controller.completeDep('my_async_plugin');
      * });
      * ```
-     * 
+     *
      * @param name {string} The name of the dependency that is being loaded.
      */
-    public addDep(name: string) {
+    public addDep(name: string): void {
         debug(`Waiting for ${ name }`);
         this._deps[name] = false;
     }
@@ -502,11 +497,11 @@ export class Botkit {
 
      * @param name {string} The name of the dependency that has completed loading.
      */
-    public completeDep(name: string) {
+    public completeDep(name: string): boolean {
         debug(`${ name } ready`);
 
         this._deps[name] = true;
-        
+
         for (let key in this._deps) {
             if (this._deps[key] === false) {
                 return false;
@@ -515,13 +510,13 @@ export class Botkit {
 
         // everything is done!
         this.signalBootComplete();
-
+        return true;
     }
 
     /**
      * This function gets called when all of the bootup dependencies are completely loaded.
      */
-    private signalBootComplete() {
+    private signalBootComplete(): void {
         this.booted = true;
         for (let h = 0; h < this._bootCompleteHandlers.length; h++) {
             let handler = this._bootCompleteHandlers[h];
@@ -532,19 +527,19 @@ export class Botkit {
     /**
      * Use `controller.ready()` to wrap any calls that require components loaded during the bootup process.
      * This will ensure that the calls will not be made until all of the components have successfully been initialized.
-     * 
+     *
      * For example:
      * ```javascript
      * controller.ready(() => {
-     * 
+     *
      *   controller.loadModules(__dirname + '/features');
-     * 
+     *
      * });
      * ```
-     * 
+     *
      * @param handler {function} A function to run when Botkit is booted and ready to run.
      */
-    public ready(handler: () => any) {
+    public ready(handler: () => any): void {
         if (this.booted) {
             handler.call(this);
         } else {
@@ -571,12 +566,11 @@ export class Botkit {
 
     /**
      * Accepts the result of a BotBuilder adapter's `processActivity()` method and processes it into a Botkit-style message and BotWorker instance
-     * which is then used to test for triggers and emit events. 
+     * which is then used to test for triggers and emit events.
      * NOTE: This method should only be used in custom adapters that receive messages through mechanisms other than the main webhook endpoint (such as those received via websocket, for example)
      * @param turnContext {TurnContext} a TurnContext representing an incoming message, typically created by an adapter's `processActivity()` method.
      */
     public async handleTurn(turnContext: TurnContext): Promise<any> {
-
         debug('INCOMING ACTIVITY:', turnContext.activity);
 
         // Create a dialog context
@@ -586,11 +580,11 @@ export class Botkit {
         const bot = await this.spawn(dialogContext).catch((err) => { throw err; });
 
         // Turn this turnContext into a Botkit message.
-        const message = {
+        const message: BotkitMessage = {
             ...turnContext.activity.channelData, // start with all the fields that were in the original incoming payload. TODO: this is a shallow copy, is that a problem?
 
             // if Botkit has further classified this message, use that sub-type rather than the Activity type
-            type: ( turnContext.activity.channelData && turnContext.activity.channelData.botkitEventType ) ? turnContext.activity.channelData.botkitEventType : turnContext.activity.type,
+            type: (turnContext.activity.channelData && turnContext.activity.channelData.botkitEventType) ? turnContext.activity.channelData.botkitEventType : turnContext.activity.type,
 
             // normalize the user, text and channel info
             user: turnContext.activity.from.id,
@@ -601,19 +595,18 @@ export class Botkit {
             // included so people can easily capture it for resuming
             reference: TurnContext.getConversationReference(turnContext.activity),
 
-            // include the context possible useful. 
+            // include the context possible useful.
             context: turnContext,
 
             // include the full unmodified record here
-            incoming_message: turnContext.activity,
-        } as BotkitMessage;
+            incoming_message: turnContext.activity
+        };
 
         return new Promise((resolve, reject) => {
             this.middleware.ingest.run(bot, message, async (err, bot, message) => {
                 if (err) {
                     reject(err);
                 } else {
-
                     const interrupt_results = await this.listenForInterrupts(bot, message);
 
                     if (interrupt_results === false) {
@@ -630,13 +623,12 @@ export class Botkit {
                 }
             });
         });
-
     }
 
     /**
      * Save the current conversation state pertaining to a given BotWorker's activities.
      * Note: this is normally called internally and is only required when state changes happen outside of the normal processing flow.
-     * @param bot {BotWorker} a BotWorker instance created using `controller.spawn()` 
+     * @param bot {BotWorker} a BotWorker instance created using `controller.spawn()`
      */
     public async saveState(bot: BotWorker): Promise<void> {
         await this.conversationState.saveChanges(bot.getConfig('context'));
@@ -656,8 +648,8 @@ export class Botkit {
                 resolve(listen_results);
             } else {
                 this.middleware.receive.run(bot, message, async (err, bot, message) => {
-                    if (err)  { 
-                        return reject(err); 
+                    if (err) {
+                        return reject(err);
                     }
 
                     // Trigger event handlers
@@ -719,12 +711,12 @@ export class Botkit {
 
     /**
      * Evaluates a single trigger and return true if the incoming message matches the conditions
-     * @param trigger {BotkitTrigger} a trigger definition 
+     * @param trigger {BotkitTrigger} a trigger definition
      * @param message {BotkitMessage} an incoming message
      */
     private async testTrigger(trigger: BotkitTrigger, message: BotkitMessage): Promise<boolean> {
         if (trigger.type === 'string') {
-            const test = new RegExp(trigger.pattern as string,'i');
+            const test = new RegExp(trigger.pattern as string, 'i');
             if (message.text && message.text.match(test)) {
                 return true;
             }
@@ -734,7 +726,7 @@ export class Botkit {
                 return true;
             }
         } else if (trigger.type === 'function') {
-            const test = trigger.pattern as (message) => Promise<boolean> ;
+            const test = trigger.pattern as (message) => Promise<boolean>;
             return await test(message);
         }
 
@@ -745,19 +737,19 @@ export class Botkit {
      * Instruct your bot to listen for a pattern, and do something when that pattern is heard.
      * Patterns will be "heard" only if the message is not already handled by an in-progress dialog.
      * To "hear" patterns _before_ dialogs are processed, use `controller.interrupts()` instead.
-     * 
+     *
      * For example:
      * ```javascript
      * // listen for a simple keyword
      * controller.hears('hello','message', async(bot, message) => {
      *  await bot.reply(message,'I heard you say hello.');
      * });
-     * 
+     *
      * // listen for a regular expression
      * controller.hears(new RegExp(/^[A-Z\s]+$/), 'message', async(bot, message) => {
      *  await bot.reply(message,'I heard a message IN ALL CAPS.');
      * });
-     * 
+     *
      * // listen using a function
      * controller.hears(async (message) => { return (message.intent === 'hello') }, 'message', async(bot, message) => {
      *  await bot.reply(message,'This message matches the hello intent.');
@@ -767,18 +759,17 @@ export class Botkit {
      * @param events {} A list of event types that should be evaluated for the given patterns
      * @param handler {BotkitHandler}  a function that will be called should the pattern be matched
      */
-    public hears(patterns: ( string | RegExp | { (message: BotkitMessage): Promise<boolean> })[] | RegExp | string | { (message: BotkitMessage): Promise<boolean> }, events: string | string[], handler: BotkitHandler) {
-
+    public hears(patterns: (string | RegExp | { (message: BotkitMessage): Promise<boolean> })[] | RegExp | string | { (message: BotkitMessage): Promise<boolean> }, events: string | string[], handler: BotkitHandler): void {
         if (!Array.isArray(patterns)) {
             patterns = [patterns];
         }
 
         if (typeof events === 'string') {
-            events = events.split(/\,/).map(e => e.trim());
+            events = events.split(/,/).map(e => e.trim());
         }
 
         debug('Registering hears for ', events);
-        
+
         for (var p = 0; p < patterns.length; p++) {
             for (var e = 0; e < events.length; e++) {
                 const event = events[e];
@@ -791,7 +782,7 @@ export class Botkit {
                 const trigger = {
                     pattern: pattern,
                     handler: handler,
-                    type: null,
+                    type: null
                 };
 
                 if (typeof pattern === 'string') {
@@ -803,7 +794,6 @@ export class Botkit {
                 }
 
                 this._triggers[event].push(trigger);
-
             }
         }
     }
@@ -812,26 +802,25 @@ export class Botkit {
      * Instruct your bot to listen for a pattern, and do something when that pattern is heard.
      * Interruptions work just like "hears" triggers, but fire _before_ the dialog system is engaged,
      * and thus handlers will interrupt the normal flow of messages through the processing pipeline.
-     * 
+     *
      * ```javascript
      * controller.interrupts('help','message', async(bot, message) => {
-     * 
+     *
      *  await bot.reply(message,'Before anything else, you need some help!')
-     * 
+     *
      * });
      * ```
      * @param patterns {} One or more string, regular expression, or test function
      * @param events {} A list of event types that should be evaluated for the given patterns
      * @param handler {BotkitHandler}  a function that will be called should the pattern be matched
      */
-    public interrupts(patterns: ( string | RegExp | { (message: BotkitMessage): Promise<boolean> })[] | RegExp | RegExp[] | string | { (message: BotkitMessage): Promise<boolean> }, events: string | string[], handler: BotkitHandler) {
-
+    public interrupts(patterns: (string | RegExp | { (message: BotkitMessage): Promise<boolean> })[] | RegExp | RegExp[] | string | { (message: BotkitMessage): Promise<boolean> }, events: string | string[], handler: BotkitHandler): void {
         if (!Array.isArray(patterns)) {
             patterns = [patterns];
         }
 
         if (typeof events === 'string') {
-            events = events.split(/\,/).map(e => e.trim());
+            events = events.split(/,/).map(e => e.trim());
         }
         debug('Registering hears for ', events);
 
@@ -847,7 +836,7 @@ export class Botkit {
                 const trigger = {
                     pattern: pattern,
                     handler: handler,
-                    type: null,
+                    type: null
                 };
 
                 if (typeof pattern === 'string') {
@@ -859,29 +848,27 @@ export class Botkit {
                 }
 
                 this._interrupts[event].push(trigger);
-
             }
         }
     }
 
     /**
      * Bind a handler function to one or more events.
-     * 
+     *
      * ```javascript
      * controller.on('conversationUpdate', async(bot, message) => {
-     * 
+     *
      *  await bot.reply(message,'I received a conversationUpdate event.');
-     * 
+     *
      * });
      * ```
-     * 
+     *
      * @param events {} One or more event names
      * @param handler {BotkitHandler} a handler function that will fire whenever one of the named events is received.
      */
-    public on(events: string | string[], handler: BotkitHandler) {
-
+    public on(events: string | string[], handler: BotkitHandler): void {
         if (typeof events === 'string') {
-            events = events.split(/\,/).map(e => e.trim());
+            events = events.split(/,/).map(e => e.trim());
         }
 
         debug('Registering handler for: ', events);
@@ -896,17 +883,17 @@ export class Botkit {
     /**
      * Trigger an event to be fired.  This will cause any bound handlers to be executed.
      * Note: This is normally used internally, but can be used to emit custom events.
-     * 
+     *
      * ```javascript
      * // fire a custom event
      * controller.trigger('my_custom_event', bot, message);
-     * 
+     *
      * // handle the custom event
      * controller.on('my_custom_event', async(bot, message) => {
      *  //... do something
      * });
      * ```
-     * 
+     *
      * @param event {string} the name of the event
      * @param bot {BotWorker} a BotWorker instance created using `controller.spawn()`
      * @param message {BotkitMessagE} An incoming message or event
@@ -930,13 +917,12 @@ export class Botkit {
      * @param config {any} Preferably receives a DialogContext, though can also receive a TurnContext. If excluded, must call `bot.changeContext(reference)` before calling any other method.
      */
     public spawn(config: any): Promise<BotWorker> {
-   
         if (config instanceof TurnContext) {
             config = {
                 // TODO: What about a dialog context here?  PROBLEMATIC!
                 context: config,
                 reference: TurnContext.getConversationReference(config.activity),
-                activity: config.activity,
+                activity: config.activity
             };
         } else if (config instanceof DialogContext) {
             config = {
@@ -949,7 +935,8 @@ export class Botkit {
 
         let worker: BotWorker = null;
         if (this.adapter.botkit_worker) {
-            worker = new this.adapter.botkit_worker(this, config);
+            let CustomBotWorker = this.adapter.botkit_worker;
+            worker = new CustomBotWorker(this, config);
         } else {
             worker = new BotWorker(this, config);
         }
@@ -967,7 +954,7 @@ export class Botkit {
 
     /**
      * Load a Botkit feature module
-     * 
+     *
      * @param p {string} path to module file
      */
     public loadModule(p: string): void {
@@ -977,22 +964,22 @@ export class Botkit {
 
     /**
      * Load all Botkit feature modules located in a given folder.
-     * 
+     *
      * ```javascript
      * controller.ready(() => {
-     * 
+     *
      *  // load all modules from sub-folder features/
      *  controller.loadModules('./features');
-     * 
+     *
      * });
      * ```
-     * 
+     *
      * @param p {string} path to a folder of module files
      */
     public loadModules(p: string): void {
         // load all the .js files from this path
         fs.readdirSync(p).filter((f) => { return (path.extname(f) === '.js'); }).forEach((file) => {
-            this.loadModule(path.join(p,file));
+            this.loadModule(path.join(p, file));
         });
     }
 }

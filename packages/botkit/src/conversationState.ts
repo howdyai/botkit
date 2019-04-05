@@ -1,7 +1,7 @@
 /**
  * @module botkit
  */
-import { Activity, ConversationState, Storage, TurnContext } from 'botbuilder';
+import { Activity, ConversationState, TurnContext } from 'botbuilder';
 
 /**
  * A customized version of [ConversationState](https://docs.microsoft.com/en-us/javascript/api/botbuilder-core/conversationstate?view=botbuilder-ts-latest) that  overide the [getStorageKey](#getStorageKey) method to create a more complex key value.
@@ -10,11 +10,6 @@ import { Activity, ConversationState, Storage, TurnContext } from 'botbuilder';
  * Note: This is used automatically inside Botkit and developers should not need to directly interact with it.
  */
 export class BotkitConversationState extends ConversationState {
-
-    constructor(storage: Storage, namespace?: string) {
-        super(storage, namespace);
-    }
-
     public getStorageKey(context: TurnContext): string | undefined {
         const activity: Activity = context.activity;
         const channelId: string = activity.channelId;
@@ -24,7 +19,7 @@ export class BotkitConversationState extends ConversationState {
 
         // create a combo key by sorting all the fields in the conversation address and combining them all
         // mix in user id as well, because conversations are between the bot and a single user
-        const conversationId: string = Object.keys(activity.conversation).sort().map((key) => activity.conversation[key]).filter((val)=>val != '' && val != null && typeof val !== 'undefined').join('-') + '-' + activity.from.id;
+        const conversationId: string = Object.keys(activity.conversation).sort().map((key) => activity.conversation[key]).filter((val) => val !== '' && val !== null && typeof val !== 'undefined').join('-') + '-' + activity.from.id;
 
         if (!channelId) {
             throw new Error('missing activity.channelId');
@@ -37,6 +32,4 @@ export class BotkitConversationState extends ConversationState {
         // @ts-ignore namespace is technically private
         return `${ channelId }/conversations/${ conversationId }/${ this.namespace }`;
     }
-
-
 }
