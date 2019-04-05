@@ -12,6 +12,7 @@
 
 ## Interfaces
 
+* <a href="#SlackAdapterOptions">SlackAdapterOptions</a>
 
 ---
 
@@ -571,3 +572,20 @@
 
 
 
+<a name="SlackAdapterOptions"></a>
+## Interface SlackAdapterOptions
+
+
+**Fields**
+
+| Name | Type | Description
+|--- |--- |---
+| botToken | string | 
+| clientId | string | 
+| clientSecret | string | 
+| clientSigningSecret | string | 
+| getBotUserByTeam |  | 
+| getTokenForTeam |  | 
+| redirectUri | string | 
+| scopes |  | 
+| verificationToken | string | 

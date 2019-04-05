@@ -9,7 +9,7 @@ import * as crypto from 'crypto';
 import * as Debug from 'debug';
 const debug = Debug('botkit:slack');
 
-interface SlackAdapterOptions {
+export interface SlackAdapterOptions {
     verificationToken?: string;
     clientSigningSecret?: string;
     botToken?: string;
