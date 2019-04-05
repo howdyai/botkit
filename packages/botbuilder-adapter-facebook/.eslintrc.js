@@ -5,7 +5,8 @@ module.exports = {
         "indent": [2, 4],
         "no-return-await": 0,
         "camelcase": 0,
-        "@typescript-eslint/explicit-member-accessibility": 0,
+        "no-unused-vars": 0,
+        "@typescript-eslint/explicit-member-accessibility": 1,
         "space-before-function-paren": [2, {
             "named": "never",
             "anonymous": "never",

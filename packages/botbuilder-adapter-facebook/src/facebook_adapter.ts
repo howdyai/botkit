@@ -19,10 +19,9 @@ export class FacebookAdapter extends BotAdapter {
     // Botkit Plugin fields
     public name: string;
     public middlewares;
-    public web;
-    public menu;
+
     private options: FacebookAdapterOptions;
-    private api; // google api
+    private api; // Facebook api
 
     // tell botkit to use this type of worker
     public botkit_worker = FacebookBotWorker;
@@ -30,8 +29,7 @@ export class FacebookAdapter extends BotAdapter {
     private api_version: string = 'v2.11';
     private api_host: string = 'graph.facebook.com';
 
-    // TODO: Define options
-    constructor(options: FacebookAdapterOptions) {
+    public constructor(options: FacebookAdapterOptions) {
         super();
 
         this.options = options;
@@ -50,24 +48,19 @@ export class FacebookAdapter extends BotAdapter {
                 }
             ]
         };
+    }
 
-        this.web = [
-            {
-                method: 'get',
-                url: '/api/messages', // TODO: CAN THIS USE CONTROLLER CONFIG?
-                handler: (req, res) => {
-                    if (req.query['hub.mode'] === 'subscribe') {
-                        if (req.query['hub.verify_token'] === this.options.verify_token) {
-                            res.send(req.query['hub.challenge']);
-                        } else {
-                            res.send('OK');
-                        }
-                    }
+    public async init(botkit: Botkit): Promise<any> {
+        debug('Add GET webhook endpoint for verification at: ', botkit.getConfig('webhook_uri'));
+        botkit.webserver.get(botkit.getConfig('webhook_uri', function(req, res) {
+            if (req.query['hub.mode'] === 'subscribe') {
+                if (req.query['hub.verify_token'] === this.options.verify_token) {
+                    res.send(req.query['hub.challenge']);
+                } else {
+                    res.send('OK');
                 }
             }
-        ];
-
-        this.menu = [];
+        }));
     }
 
     private activityToFacebook(activity: any): any {

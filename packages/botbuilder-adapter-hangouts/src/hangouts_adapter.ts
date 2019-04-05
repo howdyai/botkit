@@ -18,16 +18,13 @@ export class HangoutsAdapter extends BotAdapter {
     // Botkit Plugin fields
     public name: string;
     public middlewares;
-    public web;
-    public menu;
     private options: HangoutsAdapterOptions;
     private api; // google api
 
     // tell botkit to use this type of worker
     public botkit_worker = HangoutsBotWorker;
 
-    // TODO: Define options
-    constructor(options: HangoutsAdapterOptions) {
+    public constructor(options: HangoutsAdapterOptions) {
         super();
 
         this.options = options;
@@ -39,12 +36,11 @@ export class HangoutsAdapter extends BotAdapter {
             ...this.options.google_auth_params
         };
 
-        
         google
             .auth
             .getClient(params)
             .then(client => {
-                this.api = google.chat({version: apiVersion, auth: client});
+                this.api = google.chat({ version: apiVersion, auth: client });
             })
             .catch(err => {
                 console.error('Could not get google auth client !');
@@ -54,28 +50,21 @@ export class HangoutsAdapter extends BotAdapter {
         this.middlewares = {
             spawn: [
                 async (bot, next) => {
-
                     bot.api = this.api;
                     next();
-
                 }
             ]
         };
-
-        this.web = [];
-
-        this.menu = [];
     }
 
     private activityToHangouts(activity: any): any {
-
         const message = {
             parent: activity.conversation.id,
             threadKey: activity.conversation.threadKey || null,
-            requestBody: { 
+            requestBody: {
                 text: activity.text,
                 thread: activity.conversation.thread ? { name: activity.conversation.thread } : null
-            },
+            }
         };
 
         // if channelData is specified, overwrite any fields in message object
@@ -90,7 +79,7 @@ export class HangoutsAdapter extends BotAdapter {
         return message;
     }
 
-    public async sendActivities(context: TurnContext, activities: Activity[]) {
+    public async sendActivities(context: TurnContext, activities: Partial<Activity>[]): Promise<ResourceResponse[]> {
         const responses = [];
         for (var a = 0; a < activities.length; a++) {
             const activity = activities[a];
@@ -110,7 +99,7 @@ export class HangoutsAdapter extends BotAdapter {
         return responses;
     }
 
-    async updateActivity(context: TurnContext, activity: Activity) {
+    public async updateActivity(context: TurnContext, activity: Partial<Activity>): Promise<void> {
         if (activity.id) {
             try {
                 const results = await this.api.spaces.messages.update({
@@ -119,12 +108,14 @@ export class HangoutsAdapter extends BotAdapter {
                     resource: {
                         text: activity.text,
                         // @ts-ignore allow cards field
-                        cards: activity.cards ? activity.cards : (activity.channelData ? activity.channelData.cards : null),
+                        cards: activity.cards ? activity.cards : (activity.channelData ? activity.channelData.cards : null)
                     }
                 });
 
+                if (!results) {
+                    throw new Error('API call failed with no results');
+                }
                 // TODO: evaluate success
-
             } catch (err) {
                 console.error('Error updating activity on Hangouts:', err);
             }
@@ -133,14 +124,16 @@ export class HangoutsAdapter extends BotAdapter {
         }
     }
 
-    async deleteActivity(context: TurnContext, reference: ConversationReference) {
+    public async deleteActivity(context: TurnContext, reference: Partial<ConversationReference>): Promise<void> {
         if (reference.activityId) {
             try {
-
                 const results = await this.api.spaces.messages.delete({
-                    name: reference.activityId,
+                    name: reference.activityId
                 });
 
+                if (!results) {
+                    throw new Error('API call failed with no results');
+                }
                 // TODO: evaluate success
             } catch (err) {
                 console.error('Error deleting activity', err);
@@ -151,7 +144,7 @@ export class HangoutsAdapter extends BotAdapter {
         }
     }
 
-    async continueConversation(reference: ConversationReference, logic: (t: TurnContext) => Promise<any>) {
+    public async continueConversation(reference: Partial<ConversationReference>, logic: (context: TurnContext) => Promise<void>): Promise<void> {
         const request = TurnContext.applyConversationReference(
             { type: 'event', name: 'continueConversation' },
             reference,
@@ -162,7 +155,7 @@ export class HangoutsAdapter extends BotAdapter {
         return this.runMiddleware(context, logic);
     }
 
-    async processActivity(req, res, logic) {
+    public async processActivity(req, res, logic: (context: TurnContext) => Promise<void>): Promise<void> {
         let event = req.body;
 
         debug('IN FROM HANGOUTS >', event);
@@ -178,11 +171,11 @@ export class HangoutsAdapter extends BotAdapter {
                 conversation: {
                     id: event.space.name,
                     thread: (event.message && !event.threadKey) ? event.message.thread.name : null,
-                    threadKey: event.threadKey ||  null
+                    threadKey: event.threadKey || null
                 },
                 from: {
                     id: event.user.name
-                }, 
+                },
                 channelData: event,
                 text: event.message ? (event.message.argumentText ? event.message.argumentText.trim() : '') : '',
                 type: event.message ? ActivityTypes.Message : ActivityTypes.Event
@@ -193,15 +186,15 @@ export class HangoutsAdapter extends BotAdapter {
                 activity.channelData.botkitEventType = 'direct_message';
             }
 
-            if ('ADDED_TO_SPACE' === event.type) {
-                activity.channelData.botkitEventType = 'ROOM' === event.space.type ? 'bot_room_join' : 'bot_dm_join';
+            if (event.type === 'ADDED_TO_SPACE') {
+                activity.channelData.botkitEventType = event.space.type === 'ROOM' ? 'bot_room_join' : 'bot_dm_join';
             }
-    
-            if ('REMOVED_FROM_SPACE' === event.type) {
-                activity.channelData.botkitEventType = 'ROOM' === event.space.type ? 'bot_room_leave' : 'bot_dm_leave';
+
+            if (event.type === 'REMOVED_FROM_SPACE') {
+                activity.channelData.botkitEventType = event.space.type === 'ROOM' ? 'bot_room_leave' : 'bot_dm_leave';
             }
-    
-            if ('CARD_CLICKED' === event.type) {
+
+            if (event.type === 'CARD_CLICKED') {
                 activity.channelData.botkitEventType = event.type.toLowerCase();
             }
 
@@ -210,7 +203,7 @@ export class HangoutsAdapter extends BotAdapter {
             const context = new TurnContext(this, activity as Activity);
 
             if (event.type !== 'CARD_CLICKED') {
-                // send 200 status immediately, otherwise 
+                // send 200 status immediately, otherwise
                 // hangouts does not mark the incoming message as received
                 res.status(200);
                 res.end();
