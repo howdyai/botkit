@@ -211,7 +211,9 @@ export class FacebookAdapter extends BotAdapter {
         debug('IN FROM FACEBOOK >', event);
 
         // TODO: implement token verification
-        if (false) {
+        let valid = false;
+
+        if (valid) {
             res.status(401);
             debug('Token verification failed, Ignoring message');
         } else if (event.entry) {
