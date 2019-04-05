@@ -1,10 +1,10 @@
 /**
  * @module botbuilder-adapter-facebook
  */
-import { ActivityTypes, MiddlewareSet } from 'botbuilder';
+import { MiddlewareSet } from 'botbuilder';
 
 export class FacebookEventTypeMiddleware extends MiddlewareSet {
-    async onTurn(context, next) {
+    public async onTurn(context, next): Promise<void> {
         if (context.activity && context.activity.channelData) {
             let type = null;
             if (context.activity.channelData.postback) {

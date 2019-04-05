@@ -1,12 +1,12 @@
 /**
  * @module botbuilder-adapter-facebook
  */
-import { BotWorker, BotkitMessage } from 'botkit';
+import { BotWorker } from 'botkit';
 
 export class FacebookBotWorker extends BotWorker {
-
-    constructor(botkit, config) {
+    public constructor(botkit, config) {
         super(botkit, config);
-    }
 
+        // do stuff
+    }
 }

@@ -2,12 +2,11 @@
  * @module botbuilder-adapter-facebook
  */
 
- import { Activity, ActivityTypes, BotAdapter, TurnContext, ConversationReference } from 'botbuilder';
+import { Activity, ActivityTypes, BotAdapter, TurnContext, ConversationReference } from 'botbuilder';
 import * as Debug from 'debug';
 import { FacebookBotWorker } from './botworker';
 import { FacebookAPI } from './facebook_api';
 const debug = Debug('botkit:facebook');
-
 
 export interface FacebookAdapterOptions {
     api_host?: string;
@@ -46,10 +45,8 @@ export class FacebookAdapter extends BotAdapter {
         this.middlewares = {
             spawn: [
                 async (bot, next) => {
-
                     bot.api = this.api;
                     next();
-
                 }
             ]
         };
@@ -59,8 +56,8 @@ export class FacebookAdapter extends BotAdapter {
                 method: 'get',
                 url: '/api/messages', // TODO: CAN THIS USE CONTROLLER CONFIG?
                 handler: (req, res) => {
-                    if (req.query['hub.mode'] == 'subscribe') {
-                        if (req.query['hub.verify_token'] == this.options.verify_token) {
+                    if (req.query['hub.mode'] === 'subscribe') {
+                        if (req.query['hub.verify_token'] === this.options.verify_token) {
                             res.send(req.query['hub.challenge']);
                         } else {
                             res.send('OK');
@@ -74,7 +71,6 @@ export class FacebookAdapter extends BotAdapter {
     }
 
     private activityToFacebook(activity: any): any {
-
         const message = {
             recipient: {
                 id: activity.conversation.id
@@ -83,13 +79,13 @@ export class FacebookAdapter extends BotAdapter {
                 text: activity.text,
                 sticker_id: undefined,
                 attachment: undefined,
-                quick_replies: undefined,
+                quick_replies: undefined
             },
             messaging_type: 'RESPONSE',
             tag: undefined,
             notification_type: undefined,
             persona_id: undefined,
-            sender_action: undefined,
+            sender_action: undefined
         };
 
         // map these fields to their appropriate place
@@ -125,7 +121,7 @@ export class FacebookAdapter extends BotAdapter {
             // make sure the quick reply has a type
             if (activity.channelData.quick_replies) {
                 message.message.quick_replies = activity.channelData.quick_replies.map(function(item) {
-                    var quick_reply = {...item};
+                    var quick_reply = { ...item };
                     if (!item.content_type) quick_reply.content_type = 'text';
                     return quick_reply;
                 });
@@ -137,7 +133,7 @@ export class FacebookAdapter extends BotAdapter {
         return message;
     }
 
-    public async sendActivities(context: TurnContext, activities: Activity[]) {
+    public async sendActivities(context: TurnContext, activities: Partial<Activity>[]): Promise<ResourceResponse[]> {
         const responses = [];
         for (var a = 0; a < activities.length; a++) {
             const activity = activities[a];
@@ -146,7 +142,7 @@ export class FacebookAdapter extends BotAdapter {
                 try {
                     // TODO: accessor function to allow multi-tenant
                     message.access_token = this.options.access_token;
-                    
+
                     var api = new FacebookAPI(this.options.access_token);
                     const res = await api.callAPI('/me/messages', 'POST', message);
                     responses.push({ id: res.message_id });
@@ -162,8 +158,9 @@ export class FacebookAdapter extends BotAdapter {
         return responses;
     }
 
-    async updateActivity(context: TurnContext, activity: Activity) {
+    public async updateActivity(context: TurnContext, activity: Partial<Activity>): Promise<void> {
         if (activity.id) {
+            // TODO: is there a facebook api to update a message??
             try {
                 // const results = await this.api.spaces.messages.update({
                 //     name: activity.id,
@@ -185,10 +182,11 @@ export class FacebookAdapter extends BotAdapter {
         }
     }
 
-    async deleteActivity(context: TurnContext, reference: ConversationReference) {
+    public async deleteActivity(context: TurnContext, reference: Partial<ConversationReference>): Promise<void> {
         if (reference.activityId) {
             try {
 
+                // TODO: is there a facebook api to delete a message?
                 // const results = await this.api.spaces.messages.delete({
                 //     name: reference.activityId,
                 // });
@@ -203,7 +201,7 @@ export class FacebookAdapter extends BotAdapter {
         }
     }
 
-    async continueConversation(reference: ConversationReference, logic: (t: TurnContext) => Promise<any>) {
+    public async continueConversation(reference: Partial<ConversationReference>, logic: (context: TurnContext) => Promise<void>): Promise<void> {
         const request = TurnContext.applyConversationReference(
             { type: 'event', name: 'continueConversation' },
             reference,
@@ -214,20 +212,20 @@ export class FacebookAdapter extends BotAdapter {
         return this.runMiddleware(context, logic);
     }
 
-    async processActivity(req, res, logic) {
+    public async processActivity(req, res, logic: (context: TurnContext) => Promise<void>): Promise<void> {
         let event = req.body;
 
         debug('IN FROM FACEBOOK >', event);
 
+        // TODO: implement token verification
         if (false) {
             res.status(401);
             debug('Token verification failed, Ignoring message');
         } else if (event.entry) {
-
             for (var e = 0; e < event.entry.length; e++) {
                 let payload = null;
                 let entry = event.entry[e];
-                
+
                 // handle normal incoming stuff
                 if (entry.changes) {
                     payload = entry.changes;
@@ -235,7 +233,7 @@ export class FacebookAdapter extends BotAdapter {
                     payload = entry.messaging;
                 }
 
-                for (var m = 0; m < payload.length; m++) {
+                for (let m = 0; m < payload.length; m++) {
                     await this.processSingleMessage(payload[m], logic);
                 }
 
@@ -243,26 +241,21 @@ export class FacebookAdapter extends BotAdapter {
                 if (entry.standby) {
                     payload = entry.standyby;
 
-
-                    for (var m = 0; m < payload.length; m++) {
+                    for (let m = 0; m < payload.length; m++) {
                         // TODO: do some stuff here to indicate
                         let message = payload[m];
                         message.standby = true;
                         await this.processSingleMessage(message, logic);
                     }
                 }
-
             }
 
             res.status(200);
             res.end();
-
-
         }
     }
 
-    async processSingleMessage(message: any, logic: any) {
-
+    private async processSingleMessage(message: any, logic: any): Promise<void> {
         //  in case of Checkbox Plug-in sender.id is not present, instead we should look at optin.user_ref
         if (!message.sender && message.optin && message.optin.user_ref) {
             message.sender = { id: message.optin.user_ref };
@@ -276,15 +269,15 @@ export class FacebookAdapter extends BotAdapter {
             },
             from: {
                 id: message.sender.id,
-                name:message.sender.id
+                name: message.sender.id
             },
             recipient: {
                 id: message.recipient.id
             },
             channelData: message,
             type: ActivityTypes.Event,
-            text: null,
-        }
+            text: null
+        };
 
         if (message.message) {
             activity.type = ActivityTypes.Message;
@@ -293,8 +286,7 @@ export class FacebookAdapter extends BotAdapter {
             // copy fields like attachments, sticker, quick_reply, nlp, etc.
             for (let key in message.message) {
                 activity.channelData[key] = message.message[key];
-            }            
-
+            }
         } else if (message.postback) {
             activity.type = ActivityTypes.Message;
             activity.text = message.postback.payload;
@@ -302,8 +294,6 @@ export class FacebookAdapter extends BotAdapter {
 
         const context = new TurnContext(this, activity as Activity);
         await this.runMiddleware(context, logic)
-        .catch((err) => { throw err; });
-
+            .catch((err) => { throw err; });
     }
-
 }
