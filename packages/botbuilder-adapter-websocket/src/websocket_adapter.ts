@@ -182,15 +182,23 @@ export class WebsocketAdapter extends BotAdapter {
     }
 
     async processActivity(req, res, logic) {
-        res.status(200);
-        res.end();
 
         const activity = req.body;
 
         // create a conversation reference
         const context = new TurnContext(this, activity);
 
-        this.runMiddleware(context, logic)
-            .catch((err) => { console.error(err.toString()); });
+        context.turnState.set('httpStatus', 200);
+
+        await this.runMiddleware(context, logic)
+            .catch((err) => { throw err; });
+
+        // send http response back
+        res.status(context.turnState.get('httpStatus'));
+        if (context.turnState.get('httpBody')) {
+            res.send(context.turnState.get('httpBody'));
+        } else {
+            res.end();
+        }
     }
 }
