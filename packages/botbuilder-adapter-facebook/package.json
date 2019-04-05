@@ -6,7 +6,7 @@
   "scripts": {
     "build": "tsc",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "eslint": "./node_modules/.bin/eslint .",
+    "eslint": "./node_modules/.bin/eslint --fix src/*",
     "start": "node ./index.js"
   },
   "author": "",

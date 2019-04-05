@@ -5,8 +5,7 @@
   "main": "lib/index.js",
   "scripts": {
     "build": "tsc",
-    "test": "tsc ; DEBUG=botkit* node testbot.js",
-    "nodemon": "concurrently --kill-others \"tsc -w\" \"DEBUG=botkit* nodemon testbot.js\""
+    "eslint": "./node_modules/.bin/eslint --fix src/*"
   },
   "author": "ben@howdy.ai",
   "license": "MIT",
@@ -26,9 +25,11 @@
   "devDependencies": {
     "@types/express": "^4.16.0",
     "@types/node": "^10.12.18",
-    "concurrently": "^4.1.0",
-    "sass": "^1.16.0",
-    "lerna": "^3.4.0",
-    "nodemon": "^1.18.9"
+      "eslint": "^5.5.0",
+      "eslint-config-standard": "^12.0.0",
+      "eslint-plugin-import": "^2.14.0",
+      "eslint-plugin-node": "^7.0.1",
+      "eslint-plugin-promise": "^4.0.1",
+      "eslint-plugin-standard": "^4.0.0"
   }
 }
