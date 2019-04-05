@@ -2,11 +2,10 @@
  * @module botbuilder-adapter-twilio-sms
  */
 
- import { Activity, ActivityTypes, BotAdapter, TurnContext, ConversationReference } from 'botbuilder';
+import { Activity, ActivityTypes, BotAdapter, TurnContext, ConversationReference } from 'botbuilder';
 import * as Debug from 'debug';
 import * as Twilio from 'twilio';
 const debug = Debug('botkit:twilio');
-
 
 export interface TwilioAdapterOptions {
     twilio_number: string;
@@ -16,20 +15,16 @@ export interface TwilioAdapterOptions {
 }
 
 export class TwilioAdapter extends BotAdapter {
-
     // Botkit Plugin fields
     public name: string;
     public middlewares;
-    public web;
-    public menu;
     private options: TwilioAdapterOptions;
     private api: Twilio.Twilio; // google api
 
     // tell botkit to use this type of worker
     // public botkit_worker = HangoutsBotWorker;
 
-    // TODO: Define options
-    constructor(options: TwilioAdapterOptions) {
+    public constructor(options: TwilioAdapterOptions) {
         super();
 
         this.options = options;
@@ -51,24 +46,19 @@ export class TwilioAdapter extends BotAdapter {
         this.middlewares = {
             spawn: [
                 async (bot, next) => {
-
                     bot.api = this.api;
                     next();
-
                 }
             ]
         };
-
     }
 
-
     private activityToTwilio(activity: any): any {
-
         let message = {
             body: activity.text,
             from: this.options.twilio_number,
             to: activity.conversation.id,
-            mediaUrl: undefined,
+            mediaUrl: undefined
         };
 
         if (activity.channelData && activity.channelData.mediaUrl) {
@@ -78,7 +68,7 @@ export class TwilioAdapter extends BotAdapter {
         return message;
     }
 
-    public async sendActivities(context: TurnContext, activities: Activity[]) {
+    public async sendActivities(context: TurnContext, activities: Partial<Activity>[]): Promise<ResourceResponse[]> {
         const responses = [];
         for (var a = 0; a < activities.length; a++) {
             const activity = activities[a];
@@ -86,7 +76,7 @@ export class TwilioAdapter extends BotAdapter {
                 const message = this.activityToTwilio(activity);
 
                 const res = await this.api.messages.create(message);
-                responses.push({id: res.sid});
+                responses.push({ id: res.sid });
             } else {
                 // TODO: Handle sending of other types of message?
             }
@@ -95,15 +85,15 @@ export class TwilioAdapter extends BotAdapter {
         return responses;
     }
 
-    async updateActivity(context: TurnContext, activity: Activity) {
+    public async updateActivity(context: TurnContext, activity: Partial<Activity>): Promise<void> {
         debug('Twilio SMS does not support updating activities.');
     }
 
-    async deleteActivity(context: TurnContext, reference: ConversationReference) {
+    public async deleteActivity(context: TurnContext, reference: Partial<ConversationReference>): Promise<void> {
         debug('Twilio SMS does not support deleting activities.');
     }
 
-    async continueConversation(reference: ConversationReference, logic: (t: TurnContext) => Promise<any>) {
+    public async continueConversation(reference: Partial<ConversationReference>, logic: (context: TurnContext) => Promise<void>): Promise<void> {
         const request = TurnContext.applyConversationReference(
             { type: 'event', name: 'continueConversation' },
             reference,
@@ -114,29 +104,27 @@ export class TwilioAdapter extends BotAdapter {
         return this.runMiddleware(context, logic);
     }
 
-    async processActivity(req, res, logic) {
-
+    public async processActivity(req, res, logic: (context: TurnContext) => Promise<void>): Promise<void> {
         this.verifyRequest(req).then(async () => {
-
             const event = req.body;
 
             const activity = {
                 id: event.MessageSid,
                 timestamp: new Date(),
                 channelId: 'twilio-sms',
-                conversation:  {
+                conversation: {
                     id: event.From
                 },
                 from: {
                     id: event.From
                 },
                 recipient: {
-                    id: event.To,
+                    id: event.To
                 },
                 text: event.Body,
                 channelData: event,
                 type: ActivityTypes.Message
-            }
+            };
 
             // Detect attachments
             if (event.NumMedia && parseInt(event.NumMedia) > 0) {
@@ -165,17 +153,15 @@ export class TwilioAdapter extends BotAdapter {
             } else {
                 res.end();
             }
-
         }).catch(() => {
             res.status(400).send({
                 error: 'Invalid signature.'
             });
-        })
-
+        });
     }
 
     // validate that requests are coming from twilio
-    private async verifyRequest(req) {
+    private async verifyRequest(req): Promise<any> {
         var twilioSignature = req.headers['x-twilio-signature'];
 
         var validation_url = this.options.validation_url ||
@@ -187,7 +173,4 @@ export class TwilioAdapter extends BotAdapter {
             throw new Error('Invalid signature');
         }
     }
-
-
-
 }
