@@ -9,8 +9,7 @@ import * as request from 'request';
 export class SlackBotWorker extends BotWorker {
     public api: WebClient;
 
-    constructor(botkit, config) {
-
+    public constructor(botkit, config) {
         // allow a teamid to be passed in
         if (typeof config === 'string') {
             const team_id = config;
@@ -22,21 +21,19 @@ export class SlackBotWorker extends BotWorker {
                     }
                 },
                 // a reference is used to spawn an api instance inside the adapter...
-                // TODO: do we NEED to spawn them at both places? 
+                // TODO: do we NEED to spawn them at both places?
                 reference: {
                     conversation: {
                         team: team_id
                     }
-                }            
-            }
+                }
+            };
         }
 
         super(botkit, config);
-
     }
 
-
-    async startPrivateConversation(userId: string): Promise<any> {
+    public async startPrivateConversation(userId: string): Promise<any> {
         // create the new IM channel
         const channel: any = await this.api.im.open({ user: userId });
 
@@ -57,7 +54,7 @@ export class SlackBotWorker extends BotWorker {
         }
     }
 
-    async startConversationInChannel(channelId: string, userId: string): Promise<any> {
+    public async startConversationInChannel(channelId: string, userId: string): Promise<any> {
         return this.changeContext({
             conversation: {
                 id: channelId,
@@ -69,7 +66,7 @@ export class SlackBotWorker extends BotWorker {
         });
     }
 
-    async startConversationInThread(channelId: string, userId: string, thread_ts: string): Promise<any> {
+    public async startConversationInThread(channelId: string, userId: string, thread_ts: string): Promise<any> {
         return this.changeContext({
             conversation: {
                 id: channelId,
@@ -83,7 +80,7 @@ export class SlackBotWorker extends BotWorker {
     }
 
     /* Send a reply to an inbound message, using information collected from that inbound message */
-    async replyInThread(src: any, resp: any): Promise<any> {
+    public async replyInThread(src: any, resp: any): Promise<any> {
         // make sure the  thread_ts setting is set
         // this will be included in the conversation reference
         // src.incoming_message.conversation.id = src.incoming_message.conversation.id + '-' + (src.incoming_message.channelData.thread_ts ? src.incoming_message.channelData.thread_ts : src.incoming_message.channelData.ts);
@@ -92,7 +89,7 @@ export class SlackBotWorker extends BotWorker {
     }
 
     /* Send a reply to an inbound message, using information collected from that inbound message */
-    async replyEphemeral(src: any, resp: any): Promise<any> {
+    public async replyEphemeral(src: any, resp: any): Promise<any> {
         // make rure resp is in an object format.
         resp = this.ensureMessageFormat(resp);
 
@@ -107,7 +104,7 @@ export class SlackBotWorker extends BotWorker {
     }
 
     /* send a public response to a slash command */
-    async replyPublic(src: any, resp: any): Promise<any> {
+    public async replyPublic(src: any, resp: any): Promise<any> {
         let msg = this.ensureMessageFormat(resp);
         msg.channelData.response_type = 'in_channel';
 
@@ -115,7 +112,7 @@ export class SlackBotWorker extends BotWorker {
     };
 
     /* send a private response to a slash command */
-    async replyPrivate(src: any, resp: any): Promise<any> {
+    public async replyPrivate(src: any, resp: any): Promise<any> {
         const msg = this.ensureMessageFormat(resp);
 
         msg.channelData.response_type = 'ephemeral';
@@ -124,7 +121,7 @@ export class SlackBotWorker extends BotWorker {
         return this.replyInteractive(src, msg);
     };
 
-    async replyInteractive(src: any, resp: any): Promise<any> {
+    public async replyInteractive(src: any, resp: any): Promise<any> {
         if (!src.incoming_message.channelData.response_url) {
             throw Error('No response_url found in incoming message');
         } else {
@@ -134,7 +131,7 @@ export class SlackBotWorker extends BotWorker {
                 id: src.channnel
             };
             msg.channelData.to = src.user;
-    
+
             // if source message is in a thread, reply should also be in the thread
             if (src.incoming_message.channelData.thread_ts) {
                 // @ts-ignore
@@ -161,7 +158,7 @@ export class SlackBotWorker extends BotWorker {
         }
     };
 
-    async dialogError(errors) {
+    public dialogError(errors): void {
         if (!errors) {
             errors = [];
         }
@@ -173,7 +170,7 @@ export class SlackBotWorker extends BotWorker {
         this.httpBody(JSON.stringify({ errors }));
     };
 
-    async replyWithDialog(src, dialog_obj: Dialog) {
+    public async replyWithDialog(src, dialog_obj: Dialog): Promise<any> {
         var msg = {
             trigger_id: src.trigger_id,
             dialog: dialog_obj

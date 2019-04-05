@@ -2,7 +2,7 @@
  * @module botbuilder-adapter-slack
  */
 
-import { Activity, ActivityTypes, BotAdapter, TurnContext, MiddlewareSet, ConversationReference } from 'botbuilder';
+import { Activity, ActivityTypes, BotAdapter, TurnContext, ConversationReference } from 'botbuilder';
 import { WebClient, WebAPICallResult } from '@slack/client';
 import { SlackBotWorker } from './botworker';
 import * as crypto from 'crypto';
@@ -53,8 +53,7 @@ export class SlackAdapter extends BotAdapter {
     // tell botkit to use this type of worker
     public botkit_worker = SlackBotWorker;
 
-    // TODO: Define options
-    constructor(options: SlackAdapterOptions) {
+    public constructor(options: SlackAdapterOptions) {
         super();
 
         this.options = options;
@@ -76,7 +75,7 @@ export class SlackAdapter extends BotAdapter {
                 `*                                                                                      *`,
                 `****************************************************************************************`,
                 `>> Slack docs: https://api.slack.com/docs/verifying-requests-from-slack`,
-                ``,
+                ``
             ];
             console.warn(warning.join('\n'));
             throw new Error('Required: include a verificationToken or clientSigningSecret to verify incoming Events API webhooks');
@@ -110,8 +109,9 @@ export class SlackAdapter extends BotAdapter {
         this.middlewares = {
             spawn: [
                 async (bot, next) => {
-                    // // make the Slack API available to all bot instances.
+                    // make the Slack API available to all bot instances.
                     bot.api = await this.getAPI(bot.getConfig('activity')).catch((err) => {
+                        debug('An error occurred while trying to get API creds for team', err);
                         return next(new Error('Could not spawn a Slack API instance'));
                     });
 
@@ -121,7 +121,7 @@ export class SlackAdapter extends BotAdapter {
         };
     }
 
-    public async getAPI(activity: Activity) {
+    public async getAPI(activity: Activity): Promise<WebClient> {
         // use activity.channelData.team.id (the slack team id) and get the appropriate token using getTokenForTeam
         if (this.slack) {
             return this.slack;
@@ -141,7 +141,7 @@ export class SlackAdapter extends BotAdapter {
         }
     }
 
-    public async getBotUserByTeam(activity: Activity) {
+    public async getBotUserByTeam(activity: Activity): Promise<string> {
         if (this.identity) {
             return this.identity.user_id;
         } else {
@@ -169,7 +169,7 @@ export class SlackAdapter extends BotAdapter {
         }
     }
 
-    public async validateOauthCode(code: string) {
+    public async validateOauthCode(code: string): Promise<any> {
         const slack = new WebClient();
         const results = await slack.oauth.access({
             code: code,
@@ -190,12 +190,12 @@ export class SlackAdapter extends BotAdapter {
         let thread_ts = activity.conversation.thread_ts;
 
         let message: any = {
-            ts: activity.id, 
+            ts: activity.id,
             text: activity.text,
             attachments: activity.attachments,
 
             channel: channelId,
-            thread_ts: thread_ts,
+            thread_ts: thread_ts
         };
 
         // if channelData is specified, overwrite any fields in message object
@@ -214,13 +214,10 @@ export class SlackAdapter extends BotAdapter {
             message.as_user = false;
         }
 
-        // if (message.attachments) { message.attachments = JSON.stringify(message.attachments) };
-        // if (message.blocks) { message.blocks = JSON.stringify(message.blocks) }
-
         return message;
     }
 
-    public async sendActivities(context: TurnContext, activities: Activity[]) {
+    public async sendActivities(context: TurnContext, activities: Partial<Activity>[]): Promise<ResourceResponse[]> {
         const responses = [];
         for (var a = 0; a < activities.length; a++) {
             const activity = activities[a];
@@ -258,7 +255,7 @@ export class SlackAdapter extends BotAdapter {
         return responses;
     }
 
-    async updateActivity(context: TurnContext, activity: Activity) {
+    public async updateActivity(context: TurnContext, activity: Partial<Activity>): Promise<void> {
         if (activity.id && activity.conversation) {
             try {
                 const message = this.activityToSlack(activity);
@@ -278,7 +275,7 @@ export class SlackAdapter extends BotAdapter {
         }
     }
 
-    async deleteActivity(context: TurnContext, reference: ConversationReference) {
+    public async deleteActivity(context: TurnContext, reference: Partial<ConversationReference>): Promise<void> {
         if (reference.activityId && reference.conversation) {
             try {
                 const slack = await this.getAPI(context.activity);
@@ -295,7 +292,7 @@ export class SlackAdapter extends BotAdapter {
         }
     }
 
-    async continueConversation(reference: ConversationReference, logic: (t: TurnContext) => Promise<any>) {
+    public async continueConversation(reference: Partial<ConversationReference>, logic: (context: TurnContext) => Promise<void>): Promise<void> {
         const request = TurnContext.applyConversationReference(
             { type: 'event', name: 'continueConversation' },
             reference,
@@ -306,9 +303,9 @@ export class SlackAdapter extends BotAdapter {
         return this.runMiddleware(context, logic);
     }
 
-    async verifySignature(req, res) {
-         // is this an verified request from slack?
-         if (this.options.clientSigningSecret && req.rawBody) {
+    public async verifySignature(req, res): Promise<boolean> {
+        // is this an verified request from slack?
+        if (this.options.clientSigningSecret && req.rawBody) {
             let timestamp = req.header('X-Slack-Request-Timestamp');
             let body = req.rawBody;
 
@@ -325,13 +322,12 @@ export class SlackAdapter extends BotAdapter {
             let retrievedSignature = req.header('X-Slack-Signature');
 
             // Compare the hash of the computed signature with the retrieved signature with a secure hmac compare function
-            const validSignature = () => {
-
+            const validSignature = (): boolean => {
                 const slackSigBuffer = Buffer.from(retrievedSignature);
                 const compSigBuffer = Buffer.from(hash);
 
                 return crypto.timingSafeEqual(slackSigBuffer, compSigBuffer);
-            }
+            };
 
             // replace direct compare with the hmac result
             if (!validSignature()) {
@@ -344,7 +340,7 @@ export class SlackAdapter extends BotAdapter {
         return true;
     }
 
-    async processActivity(req, res, logic) {
+    public async processActivity(req, res, logic: (context: TurnContext) => Promise<void>): Promise<void> {
         // Create an Activity based on the incoming message from Slack.
         // There are a few different types of event that Slack might send.
         let event = req.body;
@@ -356,7 +352,7 @@ export class SlackAdapter extends BotAdapter {
         }
 
         if (!await this.verifySignature(req, res)) {
-            return;
+
         } else if (event.payload) {
             // handle interactive_message callbacks and block_actions
 

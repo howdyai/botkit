@@ -5,7 +5,7 @@
 import { ActivityTypes, MiddlewareSet } from 'botbuilder';
 
 export class SlackMessageTypeMiddleware extends MiddlewareSet {
-    async onTurn(context, next) {
+    public async onTurn(context: TurnContext, next: () => Promise<any>): Promise<void> {
         if (context.activity.type === 'message' && context.activity.channelData) {
             // TODO: how will this work in multi-team scenarios?
             const bot_user_id = await context.adapter.getBotUserByTeam(context.activity);
@@ -19,13 +19,13 @@ export class SlackMessageTypeMiddleware extends MiddlewareSet {
 
                 // strip any potential leading @mention
                 context.activity.text = context.activity.text.replace(direct_mention, '')
-                    .replace(/^\s+/, '').replace(/^\:\s+/, '').replace(/^\s+/, '');
+                    .replace(/^\s+/, '').replace(/^:\s+/, '').replace(/^\s+/, '');
             } else if (bot_user_id && context.activity.text && context.activity.text.match(direct_mention)) {
                 context.activity.channelData.botkitEventType = 'direct_mention';
 
                 // strip the @mention
                 context.activity.text = context.activity.text.replace(direct_mention, '')
-                    .replace(/^\s+/, '').replace(/^\:\s+/, '').replace(/^\s+/, '');
+                    .replace(/^\s+/, '').replace(/^:\s+/, '').replace(/^\s+/, '');
             } else if (bot_user_id && context.activity.text && context.activity.text.match(mention)) {
                 context.activity.channelData.botkitEventType = 'mention';
             } else {
