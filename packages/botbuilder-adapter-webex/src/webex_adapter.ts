@@ -1,7 +1,7 @@
 /**
  * @module botbuilder-adapter-webex
  */
-import { ActivityTypes, BotAdapter, TurnContext, MiddlewareSet } from 'botbuilder';
+import { ActivityTypes, BotAdapter, TurnContext } from 'botbuilder';
 import * as ciscospark from 'ciscospark';
 import * as url from 'url';
 import * as crypto from 'crypto';
@@ -17,7 +17,7 @@ export class WebexAdapter extends BotAdapter {
     public name: string;
     public middlewares;
 
-    constructor(config) {
+    public constructor(config) {
         super();
 
         this._config = {
@@ -71,6 +71,7 @@ export class WebexAdapter extends BotAdapter {
                     // make webex api directly available on a botkit instance.
                     bot.api = this._api;
 
+                    // TODO: put this in a botworker
                     bot.startPrivateConversation = async function(userId: string) {
                         // send a message with the toPersonId or toPersonEmail set
                         // response will have the roomID
@@ -88,16 +89,16 @@ export class WebexAdapter extends BotAdapter {
     }
 
     // Botkit init function, called only when used alongside Botkit
-    public init(botkit) {
+    public init(botkit): void {
         // when the bot is ready, register the webhook subscription with the Webex API
         botkit.ready(() => {
-            console.log('Registering webhook subscription!');
+            debug('Registering webhook subscription!');
             botkit.adapter.registerWebhookSubscription(botkit.getConfig('webhook_uri'));
         });
     }
 
     // TODO: make async
-    public resetWebhookSubscriptions() {
+    public resetWebhookSubscriptions(): void {
         this._api.webhooks.list().then((list) => {
             for (var i = 0; i < list.items.length; i++) {
                 this._api.webhooks.remove(list.items[i]).then(function() {
@@ -109,14 +110,14 @@ export class WebexAdapter extends BotAdapter {
         });
     };
 
-    public registerWebhookSubscription(webhook_path) {
+    public registerWebhookSubscription(webhook_path): void {
         var webhook_name = this._config.webhook_name || 'Botkit Firehose';
 
         this._api.webhooks.list().then((list) => {
             var hook_id = null;
 
             for (var i = 0; i < list.items.length; i++) {
-                if (list.items[i].name == webhook_name) {
+                if (list.items[i].name === webhook_name) {
                     hook_id = list.items[i].id;
                 }
             }
@@ -158,7 +159,7 @@ export class WebexAdapter extends BotAdapter {
         });
     }
 
-    async sendActivities(context, activities) {
+    public async sendActivities(context: TurnContext, activities: Partial<Activity>[]): Promise<ResourceResponse[]> {
         const responses = [];
         for (var a = 0; a < activities.length; a++) {
             const activity = activities[a];
@@ -180,7 +181,7 @@ export class WebexAdapter extends BotAdapter {
         return responses;
     }
 
-    async updateActivity(context, activity) {
+    public async updateActivity(context: TurnContext, activity: Partial<Activity>): Promise<void> {
         if (activity.activityId && activity.conversation) {
 
         } else {
@@ -188,14 +189,14 @@ export class WebexAdapter extends BotAdapter {
         }
     }
 
-    async deleteActivity(context, reference) {
+    public async deleteActivity(context: TurnContext, reference: Partial<ConversationReference>): Promise<void> {
         if (reference.activityId && reference.conversation) {
         } else {
             throw new Error('Cannot delete activity: reference is missing activityId');
         }
     }
 
-    async continueConversation(reference, logic) {
+    public async continueConversation(reference: Partial<ConversationReference>, logic: (context: TurnContext) => Promise<void>): Promise<void> {
         const request = TurnContext.applyConversationReference(
             { type: 'event', name: 'continueConversation' },
             reference,
@@ -206,7 +207,7 @@ export class WebexAdapter extends BotAdapter {
         return this.runMiddleware(context, logic);
     }
 
-    async processActivity(req, res, logic) {
+    public async processActivity(req, res, logic: (context: TurnContext) => Promise<void>): Promise<void> {
         res.status(200);
         res.end();
 
@@ -216,7 +217,7 @@ export class WebexAdapter extends BotAdapter {
         if (this._config.secret) {
             var signature = req.headers['x-spark-signature'];
             var hash = crypto.createHmac('sha1', this._config.secret).update(JSON.stringify(payload)).digest('hex');
-            if (signature != hash) {
+            if (signature !== hash) {
                 console.warn('WARNING: Webhook received message with invalid signature. Potential malicious behavior!');
                 return false;
             }
@@ -242,21 +243,21 @@ export class WebexAdapter extends BotAdapter {
 
             if (decrypted_message.html) {
                 // strip the mention & HTML from the message
-                var pattern = new RegExp('^(\<p\>)?\<spark\-mention .*?data\-object\-id\=\"' + this._identity.id + '\".*?\>.*?\<\/spark\-mention\>', 'im');
+                let pattern = new RegExp('^(<p>)?<spark-mention .*?data-object-id="' + this._identity.id + '".*?>.*?</spark-mention>', 'im');
                 if (!decrypted_message.html.match(pattern)) {
                     var encoded_id = this._identity.id;
-                    var decoded = new Buffer(encoded_id, 'base64').toString('ascii');
+                    var decoded = Buffer.from(encoded_id, 'base64').toString('ascii');
 
                     // this should look like ciscospark://us/PEOPLE/<id string>
                     var matches;
-                    if (matches = decoded.match(/ciscospark\:\/\/.*\/(.*)/im)) {
-                        pattern = new RegExp('^(\<p\>)?\<spark\-mention .*?data\-object\-id\=\"' + matches[1] + '\".*?\>.*?\<\/spark\-mention\>', 'im');
+                    if ((matches = decoded.match(/ciscospark:\/\/.*\/(.*)/im))) {
+                        pattern = new RegExp('^(<p>)?<spark-mention .*?data-object-id="' + matches[1] + '".*?>.*?</spark-mention>', 'im');
                     }
                 }
                 var action = decrypted_message.html.replace(pattern, '');
 
                 // strip the remaining HTML tags
-                action = action.replace(/\<.*?\>/img, '');
+                action = action.replace(/<.*?>/img, '');
 
                 // strip remaining whitespace
                 action = action.trim();
@@ -264,7 +265,7 @@ export class WebexAdapter extends BotAdapter {
                 // replace the message text with the the HTML version
                 activity.text = action;
             } else {
-                var pattern = new RegExp('^' + this._identity.displayName + '\\s+', 'i');
+                let pattern = new RegExp('^' + this._identity.displayName + '\\s+', 'i');
                 if (activity.text) {
                     activity.text = activity.text.replace(pattern, '');
                 }
