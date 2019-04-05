@@ -2,9 +2,9 @@
  * @module botbuilder-adapter-websocket
  */
 
- import { Activity, ActivityTypes, BotAdapter, TurnContext } from 'botbuilder';
+import { Activity, ActivityTypes, BotAdapter, ConversationReference, TurnContext, ResourceResponse } from 'botbuilder';
 import * as Debug from 'debug';
-var WebSocket = require('ws');
+import * as WebSocket from 'ws';
 const debug = Debug('botkit:websocket');
 
 const clients = {};
@@ -13,7 +13,7 @@ const clients = {};
  * Create a websocket adapter for Botkit or BotBuilder
  * Requires a compatible chat client - generate one using the Botkit yeoman generator, or find it [here]()
  * # TODO: get links for chat client!
- * 
+ *
  * To use with Botkit:
  * ```javascript
  * const adapter = new WebsocketAdapter();
@@ -22,14 +22,14 @@ const clients = {};
  *      // other options
  * });
  * ```
- * 
+ *
  * To use with BotBuilder:
  * ```javascript
  * const adapter = new WebsocketAdapter();
  * const server = restify.createServer();
  * // instead of binding processActivity to the incoming request, pass in turn handler logic to createWebSocketServer
- * adapter.createWebSocketServer(server, async(context) { 
- *  // handle turn here 
+ * adapter.createWebSocketServer(server, async(context) {
+ *  // handle turn here
  * });
  * ```
  */
@@ -45,22 +45,20 @@ export class WebsocketAdapter extends BotAdapter {
     public wss;
 
     /**
-     * Create a new websocket adapter. No parameters required, though Botkit must have a fully configured 
+     * Create a new websocket adapter. No parameters required, though Botkit must have a fully configured
      */
-    constructor() {
+    public constructor() {
         super();
 
         // Botkit Plugin additions
         this.name = 'Websocket Adapter';
-
     }
 
     /**
      * Called automatically when Botkit uses this adapter - calls createSocketServer and binds a websocket listener to Botkit's pre-existing webserver.
-     * @param botkit 
+     * @param botkit
      */
-    public init(botkit) {
-
+    public init(botkit): void {
         // when the bot is ready, register the webhook subscription with the Webex API
         botkit.ready(() => {
             this.createSocketServer(botkit.http, botkit.handleTurn);
@@ -68,16 +66,16 @@ export class WebsocketAdapter extends BotAdapter {
     }
 
     /**
-     * Bind a websocket listener to an existing webserver object.  
+     * Bind a websocket listener to an existing webserver object.
      * Note: Create the server using Node's http.createServer - NOT an Express or Restify object.
      * @param server an http server
      */
-    public createSocketServer(server, logic) {
+    public createSocketServer(server, logic): void {
         this.wss = new WebSocket.Server({
             server
         });
 
-        function heartbeat() {
+        function heartbeat(): void {
             this.isAlive = true;
         }
 
@@ -139,10 +137,9 @@ export class WebsocketAdapter extends BotAdapter {
                 ws.ping('', false, true);
             });
         }, 30000);
-
     }
 
-    async sendActivities(context, activities) {
+    public async sendActivities(context: TurnContext, activities: Partial<Activity>[]): Promise<ResourceResponse[]> {
         const responses = [];
         for (var a = 0; a < activities.length; a++) {
             const activity = activities[a];
@@ -161,15 +158,15 @@ export class WebsocketAdapter extends BotAdapter {
         return responses;
     }
 
-    async updateActivity(context, activity) {
+    public async updateActivity(context: TurnContext, activity: Partial<Activity>): Promise<void> {
         debug('Websocket adapter does not support updateActivity.');
     }
 
-    async deleteActivity(context, reference) {
+    public async deleteActivity(context: TurnContext, reference: Partial<ConversationReference>): Promise<void> {
         debug('Websocket adapter does not support deleteActivity.');
     }
 
-    async continueConversation(reference, logic) {
+    public async continueConversation(reference: Partial<ConversationReference>, logic: (context: TurnContext) => Promise<void>): Promise<void> {
         const request = TurnContext.applyConversationReference(
             { type: 'event', name: 'continueConversation' },
             reference,
@@ -181,8 +178,7 @@ export class WebsocketAdapter extends BotAdapter {
             .catch((err) => { console.error(err.toString()); });
     }
 
-    async processActivity(req, res, logic) {
-
+    public async processActivity(req, res, logic: (context: TurnContext) => Promise<void>): Promise<void> {
         const activity = req.body;
 
         // create a conversation reference
