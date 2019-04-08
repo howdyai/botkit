@@ -462,23 +462,32 @@ await bot.beginDialog(ALERT_DIALOG);
 
 <a name="SlackDialog"></a>
 ## SlackDialog
+Create a Slack Dialog object for use with [replyWithDialog()](#replyWithDialog).
+
+```javascript
+let dialog = new SlackDialog('My Dialog', 'callback_123', 'Save');
+dialog.addText('Your full name', 'name').addEmail('Your email', 'email');
+dialog.notifyOnCancel(true);
+bot.replyWithDialog(message, dialog.asObject());
+```
+
 
 ### constructor new SlackDialog()
-
+Create a new dialog object
 
 **Parameters**
 
 | Argument | Type | Description
 |--- |--- |---
-| title | string | 
-| callback_id | string | 
-| submit_label | string | 
-| elements | string | 
+| title | string | Title of dialog
+| callback_id | string | Callback id of dialog
+| submit_label | string | Label for the submit button
+| elements | any | An array of dialog elements<br/>
 
 
 <a name="addEmail"></a>
 ### addEmail()
-
+Add an email input to the dialog
 
 **Parameters**
 
@@ -487,13 +496,13 @@ await bot.beginDialog(ALERT_DIALOG);
 | label| any | 
 | name| any | 
 | value| any | 
-| options| any | 
+| options| any | <br/>
 
 
 
 <a name="addNumber"></a>
 ### addNumber()
-
+Add a number input to the dialog
 
 **Parameters**
 
@@ -502,13 +511,13 @@ await bot.beginDialog(ALERT_DIALOG);
 | label| any | 
 | name| any | 
 | value| any | 
-| options| any | 
+| options| any | <br/>
 
 
 
 <a name="addSelect"></a>
 ### addSelect()
-
+Add a dropdown select input to the dialog
 
 **Parameters**
 
@@ -518,13 +527,13 @@ await bot.beginDialog(ALERT_DIALOG);
 | name| any | 
 | value| any | 
 | option_list| any | 
-| options| any | 
+| options| any | <br/>
 
 
 
 <a name="addTel"></a>
 ### addTel()
-
+Add a telephone number input to the dialog
 
 **Parameters**
 
@@ -533,13 +542,13 @@ await bot.beginDialog(ALERT_DIALOG);
 | label| any | 
 | name| any | 
 | value| any | 
-| options| any | 
+| options| any | <br/>
 
 
 
 <a name="addText"></a>
 ### addText()
-
+Add a text input to the dialog
 
 **Parameters**
 
@@ -549,13 +558,13 @@ await bot.beginDialog(ALERT_DIALOG);
 | name| string | 
 | value| string | 
 | options|  | 
-| subtype (optional)| string | 
+| subtype (optional)| string | <br/>
 
 
 
 <a name="addTextarea"></a>
 ### addTextarea()
-
+Add a text area input to the dialog
 
 **Parameters**
 
@@ -565,13 +574,13 @@ await bot.beginDialog(ALERT_DIALOG);
 | name| any | 
 | value| any | 
 | options| any | 
-| subtype| any | 
+| subtype| any | <br/>
 
 
 
 <a name="addUrl"></a>
 ### addUrl()
-
+Add a URL input to the dialog
 
 **Parameters**
 
@@ -580,77 +589,77 @@ await bot.beginDialog(ALERT_DIALOG);
 | label| any | 
 | name| any | 
 | value| any | 
-| options| any | 
+| options| any | <br/>
 
 
 
 <a name="asObject"></a>
 ### asObject()
-
+Get the dialog object for use with bot.replyWithDialog()
 
 
 <a name="asString"></a>
 ### asString()
-
+Get the dialog object as a JSON encoded string.
 
 
 <a name="callback_id"></a>
 ### callback_id()
-
+Set the dialog's callback_id
 
 **Parameters**
 
 | Argument | Type | description
 |--- |--- |---
-| v| string | 
+| v| string | Value for the callback_id<br/>
 
 
 
 <a name="notifyOnCancel"></a>
 ### notifyOnCancel()
-
+Set true to have Slack notify you with a `dialog_cancellation` event if a user cancels the dialog without submitting
 
 **Parameters**
 
 | Argument | Type | description
 |--- |--- |---
-| set| boolean | 
+| set| boolean | True or False<br/>
 
 
 
 <a name="state"></a>
 ### state()
-
+Set the dialog's state field
 
 **Parameters**
 
 | Argument | Type | description
 |--- |--- |---
-| v| any | 
+| v| any | value for state<br/>
 
 
 
 <a name="submit_label"></a>
 ### submit_label()
-
+Set the button text for the submit button on the dialog
 
 **Parameters**
 
 | Argument | Type | description
 |--- |--- |---
-| v| string | 
+| v| string | Value for the button label<br/>
 
 
 
 <a name="title"></a>
 ### title()
-
+Set the title of the dialog
 
 **Parameters**
 
 | Argument | Type | description
 |--- |--- |---
-| v| string | 
+| v| string | Value for title<br/>
 
 
 
