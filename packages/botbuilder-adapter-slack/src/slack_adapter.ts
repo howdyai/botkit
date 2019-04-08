@@ -217,6 +217,12 @@ export class SlackAdapter extends BotAdapter {
         return message;
     }
 
+    /**
+     * Standard BotBuilder adapter method to send a message from the bot to the messaging API.
+     * [BotBuilder reference docs](https://docs.microsoft.com/en-us/javascript/api/botbuilder-core/botadapter?view=botbuilder-ts-latest#sendactivities).
+     * @param context A TurnContext representing the current incoming message and environment.
+     * @param activities An array of outgoing activities to be sent back to the messaging API.
+     */
     public async sendActivities(context: TurnContext, activities: Partial<Activity>[]): Promise<ResourceResponse[]> {
         const responses = [];
         for (var a = 0; a < activities.length; a++) {
@@ -242,26 +248,30 @@ export class SlackAdapter extends BotAdapter {
                             conversation: result.channel
                         });
                     } else {
-                        console.error('Error sending activity to Slack:', result);
+                        console.error('Error sending activity to API:', result);
                     }
                 } catch (err) {
-                    console.error('Error sending activity to Slack:', err);
+                    console.error('Error sending activity to API:', err);
                 }
             } else {
-                // TODO: Handle sending of other types of message?
+                // If there are ever any non-message type events that need to be sent, do it here.
+                debug('Unknown message type encountered in sendActivities: ', activity.type);
             }
         }
 
         return responses;
     }
 
+    /**
+     * Standard BotBuilder adapter method to update a previous message with new content.
+     * [BotBuilder reference docs](https://docs.microsoft.com/en-us/javascript/api/botbuilder-core/botadapter?view=botbuilder-ts-latest#updateactivity).
+     * @param context A TurnContext representing the current incoming message and environment.
+     * @param activity The updated activity in the form `{id: <id of activity to update>, ...}`
+     */
     public async updateActivity(context: TurnContext, activity: Partial<Activity>): Promise<void> {
         if (activity.id && activity.conversation) {
             try {
                 const message = this.activityToSlack(activity);
-
-                // set the id of the message to be updated
-                // message.ts = activity.id;
                 const slack = await this.getAPI(activity);
                 const results = await slack.chat.update(message);
                 if (!results.ok) {
@@ -275,6 +285,12 @@ export class SlackAdapter extends BotAdapter {
         }
     }
 
+    /**
+     * Standard BotBuilder adapter method to delete a previous message.
+     * [BotBuilder reference docs](https://docs.microsoft.com/en-us/javascript/api/botbuilder-core/botadapter?view=botbuilder-ts-latest#deleteactivity).
+     * @param context A TurnContext representing the current incoming message and environment.
+     * @param reference An object in the form `{activityId: <id of message to delete>, conversation: { id: <id of slack channel>}}`
+     */
     public async deleteActivity(context: TurnContext, reference: Partial<ConversationReference>): Promise<void> {
         if (reference.activityId && reference.conversation) {
             try {
@@ -292,6 +308,12 @@ export class SlackAdapter extends BotAdapter {
         }
     }
 
+    /**
+     * Standard BotBuilder adapter method for continuing an existing conversation based on a conversation reference.
+     * [BotBuilder reference docs](https://docs.microsoft.com/en-us/javascript/api/botbuilder-core/botadapter?view=botbuilder-ts-latest#continueconversation)
+     * @param reference A conversation reference to be applied to future messages.
+     * @param logic A bot logic function that will perform continuing action in the form `async(context) => { ... }`
+     */
     public async continueConversation(reference: Partial<ConversationReference>, logic: (context: TurnContext) => Promise<void>): Promise<void> {
         const request = TurnContext.applyConversationReference(
             { type: 'event', name: 'continueConversation' },
@@ -303,7 +325,13 @@ export class SlackAdapter extends BotAdapter {
         return this.runMiddleware(context, logic);
     }
 
-    public async verifySignature(req, res): Promise<boolean> {
+    /**
+     * Verify the signature of an incoming webhook request as originating from Slack.
+     * If signature is valid, returns true. Otherwise, sends a 401 error status and returns false.
+     * @param req A request object from Restify or Express
+     * @param res A response object from Restify or Express
+     */
+    private async verifySignature(req, res): Promise<boolean> {
         // is this an verified request from slack?
         if (this.options.clientSigningSecret && req.rawBody) {
             let timestamp = req.header('X-Slack-Request-Timestamp');
@@ -340,6 +368,12 @@ export class SlackAdapter extends BotAdapter {
         return true;
     }
 
+    /**
+     * Accept an incoming webhook request and convert it into a TurnContext which can be processed by the bot's logic.
+     * @param req A request object from Restify or Express
+     * @param res A response object from Restify or Express
+     * @param logic A bot logic function in the form `async(context) => { ... }`
+     */
     public async processActivity(req, res, logic: (context: TurnContext) => Promise<void>): Promise<void> {
         // Create an Activity based on the incoming message from Slack.
         // There are a few different types of event that Slack might send.

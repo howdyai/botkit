@@ -1,3 +1,2 @@
-# botbuilder-websocket adapter
-
-Websocket adapter compatible with Microsoft Bot Builder and Botkit
+# botbuilder-adapter-websocket
+## a Websocket Adapter for Botkit and BotBuilder
