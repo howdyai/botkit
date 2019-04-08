@@ -25,7 +25,7 @@ export interface TwilioAdapterOptions {
      */
     auth_token: string;
     /**
-     * An optional url to override the automatically generated url signature used to validate requests in [verifySignature](#verifySignature) -- [See Twilio docs about validating incoming requests.](https://www.twilio.com/docs/usage/security#validating-requests) 
+     * An optional url to override the automatically generated url signature used to validate incoming requests -- [See Twilio docs about securing your endpoint.](https://www.twilio.com/docs/usage/security#validating-requests) 
      */
     validation_url?: string;
 }
