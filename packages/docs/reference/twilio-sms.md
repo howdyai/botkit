@@ -153,4 +153,4 @@ Parameters passed to the TwilioAdapter constructor.
 | account_sid | string | The account SID from the twilio account<br/>
 | auth_token | string | An api auth token associated with the twilio account<br/>
 | twilio_number | string | The phone number associated with this Twilio app, in the format 1XXXYYYZZZZ<br/>
-| validation_url | string | An optional url to override the automatically generated url signature used to validate requests in [verifySignature](#verifySignature) -- [See Twilio docs about validating incoming requests.](https://www.twilio.com/docs/usage/security#validating-requests)<br/>
+| validation_url | string | An optional url to override the automatically generated url signature used to validate incoming requests -- [See Twilio docs about securing your endpoint.](https://www.twilio.com/docs/usage/security#validating-requests)<br/>
