@@ -113,7 +113,7 @@ export class SlackDialog {
      * @param value 
      * @param options 
      */
-    public addEmail(label: string, name: string, value: string, options?: any)): SlackDialog {
+    public addEmail(label: string, name: string, value: string, options?: any): SlackDialog {
         return this.addText(label, name, value, options, 'email');
     }
 
@@ -124,7 +124,7 @@ export class SlackDialog {
      * @param value 
      * @param options 
      */
-    public addNumber(label: string, name: string, value: string, options?: any)): SlackDialog {
+    public addNumber(label: string, name: string, value: string, options?: any): SlackDialog {
         return this.addText(label, name, value, options, 'number');
     }
 

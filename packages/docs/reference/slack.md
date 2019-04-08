@@ -484,15 +484,56 @@ Create a new dialog object
 | submit_label | string | Label for the submit button
 | elements | any | An array of dialog elements<br/>
 
-**Properties and Accessors**
-
-| Name | Type | Description
-|--- |--- |---
-| SlackDialog | any | 
 
 <a name="addEmail"></a>
 ### addEmail()
 Add an email input to the dialog
+
+**Parameters**
+
+| Argument | Type | description
+|--- |--- |---
+| label| string | 
+| name| string | 
+| value| string | 
+| options (optional)| any | <br/>
+
+
+
+<a name="addNumber"></a>
+### addNumber()
+Add a number input to the dialog
+
+**Parameters**
+
+| Argument | Type | description
+|--- |--- |---
+| label| string | 
+| name| string | 
+| value| string | 
+| options (optional)| any | <br/>
+
+
+
+<a name="addSelect"></a>
+### addSelect()
+Add a dropdown select input to the dialog
+
+**Parameters**
+
+| Argument | Type | description
+|--- |--- |---
+| label| string | 
+| name| string | 
+| value| string | 
+| option_list| string | 
+| options (optional)| any | <br/>
+
+
+
+<a name="addTel"></a>
+### addTel()
+Add a telephone number input to the dialog
 
 **Parameters**
 
@@ -519,6 +560,47 @@ Add a text input to the dialog
 | options|  | 
 | subtype (optional)| string | <br/>
 
+
+
+<a name="addTextarea"></a>
+### addTextarea()
+Add a text area input to the dialog
+
+**Parameters**
+
+| Argument | Type | description
+|--- |--- |---
+| label| string | 
+| name| string | 
+| value| string | 
+| options| any | 
+| subtype| string | <br/>
+
+
+
+<a name="addUrl"></a>
+### addUrl()
+Add a URL input to the dialog
+
+**Parameters**
+
+| Argument | Type | description
+|--- |--- |---
+| label| string | 
+| name| string | 
+| value| string | 
+| options (optional)| any | <br/>
+
+
+
+<a name="asObject"></a>
+### asObject()
+Get the dialog object for use with bot.replyWithDialog()
+
+
+<a name="asString"></a>
+### asString()
+Get the dialog object as a JSON encoded string.
 
 
 <a name="callback_id"></a>
