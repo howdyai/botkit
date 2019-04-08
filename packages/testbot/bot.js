@@ -7,7 +7,7 @@ const basicAuth = require('express-basic-auth');
 // const { WebexAdapter } = require('botbuilder-adapter-webex');
 // const { WebsocketAdapter } = require('botbuilder-adapter-websocket');
 // const { FacebookAdapter, FacebookEventTypeMiddleware } = require('botbuilder-adapter-facebook');
-// const { HangoutsAdapter } = require('botbuilder-adapter-hangouts');
+const { HangoutsAdapter } = require('botbuilder-adapter-hangouts');
 // const { TwilioAdapter } = require('botbuilder-adapter-twilio-sms');
 
 
@@ -122,12 +122,12 @@ async function getBotUserByTeam(teamId) {
 // adapter.use(new FacebookEventTypeMiddleware());
 
 
-// const adapter = new HangoutsAdapter({
-//     token: process.env.GOOGLE_TOKEN,
-//     google_auth_params: {
-//         credentials: JSON.parse(process.env['GOOGLE_CREDS'])
-//     }
-// });
+const adapter = new HangoutsAdapter({
+    token: process.env.GOOGLE_TOKEN,
+    google_auth_params: {
+        credentials: JSON.parse(process.env['GOOGLE_CREDS'])
+    }
+});
 
 // const adapter = new TwilioAdapter({
 //     twilio_number: process.env.TWILIO_NUMBER,
@@ -138,7 +138,7 @@ async function getBotUserByTeam(teamId) {
 const controller = new Botkit({
     debug: true,
     webhook_uri: '/api/messages',
-    // adapter: adapter,
+    adapter: adapter,
     authFunction:  basicAuth({
         users: { 'admin': 'supersecret' }, // TODO: externalize these
         challenge: true,
