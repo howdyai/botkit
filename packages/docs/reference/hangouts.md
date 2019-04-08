@@ -147,37 +147,53 @@ Standard BotBuilder adapter method to update a previous message with new content
 
 <a name="HangoutsBotWorker"></a>
 ## HangoutsBotWorker
-
+Specialized version of the BotWorker class that includes additional methods for interacting with Google Hangouts.
+When using the HangoutsAdapter with Botkit, all `bot` objects will be of this type.
 
 
 <a name="deleteMessage"></a>
 ### deleteMessage()
-Delete an existing message
+Delete an existing message.
 
 **Parameters**
 
 | Argument | Type | description
 |--- |--- |---
-| update| Partial&lt;BotkitMessage&gt; | An object containing {id}<br/>
+| update| Partial&lt;BotkitMessage&gt; | An object in the form of `{id: <id of message to delete>}`<br/>
 
+
+
+```javascript
+// send a reply, capture the results
+let sent = await bot.reply(message,'this is my original reply...');
+
+// delete the sent message using the sent.id field
+await bot.deleteMessage(sent);
+```
 
 
 <a name="replyInThread"></a>
 ### replyInThread()
-
+Reply to an incoming message in a brand new thread.  Works for a single message reply - if multiple replies or replying with a dialog is necessary, use [startConversationInThread](#startconversationinthread).
 
 **Parameters**
 
 | Argument | Type | description
 |--- |--- |---
-| src| any | 
-| resp| any | 
+| src| any | An incoming message or event object
+| resp| any | A reply message containing text and/or cards<br/>
 
 
+
+```javascript
+controller.hears('thread','message', async(bot, message) =>{
+     bot.replyInThread(message,'This will appear in a new thread.');
+});
+```
 
 <a name="replyWithNew"></a>
 ### replyWithNew()
-Reply to a card_click event with a new message
+Reply to a card_click event with a new message.
 
 **Parameters**
 
@@ -186,11 +202,22 @@ Reply to a card_click event with a new message
 | src| any | An incoming event object representing a card_clicked event
 | resp| Partial&lt;BotkitMessage&gt; | A reply message containing text and/or cards<br/>
 
+
+
+When a user clicks a button contained in a card attachment, a `card_clicked` event will be emitted.
+In order to reply to the incoming event with a new message (rather than replacing the original card), use this method!
+
+```javascript
+controller.on('card_clicked', async(bot, message) => {
+     // check message.action.actionMethodName to see what button was clicked...
+     bot.replyWithNew(message,'Reply to button click!');
+})
+```
 
 
 <a name="replyWithUpdate"></a>
 ### replyWithUpdate()
-Reply to a card_click event by updating the original message
+Reply to a card_click event with an update to the original message.
 
 **Parameters**
 
@@ -201,30 +228,67 @@ Reply to a card_click event by updating the original message
 
 
 
+When a user clicks a button contained in a card attachment, a `card_clicked` event will be emitted.
+In order to reply to the incoming event by replacing the original message, use this method!
+
+```javascript
+controller.on('card_clicked', async(bot, message) => {
+     // check message.action.actionMethodName to see what button was clicked...
+     bot.replyWithUpdate(message,'Reply to button click!');
+})
+```
+
+
 <a name="startConversationInThread"></a>
 ### startConversationInThread()
-
+Switch the bot's active context to a new thread.
+Use this to change the location of a bot's responses or calls to beginDialog into a new conversation thread (rather than continuing in the same thread as the originating message)
 
 **Parameters**
 
 | Argument | Type | description
 |--- |--- |---
-| spaceName| string | 
-| userId| string | 
-| threadKey (optional)| string | 
+| spaceName| string | The name of the main space - usually `message.channel`
+| userId| string | The id of the user conducting the conversation - usually `message.user`
+| threadKey (optional)| string | An optional key definining the thread - if one is not provided, a random one is generated.<br/>
 
+
+
+```javascript
+controller.hears('new thread', 'message', async(bot, message) => {
+
+     // change to a new thread
+     await bot.startConversationInThread(message.channel, message.user);
+
+     // begin a dialog in the new thread
+     await bot.beginDialog('foo');
+
+});
+```
 
 
 <a name="updateMessage"></a>
 ### updateMessage()
-Update an existing message with a new version
+Update an existing message with new content.
 
 **Parameters**
 
 | Argument | Type | description
 |--- |--- |---
-| update| Partial&lt;BotkitMessage&gt; | An object containing {id, text, cards}<br/>
+| update| Partial&lt;BotkitMessage&gt; | An object in the form `{id: <id of message to update>, text: <new text>, card: <array of card objects>}`<br/>
 
+
+
+```javascript
+// send a reply, capture the results
+let sent = await bot.reply(message,'this is my original reply...');
+
+// update the sent message using the sent.id field
+await bot.updateMessage({
+     id: sent.id,
+     text: 'this is an update!',
+})
+```
 
 
 
