@@ -19,6 +19,8 @@
 <a name="SlackAdapter"></a>
 ## SlackAdapter
 Connect Botkit or BotBuilder to Slack. See [SlackAdapterOptions](#SlackAdapterOptions) for parameters.
+The SlackAdapter can be used in 2 modes: as an "internal" app connected to a single Slack workspace,
+or as a "multi-team" app that uses oauth to connect to multiple workspaces. [Read here for more information](../../botbuilder-adapter-slack/readme.md).
 
 Use with Botkit:
 ```javascript
@@ -48,21 +50,39 @@ server.post('/api/messages', (req, res) => {
 ```
 
 ### constructor new SlackAdapter()
+Create a Slack adapter. See [SlackAdapterOptions](#slackadapteroptions) for a full definition of the allowed parameters.
+
+```javascript
+const adapter = new SlackAdapter({
+     clientSigningSecret: process.env.SLACK_SECRET,
+
+// if single team
+     botToken: process.env.SLACK_TOKEN
+
+// if multi-team
+    clientId: process.env.clientId, // oauth client id
+    clientSecret: process.env.clientSecret, // oauth client secret
+    scopes: ['bot'], // oauth scopes requested
+    redirectUri: process.env.redirectUri, // url to redirect post login defaults to `https://<mydomain>/install/auth`
+    getTokenForTeam: async(team_id) => Promise<string>, // function that returns a token based on team id
+    getBotUserByTeam: async(team_id) => Promise<string>, // function that returns a bot's user id based on team id
+});
+```
 
 
 **Parameters**
 
 | Argument | Type | Description
 |--- |--- |---
-| options | [SlackAdapterOptions](#SlackAdapterOptions) | 
+| options | [SlackAdapterOptions](#SlackAdapterOptions) | An object containing API credentials, a webhook verification token and other options<br/>
 
 **Properties and Accessors**
 
 | Name | Type | Description
 |--- |--- |---
-| botkit_worker | [SlackBotWorker](#SlackBotWorker) | 
-| middlewares | any | 
-| name | string | 
+| botkit_worker | [SlackBotWorker](#SlackBotWorker) | A customized BotWorker object that exposes additional utility methods.
+| middlewares | any | Object containing one or more Botkit middlewares to bind automatically.
+| name | string | Name used by Botkit plugin loader
 
 <a name="activityToSlack"></a>
 ### activityToSlack()
@@ -112,7 +132,7 @@ Standard BotBuilder adapter method to delete a previous message.
 
 | Argument | Type | description
 |--- |--- |---
-| activity| Partial&lt;Activity&gt; | 
+| activity| Partial&lt;Activity&gt; | An incoming message activity<br/>
 
 
 

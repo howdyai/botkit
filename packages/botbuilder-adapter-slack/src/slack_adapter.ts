@@ -43,6 +43,8 @@ interface AuthTestResult extends WebAPICallResult {
 
 /**
  * Connect Botkit or BotBuilder to Slack. See [SlackAdapterOptions](#SlackAdapterOptions) for parameters.
+ * The SlackAdapter can be used in 2 modes: as an "internal" app connected to a single Slack workspace, 
+ * or as a "multi-team" app that uses oauth to connect to multiple workspaces. [Read here for more information](../../botbuilder-adapter-slack/readme.md).
  * 
  * Use with Botkit:
  *```javascript
@@ -78,13 +80,44 @@ export class SlackAdapter extends BotAdapter {
         user_id: string;
     };
 
-    // Botkit Plugin fields
-    public name: string;
+    /**
+     * Name used by Botkit plugin loader
+     */
+    public name: string = 'Slack Adapter';
+
+    /**
+     * Object containing one or more Botkit middlewares to bind automatically.
+     */
     public middlewares;
 
-    // tell botkit to use this type of worker
+    /**
+     * A customized BotWorker object that exposes additional utility methods.
+     */
     public botkit_worker = SlackBotWorker;
 
+
+    /**
+     * Create a Slack adapter. See [SlackAdapterOptions](#slackadapteroptions) for a full definition of the allowed parameters.
+     * 
+     * ```javascript
+     * const adapter = new SlackAdapter({
+     *      clientSigningSecret: process.env.SLACK_SECRET,
+     *      
+     * // if single team
+     *      botToken: process.env.SLACK_TOKEN
+     * 
+     * // if multi-team
+     *     clientId: process.env.clientId, // oauth client id
+     *     clientSecret: process.env.clientSecret, // oauth client secret
+     *     scopes: ['bot'], // oauth scopes requested
+     *     redirectUri: process.env.redirectUri, // url to redirect post login defaults to `https://<mydomain>/install/auth`
+     *     getTokenForTeam: async(team_id) => Promise<string>, // function that returns a token based on team id
+     *     getBotUserByTeam: async(team_id) => Promise<string>, // function that returns a bot's user id based on team id
+     * });
+     * ```
+     * 
+     * @param options An object containing API credentials, a webhook verification token and other options
+     */
     public constructor(options: SlackAdapterOptions) {
         super();
 
@@ -137,7 +170,6 @@ export class SlackAdapter extends BotAdapter {
             debug('** Slack adapter running in multi-team mode.');
         }
 
-        this.name = 'Slack Adapter';
         this.middlewares = {
             spawn: [
                 async (bot, next) => {
@@ -153,6 +185,10 @@ export class SlackAdapter extends BotAdapter {
         };
     }
 
+    /**
+     * 
+     * @param activity An incoming message activity
+     */
     public async getAPI(activity: Partial<Activity>): Promise<WebClient> {
         // use activity.channelData.team.id (the slack team id) and get the appropriate token using getTokenForTeam
         if (this.slack) {
