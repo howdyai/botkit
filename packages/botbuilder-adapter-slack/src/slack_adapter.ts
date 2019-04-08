@@ -469,9 +469,9 @@ export class SlackAdapter extends BotAdapter {
 
     /**
      * Verify the signature of an incoming webhook request as originating from Slack.
-     * If signature is valid, returns true. Otherwise, sends a 401 error status and returns false.
      * @param req A request object from Restify or Express
      * @param res A response object from Restify or Express
+     * @returns If signature is valid, returns true. Otherwise, sends a 401 error status via http response and then returns false.
      */
     private async verifySignature(req, res): Promise<boolean> {
         // is this an verified request from slack?
