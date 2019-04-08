@@ -68,7 +68,7 @@ export class HangoutsBotWorker extends BotWorker {
      * ```javascript
      * controller.on('card_clicked', async(bot, message) => {
      *      // check message.action.actionMethodName to see what button was clicked...
-     *      bot.replyWithNew(message,'Reply to button click!');
+     *      await bot.replyWithNew(message,'Reply to button click!');
      * })
      * ```
      * 
@@ -99,7 +99,7 @@ export class HangoutsBotWorker extends BotWorker {
      * ```javascript
      * controller.on('card_clicked', async(bot, message) => {
      *      // check message.action.actionMethodName to see what button was clicked...
-     *      bot.replyWithUpdate(message,'Reply to button click!');
+     *      await bot.replyWithUpdate(message,'Reply to button click!');
      * })
      * ```
      * 
@@ -126,7 +126,7 @@ export class HangoutsBotWorker extends BotWorker {
      * 
      * ```javascript
      * controller.hears('thread','message', async(bot, message) =>{
-     *      bot.replyInThread(message,'This will appear in a new thread.');
+     *      await bot.replyInThread(message,'This will appear in a new thread.');
      * });
      * ```
      * @param src An incoming message or event object

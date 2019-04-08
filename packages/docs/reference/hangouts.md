@@ -187,7 +187,7 @@ Reply to an incoming message in a brand new thread.  Works for a single message 
 
 ```javascript
 controller.hears('thread','message', async(bot, message) =>{
-     bot.replyInThread(message,'This will appear in a new thread.');
+     await bot.replyInThread(message,'This will appear in a new thread.');
 });
 ```
 
@@ -210,7 +210,7 @@ In order to reply to the incoming event with a new message (rather than replacin
 ```javascript
 controller.on('card_clicked', async(bot, message) => {
      // check message.action.actionMethodName to see what button was clicked...
-     bot.replyWithNew(message,'Reply to button click!');
+     await bot.replyWithNew(message,'Reply to button click!');
 })
 ```
 
@@ -234,7 +234,7 @@ In order to reply to the incoming event by replacing the original message, use t
 ```javascript
 controller.on('card_clicked', async(bot, message) => {
      // check message.action.actionMethodName to see what button was clicked...
-     bot.replyWithUpdate(message,'Reply to button click!');
+     await bot.replyWithUpdate(message,'Reply to button click!');
 })
 ```
 
