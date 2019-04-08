@@ -14,7 +14,7 @@
 
 <a name="HangoutsAdapter"></a>
 ## HangoutsAdapter
-Connect Botkit or BotBuilder to Google Hangouts.
+Connect Botkit or BotBuilder to Google Hangouts. See [HangoutsAdapterOptions](#HangoutsAdapterOptions) for parameters.
 
 Use with Botkit:
 ```javascript

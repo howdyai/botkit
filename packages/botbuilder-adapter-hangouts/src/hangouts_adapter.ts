@@ -28,15 +28,15 @@ export interface HangoutsAdapterOptions {
 }
 
 /**
- * Connect Botkit or BotBuilder to Google Hangouts.
+ * Connect Botkit or BotBuilder to Google Hangouts. See [HangoutsAdapterOptions](#HangoutsAdapterOptions) for parameters.
  * 
  * Use with Botkit:
  *```javascript
  * const adapter = new HangoutsAdapter({
  *      token: process.env.GOOGLE_TOKEN,
  *          google_auth_params: {
- *          credentials: process.env.GOOGLE_CREDS
- *      }
+ *               credentials: process.env.GOOGLE_CREDS
+ *            }
  * });
  * const controller = new Botkit({
  *      adapter: adapter,
