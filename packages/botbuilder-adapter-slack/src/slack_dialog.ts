@@ -113,7 +113,7 @@ export class SlackDialog {
      * @param value 
      * @param options 
      */
-    public addEmail(label, name, value, options): SlackDialog {
+    public addEmail(label: string, name: string, value: string, options?: any)): SlackDialog {
         return this.addText(label, name, value, options, 'email');
     }
 
@@ -124,7 +124,7 @@ export class SlackDialog {
      * @param value 
      * @param options 
      */
-    public addNumber(label, name, value, options): SlackDialog {
+    public addNumber(label: string, name: string, value: string, options?: any)): SlackDialog {
         return this.addText(label, name, value, options, 'number');
     }
 
@@ -135,7 +135,7 @@ export class SlackDialog {
      * @param value 
      * @param options 
      */
-    public addTel(label, name, value, options): SlackDialog {
+    public addTel(label: string, name: string, value: string, options?: any): SlackDialog {
         return this.addText(label, name, value, options, 'tel');
     }
 
@@ -146,7 +146,7 @@ export class SlackDialog {
      * @param value 
      * @param options 
      */
-    public addUrl(label, name, value, options): SlackDialog {
+    public addUrl(label: string, name: string, value: string, options?: any): SlackDialog {
         return this.addText(label, name, value, options, 'url');
     }
 
@@ -158,7 +158,7 @@ export class SlackDialog {
      * @param options 
      * @param subtype 
      */
-    public addTextarea(label, name, value, options, subtype): SlackDialog {
+    public addTextarea(label: string, name: string, value: string, options: any, subtype: string): SlackDialog {
         var element = (typeof (label) === 'object') ? label : {
             label: label,
             name: name,
@@ -185,7 +185,7 @@ export class SlackDialog {
      * @param option_list 
      * @param options 
      */
-    public addSelect(label, name, value, option_list, options): SlackDialog {
+    public addSelect(label: string, name: string, value: string, option_list: string, options?: any): SlackDialog {
         var element = {
             label: label,
             name: name,
