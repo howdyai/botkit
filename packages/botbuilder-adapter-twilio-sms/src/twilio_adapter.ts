@@ -265,4 +265,6 @@ export class TwilioAdapter extends BotAdapter {
             return false;
         }
     }
+
+    // TODO: add startConversation helper method for proactive
 }

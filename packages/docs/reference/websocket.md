@@ -48,14 +48,15 @@ Create a new websocket adapter. No parameters required, though Botkit must have 
 
 <a name="continueConversation"></a>
 ### continueConversation()
-
+Standard BotBuilder adapter method for continuing an existing conversation based on a conversation reference.
+[BotBuilder reference docs](https://docs.microsoft.com/en-us/javascript/api/botbuilder-core/botadapter?view=botbuilder-ts-latest#continueconversation)
 
 **Parameters**
 
 | Argument | Type | description
 |--- |--- |---
-| reference| Partial&lt;ConversationReference&gt; | 
-| logic|  | 
+| reference| Partial&lt;ConversationReference&gt; | A conversation reference to be applied to future messages.
+| logic|  | A bot logic function that will perform continuing action in the form `async(context) => { ... }`<br/>
 
 
 
@@ -75,7 +76,7 @@ Note: Create the server using Node's http.createServer - NOT an Express or Resti
 
 <a name="deleteActivity"></a>
 ### deleteActivity()
-
+Websocket adapter does not support updateActivity.
 
 **Parameters**
 
@@ -100,34 +101,35 @@ Called automatically when Botkit uses this adapter - calls createSocketServer an
 
 <a name="processActivity"></a>
 ### processActivity()
-
+Accept an incoming webhook request and convert it into a TurnContext which can be processed by the bot's logic.
 
 **Parameters**
 
 | Argument | Type | description
 |--- |--- |---
-| req| any | 
-| res| any | 
-| logic|  | 
+| req| any | A request object from Restify or Express
+| res| any | A response object from Restify or Express
+| logic|  | A bot logic function in the form `async(context) => { ... }`<br/>
 
 
 
 <a name="sendActivities"></a>
 ### sendActivities()
-
+Standard BotBuilder adapter method to send a message from the bot to the messaging API.
+[BotBuilder reference docs](https://docs.microsoft.com/en-us/javascript/api/botbuilder-core/botadapter?view=botbuilder-ts-latest#sendactivities).
 
 **Parameters**
 
 | Argument | Type | description
 |--- |--- |---
-| context| TurnContext | 
-| activities|  | 
+| context| TurnContext | A TurnContext representing the current incoming message and environment. (not used)
+| activities|  | An array of outgoing activities to be sent back to the messaging API.<br/>
 
 
 
 <a name="updateActivity"></a>
 ### updateActivity()
-
+Websocket adapter does not support updateActivity.
 
 **Parameters**
 

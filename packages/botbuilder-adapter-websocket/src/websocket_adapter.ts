@@ -139,9 +139,18 @@ export class WebsocketAdapter extends BotAdapter {
         }, 30000);
     }
 
+    /**
+     * Standard BotBuilder adapter method to send a message from the bot to the messaging API.
+     * [BotBuilder reference docs](https://docs.microsoft.com/en-us/javascript/api/botbuilder-core/botadapter?view=botbuilder-ts-latest#sendactivities).
+     * @param context A TurnContext representing the current incoming message and environment. (not used)
+     * @param activities An array of outgoing activities to be sent back to the messaging API.
+     */
     public async sendActivities(context: TurnContext, activities: Partial<Activity>[]): Promise<ResourceResponse[]> {
         const responses = [];
         for (var a = 0; a < activities.length; a++) {
+
+            // TODO: We need to caste the activity into the right format... 
+            // TODO: OR update the client to deal in activities...
             const activity = activities[a];
             var ws = clients[activity.recipient.id];
             if (ws) {
@@ -158,14 +167,27 @@ export class WebsocketAdapter extends BotAdapter {
         return responses;
     }
 
+    /**
+     * Websocket adapter does not support updateActivity.
+     */
     public async updateActivity(context: TurnContext, activity: Partial<Activity>): Promise<void> {
         debug('Websocket adapter does not support updateActivity.');
     }
 
+
+    /**
+     * Websocket adapter does not support updateActivity.
+     */
     public async deleteActivity(context: TurnContext, reference: Partial<ConversationReference>): Promise<void> {
         debug('Websocket adapter does not support deleteActivity.');
     }
 
+    /**
+     * Standard BotBuilder adapter method for continuing an existing conversation based on a conversation reference.
+     * [BotBuilder reference docs](https://docs.microsoft.com/en-us/javascript/api/botbuilder-core/botadapter?view=botbuilder-ts-latest#continueconversation)
+     * @param reference A conversation reference to be applied to future messages.
+     * @param logic A bot logic function that will perform continuing action in the form `async(context) => { ... }`
+     */
     public async continueConversation(reference: Partial<ConversationReference>, logic: (context: TurnContext) => Promise<void>): Promise<void> {
         const request = TurnContext.applyConversationReference(
             { type: 'event', name: 'continueConversation' },
@@ -178,6 +200,13 @@ export class WebsocketAdapter extends BotAdapter {
             .catch((err) => { console.error(err.toString()); });
     }
 
+    /**
+     * Accept an incoming webhook request and convert it into a TurnContext which can be processed by the bot's logic.
+     * @param req A request object from Restify or Express
+     * @param res A response object from Restify or Express
+     * @param logic A bot logic function in the form `async(context) => { ... }`
+     */
+    // TODO: update this to actually work with webhooks, and to queue up responses and send them back as a batch
     public async processActivity(req, res, logic: (context: TurnContext) => Promise<void>): Promise<void> {
         const activity = req.body;
 
