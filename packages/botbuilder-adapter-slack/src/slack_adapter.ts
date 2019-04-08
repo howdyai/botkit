@@ -10,15 +10,45 @@ import * as Debug from 'debug';
 const debug = Debug('botkit:slack');
 
 export interface SlackAdapterOptions {
+    /**
+     * Legacy method for validating the origin of incoming webhooks. Prefer `clientSigningSecret` instead.
+     */
     verificationToken?: string;
+    /**
+     * A token used to validate that incoming webhooks originated with Slack.  
+     */
     clientSigningSecret?: string;
+    /**
+     * A token (provided by Slack) for a bot to work on a single workspace
+     */
     botToken?: string;
-    getTokenForTeam?: (teamId: string) => string;
-    getBotUserByTeam?: (teamId: string) => string;
+
+    /**
+     * The oauth client id provided by Slack for multi-team apps
+     */
     clientId?: string;
+    /**
+     * The oauth client secret provided by Slack for multi-team apps
+     */
     clientSecret?: string;
+    /**
+     * A an array of scope names that are being requested during the oauth process. Must match the scopes defined at api.slack.com
+     */
     scopes?: string[];
+    /**
+     * The URL users will be redirected to after an oauth flow. In most cases, should be `https://<mydomain.com>/install/auth`
+     */
     redirectUri: string;
+
+    /**
+     * A method that receives a Slack team id and returns the bot token associated with that team. Required for multi-team apps.
+     */
+    getTokenForTeam?: (teamId: string) => string;
+
+    /**
+     * A method that receives a Slack team id and returns the bot user id associated with that team. Required for multi-team apps.
+     */
+    getBotUserByTeam?: (teamId: string) => string;
 };
 
 // These interfaces are necessary to cast result of web api calls
@@ -31,6 +61,8 @@ interface ChatPostMessageResult extends WebAPICallResult {
     };
 }
 
+// These interfaces are necessary to cast result of web api calls
+// See: http://slackapi.github.io/node-slack-sdk/typescript
 interface AuthTestResult extends WebAPICallResult {
     user: string;
     team: string;
@@ -38,8 +70,6 @@ interface AuthTestResult extends WebAPICallResult {
     user_id: string;
     ok: boolean;
 }
-
-
 
 /**
  * Connect Botkit or BotBuilder to Slack. See [SlackAdapterOptions](#SlackAdapterOptions) for parameters.
@@ -340,7 +370,7 @@ export class SlackAdapter extends BotAdapter {
         for (var a = 0; a < activities.length; a++) {
             const activity = activities[a];
             if (activity.type === ActivityTypes.Message) {
-                const message = this.activityToSlack(activity);
+                const message = this.activityToSlack(activity as Activity);
 
                 try {
                     const slack = await this.getAPI(context.activity);
@@ -383,7 +413,7 @@ export class SlackAdapter extends BotAdapter {
     public async updateActivity(context: TurnContext, activity: Partial<Activity>): Promise<void> {
         if (activity.id && activity.conversation) {
             try {
-                const message = this.activityToSlack(activity);
+                const message = this.activityToSlack(activity as Activity);
                 const slack = await this.getAPI(activity);
                 const results = await slack.chat.update(message);
                 if (!results.ok) {

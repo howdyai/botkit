@@ -654,12 +654,12 @@ controller.webserver.get('/install/auth', async (req, res) => {
 
 | Name | Type | Description
 |--- |--- |---
-| botToken | string | 
-| clientId | string | 
-| clientSecret | string | 
-| clientSigningSecret | string | 
-| getBotUserByTeam |  | 
-| getTokenForTeam |  | 
-| redirectUri | string | 
-| scopes |  | 
-| verificationToken | string | 
+| botToken | string | A token (provided by Slack) for a bot to work on a single workspace<br/>
+| clientId | string | The oauth client id provided by Slack for multi-team apps<br/>
+| clientSecret | string | The oauth client secret provided by Slack for multi-team apps<br/>
+| clientSigningSecret | string | A token used to validate that incoming webhooks originated with Slack.<br/>
+| getBotUserByTeam |  | A method that receives a Slack team id and returns the bot user id associated with that team. Required for multi-team apps.<br/>
+| getTokenForTeam |  | A method that receives a Slack team id and returns the bot token associated with that team. Required for multi-team apps.<br/>
+| redirectUri | string | The URL users will be redirected to after an oauth flow. In most cases, should be `https://<mydomain.com>/install/auth`<br/>
+| scopes |  | A an array of scope names that are being requested during the oauth process. Must match the scopes defined at api.slack.com<br/>
+| verificationToken | string | Legacy method for validating the origin of incoming webhooks. Prefer `clientSigningSecret` instead.<br/>
