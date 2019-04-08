@@ -33,17 +33,17 @@ const controller = new Botkit({
 Use with BotBuilder:
 ```javascript
 const adapter = new HangoutsAdapter({
- token: process.env.GOOGLE_TOKEN,
- google_auth_params: {
-     credentials: process.env.GOOGLE_CREDS
- }
+     token: process.env.GOOGLE_TOKEN,
+     google_auth_params: {
+         credentials: process.env.GOOGLE_CREDS
+     }
 });
 // set up restify...
 const server = restify.createServer();
 server.post('/api/messages', (req, res) => {
- adapter.processActivity(req, res, async(context) => {
-     // do your bot logic here!
- });
+     adapter.processActivity(req, res, async(context) => {
+         // do your bot logic here!
+     });
 });
 ```
 
