@@ -12,12 +12,13 @@ const apiVersion = 'v1';
 export interface HangoutsAdapterOptions {
     /**
      * Parameters passed to the [Google API client library](https://www.npmjs.com/package/googleapis) which is in turn used to send messages.
-     * Define JSON credentials in GOOGLE_CREDS, then pass in {google_auth_params: { credentials: process.env.GOOGLE_CREDS }}
+     * Define auth options per [the GoogleAuthOptions defined here](https://github.com/googleapis/google-auth-library-nodejs/blob/master/src/auth/googleauth.ts#L54) 
      * OR, specify GOOGLE_APPLICATION_CREDENTIALS in environment [as described in the Google docs](https://cloud.google.com/docs/authentication/getting-started).
      */
     google_auth_params?: {
-        credentials?: string,
-    };
+        client_email?: string;
+        private_key?: string;
+      };
     /**
      * Shared secret token used to validate the origin of incoming webhooks.
      * Get this from the [Google API console for your bot app](https://console.cloud.google.com/apis/api/chat.googleapis.com/hangouts-chat) - it is found on the Configuration tab under the heading "Verification Token"

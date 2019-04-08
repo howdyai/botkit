@@ -30,7 +30,7 @@ To use with BotBuilder:
 const adapter = new WebsocketAdapter();
 const server = restify.createServer();
 // instead of binding processActivity to the incoming request, pass in turn handler logic to createWebSocketServer
-adapter.createWebSocketServer(server, async(context) {
+adapter.createWebSocketServer(server, async(context) => {
  // handle turn here
 });
 ```
