@@ -126,7 +126,8 @@ Standard BotBuilder adapter method to delete a previous message.
 
 <a name="getAPI"></a>
 ### getAPI()
-
+Get a Slack API client with the correct credentials based on the team identified in the incoming activity.
+This is used by many internal functions to get access to the Slack API, and is exposed as `bot.api` on any bot worker instances.
 
 **Parameters**
 
