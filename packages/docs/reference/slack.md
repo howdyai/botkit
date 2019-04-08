@@ -18,6 +18,34 @@
 
 <a name="SlackAdapter"></a>
 ## SlackAdapter
+Connect Botkit or BotBuilder to Slack. See [SlackAdapterOptions](#SlackAdapterOptions) for parameters.
+
+Use with Botkit:
+```javascript
+const adapter = new SlackAdapter({
+     clientSigningSecret: process.env.SLACK_SECRET,
+     botToken: process.env.SLACK_TOKEN
+});
+const controller = new Botkit({
+     adapter: adapter,
+     // ... other configuration options
+});
+```
+
+Use with BotBuilder:
+```javascript
+const adapter = new SlackAdapter({
+     clientSigningSecret: process.env.SLACK_SECRET,
+     botToken: process.env.SLACK_TOKEN
+});
+// set up restify...
+const server = restify.createServer();
+server.post('/api/messages', (req, res) => {
+     adapter.processActivity(req, res, async(context) => {
+         // do your bot logic here!
+     });
+});
+```
 
 ### constructor new SlackAdapter()
 
