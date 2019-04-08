@@ -667,7 +667,7 @@ Set the title of the dialog
 ## SlackEventMiddleware
 A middleware for Botkit developers using the BotBuilder SlackAdapter class.
 This middleware causes Botkit to emit message events by their `type` or `subtype` field rather than their default BotBuilder Activity type (limited to message or event).
-This keeps the new Botkit behavior consistent the previous versions, and helpful filtering on the many event types that Slack sends.
+This keeps the new Botkit behavior consistent withprevious versions, and provides helpful filtering on the many event types that Slack sends.
 To use this, bind it to the adapter before creating the Botkit controller:
 ```javascript
 const adapter = new SlackAdapter(options);
@@ -687,14 +687,14 @@ controller.on('channel_join', async(bot, message) => {
 
 <a name="onTurn"></a>
 ### onTurn()
-
+Not for direct use - implements the MiddlewareSet's required onTurn function used to process the event
 
 **Parameters**
 
 | Argument | Type | description
 |--- |--- |---
 | context| TurnContext | 
-| next|  | 
+| next|  | <br/>
 
 
 
@@ -725,14 +725,14 @@ const controller = new Botkit({
 
 <a name="onTurn"></a>
 ### onTurn()
-
+Not for direct use - implements the MiddlewareSet's required onTurn function used to process the event
 
 **Parameters**
 
 | Argument | Type | description
 |--- |--- |---
 | context| TurnContext | 
-| next|  | 
+| next|  | <br/>
 
 
 

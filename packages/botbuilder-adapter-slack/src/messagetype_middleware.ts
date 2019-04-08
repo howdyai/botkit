@@ -26,6 +26,12 @@ import { SlackAdapter } from './slack_adapter';
  * ```
  */
 export class SlackMessageTypeMiddleware extends MiddlewareSet {
+
+    /**
+     * Not for direct use - implements the MiddlewareSet's required onTurn function used to process the event
+     * @param context 
+     * @param next 
+     */
     public async onTurn(context: TurnContext, next: () => Promise<any>): Promise<void> {
         if (context.activity.type === 'message' && context.activity.channelData) {
             let adapter = context.adapter as SlackAdapter;
