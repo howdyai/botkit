@@ -251,16 +251,17 @@ controller.webserver.get('/install/auth', async (req, res) => {
 
 <a name="SlackBotWorker"></a>
 ## SlackBotWorker
-
+Specialized version of the BotWorker class that includes additional methods for interacting with Slack.
+When using the SlackAdapter with Botkit, all `bot` objects will be of this type.
 ### constructor new SlackBotWorker()
-
+Used internally by controller.spawn, creates a BotWorker instance that can send messages, replies, and make other API calls.
 
 **Parameters**
 
 | Argument | Type | Description
 |--- |--- |---
-| botkit | any | 
-| config | any | 
+| botkit | Botkit | The Botkit controller object responsible for spawning this bot worker
+| config | any | Normally, a DialogContext object.  Can also be the id of a team.<br/>
 
 **Properties and Accessors**
 
@@ -270,131 +271,192 @@ controller.webserver.get('/install/auth', async (req, res) => {
 
 <a name="dialogError"></a>
 ### dialogError()
-
+Return 1 or more error to a `dialog_submission` event that will be displayed as form validation errors.
+Each error must be mapped to the name of an input in the dialog.
 
 **Parameters**
 
 | Argument | Type | description
 |--- |--- |---
-| errors| any | 
+| errors|  | 1 or more objects in form {name: string, error: string}<br/>
 
 
 
 <a name="replyEphemeral"></a>
 ### replyEphemeral()
-
+Like bot.reply, but sent as an "ephemeral" message meaning only the recipient can see it.
+Uses [chat.postEphemeral](https://api.slack.com/methods/chat.postEphemeral)
 
 **Parameters**
 
 | Argument | Type | description
 |--- |--- |---
-| src| any | 
-| resp| any | 
+| src| any | an incoming message object
+| resp| any | an outgoing message object (or part of one or just reply text)<br/>
 
 
 
 <a name="replyInThread"></a>
 ### replyInThread()
-
+Like bot.reply, but as a threaded response to the incoming message rather than a new message in the main channel.
 
 **Parameters**
 
 | Argument | Type | description
 |--- |--- |---
-| src| any | 
-| resp| any | 
+| src| any | an incoming message object
+| resp| any | an outgoing message object (or part of one or just reply text)<br/>
 
 
 
 <a name="replyInteractive"></a>
 ### replyInteractive()
-
+Like bot.reply, but used to respond to an `interactive_message` event and cause the original message to be replaced with a new one.
 
 **Parameters**
 
 | Argument | Type | description
 |--- |--- |---
-| src| any | 
-| resp| any | 
+| src| any | an incoming message object of type `interactive_message`
+| resp| any | a new or modified message that will replace the original one<br/>
 
 
 
 <a name="replyPrivate"></a>
 ### replyPrivate()
-
+Like bot.reply, but used to send an immediate private reply to a /slash command.
+The message in `resp` will be displayed only to the person who executed the slash command.
 
 **Parameters**
 
 | Argument | Type | description
 |--- |--- |---
-| src| any | 
-| resp| any | 
+| src| any | an incoming message object of type `slash_command`
+| resp| any | an outgoing message object (or part of one or just reply text)<br/>
 
 
 
 <a name="replyPublic"></a>
 ### replyPublic()
-
+Like bot.reply, but used to send an immediate public reply to a /slash command.
+The message in `resp` will be displayed to everyone in the channel.
 
 **Parameters**
 
 | Argument | Type | description
 |--- |--- |---
-| src| any | 
-| resp| any | 
+| src| any | an incoming message object of type `slash_command`
+| resp| any | an outgoing message object (or part of one or just reply text)<br/>
 
 
 
 <a name="replyWithDialog"></a>
 ### replyWithDialog()
-
+Reply to a button click with a request to open a dialog.
 
 **Parameters**
 
 | Argument | Type | description
 |--- |--- |---
-| src| any | 
-| dialog_obj| Dialog | 
+| src| any | An incoming `interactive_callback` event containing a `trigger_id` field
+| dialog_obj| Dialog | A dialog, as created using [SlackDialog](#SlackDialog) or [authored to this spec](https://api.slack.com/dialogs).<br/>
 
 
 
 <a name="startConversationInChannel"></a>
 ### startConversationInChannel()
-
+Switch a bot's context into a different channel.
+After calling this method, messages sent with `bot.say` and any dialogs started with `bot.beginDialog` will occur in this new context.
 
 **Parameters**
 
 | Argument | Type | description
 |--- |--- |---
-| channelId| string | 
-| userId| string | 
+| channelId| string | A Slack channel id, like one found in `message.channel`
+| userId| string | A Slack user id, like one found in `message.user` or in a `<@mention>`<br/>
 
 
+
+```javascript
+controller.hears('dm me', 'message', async(bot, message) => {
+
+     // switch to a 1:1 conversation in a DM
+     await bot.startConversationInChannel(SLACK_CHANNEL_ID, message.user);
+
+     // say hello
+     await bot.say('Shall we discuss this matter over here?');
+     // ... continue...
+     await bot.beginDialog(ANOTHER_DIALOG);
+
+});
+```
 
 <a name="startConversationInThread"></a>
 ### startConversationInThread()
-
+Switch a bot's context into a specific sub-thread within a channel.
+After calling this method, messages sent with `bot.say` and any dialogs started with `bot.beginDialog` will occur in this new context.
 
 **Parameters**
 
 | Argument | Type | description
 |--- |--- |---
-| channelId| string | 
-| userId| string | 
-| thread_ts| string | 
+| channelId| string | A Slack channel id, like one found in `message.channel`
+| userId| string | A Slack user id, like one found in `message.user` or in a `<@mention>`
+| thread_ts| string | A thread_ts value found in the `message.thread_ts` or `message.ts` field.<br/>
 
 
+
+```javascript
+controller.hears('in a thread', 'message', async(bot, message) => {
+
+     // branch from the main channel into a side thread associated with this message
+     await bot.startConversationInThread(message.channel, message.user, message.ts);
+
+     // say hello
+     await bot.say(`Let's handle this offline...`);
+     // ... continue...
+     await bot.beginDialog(OFFLINE_DIALOG);
+
+});
+```
 
 <a name="startPrivateConversation"></a>
 ### startPrivateConversation()
-
+Switch a bot's context to a 1:1 private message channel with a specific user.
+After calling this method, messages sent with `bot.say` and any dialogs started with `bot.beginDialog` will occur in this new context.
 
 **Parameters**
 
 | Argument | Type | description
 |--- |--- |---
-| userId| string | 
+| userId| string | A Slack user id, like one found in `message.user` or in a `<@mention>`<br/>
 
+
+
+```javascript
+controller.hears('dm me', 'message', async(bot, message) => {
+
+     // switch to a 1:1 conversation in a DM
+     await bot.startPrivateConversation(message.user);
+
+     // say hello
+     await bot.say('We are in private now...');
+     await bot.beginDialog(MY_PRIVATE_DIALOG);
+
+});
+```
+
+Also useful when sending pro-active messages such as those sent on a schedule or in response to external events:
+```javascript
+// Spawn a worker with a Slack team id.
+let bot = await controller.spawn(SLACK_TEAM_ID);
+
+// Set the context for the bot's next action...
+await bot.startPrivateConversation(SLACK_ADMIN_USER);
+
+// Begin a dialog in the 1:1 context
+await bot.beginDialog(ALERT_DIALOG);
+```
 
 
 

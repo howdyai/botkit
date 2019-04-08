@@ -272,7 +272,7 @@ export class SlackBotWorker extends BotWorker {
         }
 
         if (Object.prototype.toString.call(errors) !== '[object Array]') {
-            errors = [errors];
+            errors:[] = [errors];
         }
 
         this.httpBody(JSON.stringify({ errors }));
