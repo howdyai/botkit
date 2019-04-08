@@ -34,9 +34,9 @@ export interface HangoutsAdapterOptions {
  *```javascript
  * const adapter = new HangoutsAdapter({
  *      token: process.env.GOOGLE_TOKEN,
- *          google_auth_params: {
- *               credentials: process.env.GOOGLE_CREDS
- *            }
+ *      google_auth_params: {
+ *          credentials: process.env.GOOGLE_CREDS
+ *      }
  * });
  * const controller = new Botkit({
  *      adapter: adapter,
