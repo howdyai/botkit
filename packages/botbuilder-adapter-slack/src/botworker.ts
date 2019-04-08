@@ -291,4 +291,6 @@ export class SlackBotWorker extends BotWorker {
 
         return this.api.dialog.open(msg);
     };
+
+    // TODO: updateMessage and deleteMessage helpers?
 }
