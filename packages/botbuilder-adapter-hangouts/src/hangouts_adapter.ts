@@ -12,16 +12,17 @@ const apiVersion = 'v1';
 export interface HangoutsAdapterOptions {
     /**
      * Parameters passed to the [Google API client library](https://www.npmjs.com/package/googleapis) which is in turn used to send messages.
-     * Define auth options per [the GoogleAuthOptions defined here](https://github.com/googleapis/google-auth-library-nodejs/blob/master/src/auth/googleauth.ts#L54) 
+     * Define credentials per [the GoogleAuthOptions defined here](https://github.com/googleapis/google-auth-library-nodejs/blob/master/src/auth/googleauth.ts#L54),
      * OR, specify GOOGLE_APPLICATION_CREDENTIALS in environment [as described in the Google docs](https://cloud.google.com/docs/authentication/getting-started).
      */
     google_auth_params?: {
         client_email?: string;
         private_key?: string;
-      };
+    };
     /**
      * Shared secret token used to validate the origin of incoming webhooks.
-     * Get this from the [Google API console for your bot app](https://console.cloud.google.com/apis/api/chat.googleapis.com/hangouts-chat) - it is found on the Configuration tab under the heading "Verification Token"
+     * Get this from the [Google API console for your bot app](https://console.cloud.google.com/apis/api/chat.googleapis.com/hangouts-chat) - it is found on the Configuration tab under the heading "Verification Token".
+     * If defined, the origin of all incoming webhooks will be validated and any non-matching requests will be rejected.
      */
     token: string; // webhook validation token
 }
@@ -32,14 +33,14 @@ export interface HangoutsAdapterOptions {
  * Use with Botkit:
  *```javascript
  * const adapter = new HangoutsAdapter({
- *  token: process.env.GOOGLE_TOKEN,
- *  google_auth_params: {
- *      credentials: process.env.GOOGLE_CREDS
- *  }
+ *      token: process.env.GOOGLE_TOKEN,
+ *          google_auth_params: {
+ *          credentials: process.env.GOOGLE_CREDS
+ *      }
  * });
  * const controller = new Botkit({
- *  adapter: adapter,
- *  // ... other configuration
+ *      adapter: adapter,
+ *      // ... other configuration options
  * });
  * ```
  * 
@@ -55,29 +56,72 @@ export interface HangoutsAdapterOptions {
  * const server = restify.createServer();
  * server.post('/api/messages', (req, res) => {
  *  adapter.processActivity(req, res, async(context) => {
- * 
  *      // do your bot logic here!
- * 
  *  });
  * });
  * ```
  */
 export class HangoutsAdapter extends BotAdapter {
-    // Botkit Plugin fields
-    public name: string;
+    /**
+     * Name used by Botkit plugin loader
+     */
+    public name: string = 'Google Hangouts Adapter';
+    /**
+     * Object containing one or more Botkit middlewares to bind automatically.
+     */
     public middlewares;
-    private options: HangoutsAdapterOptions;
-    private api; // google api
 
-    // tell botkit to use this type of worker
+    /**
+     * Location of configuration options.
+     */
+    private options: HangoutsAdapterOptions;
+
+    /**
+     * A copy of the Google Chat client.
+     */
+    private api: any;
+
+    /**
+     * A customized BotWorker object that exposes additional utility methods.
+     */
     public botkit_worker = HangoutsBotWorker;
 
+    /**
+     * Create a Google Hangouts adapter.
+     * 
+     * ```javascript
+     * const adapter = new HangoutsAdapter({
+     *      token: process.env.GOOGLE_TOKEN,
+     *          google_auth_params: {
+     *          credentials: process.env.GOOGLE_CREDS
+     *      }
+     * });
+     * ```
+     * 
+     * @param options An object containing API credentials and a webhook verification token
+     */
     public constructor(options: HangoutsAdapterOptions) {
         super();
 
         this.options = options;
 
-        this.name = 'Google Hangouts Adapter';
+        if (!this.options.token) {
+            const warning = [
+                ``,
+                `****************************************************************************************`,
+                `* WARNING: Your bot is operating without recommended security mechanisms in place.     *`,
+                `* Initialize your adapter with a token parameter to enable                             *`,
+                `* verification that all incoming webhooks originate with Google:                       *`,
+                `*                                                                                      *`,
+                `* var adapter = new HangoutsAdapter({token: <my secret from Google>});                 *`,
+                `*                                                                                      *`,
+                `****************************************************************************************`,
+                `>> Official docs: https://developers.google.com/hangouts/chat/how-tos/bots-develop?hl=en_US#verifying_bot_authenticity`,
+                ``
+            ];
+            console.warn(warning.join('\n'));
+            throw new Error('Required: include a verificationToken or clientSigningSecret to verify incoming Events API webhooks');
+        }
 
         let params = {
             scopes: 'https://www.googleapis.com/auth/chat.bot',
@@ -106,15 +150,17 @@ export class HangoutsAdapter extends BotAdapter {
     }
 
     /**
-     * 
-     * @param activity 
+     * Formats a BotBuilder activity into an outgoing Hangouts event.
+     * @param activity A BotBuilder Activity object
      */   
-    private activityToHangouts(activity: any): any {
+    private activityToHangouts(activity: Activity): any {
         const message = {
             parent: activity.conversation.id,
+            // @ts-ignore Ignore the presence of this unofficial field
             threadKey: activity.conversation.threadKey || null,
             requestBody: {
                 text: activity.text,
+                // @ts-ignore Ignore the presence of this unofficial field
                 thread: activity.conversation.thread ? { name: activity.conversation.thread } : null
             }
         };
@@ -132,14 +178,15 @@ export class HangoutsAdapter extends BotAdapter {
     }
 
     /**
-     * 
-     * @param context 
-     * @param activities 
+     * Standard BotBuilder adapter method to send a message from the bot to the messaging API.
+     * [BotBuilder reference docs](https://docs.microsoft.com/en-us/javascript/api/botbuilder-core/botadapter?view=botbuilder-ts-latest#sendactivities).
+     * @param context A TurnContext representing the current incoming message and environment. (Not used)
+     * @param activities An array of outgoing activities to be sent back to the messaging API.
      */
     public async sendActivities(context: TurnContext, activities: Partial<Activity>[]): Promise<ResourceResponse[]> {
         const responses = [];
         for (var a = 0; a < activities.length; a++) {
-            const activity = activities[a];
+            const activity = activities[a] as Activity;
             if (activity.type === ActivityTypes.Message) {
                 const message = this.activityToHangouts(activity);
                 try {
@@ -158,9 +205,10 @@ export class HangoutsAdapter extends BotAdapter {
     }
 
     /**
-     * 
-     * @param context 
-     * @param activity 
+     * Standard BotBuilder adapter method to update a previous message with new content.
+     * [BotBuilder reference docs](https://docs.microsoft.com/en-us/javascript/api/botbuilder-core/botadapter?view=botbuilder-ts-latest#updateactivity).
+     * @param context A TurnContext representing the current incoming message and environment. (Not used)
+     * @param activity The updated activity in the form `{id: <id of activity to update>, text: <updated text>, cards?: [<array of updated hangouts cards>]}`
      */
     public async updateActivity(context: TurnContext, activity: Partial<Activity>): Promise<void> {
         if (activity.id) {
@@ -188,9 +236,10 @@ export class HangoutsAdapter extends BotAdapter {
     }
 
     /**
-     * 
-     * @param context 
-     * @param reference 
+     * Standard BotBuilder adapter method to delete a previous message.
+     * [BotBuilder reference docs](https://docs.microsoft.com/en-us/javascript/api/botbuilder-core/botadapter?view=botbuilder-ts-latest#deleteactivity).
+     * @param context A TurnContext representing the current incoming message and environment. (Not used)
+     * @param reference An object in the form `{activityId: <id of message to delete>}`
      */
     public async deleteActivity(context: TurnContext, reference: Partial<ConversationReference>): Promise<void> {
         if (reference.activityId) {
@@ -213,9 +262,10 @@ export class HangoutsAdapter extends BotAdapter {
     }
 
     /**
-     * 
-     * @param reference 
-     * @param logic 
+     * Standard BotBuilder adapter method for continuing an existing conversation based on a conversation reference.
+     * [BotBuilder reference docs](https://docs.microsoft.com/en-us/javascript/api/botbuilder-core/botadapter?view=botbuilder-ts-latest#continueconversation)
+     * @param reference A conversation reference to be applied to future messages.
+     * @param logic A bot logic function that will perform continuing action in the form `async(context) => { ... }`
      */
     public async continueConversation(reference: Partial<ConversationReference>, logic: (context: TurnContext) => Promise<void>): Promise<void> {
         const request = TurnContext.applyConversationReference(
@@ -229,10 +279,10 @@ export class HangoutsAdapter extends BotAdapter {
     }
 
     /**
-     * 
-     * @param req 
-     * @param res 
-     * @param logic 
+     * Accept an incoming webhook request and convert it into a TurnContext which can be processed by the bot's logic.
+     * @param req A request object from Restify or Express
+     * @param res A response object from Restify or Express
+     * @param logic A bot logic function in the form `async(context) => { ... }`
      */
     public async processActivity(req, res, logic: (context: TurnContext) => Promise<void>): Promise<void> {
         let event = req.body;
@@ -243,24 +293,27 @@ export class HangoutsAdapter extends BotAdapter {
             res.status(401);
             debug('Token verification failed, Ignoring message');
         } else {
-            const activity = {
+            const activity: Activity = {
                 id: event.message ? event.message.name : event.eventTime,
                 timestamp: new Date(),
                 channelId: 'googlehangouts',
                 conversation: {
                     id: event.space.name,
+                    // @ts-ignore 
                     thread: (event.message && !event.threadKey) ? event.message.thread.name : null,
+                    // @ts-ignore 
                     threadKey: event.threadKey || null
                 },
                 from: {
-                    id: event.user.name
+                    id: event.user.name,
+                    name: event.user.name,
                 },
                 channelData: event,
                 text: event.message ? (event.message.argumentText ? event.message.argumentText.trim() : '') : '',
                 type: event.message ? ActivityTypes.Message : ActivityTypes.Event
             };
 
-            // change type of message event for private messages
+            // Change type of message event for private messages
             if (event.space.type === 'DM') {
                 activity.channelData.botkitEventType = 'direct_message';
             }
@@ -278,8 +331,7 @@ export class HangoutsAdapter extends BotAdapter {
             }
 
             // create a conversation reference
-            // @ts-ignore
-            const context = new TurnContext(this, activity as Activity);
+            const context = new TurnContext(this, activity);
 
             if (event.type !== 'CARD_CLICKED') {
                 // send 200 status immediately, otherwise
