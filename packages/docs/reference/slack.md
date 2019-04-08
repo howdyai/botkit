@@ -86,13 +86,13 @@ const adapter = new SlackAdapter({
 
 <a name="activityToSlack"></a>
 ### activityToSlack()
-
+Formats a BotBuilder activity into an outgoing Slack message.
 
 **Parameters**
 
 | Argument | Type | description
 |--- |--- |---
-| activity| any | 
+| activity| Activity | A BotBuilder Activity object<br/>
 
 
 
@@ -139,19 +139,35 @@ This is used by many internal functions to get access to the Slack API, and is e
 
 <a name="getBotUserByTeam"></a>
 ### getBotUserByTeam()
-
+Get the bot user id associated with the team on which an incoming activity originated. This is used internally by the SlackMessageTypeMiddleware to identify direct_mention and mention events.
+In single-team mode, this will pull the information from the Slack API at launch.
+In multi-team mode, this will use the `getBotUserByTeam` method passed to the constructor to pull the information from a developer-defined source.
 
 **Parameters**
 
 | Argument | Type | description
 |--- |--- |---
-| activity| Activity | 
+| activity| Activity | An incoming message activity<br/>
 
 
 
 <a name="getInstallLink"></a>
 ### getInstallLink()
+Get the oauth link for this bot, based on the clientId and scopes passed in to the constructor.
 
+**Returns**
+
+A url pointing to the first step in Slack&#x27;s oauth flow.
+
+
+
+
+An example using Botkit's internal webserver to configure the /install route:
+```
+controller.webserver.get('/install', (req, res) => {
+ res.redirect(controller.adapter.getInstallLink());
+});
+```
 
 
 <a name="processActivity"></a>
@@ -198,15 +214,33 @@ Standard BotBuilder adapter method to update a previous message with new content
 
 <a name="validateOauthCode"></a>
 ### validateOauthCode()
-
+Validates an oauth code sent by Slack during the install process.
 
 **Parameters**
 
 | Argument | Type | description
 |--- |--- |---
-| code| string | 
+| code| string | the value found in `req.query.code` as part of Slack's response to the oauth flow.<br/>
 
 
+
+An example using Botkit's internal webserver to configure the /install/auth route:
+```
+controller.webserver.get('/install/auth', async (req, res) => {
+     try {
+         const results = await controller.adapter.validateOauthCode(req.query.code);
+         // make sure to capture the token and bot user id by team id...
+         const team_id = results.team_id;
+         const token = results.bot.bot_access_token;
+         const bot_user = results.bot.bot_user_id;
+         // store these values in a way they'll be retrievable with getBotUserByTeam and getTokenForTeam
+     } catch (err) {
+          console.error('OAUTH ERROR:', err);
+          res.status(401);
+          res.send(err.message);
+     }
+});
+```
 
 
 <a name="SlackBotWorker"></a>

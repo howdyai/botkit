@@ -210,6 +210,12 @@ export class SlackAdapter extends BotAdapter {
         }
     }
 
+    /**
+     * Get the bot user id associated with the team on which an incoming activity originated. This is used internally by the SlackMessageTypeMiddleware to identify direct_mention and mention events.
+     * In single-team mode, this will pull the information from the Slack API at launch.
+     * In multi-team mode, this will use the `getBotUserByTeam` method passed to the constructor to pull the information from a developer-defined source.
+     * @param activity An incoming message activity
+     */
     public async getBotUserByTeam(activity: Activity): Promise<string> {
         if (this.identity) {
             return this.identity.user_id;
@@ -228,16 +234,49 @@ export class SlackAdapter extends BotAdapter {
         }
     }
 
+    /**
+     * Get the oauth link for this bot, based on the clientId and scopes passed in to the constructor.
+     * 
+     * An example using Botkit's internal webserver to configure the /install route:
+     * ```
+     * controller.webserver.get('/install', (req, res) => {
+     *  res.redirect(controller.adapter.getInstallLink());
+     * });
+     * ```
+     * 
+     * @returns A url pointing to the first step in Slack's oauth flow.
+     */
     public getInstallLink(): string {
         if (this.options.clientId && this.options.scopes) {
             const redirect = 'https://slack.com/oauth/authorize?client_id=' + this.options.clientId + '&scope=' + this.options.scopes.join(',');
             return redirect;
         } else {
-            console.warn('getInstallLink() cannot be called without clientId and scopes in adapter options');
-            return '';
+            throw new Error('getInstallLink() cannot be called without clientId and scopes in adapter options');
         }
     }
 
+    /**
+     * Validates an oauth code sent by Slack during the install process.
+     * 
+     * An example using Botkit's internal webserver to configure the /install/auth route:
+     * ```
+     * controller.webserver.get('/install/auth', async (req, res) => {
+     *      try {
+     *          const results = await controller.adapter.validateOauthCode(req.query.code);
+     *          // make sure to capture the token and bot user id by team id...
+     *          const team_id = results.team_id;
+     *          const token = results.bot.bot_access_token;
+     *          const bot_user = results.bot.bot_user_id;
+     *          // store these values in a way they'll be retrievable with getBotUserByTeam and getTokenForTeam
+     *      } catch (err) {
+     *           console.error('OAUTH ERROR:', err);
+     *           res.status(401);
+     *           res.send(err.message);
+     *      }
+     * });
+     * ```
+     * @param code the value found in `req.query.code` as part of Slack's response to the oauth flow.
+     */
     public async validateOauthCode(code: string): Promise<any> {
         const slack = new WebClient();
         const results = await slack.oauth.access({
@@ -249,13 +288,17 @@ export class SlackAdapter extends BotAdapter {
         if (results.ok) {
             return results;
         } else {
-            // TODO: What should we return here?
             throw new Error(results.error);
         }
     }
 
-    public activityToSlack(activity: any): any {
+    /**
+     * Formats a BotBuilder activity into an outgoing Slack message.
+     * @param activity A BotBuilder Activity object
+     */   
+    public activityToSlack(activity: Activity): any {
         let channelId = activity.conversation.id;
+        // @ts-ignore ignore this non-standard field
         let thread_ts = activity.conversation.thread_ts;
 
         let message: any = {
