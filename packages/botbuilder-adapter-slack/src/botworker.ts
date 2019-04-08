@@ -2,14 +2,23 @@
  * @module botbuilder-adapter-slack
  */
 
-import { BotWorker } from 'botkit';
+import { Botkit, BotWorker } from 'botkit';
 import { WebClient, Dialog } from '@slack/client';
 import * as request from 'request';
 
+/**
+ * Specialized version of the BotWorker class that includes additional methods for interacting with Slack.
+ * When using the SlackAdapter with Botkit, all `bot` objects will be of this type.
+ */
 export class SlackBotWorker extends BotWorker {
     public api: WebClient;
 
-    public constructor(botkit, config) {
+    /**
+     * Used internally by controller.spawn, creates a BotWorker instance that can send messages, replies, and make other API calls.
+     * @param botkit The Botkit controller object responsible for spawning this bot worker
+     * @param config Normally, a DialogContext object.  Can also be the id of a team.
+     */
+    public constructor(botkit: Botkit, config: any) {
         // allow a teamid to be passed in
         if (typeof config === 'string') {
             const team_id = config;
@@ -21,7 +30,6 @@ export class SlackBotWorker extends BotWorker {
                     }
                 },
                 // a reference is used to spawn an api instance inside the adapter...
-                // TODO: do we NEED to spawn them at both places?
                 reference: {
                     conversation: {
                         team: team_id
@@ -33,6 +41,37 @@ export class SlackBotWorker extends BotWorker {
         super(botkit, config);
     }
 
+    /**
+     * Switch a bot's context to a 1:1 private message channel with a specific user.
+     * After calling this method, messages sent with `bot.say` and any dialogs started with `bot.beginDialog` will occur in this new context.
+     * 
+     * ```javascript
+     * controller.hears('dm me', 'message', async(bot, message) => {
+     *  
+     *      // switch to a 1:1 conversation in a DM
+     *      await bot.startPrivateConversation(message.user);
+     * 
+     *      // say hello
+     *      await bot.say('We are in private now...');
+     *      await bot.beginDialog(MY_PRIVATE_DIALOG);
+     * 
+     * });
+     * ```
+     * 
+     * Also useful when sending pro-active messages such as those sent on a schedule or in response to external events:
+     * ```javascript
+     * // Spawn a worker with a Slack team id.
+     * let bot = await controller.spawn(SLACK_TEAM_ID);
+     * 
+     * // Set the context for the bot's next action...
+     * await bot.startPrivateConversation(SLACK_ADMIN_USER);
+     * 
+     * // Begin a dialog in the 1:1 context
+     * await bot.beginDialog(ALERT_DIALOG);
+     * ```
+     * 
+     * @param userId A Slack user id, like one found in `message.user` or in a `<@mention>`
+     */
     public async startPrivateConversation(userId: string): Promise<any> {
         // create the new IM channel
         const channel: any = await this.api.im.open({ user: userId });
@@ -54,6 +93,26 @@ export class SlackBotWorker extends BotWorker {
         }
     }
 
+    /**
+     * Switch a bot's context into a different channel.
+     * After calling this method, messages sent with `bot.say` and any dialogs started with `bot.beginDialog` will occur in this new context.
+     * 
+     * ```javascript
+     * controller.hears('dm me', 'message', async(bot, message) => {
+     *  
+     *      // switch to a 1:1 conversation in a DM
+     *      await bot.startConversationInChannel(SLACK_CHANNEL_ID, message.user);
+     * 
+     *      // say hello
+     *      await bot.say('Shall we discuss this matter over here?');
+     *      // ... continue...
+     *      await bot.beginDialog(ANOTHER_DIALOG);
+     * 
+     * });
+     * ```
+     * @param channelId A Slack channel id, like one found in `message.channel`
+     * @param userId A Slack user id, like one found in `message.user` or in a `<@mention>`
+     */
     public async startConversationInChannel(channelId: string, userId: string): Promise<any> {
         return this.changeContext({
             conversation: {
@@ -66,6 +125,27 @@ export class SlackBotWorker extends BotWorker {
         });
     }
 
+    /**
+     * Switch a bot's context into a specific sub-thread within a channel.
+     * After calling this method, messages sent with `bot.say` and any dialogs started with `bot.beginDialog` will occur in this new context.
+     * 
+     * ```javascript
+     * controller.hears('in a thread', 'message', async(bot, message) => {
+     *  
+     *      // branch from the main channel into a side thread associated with this message
+     *      await bot.startConversationInThread(message.channel, message.user, message.ts);
+     * 
+     *      // say hello
+     *      await bot.say(`Let's handle this offline...`);
+     *      // ... continue...
+     *      await bot.beginDialog(OFFLINE_DIALOG);
+     * 
+     * });
+     * ```
+     * @param channelId A Slack channel id, like one found in `message.channel`
+     * @param userId A Slack user id, like one found in `message.user` or in a `<@mention>`
+     * @param thread_ts A thread_ts value found in the `message.thread_ts` or `message.ts` field.
+     */
     public async startConversationInThread(channelId: string, userId: string, thread_ts: string): Promise<any> {
         return this.changeContext({
             conversation: {
@@ -79,16 +159,24 @@ export class SlackBotWorker extends BotWorker {
         });
     }
 
-    /* Send a reply to an inbound message, using information collected from that inbound message */
+    /**
+     * Like bot.reply, but as a threaded response to the incoming message rather than a new message in the main channel.
+     * @param src an incoming message object
+     * @param resp an outgoing message object (or part of one or just reply text)
+     */
     public async replyInThread(src: any, resp: any): Promise<any> {
         // make sure the  thread_ts setting is set
         // this will be included in the conversation reference
-        // src.incoming_message.conversation.id = src.incoming_message.conversation.id + '-' + (src.incoming_message.channelData.thread_ts ? src.incoming_message.channelData.thread_ts : src.incoming_message.channelData.ts);
         src.incoming_message.conversation.thread_ts = src.incoming_message.channelData.thread_ts ? src.incoming_message.channelData.thread_ts : src.incoming_message.channelData.ts;
         return this.reply(src, resp);
     }
 
-    /* Send a reply to an inbound message, using information collected from that inbound message */
+    /**
+     * Like bot.reply, but sent as an "ephemeral" message meaning only the recipient can see it.
+     * Uses [chat.postEphemeral](https://api.slack.com/methods/chat.postEphemeral)
+     * @param src an incoming message object
+     * @param resp an outgoing message object (or part of one or just reply text)
+     */
     public async replyEphemeral(src: any, resp: any): Promise<any> {
         // make rure resp is in an object format.
         resp = this.ensureMessageFormat(resp);
@@ -103,15 +191,25 @@ export class SlackBotWorker extends BotWorker {
         return this.reply(src, resp);
     }
 
-    /* send a public response to a slash command */
-    public async replyPublic(src: any, resp: any): Promise<any> {
+    /**
+     * Like bot.reply, but used to send an immediate public reply to a /slash command.
+     * The message in `resp` will be displayed to everyone in the channel.
+     * @param src an incoming message object of type `slash_command`
+     * @param resp an outgoing message object (or part of one or just reply text)
+     */
+     public async replyPublic(src: any, resp: any): Promise<any> {
         let msg = this.ensureMessageFormat(resp);
         msg.channelData.response_type = 'in_channel';
 
         return this.replyInteractive(src, msg);
     };
 
-    /* send a private response to a slash command */
+    /**
+     * Like bot.reply, but used to send an immediate private reply to a /slash command.
+     * The message in `resp` will be displayed only to the person who executed the slash command.
+     * @param src an incoming message object of type `slash_command`
+     * @param resp an outgoing message object (or part of one or just reply text)
+     */
     public async replyPrivate(src: any, resp: any): Promise<any> {
         const msg = this.ensureMessageFormat(resp);
 
@@ -121,6 +219,11 @@ export class SlackBotWorker extends BotWorker {
         return this.replyInteractive(src, msg);
     };
 
+    /**
+     * Like bot.reply, but used to respond to an `interactive_message` event and cause the original message to be replaced with a new one.
+     * @param src an incoming message object of type `interactive_message`
+     * @param resp a new or modified message that will replace the original one
+     */
     public async replyInteractive(src: any, resp: any): Promise<any> {
         if (!src.incoming_message.channelData.response_url) {
             throw Error('No response_url found in incoming message');
@@ -158,7 +261,12 @@ export class SlackBotWorker extends BotWorker {
         }
     };
 
-    public dialogError(errors): void {
+    /**
+     * Return 1 or more error to a `dialog_submission` event that will be displayed as form validation errors.
+     * Each error must be mapped to the name of an input in the dialog.
+     * @param errors 1 or more objects in form {name: string, error: string} 
+     */
+    public dialogError(errors: {name: string, error: string;} | { name: string, error: string }[]): void {
         if (!errors) {
             errors = [];
         }
@@ -170,6 +278,11 @@ export class SlackBotWorker extends BotWorker {
         this.httpBody(JSON.stringify({ errors }));
     };
 
+    /**
+     * Reply to a button click with a request to open a dialog.
+     * @param src An incoming `interactive_callback` event containing a `trigger_id` field
+     * @param dialog_obj A dialog, as created using [SlackDialog](#SlackDialog) or [authored to this spec](https://api.slack.com/dialogs).
+     */
     public async replyWithDialog(src, dialog_obj: Dialog): Promise<any> {
         var msg = {
             trigger_id: src.trigger_id,
