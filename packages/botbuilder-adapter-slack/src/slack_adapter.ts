@@ -325,6 +325,7 @@ export class SlackAdapter extends BotAdapter {
     /**
      * Formats a BotBuilder activity into an outgoing Slack message.
      * @param activity A BotBuilder Activity object
+     * @returns a Slack message object with {text, attachments, channel, thread_ts} as well as any fields found in activity.channelData
      */   
     public activityToSlack(activity: Partial<Activity>): any {
         let channelId = activity.conversation.id;

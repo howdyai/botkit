@@ -92,7 +92,13 @@ Formats a BotBuilder activity into an outgoing Slack message.
 
 | Argument | Type | description
 |--- |--- |---
-| activity| Partial&lt;Activity&gt; | A BotBuilder Activity object<br/>
+| activity| Partial&lt;Activity&gt; | A BotBuilder Activity object
+
+
+**Returns**
+
+a Slack message object with {text, attachments, channel, thread_ts} as well as any fields found in activity.channelData
+
 
 
 
