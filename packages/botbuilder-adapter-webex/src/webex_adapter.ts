@@ -16,7 +16,7 @@ export interface WebexAdapterOptions {
      */
     access_token: string;
     /**
-     * Shared secret used to validate incoming webhooks. 
+     * Secret used to validate incoming webhooks - you can define this yourself
      */
     secret?: string;
     /**
@@ -81,6 +81,19 @@ export class WebexAdapter extends BotAdapter {
     public botkit_worker = WebexBotWorker;
 
 
+    /**
+     * Create a Slack adapter. See [SlackAdapterOptions](#slackadapteroptions) for a full definition of the allowed parameters.
+     * 
+     * ```javascript
+     * const adapter = new WebexAdapter({
+     *      access_token: process.env.ACCESS_TOKEN, // access token from https://developer.webex.com
+     *      public_address: process.env.PUBLIC_ADDRESS,  // public url of this app https://myapp.com/
+     *      secret: process.env.SECRET // webhook validation secret - you can define this yourself
+     * });
+     * ```
+     * 
+     * @param options An object containing API credentials, a webhook verification token and other options
+     */
     public constructor(config: WebexAdapterOptions) {
         super();
 

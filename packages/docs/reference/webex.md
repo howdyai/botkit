@@ -44,6 +44,15 @@ server.post('/api/messages', (req, res) => {
 ```
 
 ### constructor new WebexAdapter()
+Create a Slack adapter. See [SlackAdapterOptions](#slackadapteroptions) for a full definition of the allowed parameters.
+
+```javascript
+const adapter = new WebexAdapter({
+     access_token: process.env.ACCESS_TOKEN, // access token from https://developer.webex.com
+     public_address: process.env.PUBLIC_ADDRESS,  // public url of this app https://myapp.com/
+     secret: process.env.SECRET // webhook validation secret - you can define this yourself
+});
+```
 
 
 **Parameters**
@@ -195,5 +204,5 @@ USE WITH CAUTION while we try to sort this out.
 |--- |--- |---
 | access_token | string | An access token for the bot. Get one from [https://developer.webex.com/](https://developer.webex.com/)<br/>
 | public_address | string | The root URL of your bot application.  Something like `https://mybot.com/`<br/>
-| secret | string | Shared secret used to validate incoming webhooks.<br/>
+| secret | string | Secret used to validate incoming webhooks - you can define this yourself<br/>
 | webhook_name | string | a name for the webhook subscription that will be created to tell Webex to send your bot webhooks.<br/>
