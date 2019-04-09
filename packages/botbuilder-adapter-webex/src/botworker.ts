@@ -35,45 +35,45 @@ export class WebexBotWorker extends BotWorker {
      * 
      * ```javascript
      * controller.hears('take this offline', 'message', async(bot, message) => {
-        *  
-        *      // switch to a different channel
-        *      await bot.startConversationInRoom(WEBEX_ROOM_ID, message.user);
-        * 
-        *      // say hello
-        *      await bot.say('Shall we discuss this matter over here?');
-        *      // ... continue...
-        *      await bot.beginDialog(ANOTHER_DIALOG);
-        * 
-        * });
-        * ```
-        * 
-        * Also useful when sending pro-active messages such as those sent on a schedule or in response to external events:
-        * ```javascript
-        * // Spawn a worker
-        * let bot = await controller.spawn();
-        * 
-        * // Set the context for the bot's next action...
-        * await bot.startConversationInRoom(CACHED_ROOM_ID, CACHED_USER_ID);
-        * 
-        * // Begin a dialog in the 1:1 context
-        * await bot.beginDialog(ALERT_DIALOG);
-        * ```
-        * 
-        * @param roomId A Webex rooom id, like one found in `message.channel`
-        * @param userId A Webex user id, like one found in `message.user`
-        */
-       public async startConversationInRoom(roomId: string, userId: string): Promise<any> {
-           return this.changeContext({
-               // @ts-ignore ignore warning about missing optional fields
-               conversation: {
-                   id: roomId,
-               },
-               user: { id: userId, name: null },
-               channelId: 'webex'
-           });
-       }
+     *  
+     *      // switch to a different channel
+     *      await bot.startConversationInRoom(WEBEX_ROOM_ID, message.user);
+     * 
+     *      // say hello
+     *      await bot.say('Shall we discuss this matter over here?');
+     *      // ... continue...
+     *      await bot.beginDialog(ANOTHER_DIALOG);
+     * 
+     * });
+     * ```
+     * 
+     * Also useful when sending pro-active messages such as those sent on a schedule or in response to external events:
+     * ```javascript
+     * // Spawn a worker
+     * let bot = await controller.spawn();
+     * 
+     * // Set the context for the bot's next action...
+     * await bot.startConversationInRoom(CACHED_ROOM_ID, CACHED_USER_ID);
+     * 
+     * // Begin a dialog in the 1:1 context
+     * await bot.beginDialog(ALERT_DIALOG);
+     * ```
+     * 
+     * @param roomId A Webex rooom id, like one found in `message.channel`
+     * @param userId A Webex user id, like one found in `message.user`
+     */
+    public async startConversationInRoom(roomId: string, userId: string): Promise<any> {
+        return this.changeContext({
+            // @ts-ignore ignore warning about missing optional fields
+            conversation: {
+                id: roomId,
+            },
+            user: { id: userId, name: null },
+            channelId: 'webex'
+        });
+    }
 
-     /**
+    /**
      * Delete an existing message.
      * 
      * ```javascript
@@ -94,6 +94,4 @@ export class WebexBotWorker extends BotWorker {
             }
         );
     }
-
-
 }
