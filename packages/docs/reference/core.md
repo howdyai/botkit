@@ -226,13 +226,26 @@ Create a new instance of Botkit to define the controller for a conversational ap
 To connect Botkit to a chat platform, pass in a fully configured `adapter`.
 If one is not specified, Botkit will expose an adapter for the Microsoft Bot Framework.
 ### constructor new Botkit()
+Create a new Botkit instance and optionally specify a platform-specific adapter.
+By default, Botkit will create a [BotFrameworkAdapter](https://docs.microsoft.com/en-us/javascript/api/botbuilder/botframeworkadapter?view=botbuilder-ts-latest).
+
+```javascript
+const controller = new Botkit({
+     adapter: some_adapter,
+     webhook_uri: '/api/messages',
+});
+
+controller.on('message', async(bot, message) => {
+     // do something!
+});
+```
 
 
 **Parameters**
 
 | Argument | Type | Description
 |--- |--- |---
-| config | [BotkitConfiguration](#BotkitConfiguration) | 
+| config | [BotkitConfiguration](#BotkitConfiguration) | Configuration for this instance of Botkit<br/>
 
 **Properties and Accessors**
 

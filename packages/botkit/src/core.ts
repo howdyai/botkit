@@ -275,8 +275,21 @@ export class Botkit {
      */
     private booted: boolean;
 
-    /*
-     * Create a new Botkit instance
+    /**
+     * Create a new Botkit instance and optionally specify a platform-specific adapter.
+     * By default, Botkit will create a [BotFrameworkAdapter](https://docs.microsoft.com/en-us/javascript/api/botbuilder/botframeworkadapter?view=botbuilder-ts-latest).
+     * 
+     * ```javascript
+     * const controller = new Botkit({
+     *      adapter: some_adapter,
+     *      webhook_uri: '/api/messages',
+     * });
+     * 
+     * controller.on('message', async(bot, message) => {
+     *      // do something!
+     * });
+     * ```
+     * 
      * @param config Configuration for this instance of Botkit
      */
     public constructor(config: BotkitConfiguration) {
@@ -284,7 +297,7 @@ export class Botkit {
         this.PATH = __dirname;
 
         this._config = {
-            webhook_uri: '/botframework/receive',
+            webhook_uri: '/api/messages',
             ...config
         };
 
