@@ -71,7 +71,7 @@ const adapter = new WebexAdapter({
 | botkit_worker | [WebexBotWorker](#WebexBotWorker) | A customized BotWorker object that exposes additional utility methods.
 | middlewares | any | Object containing one or more Botkit middlewares to bind automatically.
 | name | string | Name used by Botkit plugin loader
-| identity |  | Returns the identity of the bot, including
+| identity |  | Returns the identity of the bot, including {id, emails, displayName, created} and anything else from [this spec](https://webex.github.io/spark-js-sdk/api/#personobject)
 
 <a name="continueConversation"></a>
 ### continueConversation()

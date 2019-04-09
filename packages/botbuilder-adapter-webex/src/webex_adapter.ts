@@ -154,8 +154,7 @@ export class WebexAdapter extends BotAdapter {
     }
 
     /**
-     * Returns the identity of the bot, including
-     * @returns {id, emails, displayName, created} and anything else from https://webex.github.io/spark-js-sdk/api/#personobject
+     * Returns the identity of the bot, including {id, emails, displayName, created} and anything else from [this spec](https://webex.github.io/spark-js-sdk/api/#personobject)
      */
     public get identity(): any {
         return this._identity;
