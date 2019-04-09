@@ -998,6 +998,21 @@ export class Botkit {
 
     /**
      * Add a dialog to the bot, making it accessible via `bot.beginDialog(dialog_id)`
+     * 
+     * ```javascript
+     * // Create a dialog -- `BotkitConversation` is just one way to create a dialog
+     * const my_dialog = new BotkitConversation('my_dialog', controller);
+     * my_dialog.say('Hello');
+     * 
+     * // Add the dialog to the Botkit controller
+     * controller.addDialog(my_dialog);
+     * 
+     * // Later on, trigger the dialog into action!
+     * controller.on('message', async(bot, message) => {
+     *      await bot.beginDialog('my_dialog');
+     * });
+     * ```
+     * 
      * @param dialog A dialog to be added to the bot's dialog set
      */
     public addDialog(dialog: Dialog): void {
