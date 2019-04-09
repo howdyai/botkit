@@ -136,7 +136,7 @@ Use this to define the response value when the platform requires a synchronous r
 
 Example handling of a /slash command from Slack:
 ```javascript
-controller.on('slash_command', async(bot, message) {
+controller.on('slash_command', async(bot, message) => {
  bot.httpBody('This is a reply to the slash command.');
 })
 ```
