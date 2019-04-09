@@ -36,6 +36,9 @@ const adapter = new WebexAdapter({
 });
 // set up restify...
 const server = restify.createServer();
+// register the webhook subscription to start receiving messages - Botkit does this automatically!
+adapter.registerWebhookSubscription('/api/messages');
+// create an endpoint for receiving messages
 server.post('/api/messages', (req, res) => {
      adapter.processActivity(req, res, async(context) => {
          // do your bot logic here!
@@ -71,33 +74,36 @@ const adapter = new WebexAdapter({
 
 <a name="continueConversation"></a>
 ### continueConversation()
-
+Standard BotBuilder adapter method for continuing an existing conversation based on a conversation reference.
+[BotBuilder reference docs](https://docs.microsoft.com/en-us/javascript/api/botbuilder-core/botadapter?view=botbuilder-ts-latest#continueconversation)
 
 **Parameters**
 
 | Argument | Type | description
 |--- |--- |---
-| reference| Partial&lt;ConversationReference&gt; | 
-| logic|  | 
+| reference| Partial&lt;ConversationReference&gt; | A conversation reference to be applied to future messages.
+| logic|  | A bot logic function that will perform continuing action in the form `async(context) => { ... }`<br/>
 
 
 
 <a name="deleteActivity"></a>
 ### deleteActivity()
-
+Standard BotBuilder adapter method to delete a previous message.
+[BotBuilder reference docs](https://docs.microsoft.com/en-us/javascript/api/botbuilder-core/botadapter?view=botbuilder-ts-latest#deleteactivity).
 
 **Parameters**
 
 | Argument | Type | description
 |--- |--- |---
-| context| TurnContext | 
-| reference| Partial&lt;ConversationReference&gt; | 
+| context| TurnContext | A TurnContext representing the current incoming message and environment. (not used)
+| reference| Partial&lt;ConversationReference&gt; | An object in the form `{activityId: <id of message to delete>, conversation: { id: <id of slack channel>}}`<br/>
 
 
 
 <a name="init"></a>
 ### init()
-
+ Botkit init function, called automatically when used alongside Botkit.
+Calls registerWebhookSubscription() during bootup.
 
 **Parameters**
 
@@ -109,51 +115,52 @@ const adapter = new WebexAdapter({
 
 <a name="processActivity"></a>
 ### processActivity()
-
+Accept an incoming webhook request and convert it into a TurnContext which can be processed by the bot's logic.
 
 **Parameters**
 
 | Argument | Type | description
 |--- |--- |---
-| req| any | 
-| res| any | 
-| logic|  | 
+| req| any | A request object from Restify or Express
+| res| any | A response object from Restify or Express
+| logic|  | A bot logic function in the form `async(context) => { ... }`<br/>
 
 
 
 <a name="registerWebhookSubscription"></a>
 ### registerWebhookSubscription()
-
+Register a webhook subscription with Webex Teams to start receiving message events.
 
 **Parameters**
 
 | Argument | Type | description
 |--- |--- |---
-| webhook_path| any | 
+| webhook_path| any | the path of the webhook endpoint like `/api/messages`<br/>
 
 
 
 <a name="resetWebhookSubscriptions"></a>
 ### resetWebhookSubscriptions()
-
+Clear out and reset all the webhook subscriptions currently associated with this application.
 
 
 <a name="sendActivities"></a>
 ### sendActivities()
-
+Standard BotBuilder adapter method to send a message from the bot to the messaging API.
+[BotBuilder reference docs](https://docs.microsoft.com/en-us/javascript/api/botbuilder-core/botadapter?view=botbuilder-ts-latest#sendactivities).
 
 **Parameters**
 
 | Argument | Type | description
 |--- |--- |---
-| context| TurnContext | 
-| activities|  | 
+| context| TurnContext | A TurnContext representing the current incoming message and environment.
+| activities|  | An array of outgoing activities to be sent back to the messaging API.<br/>
 
 
 
 <a name="updateActivity"></a>
 ### updateActivity()
-
+Webex adapter does not support updateActivity.
 
 **Parameters**
 

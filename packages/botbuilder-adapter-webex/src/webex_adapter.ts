@@ -52,6 +52,9 @@ export interface WebexAdapterOptions {
 * });
 * // set up restify...
 * const server = restify.createServer();
+* // register the webhook subscription to start receiving messages - Botkit does this automatically!
+* adapter.registerWebhookSubscription('/api/messages');
+* // create an endpoint for receiving messages
 * server.post('/api/messages', (req, res) => {
 *      adapter.processActivity(req, res, async(context) => {
 *          // do your bot logic here!
@@ -152,7 +155,10 @@ export class WebexAdapter extends BotAdapter {
         };
     }
 
-    // Botkit init function, called only when used alongside Botkit
+    /**
+     *  Botkit init function, called automatically when used alongside Botkit.
+     * Calls registerWebhookSubscription() during bootup.
+     */
     public init(botkit): void {
         // when the bot is ready, register the webhook subscription with the Webex API
         botkit.ready(() => {
@@ -161,19 +167,25 @@ export class WebexAdapter extends BotAdapter {
         });
     }
 
-    // TODO: make async
-    public resetWebhookSubscriptions(): void {
-        this._api.webhooks.list().then((list) => {
-            for (var i = 0; i < list.items.length; i++) {
-                this._api.webhooks.remove(list.items[i]).then(function() {
-                    // console.log('Removed subscription: ' + list.items[i].name);
-                }).catch(function(err) {
-                    console.error('Error removing subscription:', err);
-                });
-            }
+    /**
+     * Clear out and reset all the webhook subscriptions currently associated with this application.
+     */
+    public async resetWebhookSubscriptions(): Promise<void> {
+        return new Promise(async (resolve, reject) => {
+            this._api.webhooks.list().then(async (list) => {
+                for (var i = 0; i < list.items.length; i++) {
+                    await this._api.webhooks.remove(list.items[i]).catch(reject);
+                }
+                resolve();
+            });
         });
+
     };
 
+    /**
+     * Register a webhook subscription with Webex Teams to start receiving message events.
+     * @param webhook_path the path of the webhook endpoint like `/api/messages`
+     */
     public registerWebhookSubscription(webhook_path): void {
         var webhook_name = this._config.webhook_name || 'Botkit Firehose';
 
@@ -223,18 +235,28 @@ export class WebexAdapter extends BotAdapter {
         });
     }
 
+
+    /**
+     * Standard BotBuilder adapter method to send a message from the bot to the messaging API.
+     * [BotBuilder reference docs](https://docs.microsoft.com/en-us/javascript/api/botbuilder-core/botadapter?view=botbuilder-ts-latest#sendactivities).
+     * @param context A TurnContext representing the current incoming message and environment.
+     * @param activities An array of outgoing activities to be sent back to the messaging API.
+     */
     public async sendActivities(context: TurnContext, activities: Partial<Activity>[]): Promise<ResourceResponse[]> {
         const responses = [];
         for (var a = 0; a < activities.length; a++) {
             const activity = activities[a];
             debug('OUTGOING ACTIVITY', activity);
 
-            // TODO: support additional fields
+            // transform activity into the webex message format
             // https://developer.webex.com/docs/api/v1/messages/create-a-message
             const message = {
                 roomId: activity.conversation ? activity.conversation.id : null,
                 toPersonId: activity.conversation ? null : activity.recipient.id,
-                text: activity.text
+                toPersonEmail: activity.channelData && activity.channelData.toPersonEmail ? activity.channelData.toPersonEmail : null,
+                text: activity.text,
+                markdown: activity.channelData ? activity.channelData.markdown : null,
+                files: activity.channelData ? activity.channelData.files : null,
             };
 
             let response = await this._api.messages.create(message);
@@ -245,22 +267,39 @@ export class WebexAdapter extends BotAdapter {
         return responses;
     }
 
+    /**
+     * Webex adapter does not support updateActivity.
+     */
     public async updateActivity(context: TurnContext, activity: Partial<Activity>): Promise<void> {
-        if (activity.id && activity.conversation) {
-            // TODO: Does webex support replacing messages
-        } else {
-            throw new Error('Cannot update activity: activity is missing id');
-        }
+        debug('Webex adapter does not support updateActivity.');
     }
 
+
+    /**
+     * Standard BotBuilder adapter method to delete a previous message.
+     * [BotBuilder reference docs](https://docs.microsoft.com/en-us/javascript/api/botbuilder-core/botadapter?view=botbuilder-ts-latest#deleteactivity).
+     * @param context A TurnContext representing the current incoming message and environment. (not used)
+     * @param reference An object in the form `{activityId: <id of message to delete>, conversation: { id: <id of slack channel>}}`
+     */
     public async deleteActivity(context: TurnContext, reference: Partial<ConversationReference>): Promise<void> {
-        if (reference.activityId && reference.conversation) {
-            // TODO: Does webex support deleting messages
+        if (reference.activityId) {
+            try {
+                await this._api.messages.delete({messageId: reference.activityId});
+            } catch(err) {
+                throw new Error(err);
+            }
         } else {
             throw new Error('Cannot delete activity: reference is missing activityId');
         }
     }
 
+
+    /**
+     * Standard BotBuilder adapter method for continuing an existing conversation based on a conversation reference.
+     * [BotBuilder reference docs](https://docs.microsoft.com/en-us/javascript/api/botbuilder-core/botadapter?view=botbuilder-ts-latest#continueconversation)
+     * @param reference A conversation reference to be applied to future messages.
+     * @param logic A bot logic function that will perform continuing action in the form `async(context) => { ... }`
+     */
     public async continueConversation(reference: Partial<ConversationReference>, logic: (context: TurnContext) => Promise<void>): Promise<void> {
         const request = TurnContext.applyConversationReference(
             { type: 'event', name: 'continueConversation' },
@@ -272,6 +311,12 @@ export class WebexAdapter extends BotAdapter {
         return this.runMiddleware(context, logic);
     }
 
+    /**
+     * Accept an incoming webhook request and convert it into a TurnContext which can be processed by the bot's logic.
+     * @param req A request object from Restify or Express
+     * @param res A response object from Restify or Express
+     * @param logic A bot logic function in the form `async(context) => { ... }`
+     */
     public async processActivity(req, res, logic: (context: TurnContext) => Promise<void>): Promise<any> {
         res.status(200);
         res.end();
@@ -345,14 +390,16 @@ export class WebexAdapter extends BotAdapter {
             // type == payload.resource + '.' + payload.event
             // memberships.deleted for example
             // payload.data contains stuff
-
             activity = {
                 id: payload.id,
                 timestamp: new Date(),
                 channelId: 'webex',
                 conversation: { id: payload.data.roomId },
                 from: { id: payload.actorId },
-                channelData: payload,
+                channelData: {
+                    ...payload,
+                    botkitEventType: payload.resource + '.' + payload.event
+                },
                 type: ActivityTypes.Event
             };
 
