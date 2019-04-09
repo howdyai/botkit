@@ -1,7 +1,14 @@
 import { BotWorker } from 'botkit';
 import * as Ciscospark from 'ciscospark';
 
+/**
+ * Specialized version of the BotWorker class that includes additional methods for interacting with Webex Teams.
+ * When using the WebexAdapter with Botkit, all `bot` objects will be of this type.
+ */
 export class WebexBotWorker extends BotWorker {
+    /**
+     * An instance of the [webex api client](https://www.npmjs.com/package/ciscospark) 
+     */
     public api: Ciscospark;
 
     /**

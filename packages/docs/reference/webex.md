@@ -158,13 +158,14 @@ server.post('/api/messages', (req, res) => {
 
 <a name="WebexBotWorker"></a>
 ## WebexBotWorker
-
+Specialized version of the BotWorker class that includes additional methods for interacting with Webex Teams.
+When using the WebexAdapter with Botkit, all `bot` objects will be of this type.
 
 **Properties and Accessors**
 
 | Name | Type | Description
 |--- |--- |---
-| api | Ciscospark | 
+| api | Ciscospark | An instance of the [webex api client](https://www.npmjs.com/package/ciscospark)
 
 <a name="startPrivateConversation"></a>
 ### startPrivateConversation()
