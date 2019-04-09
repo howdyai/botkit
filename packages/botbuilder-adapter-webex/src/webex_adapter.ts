@@ -82,7 +82,7 @@ export class WebexAdapter extends BotAdapter {
 
 
     /**
-     * Create a Slack adapter. See [SlackAdapterOptions](#slackadapteroptions) for a full definition of the allowed parameters.
+     * Create a Webex adapter. See [WebexAdapterOptions](#webexadapteroptions) for a full definition of the allowed parameters.
      * 
      * ```javascript
      * const adapter = new WebexAdapter({
