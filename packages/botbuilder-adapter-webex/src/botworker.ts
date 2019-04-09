@@ -1,3 +1,6 @@
+/**
+ * @module botbuilder-adapter-webex
+ */
 import { BotWorker, BotkitMessage } from 'botkit';
 import * as Ciscospark from 'ciscospark';
 
