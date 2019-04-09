@@ -2,7 +2,7 @@
  * @module botkit
  */
 import { Activity, BotFrameworkAdapter, MemoryStorage, Storage, ConversationReference, TurnContext } from 'botbuilder';
-import { DialogContext, DialogSet, DialogTurnStatus } from 'botbuilder-dialogs';
+import { Dialog, DialogContext, DialogSet, DialogTurnStatus } from 'botbuilder-dialogs';
 import { BotkitCMSHelper } from './cms';
 import { BotWorker } from './botworker';
 import { BotkitConversationState } from './conversationState';
@@ -982,4 +982,13 @@ export class Botkit {
             this.loadModule(path.join(p, file));
         });
     }
+
+    /**
+     * Add a dialog to the bot, making it accessible via `bot.beginDialog(dialog_id)`
+     * @param dialog A dialog to be added to the bot's dialog set
+     */
+    public addDialog(dialog: Dialog): void {
+        this.dialogSet.add(dialog);
+    }
+    
 }

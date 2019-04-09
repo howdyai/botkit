@@ -3,11 +3,10 @@
  */
 import { Activity, ActivityTypes, BotAdapter, ResourceResponse, ConversationReference, TurnContext } from 'botbuilder';
 import { WebexBotWorker } from './botworker';
-import * as ciscospark from 'ciscospark';
+import * as Ciscospark from 'ciscospark';
 import * as url from 'url';
 import * as crypto from 'crypto';
 import * as Debug from 'debug';
-import { Tracing } from 'trace_events';
 const debug = Debug('botkit:webex');
 
 export interface WebexAdapterOptions {
@@ -65,7 +64,7 @@ export interface WebexAdapterOptions {
 export class WebexAdapter extends BotAdapter {
     private _config: WebexAdapterOptions;
 
-    private _api: any;
+    private _api: Ciscospark;
     private _identity: any;
 
     /**
@@ -82,7 +81,6 @@ export class WebexAdapter extends BotAdapter {
      * A customized BotWorker object that exposes additional utility methods.
      */
     public botkit_worker = WebexBotWorker;
-
 
     /**
      * Create a Webex adapter. See [WebexAdapterOptions](#webexadapteroptions) for a full definition of the allowed parameters.
@@ -107,7 +105,7 @@ export class WebexAdapter extends BotAdapter {
         if (!this._config.access_token) {
             throw new Error('access_token required to create controller');
         } else {
-            this._api = ciscospark.init({
+            this._api = Ciscospark.init({
                 credentials: {
                     authorization: {
                         access_token: this._config.access_token
@@ -148,11 +146,19 @@ export class WebexAdapter extends BotAdapter {
                 async (bot, next) => {
                     // make webex api directly available on a botkit instance.
                     bot.api = this._api;
-
+                    
                     next();
                 }
             ]
         };
+    }
+
+    /**
+     * Returns the identity of the bot, including
+     * @returns {id, emails, displayName, created} and anything else from https://webex.github.io/spark-js-sdk/api/#personobject
+     */
+    public get identity(): any {
+        return this._identity;
     }
 
     /**
@@ -246,22 +252,27 @@ export class WebexAdapter extends BotAdapter {
         const responses = [];
         for (var a = 0; a < activities.length; a++) {
             const activity = activities[a];
-            debug('OUTGOING ACTIVITY', activity);
+            if (activity.type === ActivityTypes.Message) {
+                // debug('OUTGOING ACTIVITY', activity);
 
-            // transform activity into the webex message format
-            // https://developer.webex.com/docs/api/v1/messages/create-a-message
-            const message = {
-                roomId: activity.conversation ? activity.conversation.id : null,
-                toPersonId: activity.conversation ? null : activity.recipient.id,
-                toPersonEmail: activity.channelData && activity.channelData.toPersonEmail ? activity.channelData.toPersonEmail : null,
-                text: activity.text,
-                markdown: activity.channelData ? activity.channelData.markdown : null,
-                files: activity.channelData ? activity.channelData.files : null,
-            };
+                // transform activity into the webex message format
+                // https://developer.webex.com/docs/api/v1/messages/create-a-message
+                const message = {
+                    roomId: activity.conversation ? activity.conversation.id : null,
+                    toPersonId: activity.conversation ? null : activity.recipient.id,
+                    toPersonEmail: activity.channelData && activity.channelData.toPersonEmail ? activity.channelData.toPersonEmail : null,
+                    text: activity.text,
+                    markdown: activity.channelData ? activity.channelData.markdown : null,
+                    files: activity.channelData ? activity.channelData.files : null,
+                };
 
-            let response = await this._api.messages.create(message);
+                let response = await this._api.messages.create(message);
 
-            responses.push(response);
+                responses.push(response);
+            } else {
+                // If there are ever any non-message type events that need to be sent, do it here.
+                debug('Unknown message type encountered in sendActivities: ', activity.type);
+            }
         }
 
         return responses;
@@ -284,7 +295,7 @@ export class WebexAdapter extends BotAdapter {
     public async deleteActivity(context: TurnContext, reference: Partial<ConversationReference>): Promise<void> {
         if (reference.activityId) {
             try {
-                await this._api.messages.delete({messageId: reference.activityId});
+                await this._api.messages.remove({id: reference.activityId});
             } catch(err) {
                 throw new Error(err);
             }
