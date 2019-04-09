@@ -2,22 +2,81 @@
  * @module botbuilder-adapter-webex
  */
 import { Activity, ActivityTypes, BotAdapter, ResourceResponse, ConversationReference, TurnContext } from 'botbuilder';
+import { WebexBotWorker } from './botworker';
 import * as ciscospark from 'ciscospark';
 import * as url from 'url';
 import * as crypto from 'crypto';
 import * as Debug from 'debug';
 const debug = Debug('botkit:webex');
 
+export interface WebexAdapterOptions {
+    /**
+     * An access token for the bot. Get one from [https://developer.webex.com/](https://developer.webex.com/)
+     */
+    access_token: string;
+    /**
+     * Shared secret used to validate incoming webhooks. 
+     */
+    secret?: string;
+    /**
+     * The root URL of your bot application.  Something like `https://mybot.com/`
+     */
+    public_address: string;
+}
+
+/**
+ * Connect Botkit or BotBuilder to Webex Teams. See [WebexAdapterOptions](#WebexAdapterOptions) for parameters.
+ * 
+ * Use with Botkit:
+ *```javascript
+ * const adapter = new WebexAdapter({
+ *     access_token: process.env.ACCESS_TOKEN,
+ *     public_address: process.env.PUBLIC_ADDRESS
+* });
+* const controller = new Botkit({
+*      adapter: adapter,
+*      // ... other configuration options
+* });
+* ```
+* 
+* Use with BotBuilder:
+*```javascript
+* const adapter = new WebexAdapter({
+*     access_token: process.env.ACCESS_TOKEN,
+*     public_address: process.env.PUBLIC_ADDRESS
+* });
+* // set up restify...
+* const server = restify.createServer();
+* server.post('/api/messages', (req, res) => {
+*      adapter.processActivity(req, res, async(context) => {
+*          // do your bot logic here!
+*      });
+* });
+* ```
+*/
 export class WebexAdapter extends BotAdapter {
-    // TODO: add typedefs to these
-    private _config: any;
+    private _config: WebexAdapterOptions;
+
     private _api: any;
     private _identity: any;
 
-    public name: string;
+    /**
+     * Name used by Botkit plugin loader
+     */
+    public name: string = 'Webex Adapter';
+
+    /**
+     * Object containing one or more Botkit middlewares to bind automatically.
+     */
     public middlewares;
 
-    public constructor(config) {
+    /**
+     * A customized BotWorker object that exposes additional utility methods.
+     */
+    public botkit_worker = WebexBotWorker;
+
+
+    public constructor(config: WebexAdapterOptions) {
         super();
 
         this._config = {
@@ -60,27 +119,14 @@ export class WebexAdapter extends BotAdapter {
 
         if (!this._config.secret) {
             console.warn('WARNING: No secret specified. Source of incoming webhooks will not be validated. https://developer.webex.com/webhooks-explained.html#auth');
-            // throw new Error('secret parameter required to secure webhooks');
         }
 
         // Botkit Plugin additions
-        this.name = 'Webex Adapter';
         this.middlewares = {
             spawn: [
                 async (bot, next) => {
                     // make webex api directly available on a botkit instance.
                     bot.api = this._api;
-
-                    // TODO: put this in a botworker
-                    bot.startPrivateConversation = async function(userId: string) {
-                        // send a message with the toPersonId or toPersonEmail set
-                        // response will have the roomID
-                        return this.changeContext({
-                            from: { id: userId },
-                            conversation: { id: 'temp' }, // TODO: this is fake
-                            channelId: 'webex'
-                        });
-                    };
 
                     next();
                 }
