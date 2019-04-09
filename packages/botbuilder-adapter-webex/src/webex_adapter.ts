@@ -7,6 +7,7 @@ import * as ciscospark from 'ciscospark';
 import * as url from 'url';
 import * as crypto from 'crypto';
 import * as Debug from 'debug';
+import { Tracing } from 'trace_events';
 const debug = Debug('botkit:webex');
 
 export interface WebexAdapterOptions {
@@ -22,6 +23,10 @@ export interface WebexAdapterOptions {
      * The root URL of your bot application.  Something like `https://mybot.com/`
      */
     public_address: string;
+    /**
+     * a name for the webhook subscription that will be created to tell Webex to send your bot webhooks.
+     */
+    webhook_name?: string;
 }
 
 /**

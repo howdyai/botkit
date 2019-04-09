@@ -195,3 +195,4 @@ USE WITH CAUTION while we try to sort this out.
 | access_token | string | An access token for the bot. Get one from [https://developer.webex.com/](https://developer.webex.com/)<br/>
 | public_address | string | The root URL of your bot application.  Something like `https://mybot.com/`<br/>
 | secret | string | Shared secret used to validate incoming webhooks.<br/>
+| webhook_name | string | a name for the webhook subscription that will be created to tell Webex to send your bot webhooks.<br/>

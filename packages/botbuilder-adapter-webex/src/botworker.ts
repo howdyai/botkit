@@ -16,7 +16,8 @@ export class WebexBotWorker extends BotWorker {
         // response will have the roomID
         return this.changeContext({
             from: { id: userId },
-            conversation: { id: 'temp' }, // TODO: this is fake
+            // @ts-ignore
+            conversation: { id: 'temporary-value' }, // TODO: this is fake
             channelId: 'webex'
         });
     };
