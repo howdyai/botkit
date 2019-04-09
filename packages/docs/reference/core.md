@@ -269,6 +269,18 @@ somethingAsync().then(function() {
 ```
 
 
+<a name="addDialog"></a>
+### addDialog()
+Add a dialog to the bot, making it accessible via `bot.beginDialog(dialog_id)`
+
+**Parameters**
+
+| Argument | Type | description
+|--- |--- |---
+| dialog| Dialog | A dialog to be added to the bot's dialog set<br/>
+
+
+
 <a name="completeDep"></a>
 ### completeDep()
 (For use by plugins only) - Mark a bootup dependency as loaded and ready to use

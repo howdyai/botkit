@@ -71,6 +71,7 @@ const adapter = new WebexAdapter({
 | botkit_worker | [WebexBotWorker](#WebexBotWorker) | A customized BotWorker object that exposes additional utility methods.
 | middlewares | any | Object containing one or more Botkit middlewares to bind automatically.
 | name | string | Name used by Botkit plugin loader
+| identity |  | Returns the identity of the bot, including
 
 <a name="continueConversation"></a>
 ### continueConversation()
@@ -182,6 +183,68 @@ When using the WebexAdapter with Botkit, all `bot` objects will be of this type.
 | Name | Type | Description
 |--- |--- |---
 | api | Ciscospark | An instance of the [webex api client](https://www.npmjs.com/package/ciscospark)
+
+<a name="deleteMessage"></a>
+### deleteMessage()
+Delete an existing message.
+
+**Parameters**
+
+| Argument | Type | description
+|--- |--- |---
+| update| Partial&lt;BotkitMessage&gt; | An object in the form of `{id: <id of message to delete>}`<br/>
+
+
+
+```javascript
+// send a reply, capture the results
+let sent = await bot.reply(message,'this is my original reply...');
+
+// delete the sent message using the sent.id field
+await bot.deleteMessage(sent);
+```
+
+
+<a name="startConversationInRoom"></a>
+### startConversationInRoom()
+Switch a bot's context into a different room.
+After calling this method, messages sent with `bot.say` and any dialogs started with `bot.beginDialog` will occur in this new context.
+
+**Parameters**
+
+| Argument | Type | description
+|--- |--- |---
+| roomId| string | A Webex rooom id, like one found in `message.channel`
+| userId| string | A Webex user id, like one found in `message.user`<br/>
+
+
+
+```javascript
+controller.hears('take this offline', 'message', async(bot, message) => {
+
+     // switch to a different channel
+     await bot.startConversationInRoom(WEBEX_ROOM_ID, message.user);
+
+     // say hello
+     await bot.say('Shall we discuss this matter over here?');
+     // ... continue...
+     await bot.beginDialog(ANOTHER_DIALOG);
+
+});
+```
+
+Also useful when sending pro-active messages such as those sent on a schedule or in response to external events:
+```javascript
+// Spawn a worker
+let bot = await controller.spawn();
+
+// Set the context for the bot's next action...
+await bot.startConversationInRoom(CACHED_ROOM_ID, CACHED_USER_ID);
+
+// Begin a dialog in the 1:1 context
+await bot.beginDialog(ALERT_DIALOG);
+```
+
 
 <a name="startPrivateConversation"></a>
 ### startPrivateConversation()
