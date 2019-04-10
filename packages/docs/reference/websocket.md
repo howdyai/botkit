@@ -29,15 +29,21 @@ To use with BotBuilder:
 ```javascript
 const adapter = new WebsocketAdapter();
 const server = restify.createServer();
-// instead of binding processActivity to the incoming request, pass in turn handler logic to createWebSocketServer
-adapter.createWebSocketServer(server, async(context) => {
+// instead of binding processActivity to the incoming request, pass in turn handler logic to createSocketServer
+let options = {}; // socket server configuration options
+adapter.createSocketServer(server, options, async(context) => {
  // handle turn here
 });
 ```
 
 ### constructor new WebsocketAdapter()
-Create a new websocket adapter. No parameters required, though Botkit must have a fully configured
+Create a WebsocketAdapter
 
+**Parameters**
+
+| Argument | Type | Description
+|--- |--- |---
+| socketServerOptions |  | an optional object containing parameters to send to a call to [WebSocket.server](https://github.com/websockets/ws/blob/master/doc/ws.md#new-websocketserveroptions-callback).<br/>
 
 **Properties and Accessors**
 
@@ -63,14 +69,15 @@ Standard BotBuilder adapter method for continuing an existing conversation based
 <a name="createSocketServer"></a>
 ### createSocketServer()
 Bind a websocket listener to an existing webserver object.
-Note: Create the server using Node's http.createServer - NOT an Express or Restify object.
+Note: Create the server using Node's http.createServer
 
 **Parameters**
 
 | Argument | Type | description
 |--- |--- |---
-| server| any | an http server<br/>
-| logic| any | 
+| server| any | an http server
+| socketOptions| any | additional options passed when creating the websocket server with [WebSocket.server](https://github.com/websockets/ws/blob/master/doc/ws.md#new-websocketserveroptions-callback)
+| logic| any | a turn handler function in the form `async(context)=>{ ... }` that will handle the bot's logic.<br/>
 
 
 
