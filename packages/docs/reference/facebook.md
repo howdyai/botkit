@@ -89,6 +89,19 @@
 
 
 
+<a name="getAPI"></a>
+### getAPI()
+Get a Facebook API client with the correct credentials based on the page identified in the incoming activity.
+This is used by many internal functions to get access to the Facebook API, and is exposed as `bot.api` on any bot worker instances.
+
+**Parameters**
+
+| Argument | Type | description
+|--- |--- |---
+| activity| Partial&lt;Activity&gt; | An incoming message activity<br/>
+
+
+
 <a name="init"></a>
 ### init()
 
@@ -180,4 +193,5 @@
 | access_token | string | 
 | api_host | string | 
 | app_secret | string | 
+| getAccessTokenForPage |  | 
 | verify_token | string | 

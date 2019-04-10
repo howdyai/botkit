@@ -276,18 +276,21 @@ export class FacebookAdapter extends BotAdapter {
             message.sender = { id: message.optin.user_ref };
         }
 
-        const activity = {
+        const activity: Activity = {
             channelId: 'facebook',
             timestamp: new Date(),
+            // @ts-ignore ignore missing optional fields
             conversation: {
-                id: message.sender.id
+                id: message.sender.id,
+                tenantId: message.recipient.id, // this is the page id
             },
             from: {
                 id: message.sender.id,
                 name: message.sender.id
             },
             recipient: {
-                id: message.recipient.id
+                id: message.recipient.id,
+                name: message.recipient.id,
             },
             channelData: message,
             type: ActivityTypes.Event,
