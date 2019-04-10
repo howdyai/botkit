@@ -69,14 +69,11 @@ export class BotWorker {
         return new Promise((resolve, reject) => {
             let activity = this.ensureMessageFormat(message);
 
-            this._controller.middleware.send.run(this, activity, (err, bot, activity) => {
+            this._controller.middleware.send.run(this, activity, async (err, bot, activity) => {
                 if (err) {
                     return reject(err);
                 }
-                // NOTE: This calls the BotBuilder middleware again...
-                this._controller.adapter.continueConversation(this._config.reference, async (outgoing_context) => {
-                    resolve(await outgoing_context.sendActivity(activity));
-                });
+                resolve(await this.getConfig('context').sendActivity(activity));
             });
         });
     };
@@ -101,19 +98,12 @@ export class BotWorker {
         return new Promise((resolve, reject) => {
             let activity = this.ensureMessageFormat(resp);
 
-            // get conversation reference from src
+            // Get conversation reference from src
             const reference = TurnContext.getConversationReference(src.incoming_message);
 
-            // use the new reference to send the outgoing message
-            this._controller.middleware.send.run(this, activity, (err, bot, activity) => {
-                if (err) {
-                    return reject(err);
-                }
-                // NOTE: This calls the BotBuilder middleware again...
-                this._controller.adapter.continueConversation(reference, async (outgoing_context) => {
-                    resolve(await outgoing_context.sendActivity(activity));
-                });
-            });
+            activity = TurnContext.applyConversationReference(activity, reference);
+
+            resolve(this.say(activity));
         });
     }
 

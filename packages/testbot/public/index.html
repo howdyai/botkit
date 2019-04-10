@@ -1,0 +1,63 @@
+<html>
+    <head>
+        <title>Botkit Anywhere</title>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.0.10/handlebars.min.js"></script>
+        <script src="https://cdn.rawgit.com/showdownjs/showdown/1.7.4/dist/showdown.min.js"></script>
+        <link rel="stylesheet" href="/css/styles.css" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    </head>
+    <body >
+      <div class="wrapper">
+
+        <div id="message_window">
+            <div class="disconnected">
+                Disconnected... reconnecting!
+            </div>
+            <div class="offline">
+                Offline! Reload to reconnect.
+            </div>
+            <div class="powered_by">
+              Powered by <a href="https://botkit.ai" target="_blank" title="Building Blocks for Building Bots"><img src="/botkit_icon.png" width="15" height="15" alt="Botkit Logo" /> Botkit</a>
+            </div>
+            <section>
+                <div id="message_list">
+                    <div id="message_template">
+                        <div class="message {{message.type}}">
+                            {{#if message.isTyping}}
+                              <div class="typing-indicator">
+                                <span></span>
+                                <span></span>
+                                <span></span>
+                              </div>
+                            {{/if}}
+                            {{{message.html}}}
+
+                            {{#if message.open_link}}
+                              <a href="{{{message.open_link}}}" target="_blank" class="button_message">{{#if message.link_title}}{{message.link_title}}{{else}}{{message.open_link}}{{/if}}</a>
+                            {{/if}}
+                        </div>
+                        {{#message.files}}
+                          <div class="file_attachment">
+                          {{#if image}}
+                            <img src="{{{url}}}" alt="{{{url}}}" />
+                          {{else}}
+                            <a href="{{{url}}}" title="{{{url}}}">{{{url}}}</a>
+                          {{/if}}
+                          </div>
+                        {{/message.files}}
+                    </div>
+                </div>
+            </section>
+            <div id="message_replies">
+            </div>
+            <footer>
+                <form onsubmit="Botkit.send(Botkit.input.value, event)">
+                    <input type="text" autocomplete="off" id="messenger_input" placeholder="Type here..." />
+                    <button type="submit">Send</button>
+                </form>
+            </footer>
+        </div>
+        </div>
+        <script src="/client.js"></script>
+    </body>
+</html>

@@ -12,6 +12,7 @@
   "author": "benbrown@gmail.com",
   "license": "MIT",
   "dependencies": {
+    "botkit": "^4.0.0",
     "botbuilder": "^4.2.0",
     "debug": "^4.1.0",
     "dotenv": "^6.0.0",

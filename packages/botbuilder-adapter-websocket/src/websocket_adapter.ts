@@ -37,7 +37,7 @@ export class WebsocketAdapter extends BotAdapter {
     /**
      * Name used to register this adapter with Botkit.
      */
-    public name: string;
+    public name: string = 'Websocket Adapter';
 
     /**
      * The websocket server.
@@ -49,9 +49,6 @@ export class WebsocketAdapter extends BotAdapter {
      */
     public constructor() {
         super();
-
-        // Botkit Plugin additions
-        this.name = 'Websocket Adapter';
     }
 
     /**
@@ -61,7 +58,7 @@ export class WebsocketAdapter extends BotAdapter {
     public init(botkit): void {
         // when the bot is ready, register the webhook subscription with the Webex API
         botkit.ready(() => {
-            this.createSocketServer(botkit.http, botkit.handleTurn);
+            this.createSocketServer(botkit.http, botkit.handleTurn.bind(botkit));
         });
     }
 
@@ -95,7 +92,7 @@ export class WebsocketAdapter extends BotAdapter {
                     const activity = {
                         timestamp: new Date(),
                         channelId: 'websocket',
-                        conversation: { id: message.channel },
+                        conversation: { id: message.user },
                         from: { id: message.user },
                         channelData: message,
                         text: message.text,
@@ -140,6 +137,27 @@ export class WebsocketAdapter extends BotAdapter {
     }
 
     /**
+     * Caste a message to the simple format used by the websocket client
+     * @param activity 
+     * @returns a message ready to send back to the websocket client.
+     */
+    private activityToMessage(activity: Partial<Activity>): any {
+
+        let message = {
+            type: activity.type,
+            text: activity.text,
+        }
+
+        // if channelData is specified, overwrite any fields in message object
+        if (activity.channelData) {
+            Object.keys(activity.channelData).forEach(function(key) {
+                message[key] = activity.channelData[key];
+            });
+        }
+
+        return message;
+    }
+    /**
      * Standard BotBuilder adapter method to send a message from the bot to the messaging API.
      * [BotBuilder reference docs](https://docs.microsoft.com/en-us/javascript/api/botbuilder-core/botadapter?view=botbuilder-ts-latest#sendactivities).
      * @param context A TurnContext representing the current incoming message and environment. (not used)
@@ -149,18 +167,33 @@ export class WebsocketAdapter extends BotAdapter {
         const responses = [];
         for (var a = 0; a < activities.length; a++) {
 
-            // TODO: We need to caste the activity into the right format... 
-            // TODO: OR update the client to deal in activities...
             const activity = activities[a];
-            var ws = clients[activity.recipient.id];
-            if (ws) {
-                try {
-                    ws.send(JSON.stringify(activity));
-                } catch (err) {
-                    console.error(err);
+            
+            let message = this.activityToMessage(activity);
+            console.log('Outgoing message', message);
+            console.log('CONTEXT CHANNEL:', context.activity.channelId);
+            const channel = context.activity.channelId;
+
+            if (channel === 'websocket') {
+                // If this turn originated with a websocket message, respond via websocket
+                var ws = clients[activity.recipient.id];
+                if (ws) {
+                    try {
+                        ws.send(JSON.stringify(message));
+                    } catch (err) {
+                        console.error(err);
+                    }
+                } else {
+                    console.error('Could not send message, no open websocket found');
                 }
-            } else {
-                console.error('Could not send message, no open websocket found');
+            } else if (channel === 'webhook') {
+                // if this turn originated with a webhook event, enqueue the response to be sent via the http response
+                let outbound = context.turnState.get('httpBody');
+                if (!outbound) {
+                    outbound = [];
+                }
+                outbound.push(message);
+                context.turnState.set('httpBody', outbound);
             }
         }
 
@@ -196,6 +229,8 @@ export class WebsocketAdapter extends BotAdapter {
         );
         const context = new TurnContext(this, request);
 
+        console.log('CALLED CONTINUE CONVERSATION');
+
         return this.runMiddleware(context, logic)
             .catch((err) => { console.error(err.toString()); });
     }
@@ -208,7 +243,27 @@ export class WebsocketAdapter extends BotAdapter {
      */
     // TODO: update this to actually work with webhooks, and to queue up responses and send them back as a batch
     public async processActivity(req, res, logic: (context: TurnContext) => Promise<void>): Promise<void> {
-        const activity = req.body;
+        const message = req.body;
+
+        console.log('INCOMING ACTIVITY VIA WEBHOOK', message);
+
+        // this stuff normally lives inside Botkit.congfigureWebhookEndpoint
+        const activity: Activity = {
+            timestamp: new Date(),
+            channelId: 'webhook',
+            //@ts-ignore
+            conversation: { id: message.user },
+            //@ts-ignore
+            from: { id: message.user },
+            channelData: message,
+            text: message.text,
+            type: message.type === 'message' ? ActivityTypes.Message : ActivityTypes.Event
+        };
+
+        // set botkit's event type
+        if (activity.type !== ActivityTypes.Message) {
+            activity.channelData.botkitEventType = message.type;
+        }
 
         // create a conversation reference
         const context = new TurnContext(this, activity);
@@ -221,7 +276,7 @@ export class WebsocketAdapter extends BotAdapter {
         // send http response back
         res.status(context.turnState.get('httpStatus'));
         if (context.turnState.get('httpBody')) {
-            res.send(context.turnState.get('httpBody'));
+            res.json(context.turnState.get('httpBody'));
         } else {
             res.end();
         }

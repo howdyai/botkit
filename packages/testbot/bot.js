@@ -3,9 +3,9 @@ const { ShowTypingMiddleware } = require('botbuilder');
 const { MongoDbStorage } = require('botbuilder-storage-mongodb');
 const basicAuth = require('express-basic-auth');
 
-// const { SlackAdapter, SlackMessageTypeMiddleware, SlackIdentifyBotsMiddleware, SlackEventMiddleware } = require('botbuilder-adapter-slack');
-const { WebexAdapter } = require('botbuilder-adapter-webex');
-// const { WebsocketAdapter } = require('botbuilder-adapter-websocket');
+const { SlackAdapter, SlackMessageTypeMiddleware, SlackIdentifyBotsMiddleware, SlackEventMiddleware } = require('botbuilder-adapter-slack');
+// const { WebexAdapter } = require('botbuilder-adapter-webex');
+const { WebsocketAdapter } = require('botbuilder-adapter-websocket');
 // const { FacebookAdapter, FacebookEventTypeMiddleware } = require('botbuilder-adapter-facebook');
 // const { HangoutsAdapter } = require('botbuilder-adapter-hangouts');
 // const { TwilioAdapter } = require('botbuilder-adapter-twilio-sms');
@@ -32,11 +32,11 @@ if (process.env.MONGO_URI) {
  * Configure the Webex Teams adapter
  * ----------------------------------------------------------------------
  */
-const adapter = new WebexAdapter({
-    access_token: process.env.WEBEX_ACCESS_TOKEN,
-    public_address: process.env.WEBEX_PUBLIC_ADDRESS,
-    secret: 'random-secret-1234',
-})
+// const adapter = new WebexAdapter({
+//     access_token: process.env.WEBEX_ACCESS_TOKEN,
+//     public_address: process.env.WEBEX_PUBLIC_ADDRESS,
+//     secret: 'random-secret-1234',
+// })
 
 /* ----------------------------------------------------------------------
  *  .--. .-.               .-.
@@ -100,7 +100,7 @@ async function getBotUserByTeam(teamId) {
 
 // Use SlackMessageType middleware to further classify messages as direct_message, direct_mention, or mention
 // adapter.use(new SlackMessageTypeMiddleware());
-
+// 
 /* ----------------------------------------------------------------------
  *  __      __      ___.                        __           __   
  * /  \    /  \ ____\_ |__   __________   ____ |  | __ _____/  |_ 
@@ -111,7 +111,7 @@ async function getBotUserByTeam(teamId) {
  * Configure the Websocket adapter
  * ----------------------------------------------------------------------
  */
-// const adapter = new WebsocketAdapter({});
+const adapter = new WebsocketAdapter({});
 
 // const adapter = new FacebookAdapter({
 //     verify_token: process.env.FACEBOOK_VERIFY_TOKEN,
@@ -140,10 +140,6 @@ const controller = new Botkit({
     debug: true,
     webhook_uri: '/api/messages',
     adapter: adapter,
-    authFunction:  basicAuth({
-        users: { 'admin': 'supersecret' }, // TODO: externalize these
-        challenge: true,
-    }),
     cms: {
         cms_uri: process.env.cms_uri,
         token: process.env.cms_token,
