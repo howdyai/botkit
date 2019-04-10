@@ -27,8 +27,9 @@ const clients = {};
  * ```javascript
  * const adapter = new WebsocketAdapter();
  * const server = restify.createServer();
- * // instead of binding processActivity to the incoming request, pass in turn handler logic to createWebSocketServer
- * adapter.createWebSocketServer(server, async(context) => {
+ * // instead of binding processActivity to the incoming request, pass in turn handler logic to createSocketServer
+ * let options = {}; // socket server configuration options
+ * adapter.createSocketServer(server, options, async(context) => {
  *  // handle turn here
  * });
  * ```
@@ -44,11 +45,19 @@ export class WebsocketAdapter extends BotAdapter {
      */
     public wss;
 
+    private socketServerOptions: {
+        [key: string]: any;
+    };
+
     /**
-     * Create a new websocket adapter. No parameters required, though Botkit must have a fully configured
+     * Create a WebsocketAdapter
+     * @param socketServerOptions an optional object containing parameters to send to a call to [WebSocket.server](https://github.com/websockets/ws/blob/master/doc/ws.md#new-websocketserveroptions-callback).
      */
-    public constructor() {
+    public constructor(socketServerOptions?: {[key: string]: any}) {
+
         super();
+        this.socketServerOptions = socketServerOptions ? socketServerOptions : null;
+        
     }
 
     /**
@@ -58,18 +67,21 @@ export class WebsocketAdapter extends BotAdapter {
     public init(botkit): void {
         // when the bot is ready, register the webhook subscription with the Webex API
         botkit.ready(() => {
-            this.createSocketServer(botkit.http, botkit.handleTurn.bind(botkit));
+            this.createSocketServer(botkit.http, this.socketServerOptions, botkit.handleTurn.bind(botkit));
         });
     }
 
     /**
      * Bind a websocket listener to an existing webserver object.
-     * Note: Create the server using Node's http.createServer - NOT an Express or Restify object.
+     * Note: Create the server using Node's http.createServer
      * @param server an http server
+     * @param socketOptions additional options passed when creating the websocket server with [WebSocket.server](https://github.com/websockets/ws/blob/master/doc/ws.md#new-websocketserveroptions-callback)
+     * @param logic a turn handler function in the form `async(context)=>{ ... }` that will handle the bot's logic.
      */
-    public createSocketServer(server, logic): void {
+    public createSocketServer(server, socketOptions: any = {}, logic): void {
         this.wss = new WebSocket.Server({
-            server
+            server,
+            ...socketOptions
         });
 
         function heartbeat(): void {
@@ -170,8 +182,7 @@ export class WebsocketAdapter extends BotAdapter {
             const activity = activities[a];
             
             let message = this.activityToMessage(activity);
-            console.log('Outgoing message', message);
-            console.log('CONTEXT CHANNEL:', context.activity.channelId);
+
             const channel = context.activity.channelId;
 
             if (channel === 'websocket') {
@@ -228,9 +239,6 @@ export class WebsocketAdapter extends BotAdapter {
             true
         );
         const context = new TurnContext(this, request);
-
-        console.log('CALLED CONTINUE CONVERSATION');
-
         return this.runMiddleware(context, logic)
             .catch((err) => { console.error(err.toString()); });
     }
@@ -241,13 +249,9 @@ export class WebsocketAdapter extends BotAdapter {
      * @param res A response object from Restify or Express
      * @param logic A bot logic function in the form `async(context) => { ... }`
      */
-    // TODO: update this to actually work with webhooks, and to queue up responses and send them back as a batch
     public async processActivity(req, res, logic: (context: TurnContext) => Promise<void>): Promise<void> {
         const message = req.body;
 
-        console.log('INCOMING ACTIVITY VIA WEBHOOK', message);
-
-        // this stuff normally lives inside Botkit.congfigureWebhookEndpoint
         const activity: Activity = {
             timestamp: new Date(),
             channelId: 'webhook',
