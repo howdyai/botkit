@@ -6,13 +6,15 @@ import { Activity, ActivityTypes, BotAdapter, TurnContext, ConversationReference
 import * as Debug from 'debug';
 // import { FacebookBotWorker } from './botworker';
 import { FacebookAPI } from './facebook_api';
+import * as crypto from 'crypto';
 const debug = Debug('botkit:facebook');
 
 export interface FacebookAdapterOptions {
     api_host?: string;
     verify_token: string;
     app_secret: string;
-    access_token: string;
+    access_token?: string;
+    getAccessTokenForPage?: (pageId: string) => Promise<string>;
 }
 
 export class FacebookAdapter extends BotAdapter {
@@ -21,7 +23,6 @@ export class FacebookAdapter extends BotAdapter {
     public middlewares;
 
     private options: FacebookAdapterOptions;
-    private api; // Facebook api
 
     // tell botkit to use this type of worker
     // public botkit_worker = FacebookBotWorker;
@@ -40,10 +41,14 @@ export class FacebookAdapter extends BotAdapter {
 
         this.name = 'Facebook Adapter';
 
+        if (!this.options.access_token && !this.options.getAccessTokenForPage) {
+            throw new Error('Adapter must receive either an access_token or a getAccessTokenForPage function.');
+        }
+
         this.middlewares = {
             spawn: [
                 async (bot, next) => {
-                    bot.api = this.api;
+                    // bot.api = this.api;
                     next();
                 }
             ]
@@ -62,6 +67,29 @@ export class FacebookAdapter extends BotAdapter {
             }
         }));
     }
+
+    /**
+     * Get a Facebook API client with the correct credentials based on the page identified in the incoming activity.
+     * This is used by many internal functions to get access to the Facebook API, and is exposed as `bot.api` on any bot worker instances.
+     * @param activity An incoming message activity
+     */
+    public async getAPI(activity: Partial<Activity>): Promise<FacebookAPI> {
+        if (this.options.access_token) {
+            return new FacebookAPI(this.options.access_token);
+        } else {
+            if (activity.recipient.id) {
+                const token = await this.options.getAccessTokenForPage(activity.recipient.id);
+                if (!token) {
+                    throw new Error('Missing credentials for page.');
+                }
+                return new FacebookAPI(token);
+            } else {
+                // No API can be created, this is
+                debug('Unable to create API based on activity: ', activity);
+            }
+        }
+    }
+
 
     private activityToFacebook(activity: any): any {
         const message = {
@@ -133,15 +161,12 @@ export class FacebookAdapter extends BotAdapter {
             if (activity.type === ActivityTypes.Message) {
                 const message = this.activityToFacebook(activity);
                 try {
-                    // TODO: accessor function to allow multi-tenant
-                    message.access_token = this.options.access_token;
-
-                    var api = new FacebookAPI(this.options.access_token);
+                    var api = await this.getAPI(context.activity);
                     const res = await api.callAPI('/me/messages', 'POST', message);
                     responses.push({ id: res.message_id });
                     debug('RESPONSE FROM FACEBOOK > ', res);
                 } catch (err) {
-                    console.error('Error sending activity to Slack:', err);
+                    console.error('Error sending activity to Facebook:', err);
                 }
             } else {
                 // TODO: Handle sending of other types of message?
@@ -206,48 +231,43 @@ export class FacebookAdapter extends BotAdapter {
     }
 
     public async processActivity(req, res, logic: (context: TurnContext) => Promise<void>): Promise<void> {
-        let event = req.body;
+        debug('IN FROM FACEBOOK >', req.body);
+        if (await this.verifySignature(req, res) === true) {
+            let event = req.body;
+            if (event.entry) {
+                for (var e = 0; e < event.entry.length; e++) {
+                    let payload = null;
+                    let entry = event.entry[e];
 
-        debug('IN FROM FACEBOOK >', event);
-
-        // TODO: implement token verification
-        let valid = false;
-
-        if (valid) {
-            res.status(401);
-            debug('Token verification failed, Ignoring message');
-        } else if (event.entry) {
-            for (var e = 0; e < event.entry.length; e++) {
-                let payload = null;
-                let entry = event.entry[e];
-
-                // handle normal incoming stuff
-                if (entry.changes) {
-                    payload = entry.changes;
-                } else if (entry.messaging) {
-                    payload = entry.messaging;
-                }
-
-                for (let m = 0; m < payload.length; m++) {
-                    await this.processSingleMessage(payload[m], logic);
-                }
-
-                // handle standby messages (this bot is not the active receiver)
-                if (entry.standby) {
-                    payload = entry.standyby;
+                    // handle normal incoming stuff
+                    if (entry.changes) {
+                        payload = entry.changes;
+                    } else if (entry.messaging) {
+                        payload = entry.messaging;
+                    }
 
                     for (let m = 0; m < payload.length; m++) {
-                        // TODO: do some stuff here to indicate
-                        let message = payload[m];
-                        message.standby = true;
-                        await this.processSingleMessage(message, logic);
+                        await this.processSingleMessage(payload[m], logic);
+                    }
+
+                    // handle standby messages (this bot is not the active receiver)
+                    if (entry.standby) {
+                        payload = entry.standyby;
+
+                        for (let m = 0; m < payload.length; m++) {
+                            // TODO: do some stuff here to indicate
+                            let message = payload[m];
+                            message.standby = true;
+                            await this.processSingleMessage(message, logic);
+                        }
                     }
                 }
-            }
 
-            res.status(200);
-            res.end();
+                res.status(200);
+                res.end();
+            }
         }
+
     }
 
     private async processSingleMessage(message: any, logic: any): Promise<void> {
@@ -290,5 +310,23 @@ export class FacebookAdapter extends BotAdapter {
         const context = new TurnContext(this, activity as Activity);
         await this.runMiddleware(context, logic)
             .catch((err) => { throw err; });
+    }
+
+     /*
+     * Verifies the SHA1 signature of the raw request payload before bodyParser parses it
+     * Will abort parsing if signature is invalid, and pass a generic error to response
+     */
+    private async verifySignature(req, res) {
+        var expected = req.headers['x-hub-signature'];
+        var hmac = crypto.createHmac('sha1', this.options.app_secret);
+        hmac.update(req.rawBody, 'utf8');
+        let calculated = 'sha1=' + hmac.digest('hex');
+        if (expected !== calculated) {
+            res.status(401);
+            debug('Token verification failed, Ignoring message');
+            throw new Error('Invalid signature on incoming request');
+        } else {
+            return true;
+        }
     }
 }

@@ -43,12 +43,12 @@ export interface SlackAdapterOptions {
     /**
      * A method that receives a Slack team id and returns the bot token associated with that team. Required for multi-team apps.
      */
-    getTokenForTeam?: (teamId: string) => string;
+    getTokenForTeam?: (teamId: string) => Promise<string>;
 
     /**
      * A method that receives a Slack team id and returns the bot user id associated with that team. Required for multi-team apps.
      */
-    getBotUserByTeam?: (teamId: string) => string;
+    getBotUserByTeam?: (teamId: string) => Promise<string>;
 };
 
 // These interfaces are necessary to cast result of web api calls
