@@ -934,7 +934,7 @@ export class Botkit {
      * for handling platform-specific events or activities.
      * @param config {any} Preferably receives a DialogContext, though can also receive a TurnContext. If excluded, must call `bot.changeContext(reference)` before calling any other method.
      */
-    public spawn(config: any): Promise<BotWorker> {
+    public async spawn(config: any): Promise<BotWorker> {
         if (config instanceof TurnContext) {
             config = {
                 dialogContext: await this.dialogSet.createContext(config as TurnContext),

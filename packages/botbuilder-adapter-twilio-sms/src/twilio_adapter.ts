@@ -259,7 +259,7 @@ export class TwilioAdapter extends BotAdapter {
         let validation_url;
 
         // Restify style
-        if (req.header) {
+        if (!req.headers) {
             twilioSignature = req.header('x-twilio-signature');
 
             validation_url = this.options.validation_url ||
