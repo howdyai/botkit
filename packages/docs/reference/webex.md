@@ -36,6 +36,7 @@ const adapter = new WebexAdapter({
 });
 // set up restify...
 const server = restify.createServer();
+server.use(restify.plugins.bodyParser());
 // register the webhook subscription to start receiving messages - Botkit does this automatically!
 adapter.registerWebhookSubscription('/api/messages');
 // create an endpoint for receiving messages
