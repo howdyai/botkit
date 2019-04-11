@@ -99,6 +99,7 @@ interface AuthTestResult extends WebAPICallResult {
  * });
  * // set up restify...
  * const server = restify.createServer();
+ * server.use(restify.plugins.bodyParser());
  * server.post('/api/messages', (req, res) => {
  *      adapter.processActivity(req, res, async(context) => {
  *          // do your bot logic here!

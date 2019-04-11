@@ -4,7 +4,6 @@
 import * as request from 'request';
 import * as crypto from 'crypto';
 
-
 /**
  * A simple API client for the Facebook API.  Automatically signs requests with the access token and app secret proof.
  * It can be used to call any API provided by Facebook.

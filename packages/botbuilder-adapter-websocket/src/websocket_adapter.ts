@@ -27,6 +27,7 @@ const clients = {};
  * ```javascript
  * const adapter = new WebsocketAdapter();
  * const server = restify.createServer();
+ * server.use(restify.plugins.bodyParser());
  * // instead of binding processActivity to the incoming request, pass in turn handler logic to createSocketServer
  * let options = {}; // socket server configuration options
  * adapter.createSocketServer(server, options, async(context) => {

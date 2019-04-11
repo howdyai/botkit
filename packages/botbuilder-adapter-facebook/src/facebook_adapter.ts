@@ -69,6 +69,7 @@ export interface FacebookAdapterOptions {
  *      access_token: process.env.FACEBOOK_ACCESS_TOKEN 
  * });
  * const server = restify.createServer();
+ * server.use(restify.plugins.bodyParser());
  * server.post('/api/messages', (req, res) => {
  *      adapter.processActivity(req, res, async(context) => {
  *          // do your bot logic here!
@@ -382,6 +383,10 @@ export class FacebookAdapter extends BotAdapter {
         if (message.message) {
             activity.type = ActivityTypes.Message;
             activity.text = message.message.text;
+
+            if (activity.channelData.message.is_echo) {
+                activity.type = ActivityTypes.Event;
+            }
 
             // copy fields like attachments, sticker, quick_reply, nlp, etc.
             for (let key in message.message) {
