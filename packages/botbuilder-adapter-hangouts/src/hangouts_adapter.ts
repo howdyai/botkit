@@ -320,14 +320,17 @@ export class HangoutsAdapter extends BotAdapter {
             }
 
             if (event.type === 'ADDED_TO_SPACE') {
+                activity.type = ActivityTypes.Event;
                 activity.channelData.botkitEventType = event.space.type === 'ROOM' ? 'bot_room_join' : 'bot_dm_join';
             }
 
             if (event.type === 'REMOVED_FROM_SPACE') {
+                activity.type = ActivityTypes.Event;
                 activity.channelData.botkitEventType = event.space.type === 'ROOM' ? 'bot_room_leave' : 'bot_dm_leave';
             }
 
             if (event.type === 'CARD_CLICKED') {
+                activity.type = ActivityTypes.Event;
                 activity.channelData.botkitEventType = event.type.toLowerCase();
             }
 

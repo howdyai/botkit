@@ -360,6 +360,7 @@ export class WebexAdapter extends BotAdapter {
             // this is the bot speaking
             if (activity.from.id === this._identity.id) {
                 activity.channelData.botkitEventType = 'self_message';
+                activity.type = ActivityTypes.Event;
             }
 
             if (decrypted_message.html) {

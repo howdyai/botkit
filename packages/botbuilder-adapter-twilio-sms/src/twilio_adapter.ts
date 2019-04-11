@@ -251,16 +251,30 @@ export class TwilioAdapter extends BotAdapter {
      * @returns If signature is valid, returns true. Otherwise, sends a 400 error status via http response and then returns false.
      */
     private async verifySignature(req, res): Promise<any> {
-        var twilioSignature = req.headers['x-twilio-signature'];
+        let twilioSignature;
+        let validation_url;
 
-        var validation_url = this.options.validation_url ||
-            ((req.headers['x-forwarded-proto'] || req.protocol) + '://' + req.hostname + req.originalUrl);
+        // Restify style
+        if (req.header) {
+            twilioSignature = req.header('x-twilio-signature');
 
-        if (Twilio.validateRequest(this.options.auth_token, twilioSignature, validation_url, req.body)) {
+            validation_url = this.options.validation_url ||
+                (req.headers['x-forwarded-proto'] || (req.isSecure()) ? 'https' : 'http') + '://' + req.headers.host + req.url
+
+        } else {
+        // express style
+            twilioSignature = req.headers['x-twilio-signature'];
+
+            validation_url = this.options.validation_url ||
+                ((req.headers['x-forwarded-proto'] || req.protocol) + '://' + req.hostname + req.originalUrl);
+        }
+
+        if (twilioSignature && Twilio.validateRequest(this.options.auth_token, twilioSignature, validation_url, req.body)) {
             return true;
         } else {
             debug('Signature verification failed, Ignoring message');
-            res.status(400).send({
+            res.status(400);
+            res.send({
                 error: 'Invalid signature.'
             });
             return false;
