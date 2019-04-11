@@ -18,7 +18,7 @@ export interface FacebookAdapterOptions {
      */
     api_host?: string;
     /**
-     * Alternate API version used to construct calls to Facebook's API. Defaults to v2.11.
+     * Alternate API version used to construct calls to Facebook's API. Defaults to v3.2
      */
     api_version?: string;
 
@@ -105,7 +105,7 @@ export class FacebookAdapter extends BotAdapter {
 
         this.options = {
             api_host:  'graph.facebook.com', 
-            api_version: 'v2.11',
+            api_version: 'v3.2',
             ...options
         }
 
@@ -113,6 +113,10 @@ export class FacebookAdapter extends BotAdapter {
 
         if (!this.options.access_token && !this.options.getAccessTokenForPage) {
             throw new Error('Adapter must receive either an access_token or a getAccessTokenForPage function.');
+        }
+
+        if (!this.options.app_secret) {
+            throw new Error('Provide an app_secret in order to validate incoming webhooks and better secure api requests');
         }
 
         this.middlewares = {
@@ -149,7 +153,7 @@ export class FacebookAdapter extends BotAdapter {
      */
     public async getAPI(activity: Partial<Activity>): Promise<FacebookAPI> {
         if (this.options.access_token) {
-            return new FacebookAPI(this.options.access_token, this.options.api_host, this.options.api_version);
+            return new FacebookAPI(this.options.access_token, this.options.app_secret, this.options.api_host, this.options.api_version);
         } else {
             if (activity.recipient.id) {
 
@@ -162,7 +166,7 @@ export class FacebookAdapter extends BotAdapter {
                 if (!token) {
                     throw new Error('Missing credentials for page.');
                 }
-                return new FacebookAPI(token, this.options.api_host, this.options.api_version);
+                return new FacebookAPI(token, this.options.app_secret, this.options.api_host, this.options.api_version);
             } else {
                 // No API can be created, this is
                 debug('Unable to create API based on activity: ', activity);
@@ -252,7 +256,9 @@ export class FacebookAdapter extends BotAdapter {
                 try {
                     var api = await this.getAPI(context.activity);
                     const res = await api.callAPI('/me/messages', 'POST', message);
-                    responses.push({ id: res.message_id });
+                    if (res) {
+                        responses.push({ id: res.message_id });
+                    }
                     debug('RESPONSE FROM FACEBOOK > ', res);
                 } catch (err) {
                     console.error('Error sending activity to Facebook:', err);

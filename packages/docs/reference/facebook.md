@@ -16,30 +16,36 @@
 
 <a name="FacebookAPI"></a>
 ## FacebookAPI
-
+A simple API client for the Facebook API.  Automatically signs requests with the access token and app secret proof.
+It can be used to call any API provided by Facebook.
 ### constructor new FacebookAPI()
-
+Create a FacebookAPI client.
+```
+let api = new FacebookAPI(TOKEN, SECRET);
+await api.callAPI('/some/api','POST', {some_options});
+```
 
 **Parameters**
 
 | Argument | Type | Description
 |--- |--- |---
-| token | string | 
-| api_host | string | 
-| api_version | string | 
+| token | string | a page access token
+| secret | string | an app secret
+| api_host | string | optional root hostname for constructing api calls, defaults to graph.facebook.com
+| api_version | string | optional api version used when constructing api calls, defaults to v3.2<br/>
 
 
 <a name="callAPI"></a>
 ### callAPI()
-
+Call one of the Facebook APIs
 
 **Parameters**
 
 | Argument | Type | description
 |--- |--- |---
-| path| string | 
-| method| string | 
-| payload| any | 
+| path| string | Path to the API endpoint, for example `/me/messages`
+| method| string | HTTP method, for example POST, GET, DELETE or PUT.
+| payload| any | An object to be sent as parameters to the API call.<br/>
 
 
 
@@ -239,19 +245,39 @@ await bot.say('Howdy human!');
 
 <a name="FacebookEventTypeMiddleware"></a>
 ## FacebookEventTypeMiddleware
+This adapter middleware, when used in conjunction with FacebookAdapter and Botkit, will result in Botkit emitting events with
+names based on their event type.
+
+```javascript
+const adapter = new FacebookAdapter(MY_OPTIONS);
+adapter.use(new FacebookEventTypeMiddleware());
+```
+
+When used, events emitted may include:
+* facebook_postback
+* facebook_referral
+* facebook_optin
+* message_delivered
+* message_read
+* facebook_account_linking
+* message_echo
+* facebook_app_roles
+* standby
+* facebook_receive_thread_control
+* facebook_request_thread_control
 
 
 
 <a name="onTurn"></a>
 ### onTurn()
-
+Implements the middleware's onTurn function. Called automatically!
 
 **Parameters**
 
 | Argument | Type | description
 |--- |--- |---
 | context| any | 
-| next| any | 
+| next| any | <br/>
 
 
 
@@ -268,7 +294,7 @@ This interface defines the options that can be passed into the FacebookAdapter c
 |--- |--- |---
 | access_token | string | When bound to a single page, use `access_token` to specify the "page access token" provided in the Facebook developer portal's "Access Tokens" widget of the "Messenger Settings" page.<br/>
 | api_host | string | Alternate root url used to contruct calls to Facebook's API.  Defaults to 'graph.facebook.com' but can be changed (for mocking, proxy, etc).<br/>
-| api_version | string | Alternate API version used to construct calls to Facebook's API. Defaults to v2.11.<br/>
+| api_version | string | Alternate API version used to construct calls to Facebook's API. Defaults to v3.2<br/>
 | app_secret | string | The "app secret" from the "basic settings" page from your app's configuration in the Facebook developer portal<br/>
 | getAccessTokenForPage |  | When bound to multiple teams, provide a function that, given a page id, will return the page access token for that page.<br/>
 | verify_token | string | The "verify token" used to initially create and verify the Webhooks subscription settings on Facebook's developer portal.<br/>
