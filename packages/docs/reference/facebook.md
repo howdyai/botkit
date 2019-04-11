@@ -207,7 +207,8 @@ Facebook adapter does not support updateActivity.
 
 <a name="FacebookBotWorker"></a>
 ## FacebookBotWorker
-
+Specialized version of the BotWorker class that includes additional methods for interacting with Facebook.
+When using the FacebookAdapter with Botkit, all `bot` objects will be of this type.
 ### constructor new FacebookBotWorker()
 Used internally by controller.spawn, creates a BotWorker instance that can send messages, replies, and make other API calls.
 

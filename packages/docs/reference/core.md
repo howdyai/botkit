@@ -252,7 +252,7 @@ controller.on('message', async(bot, message) => {
 | Name | Type | Description
 |--- |--- |---
 | PATH | string | The path of the main Botkit SDK, used to generate relative paths
-| adapter | any | A BotBuilder-compatible adapter - defaults to a Bot Framework adapter
+| adapter | any | Any BotBuilder-compatible adapter - defaults to a [BotFrameworkAdapter](https://docs.microsoft.com/en-us/javascript/api/botbuilder/botframeworkadapter?view=botbuilder-ts-latest)
 | cms | [BotkitCMSHelper](#BotkitCMSHelper) | provides an interface to interact with an instance of Botkit CMS
 | dialogSet | DialogSet | A BotBuilder DialogSet that serves as the top level dialog container for the Botkit app
 | http | any | A direct reference to the underlying HTTP server object
@@ -1074,10 +1074,11 @@ Defines the options used when instantiating Botkit to create the main app contro
 
 | Name | Type | Description
 |--- |--- |---
-| adapter | BotFrameworkAdapter | A fully configured BotBuilder Adapter, such as `botbuilder-adapter-slack` or `botbuilder-adapter-websocket`<br/>The adapter is responsible for translating platform-specific messages into the format understood by Botkit and BotBuilder.<br/>
+| adapter | any | A fully configured BotBuilder Adapter, such as `botbuilder-adapter-slack` or `botbuilder-adapter-websocket`<br/>The adapter is responsible for translating platform-specific messages into the format understood by Botkit and BotBuilder.<br/>
 | adapterConfig |  | If using the BotFramework service, options included in `adapterConfig` will be passed to the new Adapter when created internally.<br/>See [BotFrameworkAdapterSettings](https://docs.microsoft.com/en-us/javascript/api/botbuilder/botframeworkadaptersettings?view=azure-node-latest&viewFallbackFrom=botbuilder-ts-latest).<br/>
 | authFunction |  | An Express middleware function used to authenticate requests to the /admin URI of your Botkit application.<br/>
 | cms |  | A configuration passed to the Botkit CMS helper.<br/>
+| dialogStateProperty | string | Name of the dialogState property in the ConversationState that will be used to automatically track the dialog state. Defaults to `dialogState`.<br/>
 | storage | Storage | A Storage interface compatible with [this specification](https://docs.microsoft.com/en-us/javascript/api/botbuilder-core/storage?view=botbuilder-ts-latest)<br/>Defaults to the ephemeral [MemoryStorage](https://docs.microsoft.com/en-us/javascript/api/botbuilder-core/memorystorage?view=botbuilder-ts-latest) implementation.<br/>
 | webhook_uri | string | Path used to create incoming webhook URI.  Defaults to `/api/messages`<br/>
 | webserver | any | An instance of Express used to define web endpoints.  If not specified, oen will be created internally.<br/>Note: only use your own Express if you absolutely must for some reason. Otherwise, use `controller.webserver`<br/>

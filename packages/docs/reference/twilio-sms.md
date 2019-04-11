@@ -4,6 +4,7 @@
 
 
 * <a href="#TwilioAdapter">TwilioAdapter</a>
+* <a href="#TwilioBotWorker">TwilioBotWorker</a>
 
 ## Interfaces
 
@@ -69,6 +70,7 @@ const adapter = new TwilioAdapter({
 
 | Name | Type | Description
 |--- |--- |---
+| botkit_worker | [TwilioBotWorker](#TwilioBotWorker) | A specialized BotWorker for Botkit that exposes Twilio specific extension methods.
 | middlewares | any | Object containing one or more Botkit middlewares to bind automatically.
 | name | string | Name used by Botkit plugin loader
 
@@ -138,6 +140,37 @@ Twilio SMS adapter does not support updateActivity.
 | context| TurnContext | 
 | activity| Partial&lt;Activity&gt; | 
 
+
+
+
+<a name="TwilioBotWorker"></a>
+## TwilioBotWorker
+Specialized version of the BotWorker class that includes additional methods for interacting with Twilio.
+When using the TwilioAdapter with Botkit, all `bot` objects will be of this type.
+
+**Properties and Accessors**
+
+| Name | Type | Description
+|--- |--- |---
+| api | Twilio.Twilio | A copy of the Twilio API client
+
+<a name="startConversationWithUser"></a>
+### startConversationWithUser()
+Start a conversation with a given user identified by their phone number. Useful for sending pro-active messages:
+
+**Parameters**
+
+| Argument | Type | description
+|--- |--- |---
+| userId| string | A phone number in the form +1XXXYYYZZZZ<br/>
+
+
+
+```javascript
+let bot = await controller.spawn();
+await bot.startConversationWithUser(MY_PHONE_NUMBER);
+await bot.send('An important update!');
+```
 
 
 

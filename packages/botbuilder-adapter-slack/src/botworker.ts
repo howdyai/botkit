@@ -2,7 +2,7 @@
  * @module botbuilder-adapter-slack
  */
 
-import { Botkit, BotWorker } from 'botkit';
+import { Botkit, BotkitMessage, BotWorker } from 'botkit';
 import { WebClient, Dialog } from '@slack/client';
 import * as request from 'request';
 
@@ -292,5 +292,49 @@ export class SlackBotWorker extends BotWorker {
         return this.api.dialog.open(msg);
     };
 
-    // TODO: updateMessage and deleteMessage helpers?
+    /**
+     * Update an existing message with new content.
+     * 
+     * ```javascript
+     * // send a reply, capture the results
+     * let sent = await bot.reply(message,'this is my original reply...');
+     * 
+     * // update the sent message using the sent.id field
+     * await bot.updateMessage({
+     *      text: 'this is an update!',
+     *      ...sent
+     * })
+     * ```
+     * 
+     * @param update An object in the form `{id: <id of message to update>, conversation: { id: <channel> }, text: <new text>, card: <array of card objects>}`
+     */
+    public async updateMessage(update: Partial<BotkitMessage>): Promise<any> {
+        return this.controller.adapter.updateActivity(
+            this.getConfig('context'),
+            update
+        );
+    }
+
+    /**
+     * Delete an existing message.
+     * 
+     * ```javascript
+     * // send a reply, capture the results
+     * let sent = await bot.reply(message,'this is my original reply...');
+     * 
+     * // delete the sent message using the sent.id field
+     * await bot.deleteMessage(sent);
+     * ```
+     * 
+     * @param update An object in the form of `{id: <id of message to delete>, conversation: { id: <channel of message> }}`
+     */
+    public async deleteMessage(update: Partial<BotkitMessage>): Promise<any> {
+        return this.controller.adapter.deleteActivity(
+            this.getConfig('context'), 
+            {
+                activityId: update.id,
+                conversation: update.conversation
+            }
+        );
+    }
 }

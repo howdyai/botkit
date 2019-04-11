@@ -36,6 +36,29 @@ module.exports = function(controller) {
             await bot.say('And this should also be in that thread!');
         });
 
+        controller.hears('update', ['message','direct_message'], async(bot, message) => {
+            const reply = await bot.reply(message,'This message will get updated in a few seconds.');
+            setTimeout(async function() {
+                await bot.updateMessage({
+                    text: '[ this message was update ]',
+                    ...reply
+                });
+            }, 3000);
+        });
+
+        controller.hears('delete', ['message','direct_message'], async(bot, message) => {
+            return new Promise(async(resolve, reject) => {
+                console.log('SENDING DELETABLE MESSAGE');
+                const reply = await bot.reply(message,'This message will get deleted in a few seconds.');
+                setTimeout(async function() {
+                    await bot.deleteMessage(reply);
+                    await bot.reply(message,'A message was deleted!');
+                    resolve();
+                }, 100);
+            });
+        });
+
+
         controller.hears('blocks', 'message', async(bot, message) => {
 
             await bot.reply(message,{

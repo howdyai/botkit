@@ -392,7 +392,7 @@ export class SlackAdapter extends BotAdapter {
                         responses.push({
                             id: result.ts,
                             activityId: result.ts,
-                            conversation: result.channel
+                            conversation: { id: result.channel }
                         });
                     } else {
                         console.error('Error sending activity to API:', result);

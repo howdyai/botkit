@@ -1,5 +1,6 @@
 module.exports = function(controller) {
 
+    if (controller.adapter.name === 'Facebook Adapter') {
     /**
      * Detect when a message has a sticker attached
      */
@@ -58,5 +59,7 @@ module.exports = function(controller) {
 
 
     });
+
+  }
 
 }

@@ -1,7 +1,7 @@
 /**
  * @module botkit
  */
-import { Activity, BotFrameworkAdapter, MemoryStorage, Storage, ConversationReference, TurnContext } from 'botbuilder';
+import { Activity, BotAdapter, BotFrameworkAdapter, MemoryStorage, Storage, ConversationReference, TurnContext } from 'botbuilder';
 import { Dialog, DialogContext, DialogSet, DialogTurnStatus } from 'botbuilder-dialogs';
 import { BotkitCMSHelper } from './cms';
 import { BotWorker } from './botworker';
@@ -27,10 +27,15 @@ export interface BotkitConfiguration {
     webhook_uri?: string;
 
     /**
+     * Name of the dialogState property in the ConversationState that will be used to automatically track the dialog state. Defaults to `dialogState`.
+     */
+    dialogStateProperty?: string;
+
+    /**
      * A fully configured BotBuilder Adapter, such as `botbuilder-adapter-slack` or `botbuilder-adapter-websocket`
      * The adapter is responsible for translating platform-specific messages into the format understood by Botkit and BotBuilder.
      */
-    adapter?: BotFrameworkAdapter;
+    adapter?: any;
 
     /**
      * If using the BotFramework service, options included in `adapterConfig` will be passed to the new Adapter when created internally.
@@ -251,9 +256,9 @@ export class Botkit {
     public http: any;
 
     /**
-     * A BotBuilder-compatible adapter - defaults to a Bot Framework adapter
+     * Any BotBuilder-compatible adapter - defaults to a [BotFrameworkAdapter](https://docs.microsoft.com/en-us/javascript/api/botbuilder/botframeworkadapter?view=botbuilder-ts-latest)
      */
-    public adapter: any; // TODO: this should be BotAdapter, but missing adapter.processActivity causes errors
+    public adapter: any; // The base type of this is BotAdapter, but TypeScript doesn't like that we call adapter.processActivity since it is not part of the base class...
 
     /**
      * A BotBuilder DialogSet that serves as the top level dialog container for the Botkit app
@@ -298,6 +303,7 @@ export class Botkit {
 
         this._config = {
             webhook_uri: '/api/messages',
+            dialogStateProperty: 'dialogState',
             ...config
         };
 
@@ -323,8 +329,7 @@ export class Botkit {
 
         this.conversationState = new BotkitConversationState(this.storage);
 
-        // TODO: dialogState propertyname should maybe be settable to avoid collision
-        const dialogState = this.conversationState.createProperty('dialogState');
+        const dialogState = this.conversationState.createProperty(this.getConfig('dialogStateProperty'));
 
         this.dialogSet = new DialogSet(dialogState);
 
@@ -594,7 +599,7 @@ export class Botkit {
 
         // Turn this turnContext into a Botkit message.
         const message: BotkitMessage = {
-            ...turnContext.activity.channelData, // start with all the fields that were in the original incoming payload. TODO: this is a shallow copy, is that a problem?
+            ...turnContext.activity.channelData, // start with all the fields that were in the original incoming payload. NOTE: this is a shallow copy, is that a problem?
 
             // if Botkit has further classified this message, use that sub-type rather than the Activity type
             type: (turnContext.activity.channelData && turnContext.activity.channelData.botkitEventType) ? turnContext.activity.channelData.botkitEventType : turnContext.activity.type,
@@ -932,8 +937,8 @@ export class Botkit {
     public spawn(config: any): Promise<BotWorker> {
         if (config instanceof TurnContext) {
             config = {
-                // TODO: What about a dialog context here?  PROBLEMATIC!
-                context: config,
+                dialogContext: await this.dialogSet.createContext(config as TurnContext),
+                context: config as TurnContext,
                 reference: TurnContext.getConversationReference(config.activity),
                 activity: config.activity
             };

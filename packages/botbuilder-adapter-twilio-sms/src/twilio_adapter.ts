@@ -5,7 +5,7 @@
 import { Activity, ActivityTypes, BotAdapter, TurnContext, ConversationReference, ResourceResponse } from 'botbuilder';
 import * as Debug from 'debug';
 import * as Twilio from 'twilio';
-import { rejects } from 'assert';
+import { TwilioBotWorker } from './botworker';
 const debug = Debug('botkit:twilio');
 
 /**
@@ -76,9 +76,13 @@ export class TwilioAdapter extends BotAdapter {
      */
     public middlewares;
 
-    private options: TwilioAdapterOptions;
-    private api: Twilio.Twilio; // google api
+    /**
+     * A specialized BotWorker for Botkit that exposes Twilio specific extension methods.
+     */
+    public botkit_worker = TwilioBotWorker;
 
+    private options: TwilioAdapterOptions;
+    private api: Twilio.Twilio; // Twilio api
 
     /**
      * Create a Twilio adapter. See [TwilioAdapterOptions](#TwilioAdapterOptions) for a full definition of the allowed parameters.
@@ -280,6 +284,4 @@ export class TwilioAdapter extends BotAdapter {
             return false;
         }
     }
-
-    // TODO: add startConversation helper method for proactive
 }

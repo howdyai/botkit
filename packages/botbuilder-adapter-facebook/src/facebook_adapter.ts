@@ -265,7 +265,8 @@ export class FacebookAdapter extends BotAdapter {
                     console.error('Error sending activity to Facebook:', err);
                 }
             } else {
-                // TODO: Handle sending of other types of message?
+                // If there are ever any non-message type events that need to be sent, do it here.
+                debug('Unknown message type encountered in sendActivities: ', activity.type);
             }
         }
 
@@ -334,8 +335,8 @@ export class FacebookAdapter extends BotAdapter {
                         payload = entry.standyby;
 
                         for (let m = 0; m < payload.length; m++) {
-                            // TODO: do some stuff here to indicate
                             let message = payload[m];
+                            // indiciate that this message was received in standby mode rather than normal mode.
                             message.standby = true;
                             await this.processSingleMessage(message, logic);
                         }

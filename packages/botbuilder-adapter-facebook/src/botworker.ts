@@ -4,6 +4,10 @@
 import { Botkit, BotWorker } from 'botkit';
 import { FacebookAPI } from './facebook_api';
 
+/**
+ * Specialized version of the BotWorker class that includes additional methods for interacting with Facebook.
+ * When using the FacebookAdapter with Botkit, all `bot` objects will be of this type.
+ */
 export class FacebookBotWorker extends BotWorker {
     /** 
      * A copy of the FacebookAPI client giving access to `await res = bot.api.callAPI(path, method, parameters);`

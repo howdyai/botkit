@@ -269,6 +269,27 @@ Used internally by controller.spawn, creates a BotWorker instance that can send 
 |--- |--- |---
 | api | WebClient | 
 
+<a name="deleteMessage"></a>
+### deleteMessage()
+Delete an existing message.
+
+**Parameters**
+
+| Argument | Type | description
+|--- |--- |---
+| update| Partial&lt;BotkitMessage&gt; | An object in the form of `{id: <id of message to delete>, conversation: { id: <channel of message> }}`<br/>
+
+
+
+```javascript
+// send a reply, capture the results
+let sent = await bot.reply(message,'this is my original reply...');
+
+// delete the sent message using the sent.id field
+await bot.deleteMessage(sent);
+```
+
+
 <a name="dialogError"></a>
 ### dialogError()
 Return 1 or more error to a `dialog_submission` event that will be displayed as form validation errors.
@@ -456,6 +477,30 @@ await bot.startPrivateConversation(SLACK_ADMIN_USER);
 
 // Begin a dialog in the 1:1 context
 await bot.beginDialog(ALERT_DIALOG);
+```
+
+
+<a name="updateMessage"></a>
+### updateMessage()
+Update an existing message with new content.
+
+**Parameters**
+
+| Argument | Type | description
+|--- |--- |---
+| update| Partial&lt;BotkitMessage&gt; | An object in the form `{id: <id of message to update>, conversation: { id: <channel> }, text: <new text>, card: <array of card objects>}`<br/>
+
+
+
+```javascript
+// send a reply, capture the results
+let sent = await bot.reply(message,'this is my original reply...');
+
+// update the sent message using the sent.id field
+await bot.updateMessage({
+     text: 'this is an update!',
+     ...sent
+})
 ```
 
 

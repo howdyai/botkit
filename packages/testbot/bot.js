@@ -3,12 +3,12 @@ const { ShowTypingMiddleware } = require('botbuilder');
 const { MongoDbStorage } = require('botbuilder-storage-mongodb');
 const basicAuth = require('express-basic-auth');
 
-const { SlackAdapter, SlackMessageTypeMiddleware, SlackIdentifyBotsMiddleware, SlackEventMiddleware } = require('botbuilder-adapter-slack');
+// const { SlackAdapter, SlackMessageTypeMiddleware, SlackIdentifyBotsMiddleware, SlackEventMiddleware } = require('botbuilder-adapter-slack');
 // const { WebexAdapter } = require('botbuilder-adapter-webex');
 // const { WebsocketAdapter } = require('botbuilder-adapter-websocket');
-const { FacebookAdapter, FacebookEventTypeMiddleware } = require('botbuilder-adapter-facebook');
+// const { FacebookAdapter, FacebookEventTypeMiddleware } = require('botbuilder-adapter-facebook');
 // const { HangoutsAdapter } = require('botbuilder-adapter-hangouts');
-// const { TwilioAdapter } = require('botbuilder-adapter-twilio-sms');
+const { TwilioAdapter } = require('botbuilder-adapter-twilio-sms');
 
 
 // Load process.env values from .env file
@@ -113,14 +113,14 @@ async function getBotUserByTeam(teamId) {
  */
 // const adapter = new WebsocketAdapter({});
 
-const adapter = new FacebookAdapter({
-    verify_token: process.env.FACEBOOK_VERIFY_TOKEN,
-    getAccessTokenForPage: async(team) => { console.log('GET TOKEN FOR TEAM', team); if (team === process.env.FACEBOOK_PAGE_ID) { return process.env.FACEBOOK_ACCESS_TOKEN } },
-    app_secret: process.env.FACEBOOK_APP_SECRET,
-})
+// const adapter = new FacebookAdapter({
+//     verify_token: process.env.FACEBOOK_VERIFY_TOKEN,
+//     getAccessTokenForPage: async(team) => { console.log('GET TOKEN FOR TEAM', team); if (team === process.env.FACEBOOK_PAGE_ID) { return process.env.FACEBOOK_ACCESS_TOKEN } },
+//     app_secret: process.env.FACEBOOK_APP_SECRET,
+// })
 
 // // emit events based on the type of facebook event being received
-adapter.use(new FacebookEventTypeMiddleware());
+// adapter.use(new FacebookEventTypeMiddleware());
 
 
 // const adapter = new HangoutsAdapter({
@@ -130,11 +130,11 @@ adapter.use(new FacebookEventTypeMiddleware());
 //     }
 // });
 
-// const adapter = new TwilioAdapter({
-//     twilio_number: process.env.TWILIO_NUMBER,
-//     account_sid: process.env.TWILIO_ACCOUNT_SID,
-//     auth_token: process.env.TWILIO_AUTH_TOKEN,
-// });
+const adapter = new TwilioAdapter({
+    twilio_number: process.env.TWILIO_NUMBER,
+    account_sid: process.env.TWILIO_ACCOUNT_SID,
+    auth_token: process.env.TWILIO_AUTH_TOKEN,
+});
 
 const controller = new Botkit({
     debug: true,
