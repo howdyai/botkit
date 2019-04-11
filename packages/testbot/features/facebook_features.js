@@ -22,37 +22,39 @@ module.exports = function(controller) {
             let res = await bot.say('Hello human');
             console.log('results of proactive message', res);
 
-            res = await bot.api.callAPI('/me/messenger_profile', 'delete', {fields: ['persistent_menu']});
-            console.log('results of delete menu', res);
+        }); 
 
-            res = await bot.api.callAPI('/me/messenger_profile', 'post', {
-                "persistent_menu":[
+        let res = await bot.api.callAPI('/me/messenger_profile', 'delete', {fields: ['persistent_menu']});
+        console.log('results of delete menu', res);
+
+        res = await bot.api.callAPI('/me/messenger_profile', 'post', {
+            "persistent_menu":[
+              {
+                "locale":"default",
+                "composer_input_disabled": false,
+                "call_to_actions":[
                   {
-                    "locale":"default",
-                    "composer_input_disabled": false,
+                    "title":"My Account",
+                    "type":"nested",
                     "call_to_actions":[
                       {
-                        "title":"My Account",
-                        "type":"nested",
-                        "call_to_actions":[
-                          {
-                            "title":"Pay Bill",
-                            "type":"postback",
-                            "payload":"PAYBILL_PAYLOAD"
-                          },
-                          {
-                            "type":"web_url",
-                            "title":"Latest News",
-                            "url":"https://www.messenger.com/",
-                            "webview_height_ratio":"full"
-                          }
-                        ]
+                        "title":"Pay Bill",
+                        "type":"postback",
+                        "payload":"PAYBILL_PAYLOAD"
+                      },
+                      {
+                        "type":"web_url",
+                        "title":"Latest News",
+                        "url":"https://www.messenger.com/",
+                        "webview_height_ratio":"full"
                       }
                     ]
                   }
                 ]
-              })
-        }); 
+              }
+            ]
+          })
+          console.log('results of set menu', res);
 
 
     });
