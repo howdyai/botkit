@@ -9,6 +9,9 @@ import * as crypto from 'crypto';
 import * as Debug from 'debug';
 const debug = Debug('botkit:slack');
 
+/**
+ * This interface defines the options that can be passed into the SlackAdapter constructor function.
+ */
 export interface SlackAdapterOptions {
     /**
      * Legacy method for validating the origin of incoming webhooks. Prefer `clientSigningSecret` instead.

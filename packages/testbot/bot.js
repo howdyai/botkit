@@ -115,7 +115,7 @@ async function getBotUserByTeam(teamId) {
 
 const adapter = new FacebookAdapter({
     verify_token: process.env.FACEBOOK_VERIFY_TOKEN,
-    getAccessTokenForPage: async(team) => { if (team === process.env.FACEBOOK_PAGE_ID) { return process.env.FACEBOOK_ACCESS_TOKEN } },
+    getAccessTokenForPage: async(team) => { console.log('GET TOKEN FOR TEAM', team); if (team === process.env.FACEBOOK_PAGE_ID) { return process.env.FACEBOOK_ACCESS_TOKEN } },
     app_secret: process.env.FACEBOOK_APP_SECRET,
 })
 

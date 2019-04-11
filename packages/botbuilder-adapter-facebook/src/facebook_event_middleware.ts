@@ -1,7 +1,7 @@
 /**
  * @module botbuilder-adapter-facebook
  */
-import { MiddlewareSet } from 'botbuilder';
+import { MiddlewareSet, ActivityTypes } from 'botbuilder';
 
 export class FacebookEventTypeMiddleware extends MiddlewareSet {
     public async onTurn(context, next): Promise<void> {
@@ -21,6 +21,7 @@ export class FacebookEventTypeMiddleware extends MiddlewareSet {
                 type = 'facebook_account_linking';
             } else if (context.activity.channelData.message && context.activity.channelData.message.is_echo) {
                 type = 'message_echo';
+                context.activity.type = ActivityTypes.Event;
             } else if (context.activity.channelData.app_roles) {
                 type = 'facebook_app_roles';
             } else if (context.activity.channelData.standby) {

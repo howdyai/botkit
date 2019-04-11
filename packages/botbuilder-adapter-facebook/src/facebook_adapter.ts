@@ -4,19 +4,78 @@
 
 import { Activity, ActivityTypes, BotAdapter, TurnContext, ConversationReference, ResourceResponse } from 'botbuilder';
 import * as Debug from 'debug';
-// import { FacebookBotWorker } from './botworker';
+import { FacebookBotWorker } from './botworker';
 import { FacebookAPI } from './facebook_api';
 import * as crypto from 'crypto';
 const debug = Debug('botkit:facebook');
 
+/**
+ * This interface defines the options that can be passed into the FacebookAdapter constructor function.
+ */
 export interface FacebookAdapterOptions {
+    /**
+     * Alternate root url used to contruct calls to Facebook's API.  Defaults to 'graph.facebook.com' but can be changed (for mocking, proxy, etc).
+     */
     api_host?: string;
+    /**
+     * Alternate API version used to construct calls to Facebook's API. Defaults to v2.11.
+     */
+    api_version?: string;
+
+    /**
+     * The "verify token" used to initially create and verify the Webhooks subscription settings on Facebook's developer portal.  
+     */
     verify_token: string;
+
+    /**
+     * The "app secret" from the "basic settings" page from your app's configuration in the Facebook developer portal
+     */
     app_secret: string;
+
+    /**
+     * When bound to a single page, use `access_token` to specify the "page access token" provided in the Facebook developer portal's "Access Tokens" widget of the "Messenger Settings" page.
+     */
     access_token?: string;
+
+    /**
+     * When bound to multiple teams, provide a function that, given a page id, will return the page access token for that page.
+     */
     getAccessTokenForPage?: (pageId: string) => Promise<string>;
 }
 
+/**
+ * Connect Botkit or BotBuilder to FacebookMessenger. See [FacebookAdapterOptions](#FacebookAdapterOptions) for parameters.
+ * The Facebook Adapter can be used in 2 modes: bound to a single Facebook page, 
+ * or in multi-tenancy mode able to serve multiple pages.. [Read here for more information](#constructor-new-facebookadapter).
+ * 
+ * To use with Botkit:
+ * ```javascript
+ * const adapter = new FacebookAdapter({
+ *      verify_token: process.env.FACEBOOK_VERIFY_TOKEN,
+ *      app_secret: process.env.FACEBOOK_APP_SECRET,
+ *      access_token: process.env.FACEBOOK_ACCESS_TOKEN
+ * });
+ * const controller = new Botkit({
+ *      adapter: adapter,
+ *      // other options
+ * });
+ * ```
+ *
+ * To use with BotBuilder:
+ * ```javascript
+ * const adapter = new FacebookAdapter({
+ *      verify_token: process.env.FACEBOOK_VERIFY_TOKEN,
+ *      app_secret: process.env.FACEBOOK_APP_SECRET,
+ *      access_token: process.env.FACEBOOK_ACCESS_TOKEN 
+ * });
+ * const server = restify.createServer();
+ * server.post('/api/messages', (req, res) => {
+ *      adapter.processActivity(req, res, async(context) => {
+ *          // do your bot logic here!
+ *      });
+ * });
+ * ```
+ */
 export class FacebookAdapter extends BotAdapter {
     // Botkit Plugin fields
     public name: string;
@@ -25,18 +84,29 @@ export class FacebookAdapter extends BotAdapter {
     private options: FacebookAdapterOptions;
 
     // tell botkit to use this type of worker
-    // public botkit_worker = FacebookBotWorker;
+    public botkit_worker = FacebookBotWorker;
 
-    private api_version: string = 'v2.11';
-    private api_host: string = 'graph.facebook.com';
-
+    /**
+     * Create a FacebookAdapter to handle messages from Facebook.
+     * To create an app bound to a single page, pass in `access_token`.
+     * To create an app that can be bound to multiple pages, pass in `getAccessTokenForPage` function in the form `async (pageId) => page_access_token`
+     * ```javascript
+     * const adapter = new FacebookAdapter({
+     *      verify_token: process.env.FACEBOOK_VERIFY_TOKEN,
+     *      app_secret: process.env.FACEBOOK_APP_SECRET,
+     *      access_token: process.env.FACEBOOK_ACCESS_TOKEN
+     * });
+     * ```
+     * 
+     * @param options Configuration options
+     */
     public constructor(options: FacebookAdapterOptions) {
         super();
 
-        this.options = options;
-
-        if (this.options.api_host) {
-            this.api_host = this.options.api_host;
+        this.options = {
+            api_host:  'graph.facebook.com', 
+            api_version: 'v2.11',
+            ...options
         }
 
         this.name = 'Facebook Adapter';
@@ -48,13 +118,17 @@ export class FacebookAdapter extends BotAdapter {
         this.middlewares = {
             spawn: [
                 async (bot, next) => {
-                    // bot.api = this.api;
+                    bot.api = await this.getAPI(bot.getConfig('activity'));
                     next();
                 }
             ]
         };
     }
 
+    /**
+     * Botkit plugin init function - defines an additional webhook behavior for providing webhook verification
+     * @param botkit 
+     */
     public async init(botkit): Promise<any> {
         debug('Add GET webhook endpoint for verification at: ', botkit.getConfig('webhook_uri'));
         botkit.webserver.get(botkit.getConfig('webhook_uri', function(req, res) {
@@ -75,14 +149,20 @@ export class FacebookAdapter extends BotAdapter {
      */
     public async getAPI(activity: Partial<Activity>): Promise<FacebookAPI> {
         if (this.options.access_token) {
-            return new FacebookAPI(this.options.access_token);
+            return new FacebookAPI(this.options.access_token, this.options.api_host, this.options.api_version);
         } else {
             if (activity.recipient.id) {
-                const token = await this.options.getAccessTokenForPage(activity.recipient.id);
+
+                let pageid = activity.recipient.id;
+                // if this is an echo, the page id is actually in the from field
+                if (activity.channelData && activity.channelData.message && activity.channelData.message.is_echo === true) {
+                    pageid = activity.from.id;
+                }
+                const token = await this.options.getAccessTokenForPage(pageid);
                 if (!token) {
                     throw new Error('Missing credentials for page.');
                 }
-                return new FacebookAPI(token);
+                return new FacebookAPI(token, this.options.api_host, this.options.api_version);
             } else {
                 // No API can be created, this is
                 debug('Unable to create API based on activity: ', activity);
@@ -90,7 +170,10 @@ export class FacebookAdapter extends BotAdapter {
         }
     }
 
-
+    /**
+     * Converts an Activity object to a Facebook messenger outbound message
+     * @param activity 
+     */
     private activityToFacebook(activity: any): any {
         const message = {
             recipient: {
@@ -154,6 +237,12 @@ export class FacebookAdapter extends BotAdapter {
         return message;
     }
 
+    /**
+     * Standard BotBuilder adapter method to send a message from the bot to the messaging API.
+     * [BotBuilder reference docs](https://docs.microsoft.com/en-us/javascript/api/botbuilder-core/botadapter?view=botbuilder-ts-latest#sendactivities).
+     * @param context A TurnContext representing the current incoming message and environment.
+     * @param activities An array of outgoing activities to be sent back to the messaging API.
+     */
     public async sendActivities(context: TurnContext, activities: Partial<Activity>[]): Promise<ResourceResponse[]> {
         const responses = [];
         for (var a = 0; a < activities.length; a++) {
@@ -176,49 +265,26 @@ export class FacebookAdapter extends BotAdapter {
         return responses;
     }
 
+    /**
+     * Facebook adapter does not support updateActivity.
+     */
     public async updateActivity(context: TurnContext, activity: Partial<Activity>): Promise<void> {
-        if (activity.id) {
-            // TODO: is there a facebook api to update a message??
-            try {
-                // const results = await this.api.spaces.messages.update({
-                //     name: activity.id,
-                //     updateMask: 'text,cards',
-                //     resource: {
-                //         text: activity.text,
-                //         // @ts-ignore allow cards field
-                //         cards: activity.cards ? activity.cards : (activity.channelData ? activity.channelData.cards : null),
-                //     }
-                // });
-
-                // TODO: evaluate success
-
-            } catch (err) {
-                console.error('Error updating activity on Hangouts:', err);
-            }
-        } else {
-            throw new Error('Cannot update activity: activity is missing id');
-        }
+        debug('Facebook adapter does not support updateActivity.');
     }
 
+    /**
+     * Facebook adapter does not support updateActivity.
+     */
     public async deleteActivity(context: TurnContext, reference: Partial<ConversationReference>): Promise<void> {
-        if (reference.activityId) {
-            try {
-
-                // TODO: is there a facebook api to delete a message?
-                // const results = await this.api.spaces.messages.delete({
-                //     name: reference.activityId,
-                // });
-
-                // TODO: evaluate success
-            } catch (err) {
-                console.error('Error deleting activity', err);
-                throw err;
-            }
-        } else {
-            throw new Error('Cannot delete activity: reference is missing activityId');
-        }
+        debug('Facebook adapter does not support deleteActivity.');
     }
 
+    /**
+     * Standard BotBuilder adapter method for continuing an existing conversation based on a conversation reference.
+     * [BotBuilder reference docs](https://docs.microsoft.com/en-us/javascript/api/botbuilder-core/botadapter?view=botbuilder-ts-latest#continueconversation)
+     * @param reference A conversation reference to be applied to future messages.
+     * @param logic A bot logic function that will perform continuing action in the form `async(context) => { ... }`
+     */
     public async continueConversation(reference: Partial<ConversationReference>, logic: (context: TurnContext) => Promise<void>): Promise<void> {
         const request = TurnContext.applyConversationReference(
             { type: 'event', name: 'continueConversation' },
@@ -230,6 +296,12 @@ export class FacebookAdapter extends BotAdapter {
         return this.runMiddleware(context, logic);
     }
 
+    /**
+     * Accept an incoming webhook request and convert it into a TurnContext which can be processed by the bot's logic.
+     * @param req A request object from Restify or Express
+     * @param res A response object from Restify or Express
+     * @param logic A bot logic function in the form `async(context) => { ... }`
+     */
     public async processActivity(req, res, logic: (context: TurnContext) => Promise<void>): Promise<void> {
         debug('IN FROM FACEBOOK >', req.body);
         if (await this.verifySignature(req, res) === true) {
@@ -270,6 +342,11 @@ export class FacebookAdapter extends BotAdapter {
 
     }
 
+    /**
+     * Handles each individual message inside a webhook payload (webhook may deliver more than one message at a time)
+     * @param message 
+     * @param logic 
+     */
     private async processSingleMessage(message: any, logic: any): Promise<void> {
         //  in case of Checkbox Plug-in sender.id is not present, instead we should look at optin.user_ref
         if (!message.sender && message.optin && message.optin.user_ref) {
@@ -282,7 +359,6 @@ export class FacebookAdapter extends BotAdapter {
             // @ts-ignore ignore missing optional fields
             conversation: {
                 id: message.sender.id,
-                tenantId: message.recipient.id, // this is the page id
             },
             from: {
                 id: message.sender.id,

@@ -9,7 +9,7 @@ export class FacebookAPI {
     private api_host: string;
     private api_version: string;
 
-    public constructor(token: string, api_host?: string = 'graph.facebook.com', api_version?: string = 'v2.11') {
+    public constructor(token: string, api_host: string = 'graph.facebook.com', api_version: string = 'v2.11') {
         if (!token) {
             throw new Error('Token is required!');
         }
@@ -18,13 +18,13 @@ export class FacebookAPI {
         this.api_version = api_version;
     }
 
-    public async callAPI(uri: string, method: string = 'POST', payload): Promise<any> {
+    public async callAPI(path: string, method: string = 'POST', payload): Promise<any> {
         return new Promise((resolve, reject) => {
             request({
                 method: method,
                 json: true,
                 body: payload,
-                uri: 'https://' + this.api_host + '/' + this.api_version + uri + "?access_token=" + this.token
+                uri: 'https://' + this.api_host + '/' + this.api_version + path + "?access_token=" + this.token
             }, (err, res, body) => {
                 if (err) {
                     reject(err);

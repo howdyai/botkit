@@ -741,7 +741,7 @@ Not for direct use - implements the MiddlewareSet's required onTurn function use
 
 <a name="SlackAdapterOptions"></a>
 ## Interface SlackAdapterOptions
-
+This interface defines the options that can be passed into the SlackAdapter constructor function.
 
 **Fields**
 

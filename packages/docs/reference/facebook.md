@@ -37,7 +37,7 @@
 
 | Argument | Type | description
 |--- |--- |---
-| uri| string | 
+| path| string | 
 | method| string | 
 | payload| any | 
 
@@ -46,39 +46,81 @@
 
 <a name="FacebookAdapter"></a>
 ## FacebookAdapter
+Connect Botkit or BotBuilder to FacebookMessenger. See [FacebookAdapterOptions](#FacebookAdapterOptions) for parameters.
+The Facebook Adapter can be used in 2 modes: bound to a single Facebook page,
+or in multi-tenancy mode able to serve multiple pages.. [Read here for more information](#constructor-new-facebookadapter).
+
+To use with Botkit:
+```javascript
+const adapter = new FacebookAdapter({
+     verify_token: process.env.FACEBOOK_VERIFY_TOKEN,
+     app_secret: process.env.FACEBOOK_APP_SECRET,
+     access_token: process.env.FACEBOOK_ACCESS_TOKEN
+});
+const controller = new Botkit({
+     adapter: adapter,
+     // other options
+});
+```
+
+To use with BotBuilder:
+```javascript
+const adapter = new FacebookAdapter({
+     verify_token: process.env.FACEBOOK_VERIFY_TOKEN,
+     app_secret: process.env.FACEBOOK_APP_SECRET,
+     access_token: process.env.FACEBOOK_ACCESS_TOKEN
+});
+const server = restify.createServer();
+server.post('/api/messages', (req, res) => {
+     adapter.processActivity(req, res, async(context) => {
+         // do your bot logic here!
+     });
+});
+```
 
 ### constructor new FacebookAdapter()
-
+Create a FacebookAdapter to handle messages from Facebook.
+To create an app bound to a single page, pass in `access_token`.
+To create an app that can be bound to multiple pages, pass in `getAccessTokenForPage` function in the form `async (pageId) => page_access_token`
+```javascript
+const adapter = new FacebookAdapter({
+     verify_token: process.env.FACEBOOK_VERIFY_TOKEN,
+     app_secret: process.env.FACEBOOK_APP_SECRET,
+     access_token: process.env.FACEBOOK_ACCESS_TOKEN
+});
+```
 
 **Parameters**
 
 | Argument | Type | Description
 |--- |--- |---
-| options | [FacebookAdapterOptions](#FacebookAdapterOptions) | 
+| options | [FacebookAdapterOptions](#FacebookAdapterOptions) | Configuration options<br/>
 
 **Properties and Accessors**
 
 | Name | Type | Description
 |--- |--- |---
+| botkit_worker | [FacebookBotWorker](#FacebookBotWorker) | 
 | middlewares | any | 
 | name | string | 
 
 <a name="continueConversation"></a>
 ### continueConversation()
-
+Standard BotBuilder adapter method for continuing an existing conversation based on a conversation reference.
+[BotBuilder reference docs](https://docs.microsoft.com/en-us/javascript/api/botbuilder-core/botadapter?view=botbuilder-ts-latest#continueconversation)
 
 **Parameters**
 
 | Argument | Type | description
 |--- |--- |---
-| reference| Partial&lt;ConversationReference&gt; | 
-| logic|  | 
+| reference| Partial&lt;ConversationReference&gt; | A conversation reference to be applied to future messages.
+| logic|  | A bot logic function that will perform continuing action in the form `async(context) => { ... }`<br/>
 
 
 
 <a name="deleteActivity"></a>
 ### deleteActivity()
-
+Facebook adapter does not support updateActivity.
 
 **Parameters**
 
@@ -104,46 +146,47 @@ This is used by many internal functions to get access to the Facebook API, and i
 
 <a name="init"></a>
 ### init()
-
+Botkit plugin init function - defines an additional webhook behavior for providing webhook verification
 
 **Parameters**
 
 | Argument | Type | description
 |--- |--- |---
-| botkit| any | 
+| botkit| any | <br/>
 
 
 
 <a name="processActivity"></a>
 ### processActivity()
-
+Accept an incoming webhook request and convert it into a TurnContext which can be processed by the bot's logic.
 
 **Parameters**
 
 | Argument | Type | description
 |--- |--- |---
-| req| any | 
-| res| any | 
-| logic|  | 
+| req| any | A request object from Restify or Express
+| res| any | A response object from Restify or Express
+| logic|  | A bot logic function in the form `async(context) => { ... }`<br/>
 
 
 
 <a name="sendActivities"></a>
 ### sendActivities()
-
+Standard BotBuilder adapter method to send a message from the bot to the messaging API.
+[BotBuilder reference docs](https://docs.microsoft.com/en-us/javascript/api/botbuilder-core/botadapter?view=botbuilder-ts-latest#sendactivities).
 
 **Parameters**
 
 | Argument | Type | description
 |--- |--- |---
-| context| TurnContext | 
-| activities|  | 
+| context| TurnContext | A TurnContext representing the current incoming message and environment.
+| activities|  | An array of outgoing activities to be sent back to the messaging API.<br/>
 
 
 
 <a name="updateActivity"></a>
 ### updateActivity()
-
+Facebook adapter does not support updateActivity.
 
 **Parameters**
 
@@ -157,6 +200,39 @@ This is used by many internal functions to get access to the Facebook API, and i
 
 <a name="FacebookBotWorker"></a>
 ## FacebookBotWorker
+
+### constructor new FacebookBotWorker()
+Used internally by controller.spawn, creates a BotWorker instance that can send messages, replies, and make other API calls.
+
+The example below demonstrates spawning a bot for sending proactive messages to users:
+```javascript
+let bot = await controller.spawn(FACEBOOK_PAGE_ID);
+await bot.startConversationWithUser(FACEBOOK_USER_PSID);
+await bot.say('Howdy human!');
+```
+
+**Parameters**
+
+| Argument | Type | Description
+|--- |--- |---
+| botkit | Botkit | The Botkit controller object responsible for spawning this bot worker
+| config | any | Normally, a DialogContext object.  Can also be the ID of a Facebook page managed by this app.<br/>
+
+**Properties and Accessors**
+
+| Name | Type | Description
+|--- |--- |---
+| api | [FacebookAPI](#FacebookAPI) | A copy of the FacebookAPI client giving access to `await res = bot.api.callAPI(path, method, parameters);`
+
+<a name="startConversationWithUser"></a>
+### startConversationWithUser()
+
+
+**Parameters**
+
+| Argument | Type | description
+|--- |--- |---
+| userId| any | 
 
 
 
@@ -184,14 +260,15 @@ This is used by many internal functions to get access to the Facebook API, and i
 
 <a name="FacebookAdapterOptions"></a>
 ## Interface FacebookAdapterOptions
-
+This interface defines the options that can be passed into the FacebookAdapter constructor function.
 
 **Fields**
 
 | Name | Type | Description
 |--- |--- |---
-| access_token | string | 
-| api_host | string | 
-| app_secret | string | 
-| getAccessTokenForPage |  | 
-| verify_token | string | 
+| access_token | string | When bound to a single page, use `access_token` to specify the "page access token" provided in the Facebook developer portal's "Access Tokens" widget of the "Messenger Settings" page.<br/>
+| api_host | string | Alternate root url used to contruct calls to Facebook's API.  Defaults to 'graph.facebook.com' but can be changed (for mocking, proxy, etc).<br/>
+| api_version | string | Alternate API version used to construct calls to Facebook's API. Defaults to v2.11.<br/>
+| app_secret | string | The "app secret" from the "basic settings" page from your app's configuration in the Facebook developer portal<br/>
+| getAccessTokenForPage |  | When bound to multiple teams, provide a function that, given a page id, will return the page access token for that page.<br/>
+| verify_token | string | The "verify token" used to initially create and verify the Webhooks subscription settings on Facebook's developer portal.<br/>
