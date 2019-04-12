@@ -20,17 +20,17 @@ This is a class reference for all the methods exposed by the [botbuilder-adapter
 
 <a name="FacebookAdapter"></a>
 ## FacebookAdapter
-Connect [Botkit](https://github.com/howdyai/botkit) or [BotBuilder](https://github.com/microsoft/botbuilder-js) to Facebook Messenger.
+Connect [Botkit](https://www.npmjs.com/package/botkit) or [BotBuilder](https://www.npmjs.com/package/botbuilder) to Facebook Messenger.
 
 The Facebook Adapter can be used in 2 modes: bound to a single Facebook page,
 or in multi-tenancy mode able to serve multiple pages.. [Read here for more information](#constructor-new-facebookadapter).
 
 ### constructor new FacebookAdapter()
-Create a FacebookAdapter to handle messages from Facebook.
+Create an adapter to handle incoming messages from Facebook and translate them into a standard format for processing by your bot.
 
-To create an app bound to a single page, pass in `access_token`.
+To create an app bound to a single Facebook page, include that page's `access_token` in the options.
 
-To create an app that can be bound to multiple pages, pass in `getAccessTokenForPage` function in the form `async (pageId) => page_access_token`
+To create an app that can be bound to multiple pages, include `getAccessTokenForPage` - a function in the form `async (pageId) => page_access_token`
 
 To use with Botkit:
 ```javascript
@@ -118,7 +118,7 @@ Facebook adapter does not support updateActivity.
 <a name="getAPI"></a>
 ### getAPI()
 Get a Facebook API client with the correct credentials based on the page identified in the incoming activity.
-This is used by many internal functions to get access to the Facebook API, and is exposed as `bot.api` on any bot worker instances.
+This is used by many internal functions to get access to the Facebook API, and is exposed as `bot.api` on any BotWorker instances passed into Botkit handler functions.
 
 **Parameters**
 
@@ -130,7 +130,7 @@ This is used by many internal functions to get access to the Facebook API, and i
 
 <a name="init"></a>
 ### init()
-Botkit plugin init function - defines an additional webhook behavior for providing webhook verification
+Botkit-only: Initialization function called automatically when used with Botkit. Amends the webhook_uri with an additional behavior for responding to Facebook's webhook verification request.
 
 **Parameters**
 
