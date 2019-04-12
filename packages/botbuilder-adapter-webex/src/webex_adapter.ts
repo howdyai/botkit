@@ -30,7 +30,7 @@ export interface WebexAdapterOptions {
 
 /**
  * Connect Botkit or BotBuilder to Webex Teams. See [WebexAdapterOptions](#WebexAdapterOptions) for parameters.
- * 
+ *
  * Use with Botkit:
  *```javascript
  * const adapter = new WebexAdapter({
@@ -42,7 +42,7 @@ export interface WebexAdapterOptions {
 *      // ... other configuration options
 * });
 * ```
-* 
+*
 * Use with BotBuilder:
 *```javascript
 * const adapter = new WebexAdapter({
@@ -85,7 +85,7 @@ export class WebexAdapter extends BotAdapter {
 
     /**
      * Create a Webex adapter. See [WebexAdapterOptions](#webexadapteroptions) for a full definition of the allowed parameters.
-     * 
+     *
      * ```javascript
      * const adapter = new WebexAdapter({
      *      access_token: process.env.ACCESS_TOKEN, // access token from https://developer.webex.com
@@ -93,7 +93,7 @@ export class WebexAdapter extends BotAdapter {
      *      secret: process.env.SECRET // webhook validation secret - you can define this yourself
      * });
      * ```
-     * 
+     *
      * @param options An object containing API credentials, a webhook verification token and other options
      */
     public constructor(config: WebexAdapterOptions) {
@@ -147,7 +147,7 @@ export class WebexAdapter extends BotAdapter {
                 async (bot, next) => {
                     // make webex api directly available on a botkit instance.
                     bot.api = this._api;
-                    
+
                     next();
                 }
             ]
@@ -185,7 +185,6 @@ export class WebexAdapter extends BotAdapter {
                 resolve();
             });
         });
-
     };
 
     /**
@@ -241,7 +240,6 @@ export class WebexAdapter extends BotAdapter {
         });
     }
 
-
     /**
      * Standard BotBuilder adapter method to send a message from the bot to the messaging API.
      * [BotBuilder reference docs](https://docs.microsoft.com/en-us/javascript/api/botbuilder-core/botadapter?view=botbuilder-ts-latest#sendactivities).
@@ -263,7 +261,7 @@ export class WebexAdapter extends BotAdapter {
                     toPersonEmail: activity.channelData && activity.channelData.toPersonEmail ? activity.channelData.toPersonEmail : null,
                     text: activity.text,
                     markdown: activity.channelData ? activity.channelData.markdown : null,
-                    files: activity.channelData ? activity.channelData.files : null,
+                    files: activity.channelData ? activity.channelData.files : null
                 };
 
                 let response = await this._api.messages.create(message);
@@ -281,10 +279,10 @@ export class WebexAdapter extends BotAdapter {
     /**
      * Webex adapter does not support updateActivity.
      */
+    // eslint-disable-next-line
     public async updateActivity(context: TurnContext, activity: Partial<Activity>): Promise<void> {
         debug('Webex adapter does not support updateActivity.');
     }
-
 
     /**
      * Standard BotBuilder adapter method to delete a previous message.
@@ -295,15 +293,14 @@ export class WebexAdapter extends BotAdapter {
     public async deleteActivity(context: TurnContext, reference: Partial<ConversationReference>): Promise<void> {
         if (reference.activityId) {
             try {
-                await this._api.messages.remove({id: reference.activityId});
-            } catch(err) {
+                await this._api.messages.remove({ id: reference.activityId });
+            } catch (err) {
                 throw new Error(err);
             }
         } else {
             throw new Error('Cannot delete activity: reference is missing activityId');
         }
     }
-
 
     /**
      * Standard BotBuilder adapter method for continuing an existing conversation based on a conversation reference.

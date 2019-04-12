@@ -25,14 +25,14 @@ export interface TwilioAdapterOptions {
      */
     auth_token: string;
     /**
-     * An optional url to override the automatically generated url signature used to validate incoming requests -- [See Twilio docs about securing your endpoint.](https://www.twilio.com/docs/usage/security#validating-requests) 
+     * An optional url to override the automatically generated url signature used to validate incoming requests -- [See Twilio docs about securing your endpoint.](https://www.twilio.com/docs/usage/security#validating-requests)
      */
     validation_url?: string;
 }
 
 /**
  * Connect Botkit or BotBuilder to Twilio's SMS service. See [TwilioAdapterOptions](#TwilioAdapterOptions) for parameters.
- * 
+ *
  * Use with Botkit:
  *```javascript
  * const adapter = new TwilioAdapter({
@@ -46,7 +46,7 @@ export interface TwilioAdapterOptions {
  *      // ... other configuration options
  * });
  * ```
- * 
+ *
  * Use with BotBuilder:
  *```javascript
  * const adapter = new TwilioAdapter({
@@ -86,7 +86,7 @@ export class TwilioAdapter extends BotAdapter {
 
     /**
      * Create a Twilio adapter. See [TwilioAdapterOptions](#TwilioAdapterOptions) for a full definition of the allowed parameters.
-     * 
+     *
      * ```javascript
      * const adapter = new TwilioAdapter({
      *      twilio_number: process.env.TWILIO_NUMBER,
@@ -94,7 +94,7 @@ export class TwilioAdapter extends BotAdapter {
      *      auth_token: process.env.TWILIO_AUTH_TOKEN,
      * });
      * ```
-     * 
+     *
      * @param options An object containing API credentials, a webhook verification token and other options
      */
     public constructor(options: TwilioAdapterOptions) {
@@ -128,7 +128,7 @@ export class TwilioAdapter extends BotAdapter {
      * Formats a BotBuilder activity into an outgoing Twilio SMS message.
      * @param activity A BotBuilder Activity object
      * @returns a Twilio message object with {body, from, to, mediaUrl}
-     */   
+     */
     private activityToTwilio(activity: Partial<Activity>): any {
         let message = {
             body: activity.text,
@@ -170,14 +170,16 @@ export class TwilioAdapter extends BotAdapter {
     /**
      * Twilio SMS adapter does not support updateActivity.
      */
-    public async updateActivity(context: TurnContext, activity: Partial<Activity>): Promise<void> {
+    // eslint-disable-next-line
+     public async updateActivity(context: TurnContext, activity: Partial<Activity>): Promise<void> {
         debug('Twilio SMS does not support updating activities.');
     }
 
     /**
      * Twilio SMS adapter does not support deleteActivity.
      */
-    public async deleteActivity(context: TurnContext, reference: Partial<ConversationReference>): Promise<void> {
+    // eslint-disable-next-line
+     public async deleteActivity(context: TurnContext, reference: Partial<ConversationReference>): Promise<void> {
         debug('Twilio SMS does not support deleting activities.');
     }
 
@@ -216,10 +218,10 @@ export class TwilioAdapter extends BotAdapter {
                     id: event.From
                 },
                 from: {
-                    id: event.From,
+                    id: event.From
                 },
                 recipient: {
-                    id: event.To,
+                    id: event.To
                 },
                 text: event.Body,
                 channelData: event,
@@ -263,8 +265,7 @@ export class TwilioAdapter extends BotAdapter {
             twilioSignature = req.header('x-twilio-signature');
 
             validation_url = this.options.validation_url ||
-                (req.headers['x-forwarded-proto'] || (req.isSecure()) ? 'https' : 'http') + '://' + req.headers.host + req.url
-
+                (req.headers['x-forwarded-proto'] || (req.isSecure()) ? 'https' : 'http') + '://' + req.headers.host + req.url;
         } else {
         // express style
             twilioSignature = req.headers['x-twilio-signature'];

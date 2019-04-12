@@ -44,32 +44,32 @@ export class SlackBotWorker extends BotWorker {
     /**
      * Switch a bot's context to a 1:1 private message channel with a specific user.
      * After calling this method, messages sent with `bot.say` and any dialogs started with `bot.beginDialog` will occur in this new context.
-     * 
+     *
      * ```javascript
      * controller.hears('dm me', 'message', async(bot, message) => {
-     *  
+     *
      *      // switch to a 1:1 conversation in a DM
      *      await bot.startPrivateConversation(message.user);
-     * 
+     *
      *      // say hello
      *      await bot.say('We are in private now...');
      *      await bot.beginDialog(MY_PRIVATE_DIALOG);
-     * 
+     *
      * });
      * ```
-     * 
+     *
      * Also useful when sending pro-active messages such as those sent on a schedule or in response to external events:
      * ```javascript
      * // Spawn a worker with a Slack team id.
      * let bot = await controller.spawn(SLACK_TEAM_ID);
-     * 
+     *
      * // Set the context for the bot's next action...
      * await bot.startPrivateConversation(SLACK_ADMIN_USER);
-     * 
+     *
      * // Begin a dialog in the 1:1 context
      * await bot.beginDialog(ALERT_DIALOG);
      * ```
-     * 
+     *
      * @param userId A Slack user id, like one found in `message.user` or in a `<@mention>`
      */
     public async startPrivateConversation(userId: string): Promise<any> {
@@ -96,18 +96,18 @@ export class SlackBotWorker extends BotWorker {
     /**
      * Switch a bot's context into a different channel.
      * After calling this method, messages sent with `bot.say` and any dialogs started with `bot.beginDialog` will occur in this new context.
-     * 
+     *
      * ```javascript
      * controller.hears('dm me', 'message', async(bot, message) => {
-     *  
+     *
      *      // switch to a 1:1 conversation in a DM
      *      await bot.startConversationInChannel(SLACK_CHANNEL_ID, message.user);
-     * 
+     *
      *      // say hello
      *      await bot.say('Shall we discuss this matter over here?');
      *      // ... continue...
      *      await bot.beginDialog(ANOTHER_DIALOG);
-     * 
+     *
      * });
      * ```
      * @param channelId A Slack channel id, like one found in `message.channel`
@@ -128,18 +128,18 @@ export class SlackBotWorker extends BotWorker {
     /**
      * Switch a bot's context into a specific sub-thread within a channel.
      * After calling this method, messages sent with `bot.say` and any dialogs started with `bot.beginDialog` will occur in this new context.
-     * 
+     *
      * ```javascript
      * controller.hears('in a thread', 'message', async(bot, message) => {
-     *  
+     *
      *      // branch from the main channel into a side thread associated with this message
      *      await bot.startConversationInThread(message.channel, message.user, message.ts);
-     * 
+     *
      *      // say hello
      *      await bot.say(`Let's handle this offline...`);
      *      // ... continue...
      *      await bot.beginDialog(OFFLINE_DIALOG);
-     * 
+     *
      * });
      * ```
      * @param channelId A Slack channel id, like one found in `message.channel`
@@ -197,7 +197,7 @@ export class SlackBotWorker extends BotWorker {
      * @param src an incoming message object of type `slash_command`
      * @param resp an outgoing message object (or part of one or just reply text)
      */
-     public async replyPublic(src: any, resp: any): Promise<any> {
+    public async replyPublic(src: any, resp: any): Promise<any> {
         let msg = this.ensureMessageFormat(resp);
         msg.channelData.response_type = 'in_channel';
 
@@ -264,15 +264,15 @@ export class SlackBotWorker extends BotWorker {
     /**
      * Return 1 or more error to a `dialog_submission` event that will be displayed as form validation errors.
      * Each error must be mapped to the name of an input in the dialog.
-     * @param errors 1 or more objects in form {name: string, error: string} 
+     * @param errors 1 or more objects in form {name: string, error: string}
      */
-    public dialogError(errors: {name: string, error: string;} | { name: string, error: string }[]): void {
+    public dialogError(errors: {name: string; error: string} | { name: string; error: string }[]): void {
         if (!errors) {
             errors = [];
         }
 
-        if (Object.prototype.toString.call(errors) !== '[object Array]') {
-            errors:[] = [errors];
+        if (!Array.isArray(errors)) {
+            errors = [errors];
         }
 
         this.httpBody(JSON.stringify({ errors }));
@@ -294,18 +294,18 @@ export class SlackBotWorker extends BotWorker {
 
     /**
      * Update an existing message with new content.
-     * 
+     *
      * ```javascript
      * // send a reply, capture the results
      * let sent = await bot.reply(message,'this is my original reply...');
-     * 
+     *
      * // update the sent message using the sent.id field
      * await bot.updateMessage({
      *      text: 'this is an update!',
      *      ...sent
      * })
      * ```
-     * 
+     *
      * @param update An object in the form `{id: <id of message to update>, conversation: { id: <channel> }, text: <new text>, card: <array of card objects>}`
      */
     public async updateMessage(update: Partial<BotkitMessage>): Promise<any> {
@@ -317,20 +317,20 @@ export class SlackBotWorker extends BotWorker {
 
     /**
      * Delete an existing message.
-     * 
+     *
      * ```javascript
      * // send a reply, capture the results
      * let sent = await bot.reply(message,'this is my original reply...');
-     * 
+     *
      * // delete the sent message using the sent.id field
      * await bot.deleteMessage(sent);
      * ```
-     * 
+     *
      * @param update An object in the form of `{id: <id of message to delete>, conversation: { id: <channel of message> }}`
      */
     public async deleteMessage(update: Partial<BotkitMessage>): Promise<any> {
         return this.controller.adapter.deleteActivity(
-            this.getConfig('context'), 
+            this.getConfig('context'),
             {
                 activityId: update.id,
                 conversation: update.conversation

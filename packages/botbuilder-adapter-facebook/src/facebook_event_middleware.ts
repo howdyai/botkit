@@ -6,12 +6,12 @@ import { MiddlewareSet, ActivityTypes } from 'botbuilder';
 /**
  * This adapter middleware, when used in conjunction with FacebookAdapter and Botkit, will result in Botkit emitting events with
  * names based on their event type.
- * 
+ *
  * ```javascript
  * const adapter = new FacebookAdapter(MY_OPTIONS);
  * adapter.use(new FacebookEventTypeMiddleware());
  * ```
- * 
+ *
  * When used, events emitted may include:
  * * facebook_postback
  * * facebook_referral
@@ -26,11 +26,10 @@ import { MiddlewareSet, ActivityTypes } from 'botbuilder';
  * * facebook_request_thread_control
  */
 export class FacebookEventTypeMiddleware extends MiddlewareSet {
-
     /**
      * Implements the middleware's onTurn function. Called automatically!
-     * @param context 
-     * @param next 
+     * @param context
+     * @param next
      */
     public async onTurn(context, next): Promise<void> {
         if (context.activity && context.activity.channelData) {

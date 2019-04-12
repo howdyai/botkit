@@ -29,7 +29,7 @@ export interface HangoutsAdapterOptions {
 
 /**
  * Connect Botkit or BotBuilder to Google Hangouts. See [HangoutsAdapterOptions](#HangoutsAdapterOptions) for parameters.
- * 
+ *
  * Use with Botkit:
  *```javascript
  * const adapter = new HangoutsAdapter({
@@ -43,7 +43,7 @@ export interface HangoutsAdapterOptions {
  *      // ... other configuration options
  * });
  * ```
- * 
+ *
  * Use with BotBuilder:
  *```javascript
  * const adapter = new HangoutsAdapter({
@@ -89,7 +89,7 @@ export class HangoutsAdapter extends BotAdapter {
 
     /**
      * Create a Google Hangouts adapter.
-     * 
+     *
      * ```javascript
      * const adapter = new HangoutsAdapter({
      *      token: process.env.GOOGLE_TOKEN,
@@ -98,7 +98,7 @@ export class HangoutsAdapter extends BotAdapter {
      *      }
      * });
      * ```
-     * 
+     *
      * @param options An object containing API credentials and a webhook verification token
      */
     public constructor(options: HangoutsAdapterOptions) {
@@ -153,7 +153,7 @@ export class HangoutsAdapter extends BotAdapter {
     /**
      * Formats a BotBuilder activity into an outgoing Hangouts event.
      * @param activity A BotBuilder Activity object
-     */   
+     */
     private activityToHangouts(activity: Activity): any {
         const message = {
             parent: activity.conversation.id,
@@ -224,12 +224,12 @@ export class HangoutsAdapter extends BotAdapter {
                     }
                 });
 
-                if (!results || results.status != 200) {
+                if (!results || results.status !== 200) {
                     throw new Error('updateActivity failed: ' + results.statusText);
                 }
             } catch (err) {
                 console.error('Error updating activity on Hangouts.');
-                throw(err);
+                throw (err);
             }
         } else {
             throw new Error('Cannot update activity: activity is missing id');
@@ -248,9 +248,9 @@ export class HangoutsAdapter extends BotAdapter {
                 const results = await this.api.spaces.messages.delete({
                     name: reference.activityId
                 });
-                console.log('results of delete',results);
+                console.log('results of delete', results);
 
-                if (!results || results.status != 200) {
+                if (!results || results.status !== 200) {
                     throw new Error('deleteActivity failed: ' + results.statusText);
                 }
             } catch (err) {
@@ -300,14 +300,14 @@ export class HangoutsAdapter extends BotAdapter {
                 channelId: 'googlehangouts',
                 conversation: {
                     id: event.space.name,
-                    // @ts-ignore 
+                    // @ts-ignore
                     thread: (event.message && !event.threadKey) ? event.message.thread.name : null,
-                    // @ts-ignore 
+                    // @ts-ignore
                     threadKey: event.threadKey || null
                 },
                 from: {
                     id: event.user.name,
-                    name: event.user.name,
+                    name: event.user.name
                 },
                 channelData: event,
                 text: event.message ? (event.message.argumentText ? event.message.argumentText.trim() : '') : '',

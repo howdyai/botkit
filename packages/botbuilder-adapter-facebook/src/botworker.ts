@@ -9,14 +9,14 @@ import { FacebookAPI } from './facebook_api';
  * When using the FacebookAdapter with Botkit, all `bot` objects will be of this type.
  */
 export class FacebookBotWorker extends BotWorker {
-    /** 
+    /**
      * A copy of the FacebookAPI client giving access to `await res = bot.api.callAPI(path, method, parameters);`
      */
     public api: FacebookAPI;
 
     /**
      * Used internally by controller.spawn, creates a BotWorker instance that can send messages, replies, and make other API calls.
-     * 
+     *
      * The example below demonstrates spawning a bot for sending proactive messages to users:
      * ```javascript
      * let bot = await controller.spawn(FACEBOOK_PAGE_ID);
@@ -37,7 +37,7 @@ export class FacebookBotWorker extends BotWorker {
                     recipient: {
                         id: page_id
                     }
-                },
+                }
             };
         }
 
@@ -53,8 +53,7 @@ export class FacebookBotWorker extends BotWorker {
             conversation: { id: userId },
             bot: this.getConfig('activity').recipient,
             // @ts-ignore
-            user: { id: userId },
+            user: { id: userId }
         });
     }
-
 }

@@ -23,7 +23,7 @@ export interface FacebookAdapterOptions {
     api_version?: string;
 
     /**
-     * The "verify token" used to initially create and verify the Webhooks subscription settings on Facebook's developer portal.  
+     * The "verify token" used to initially create and verify the Webhooks subscription settings on Facebook's developer portal.
      */
     verify_token: string;
 
@@ -45,9 +45,9 @@ export interface FacebookAdapterOptions {
 
 /**
  * Connect Botkit or BotBuilder to FacebookMessenger. See [FacebookAdapterOptions](#FacebookAdapterOptions) for parameters.
- * The Facebook Adapter can be used in 2 modes: bound to a single Facebook page, 
+ * The Facebook Adapter can be used in 2 modes: bound to a single Facebook page,
  * or in multi-tenancy mode able to serve multiple pages.. [Read here for more information](#constructor-new-facebookadapter).
- * 
+ *
  * To use with Botkit:
  * ```javascript
  * const adapter = new FacebookAdapter({
@@ -66,7 +66,7 @@ export interface FacebookAdapterOptions {
  * const adapter = new FacebookAdapter({
  *      verify_token: process.env.FACEBOOK_VERIFY_TOKEN,
  *      app_secret: process.env.FACEBOOK_APP_SECRET,
- *      access_token: process.env.FACEBOOK_ACCESS_TOKEN 
+ *      access_token: process.env.FACEBOOK_ACCESS_TOKEN
  * });
  * const server = restify.createServer();
  * server.use(restify.plugins.bodyParser());
@@ -98,17 +98,17 @@ export class FacebookAdapter extends BotAdapter {
      *      access_token: process.env.FACEBOOK_ACCESS_TOKEN
      * });
      * ```
-     * 
+     *
      * @param options Configuration options
      */
     public constructor(options: FacebookAdapterOptions) {
         super();
 
         this.options = {
-            api_host:  'graph.facebook.com', 
+            api_host: 'graph.facebook.com',
             api_version: 'v3.2',
             ...options
-        }
+        };
 
         this.name = 'Facebook Adapter';
 
@@ -132,7 +132,7 @@ export class FacebookAdapter extends BotAdapter {
 
     /**
      * Botkit plugin init function - defines an additional webhook behavior for providing webhook verification
-     * @param botkit 
+     * @param botkit
      */
     public async init(botkit): Promise<any> {
         debug('Add GET webhook endpoint for verification at: ', botkit.getConfig('webhook_uri'));
@@ -157,7 +157,6 @@ export class FacebookAdapter extends BotAdapter {
             return new FacebookAPI(this.options.access_token, this.options.app_secret, this.options.api_host, this.options.api_version);
         } else {
             if (activity.recipient.id) {
-
                 let pageid = activity.recipient.id;
                 // if this is an echo, the page id is actually in the from field
                 if (activity.channelData && activity.channelData.message && activity.channelData.message.is_echo === true) {
@@ -177,7 +176,7 @@ export class FacebookAdapter extends BotAdapter {
 
     /**
      * Converts an Activity object to a Facebook messenger outbound message
-     * @param activity 
+     * @param activity
      */
     private activityToFacebook(activity: any): any {
         const message = {
@@ -276,6 +275,7 @@ export class FacebookAdapter extends BotAdapter {
     /**
      * Facebook adapter does not support updateActivity.
      */
+    // eslint-disable-next-line
     public async updateActivity(context: TurnContext, activity: Partial<Activity>): Promise<void> {
         debug('Facebook adapter does not support updateActivity.');
     }
@@ -283,7 +283,8 @@ export class FacebookAdapter extends BotAdapter {
     /**
      * Facebook adapter does not support updateActivity.
      */
-    public async deleteActivity(context: TurnContext, reference: Partial<ConversationReference>): Promise<void> {
+    // eslint-disable-next-line
+     public async deleteActivity(context: TurnContext, reference: Partial<ConversationReference>): Promise<void> {
         debug('Facebook adapter does not support deleteActivity.');
     }
 
@@ -347,13 +348,12 @@ export class FacebookAdapter extends BotAdapter {
                 res.end();
             }
         }
-
     }
 
     /**
      * Handles each individual message inside a webhook payload (webhook may deliver more than one message at a time)
-     * @param message 
-     * @param logic 
+     * @param message
+     * @param logic
      */
     private async processSingleMessage(message: any, logic: any): Promise<void> {
         //  in case of Checkbox Plug-in sender.id is not present, instead we should look at optin.user_ref
@@ -366,7 +366,7 @@ export class FacebookAdapter extends BotAdapter {
             timestamp: new Date(),
             // @ts-ignore ignore missing optional fields
             conversation: {
-                id: message.sender.id,
+                id: message.sender.id
             },
             from: {
                 id: message.sender.id,
@@ -374,7 +374,7 @@ export class FacebookAdapter extends BotAdapter {
             },
             recipient: {
                 id: message.recipient.id,
-                name: message.recipient.id,
+                name: message.recipient.id
             },
             channelData: message,
             type: ActivityTypes.Event,
@@ -403,11 +403,11 @@ export class FacebookAdapter extends BotAdapter {
             .catch((err) => { throw err; });
     }
 
-     /*
+    /*
      * Verifies the SHA1 signature of the raw request payload before bodyParser parses it
      * Will abort parsing if signature is invalid, and pass a generic error to response
      */
-    private async verifySignature(req, res) {
+    private async verifySignature(req, res): Promise<boolean> {
         var expected = req.headers['x-hub-signature'];
         var hmac = crypto.createHmac('sha1', this.options.app_secret);
         hmac.update(req.rawBody, 'utf8');

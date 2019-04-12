@@ -10,7 +10,7 @@ import * as Ciscospark from 'ciscospark';
  */
 export class WebexBotWorker extends BotWorker {
     /**
-     * An instance of the [webex api client](https://www.npmjs.com/package/ciscospark) 
+     * An instance of the [webex api client](https://www.npmjs.com/package/ciscospark)
      */
     public api: Ciscospark;
 
@@ -35,33 +35,33 @@ export class WebexBotWorker extends BotWorker {
     /**
      * Switch a bot's context into a different room.
      * After calling this method, messages sent with `bot.say` and any dialogs started with `bot.beginDialog` will occur in this new context.
-     * 
+     *
      * ```javascript
      * controller.hears('take this offline', 'message', async(bot, message) => {
-     *  
+     *
      *      // switch to a different channel
      *      await bot.startConversationInRoom(WEBEX_ROOM_ID, message.user);
-     * 
+     *
      *      // say hello
      *      await bot.say('Shall we discuss this matter over here?');
      *      // ... continue...
      *      await bot.beginDialog(ANOTHER_DIALOG);
-     * 
+     *
      * });
      * ```
-     * 
+     *
      * Also useful when sending pro-active messages such as those sent on a schedule or in response to external events:
      * ```javascript
      * // Spawn a worker
      * let bot = await controller.spawn();
-     * 
+     *
      * // Set the context for the bot's next action...
      * await bot.startConversationInRoom(CACHED_ROOM_ID, CACHED_USER_ID);
-     * 
+     *
      * // Begin a dialog in the 1:1 context
      * await bot.beginDialog(ALERT_DIALOG);
      * ```
-     * 
+     *
      * @param roomId A Webex rooom id, like one found in `message.channel`
      * @param userId A Webex user id, like one found in `message.user`
      */
@@ -69,7 +69,7 @@ export class WebexBotWorker extends BotWorker {
         return this.changeContext({
             // @ts-ignore ignore warning about missing optional fields
             conversation: {
-                id: roomId,
+                id: roomId
             },
             user: { id: userId, name: null },
             channelId: 'webex'
@@ -78,15 +78,15 @@ export class WebexBotWorker extends BotWorker {
 
     /**
      * Delete an existing message.
-     * 
+     *
      * ```javascript
      * // send a reply, capture the results
      * let sent = await bot.reply(message,'this is my original reply...');
-     * 
+     *
      * // delete the sent message using the sent.id field
      * await bot.deleteMessage(sent);
      * ```
-     * 
+     *
      * @param update An object in the form of `{id: <id of message to delete>}`
      */
     public async deleteMessage(update: Partial<BotkitMessage>): Promise<any> {

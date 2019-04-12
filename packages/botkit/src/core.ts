@@ -1,7 +1,7 @@
 /**
  * @module botkit
  */
-import { Activity, BotAdapter, BotFrameworkAdapter, MemoryStorage, Storage, ConversationReference, TurnContext } from 'botbuilder';
+import { Activity, BotFrameworkAdapter, MemoryStorage, Storage, ConversationReference, TurnContext } from 'botbuilder';
 import { Dialog, DialogContext, DialogSet, DialogTurnStatus } from 'botbuilder-dialogs';
 import { BotkitCMSHelper } from './cms';
 import { BotWorker } from './botworker';
@@ -283,18 +283,18 @@ export class Botkit {
     /**
      * Create a new Botkit instance and optionally specify a platform-specific adapter.
      * By default, Botkit will create a [BotFrameworkAdapter](https://docs.microsoft.com/en-us/javascript/api/botbuilder/botframeworkadapter?view=botbuilder-ts-latest).
-     * 
+     *
      * ```javascript
      * const controller = new Botkit({
      *      adapter: some_adapter,
      *      webhook_uri: '/api/messages',
      * });
-     * 
+     *
      * controller.on('message', async(bot, message) => {
      *      // do something!
      * });
      * ```
-     * 
+     *
      * @param config Configuration for this instance of Botkit
      */
     public constructor(config: BotkitConfiguration) {
@@ -1003,25 +1003,24 @@ export class Botkit {
 
     /**
      * Add a dialog to the bot, making it accessible via `bot.beginDialog(dialog_id)`
-     * 
+     *
      * ```javascript
      * // Create a dialog -- `BotkitConversation` is just one way to create a dialog
      * const my_dialog = new BotkitConversation('my_dialog', controller);
      * my_dialog.say('Hello');
-     * 
+     *
      * // Add the dialog to the Botkit controller
      * controller.addDialog(my_dialog);
-     * 
+     *
      * // Later on, trigger the dialog into action!
      * controller.on('message', async(bot, message) => {
      *      await bot.beginDialog('my_dialog');
      * });
      * ```
-     * 
+     *
      * @param dialog A dialog to be added to the bot's dialog set
      */
     public addDialog(dialog: Dialog): void {
         this.dialogSet.add(dialog);
     }
-    
 }

@@ -7,7 +7,7 @@ import * as crypto from 'crypto';
 /**
  * A simple API client for the Facebook API.  Automatically signs requests with the access token and app secret proof.
  * It can be used to call any API provided by Facebook.
- * 
+ *
  */
 export class FacebookAPI {
     private token: string;
@@ -43,7 +43,6 @@ export class FacebookAPI {
      * @param payload An object to be sent as parameters to the API call.
      */
     public async callAPI(path: string, method: string = 'POST', payload: any): Promise<any> {
-
         let proof = this.getAppSecretProof(this.token, this.secret);
 
         return new Promise((resolve, reject) => {
@@ -51,7 +50,7 @@ export class FacebookAPI {
                 method: method,
                 json: true,
                 body: payload,
-                uri: 'https://' + this.api_host + '/' + this.api_version + path + "?access_token=" + this.token + '&appsecret_proof=' + proof,
+                uri: 'https://' + this.api_host + '/' + this.api_version + path + '?access_token=' + this.token + '&appsecret_proof=' + proof
             }, (err, res, body) => {
                 if (err) {
                     reject(err);
@@ -69,9 +68,8 @@ export class FacebookAPI {
      * @param access_token a page access token
      * @param app_secret an app secret
      */
-    private getAppSecretProof(access_token, app_secret) {
+    private getAppSecretProof(access_token, app_secret): string {
         var hmac = crypto.createHmac('sha256', app_secret || '');
         return hmac.update(access_token).digest('hex');
     }
-
 }

@@ -55,10 +55,8 @@ export class WebsocketAdapter extends BotAdapter {
      * @param socketServerOptions an optional object containing parameters to send to a call to [WebSocket.server](https://github.com/websockets/ws/blob/master/doc/ws.md#new-websocketserveroptions-callback).
      */
     public constructor(socketServerOptions?: {[key: string]: any}) {
-
         super();
-        this.socketServerOptions = socketServerOptions ? socketServerOptions : null;
-        
+        this.socketServerOptions = socketServerOptions || null;
     }
 
     /**
@@ -151,15 +149,14 @@ export class WebsocketAdapter extends BotAdapter {
 
     /**
      * Caste a message to the simple format used by the websocket client
-     * @param activity 
+     * @param activity
      * @returns a message ready to send back to the websocket client.
      */
     private activityToMessage(activity: Partial<Activity>): any {
-
         let message = {
             type: activity.type,
-            text: activity.text,
-        }
+            text: activity.text
+        };
 
         // if channelData is specified, overwrite any fields in message object
         if (activity.channelData) {
@@ -179,9 +176,8 @@ export class WebsocketAdapter extends BotAdapter {
     public async sendActivities(context: TurnContext, activities: Partial<Activity>[]): Promise<ResourceResponse[]> {
         const responses = [];
         for (var a = 0; a < activities.length; a++) {
-
             const activity = activities[a];
-            
+
             let message = this.activityToMessage(activity);
 
             const channel = context.activity.channelId;
@@ -215,15 +211,16 @@ export class WebsocketAdapter extends BotAdapter {
     /**
      * Websocket adapter does not support updateActivity.
      */
-    public async updateActivity(context: TurnContext, activity: Partial<Activity>): Promise<void> {
+    // eslint-disable-next-line
+     public async updateActivity(context: TurnContext, activity: Partial<Activity>): Promise<void> {
         debug('Websocket adapter does not support updateActivity.');
     }
-
 
     /**
      * Websocket adapter does not support updateActivity.
      */
-    public async deleteActivity(context: TurnContext, reference: Partial<ConversationReference>): Promise<void> {
+    // eslint-disable-next-line
+     public async deleteActivity(context: TurnContext, reference: Partial<ConversationReference>): Promise<void> {
         debug('Websocket adapter does not support deleteActivity.');
     }
 
@@ -256,9 +253,9 @@ export class WebsocketAdapter extends BotAdapter {
         const activity: Activity = {
             timestamp: new Date(),
             channelId: 'webhook',
-            //@ts-ignore
+            // @ts-ignore
             conversation: { id: message.user },
-            //@ts-ignore
+            // @ts-ignore
             from: { id: message.user },
             channelData: message,
             text: message.text,

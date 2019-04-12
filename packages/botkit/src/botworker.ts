@@ -95,16 +95,14 @@ export class BotWorker {
     * @returns Return value will contain the results of the send action, typically `{id: <id of message>}`
     */
     public async reply(src: Partial<BotkitMessage>, resp: Partial<BotkitMessage>): Promise<any> {
-        return new Promise((resolve, reject) => {
-            let activity = this.ensureMessageFormat(resp);
+        let activity = this.ensureMessageFormat(resp);
 
-            // Get conversation reference from src
-            const reference = TurnContext.getConversationReference(src.incoming_message);
+        // Get conversation reference from src
+        const reference = TurnContext.getConversationReference(src.incoming_message);
 
-            activity = TurnContext.applyConversationReference(activity, reference);
+        activity = TurnContext.applyConversationReference(activity, reference);
 
-            resolve(this.say(activity));
-        });
+        return this.say(activity);
     }
 
     /**

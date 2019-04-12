@@ -15,7 +15,7 @@ import { ActivityTypes, MiddlewareSet, TurnContext } from 'botbuilder';
  *      adapter: adapter,
  *      // ...
  * });
- * 
+ *
  * // can bind directly to channel_join (which starts as a message with type message and subtype channel_join)
  * controller.on('channel_join', async(bot, message) => {
  *  // send a welcome
@@ -23,11 +23,10 @@ import { ActivityTypes, MiddlewareSet, TurnContext } from 'botbuilder';
  * ```
  */
 export class SlackEventMiddleware extends MiddlewareSet {
-
     /**
      * Not for direct use - implements the MiddlewareSet's required onTurn function used to process the event
-     * @param context 
-     * @param next 
+     * @param context
+     * @param next
      */
     public async onTurn(context: TurnContext, next: () => Promise<any>): Promise<any> {
         if (context.activity.type === ActivityTypes.Event && context.activity.channelData) {

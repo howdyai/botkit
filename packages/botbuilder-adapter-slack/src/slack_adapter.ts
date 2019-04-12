@@ -18,7 +18,7 @@ export interface SlackAdapterOptions {
      */
     verificationToken?: string;
     /**
-     * A token used to validate that incoming webhooks originated with Slack.  
+     * A token used to validate that incoming webhooks originated with Slack.
      */
     clientSigningSecret?: string;
     /**
@@ -76,9 +76,9 @@ interface AuthTestResult extends WebAPICallResult {
 
 /**
  * Connect Botkit or BotBuilder to Slack. See [SlackAdapterOptions](#SlackAdapterOptions) for parameters.
- * The SlackAdapter can be used in 2 modes: as an "internal" app connected to a single Slack workspace, 
+ * The SlackAdapter can be used in 2 modes: as an "internal" app connected to a single Slack workspace,
  * or as a "multi-team" app that uses oauth to connect to multiple workspaces. [Read here for more information](../../botbuilder-adapter-slack/readme.md).
- * 
+ *
  * Use with Botkit:
  *```javascript
  * const adapter = new SlackAdapter({
@@ -90,12 +90,12 @@ interface AuthTestResult extends WebAPICallResult {
  *      // ... other configuration options
  * });
  * ```
- * 
+ *
  * Use with BotBuilder:
  *```javascript
  * const adapter = new SlackAdapter({
  *      clientSigningSecret: process.env.SLACK_SECRET,
- *      botToken: process.env.SLACK_TOKEN 
+ *      botToken: process.env.SLACK_TOKEN
  * });
  * // set up restify...
  * const server = restify.createServer();
@@ -129,17 +129,16 @@ export class SlackAdapter extends BotAdapter {
      */
     public botkit_worker = SlackBotWorker;
 
-
     /**
      * Create a Slack adapter. See [SlackAdapterOptions](#slackadapteroptions) for a full definition of the allowed parameters.
-     * 
+     *
      * ```javascript
      * const adapter = new SlackAdapter({
      *      clientSigningSecret: process.env.SLACK_SECRET,
-     *      
+     *
      * // if single team
      *      botToken: process.env.SLACK_TOKEN
-     * 
+     *
      * // if multi-team
      *     clientId: process.env.clientId, // oauth client id
      *     clientSecret: process.env.clientSecret, // oauth client secret
@@ -149,7 +148,7 @@ export class SlackAdapter extends BotAdapter {
      *     getBotUserByTeam: async(team_id) => Promise<string>, // function that returns a bot's user id based on team id
      * });
      * ```
-     * 
+     *
      * @param options An object containing API credentials, a webhook verification token and other options
      */
     public constructor(options: SlackAdapterOptions) {
@@ -270,14 +269,14 @@ export class SlackAdapter extends BotAdapter {
 
     /**
      * Get the oauth link for this bot, based on the clientId and scopes passed in to the constructor.
-     * 
+     *
      * An example using Botkit's internal webserver to configure the /install route:
      * ```
      * controller.webserver.get('/install', (req, res) => {
      *  res.redirect(controller.adapter.getInstallLink());
      * });
      * ```
-     * 
+     *
      * @returns A url pointing to the first step in Slack's oauth flow.
      */
     public getInstallLink(): string {
@@ -291,7 +290,7 @@ export class SlackAdapter extends BotAdapter {
 
     /**
      * Validates an oauth code sent by Slack during the install process.
-     * 
+     *
      * An example using Botkit's internal webserver to configure the /install/auth route:
      * ```
      * controller.webserver.get('/install/auth', async (req, res) => {
@@ -330,7 +329,7 @@ export class SlackAdapter extends BotAdapter {
      * Formats a BotBuilder activity into an outgoing Slack message.
      * @param activity A BotBuilder Activity object
      * @returns a Slack message object with {text, attachments, channel, thread_ts} as well as any fields found in activity.channelData
-     */   
+     */
     public activityToSlack(activity: Partial<Activity>): any {
         let channelId = activity.conversation.id;
         // @ts-ignore ignore this non-standard field

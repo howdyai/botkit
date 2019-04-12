@@ -2,16 +2,16 @@
  * @module botbuilder-adapter-slack
  */
 
- /**
+/**
   * Create a Slack Dialog object for use with [replyWithDialog()](#replyWithDialog).
-  * 
+  *
   * ```javascript
   * let dialog = new SlackDialog('My Dialog', 'callback_123', 'Save');
   * dialog.addText('Your full name', 'name').addEmail('Your email', 'email');
   * dialog.notifyOnCancel(true);
   * bot.replyWithDialog(message, dialog.asObject());
   * ```
-  * 
+  *
   */
 export class SlackDialog {
     private data: any;
@@ -82,10 +82,10 @@ export class SlackDialog {
     /**
      * Add a text input to the dialog
      * @param label
-     * @param name 
-     * @param value 
-     * @param options 
-     * @param subtype 
+     * @param name
+     * @param value
+     * @param options
+     * @param subtype
      */
     public addText(label: string | any, name: string, value: string, options: string | any, subtype?: string): SlackDialog {
         var element = (typeof (label) === 'object') ? label : {
@@ -108,10 +108,10 @@ export class SlackDialog {
 
     /**
      * Add an email input to the dialog
-     * @param label 
-     * @param name 
-     * @param value 
-     * @param options 
+     * @param label
+     * @param name
+     * @param value
+     * @param options
      */
     public addEmail(label: string, name: string, value: string, options?: any): SlackDialog {
         return this.addText(label, name, value, options, 'email');
@@ -119,10 +119,10 @@ export class SlackDialog {
 
     /**
      * Add a number input to the dialog
-     * @param label 
-     * @param name 
-     * @param value 
-     * @param options 
+     * @param label
+     * @param name
+     * @param value
+     * @param options
      */
     public addNumber(label: string, name: string, value: string, options?: any): SlackDialog {
         return this.addText(label, name, value, options, 'number');
@@ -131,9 +131,9 @@ export class SlackDialog {
     /**
      * Add a telephone number input to the dialog
      * @param label
-     * @param name 
-     * @param value 
-     * @param options 
+     * @param name
+     * @param value
+     * @param options
      */
     public addTel(label: string, name: string, value: string, options?: any): SlackDialog {
         return this.addText(label, name, value, options, 'tel');
@@ -141,10 +141,10 @@ export class SlackDialog {
 
     /**
      * Add a URL input to the dialog
-     * @param label 
-     * @param name 
-     * @param value 
-     * @param options 
+     * @param label
+     * @param name
+     * @param value
+     * @param options
      */
     public addUrl(label: string, name: string, value: string, options?: any): SlackDialog {
         return this.addText(label, name, value, options, 'url');
@@ -153,10 +153,10 @@ export class SlackDialog {
     /**
      * Add a text area input to the dialog
      * @param label
-     * @param name 
-     * @param value 
-     * @param options 
-     * @param subtype 
+     * @param name
+     * @param value
+     * @param options
+     * @param subtype
      */
     public addTextarea(label: string, name: string, value: string, options: any, subtype: string): SlackDialog {
         var element = (typeof (label) === 'object') ? label : {
@@ -179,11 +179,11 @@ export class SlackDialog {
 
     /**
      * Add a dropdown select input to the dialog
-     * @param label 
-     * @param name 
-     * @param value 
-     * @param option_list 
-     * @param options 
+     * @param label
+     * @param name
+     * @param value
+     * @param option_list
+     * @param options
      */
     public addSelect(label: string, name: string, value: string, option_list: string, options?: any): SlackDialog {
         var element = {
