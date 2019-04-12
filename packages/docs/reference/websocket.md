@@ -18,6 +18,16 @@ Create a websocket adapter for Botkit or BotBuilder
 Requires a compatible chat client - generate one using the Botkit yeoman generator, or find it [here]()
 # TODO: get links for chat client!
 
+To use this class in your application, first install the package:
+```bash
+npm install --save 
+```
+
+Then import this and other classes into your code:
+```javascript
+const {  } = require('');
+```
+
 To use with Botkit:
 ```javascript
 const adapter = new WebsocketAdapter();

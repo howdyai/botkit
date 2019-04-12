@@ -267,6 +267,16 @@ Call one of the Facebook APIs
 This adapter middleware, when used in conjunction with FacebookAdapter and Botkit, will result in Botkit emitting events with
 names based on their event type.
 
+To use this class in your application, first install the package:
+```bash
+npm install --save 
+```
+
+Then import this and other classes into your code:
+```javascript
+const {  } = require('');
+```
+
 ```javascript
 const adapter = new FacebookAdapter(MY_OPTIONS);
 adapter.use(new FacebookEventTypeMiddleware());

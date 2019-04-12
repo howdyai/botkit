@@ -605,6 +605,16 @@ controller.on('event', async(bot, message) => {
 Provides access to an instance of Botkit CMS, including the ability to load script content into a DialogSet
 and bind before, after and onChange handlers to those dynamically imported dialogs by name.
 
+To use this class in your application, first install the package:
+```bash
+npm install --save 
+```
+
+Then import this and other classes into your code:
+```javascript
+const {  } = require('');
+```
+
 TODO: This should be a plugin/external module not part of core.
 
 ```javascript
@@ -742,6 +752,16 @@ Returns false if a dialog is NOT triggered, otherwise returns void.
 ## BotkitConversation
 An extension on the [BotBuilder Dialog Class](https://docs.microsoft.com/en-us/javascript/api/botbuilder-dialogs/dialog?view=botbuilder-ts-latest) that provides a Botkit-friendly interface for
 defining and interacting with multi-message dialogs. Dialogs can be constructed using `say()`, `ask()` and other helper methods.
+
+To use this class in your application, first install the package:
+```bash
+npm install --save 
+```
+
+Then import this and other classes into your code:
+```javascript
+const {  } = require('');
+```
 
 ```javascript
 // define the structure of your dialog...
