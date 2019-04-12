@@ -46,7 +46,7 @@ No plugins are necessary to use the Bot Framework service, and bots can be devel
 
 The Botkit project includes official adapters for [self-hosted Websocket](../botbuilder-adapter-websocket), [Slack](../botbuilder-adapter-slack), [Webex Teams](../botbuilder-adapter-webex), [Facebook Messenger](../botbuilder-adapter-facebook), [Twilio SMS](../botbuilder-adapter-twilio-sms), [Google Hangouts](../botbuilder-adapter-hangouts). Using these plugins, your bot can communicate directly with the messaging platforms.
 
-Additional adapters can be found by searching npm for Bot Framework-compatible adapters.
+Additional adapters can be found by searching npm for [Bot Framework-compatible adapters](https://www.npmjs.com/search?q=botbuilder-adapter-).
 
 [Platform specific documentation can be found on the main docs site  &raquo;](../docs/index.md)
 

@@ -1,3 +1,6 @@
+/**
+ * @module botkit
+ */
 import { DialogContext } from 'botbuilder-dialogs';
 import { BotkitConversationStep } from './conversation';
 

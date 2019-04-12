@@ -1,5 +1,3 @@
-// ../../../node_modules/.bin/typedoc --theme markdown --excludePrivate  --ignoreCompilerErrors --module amd --hideGenerator --name "Botkit" --readme none --entryPoint botkit ../src/index.ts --json ../docs/data.json
-
 const fs = require('fs');
 const Handlebars = require('handlebars');
 let markup = fs.readFileSync(__dirname + '/template.hbs','utf8');
@@ -7,6 +5,8 @@ let markup = fs.readFileSync(__dirname + '/template.hbs','utf8');
 // get rid of leading whitepsace on every line
 markup = markup.replace(/^ +/img,'');
 const template = Handlebars.compile(markup);
+
+let index = [];
 
 Handlebars.registerHelper('no-newline', function(str) {
     if (str) {
@@ -18,6 +18,12 @@ Handlebars.registerHelper('no-newline', function(str) {
     }
 });
 
+function buildTOC(dest) {
+
+    let toctemplate = Handlebars.compile(fs.readFileSync(__dirname + '/toc.hbs', 'utf8'));
+    console.log(JSON.stringify(index, null, 2));
+    fs.writeFileSync(dest, toctemplate({index: index}));
+}
 
 function generateReference(src, dest) {
 
@@ -29,13 +35,19 @@ function generateReference(src, dest) {
 
     for (var m = 0; m < data.children.length; m++) {
         let module = data.children[m];
-        console.log(module.name, module.kindString, module.children.length);
+        // console.log(module.name, module.kindString, module.children.length);
+        index.push(
+            {
+                name: data.name,
+                path: dest.replace(/.*?\/(reference\/.*)/,'$1')                
+            }
+        );
 
         // find the classes
         for (var c = 0; c < module.children.length; c++) {
             let aclass = module.children[c];
             if (aclass.kindString === 'Class') {
-                console.log('>',aclass.name, aclass.kindString);
+                // console.log('>',aclass.name, aclass.kindString);
                 if (aclass.children) {
                     aclass.props = aclass.children.filter((c) => { return c.kindString === 'Property' });
                     aclass.props = [...aclass.props, ...aclass.children.filter((c) => { return c.kindString === 'Accessor' })];
@@ -75,3 +87,5 @@ generateReference(__dirname + '/hangouts.json',__dirname + '/../reference/hangou
 generateReference(__dirname + '/twilio-sms.json',__dirname + '/../reference/twilio-sms.md');
 generateReference(__dirname + '/webex.json',__dirname + '/../reference/webex.md');
 generateReference(__dirname + '/websocket.json',__dirname + '/../reference/websocket.md');
+
+buildTOC(__dirname + '/../reference/index.md');
