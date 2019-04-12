@@ -318,6 +318,14 @@ names based on their event type.
 ```javascript
 const adapter = new FacebookAdapter(MY_OPTIONS);
 adapter.use(new FacebookEventTypeMiddleware());
+const controller = new Botkit({
+     adapter: adapter,
+});
+
+// define a handler for one of the new events
+controller.on('facebook_option', async(bot, message) => {
+     // ...
+});
 ```
 
 When used, events emitted may include:
@@ -334,6 +342,7 @@ When used, events emitted may include:
 * facebook_request_thread_control
 
 
+
 To use this class in your application, first install the package:
 ```bash
 npm install --save botbuilder-adapter-facebook
@@ -347,19 +356,6 @@ const { FacebookEventTypeMiddleware } = require('botbuilder-adapter-facebook');
 
 
 ## FacebookEventTypeMiddleware Class Methods
-<a name="onTurn"></a>
-### onTurn()
-Implements the middleware's onTurn function. Called automatically!
-
-**Parameters**
-
-| Argument | Type | description
-|--- |--- |---
-| context| any | 
-| next| any | <br/>
-
-
-
 
 
 <a name="FacebookAdapterOptions"></a>

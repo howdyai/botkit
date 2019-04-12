@@ -10,6 +10,14 @@ import { MiddlewareSet, ActivityTypes } from 'botbuilder';
  * ```javascript
  * const adapter = new FacebookAdapter(MY_OPTIONS);
  * adapter.use(new FacebookEventTypeMiddleware());
+ * const controller = new Botkit({
+ *      adapter: adapter,
+ * });
+ * 
+ * // define a handler for one of the new events
+ * controller.on('facebook_option', async(bot, message) => {
+ *      // ...
+ * });
  * ```
  *
  * When used, events emitted may include:
@@ -24,10 +32,12 @@ import { MiddlewareSet, ActivityTypes } from 'botbuilder';
  * * standby
  * * facebook_receive_thread_control
  * * facebook_request_thread_control
+ * 
  */
 export class FacebookEventTypeMiddleware extends MiddlewareSet {
     /**
-     * Implements the middleware's onTurn function. Called automatically!
+     * Implements the middleware's onTurn function. Called automatically.
+     * @ignore
      * @param context
      * @param next
      */
