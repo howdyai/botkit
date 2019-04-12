@@ -404,6 +404,7 @@ export class BotkitConversation<O extends object = {}> extends Dialog<O> {
 
     /**
      * Called automatically when an already active dialog is continued. Do not call this directly!
+     * @ignore
      * @param dc the current DialogContext
      */
     public async continueDialog(dc: DialogContext): Promise<any> {

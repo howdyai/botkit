@@ -949,18 +949,6 @@ convo.before('foo', async(convo, bot) => {
 ```
 
 
-<a name="continueDialog"></a>
-### continueDialog()
-Called automatically when an already active dialog is continued. Do not call this directly!
-
-**Parameters**
-
-| Argument | Type | description
-|--- |--- |---
-| dc| DialogContext | the current DialogContext<br/>
-
-
-
 <a name="onChange"></a>
 ### onChange()
 Bind a function to run whenever a user answers a specific question.  Can be used to validate input and take conditional actions.
