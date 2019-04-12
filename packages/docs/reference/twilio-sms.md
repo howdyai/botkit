@@ -20,16 +20,6 @@ This is a class reference for all the methods exposed by the [botbuilder-adapter
 ## TwilioAdapter
 Connect Botkit or BotBuilder to Twilio's SMS service. See [TwilioAdapterOptions](#TwilioAdapterOptions) for parameters.
 
-To use this class in your application, first install the package:
-```bash
-npm install --save 
-```
-
-Then import this and other classes into your code:
-```javascript
-const {  } = require('');
-```
-
 Use with Botkit:
 ```javascript
 const adapter = new TwilioAdapter({
@@ -60,6 +50,17 @@ server.post('/api/messages', (req, res) => {
          // do your bot logic here!
      });
 });
+```
+
+
+To use this class in your application, first install the package:
+```bash
+npm install --save botbuilder-adapter-twilio-sms
+```
+
+Then import this and other classes into your code:
+```javascript
+const { TwilioAdapter } = require('botbuilder-adapter-twilio-sms');
 ```
 
 ### Create a new TwilioAdapter()
@@ -162,6 +163,17 @@ Twilio SMS adapter does not support updateActivity.
 ## TwilioBotWorker
 Specialized version of the BotWorker class that includes additional methods for interacting with Twilio.
 When using the TwilioAdapter with Botkit, all `bot` objects will be of this type.
+
+To use this class in your application, first install the package:
+```bash
+npm install --save botbuilder-adapter-twilio-sms
+```
+
+Then import this and other classes into your code:
+```javascript
+const { TwilioBotWorker } = require('botbuilder-adapter-twilio-sms');
+```
+
 
 ## Properties and Accessors
 

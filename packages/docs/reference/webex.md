@@ -20,16 +20,6 @@ This is a class reference for all the methods exposed by the [botbuilder-adapter
 ## WebexAdapter
 Connect Botkit or BotBuilder to Webex Teams. See [WebexAdapterOptions](#WebexAdapterOptions) for parameters.
 
-To use this class in your application, first install the package:
-```bash
-npm install --save 
-```
-
-Then import this and other classes into your code:
-```javascript
-const {  } = require('');
-```
-
 Use with Botkit:
 ```javascript
 const adapter = new WebexAdapter({
@@ -59,6 +49,17 @@ server.post('/api/messages', (req, res) => {
          // do your bot logic here!
      });
 });
+```
+
+
+To use this class in your application, first install the package:
+```bash
+npm install --save botbuilder-adapter-webex
+```
+
+Then import this and other classes into your code:
+```javascript
+const { WebexAdapter } = require('botbuilder-adapter-webex');
 ```
 
 ### Create a new WebexAdapter()
@@ -193,6 +194,17 @@ Webex adapter does not support updateActivity.
 ## WebexBotWorker
 Specialized version of the BotWorker class that includes additional methods for interacting with Webex Teams.
 When using the WebexAdapter with Botkit, all `bot` objects will be of this type.
+
+To use this class in your application, first install the package:
+```bash
+npm install --save botbuilder-adapter-webex
+```
+
+Then import this and other classes into your code:
+```javascript
+const { WebexBotWorker } = require('botbuilder-adapter-webex');
+```
+
 
 ## Properties and Accessors
 

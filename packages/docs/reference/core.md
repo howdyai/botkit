@@ -29,6 +29,17 @@ This is a class reference for all the methods exposed by the [botkit](https://gi
 Create a new instance of Botkit to define the controller for a conversational app.
 To connect Botkit to a chat platform, pass in a fully configured `adapter`.
 If one is not specified, Botkit will expose an adapter for the Microsoft Bot Framework.
+
+To use this class in your application, first install the package:
+```bash
+npm install --save botkit
+```
+
+Then import this and other classes into your code:
+```javascript
+const { Botkit } = require('botkit');
+```
+
 ### Create a new Botkit()
 Create a new Botkit instance and optionally specify a platform-specific adapter.
 By default, Botkit will create a [BotFrameworkAdapter](https://docs.microsoft.com/en-us/javascript/api/botbuilder/botframeworkadapter?view=botbuilder-ts-latest).
@@ -403,6 +414,17 @@ Load a plugin module and bind all included middlewares to their respective endpo
 ## BotWorker
 A base class for a `bot` instance, an object that contains the information and functionality for taking action in response to an incoming message.
 Note that adapters are likely to extend this class with additional platform-specific methods - refer to the adapter documentation for these extensions.
+
+To use this class in your application, first install the package:
+```bash
+npm install --save botkit
+```
+
+Then import this and other classes into your code:
+```javascript
+const { BotWorker } = require('botkit');
+```
+
 ### Create a new BotWorker()
 Create a new BotWorker instance. Do not call this directly - instead, use [controller.spawn()](core.md#spawn).
 
@@ -605,16 +627,6 @@ controller.on('event', async(bot, message) => {
 Provides access to an instance of Botkit CMS, including the ability to load script content into a DialogSet
 and bind before, after and onChange handlers to those dynamically imported dialogs by name.
 
-To use this class in your application, first install the package:
-```bash
-npm install --save 
-```
-
-Then import this and other classes into your code:
-```javascript
-const {  } = require('');
-```
-
 TODO: This should be a plugin/external module not part of core.
 
 ```javascript
@@ -629,6 +641,17 @@ controller.on('message', async(bot, message) => {
 });
 ```
 
+
+
+To use this class in your application, first install the package:
+```bash
+npm install --save botkit
+```
+
+Then import this and other classes into your code:
+```javascript
+const { BotkitCMSHelper } = require('botkit');
+```
 
 ### Create a new BotkitCMSHelper()
 
@@ -753,16 +776,6 @@ Returns false if a dialog is NOT triggered, otherwise returns void.
 An extension on the [BotBuilder Dialog Class](https://docs.microsoft.com/en-us/javascript/api/botbuilder-dialogs/dialog?view=botbuilder-ts-latest) that provides a Botkit-friendly interface for
 defining and interacting with multi-message dialogs. Dialogs can be constructed using `say()`, `ask()` and other helper methods.
 
-To use this class in your application, first install the package:
-```bash
-npm install --save 
-```
-
-Then import this and other classes into your code:
-```javascript
-const {  } = require('');
-```
-
 ```javascript
 // define the structure of your dialog...
 const convo = new BotkitConversation('foo', controller);
@@ -776,6 +789,17 @@ controller.dialogSet.add(convo);
 controller.on('event', async(bot, message) => {
  await bot.beginDialog('foo');
 })
+```
+
+
+To use this class in your application, first install the package:
+```bash
+npm install --save botkit
+```
+
+Then import this and other classes into your code:
+```javascript
+const { BotkitConversation } = require('botkit');
 ```
 
 ### Create a new BotkitConversation()
@@ -1024,6 +1048,17 @@ This allows Botkit to automatically track conversation state in scenarios where 
 or when threads or sub-channels parent channel that would normally collide based on the information defined in the conversation address field.
 Note: This is used automatically inside Botkit and developers should not need to directly interact with it.
 
+To use this class in your application, first install the package:
+```bash
+npm install --save botkit
+```
+
+Then import this and other classes into your code:
+```javascript
+const { BotkitConversationState } = require('botkit');
+```
+
+
 
 ## Class Members
 <a name="getStorageKey"></a>
@@ -1044,6 +1079,17 @@ Note: This is used automatically inside Botkit and developers should not need to
 This class is used to provide easy access to common actions taken on active BotkitConversation instances.
 These objects are passed into handlers bound to BotkitConversations using .before .onChange and conditional handler functions passed to .ask and .addQuestion
 Grants access to convo.vars convo.gotoThread() convo.setVar() and convo.repeat().
+
+To use this class in your application, first install the package:
+```bash
+npm install --save botkit
+```
+
+Then import this and other classes into your code:
+```javascript
+const { BotkitDialogWrapper } = require('botkit');
+```
+
 ### Create a new BotkitDialogWrapper()
 
 

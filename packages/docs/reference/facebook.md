@@ -21,6 +21,17 @@ This is a class reference for all the methods exposed by the [botbuilder-adapter
 <a name="FacebookAdapter"></a>
 ## FacebookAdapter
 Connect [Botkit](https://www.npmjs.com/package/botkit) or [BotBuilder](https://www.npmjs.com/package/botbuilder) to Facebook Messenger.
+
+To use this class in your application, first install the package:
+```bash
+npm install --save botbuilder-adapter-facebook
+```
+
+Then import this and other classes into your code:
+```javascript
+const { FacebookAdapter } = require('botbuilder-adapter-facebook');
+```
+
 ### Create a new FacebookAdapter()
 Create an adapter to handle incoming messages from Facebook and translate them into a standard format for processing by your bot.
 
@@ -188,6 +199,17 @@ Facebook adapter does not support updateActivity.
 This is a specialized version of the BotWorker class that includes additional methods for interacting with Facebook.
 It includes all functionality from [the core BotWorker class](core.md#BotWorker) as well as the extension methods below.
 When using the FacebookAdapter with Botkit, all `bot` objects passed to handler functions will include these extensions.
+
+To use this class in your application, first install the package:
+```bash
+npm install --save botbuilder-adapter-facebook
+```
+
+Then import this and other classes into your code:
+```javascript
+const { FacebookBotWorker } = require('botbuilder-adapter-facebook');
+```
+
 ### Create a new FacebookBotWorker()
 Used internally by controller.spawn, creates a BotWorker instance that can send messages, replies, and make other API calls.
 
@@ -229,6 +251,17 @@ await bot.say('Howdy human!');
 ## FacebookAPI
 A simple API client for the Facebook API.  Automatically signs requests with the access token and app secret proof.
 It can be used to call any API provided by Facebook.
+
+To use this class in your application, first install the package:
+```bash
+npm install --save botbuilder-adapter-facebook
+```
+
+Then import this and other classes into your code:
+```javascript
+const { FacebookAPI } = require('botbuilder-adapter-facebook');
+```
+
 ### Create a new FacebookAPI()
 Create a FacebookAPI client.
 ```
@@ -267,16 +300,6 @@ Call one of the Facebook APIs
 This adapter middleware, when used in conjunction with FacebookAdapter and Botkit, will result in Botkit emitting events with
 names based on their event type.
 
-To use this class in your application, first install the package:
-```bash
-npm install --save 
-```
-
-Then import this and other classes into your code:
-```javascript
-const {  } = require('');
-```
-
 ```javascript
 const adapter = new FacebookAdapter(MY_OPTIONS);
 adapter.use(new FacebookEventTypeMiddleware());
@@ -294,6 +317,17 @@ When used, events emitted may include:
 * standby
 * facebook_receive_thread_control
 * facebook_request_thread_control
+
+
+To use this class in your application, first install the package:
+```bash
+npm install --save botbuilder-adapter-facebook
+```
+
+Then import this and other classes into your code:
+```javascript
+const { FacebookEventTypeMiddleware } = require('botbuilder-adapter-facebook');
+```
 
 
 

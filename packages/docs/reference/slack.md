@@ -25,16 +25,6 @@ Connect Botkit or BotBuilder to Slack. See [SlackAdapterOptions](#SlackAdapterOp
 The SlackAdapter can be used in 2 modes: as an "internal" app connected to a single Slack workspace,
 or as a "multi-team" app that uses oauth to connect to multiple workspaces. [Read here for more information](../../botbuilder-adapter-slack/readme.md).
 
-To use this class in your application, first install the package:
-```bash
-npm install --save 
-```
-
-Then import this and other classes into your code:
-```javascript
-const {  } = require('');
-```
-
 Use with Botkit:
 ```javascript
 const adapter = new SlackAdapter({
@@ -61,6 +51,17 @@ server.post('/api/messages', (req, res) => {
          // do your bot logic here!
      });
 });
+```
+
+
+To use this class in your application, first install the package:
+```bash
+npm install --save botbuilder-adapter-slack
+```
+
+Then import this and other classes into your code:
+```javascript
+const { SlackAdapter } = require('botbuilder-adapter-slack');
 ```
 
 ### Create a new SlackAdapter()
@@ -268,6 +269,17 @@ controller.webserver.get('/install/auth', async (req, res) => {
 ## SlackBotWorker
 Specialized version of the BotWorker class that includes additional methods for interacting with Slack.
 When using the SlackAdapter with Botkit, all `bot` objects will be of this type.
+
+To use this class in your application, first install the package:
+```bash
+npm install --save botbuilder-adapter-slack
+```
+
+Then import this and other classes into your code:
+```javascript
+const { SlackBotWorker } = require('botbuilder-adapter-slack');
+```
+
 ### Create a new SlackBotWorker()
 Used internally by controller.spawn, creates a BotWorker instance that can send messages, replies, and make other API calls.
 
@@ -525,16 +537,6 @@ await bot.updateMessage({
 ## SlackDialog
 Create a Slack Dialog object for use with [replyWithDialog()](#replyWithDialog).
 
-To use this class in your application, first install the package:
-```bash
-npm install --save 
-```
-
-Then import this and other classes into your code:
-```javascript
-const {  } = require('');
-```
-
 ```javascript
 let dialog = new SlackDialog('My Dialog', 'callback_123', 'Save');
 dialog.addText('Your full name', 'name').addEmail('Your email', 'email');
@@ -542,6 +544,17 @@ dialog.notifyOnCancel(true);
 bot.replyWithDialog(message, dialog.asObject());
 ```
 
+
+
+To use this class in your application, first install the package:
+```bash
+npm install --save botbuilder-adapter-slack
+```
+
+Then import this and other classes into your code:
+```javascript
+const { SlackDialog } = require('botbuilder-adapter-slack');
+```
 
 ### Create a new SlackDialog()
 Create a new dialog object
@@ -750,20 +763,21 @@ const controller = new Botkit({
      // ...
 });
 
-To use this class in your application, first install the package:
-```bash
-npm install --save 
-```
-
-Then import this and other classes into your code:
-```javascript
-const {  } = require('');
-```
-
 // can bind directly to channel_join (which starts as a message with type message and subtype channel_join)
 controller.on('channel_join', async(bot, message) => {
  // send a welcome
 });
+```
+
+
+To use this class in your application, first install the package:
+```bash
+npm install --save botbuilder-adapter-slack
+```
+
+Then import this and other classes into your code:
+```javascript
+const { SlackEventMiddleware } = require('botbuilder-adapter-slack');
 ```
 
 
@@ -789,16 +803,6 @@ A middleware for Botkit developers using the BotBuilder SlackAdapter class.
 This middleware causes Botkit to emit more specialized events for the different types of message that Slack might send.
 Responsible for classifying messages:
 
-To use this class in your application, first install the package:
-```bash
-npm install --save 
-```
-
-Then import this and other classes into your code:
-```javascript
-const {  } = require('');
-```
-
      * `direct_message` events are messages received through 1:1 direct messages with the bot
      * `direct_mention` events are messages that start with a mention of the bot, i.e "@mybot hello there"
      * `mention` events are messages that include a mention of the bot, but not at the start, i.e "hello there @mybot"
@@ -813,6 +817,17 @@ const controller = new Botkit({
      adapter: adapter,
      // ...
 });
+```
+
+
+To use this class in your application, first install the package:
+```bash
+npm install --save botbuilder-adapter-slack
+```
+
+Then import this and other classes into your code:
+```javascript
+const { SlackMessageTypeMiddleware } = require('botbuilder-adapter-slack');
 ```
 
 

@@ -20,16 +20,6 @@ This is a class reference for all the methods exposed by the [botbuilder-adapter
 ## HangoutsAdapter
 Connect Botkit or BotBuilder to Google Hangouts. See [HangoutsAdapterOptions](#HangoutsAdapterOptions) for parameters.
 
-To use this class in your application, first install the package:
-```bash
-npm install --save 
-```
-
-Then import this and other classes into your code:
-```javascript
-const {  } = require('');
-```
-
 Use with Botkit:
 ```javascript
 const adapter = new HangoutsAdapter({
@@ -60,6 +50,17 @@ server.post('/api/messages', (req, res) => {
          // do your bot logic here!
      });
 });
+```
+
+
+To use this class in your application, first install the package:
+```bash
+npm install --save botbuilder-adapter-hangouts
+```
+
+Then import this and other classes into your code:
+```javascript
+const { HangoutsAdapter } = require('botbuilder-adapter-hangouts');
 ```
 
 ### Create a new HangoutsAdapter()
@@ -165,6 +166,17 @@ Standard BotBuilder adapter method to update a previous message with new content
 ## HangoutsBotWorker
 Specialized version of the BotWorker class that includes additional methods for interacting with Google Hangouts.
 When using the HangoutsAdapter with Botkit, all `bot` objects will be of this type.
+
+To use this class in your application, first install the package:
+```bash
+npm install --save botbuilder-adapter-hangouts
+```
+
+Then import this and other classes into your code:
+```javascript
+const { HangoutsBotWorker } = require('botbuilder-adapter-hangouts');
+```
+
 
 
 ## Class Members
