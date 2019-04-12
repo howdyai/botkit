@@ -1,5 +1,7 @@
 # Botkit for Slack Class Reference
 
+This is a class reference for all the methods exposed by [botbuilder-adapter-slack](../../botbuilder-adapter-slack).
+
 ## Classes
 
 

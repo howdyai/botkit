@@ -1,5 +1,7 @@
 # Botkit for Facebook Class Reference
 
+This is a class reference for all the methods exposed by [botbuilder-adapter-facebook](../../botbuilder-adapter-facebook).
+
 ## Classes
 
 

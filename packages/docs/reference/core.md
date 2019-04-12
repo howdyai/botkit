@@ -1,5 +1,7 @@
 # Botkit Class Reference
 
+This is a class reference for all the methods exposed by [botkit](../../botkit).
+
 ## Classes
 
 

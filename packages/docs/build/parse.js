@@ -39,6 +39,7 @@ function generateReference(src, dest) {
         index.push(
             {
                 name: data.name,
+                packageName: module.name,
                 path: dest.replace(/.*?\/(reference\/.*)/,'$1')                
             }
         );
@@ -71,7 +72,7 @@ function generateReference(src, dest) {
     classes = classes.sort(sortByName);
     interfaces = interfaces.sort(sortByName);
 
-    fs.writeFileSync(dest, template({classes: classes, interfaces: interfaces, name: data.name}));
+    fs.writeFileSync(dest, template({classes: classes, interfaces: interfaces, packageName: data.children[0].name, name: data.name }));
 }
 
 function sortByName(a,b) {
