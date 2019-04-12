@@ -1,6 +1,6 @@
 # Botkit for the Web Class Reference
 
-[Boktkit Core Docs](../..) &raquo; [Botkit Class References](..) 
+[Boktkit Core Docs](..) &raquo; [Botkit Class References](index.md) 
 
 This is a class reference for all the methods exposed by the [botbuilder-adapter-websocket](../../botbuilder-adapter-websocket) package.
 
