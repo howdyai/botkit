@@ -1,5 +1,5 @@
 /**
- * @module botbuilder-adapter-facebook
+ * @module botbuilder-adapter-twilio-sms
  */
 import { BotWorker } from 'botkit';
 import * as Twilio from 'twilio';
