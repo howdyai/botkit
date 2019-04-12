@@ -115,19 +115,6 @@ Standard BotBuilder adapter method for continuing an existing conversation based
 
 
 
-<a name="deleteActivity"></a>
-### deleteActivity()
-Facebook adapter does not support updateActivity.
-
-**Parameters**
-
-| Argument | Type | description
-|--- |--- |---
-| context| TurnContext | 
-| reference| Partial&lt;ConversationReference&gt; | 
-
-
-
 <a name="getAPI"></a>
 ### getAPI()
 Get a Facebook API client with the correct credentials based on the page identified in the incoming activity.
@@ -178,19 +165,6 @@ Standard BotBuilder adapter method to send a message from the bot to the messagi
 |--- |--- |---
 | context| TurnContext | A TurnContext representing the current incoming message and environment.
 | activities|  | An array of outgoing activities to be sent back to the messaging API.<br/>
-
-
-
-<a name="updateActivity"></a>
-### updateActivity()
-Facebook adapter does not support updateActivity.
-
-**Parameters**
-
-| Argument | Type | description
-|--- |--- |---
-| context| TurnContext | 
-| activity| Partial&lt;Activity&gt; | 
 
 
 

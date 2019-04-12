@@ -264,6 +264,7 @@ export class FacebookAdapter extends BotAdapter {
 
     /**
      * Facebook adapter does not support updateActivity.
+     * @ignore
      */
     // eslint-disable-next-line
      public async deleteActivity(context: TurnContext, reference: Partial<ConversationReference>): Promise<void> {
