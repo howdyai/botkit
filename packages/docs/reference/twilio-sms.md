@@ -120,8 +120,11 @@ Standard BotBuilder adapter method to send a message from the bot to the messagi
 
 <a name="TwilioBotWorker"></a>
 ## TwilioBotWorker
-Specialized version of the BotWorker class that includes additional methods for interacting with Twilio.
-When using the TwilioAdapter with Botkit, all `bot` objects will be of this type.
+This is a specialized version of [Botkit's core BotWorker class](core.md#BotWorker) that includes additional methods for interacting with Twilio SMS.
+It includes all functionality from the base class, as well as the extension methods below.
+
+When using the TwilioAdapter with Botkit, all `bot` objects passed to handler functions will include these extensions.
+
 
 To use this class in your application, first install the package:
 ```bash
@@ -138,7 +141,7 @@ const { TwilioBotWorker } = require('botbuilder-adapter-twilio-sms');
 
 | Name | Type | Description
 |--- |--- |---
-| api | Twilio.Twilio | A copy of the Twilio API client
+| api | Twilio.Twilio | A copy of the Twilio API client.
 
 ## TwilioBotWorker Class Methods
 <a name="startConversationWithUser"></a>
