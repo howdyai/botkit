@@ -10,72 +10,9 @@ import * as crypto from 'crypto';
 const debug = Debug('botkit:facebook');
 
 /**
- * This interface defines the options that can be passed into the FacebookAdapter constructor function.
- */
-export interface FacebookAdapterOptions {
-    /**
-     * Alternate root url used to contruct calls to Facebook's API.  Defaults to 'graph.facebook.com' but can be changed (for mocking, proxy, etc).
-     */
-    api_host?: string;
-    /**
-     * Alternate API version used to construct calls to Facebook's API. Defaults to v3.2
-     */
-    api_version?: string;
-
-    /**
-     * The "verify token" used to initially create and verify the Webhooks subscription settings on Facebook's developer portal.
-     */
-    verify_token: string;
-
-    /**
-     * The "app secret" from the "basic settings" page from your app's configuration in the Facebook developer portal
-     */
-    app_secret: string;
-
-    /**
-     * When bound to a single page, use `access_token` to specify the "page access token" provided in the Facebook developer portal's "Access Tokens" widget of the "Messenger Settings" page.
-     */
-    access_token?: string;
-
-    /**
-     * When bound to multiple teams, provide a function that, given a page id, will return the page access token for that page.
-     */
-    getAccessTokenForPage?: (pageId: string) => Promise<string>;
-}
-
-/**
- * Connect Botkit or BotBuilder to FacebookMessenger. See [FacebookAdapterOptions](#FacebookAdapterOptions) for parameters.
+ * Connect [Botkit](https://github.com/howdyai/botkit) or [BotBuilder](https://github.com/microsoft/botbuilder-js) to Facebook Messenger.
  * The Facebook Adapter can be used in 2 modes: bound to a single Facebook page,
  * or in multi-tenancy mode able to serve multiple pages.. [Read here for more information](#constructor-new-facebookadapter).
- *
- * To use with Botkit:
- * ```javascript
- * const adapter = new FacebookAdapter({
- *      verify_token: process.env.FACEBOOK_VERIFY_TOKEN,
- *      app_secret: process.env.FACEBOOK_APP_SECRET,
- *      access_token: process.env.FACEBOOK_ACCESS_TOKEN
- * });
- * const controller = new Botkit({
- *      adapter: adapter,
- *      // other options
- * });
- * ```
- *
- * To use with BotBuilder:
- * ```javascript
- * const adapter = new FacebookAdapter({
- *      verify_token: process.env.FACEBOOK_VERIFY_TOKEN,
- *      app_secret: process.env.FACEBOOK_APP_SECRET,
- *      access_token: process.env.FACEBOOK_ACCESS_TOKEN
- * });
- * const server = restify.createServer();
- * server.use(restify.plugins.bodyParser());
- * server.post('/api/messages', (req, res) => {
- *      adapter.processActivity(req, res, async(context) => {
- *          // do your bot logic here!
- *      });
- * });
- * ```
  */
 export class FacebookAdapter extends BotAdapter {
     // Botkit Plugin fields
@@ -91,14 +28,47 @@ export class FacebookAdapter extends BotAdapter {
      * Create a FacebookAdapter to handle messages from Facebook.
      * To create an app bound to a single page, pass in `access_token`.
      * To create an app that can be bound to multiple pages, pass in `getAccessTokenForPage` function in the form `async (pageId) => page_access_token`
+     * To use with Botkit:
+     * ```javascript
+     * const adapter = new FacebookAdapter({
+     *      verify_token: process.env.FACEBOOK_VERIFY_TOKEN,
+     *      app_secret: process.env.FACEBOOK_APP_SECRET,
+     *      access_token: process.env.FACEBOOK_ACCESS_TOKEN 
+     * });
+     * const controller = new Botkit({
+     *      adapter: adapter,
+     *      // other options
+     * });
+     * ```
+     *
+     * To use with BotBuilder:
      * ```javascript
      * const adapter = new FacebookAdapter({
      *      verify_token: process.env.FACEBOOK_VERIFY_TOKEN,
      *      app_secret: process.env.FACEBOOK_APP_SECRET,
      *      access_token: process.env.FACEBOOK_ACCESS_TOKEN
      * });
+     * const server = restify.createServer();
+     * server.use(restify.plugins.bodyParser());
+     * server.post('/api/messages', (req, res) => {
+     *      adapter.processActivity(req, res, async(context) => {
+     *          // do your bot logic here!
+     *      });
+     * });
      * ```
-     *
+     * 
+     * In multi-tenancy mode:
+     * ```javascript
+     * const adapter = new FacebookAdapter({
+     *      verify_token: process.env.FACEBOOK_VERIFY_TOKEN,
+     *      app_secret: process.env.FACEBOOK_APP_SECRET,
+     *       getAccessTokenForPage: async(pageId) => { 
+     *           // do something to fetch the page access token for pageId.
+     *           return token;
+     *       })
+     * });
+     *```
+     * 
      * @param options Configuration options
      */
     public constructor(options: FacebookAdapterOptions) {
@@ -420,4 +390,40 @@ export class FacebookAdapter extends BotAdapter {
             return true;
         }
     }
+
+}
+
+
+/**
+ * This interface defines the options that can be passed into the FacebookAdapter constructor function.
+ */
+export interface FacebookAdapterOptions {
+    /**
+     * Alternate root url used to contruct calls to Facebook's API.  Defaults to 'graph.facebook.com' but can be changed (for mocking, proxy, etc).
+     */
+    api_host?: string;
+    /**
+     * Alternate API version used to construct calls to Facebook's API. Defaults to v3.2
+     */
+    api_version?: string;
+
+    /**
+     * The "verify token" used to initially create and verify the Webhooks subscription settings on Facebook's developer portal.
+     */
+    verify_token: string;
+
+    /**
+     * The "app secret" from the "basic settings" page from your app's configuration in the Facebook developer portal
+     */
+    app_secret: string;
+
+    /**
+     * When bound to a single page, use `access_token` to specify the "page access token" provided in the Facebook developer portal's "Access Tokens" widget of the "Messenger Settings" page.
+     */
+    access_token?: string;
+
+    /**
+     * When bound to multiple teams, provide a function that, given a page id, will return the page access token for that page.
+     */
+    getAccessTokenForPage?: (pageId: string) => Promise<string>;
 }
