@@ -51,7 +51,7 @@ server.post('/api/messages', (req, res) => {
 });
 ```
 
-#### constructor new WebexAdapter()
+### constructor new WebexAdapter()
 Create a Webex adapter. See [WebexAdapterOptions](#webexadapteroptions) for a full definition of the allowed parameters.
 
 ```javascript
@@ -69,7 +69,7 @@ const adapter = new WebexAdapter({
 |--- |--- |---
 | config | [WebexAdapterOptions](#WebexAdapterOptions) | 
 
-### Properties and Accessors 
+## Properties and Accessors
 
 | Name | Type | Description
 |--- |--- |---
@@ -78,9 +78,9 @@ const adapter = new WebexAdapter({
 | name | string | Name used by Botkit plugin loader
 | identity |  | Returns the identity of the bot, including {id, emails, displayName, created} and anything else from [this spec](https://webex.github.io/spark-js-sdk/api/#personobject)
 
-### Class Members
+## Class Members
 <a name="continueConversation"></a>
-#### continueConversation()
+### continueConversation()
 Standard BotBuilder adapter method for continuing an existing conversation based on a conversation reference.
 [BotBuilder reference docs](https://docs.microsoft.com/en-us/javascript/api/botbuilder-core/botadapter?view=botbuilder-ts-latest#continueconversation)
 
@@ -94,7 +94,7 @@ Standard BotBuilder adapter method for continuing an existing conversation based
 
 
 <a name="deleteActivity"></a>
-#### deleteActivity()
+### deleteActivity()
 Standard BotBuilder adapter method to delete a previous message.
 [BotBuilder reference docs](https://docs.microsoft.com/en-us/javascript/api/botbuilder-core/botadapter?view=botbuilder-ts-latest#deleteactivity).
 
@@ -108,7 +108,7 @@ Standard BotBuilder adapter method to delete a previous message.
 
 
 <a name="init"></a>
-#### init()
+### init()
  Botkit init function, called automatically when used alongside Botkit.
 Calls registerWebhookSubscription() during bootup.
 
@@ -121,7 +121,7 @@ Calls registerWebhookSubscription() during bootup.
 
 
 <a name="processActivity"></a>
-#### processActivity()
+### processActivity()
 Accept an incoming webhook request and convert it into a TurnContext which can be processed by the bot's logic.
 
 **Parameters**
@@ -135,7 +135,7 @@ Accept an incoming webhook request and convert it into a TurnContext which can b
 
 
 <a name="registerWebhookSubscription"></a>
-#### registerWebhookSubscription()
+### registerWebhookSubscription()
 Register a webhook subscription with Webex Teams to start receiving message events.
 
 **Parameters**
@@ -147,12 +147,12 @@ Register a webhook subscription with Webex Teams to start receiving message even
 
 
 <a name="resetWebhookSubscriptions"></a>
-#### resetWebhookSubscriptions()
+### resetWebhookSubscriptions()
 Clear out and reset all the webhook subscriptions currently associated with this application.
 
 
 <a name="sendActivities"></a>
-#### sendActivities()
+### sendActivities()
 Standard BotBuilder adapter method to send a message from the bot to the messaging API.
 [BotBuilder reference docs](https://docs.microsoft.com/en-us/javascript/api/botbuilder-core/botadapter?view=botbuilder-ts-latest#sendactivities).
 
@@ -166,7 +166,7 @@ Standard BotBuilder adapter method to send a message from the bot to the messagi
 
 
 <a name="updateActivity"></a>
-#### updateActivity()
+### updateActivity()
 Webex adapter does not support updateActivity.
 
 **Parameters**
@@ -184,15 +184,15 @@ Webex adapter does not support updateActivity.
 Specialized version of the BotWorker class that includes additional methods for interacting with Webex Teams.
 When using the WebexAdapter with Botkit, all `bot` objects will be of this type.
 
-### Properties and Accessors 
+## Properties and Accessors
 
 | Name | Type | Description
 |--- |--- |---
 | api | Ciscospark | An instance of the [webex api client](https://www.npmjs.com/package/ciscospark)
 
-### Class Members
+## Class Members
 <a name="deleteMessage"></a>
-#### deleteMessage()
+### deleteMessage()
 Delete an existing message.
 
 **Parameters**
@@ -213,7 +213,7 @@ await bot.deleteMessage(sent);
 
 
 <a name="startConversationInRoom"></a>
-#### startConversationInRoom()
+### startConversationInRoom()
 Switch a bot's context into a different room.
 After calling this method, messages sent with `bot.say` and any dialogs started with `bot.beginDialog` will occur in this new context.
 
@@ -254,7 +254,7 @@ await bot.beginDialog(ALERT_DIALOG);
 
 
 <a name="startPrivateConversation"></a>
-#### startPrivateConversation()
+### startPrivateConversation()
 Change the context of the _next_ message
 Due to a quirk in the Webex API, we can't know the address of the DM until after sending the first message.
 As a result, the internal tracking for this conversation can't be persisted properly.

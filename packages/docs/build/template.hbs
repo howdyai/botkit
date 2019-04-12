@@ -28,7 +28,7 @@ This is a class reference for all the methods exposed by the [{{packageName}}](h
 {{/if}}
     {{#each constructors}}
         {{#each signatures}}
-            #### constructor {{name}}()
+            ### constructor {{name}}()
             {{{comment.shortText}}}
             {{#if comment.text}}
 
@@ -48,8 +48,8 @@ This is a class reference for all the methods exposed by the [{{packageName}}](h
     {{/each}}
 
     {{#if props}}
-    ### Properties and Accessors 
-
+    ## Properties and Accessors
+ 
     | Name | Type | Description
     |--- |--- |---
     {{#each props}}
@@ -57,10 +57,10 @@ This is a class reference for all the methods exposed by the [{{packageName}}](h
     {{/each}}
     {{/if}}
 
-    ### Class Members
+    ## Class Members
     {{#each methods}}
         <a name="{{name}}"></a>
-        #### {{name}}()
+        ### {{name}}()
         {{#each signatures}}
             {{{comment.shortText}}}
             {{#if parameters}}

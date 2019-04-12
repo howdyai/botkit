@@ -53,7 +53,7 @@ server.post('/api/messages', (req, res) => {
 });
 ```
 
-#### constructor new SlackAdapter()
+### constructor new SlackAdapter()
 Create a Slack adapter. See [SlackAdapterOptions](#slackadapteroptions) for a full definition of the allowed parameters.
 
 ```javascript
@@ -80,7 +80,7 @@ const adapter = new SlackAdapter({
 |--- |--- |---
 | options | [SlackAdapterOptions](#SlackAdapterOptions) | An object containing API credentials, a webhook verification token and other options<br/>
 
-### Properties and Accessors 
+## Properties and Accessors
 
 | Name | Type | Description
 |--- |--- |---
@@ -88,9 +88,9 @@ const adapter = new SlackAdapter({
 | middlewares | any | Object containing one or more Botkit middlewares to bind automatically.
 | name | string | Name used by Botkit plugin loader
 
-### Class Members
+## Class Members
 <a name="activityToSlack"></a>
-#### activityToSlack()
+### activityToSlack()
 Formats a BotBuilder activity into an outgoing Slack message.
 
 **Parameters**
@@ -108,7 +108,7 @@ a Slack message object with {text, attachments, channel, thread_ts} as well as a
 
 
 <a name="continueConversation"></a>
-#### continueConversation()
+### continueConversation()
 Standard BotBuilder adapter method for continuing an existing conversation based on a conversation reference.
 [BotBuilder reference docs](https://docs.microsoft.com/en-us/javascript/api/botbuilder-core/botadapter?view=botbuilder-ts-latest#continueconversation)
 
@@ -122,7 +122,7 @@ Standard BotBuilder adapter method for continuing an existing conversation based
 
 
 <a name="deleteActivity"></a>
-#### deleteActivity()
+### deleteActivity()
 Standard BotBuilder adapter method to delete a previous message.
 [BotBuilder reference docs](https://docs.microsoft.com/en-us/javascript/api/botbuilder-core/botadapter?view=botbuilder-ts-latest#deleteactivity).
 
@@ -136,7 +136,7 @@ Standard BotBuilder adapter method to delete a previous message.
 
 
 <a name="getAPI"></a>
-#### getAPI()
+### getAPI()
 Get a Slack API client with the correct credentials based on the team identified in the incoming activity.
 This is used by many internal functions to get access to the Slack API, and is exposed as `bot.api` on any bot worker instances.
 
@@ -149,7 +149,7 @@ This is used by many internal functions to get access to the Slack API, and is e
 
 
 <a name="getBotUserByTeam"></a>
-#### getBotUserByTeam()
+### getBotUserByTeam()
 Get the bot user id associated with the team on which an incoming activity originated. This is used internally by the SlackMessageTypeMiddleware to identify direct_mention and mention events.
 In single-team mode, this will pull the information from the Slack API at launch.
 In multi-team mode, this will use the `getBotUserByTeam` method passed to the constructor to pull the information from a developer-defined source.
@@ -163,7 +163,7 @@ In multi-team mode, this will use the `getBotUserByTeam` method passed to the co
 
 
 <a name="getInstallLink"></a>
-#### getInstallLink()
+### getInstallLink()
 Get the oauth link for this bot, based on the clientId and scopes passed in to the constructor.
 
 **Returns**
@@ -182,7 +182,7 @@ controller.webserver.get('/install', (req, res) => {
 
 
 <a name="processActivity"></a>
-#### processActivity()
+### processActivity()
 Accept an incoming webhook request and convert it into a TurnContext which can be processed by the bot's logic.
 
 **Parameters**
@@ -196,7 +196,7 @@ Accept an incoming webhook request and convert it into a TurnContext which can b
 
 
 <a name="sendActivities"></a>
-#### sendActivities()
+### sendActivities()
 Standard BotBuilder adapter method to send a message from the bot to the messaging API.
 [BotBuilder reference docs](https://docs.microsoft.com/en-us/javascript/api/botbuilder-core/botadapter?view=botbuilder-ts-latest#sendactivities).
 
@@ -210,7 +210,7 @@ Standard BotBuilder adapter method to send a message from the bot to the messagi
 
 
 <a name="updateActivity"></a>
-#### updateActivity()
+### updateActivity()
 Standard BotBuilder adapter method to update a previous message with new content.
 [BotBuilder reference docs](https://docs.microsoft.com/en-us/javascript/api/botbuilder-core/botadapter?view=botbuilder-ts-latest#updateactivity).
 
@@ -224,7 +224,7 @@ Standard BotBuilder adapter method to update a previous message with new content
 
 
 <a name="validateOauthCode"></a>
-#### validateOauthCode()
+### validateOauthCode()
 Validates an oauth code sent by Slack during the install process.
 
 **Parameters**
@@ -258,7 +258,7 @@ controller.webserver.get('/install/auth', async (req, res) => {
 ## SlackBotWorker
 Specialized version of the BotWorker class that includes additional methods for interacting with Slack.
 When using the SlackAdapter with Botkit, all `bot` objects will be of this type.
-#### constructor new SlackBotWorker()
+### constructor new SlackBotWorker()
 Used internally by controller.spawn, creates a BotWorker instance that can send messages, replies, and make other API calls.
 
 **Parameters**
@@ -268,15 +268,15 @@ Used internally by controller.spawn, creates a BotWorker instance that can send 
 | botkit | Botkit | The Botkit controller object responsible for spawning this bot worker
 | config | any | Normally, a DialogContext object.  Can also be the id of a team.<br/>
 
-### Properties and Accessors 
+## Properties and Accessors
 
 | Name | Type | Description
 |--- |--- |---
 | api | WebClient | 
 
-### Class Members
+## Class Members
 <a name="deleteMessage"></a>
-#### deleteMessage()
+### deleteMessage()
 Delete an existing message.
 
 **Parameters**
@@ -297,7 +297,7 @@ await bot.deleteMessage(sent);
 
 
 <a name="dialogError"></a>
-#### dialogError()
+### dialogError()
 Return 1 or more error to a `dialog_submission` event that will be displayed as form validation errors.
 Each error must be mapped to the name of an input in the dialog.
 
@@ -310,7 +310,7 @@ Each error must be mapped to the name of an input in the dialog.
 
 
 <a name="replyEphemeral"></a>
-#### replyEphemeral()
+### replyEphemeral()
 Like bot.reply, but sent as an "ephemeral" message meaning only the recipient can see it.
 Uses [chat.postEphemeral](https://api.slack.com/methods/chat.postEphemeral)
 
@@ -324,7 +324,7 @@ Uses [chat.postEphemeral](https://api.slack.com/methods/chat.postEphemeral)
 
 
 <a name="replyInThread"></a>
-#### replyInThread()
+### replyInThread()
 Like bot.reply, but as a threaded response to the incoming message rather than a new message in the main channel.
 
 **Parameters**
@@ -337,7 +337,7 @@ Like bot.reply, but as a threaded response to the incoming message rather than a
 
 
 <a name="replyInteractive"></a>
-#### replyInteractive()
+### replyInteractive()
 Like bot.reply, but used to respond to an `interactive_message` event and cause the original message to be replaced with a new one.
 
 **Parameters**
@@ -350,7 +350,7 @@ Like bot.reply, but used to respond to an `interactive_message` event and cause 
 
 
 <a name="replyPrivate"></a>
-#### replyPrivate()
+### replyPrivate()
 Like bot.reply, but used to send an immediate private reply to a /slash command.
 The message in `resp` will be displayed only to the person who executed the slash command.
 
@@ -364,7 +364,7 @@ The message in `resp` will be displayed only to the person who executed the slas
 
 
 <a name="replyPublic"></a>
-#### replyPublic()
+### replyPublic()
 Like bot.reply, but used to send an immediate public reply to a /slash command.
 The message in `resp` will be displayed to everyone in the channel.
 
@@ -378,7 +378,7 @@ The message in `resp` will be displayed to everyone in the channel.
 
 
 <a name="replyWithDialog"></a>
-#### replyWithDialog()
+### replyWithDialog()
 Reply to a button click with a request to open a dialog.
 
 **Parameters**
@@ -391,7 +391,7 @@ Reply to a button click with a request to open a dialog.
 
 
 <a name="startConversationInChannel"></a>
-#### startConversationInChannel()
+### startConversationInChannel()
 Switch a bot's context into a different channel.
 After calling this method, messages sent with `bot.say` and any dialogs started with `bot.beginDialog` will occur in this new context.
 
@@ -419,7 +419,7 @@ controller.hears('dm me', 'message', async(bot, message) => {
 ```
 
 <a name="startConversationInThread"></a>
-#### startConversationInThread()
+### startConversationInThread()
 Switch a bot's context into a specific sub-thread within a channel.
 After calling this method, messages sent with `bot.say` and any dialogs started with `bot.beginDialog` will occur in this new context.
 
@@ -448,7 +448,7 @@ controller.hears('in a thread', 'message', async(bot, message) => {
 ```
 
 <a name="startPrivateConversation"></a>
-#### startPrivateConversation()
+### startPrivateConversation()
 Switch a bot's context to a 1:1 private message channel with a specific user.
 After calling this method, messages sent with `bot.say` and any dialogs started with `bot.beginDialog` will occur in this new context.
 
@@ -487,7 +487,7 @@ await bot.beginDialog(ALERT_DIALOG);
 
 
 <a name="updateMessage"></a>
-#### updateMessage()
+### updateMessage()
 Update an existing message with new content.
 
 **Parameters**
@@ -523,7 +523,7 @@ bot.replyWithDialog(message, dialog.asObject());
 ```
 
 
-#### constructor new SlackDialog()
+### constructor new SlackDialog()
 Create a new dialog object
 
 **Parameters**
@@ -536,9 +536,9 @@ Create a new dialog object
 | elements | any | An array of dialog elements<br/>
 
 
-### Class Members
+## Class Members
 <a name="addEmail"></a>
-#### addEmail()
+### addEmail()
 Add an email input to the dialog
 
 **Parameters**
@@ -553,7 +553,7 @@ Add an email input to the dialog
 
 
 <a name="addNumber"></a>
-#### addNumber()
+### addNumber()
 Add a number input to the dialog
 
 **Parameters**
@@ -568,7 +568,7 @@ Add a number input to the dialog
 
 
 <a name="addSelect"></a>
-#### addSelect()
+### addSelect()
 Add a dropdown select input to the dialog
 
 **Parameters**
@@ -584,7 +584,7 @@ Add a dropdown select input to the dialog
 
 
 <a name="addTel"></a>
-#### addTel()
+### addTel()
 Add a telephone number input to the dialog
 
 **Parameters**
@@ -599,7 +599,7 @@ Add a telephone number input to the dialog
 
 
 <a name="addText"></a>
-#### addText()
+### addText()
 Add a text input to the dialog
 
 **Parameters**
@@ -615,7 +615,7 @@ Add a text input to the dialog
 
 
 <a name="addTextarea"></a>
-#### addTextarea()
+### addTextarea()
 Add a text area input to the dialog
 
 **Parameters**
@@ -631,7 +631,7 @@ Add a text area input to the dialog
 
 
 <a name="addUrl"></a>
-#### addUrl()
+### addUrl()
 Add a URL input to the dialog
 
 **Parameters**
@@ -646,17 +646,17 @@ Add a URL input to the dialog
 
 
 <a name="asObject"></a>
-#### asObject()
+### asObject()
 Get the dialog object for use with bot.replyWithDialog()
 
 
 <a name="asString"></a>
-#### asString()
+### asString()
 Get the dialog object as a JSON encoded string.
 
 
 <a name="callback_id"></a>
-#### callback_id()
+### callback_id()
 Set the dialog's callback_id
 
 **Parameters**
@@ -668,7 +668,7 @@ Set the dialog's callback_id
 
 
 <a name="notifyOnCancel"></a>
-#### notifyOnCancel()
+### notifyOnCancel()
 Set true to have Slack notify you with a `dialog_cancellation` event if a user cancels the dialog without submitting
 
 **Parameters**
@@ -680,7 +680,7 @@ Set true to have Slack notify you with a `dialog_cancellation` event if a user c
 
 
 <a name="state"></a>
-#### state()
+### state()
 Set the dialog's state field
 
 **Parameters**
@@ -692,7 +692,7 @@ Set the dialog's state field
 
 
 <a name="submit_label"></a>
-#### submit_label()
+### submit_label()
 Set the button text for the submit button on the dialog
 
 **Parameters**
@@ -704,7 +704,7 @@ Set the button text for the submit button on the dialog
 
 
 <a name="title"></a>
-#### title()
+### title()
 Set the title of the dialog
 
 **Parameters**
@@ -738,9 +738,9 @@ controller.on('channel_join', async(bot, message) => {
 
 
 
-### Class Members
+## Class Members
 <a name="onTurn"></a>
-#### onTurn()
+### onTurn()
 Not for direct use - implements the MiddlewareSet's required onTurn function used to process the event
 
 **Parameters**
@@ -777,9 +777,9 @@ const controller = new Botkit({
 
 
 
-### Class Members
+## Class Members
 <a name="onTurn"></a>
-#### onTurn()
+### onTurn()
 Not for direct use - implements the MiddlewareSet's required onTurn function used to process the event
 
 **Parameters**

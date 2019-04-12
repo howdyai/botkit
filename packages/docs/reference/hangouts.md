@@ -52,7 +52,7 @@ server.post('/api/messages', (req, res) => {
 });
 ```
 
-#### constructor new HangoutsAdapter()
+### constructor new HangoutsAdapter()
 Create a Google Hangouts adapter.
 
 ```javascript
@@ -71,7 +71,7 @@ const adapter = new HangoutsAdapter({
 |--- |--- |---
 | options | [HangoutsAdapterOptions](#HangoutsAdapterOptions) | An object containing API credentials and a webhook verification token<br/>
 
-### Properties and Accessors 
+## Properties and Accessors
 
 | Name | Type | Description
 |--- |--- |---
@@ -79,9 +79,9 @@ const adapter = new HangoutsAdapter({
 | middlewares | any | Object containing one or more Botkit middlewares to bind automatically.
 | name | string | Name used by Botkit plugin loader
 
-### Class Members
+## Class Members
 <a name="continueConversation"></a>
-#### continueConversation()
+### continueConversation()
 Standard BotBuilder adapter method for continuing an existing conversation based on a conversation reference.
 [BotBuilder reference docs](https://docs.microsoft.com/en-us/javascript/api/botbuilder-core/botadapter?view=botbuilder-ts-latest#continueconversation)
 
@@ -95,7 +95,7 @@ Standard BotBuilder adapter method for continuing an existing conversation based
 
 
 <a name="deleteActivity"></a>
-#### deleteActivity()
+### deleteActivity()
 Standard BotBuilder adapter method to delete a previous message.
 [BotBuilder reference docs](https://docs.microsoft.com/en-us/javascript/api/botbuilder-core/botadapter?view=botbuilder-ts-latest#deleteactivity).
 
@@ -109,7 +109,7 @@ Standard BotBuilder adapter method to delete a previous message.
 
 
 <a name="processActivity"></a>
-#### processActivity()
+### processActivity()
 Accept an incoming webhook request and convert it into a TurnContext which can be processed by the bot's logic.
 
 **Parameters**
@@ -123,7 +123,7 @@ Accept an incoming webhook request and convert it into a TurnContext which can b
 
 
 <a name="sendActivities"></a>
-#### sendActivities()
+### sendActivities()
 Standard BotBuilder adapter method to send a message from the bot to the messaging API.
 [BotBuilder reference docs](https://docs.microsoft.com/en-us/javascript/api/botbuilder-core/botadapter?view=botbuilder-ts-latest#sendactivities).
 
@@ -137,7 +137,7 @@ Standard BotBuilder adapter method to send a message from the bot to the messagi
 
 
 <a name="updateActivity"></a>
-#### updateActivity()
+### updateActivity()
 Standard BotBuilder adapter method to update a previous message with new content.
 [BotBuilder reference docs](https://docs.microsoft.com/en-us/javascript/api/botbuilder-core/botadapter?view=botbuilder-ts-latest#updateactivity).
 
@@ -157,9 +157,9 @@ Specialized version of the BotWorker class that includes additional methods for 
 When using the HangoutsAdapter with Botkit, all `bot` objects will be of this type.
 
 
-### Class Members
+## Class Members
 <a name="deleteMessage"></a>
-#### deleteMessage()
+### deleteMessage()
 Delete an existing message.
 
 **Parameters**
@@ -180,7 +180,7 @@ await bot.deleteMessage(sent);
 
 
 <a name="replyInThread"></a>
-#### replyInThread()
+### replyInThread()
 Reply to an incoming message in a brand new thread.  Works for a single message reply - if multiple replies or replying with a dialog is necessary, use [startConversationInThread](#startconversationinthread).
 
 **Parameters**
@@ -199,7 +199,7 @@ controller.hears('thread','message', async(bot, message) =>{
 ```
 
 <a name="replyWithNew"></a>
-#### replyWithNew()
+### replyWithNew()
 Reply to a card_click event with a new message.
 
 **Parameters**
@@ -223,7 +223,7 @@ controller.on('card_clicked', async(bot, message) => {
 
 
 <a name="replyWithUpdate"></a>
-#### replyWithUpdate()
+### replyWithUpdate()
 Reply to a card_click event with an update to the original message.
 
 **Parameters**
@@ -247,7 +247,7 @@ controller.on('card_clicked', async(bot, message) => {
 
 
 <a name="startConversationInThread"></a>
-#### startConversationInThread()
+### startConversationInThread()
 Switch the bot's active context to a new thread.
 Use this to change the location of a bot's responses or calls to beginDialog into a new conversation thread (rather than continuing in the same thread as the originating message)
 
@@ -275,7 +275,7 @@ controller.hears('new thread', 'message', async(bot, message) => {
 
 
 <a name="updateMessage"></a>
-#### updateMessage()
+### updateMessage()
 Update an existing message with new content.
 
 **Parameters**

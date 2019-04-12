@@ -39,7 +39,7 @@ adapter.createSocketServer(server, options, async(context) => {
 });
 ```
 
-#### constructor new WebsocketAdapter()
+### constructor new WebsocketAdapter()
 Create a WebsocketAdapter
 
 **Parameters**
@@ -48,16 +48,16 @@ Create a WebsocketAdapter
 |--- |--- |---
 | socketServerOptions |  | an optional object containing parameters to send to a call to [WebSocket.server](https://github.com/websockets/ws/blob/master/doc/ws.md#new-websocketserveroptions-callback).<br/>
 
-### Properties and Accessors 
+## Properties and Accessors
 
 | Name | Type | Description
 |--- |--- |---
 | name | string | Name used to register this adapter with Botkit.
 | wss | any | The websocket server.
 
-### Class Members
+## Class Members
 <a name="continueConversation"></a>
-#### continueConversation()
+### continueConversation()
 Standard BotBuilder adapter method for continuing an existing conversation based on a conversation reference.
 [BotBuilder reference docs](https://docs.microsoft.com/en-us/javascript/api/botbuilder-core/botadapter?view=botbuilder-ts-latest#continueconversation)
 
@@ -71,7 +71,7 @@ Standard BotBuilder adapter method for continuing an existing conversation based
 
 
 <a name="createSocketServer"></a>
-#### createSocketServer()
+### createSocketServer()
 Bind a websocket listener to an existing webserver object.
 Note: Create the server using Node's http.createServer
 
@@ -86,7 +86,7 @@ Note: Create the server using Node's http.createServer
 
 
 <a name="deleteActivity"></a>
-#### deleteActivity()
+### deleteActivity()
 Websocket adapter does not support updateActivity.
 
 **Parameters**
@@ -99,7 +99,7 @@ Websocket adapter does not support updateActivity.
 
 
 <a name="init"></a>
-#### init()
+### init()
 Called automatically when Botkit uses this adapter - calls createSocketServer and binds a websocket listener to Botkit's pre-existing webserver.
 
 **Parameters**
@@ -111,7 +111,7 @@ Called automatically when Botkit uses this adapter - calls createSocketServer an
 
 
 <a name="processActivity"></a>
-#### processActivity()
+### processActivity()
 Accept an incoming webhook request and convert it into a TurnContext which can be processed by the bot's logic.
 
 **Parameters**
@@ -125,7 +125,7 @@ Accept an incoming webhook request and convert it into a TurnContext which can b
 
 
 <a name="sendActivities"></a>
-#### sendActivities()
+### sendActivities()
 Standard BotBuilder adapter method to send a message from the bot to the messaging API.
 [BotBuilder reference docs](https://docs.microsoft.com/en-us/javascript/api/botbuilder-core/botadapter?view=botbuilder-ts-latest#sendactivities).
 
@@ -139,7 +139,7 @@ Standard BotBuilder adapter method to send a message from the bot to the messagi
 
 
 <a name="updateActivity"></a>
-#### updateActivity()
+### updateActivity()
 Websocket adapter does not support updateActivity.
 
 **Parameters**
