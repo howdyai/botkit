@@ -1,6 +1,0 @@
-# run typedoc
-../../node_modules/.bin/typedoc --theme markdown --excludePrivate  --ignoreCompilerErrors --module amd --hideGenerator --name "Botkit" --readme none --entryPoint botkit --out docs src/index.ts
-
-# strip out the "Defined in" line / or rewrite?
-
-# strip/rewrite weird chars ▸ ●
