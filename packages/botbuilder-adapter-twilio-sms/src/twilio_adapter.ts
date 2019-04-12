@@ -31,53 +31,24 @@ export interface TwilioAdapterOptions {
 }
 
 /**
- * Connect Botkit or BotBuilder to Twilio's SMS service. See [TwilioAdapterOptions](#TwilioAdapterOptions) for parameters.
- *
- * Use with Botkit:
- *```javascript
- * const adapter = new TwilioAdapter({
- *      twilio_number: process.env.TWILIO_NUMBER,
- *      account_sid: process.env.TWILIO_ACCOUNT_SID,
- *      auth_token: process.env.TWILIO_AUTH_TOKEN,
- *      validation_url: process.env.TWILIO_VALIDATION_URL
- * });
- * const controller = new Botkit({
- *      adapter: adapter,
- *      // ... other configuration options
- * });
- * ```
- *
- * Use with BotBuilder:
- *```javascript
- * const adapter = new TwilioAdapter({
- *      twilio_number: process.env.TWILIO_NUMBER,
- *      account_sid: process.env.TWILIO_ACCOUNT_SID,
- *      auth_token: process.env.TWILIO_AUTH_TOKEN,
- *      validation_url: process.env.TWILIO_VALIDATION_URL
- * });
- * // set up restify...
- * const server = restify.createServer();
- * server.use(restify.plugins.bodyParser());
- * server.post('/api/messages', (req, res) => {
- *      adapter.processActivity(req, res, async(context) => {
- *          // do your bot logic here!
- *      });
- * });
- * ```
+ * Connect Botkit or BotBuilder to Twilio's SMS service.
  */
 export class TwilioAdapter extends BotAdapter {
     /**
      * Name used by Botkit plugin loader
+     * @ignore
      */
     public name: string = 'Twilio SMS Adapter';
 
     /**
      * Object containing one or more Botkit middlewares to bind automatically.
+     * @ignore
      */
     public middlewares;
 
     /**
      * A specialized BotWorker for Botkit that exposes Twilio specific extension methods.
+     * @ignore
      */
     public botkit_worker = TwilioBotWorker;
 
@@ -85,13 +56,37 @@ export class TwilioAdapter extends BotAdapter {
     private api: Twilio.Twilio; // Twilio api
 
     /**
-     * Create a Twilio adapter. See [TwilioAdapterOptions](#TwilioAdapterOptions) for a full definition of the allowed parameters.
+     * Create a Twilio adapter.
      *
-     * ```javascript
+     * Use with Botkit:
+     *```javascript
      * const adapter = new TwilioAdapter({
      *      twilio_number: process.env.TWILIO_NUMBER,
      *      account_sid: process.env.TWILIO_ACCOUNT_SID,
      *      auth_token: process.env.TWILIO_AUTH_TOKEN,
+     *      validation_url: process.env.TWILIO_VALIDATION_URL
+     * });
+     * const controller = new Botkit({
+     *      adapter: adapter,
+     *      // ... other configuration options
+     * });
+     * ```
+     *
+     * Use with BotBuilder:
+     *```javascript
+     * const adapter = new TwilioAdapter({
+     *      twilio_number: process.env.TWILIO_NUMBER,
+     *      account_sid: process.env.TWILIO_ACCOUNT_SID,
+     *      auth_token: process.env.TWILIO_AUTH_TOKEN,
+     *      validation_url: process.env.TWILIO_VALIDATION_URL
+     * });
+     * // set up restify...
+     * const server = restify.createServer();
+     * server.use(restify.plugins.bodyParser());
+     * server.post('/api/messages', (req, res) => {
+     *      adapter.processActivity(req, res, async(context) => {
+     *          // do your bot logic here!
+     *      });
      * });
      * ```
      *
@@ -169,6 +164,7 @@ export class TwilioAdapter extends BotAdapter {
 
     /**
      * Twilio SMS adapter does not support updateActivity.
+     * @ignore
      */
     // eslint-disable-next-line
      public async updateActivity(context: TurnContext, activity: Partial<Activity>): Promise<void> {
@@ -177,6 +173,7 @@ export class TwilioAdapter extends BotAdapter {
 
     /**
      * Twilio SMS adapter does not support deleteActivity.
+     * @ignore
      */
     // eslint-disable-next-line
      public async deleteActivity(context: TurnContext, reference: Partial<ConversationReference>): Promise<void> {

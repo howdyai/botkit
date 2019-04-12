@@ -5,10 +5,11 @@ import { BotWorker } from 'botkit';
 import * as Twilio from 'twilio';
 
 /**
- * Specialized version of the BotWorker class that includes additional methods for interacting with Twilio.
- * When using the TwilioAdapter with Botkit, all `bot` objects will be of this type.
- */
-export class TwilioBotWorker extends BotWorker {
+ * This is a specialized version of [Botkit's core BotWorker class](core.md#BotWorker) that includes additional methods for interacting with Facebook.
+ * It includes all functionality from the base class, as well as the extension methods below.
+ * 
+ * When using the TwilioAdapter with Botkit, all `bot` objects passed to handler functions will include these extensions.
+ */export class TwilioBotWorker extends BotWorker {
     /**
      * A copy of the Twilio API client
      */

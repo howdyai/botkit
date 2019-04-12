@@ -15,16 +15,19 @@ const debug = Debug('botkit:facebook');
 export class FacebookAdapter extends BotAdapter {
     /**
      * Name used by Botkit plugin loader
+     * @ignore
      */
     public name: string = 'Facebook Adapter';
 
     /**
      * Object containing one or more Botkit middlewares to bind automatically.
+     * @ignore
      */
     public middlewares;
 
     /**
      * A customized BotWorker object that exposes additional utility methods.
+     * @ignore
      */
     public botkit_worker = FacebookBotWorker;
 

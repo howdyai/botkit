@@ -18,7 +18,26 @@ This is a class reference for all the methods exposed by the [botbuilder-adapter
 
 <a name="TwilioAdapter"></a>
 ## TwilioAdapter
-Connect Botkit or BotBuilder to Twilio's SMS service. See [TwilioAdapterOptions](#TwilioAdapterOptions) for parameters.
+Connect Botkit or BotBuilder to Twilio's SMS service.
+
+To use this class in your application, first install the package:
+```bash
+npm install --save botbuilder-adapter-twilio-sms
+```
+
+Then import this and other classes into your code:
+```javascript
+const { TwilioAdapter } = require('botbuilder-adapter-twilio-sms');
+```
+
+### Create a new TwilioAdapter()
+**Parameters**
+
+| Argument | Type | Description
+|--- |--- |---
+| options | [TwilioAdapterOptions](#TwilioAdapterOptions) | An object containing API credentials, a webhook verification token and other options<br/>
+
+Create a Twilio adapter.
 
 Use with Botkit:
 ```javascript
@@ -53,42 +72,7 @@ server.post('/api/messages', (req, res) => {
 ```
 
 
-To use this class in your application, first install the package:
-```bash
-npm install --save botbuilder-adapter-twilio-sms
-```
 
-Then import this and other classes into your code:
-```javascript
-const { TwilioAdapter } = require('botbuilder-adapter-twilio-sms');
-```
-
-### Create a new TwilioAdapter()
-**Parameters**
-
-| Argument | Type | Description
-|--- |--- |---
-| options | [TwilioAdapterOptions](#TwilioAdapterOptions) | An object containing API credentials, a webhook verification token and other options<br/>
-
-Create a Twilio adapter. See [TwilioAdapterOptions](#TwilioAdapterOptions) for a full definition of the allowed parameters.
-
-```javascript
-const adapter = new TwilioAdapter({
-     twilio_number: process.env.TWILIO_NUMBER,
-     account_sid: process.env.TWILIO_ACCOUNT_SID,
-     auth_token: process.env.TWILIO_AUTH_TOKEN,
-});
-```
-
-
-
-## Properties and Accessors
-
-| Name | Type | Description
-|--- |--- |---
-| botkit_worker | [TwilioBotWorker](#TwilioBotWorker) | A specialized BotWorker for Botkit that exposes Twilio specific extension methods.
-| middlewares | any | Object containing one or more Botkit middlewares to bind automatically.
-| name | string | Name used by Botkit plugin loader
 
 ## TwilioAdapter Class Methods
 <a name="continueConversation"></a>
@@ -102,19 +86,6 @@ Standard BotBuilder adapter method for continuing an existing conversation based
 |--- |--- |---
 | reference| Partial&lt;ConversationReference&gt; | A conversation reference to be applied to future messages.
 | logic|  | A bot logic function that will perform continuing action in the form `async(context) => { ... }`<br/>
-
-
-
-<a name="deleteActivity"></a>
-### deleteActivity()
-Twilio SMS adapter does not support deleteActivity.
-
-**Parameters**
-
-| Argument | Type | description
-|--- |--- |---
-| context| TurnContext | 
-| reference| Partial&lt;ConversationReference&gt; | 
 
 
 
@@ -143,19 +114,6 @@ Standard BotBuilder adapter method to send a message from the bot to the messagi
 |--- |--- |---
 | context| TurnContext | A TurnContext representing the current incoming message and environment. (Not used)
 | activities|  | An array of outgoing activities to be sent back to the messaging API.<br/>
-
-
-
-<a name="updateActivity"></a>
-### updateActivity()
-Twilio SMS adapter does not support updateActivity.
-
-**Parameters**
-
-| Argument | Type | description
-|--- |--- |---
-| context| TurnContext | 
-| activity| Partial&lt;Activity&gt; | 
 
 
 
