@@ -355,7 +355,6 @@ const { FacebookEventTypeMiddleware } = require('botbuilder-adapter-facebook');
 
 
 
-## FacebookEventTypeMiddleware Class Methods
 
 
 <a name="FacebookAdapterOptions"></a>

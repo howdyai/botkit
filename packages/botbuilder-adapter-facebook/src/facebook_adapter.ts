@@ -255,6 +255,7 @@ export class FacebookAdapter extends BotAdapter {
 
     /**
      * Facebook adapter does not support updateActivity.
+     * @ignore
      */
     // eslint-disable-next-line
     public async updateActivity(context: TurnContext, activity: Partial<Activity>): Promise<void> {
