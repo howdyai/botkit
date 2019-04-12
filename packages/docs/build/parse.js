@@ -35,14 +35,6 @@ function generateReference(src, dest) {
 
     for (var m = 0; m < data.children.length; m++) {
         let module = data.children[m];
-        // console.log(module.name, module.kindString, module.children.length);
-        index.push(
-            {
-                name: data.name,
-                packageName: module.name,
-                path: dest.replace(/.*?\/(reference\/.*)/,'$1')                
-            }
-        );
 
         // find the classes
         for (var c = 0; c < module.children.length; c++) {
@@ -77,6 +69,17 @@ function generateReference(src, dest) {
 
     // now float adapter to top.  should result in Adapter, Worker, other classes
     classes = classes.sort(adapterAtTop);
+
+    // console.log(module.name, module.kindString, module.children.length);
+    index.push(
+        {
+            name: data.name,
+            packageName: data.children[0].name,
+            path: dest.replace(/.*?\/(reference\/.*)/,'$1'),
+            classes: classes,
+            interfaces: interfaces
+        }
+    );
 
     fs.writeFileSync(dest, template({classes: classes, interfaces: interfaces, packageName: data.children[0].name, name: data.name }));
 }
