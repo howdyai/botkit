@@ -7,7 +7,6 @@
     * [BotWorker](../reference/core.md#BotWorker)
     * [BotkitCMSHelper](../reference/core.md#BotkitCMSHelper)
     * [BotkitConversation](../reference/core.md#BotkitConversation)
-    * [BotkitConversationState](../reference/core.md#BotkitConversationState)
     * [BotkitDialogWrapper](../reference/core.md#BotkitDialogWrapper)
 * [Botkit for the Web](../reference/websocket.md)
     * [WebsocketAdapter](../reference/websocket.md#WebsocketAdapter)
