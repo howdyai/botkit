@@ -197,9 +197,11 @@ Facebook adapter does not support updateActivity.
 
 <a name="FacebookBotWorker"></a>
 ## FacebookBotWorker
-This is a specialized version of the BotWorker class that includes additional methods for interacting with Facebook.
-It includes all functionality from [the core BotWorker class](core.md#BotWorker) as well as the extension methods below.
+This is a specialized version of [Botkit's core BotWorker class](core.md#BotWorker) that includes additional methods for interacting with Facebook.
+It includes all functionality from the base class, as well as the extension methods below.
+
 When using the FacebookAdapter with Botkit, all `bot` objects passed to handler functions will include these extensions.
+
 
 To use this class in your application, first install the package:
 ```bash
@@ -219,13 +221,14 @@ const { FacebookBotWorker } = require('botbuilder-adapter-facebook');
 | botkit | Botkit | The Botkit controller object responsible for spawning this bot worker
 | config | any | Normally, a DialogContext object.  Can also be the ID of a Facebook page managed by this app.<br/>
 
-Used internally by controller.spawn, creates a BotWorker instance that can send messages, replies, and make other API calls.
+Used internally by `controller.spawn()`, creates a BotWorker instance that can send messages, replies, and make other API calls.
 
-The example below demonstrates spawning a bot for sending proactive messages to users:
+When used in multi-tenant mode, it is possible to spawn a bot instance by passing in the Facebook page ID representing the appropriate bot identity.
+Use this in concert with [startConversationWithUser()](#startConversationWithUser) and [changeContext](core.md#changecontext) to start conversations
+or send proactive alerts to users on a schedule or in response to external events.
+
 ```javascript
 let bot = await controller.spawn(FACEBOOK_PAGE_ID);
-await bot.startConversationWithUser(FACEBOOK_USER_PSID);
-await bot.say('Howdy human!');
 ```
 
 
@@ -238,14 +241,23 @@ await bot.say('Howdy human!');
 ## FacebookBotWorker Class Methods
 <a name="startConversationWithUser"></a>
 ### startConversationWithUser()
-
+Change the operating context of the worker to begin a conversation with a specific user.
+After calling this method, any future calls to `bot.say()` or `bot.beginDialog()` will occur in this new context.
 
 **Parameters**
 
 | Argument | Type | description
 |--- |--- |---
-| userId| any | 
+| userId| any | the PSID of a user the bot has previously interacted with<br/>
 
+
+
+This method can be used to send users scheduled messages or messages triggered by external events.
+```javascript
+let bot = await controller.spawn(FACEBOOK_PAGE_ID);
+await bot.startConversationWithUser(FACEBOOK_USER_PSID);
+await bot.say('Howdy human!');
+```
 
 
 
