@@ -218,13 +218,13 @@ const { FacebookBotWorker } = require('botbuilder-adapter-facebook');
 
 | Argument | Type | Description
 |--- |--- |---
-| botkit | Botkit | The Botkit controller object responsible for spawning this bot worker
+| botkit | Botkit | The Botkit controller object responsible for spawning this bot worker.
 | config | any | Normally, a DialogContext object.  Can also be the ID of a Facebook page managed by this app.<br/>
 
-Used internally by `controller.spawn()`, creates a BotWorker instance that can send messages, replies, and make other API calls.
+Typically reserved for use internally by Botkit's `controller.spawn()`, this class can also used directly to create a BotWorker instance that can send messages, replies, and make other API calls.
 
-When used in multi-tenant mode, it is possible to spawn a bot instance by passing in the Facebook page ID representing the appropriate bot identity.
-Use this in concert with [startConversationWithUser()](#startConversationWithUser) and [changeContext](core.md#changecontext) to start conversations
+When used with the FacebookAdapter's multi-tenancy mode, it is possible to spawn a bot instance by passing in the Facebook page ID representing the appropriate bot identity.
+Use this in concert with [startConversationWithUser()](#startConversationWithUser) and [changeContext()](core.md#changecontext) to start conversations
 or send proactive alerts to users on a schedule or in response to external events.
 
 ```javascript
