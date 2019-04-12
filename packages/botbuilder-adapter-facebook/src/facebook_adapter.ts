@@ -11,6 +11,7 @@ const debug = Debug('botkit:facebook');
 
 /**
  * Connect [Botkit](https://github.com/howdyai/botkit) or [BotBuilder](https://github.com/microsoft/botbuilder-js) to Facebook Messenger.
+ * 
  * The Facebook Adapter can be used in 2 modes: bound to a single Facebook page,
  * or in multi-tenancy mode able to serve multiple pages.. [Read here for more information](#constructor-new-facebookadapter).
  */
@@ -26,8 +27,11 @@ export class FacebookAdapter extends BotAdapter {
 
     /**
      * Create a FacebookAdapter to handle messages from Facebook.
+     * 
      * To create an app bound to a single page, pass in `access_token`.
+     * 
      * To create an app that can be bound to multiple pages, pass in `getAccessTokenForPage` function in the form `async (pageId) => page_access_token`
+     * 
      * To use with Botkit:
      * ```javascript
      * const adapter = new FacebookAdapter({
