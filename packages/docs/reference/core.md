@@ -7,8 +7,8 @@ This is a class reference for all the methods exposed by the [botkit](../../botk
 ## Classes
 
 
-* <a href="#BotWorker">BotWorker</a>
 * <a href="#Botkit">Botkit</a>
+* <a href="#BotWorker">BotWorker</a>
 * <a href="#BotkitCMSHelper">BotkitCMSHelper</a>
 * <a href="#BotkitConversation">BotkitConversation</a>
 * <a href="#BotkitConversationState">BotkitConversationState</a>
@@ -23,206 +23,6 @@ This is a class reference for all the methods exposed by the [botkit](../../botk
 * <a href="#BotkitPlugin">BotkitPlugin</a>
 
 ---
-
-<a name="BotWorker"></a>
-## BotWorker
-A base class for a `bot` instance, an object that contains the information and functionality for taking action in response to an incoming message.
-Note that adapters are likely to extend this class with additional platform-specific methods - refer to the adapter documentation for these extensions.
-### constructor new BotWorker()
-Create a new BotWorker instance. Do not call this directly - instead, use [controller.spawn()](core.md#spawn).
-
-**Parameters**
-
-| Argument | Type | Description
-|--- |--- |---
-| controller | [Botkit](#Botkit) | A pointer to the main Botkit controller
-| config | any | An object typically containing { dialogContext, reference, context, activity }<br/>
-
-**Properties and Accessors**
-
-| Name | Type | Description
-|--- |--- |---
-| controller |  | Get a reference to the main Botkit controller.
-
-<a name="beginDialog"></a>
-### beginDialog()
-Begin a pre-defined dialog by specifying its id. The dialog will be started in the same context (same user, same channel) in which the original incoming message was received.
-
-**Parameters**
-
-| Argument | Type | description
-|--- |--- |---
-| id| string | id of dialog
-| options (optional)| any | object containing options to be passed into the dialog<br/>
-
-
-
-<a name="changeContext"></a>
-### changeContext()
-Alter the context in which a bot instance will send messages.
-Use this method to create or adjust a bot instance so that it can send messages to a predefined user/channel combination.
-
-**Parameters**
-
-| Argument | Type | description
-|--- |--- |---
-| reference| Partial&lt;ConversationReference&gt; | A [ConversationReference](https://docs.microsoft.com/en-us/javascript/api/botframework-schema/conversationreference?view=botbuilder-ts-latest), most likely captured from an incoming message and stored for use in proactive messaging scenarios.<br/>
-
-
-
-```javascript
-// get the reference field and store it.
-const saved_reference = message.reference;
-
-// later on...
-let bot = await controller.spawn();
-bot.changeContext(saved_reference);
-bot.say('Hello!');
-```
-
-
-<a name="ensureMessageFormat"></a>
-### ensureMessageFormat()
-Take a crudely-formed Botkit message with any sort of field (may just be a string, may be a partial message object)
-and map it into a beautiful BotFramework Activity.
-Any fields not found in the Activity definition will be moved to activity.channelData.
-
-**Parameters**
-
-| Argument | Type | description
-|--- |--- |---
-| message| Partial&lt;BotkitMessage&gt; | 
-
-
-**Returns**
-
-a properly formed Activity object
-
-
-
-
-<a name="getConfig"></a>
-### getConfig()
-Get a value from the BotWorker's configuration.
-
-**Parameters**
-
-| Argument | Type | description
-|--- |--- |---
-| key (optional)| string | The name of a value stored in the configuration
-
-
-**Returns**
-
-The value stored in the configuration (or null if absent)
-
-
-
-
-```javascript
-let original_context = bot.getConfig('context');
-await original_context.sendActivity('send directly using the adapter instead of Botkit');
-```
-
-
-<a name="httpBody"></a>
-### httpBody()
-Set the http response body for this turn.
-Use this to define the response value when the platform requires a synchronous response to the incoming webhook.
-
-**Parameters**
-
-| Argument | Type | description
-|--- |--- |---
-| body| any | (any) a value that will be returned as the http response body<br/>
-
-
-
-Example handling of a /slash command from Slack:
-```javascript
-controller.on('slash_command', async(bot, message) => {
- bot.httpBody('This is a reply to the slash command.');
-})
-```
-
-
-<a name="httpStatus"></a>
-### httpStatus()
-Set the http response status code for this turn
-
-**Parameters**
-
-| Argument | Type | description
-|--- |--- |---
-| status| number | a valid http status code like 200 202 301 500 etc<br/>
-
-
-
-```javascript
-controller.on('event', async(bot, message) => {
-  // respond with a 500 error code for some reason!
-  bot.httpStatus(500);
-});
-```
-
-
-<a name="reply"></a>
-### reply()
-Reply to an incoming message.
-Message will be sent using the context attached to the source message, which may be different than the context used to spawn the bot.
-
-**Parameters**
-
-| Argument | Type | description
-|--- |--- |---
-| src| Partial&lt;BotkitMessage&gt; | An incoming message, usually passed in to a handler function
-| resp| Partial&lt;BotkitMessage&gt; | A string containing the text of a reply, or more fully formed message object
-
-
-**Returns**
-
-Return value will contain the results of the send action, typically &#x60;{id: &lt;id of message&gt;}&#x60;
-
-
-
-
-```javascript
-controller.on('event', async(bot, message) => {
-
- await bot.reply(message, 'I received an event and am replying to it.');
-
-});
-```
-
-
-<a name="say"></a>
-### say()
-Send a message.
-Message will be sent using the context originally passed in to `controller.spawn()`.
-Primarily used for sending proactive messages, in concert with [changeContext()](#changecontext).
-
-**Parameters**
-
-| Argument | Type | description
-|--- |--- |---
-| message| Partial&lt;BotkitMessage&gt; | A string containing the text of a reply, or more fully formed message object
-
-
-**Returns**
-
-Return value will contain the results of the send action, typically &#x60;{id: &lt;id of message&gt;}&#x60;
-
-
-
-
-```javascript
-controller.on('event', async(bot, message) => {
-
- await bot.say('I received an event!');
-
-});
-```
-
 
 <a name="Botkit"></a>
 ## Botkit
@@ -596,6 +396,206 @@ Load a plugin module and bind all included middlewares to their respective endpo
 | plugin_or_function|  | A plugin module in the form of function(botkit) {...} that returns {name, middlewares, init} or an object in the same form.<br/>
 
 
+
+
+<a name="BotWorker"></a>
+## BotWorker
+A base class for a `bot` instance, an object that contains the information and functionality for taking action in response to an incoming message.
+Note that adapters are likely to extend this class with additional platform-specific methods - refer to the adapter documentation for these extensions.
+### constructor new BotWorker()
+Create a new BotWorker instance. Do not call this directly - instead, use [controller.spawn()](core.md#spawn).
+
+**Parameters**
+
+| Argument | Type | Description
+|--- |--- |---
+| controller | [Botkit](#Botkit) | A pointer to the main Botkit controller
+| config | any | An object typically containing { dialogContext, reference, context, activity }<br/>
+
+**Properties and Accessors**
+
+| Name | Type | Description
+|--- |--- |---
+| controller |  | Get a reference to the main Botkit controller.
+
+<a name="beginDialog"></a>
+### beginDialog()
+Begin a pre-defined dialog by specifying its id. The dialog will be started in the same context (same user, same channel) in which the original incoming message was received.
+
+**Parameters**
+
+| Argument | Type | description
+|--- |--- |---
+| id| string | id of dialog
+| options (optional)| any | object containing options to be passed into the dialog<br/>
+
+
+
+<a name="changeContext"></a>
+### changeContext()
+Alter the context in which a bot instance will send messages.
+Use this method to create or adjust a bot instance so that it can send messages to a predefined user/channel combination.
+
+**Parameters**
+
+| Argument | Type | description
+|--- |--- |---
+| reference| Partial&lt;ConversationReference&gt; | A [ConversationReference](https://docs.microsoft.com/en-us/javascript/api/botframework-schema/conversationreference?view=botbuilder-ts-latest), most likely captured from an incoming message and stored for use in proactive messaging scenarios.<br/>
+
+
+
+```javascript
+// get the reference field and store it.
+const saved_reference = message.reference;
+
+// later on...
+let bot = await controller.spawn();
+bot.changeContext(saved_reference);
+bot.say('Hello!');
+```
+
+
+<a name="ensureMessageFormat"></a>
+### ensureMessageFormat()
+Take a crudely-formed Botkit message with any sort of field (may just be a string, may be a partial message object)
+and map it into a beautiful BotFramework Activity.
+Any fields not found in the Activity definition will be moved to activity.channelData.
+
+**Parameters**
+
+| Argument | Type | description
+|--- |--- |---
+| message| Partial&lt;BotkitMessage&gt; | 
+
+
+**Returns**
+
+a properly formed Activity object
+
+
+
+
+<a name="getConfig"></a>
+### getConfig()
+Get a value from the BotWorker's configuration.
+
+**Parameters**
+
+| Argument | Type | description
+|--- |--- |---
+| key (optional)| string | The name of a value stored in the configuration
+
+
+**Returns**
+
+The value stored in the configuration (or null if absent)
+
+
+
+
+```javascript
+let original_context = bot.getConfig('context');
+await original_context.sendActivity('send directly using the adapter instead of Botkit');
+```
+
+
+<a name="httpBody"></a>
+### httpBody()
+Set the http response body for this turn.
+Use this to define the response value when the platform requires a synchronous response to the incoming webhook.
+
+**Parameters**
+
+| Argument | Type | description
+|--- |--- |---
+| body| any | (any) a value that will be returned as the http response body<br/>
+
+
+
+Example handling of a /slash command from Slack:
+```javascript
+controller.on('slash_command', async(bot, message) => {
+ bot.httpBody('This is a reply to the slash command.');
+})
+```
+
+
+<a name="httpStatus"></a>
+### httpStatus()
+Set the http response status code for this turn
+
+**Parameters**
+
+| Argument | Type | description
+|--- |--- |---
+| status| number | a valid http status code like 200 202 301 500 etc<br/>
+
+
+
+```javascript
+controller.on('event', async(bot, message) => {
+  // respond with a 500 error code for some reason!
+  bot.httpStatus(500);
+});
+```
+
+
+<a name="reply"></a>
+### reply()
+Reply to an incoming message.
+Message will be sent using the context attached to the source message, which may be different than the context used to spawn the bot.
+
+**Parameters**
+
+| Argument | Type | description
+|--- |--- |---
+| src| Partial&lt;BotkitMessage&gt; | An incoming message, usually passed in to a handler function
+| resp| Partial&lt;BotkitMessage&gt; | A string containing the text of a reply, or more fully formed message object
+
+
+**Returns**
+
+Return value will contain the results of the send action, typically &#x60;{id: &lt;id of message&gt;}&#x60;
+
+
+
+
+```javascript
+controller.on('event', async(bot, message) => {
+
+ await bot.reply(message, 'I received an event and am replying to it.');
+
+});
+```
+
+
+<a name="say"></a>
+### say()
+Send a message.
+Message will be sent using the context originally passed in to `controller.spawn()`.
+Primarily used for sending proactive messages, in concert with [changeContext()](#changecontext).
+
+**Parameters**
+
+| Argument | Type | description
+|--- |--- |---
+| message| Partial&lt;BotkitMessage&gt; | A string containing the text of a reply, or more fully formed message object
+
+
+**Returns**
+
+Return value will contain the results of the send action, typically &#x60;{id: &lt;id of message&gt;}&#x60;
+
+
+
+
+```javascript
+controller.on('event', async(bot, message) => {
+
+ await bot.say('I received an event!');
+
+});
+```
 
 
 <a name="BotkitCMSHelper"></a>

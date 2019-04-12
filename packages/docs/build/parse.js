@@ -70,6 +70,8 @@ function generateReference(src, dest) {
     // now float adapter to top.  should result in Adapter, Worker, other classes
     classes = classes.sort(adapterAtTop);
 
+    classes = classes.sort(botkitAtTop);
+
     // console.log(module.name, module.kindString, module.children.length);
     index.push(
         {
@@ -89,6 +91,17 @@ function sortByName(a,b) {
     if(a.name > b.name) { return 1; }
     return 0;
 }
+
+function botkitAtTop(a,b) {
+    if (a.name.match(/^botkit$/i)) { 
+        return -1;
+    } else if(b.name.match(/^botkit$/i)) {
+        return 1;
+    } else {
+        return 0;
+    }
+}
+
 
 function workerAtTop(a,b) {
     if (a.name.match(/botworker/i)) { 

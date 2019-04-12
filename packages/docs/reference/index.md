@@ -3,8 +3,8 @@
 [&larr; Botkit Core Docs](..)
 
 * [Botkit](../reference/core.md)
-    * [BotWorker]({../#name})
     * [Botkit]({../#name})
+    * [BotWorker]({../#name})
     * [BotkitCMSHelper]({../#name})
     * [BotkitConversation]({../#name})
     * [BotkitConversationState]({../#name})
