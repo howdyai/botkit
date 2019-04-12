@@ -52,7 +52,7 @@ server.post('/api/messages', (req, res) => {
 });
 ```
 
-### constructor new HangoutsAdapter()
+### Create a new HangoutsAdapter()
 Create a Google Hangouts adapter.
 
 ```javascript

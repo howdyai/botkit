@@ -29,7 +29,7 @@ This is a class reference for all the methods exposed by the [botkit](https://gi
 Create a new instance of Botkit to define the controller for a conversational app.
 To connect Botkit to a chat platform, pass in a fully configured `adapter`.
 If one is not specified, Botkit will expose an adapter for the Microsoft Bot Framework.
-### constructor new Botkit()
+### Create a new Botkit()
 Create a new Botkit instance and optionally specify a platform-specific adapter.
 By default, Botkit will create a [BotFrameworkAdapter](https://docs.microsoft.com/en-us/javascript/api/botbuilder/botframeworkadapter?view=botbuilder-ts-latest).
 
@@ -403,7 +403,7 @@ Load a plugin module and bind all included middlewares to their respective endpo
 ## BotWorker
 A base class for a `bot` instance, an object that contains the information and functionality for taking action in response to an incoming message.
 Note that adapters are likely to extend this class with additional platform-specific methods - refer to the adapter documentation for these extensions.
-### constructor new BotWorker()
+### Create a new BotWorker()
 Create a new BotWorker instance. Do not call this directly - instead, use [controller.spawn()](core.md#spawn).
 
 **Parameters**
@@ -620,7 +620,7 @@ controller.on('message', async(bot, message) => {
 ```
 
 
-### constructor new BotkitCMSHelper()
+### Create a new BotkitCMSHelper()
 
 
 **Parameters**
@@ -758,7 +758,7 @@ controller.on('event', async(bot, message) => {
 })
 ```
 
-### constructor new BotkitConversation()
+### Create a new BotkitConversation()
 Create a new BotkitConversation object
 
 **Parameters**
@@ -1024,7 +1024,7 @@ Note: This is used automatically inside Botkit and developers should not need to
 This class is used to provide easy access to common actions taken on active BotkitConversation instances.
 These objects are passed into handlers bound to BotkitConversations using .before .onChange and conditional handler functions passed to .ask and .addQuestion
 Grants access to convo.vars convo.gotoThread() convo.setVar() and convo.repeat().
-### constructor new BotkitDialogWrapper()
+### Create a new BotkitDialogWrapper()
 
 
 **Parameters**

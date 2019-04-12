@@ -39,7 +39,7 @@ adapter.createSocketServer(server, options, async(context) => {
 });
 ```
 
-### constructor new WebsocketAdapter()
+### Create a new WebsocketAdapter()
 Create a WebsocketAdapter
 
 **Parameters**

@@ -51,7 +51,7 @@ server.post('/api/messages', (req, res) => {
 });
 ```
 
-### constructor new WebexAdapter()
+### Create a new WebexAdapter()
 Create a Webex adapter. See [WebexAdapterOptions](#webexadapteroptions) for a full definition of the allowed parameters.
 
 ```javascript

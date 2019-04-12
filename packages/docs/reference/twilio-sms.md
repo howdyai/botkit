@@ -52,7 +52,7 @@ server.post('/api/messages', (req, res) => {
 });
 ```
 
-### constructor new TwilioAdapter()
+### Create a new TwilioAdapter()
 Create a Twilio adapter. See [TwilioAdapterOptions](#TwilioAdapterOptions) for a full definition of the allowed parameters.
 
 ```javascript

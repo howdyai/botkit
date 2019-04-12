@@ -53,7 +53,7 @@ server.post('/api/messages', (req, res) => {
 });
 ```
 
-### constructor new SlackAdapter()
+### Create a new SlackAdapter()
 Create a Slack adapter. See [SlackAdapterOptions](#slackadapteroptions) for a full definition of the allowed parameters.
 
 ```javascript
@@ -258,7 +258,7 @@ controller.webserver.get('/install/auth', async (req, res) => {
 ## SlackBotWorker
 Specialized version of the BotWorker class that includes additional methods for interacting with Slack.
 When using the SlackAdapter with Botkit, all `bot` objects will be of this type.
-### constructor new SlackBotWorker()
+### Create a new SlackBotWorker()
 Used internally by controller.spawn, creates a BotWorker instance that can send messages, replies, and make other API calls.
 
 **Parameters**
@@ -523,7 +523,7 @@ bot.replyWithDialog(message, dialog.asObject());
 ```
 
 
-### constructor new SlackDialog()
+### Create a new SlackDialog()
 Create a new dialog object
 
 **Parameters**

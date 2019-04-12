@@ -21,7 +21,7 @@ This is a class reference for all the methods exposed by the [botbuilder-adapter
 <a name="FacebookAdapter"></a>
 ## FacebookAdapter
 Connect [Botkit](https://www.npmjs.com/package/botkit) or [BotBuilder](https://www.npmjs.com/package/botbuilder) to Facebook Messenger.
-### constructor new FacebookAdapter()
+### Create a new FacebookAdapter()
 Create an adapter to handle incoming messages from Facebook and translate them into a standard format for processing by your bot.
 
 The Facebook Adapter can be used in 2 modes:
@@ -188,7 +188,7 @@ Facebook adapter does not support updateActivity.
 This is a specialized version of the BotWorker class that includes additional methods for interacting with Facebook.
 It includes all functionality from [the core BotWorker class](core.md#BotWorker) as well as the extension methods below.
 When using the FacebookAdapter with Botkit, all `bot` objects passed to handler functions will include these extensions.
-### constructor new FacebookBotWorker()
+### Create a new FacebookBotWorker()
 Used internally by controller.spawn, creates a BotWorker instance that can send messages, replies, and make other API calls.
 
 The example below demonstrates spawning a bot for sending proactive messages to users:
@@ -229,7 +229,7 @@ await bot.say('Howdy human!');
 ## FacebookAPI
 A simple API client for the Facebook API.  Automatically signs requests with the access token and app secret proof.
 It can be used to call any API provided by Facebook.
-### constructor new FacebookAPI()
+### Create a new FacebookAPI()
 Create a FacebookAPI client.
 ```
 let api = new FacebookAPI(TOKEN, SECRET);
