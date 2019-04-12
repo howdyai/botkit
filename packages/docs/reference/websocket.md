@@ -2,7 +2,7 @@
 
 [&larr; Botkit Documentation](..)  [&larr; Class Index](index.md) 
 
-This is a class reference for all the methods exposed by the [botbuilder-adapter-websocket](../../botbuilder-adapter-websocket) package.
+This is a class reference for all the methods exposed by the [botbuilder-adapter-websocket](https://github.com/howdyai/botkit/tree/next/packages/botbuilder-adapter-websocket) package.
 
 ## Classes
 
