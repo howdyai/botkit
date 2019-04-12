@@ -1,6 +1,8 @@
 # Botkit for Slack Class Reference
 
-This is a class reference for all the methods exposed by [botbuilder-adapter-slack](../../botbuilder-adapter-slack).
+[Boktkit Core Docs](../..) &raquo; [Botkit Class References](..) 
+
+This is a class reference for all the methods exposed by the [botbuilder-adapter-slack](../../botbuilder-adapter-slack) package.
 
 ## Classes
 

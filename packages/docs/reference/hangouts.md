@@ -1,6 +1,8 @@
 # Botkit for Hangouts Class Reference
 
-This is a class reference for all the methods exposed by [botbuilder-adapter-hangouts](../../botbuilder-adapter-hangouts).
+[Boktkit Core Docs](../..) &raquo; [Botkit Class References](..) 
+
+This is a class reference for all the methods exposed by the [botbuilder-adapter-hangouts](../../botbuilder-adapter-hangouts) package.
 
 ## Classes
 

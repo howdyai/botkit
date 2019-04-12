@@ -1,6 +1,8 @@
 # Botkit Class Reference
 
-This is a class reference for all the methods exposed by [botkit](../../botkit).
+[Boktkit Core Docs](../..) &raquo; [Botkit Class References](..) 
+
+This is a class reference for all the methods exposed by the [botkit](../../botkit) package.
 
 ## Classes
 
