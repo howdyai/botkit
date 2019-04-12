@@ -48,13 +48,14 @@ Create a WebsocketAdapter
 |--- |--- |---
 | socketServerOptions |  | an optional object containing parameters to send to a call to [WebSocket.server](https://github.com/websockets/ws/blob/master/doc/ws.md#new-websocketserveroptions-callback).<br/>
 
-**Properties and Accessors**
+## Properties and Accessors 
 
 | Name | Type | Description
 |--- |--- |---
 | name | string | Name used to register this adapter with Botkit.
 | wss | any | The websocket server.
 
+## Class Members
 <a name="continueConversation"></a>
 ### continueConversation()
 Standard BotBuilder adapter method for continuing an existing conversation based on a conversation reference.
@@ -147,7 +148,6 @@ Websocket adapter does not support updateActivity.
 |--- |--- |---
 | context| TurnContext | 
 | activity| Partial&lt;Activity&gt; | 
-
 
 
 

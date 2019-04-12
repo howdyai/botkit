@@ -51,7 +51,7 @@ controller.on('message', async(bot, message) => {
 |--- |--- |---
 | config | [BotkitConfiguration](#BotkitConfiguration) | Configuration for this instance of Botkit<br/>
 
-**Properties and Accessors**
+## Properties and Accessors 
 
 | Name | Type | Description
 |--- |--- |---
@@ -64,6 +64,7 @@ controller.on('message', async(bot, message) => {
 | version | string | The current version of Botkit Core
 | webserver | any | An Express webserver
 
+## Class Members
 <a name="addDep"></a>
 ### addDep()
 (For use by plugins only) - Add a dependency to Botkit's bootup process that must be marked as completed using `completeDep()`.
@@ -412,12 +413,13 @@ Create a new BotWorker instance. Do not call this directly - instead, use [contr
 | controller | [Botkit](#Botkit) | A pointer to the main Botkit controller
 | config | any | An object typically containing { dialogContext, reference, context, activity }<br/>
 
-**Properties and Accessors**
+## Properties and Accessors 
 
 | Name | Type | Description
 |--- |--- |---
 | controller |  | Get a reference to the main Botkit controller.
 
+## Class Members
 <a name="beginDialog"></a>
 ### beginDialog()
 Begin a pre-defined dialog by specifying its id. The dialog will be started in the same context (same user, same channel) in which the original incoming message was received.
@@ -629,6 +631,7 @@ controller.on('message', async(bot, message) => {
 | config | any | 
 
 
+## Class Members
 <a name="after"></a>
 ### after()
 Bind a handler function that will fire after a given dialog ends.
@@ -765,12 +768,13 @@ Create a new BotkitConversation object
 | dialogId | string | A unique identifier for this dialog, used to later trigger this dialog
 | controller | [Botkit](#Botkit) | A pointer to the main Botkit controller<br/>
 
-**Properties and Accessors**
+## Properties and Accessors 
 
 | Name | Type | Description
 |--- |--- |---
 | script | any | A map of every message in the dialog, broken into threads
 
+## Class Members
 <a name="addMessage"></a>
 ### addMessage()
 Add a message to a specific thread
@@ -1001,6 +1005,7 @@ or when threads or sub-channels parent channel that would normally collide based
 Note: This is used automatically inside Botkit and developers should not need to directly interact with it.
 
 
+## Class Members
 <a name="getStorageKey"></a>
 ### getStorageKey()
 
@@ -1029,12 +1034,13 @@ Grants access to convo.vars convo.gotoThread() convo.setVar() and convo.repeat()
 | dc | DialogContext | 
 | step | [BotkitConversationStep](#BotkitConversationStep) | 
 
-**Properties and Accessors**
+## Properties and Accessors 
 
 | Name | Type | Description
 |--- |--- |---
 | vars |  | An object containing variables and user responses from this conversation.
 
+## Class Members
 <a name="gotoThread"></a>
 ### gotoThread()
 Jump immediately to the first message in a different thread.
@@ -1064,7 +1070,6 @@ Results in {{vars.key}} being replaced with the value in val.
 |--- |--- |---
 | key| any | the name of the variable
 | val| any | the value for the variable<br/>
-
 
 
 

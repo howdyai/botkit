@@ -80,7 +80,7 @@ const adapter = new SlackAdapter({
 |--- |--- |---
 | options | [SlackAdapterOptions](#SlackAdapterOptions) | An object containing API credentials, a webhook verification token and other options<br/>
 
-**Properties and Accessors**
+## Properties and Accessors 
 
 | Name | Type | Description
 |--- |--- |---
@@ -88,6 +88,7 @@ const adapter = new SlackAdapter({
 | middlewares | any | Object containing one or more Botkit middlewares to bind automatically.
 | name | string | Name used by Botkit plugin loader
 
+## Class Members
 <a name="activityToSlack"></a>
 ### activityToSlack()
 Formats a BotBuilder activity into an outgoing Slack message.
@@ -267,12 +268,13 @@ Used internally by controller.spawn, creates a BotWorker instance that can send 
 | botkit | Botkit | The Botkit controller object responsible for spawning this bot worker
 | config | any | Normally, a DialogContext object.  Can also be the id of a team.<br/>
 
-**Properties and Accessors**
+## Properties and Accessors 
 
 | Name | Type | Description
 |--- |--- |---
 | api | WebClient | 
 
+## Class Members
 <a name="deleteMessage"></a>
 ### deleteMessage()
 Delete an existing message.
@@ -534,6 +536,7 @@ Create a new dialog object
 | elements | any | An array of dialog elements<br/>
 
 
+## Class Members
 <a name="addEmail"></a>
 ### addEmail()
 Add an email input to the dialog
@@ -735,6 +738,7 @@ controller.on('channel_join', async(bot, message) => {
 
 
 
+## Class Members
 <a name="onTurn"></a>
 ### onTurn()
 Not for direct use - implements the MiddlewareSet's required onTurn function used to process the event
@@ -773,6 +777,7 @@ const controller = new Botkit({
 
 
 
+## Class Members
 <a name="onTurn"></a>
 ### onTurn()
 Not for direct use - implements the MiddlewareSet's required onTurn function used to process the event
@@ -783,7 +788,6 @@ Not for direct use - implements the MiddlewareSet's required onTurn function use
 |--- |--- |---
 | context| TurnContext | 
 | next|  | <br/>
-
 
 
 

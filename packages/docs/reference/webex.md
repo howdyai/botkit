@@ -69,7 +69,7 @@ const adapter = new WebexAdapter({
 |--- |--- |---
 | config | [WebexAdapterOptions](#WebexAdapterOptions) | 
 
-**Properties and Accessors**
+## Properties and Accessors 
 
 | Name | Type | Description
 |--- |--- |---
@@ -78,6 +78,7 @@ const adapter = new WebexAdapter({
 | name | string | Name used by Botkit plugin loader
 | identity |  | Returns the identity of the bot, including {id, emails, displayName, created} and anything else from [this spec](https://webex.github.io/spark-js-sdk/api/#personobject)
 
+## Class Members
 <a name="continueConversation"></a>
 ### continueConversation()
 Standard BotBuilder adapter method for continuing an existing conversation based on a conversation reference.
@@ -183,12 +184,13 @@ Webex adapter does not support updateActivity.
 Specialized version of the BotWorker class that includes additional methods for interacting with Webex Teams.
 When using the WebexAdapter with Botkit, all `bot` objects will be of this type.
 
-**Properties and Accessors**
+## Properties and Accessors 
 
 | Name | Type | Description
 |--- |--- |---
 | api | Ciscospark | An instance of the [webex api client](https://www.npmjs.com/package/ciscospark)
 
+## Class Members
 <a name="deleteMessage"></a>
 ### deleteMessage()
 Delete an existing message.
@@ -263,7 +265,6 @@ USE WITH CAUTION while we try to sort this out.
 | Argument | Type | description
 |--- |--- |---
 | userId| string | user id of a webex teams user, like one from `message.user`<br/>
-
 
 
 

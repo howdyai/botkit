@@ -71,7 +71,7 @@ const adapter = new HangoutsAdapter({
 |--- |--- |---
 | options | [HangoutsAdapterOptions](#HangoutsAdapterOptions) | An object containing API credentials and a webhook verification token<br/>
 
-**Properties and Accessors**
+## Properties and Accessors 
 
 | Name | Type | Description
 |--- |--- |---
@@ -79,6 +79,7 @@ const adapter = new HangoutsAdapter({
 | middlewares | any | Object containing one or more Botkit middlewares to bind automatically.
 | name | string | Name used by Botkit plugin loader
 
+## Class Members
 <a name="continueConversation"></a>
 ### continueConversation()
 Standard BotBuilder adapter method for continuing an existing conversation based on a conversation reference.
@@ -156,6 +157,7 @@ Specialized version of the BotWorker class that includes additional methods for 
 When using the HangoutsAdapter with Botkit, all `bot` objects will be of this type.
 
 
+## Class Members
 <a name="deleteMessage"></a>
 ### deleteMessage()
 Delete an existing message.
@@ -294,7 +296,6 @@ await bot.updateMessage({
      text: 'this is an update!',
 })
 ```
-
 
 
 

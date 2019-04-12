@@ -80,7 +80,7 @@ const adapter = new FacebookAdapter({
 |--- |--- |---
 | options | [FacebookAdapterOptions](#FacebookAdapterOptions) | Configuration options<br/>
 
-**Properties and Accessors**
+## Properties and Accessors 
 
 | Name | Type | Description
 |--- |--- |---
@@ -88,6 +88,7 @@ const adapter = new FacebookAdapter({
 | middlewares | any | Object containing one or more Botkit middlewares to bind automatically.
 | name | string | Name used by Botkit plugin loader
 
+## Class Members
 <a name="continueConversation"></a>
 ### continueConversation()
 Standard BotBuilder adapter method for continuing an existing conversation based on a conversation reference.
@@ -204,12 +205,13 @@ await bot.say('Howdy human!');
 | botkit | Botkit | The Botkit controller object responsible for spawning this bot worker
 | config | any | Normally, a DialogContext object.  Can also be the ID of a Facebook page managed by this app.<br/>
 
-**Properties and Accessors**
+## Properties and Accessors 
 
 | Name | Type | Description
 |--- |--- |---
 | api | [FacebookAPI](#FacebookAPI) | A copy of the FacebookAPI client giving access to `await res = bot.api.callAPI(path, method, parameters);`
 
+## Class Members
 <a name="startConversationWithUser"></a>
 ### startConversationWithUser()
 
@@ -244,6 +246,7 @@ await api.callAPI('/some/api','POST', {some_options});
 | api_version | string | optional api version used when constructing api calls, defaults to v3.2<br/>
 
 
+## Class Members
 <a name="callAPI"></a>
 ### callAPI()
 Call one of the Facebook APIs
@@ -284,6 +287,7 @@ When used, events emitted may include:
 
 
 
+## Class Members
 <a name="onTurn"></a>
 ### onTurn()
 Implements the middleware's onTurn function. Called automatically!
@@ -294,7 +298,6 @@ Implements the middleware's onTurn function. Called automatically!
 |--- |--- |---
 | context| any | 
 | next| any | <br/>
-
 
 
 

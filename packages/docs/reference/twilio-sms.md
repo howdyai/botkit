@@ -70,7 +70,7 @@ const adapter = new TwilioAdapter({
 |--- |--- |---
 | options | [TwilioAdapterOptions](#TwilioAdapterOptions) | An object containing API credentials, a webhook verification token and other options<br/>
 
-**Properties and Accessors**
+## Properties and Accessors 
 
 | Name | Type | Description
 |--- |--- |---
@@ -78,6 +78,7 @@ const adapter = new TwilioAdapter({
 | middlewares | any | Object containing one or more Botkit middlewares to bind automatically.
 | name | string | Name used by Botkit plugin loader
 
+## Class Members
 <a name="continueConversation"></a>
 ### continueConversation()
 Standard BotBuilder adapter method for continuing an existing conversation based on a conversation reference.
@@ -152,12 +153,13 @@ Twilio SMS adapter does not support updateActivity.
 Specialized version of the BotWorker class that includes additional methods for interacting with Twilio.
 When using the TwilioAdapter with Botkit, all `bot` objects will be of this type.
 
-**Properties and Accessors**
+## Properties and Accessors 
 
 | Name | Type | Description
 |--- |--- |---
 | api | Twilio.Twilio | A copy of the Twilio API client
 
+## Class Members
 <a name="startConversationWithUser"></a>
 ### startConversationWithUser()
 Start a conversation with a given user identified by their phone number. Useful for sending pro-active messages:
@@ -175,7 +177,6 @@ let bot = await controller.spawn();
 await bot.startConversationWithUser(MY_PHONE_NUMBER);
 await bot.send('An important update!');
 ```
-
 
 
 
