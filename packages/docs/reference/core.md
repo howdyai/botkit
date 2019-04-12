@@ -949,19 +949,6 @@ convo.before('foo', async(convo, bot) => {
 ```
 
 
-<a name="beginDialog"></a>
-### beginDialog()
-Called automatically when a dialog begins. Do not call this directly!
-
-**Parameters**
-
-| Argument | Type | description
-|--- |--- |---
-| dc| DialogContext | the current DialogContext
-| options| any | an object containing initialization parameters passed to the dialog. may include `thread` which will cause the dialog to begin with that thread instead of the `default` thread.<br/>
-
-
-
 <a name="continueDialog"></a>
 ### continueDialog()
 Called automatically when an already active dialog is continued. Do not call this directly!
@@ -971,19 +958,6 @@ Called automatically when an already active dialog is continued. Do not call thi
 | Argument | Type | description
 |--- |--- |---
 | dc| DialogContext | the current DialogContext<br/>
-
-
-
-<a name="end"></a>
-### end()
-Automatically called when the the dialog ends and causes any handlers bound using `after()` to fire. Do not call this directly!
-
-**Parameters**
-
-| Argument | Type | description
-|--- |--- |---
-| dc| DialogContext | The current DialogContext
-| value| any | The final value collected by the dialog.<br/>
 
 
 
@@ -1009,20 +983,6 @@ convo.onChange('name', async(response, convo, bot) {
 
 });
 ```
-
-<a name="resumeDialog"></a>
-### resumeDialog()
-Called automatically when a dialog moves forward a step. Do not call this directly!
-
-**Parameters**
-
-| Argument | Type | description
-|--- |--- |---
-| dc| any | The current DialogContext
-| reason| any | Reason for resuming the dialog
-| result| any | Result of previous step<br/>
-
-
 
 <a name="say"></a>
 ### say()

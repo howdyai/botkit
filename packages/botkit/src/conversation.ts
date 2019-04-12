@@ -388,6 +388,7 @@ export class BotkitConversation<O extends object = {}> extends Dialog<O> {
 
     /**
      * Called automatically when a dialog begins. Do not call this directly!
+     * @ignore
      * @param dc the current DialogContext
      * @param options an object containing initialization parameters passed to the dialog. may include `thread` which will cause the dialog to begin with that thread instead of the `default` thread.
      */
@@ -417,6 +418,7 @@ export class BotkitConversation<O extends object = {}> extends Dialog<O> {
 
     /**
      * Called automatically when a dialog moves forward a step. Do not call this directly!
+     * @ignore
      * @param dc The current DialogContext
      * @param reason Reason for resuming the dialog
      * @param result Result of previous step
@@ -429,6 +431,7 @@ export class BotkitConversation<O extends object = {}> extends Dialog<O> {
 
     /**
      * Called automatically to process the turn, interpret the script, and take any necessary actions based on that script. Do not call this directly!
+     * @ignore
      * @param dc The current dialog context
      * @param step The current step object
      */
@@ -590,6 +593,7 @@ export class BotkitConversation<O extends object = {}> extends Dialog<O> {
 
     /**
      * Automatically called when the the dialog ends and causes any handlers bound using `after()` to fire. Do not call this directly!
+     * @ignore
      * @param dc The current DialogContext
      * @param value The final value collected by the dialog.
      */
