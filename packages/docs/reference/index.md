@@ -2,7 +2,7 @@
 
 [&larr; Botkit Core Docs](..)
 
-* [Botkit](../reference/core.md)
+* [Botkit Core](../reference/core.md)
     * [Botkit]({../#name})
     * [BotWorker]({../#name})
     * [BotkitCMSHelper]({../#name})

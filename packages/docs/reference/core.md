@@ -1,4 +1,4 @@
-# Botkit Class Reference
+# Botkit Core Class Reference
 
 [&larr; Botkit Core Docs](..)  [&larr; Class Index](index.md) 
 
