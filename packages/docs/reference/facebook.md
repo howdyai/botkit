@@ -236,13 +236,13 @@ let bot = await controller.spawn(FACEBOOK_PAGE_ID);
 
 | Name | Type | Description
 |--- |--- |---
-| api | [FacebookAPI](#FacebookAPI) | A copy of the FacebookAPI client giving access to `await res = bot.api.callAPI(path, method, parameters);`
+| api | [FacebookAPI](#FacebookAPI) | A copy of the FacebookAPI client giving access to `let res = await bot.api.callAPI(path, method, parameters);`
 
 ## FacebookBotWorker Class Methods
 <a name="startConversationWithUser"></a>
 ### startConversationWithUser()
 Change the operating context of the worker to begin a conversation with a specific user.
-After calling this method, any future calls to `bot.say()` or `bot.beginDialog()` will occur in this new context.
+After calling this method, any calls to `bot.say()` or `bot.beginDialog()` will occur in this new context.
 
 **Parameters**
 

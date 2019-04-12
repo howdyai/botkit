@@ -12,7 +12,7 @@ import { FacebookAPI } from './facebook_api';
  */
 export class FacebookBotWorker extends BotWorker {
     /**
-     * A copy of the FacebookAPI client giving access to `await res = bot.api.callAPI(path, method, parameters);`
+     * A copy of the FacebookAPI client giving access to `let res = await bot.api.callAPI(path, method, parameters);`
      */
     public api: FacebookAPI;
 
@@ -51,7 +51,7 @@ export class FacebookBotWorker extends BotWorker {
 
     /**
      * Change the operating context of the worker to begin a conversation with a specific user.
-     * After calling this method, any future calls to `bot.say()` or `bot.beginDialog()` will occur in this new context.
+     * After calling this method, any calls to `bot.say()` or `bot.beginDialog()` will occur in this new context.
      * 
      * This method can be used to send users scheduled messages or messages triggered by external events.
      * ```javascript
