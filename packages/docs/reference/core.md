@@ -76,7 +76,7 @@ controller.on('message', async(bot, message) => {
 | version | string | The current version of Botkit Core
 | webserver | any | An Express webserver
 
-## Class Members
+## Botkit Class Methods
 <a name="addDep"></a>
 ### addDep()
 (For use by plugins only) - Add a dependency to Botkit's bootup process that must be marked as completed using `completeDep()`.
@@ -443,7 +443,7 @@ Create a new BotWorker instance. Do not call this directly - instead, use [contr
 |--- |--- |---
 | controller |  | Get a reference to the main Botkit controller.
 
-## Class Members
+## BotWorker Class Methods
 <a name="beginDialog"></a>
 ### beginDialog()
 Begin a pre-defined dialog by specifying its id. The dialog will be started in the same context (same user, same channel) in which the original incoming message was received.
@@ -667,7 +667,7 @@ const { BotkitCMSHelper } = require('botkit');
 
 
 
-## Class Members
+## BotkitCMSHelper Class Methods
 <a name="after"></a>
 ### after()
 Bind a handler function that will fire after a given dialog ends.
@@ -822,7 +822,7 @@ Create a new BotkitConversation object
 |--- |--- |---
 | script | any | A map of every message in the dialog, broken into threads
 
-## Class Members
+## BotkitConversation Class Methods
 <a name="addMessage"></a>
 ### addMessage()
 Add a message to a specific thread
@@ -1064,7 +1064,7 @@ const { BotkitConversationState } = require('botkit');
 
 
 
-## Class Members
+## BotkitConversationState Class Methods
 <a name="getStorageKey"></a>
 ### getStorageKey()
 
@@ -1111,7 +1111,7 @@ const { BotkitDialogWrapper } = require('botkit');
 |--- |--- |---
 | vars |  | An object containing variables and user responses from this conversation.
 
-## Class Members
+## BotkitDialogWrapper Class Methods
 <a name="gotoThread"></a>
 ### gotoThread()
 Jump immediately to the first message in a different thread.

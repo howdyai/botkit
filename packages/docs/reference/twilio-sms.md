@@ -90,7 +90,7 @@ const adapter = new TwilioAdapter({
 | middlewares | any | Object containing one or more Botkit middlewares to bind automatically.
 | name | string | Name used by Botkit plugin loader
 
-## Class Members
+## TwilioAdapter Class Methods
 <a name="continueConversation"></a>
 ### continueConversation()
 Standard BotBuilder adapter method for continuing an existing conversation based on a conversation reference.
@@ -182,7 +182,7 @@ const { TwilioBotWorker } = require('botbuilder-adapter-twilio-sms');
 |--- |--- |---
 | api | Twilio.Twilio | A copy of the Twilio API client
 
-## Class Members
+## TwilioBotWorker Class Methods
 <a name="startConversationWithUser"></a>
 ### startConversationWithUser()
 Start a conversation with a given user identified by their phone number. Useful for sending pro-active messages:

@@ -100,7 +100,7 @@ const adapter = new SlackAdapter({
 | middlewares | any | Object containing one or more Botkit middlewares to bind automatically.
 | name | string | Name used by Botkit plugin loader
 
-## Class Members
+## SlackAdapter Class Methods
 <a name="activityToSlack"></a>
 ### activityToSlack()
 Formats a BotBuilder activity into an outgoing Slack message.
@@ -298,7 +298,7 @@ Used internally by controller.spawn, creates a BotWorker instance that can send 
 |--- |--- |---
 | api | WebClient | 
 
-## Class Members
+## SlackBotWorker Class Methods
 <a name="deleteMessage"></a>
 ### deleteMessage()
 Delete an existing message.
@@ -572,7 +572,7 @@ Create a new dialog object
 
 
 
-## Class Members
+## SlackDialog Class Methods
 <a name="addEmail"></a>
 ### addEmail()
 Add an email input to the dialog
@@ -785,7 +785,7 @@ const { SlackEventMiddleware } = require('botbuilder-adapter-slack');
 
 
 
-## Class Members
+## SlackEventMiddleware Class Methods
 <a name="onTurn"></a>
 ### onTurn()
 Not for direct use - implements the MiddlewareSet's required onTurn function used to process the event
@@ -835,7 +835,7 @@ const { SlackMessageTypeMiddleware } = require('botbuilder-adapter-slack');
 
 
 
-## Class Members
+## SlackMessageTypeMiddleware Class Methods
 <a name="onTurn"></a>
 ### onTurn()
 Not for direct use - implements the MiddlewareSet's required onTurn function used to process the event

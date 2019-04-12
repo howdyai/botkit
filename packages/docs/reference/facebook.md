@@ -100,7 +100,7 @@ const adapter = new FacebookAdapter({
 | middlewares | any | Object containing one or more Botkit middlewares to bind automatically.
 | name | string | Name used by Botkit plugin loader
 
-## Class Members
+## FacebookAdapter Class Methods
 <a name="continueConversation"></a>
 ### continueConversation()
 Standard BotBuilder adapter method for continuing an existing conversation based on a conversation reference.
@@ -235,7 +235,7 @@ await bot.say('Howdy human!');
 |--- |--- |---
 | api | [FacebookAPI](#FacebookAPI) | A copy of the FacebookAPI client giving access to `await res = bot.api.callAPI(path, method, parameters);`
 
-## Class Members
+## FacebookBotWorker Class Methods
 <a name="startConversationWithUser"></a>
 ### startConversationWithUser()
 
@@ -282,7 +282,7 @@ await api.callAPI('/some/api','POST', {some_options});
 
 
 
-## Class Members
+## FacebookAPI Class Methods
 <a name="callAPI"></a>
 ### callAPI()
 Call one of the Facebook APIs
@@ -334,7 +334,7 @@ const { FacebookEventTypeMiddleware } = require('botbuilder-adapter-facebook');
 
 
 
-## Class Members
+## FacebookEventTypeMiddleware Class Methods
 <a name="onTurn"></a>
 ### onTurn()
 Implements the middleware's onTurn function. Called automatically!

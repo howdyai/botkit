@@ -90,7 +90,7 @@ const adapter = new WebexAdapter({
 | name | string | Name used by Botkit plugin loader
 | identity |  | Returns the identity of the bot, including {id, emails, displayName, created} and anything else from [this spec](https://webex.github.io/spark-js-sdk/api/#personobject)
 
-## Class Members
+## WebexAdapter Class Methods
 <a name="continueConversation"></a>
 ### continueConversation()
 Standard BotBuilder adapter method for continuing an existing conversation based on a conversation reference.
@@ -213,7 +213,7 @@ const { WebexBotWorker } = require('botbuilder-adapter-webex');
 |--- |--- |---
 | api | Ciscospark | An instance of the [webex api client](https://www.npmjs.com/package/ciscospark)
 
-## Class Members
+## WebexBotWorker Class Methods
 <a name="deleteMessage"></a>
 ### deleteMessage()
 Delete an existing message.

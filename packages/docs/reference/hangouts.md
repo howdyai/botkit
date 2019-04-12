@@ -91,7 +91,7 @@ const adapter = new HangoutsAdapter({
 | middlewares | any | Object containing one or more Botkit middlewares to bind automatically.
 | name | string | Name used by Botkit plugin loader
 
-## Class Members
+## HangoutsAdapter Class Methods
 <a name="continueConversation"></a>
 ### continueConversation()
 Standard BotBuilder adapter method for continuing an existing conversation based on a conversation reference.
@@ -180,7 +180,7 @@ const { HangoutsBotWorker } = require('botbuilder-adapter-hangouts');
 
 
 
-## Class Members
+## HangoutsBotWorker Class Methods
 <a name="deleteMessage"></a>
 ### deleteMessage()
 Delete an existing message.

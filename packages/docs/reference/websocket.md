@@ -67,7 +67,7 @@ Create a WebsocketAdapter
 | name | string | Name used to register this adapter with Botkit.
 | wss | any | The websocket server.
 
-## Class Members
+## WebsocketAdapter Class Methods
 <a name="continueConversation"></a>
 ### continueConversation()
 Standard BotBuilder adapter method for continuing an existing conversation based on a conversation reference.
