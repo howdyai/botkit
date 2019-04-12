@@ -25,7 +25,7 @@ Connect [Botkit](https://www.npmjs.com/package/botkit) or [BotBuilder](https://w
 The Facebook Adapter can be used in 2 modes: bound to a single Facebook page,
 or in multi-tenancy mode able to serve multiple pages.. [Read here for more information](#constructor-new-facebookadapter).
 
-### constructor new FacebookAdapter()
+#### constructor new FacebookAdapter()
 Create an adapter to handle incoming messages from Facebook and translate them into a standard format for processing by your bot.
 
 To create an app bound to a single Facebook page, include that page's `access_token` in the options.
@@ -80,7 +80,7 @@ const adapter = new FacebookAdapter({
 |--- |--- |---
 | options | [FacebookAdapterOptions](#FacebookAdapterOptions) | Configuration options<br/>
 
-## Properties and Accessors 
+### Properties and Accessors 
 
 | Name | Type | Description
 |--- |--- |---
@@ -88,9 +88,9 @@ const adapter = new FacebookAdapter({
 | middlewares | any | Object containing one or more Botkit middlewares to bind automatically.
 | name | string | Name used by Botkit plugin loader
 
-## Class Members
+### Class Members
 <a name="continueConversation"></a>
-### continueConversation()
+#### continueConversation()
 Standard BotBuilder adapter method for continuing an existing conversation based on a conversation reference.
 [BotBuilder reference docs](https://docs.microsoft.com/en-us/javascript/api/botbuilder-core/botadapter?view=botbuilder-ts-latest#continueconversation)
 
@@ -104,7 +104,7 @@ Standard BotBuilder adapter method for continuing an existing conversation based
 
 
 <a name="deleteActivity"></a>
-### deleteActivity()
+#### deleteActivity()
 Facebook adapter does not support updateActivity.
 
 **Parameters**
@@ -117,7 +117,7 @@ Facebook adapter does not support updateActivity.
 
 
 <a name="getAPI"></a>
-### getAPI()
+#### getAPI()
 Get a Facebook API client with the correct credentials based on the page identified in the incoming activity.
 This is used by many internal functions to get access to the Facebook API, and is exposed as `bot.api` on any BotWorker instances passed into Botkit handler functions.
 
@@ -130,7 +130,7 @@ This is used by many internal functions to get access to the Facebook API, and i
 
 
 <a name="init"></a>
-### init()
+#### init()
 Botkit-only: Initialization function called automatically when used with Botkit. Amends the webhook_uri with an additional behavior for responding to Facebook's webhook verification request.
 
 **Parameters**
@@ -142,7 +142,7 @@ Botkit-only: Initialization function called automatically when used with Botkit.
 
 
 <a name="processActivity"></a>
-### processActivity()
+#### processActivity()
 Accept an incoming webhook request and convert it into a TurnContext which can be processed by the bot's logic.
 
 **Parameters**
@@ -156,7 +156,7 @@ Accept an incoming webhook request and convert it into a TurnContext which can b
 
 
 <a name="sendActivities"></a>
-### sendActivities()
+#### sendActivities()
 Standard BotBuilder adapter method to send a message from the bot to the messaging API.
 [BotBuilder reference docs](https://docs.microsoft.com/en-us/javascript/api/botbuilder-core/botadapter?view=botbuilder-ts-latest#sendactivities).
 
@@ -170,7 +170,7 @@ Standard BotBuilder adapter method to send a message from the bot to the messagi
 
 
 <a name="updateActivity"></a>
-### updateActivity()
+#### updateActivity()
 Facebook adapter does not support updateActivity.
 
 **Parameters**
@@ -188,7 +188,7 @@ Facebook adapter does not support updateActivity.
 This is a specialized version of the BotWorker class that includes additional methods for interacting with Facebook.
 It includes all functionality from [the core BotWorker class](core.md#BotWorker) as well as the extension methods below.
 When using the FacebookAdapter with Botkit, all `bot` objects passed to handler functions will include these extensions.
-### constructor new FacebookBotWorker()
+#### constructor new FacebookBotWorker()
 Used internally by controller.spawn, creates a BotWorker instance that can send messages, replies, and make other API calls.
 
 The example below demonstrates spawning a bot for sending proactive messages to users:
@@ -205,15 +205,15 @@ await bot.say('Howdy human!');
 | botkit | Botkit | The Botkit controller object responsible for spawning this bot worker
 | config | any | Normally, a DialogContext object.  Can also be the ID of a Facebook page managed by this app.<br/>
 
-## Properties and Accessors 
+### Properties and Accessors 
 
 | Name | Type | Description
 |--- |--- |---
 | api | [FacebookAPI](#FacebookAPI) | A copy of the FacebookAPI client giving access to `await res = bot.api.callAPI(path, method, parameters);`
 
-## Class Members
+### Class Members
 <a name="startConversationWithUser"></a>
-### startConversationWithUser()
+#### startConversationWithUser()
 
 
 **Parameters**
@@ -229,7 +229,7 @@ await bot.say('Howdy human!');
 ## FacebookAPI
 A simple API client for the Facebook API.  Automatically signs requests with the access token and app secret proof.
 It can be used to call any API provided by Facebook.
-### constructor new FacebookAPI()
+#### constructor new FacebookAPI()
 Create a FacebookAPI client.
 ```
 let api = new FacebookAPI(TOKEN, SECRET);
@@ -246,9 +246,9 @@ await api.callAPI('/some/api','POST', {some_options});
 | api_version | string | optional api version used when constructing api calls, defaults to v3.2<br/>
 
 
-## Class Members
+### Class Members
 <a name="callAPI"></a>
-### callAPI()
+#### callAPI()
 Call one of the Facebook APIs
 
 **Parameters**
@@ -287,9 +287,9 @@ When used, events emitted may include:
 
 
 
-## Class Members
+### Class Members
 <a name="onTurn"></a>
-### onTurn()
+#### onTurn()
 Implements the middleware's onTurn function. Called automatically!
 
 **Parameters**

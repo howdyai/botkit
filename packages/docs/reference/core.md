@@ -29,7 +29,7 @@ This is a class reference for all the methods exposed by the [botkit](https://gi
 Create a new instance of Botkit to define the controller for a conversational app.
 To connect Botkit to a chat platform, pass in a fully configured `adapter`.
 If one is not specified, Botkit will expose an adapter for the Microsoft Bot Framework.
-### constructor new Botkit()
+#### constructor new Botkit()
 Create a new Botkit instance and optionally specify a platform-specific adapter.
 By default, Botkit will create a [BotFrameworkAdapter](https://docs.microsoft.com/en-us/javascript/api/botbuilder/botframeworkadapter?view=botbuilder-ts-latest).
 
@@ -51,7 +51,7 @@ controller.on('message', async(bot, message) => {
 |--- |--- |---
 | config | [BotkitConfiguration](#BotkitConfiguration) | Configuration for this instance of Botkit<br/>
 
-## Properties and Accessors 
+### Properties and Accessors 
 
 | Name | Type | Description
 |--- |--- |---
@@ -64,9 +64,9 @@ controller.on('message', async(bot, message) => {
 | version | string | The current version of Botkit Core
 | webserver | any | An Express webserver
 
-## Class Members
+### Class Members
 <a name="addDep"></a>
-### addDep()
+#### addDep()
 (For use by plugins only) - Add a dependency to Botkit's bootup process that must be marked as completed using `completeDep()`.
 Botkit's `controller.ready()` function will not fire until all dependencies have been marked complete.
 
@@ -88,7 +88,7 @@ somethingAsync().then(function() {
 
 
 <a name="addDialog"></a>
-### addDialog()
+#### addDialog()
 Add a dialog to the bot, making it accessible via `bot.beginDialog(dialog_id)`
 
 **Parameters**
@@ -115,7 +115,7 @@ controller.on('message', async(bot, message) => {
 
 
 <a name="completeDep"></a>
-### completeDep()
+#### completeDep()
 (For use by plugins only) - Mark a bootup dependency as loaded and ready to use
 Botkit's `controller.ready()` function will not fire until all dependencies have been marked complete.
 
@@ -128,7 +128,7 @@ Botkit's `controller.ready()` function will not fire until all dependencies have
 
 
 <a name="getConfig"></a>
-### getConfig()
+#### getConfig()
 Get a value from the configuration.
 
 **Parameters**
@@ -156,7 +156,7 @@ let webhook_uri = controller.getConfig('webhook_uri');
 
 
 <a name="getLocalView"></a>
-### getLocalView()
+#### getLocalView()
 Convert a local path from a plugin folder to a full path relative to the webserver's main views folder
 Allows a plugin to bundle views/layouts.
 
@@ -169,7 +169,7 @@ Allows a plugin to bundle views/layouts.
 
 
 <a name="handleTurn"></a>
-### handleTurn()
+#### handleTurn()
 Accepts the result of a BotBuilder adapter's `processActivity()` method and processes it into a Botkit-style message and BotWorker instance
 which is then used to test for triggers and emit events.
 NOTE: This method should only be used in custom adapters that receive messages through mechanisms other than the main webhook endpoint (such as those received via websocket, for example)
@@ -183,7 +183,7 @@ NOTE: This method should only be used in custom adapters that receive messages t
 
 
 <a name="hears"></a>
-### hears()
+#### hears()
 Instruct your bot to listen for a pattern, and do something when that pattern is heard.
 Patterns will be "heard" only if the message is not already handled by an in-progress dialog.
 To "hear" patterns _before_ dialogs are processed, use `controller.interrupts()` instead.
@@ -217,7 +217,7 @@ controller.hears(async (message) => { return (message.intent === 'hello') }, 'me
 ```
 
 <a name="interrupts"></a>
-### interrupts()
+#### interrupts()
 Instruct your bot to listen for a pattern, and do something when that pattern is heard.
 Interruptions work just like "hears" triggers, but fire _before_ the dialog system is engaged,
 and thus handlers will interrupt the normal flow of messages through the processing pipeline.
@@ -241,7 +241,7 @@ controller.interrupts('help','message', async(bot, message) => {
 ```
 
 <a name="loadModule"></a>
-### loadModule()
+#### loadModule()
 Load a Botkit feature module
 
 **Parameters**
@@ -253,7 +253,7 @@ Load a Botkit feature module
 
 
 <a name="loadModules"></a>
-### loadModules()
+#### loadModules()
 Load all Botkit feature modules located in a given folder.
 
 **Parameters**
@@ -275,7 +275,7 @@ controller.ready(() => {
 
 
 <a name="on"></a>
-### on()
+#### on()
 Bind a handler function to one or more events.
 
 **Parameters**
@@ -297,7 +297,7 @@ controller.on('conversationUpdate', async(bot, message) => {
 
 
 <a name="publicFolder"></a>
-### publicFolder()
+#### publicFolder()
 Expose a folder to the web as a set of static files
 Useful for plugins that need to bundle additional assets!
 
@@ -311,7 +311,7 @@ Useful for plugins that need to bundle additional assets!
 
 
 <a name="ready"></a>
-### ready()
+#### ready()
 Use `controller.ready()` to wrap any calls that require components loaded during the bootup process.
 This will ensure that the calls will not be made until all of the components have successfully been initialized.
 
@@ -334,7 +334,7 @@ controller.ready(() => {
 
 
 <a name="saveState"></a>
-### saveState()
+#### saveState()
 Save the current conversation state pertaining to a given BotWorker's activities.
 Note: this is normally called internally and is only required when state changes happen outside of the normal processing flow.
 
@@ -347,7 +347,7 @@ Note: this is normally called internally and is only required when state changes
 
 
 <a name="spawn"></a>
-### spawn()
+#### spawn()
 Create a platform-specific BotWorker instance that can be used to respond to messages or generate new outbound messages.
 The spawned `bot` contains all information required to process outbound messages and handle dialog state, and may also contain extensions
 for handling platform-specific events or activities.
@@ -361,7 +361,7 @@ for handling platform-specific events or activities.
 
 
 <a name="trigger"></a>
-### trigger()
+#### trigger()
 Trigger an event to be fired.  This will cause any bound handlers to be executed.
 Note: This is normally used internally, but can be used to emit custom events.
 
@@ -387,7 +387,7 @@ controller.on('my_custom_event', async(bot, message) => {
 
 
 <a name="usePlugin"></a>
-### usePlugin()
+#### usePlugin()
 Load a plugin module and bind all included middlewares to their respective endpoints.
 
 **Parameters**
@@ -403,7 +403,7 @@ Load a plugin module and bind all included middlewares to their respective endpo
 ## BotWorker
 A base class for a `bot` instance, an object that contains the information and functionality for taking action in response to an incoming message.
 Note that adapters are likely to extend this class with additional platform-specific methods - refer to the adapter documentation for these extensions.
-### constructor new BotWorker()
+#### constructor new BotWorker()
 Create a new BotWorker instance. Do not call this directly - instead, use [controller.spawn()](core.md#spawn).
 
 **Parameters**
@@ -413,15 +413,15 @@ Create a new BotWorker instance. Do not call this directly - instead, use [contr
 | controller | [Botkit](#Botkit) | A pointer to the main Botkit controller
 | config | any | An object typically containing { dialogContext, reference, context, activity }<br/>
 
-## Properties and Accessors 
+### Properties and Accessors 
 
 | Name | Type | Description
 |--- |--- |---
 | controller |  | Get a reference to the main Botkit controller.
 
-## Class Members
+### Class Members
 <a name="beginDialog"></a>
-### beginDialog()
+#### beginDialog()
 Begin a pre-defined dialog by specifying its id. The dialog will be started in the same context (same user, same channel) in which the original incoming message was received.
 
 **Parameters**
@@ -434,7 +434,7 @@ Begin a pre-defined dialog by specifying its id. The dialog will be started in t
 
 
 <a name="changeContext"></a>
-### changeContext()
+#### changeContext()
 Alter the context in which a bot instance will send messages.
 Use this method to create or adjust a bot instance so that it can send messages to a predefined user/channel combination.
 
@@ -458,7 +458,7 @@ bot.say('Hello!');
 
 
 <a name="ensureMessageFormat"></a>
-### ensureMessageFormat()
+#### ensureMessageFormat()
 Take a crudely-formed Botkit message with any sort of field (may just be a string, may be a partial message object)
 and map it into a beautiful BotFramework Activity.
 Any fields not found in the Activity definition will be moved to activity.channelData.
@@ -478,7 +478,7 @@ a properly formed Activity object
 
 
 <a name="getConfig"></a>
-### getConfig()
+#### getConfig()
 Get a value from the BotWorker's configuration.
 
 **Parameters**
@@ -502,7 +502,7 @@ await original_context.sendActivity('send directly using the adapter instead of 
 
 
 <a name="httpBody"></a>
-### httpBody()
+#### httpBody()
 Set the http response body for this turn.
 Use this to define the response value when the platform requires a synchronous response to the incoming webhook.
 
@@ -523,7 +523,7 @@ controller.on('slash_command', async(bot, message) => {
 
 
 <a name="httpStatus"></a>
-### httpStatus()
+#### httpStatus()
 Set the http response status code for this turn
 
 **Parameters**
@@ -543,7 +543,7 @@ controller.on('event', async(bot, message) => {
 
 
 <a name="reply"></a>
-### reply()
+#### reply()
 Reply to an incoming message.
 Message will be sent using the context attached to the source message, which may be different than the context used to spawn the bot.
 
@@ -572,7 +572,7 @@ controller.on('event', async(bot, message) => {
 
 
 <a name="say"></a>
-### say()
+#### say()
 Send a message.
 Message will be sent using the context originally passed in to `controller.spawn()`.
 Primarily used for sending proactive messages, in concert with [changeContext()](#changecontext).
@@ -620,7 +620,7 @@ controller.on('message', async(bot, message) => {
 ```
 
 
-### constructor new BotkitCMSHelper()
+#### constructor new BotkitCMSHelper()
 
 
 **Parameters**
@@ -631,9 +631,9 @@ controller.on('message', async(bot, message) => {
 | config | any | 
 
 
-## Class Members
+### Class Members
 <a name="after"></a>
-### after()
+#### after()
 Bind a handler function that will fire after a given dialog ends.
 Provides a way to use BotkitConversation.after() on dialogs loaded dynamically via the CMS api instead of being created in code.
 
@@ -656,7 +656,7 @@ console.log('my_script just ended! here are the results', results);
 
 
 <a name="before"></a>
-### before()
+#### before()
 Bind a handler function that will fire before a given script and thread begin.
 Provides a way to use BotkitConversation.before() on dialogs loaded dynamically via the CMS api instead of being created in code.
 
@@ -682,7 +682,7 @@ controller.cms.before('my_script','my_thread', async(convo, bot) => {
 
 
 <a name="loadAllScripts"></a>
-### loadAllScripts()
+#### loadAllScripts()
 Load all script content from the configured CMS instance into a DialogSet and prepare them to be used.
 
 **Parameters**
@@ -694,7 +694,7 @@ Load all script content from the configured CMS instance into a DialogSet and pr
 
 
 <a name="onChange"></a>
-### onChange()
+#### onChange()
 Bind a handler function that will fire when a given variable is set within a a given script.
 Provides a way to use BotkitConversation.onChange() on dialogs loaded dynamically via the CMS api instead of being created in code.
 
@@ -718,7 +718,7 @@ console.log('A new value got set for my_variable inside my_script: ', new_value)
 
 
 <a name="testTrigger"></a>
-### testTrigger()
+#### testTrigger()
 Uses the Botkit CMS trigger API to test an incoming message against a list of predefined triggers.
 If a trigger is matched, the appropriate dialog will begin immediately.
 
@@ -758,7 +758,7 @@ controller.on('event', async(bot, message) => {
 })
 ```
 
-### constructor new BotkitConversation()
+#### constructor new BotkitConversation()
 Create a new BotkitConversation object
 
 **Parameters**
@@ -768,15 +768,15 @@ Create a new BotkitConversation object
 | dialogId | string | A unique identifier for this dialog, used to later trigger this dialog
 | controller | [Botkit](#Botkit) | A pointer to the main Botkit controller<br/>
 
-## Properties and Accessors 
+### Properties and Accessors 
 
 | Name | Type | Description
 |--- |--- |---
 | script | any | A map of every message in the dialog, broken into threads
 
-## Class Members
+### Class Members
 <a name="addMessage"></a>
-### addMessage()
+#### addMessage()
 Add a message to a specific thread
 Messages added with `say()` and `addMessage()` will _not_ wait for a response, will be sent one after another without a pause.
 
@@ -801,7 +801,7 @@ conversation.addMessage('This is a different thread completely', 'continuation')
 
 
 <a name="addQuestion"></a>
-### addQuestion()
+#### addQuestion()
 Identical to `ask()`, but accepts the name of a thread to which the question is added.
 
 **Parameters**
@@ -816,7 +816,7 @@ Identical to `ask()`, but accepts the name of a thread to which the question is 
 
 
 <a name="after"></a>
-### after()
+#### after()
 Bind a function to run after the dialog has completed.
 The first parameter to the handler will include a hash of all variables set and values collected from the user during the conversation.
 The second parameter to the handler is a BotWorker object that can be used to start new dialogs or take other actions.
@@ -830,7 +830,7 @@ The second parameter to the handler is a BotWorker object that can be used to st
 
 
 <a name="ask"></a>
-### ask()
+#### ask()
 Add a question to the default thread.
 
 **Parameters**
@@ -878,7 +878,7 @@ convo.ask('Do you want to eat a taco?', [
 
 
 <a name="before"></a>
-### before()
+#### before()
 Register a handler function that will fire before a given thread begins.
 Use this hook to set variables, call APIs, or change the flow of the conversation using `convo.gotoThread`
 
@@ -902,7 +902,7 @@ convo.before('foo', async(convo, bot) => {
 
 
 <a name="beginDialog"></a>
-### beginDialog()
+#### beginDialog()
 Called automatically when a dialog begins. Do not call this directly!
 
 **Parameters**
@@ -915,7 +915,7 @@ Called automatically when a dialog begins. Do not call this directly!
 
 
 <a name="continueDialog"></a>
-### continueDialog()
+#### continueDialog()
 Called automatically when an already active dialog is continued. Do not call this directly!
 
 **Parameters**
@@ -927,7 +927,7 @@ Called automatically when an already active dialog is continued. Do not call thi
 
 
 <a name="end"></a>
-### end()
+#### end()
 Automatically called when the the dialog ends and causes any handlers bound using `after()` to fire. Do not call this directly!
 
 **Parameters**
@@ -940,7 +940,7 @@ Automatically called when the the dialog ends and causes any handlers bound usin
 
 
 <a name="onChange"></a>
-### onChange()
+#### onChange()
 Bind a function to run whenever a user answers a specific question.  Can be used to validate input and take conditional actions.
 
 **Parameters**
@@ -963,7 +963,7 @@ convo.onChange('name', async(response, convo, bot) {
 ```
 
 <a name="resumeDialog"></a>
-### resumeDialog()
+#### resumeDialog()
 Called automatically when a dialog moves forward a step. Do not call this directly!
 
 **Parameters**
@@ -977,7 +977,7 @@ Called automatically when a dialog moves forward a step. Do not call this direct
 
 
 <a name="say"></a>
-### say()
+#### say()
 Add a non-interactive message to the default thread.
 Messages added with `say()` and `addMessage()` will _not_ wait for a response, will be sent one after another without a pause.
 
@@ -1005,9 +1005,9 @@ or when threads or sub-channels parent channel that would normally collide based
 Note: This is used automatically inside Botkit and developers should not need to directly interact with it.
 
 
-## Class Members
+### Class Members
 <a name="getStorageKey"></a>
-### getStorageKey()
+#### getStorageKey()
 
 
 **Parameters**
@@ -1024,7 +1024,7 @@ Note: This is used automatically inside Botkit and developers should not need to
 This class is used to provide easy access to common actions taken on active BotkitConversation instances.
 These objects are passed into handlers bound to BotkitConversations using .before .onChange and conditional handler functions passed to .ask and .addQuestion
 Grants access to convo.vars convo.gotoThread() convo.setVar() and convo.repeat().
-### constructor new BotkitDialogWrapper()
+#### constructor new BotkitDialogWrapper()
 
 
 **Parameters**
@@ -1034,15 +1034,15 @@ Grants access to convo.vars convo.gotoThread() convo.setVar() and convo.repeat()
 | dc | DialogContext | 
 | step | [BotkitConversationStep](#BotkitConversationStep) | 
 
-## Properties and Accessors 
+### Properties and Accessors 
 
 | Name | Type | Description
 |--- |--- |---
 | vars |  | An object containing variables and user responses from this conversation.
 
-## Class Members
+### Class Members
 <a name="gotoThread"></a>
-### gotoThread()
+#### gotoThread()
 Jump immediately to the first message in a different thread.
 
 **Parameters**
@@ -1054,12 +1054,12 @@ Jump immediately to the first message in a different thread.
 
 
 <a name="repeat"></a>
-### repeat()
+#### repeat()
 Repeat the last message sent on the next turn.
 
 
 <a name="setVar"></a>
-### setVar()
+#### setVar()
 Set the value of a variable that will be available to messages in the conversation.
 Equivalent to convo.vars.key = val;
 Results in {{vars.key}} being replaced with the value in val.

@@ -52,7 +52,7 @@ server.post('/api/messages', (req, res) => {
 });
 ```
 
-### constructor new TwilioAdapter()
+#### constructor new TwilioAdapter()
 Create a Twilio adapter. See [TwilioAdapterOptions](#TwilioAdapterOptions) for a full definition of the allowed parameters.
 
 ```javascript
@@ -70,7 +70,7 @@ const adapter = new TwilioAdapter({
 |--- |--- |---
 | options | [TwilioAdapterOptions](#TwilioAdapterOptions) | An object containing API credentials, a webhook verification token and other options<br/>
 
-## Properties and Accessors 
+### Properties and Accessors 
 
 | Name | Type | Description
 |--- |--- |---
@@ -78,9 +78,9 @@ const adapter = new TwilioAdapter({
 | middlewares | any | Object containing one or more Botkit middlewares to bind automatically.
 | name | string | Name used by Botkit plugin loader
 
-## Class Members
+### Class Members
 <a name="continueConversation"></a>
-### continueConversation()
+#### continueConversation()
 Standard BotBuilder adapter method for continuing an existing conversation based on a conversation reference.
 [BotBuilder reference docs](https://docs.microsoft.com/en-us/javascript/api/botbuilder-core/botadapter?view=botbuilder-ts-latest#continueconversation)
 
@@ -94,7 +94,7 @@ Standard BotBuilder adapter method for continuing an existing conversation based
 
 
 <a name="deleteActivity"></a>
-### deleteActivity()
+#### deleteActivity()
 Twilio SMS adapter does not support deleteActivity.
 
 **Parameters**
@@ -107,7 +107,7 @@ Twilio SMS adapter does not support deleteActivity.
 
 
 <a name="processActivity"></a>
-### processActivity()
+#### processActivity()
 Accept an incoming webhook request and convert it into a TurnContext which can be processed by the bot's logic.
 
 **Parameters**
@@ -121,7 +121,7 @@ Accept an incoming webhook request and convert it into a TurnContext which can b
 
 
 <a name="sendActivities"></a>
-### sendActivities()
+#### sendActivities()
 Standard BotBuilder adapter method to send a message from the bot to the messaging API.
 [BotBuilder reference docs](https://docs.microsoft.com/en-us/javascript/api/botbuilder-core/botadapter?view=botbuilder-ts-latest#sendactivities).
 
@@ -135,7 +135,7 @@ Standard BotBuilder adapter method to send a message from the bot to the messagi
 
 
 <a name="updateActivity"></a>
-### updateActivity()
+#### updateActivity()
 Twilio SMS adapter does not support updateActivity.
 
 **Parameters**
@@ -153,15 +153,15 @@ Twilio SMS adapter does not support updateActivity.
 Specialized version of the BotWorker class that includes additional methods for interacting with Twilio.
 When using the TwilioAdapter with Botkit, all `bot` objects will be of this type.
 
-## Properties and Accessors 
+### Properties and Accessors 
 
 | Name | Type | Description
 |--- |--- |---
 | api | Twilio.Twilio | A copy of the Twilio API client
 
-## Class Members
+### Class Members
 <a name="startConversationWithUser"></a>
-### startConversationWithUser()
+#### startConversationWithUser()
 Start a conversation with a given user identified by their phone number. Useful for sending pro-active messages:
 
 **Parameters**
