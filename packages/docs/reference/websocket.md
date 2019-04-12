@@ -51,13 +51,14 @@ const { WebsocketAdapter } = require('botbuilder-adapter-websocket');
 ```
 
 ### Create a new WebsocketAdapter()
-Create a WebsocketAdapter
-
 **Parameters**
 
 | Argument | Type | Description
 |--- |--- |---
 | socketServerOptions |  | an optional object containing parameters to send to a call to [WebSocket.server](https://github.com/websockets/ws/blob/master/doc/ws.md#new-websocketserveroptions-callback).<br/>
+
+Create a WebsocketAdapter
+
 
 ## Properties and Accessors
 

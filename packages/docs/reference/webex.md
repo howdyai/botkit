@@ -63,6 +63,12 @@ const { WebexAdapter } = require('botbuilder-adapter-webex');
 ```
 
 ### Create a new WebexAdapter()
+**Parameters**
+
+| Argument | Type | Description
+|--- |--- |---
+| config | [WebexAdapterOptions](#WebexAdapterOptions) | 
+
 Create a Webex adapter. See [WebexAdapterOptions](#webexadapteroptions) for a full definition of the allowed parameters.
 
 ```javascript
@@ -74,11 +80,6 @@ const adapter = new WebexAdapter({
 ```
 
 
-**Parameters**
-
-| Argument | Type | Description
-|--- |--- |---
-| config | [WebexAdapterOptions](#WebexAdapterOptions) | 
 
 ## Properties and Accessors
 

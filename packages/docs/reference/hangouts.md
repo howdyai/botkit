@@ -64,6 +64,12 @@ const { HangoutsAdapter } = require('botbuilder-adapter-hangouts');
 ```
 
 ### Create a new HangoutsAdapter()
+**Parameters**
+
+| Argument | Type | Description
+|--- |--- |---
+| options | [HangoutsAdapterOptions](#HangoutsAdapterOptions) | An object containing API credentials and a webhook verification token<br/>
+
 Create a Google Hangouts adapter.
 
 ```javascript
@@ -76,11 +82,6 @@ const adapter = new HangoutsAdapter({
 ```
 
 
-**Parameters**
-
-| Argument | Type | Description
-|--- |--- |---
-| options | [HangoutsAdapterOptions](#HangoutsAdapterOptions) | An object containing API credentials and a webhook verification token<br/>
 
 ## Properties and Accessors
 

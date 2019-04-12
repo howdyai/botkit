@@ -64,6 +64,12 @@ const { TwilioAdapter } = require('botbuilder-adapter-twilio-sms');
 ```
 
 ### Create a new TwilioAdapter()
+**Parameters**
+
+| Argument | Type | Description
+|--- |--- |---
+| options | [TwilioAdapterOptions](#TwilioAdapterOptions) | An object containing API credentials, a webhook verification token and other options<br/>
+
 Create a Twilio adapter. See [TwilioAdapterOptions](#TwilioAdapterOptions) for a full definition of the allowed parameters.
 
 ```javascript
@@ -75,11 +81,6 @@ const adapter = new TwilioAdapter({
 ```
 
 
-**Parameters**
-
-| Argument | Type | Description
-|--- |--- |---
-| options | [TwilioAdapterOptions](#TwilioAdapterOptions) | An object containing API credentials, a webhook verification token and other options<br/>
 
 ## Properties and Accessors
 

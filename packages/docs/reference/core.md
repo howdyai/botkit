@@ -41,6 +41,12 @@ const { Botkit } = require('botkit');
 ```
 
 ### Create a new Botkit()
+**Parameters**
+
+| Argument | Type | Description
+|--- |--- |---
+| config | [BotkitConfiguration](#BotkitConfiguration) | Configuration for this instance of Botkit<br/>
+
 Create a new Botkit instance and optionally specify a platform-specific adapter.
 By default, Botkit will create a [BotFrameworkAdapter](https://docs.microsoft.com/en-us/javascript/api/botbuilder/botframeworkadapter?view=botbuilder-ts-latest).
 
@@ -56,11 +62,6 @@ controller.on('message', async(bot, message) => {
 ```
 
 
-**Parameters**
-
-| Argument | Type | Description
-|--- |--- |---
-| config | [BotkitConfiguration](#BotkitConfiguration) | Configuration for this instance of Botkit<br/>
 
 ## Properties and Accessors
 
@@ -426,14 +427,15 @@ const { BotWorker } = require('botkit');
 ```
 
 ### Create a new BotWorker()
-Create a new BotWorker instance. Do not call this directly - instead, use [controller.spawn()](core.md#spawn).
-
 **Parameters**
 
 | Argument | Type | Description
 |--- |--- |---
 | controller | [Botkit](#Botkit) | A pointer to the main Botkit controller
 | config | any | An object typically containing { dialogContext, reference, context, activity }<br/>
+
+Create a new BotWorker instance. Do not call this directly - instead, use [controller.spawn()](core.md#spawn).
+
 
 ## Properties and Accessors
 
@@ -654,14 +656,15 @@ const { BotkitCMSHelper } = require('botkit');
 ```
 
 ### Create a new BotkitCMSHelper()
-
-
 **Parameters**
 
 | Argument | Type | Description
 |--- |--- |---
 | controller | [Botkit](#Botkit) | 
 | config | any | 
+
+
+
 
 
 ## Class Members
@@ -803,14 +806,15 @@ const { BotkitConversation } = require('botkit');
 ```
 
 ### Create a new BotkitConversation()
-Create a new BotkitConversation object
-
 **Parameters**
 
 | Argument | Type | Description
 |--- |--- |---
 | dialogId | string | A unique identifier for this dialog, used to later trigger this dialog
 | controller | [Botkit](#Botkit) | A pointer to the main Botkit controller<br/>
+
+Create a new BotkitConversation object
+
 
 ## Properties and Accessors
 
@@ -1091,14 +1095,15 @@ const { BotkitDialogWrapper } = require('botkit');
 ```
 
 ### Create a new BotkitDialogWrapper()
-
-
 **Parameters**
 
 | Argument | Type | Description
 |--- |--- |---
 | dc | DialogContext | 
 | step | [BotkitConversationStep](#BotkitConversationStep) | 
+
+
+
 
 ## Properties and Accessors
 

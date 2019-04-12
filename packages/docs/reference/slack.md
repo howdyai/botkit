@@ -65,6 +65,12 @@ const { SlackAdapter } = require('botbuilder-adapter-slack');
 ```
 
 ### Create a new SlackAdapter()
+**Parameters**
+
+| Argument | Type | Description
+|--- |--- |---
+| options | [SlackAdapterOptions](#SlackAdapterOptions) | An object containing API credentials, a webhook verification token and other options<br/>
+
 Create a Slack adapter. See [SlackAdapterOptions](#slackadapteroptions) for a full definition of the allowed parameters.
 
 ```javascript
@@ -85,11 +91,6 @@ const adapter = new SlackAdapter({
 ```
 
 
-**Parameters**
-
-| Argument | Type | Description
-|--- |--- |---
-| options | [SlackAdapterOptions](#SlackAdapterOptions) | An object containing API credentials, a webhook verification token and other options<br/>
 
 ## Properties and Accessors
 
@@ -281,14 +282,15 @@ const { SlackBotWorker } = require('botbuilder-adapter-slack');
 ```
 
 ### Create a new SlackBotWorker()
-Used internally by controller.spawn, creates a BotWorker instance that can send messages, replies, and make other API calls.
-
 **Parameters**
 
 | Argument | Type | Description
 |--- |--- |---
 | botkit | Botkit | The Botkit controller object responsible for spawning this bot worker
 | config | any | Normally, a DialogContext object.  Can also be the id of a team.<br/>
+
+Used internally by controller.spawn, creates a BotWorker instance that can send messages, replies, and make other API calls.
+
 
 ## Properties and Accessors
 
@@ -557,8 +559,6 @@ const { SlackDialog } = require('botbuilder-adapter-slack');
 ```
 
 ### Create a new SlackDialog()
-Create a new dialog object
-
 **Parameters**
 
 | Argument | Type | Description
@@ -567,6 +567,9 @@ Create a new dialog object
 | callback_id | string | Callback id of dialog
 | submit_label | string | Label for the submit button
 | elements | any | An array of dialog elements<br/>
+
+Create a new dialog object
+
 
 
 ## Class Members

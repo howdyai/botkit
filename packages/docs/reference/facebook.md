@@ -33,6 +33,12 @@ const { FacebookAdapter } = require('botbuilder-adapter-facebook');
 ```
 
 ### Create a new FacebookAdapter()
+**Parameters**
+
+| Argument | Type | Description
+|--- |--- |---
+| options | [FacebookAdapterOptions](#FacebookAdapterOptions) | Configuration options<br/>
+
 Create an adapter to handle incoming messages from Facebook and translate them into a standard format for processing by your bot.
 
 The Facebook Adapter can be used in 2 modes:
@@ -85,11 +91,6 @@ const adapter = new FacebookAdapter({
 ```
 
 
-**Parameters**
-
-| Argument | Type | Description
-|--- |--- |---
-| options | [FacebookAdapterOptions](#FacebookAdapterOptions) | Configuration options<br/>
 
 ## Properties and Accessors
 
@@ -211,6 +212,13 @@ const { FacebookBotWorker } = require('botbuilder-adapter-facebook');
 ```
 
 ### Create a new FacebookBotWorker()
+**Parameters**
+
+| Argument | Type | Description
+|--- |--- |---
+| botkit | Botkit | The Botkit controller object responsible for spawning this bot worker
+| config | any | Normally, a DialogContext object.  Can also be the ID of a Facebook page managed by this app.<br/>
+
 Used internally by controller.spawn, creates a BotWorker instance that can send messages, replies, and make other API calls.
 
 The example below demonstrates spawning a bot for sending proactive messages to users:
@@ -220,12 +228,6 @@ await bot.startConversationWithUser(FACEBOOK_USER_PSID);
 await bot.say('Howdy human!');
 ```
 
-**Parameters**
-
-| Argument | Type | Description
-|--- |--- |---
-| botkit | Botkit | The Botkit controller object responsible for spawning this bot worker
-| config | any | Normally, a DialogContext object.  Can also be the ID of a Facebook page managed by this app.<br/>
 
 ## Properties and Accessors
 
@@ -263,12 +265,6 @@ const { FacebookAPI } = require('botbuilder-adapter-facebook');
 ```
 
 ### Create a new FacebookAPI()
-Create a FacebookAPI client.
-```
-let api = new FacebookAPI(TOKEN, SECRET);
-await api.callAPI('/some/api','POST', {some_options});
-```
-
 **Parameters**
 
 | Argument | Type | Description
@@ -277,6 +273,13 @@ await api.callAPI('/some/api','POST', {some_options});
 | secret | string | an app secret
 | api_host | string | optional root hostname for constructing api calls, defaults to graph.facebook.com
 | api_version | string | optional api version used when constructing api calls, defaults to v3.2<br/>
+
+Create a FacebookAPI client.
+```
+let api = new FacebookAPI(TOKEN, SECRET);
+await api.callAPI('/some/api','POST', {some_options});
+```
+
 
 
 ## Class Members
