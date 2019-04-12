@@ -22,8 +22,11 @@ This is a class reference for all the methods exposed by the [botbuilder-adapter
 ## FacebookAdapter
 Connect [Botkit](https://www.npmjs.com/package/botkit) or [BotBuilder](https://www.npmjs.com/package/botbuilder) to Facebook Messenger.
 
-The Facebook Adapter can be used in 2 modes: bound to a single Facebook page,
-or in multi-tenancy mode able to serve multiple pages.. [Read here for more information](#constructor-new-facebookadapter).
+The Facebook Adapter can be used in 2 modes:
+* bound to a single Facebook page
+* multi-tenancy mode able to serve multiple pages
+
+[Read here for more information](#constructor-new-facebookadapter).
 
 #### constructor new FacebookAdapter()
 Create an adapter to handle incoming messages from Facebook and translate them into a standard format for processing by your bot.

@@ -12,8 +12,11 @@ const debug = Debug('botkit:facebook');
 /**
  * Connect [Botkit](https://www.npmjs.com/package/botkit) or [BotBuilder](https://www.npmjs.com/package/botbuilder) to Facebook Messenger.
  * 
- * The Facebook Adapter can be used in 2 modes: bound to a single Facebook page,
- * or in multi-tenancy mode able to serve multiple pages.. [Read here for more information](#constructor-new-facebookadapter).
+ * The Facebook Adapter can be used in 2 modes:
+ * * bound to a single Facebook page
+ * * multi-tenancy mode able to serve multiple pages
+ * 
+ * [Read here for more information](#constructor-new-facebookadapter).
  */
 export class FacebookAdapter extends BotAdapter {
     /**
