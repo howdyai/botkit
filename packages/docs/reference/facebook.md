@@ -7,9 +7,9 @@ This is a class reference for all the methods exposed by the [botbuilder-adapter
 ## Classes
 
 
-* <a href="#FacebookAPI">FacebookAPI</a>
 * <a href="#FacebookAdapter">FacebookAdapter</a>
 * <a href="#FacebookBotWorker">FacebookBotWorker</a>
+* <a href="#FacebookAPI">FacebookAPI</a>
 * <a href="#FacebookEventTypeMiddleware">FacebookEventTypeMiddleware</a>
 
 ## Interfaces
@@ -17,42 +17,6 @@ This is a class reference for all the methods exposed by the [botbuilder-adapter
 * <a href="#FacebookAdapterOptions">FacebookAdapterOptions</a>
 
 ---
-
-<a name="FacebookAPI"></a>
-## FacebookAPI
-A simple API client for the Facebook API.  Automatically signs requests with the access token and app secret proof.
-It can be used to call any API provided by Facebook.
-### constructor new FacebookAPI()
-Create a FacebookAPI client.
-```
-let api = new FacebookAPI(TOKEN, SECRET);
-await api.callAPI('/some/api','POST', {some_options});
-```
-
-**Parameters**
-
-| Argument | Type | Description
-|--- |--- |---
-| token | string | a page access token
-| secret | string | an app secret
-| api_host | string | optional root hostname for constructing api calls, defaults to graph.facebook.com
-| api_version | string | optional api version used when constructing api calls, defaults to v3.2<br/>
-
-
-<a name="callAPI"></a>
-### callAPI()
-Call one of the Facebook APIs
-
-**Parameters**
-
-| Argument | Type | description
-|--- |--- |---
-| path| string | Path to the API endpoint, for example `/me/messages`
-| method| string | HTTP method, for example POST, GET, DELETE or PUT.
-| payload| any | An object to be sent as parameters to the API call.<br/>
-
-
-
 
 <a name="FacebookAdapter"></a>
 ## FacebookAdapter
@@ -246,6 +210,42 @@ await bot.say('Howdy human!');
 | Argument | Type | description
 |--- |--- |---
 | userId| any | 
+
+
+
+
+<a name="FacebookAPI"></a>
+## FacebookAPI
+A simple API client for the Facebook API.  Automatically signs requests with the access token and app secret proof.
+It can be used to call any API provided by Facebook.
+### constructor new FacebookAPI()
+Create a FacebookAPI client.
+```
+let api = new FacebookAPI(TOKEN, SECRET);
+await api.callAPI('/some/api','POST', {some_options});
+```
+
+**Parameters**
+
+| Argument | Type | Description
+|--- |--- |---
+| token | string | a page access token
+| secret | string | an app secret
+| api_host | string | optional root hostname for constructing api calls, defaults to graph.facebook.com
+| api_version | string | optional api version used when constructing api calls, defaults to v3.2<br/>
+
+
+<a name="callAPI"></a>
+### callAPI()
+Call one of the Facebook APIs
+
+**Parameters**
+
+| Argument | Type | description
+|--- |--- |---
+| path| string | Path to the API endpoint, for example `/me/messages`
+| method| string | HTTP method, for example POST, GET, DELETE or PUT.
+| payload| any | An object to be sent as parameters to the API call.<br/>
 
 
 
