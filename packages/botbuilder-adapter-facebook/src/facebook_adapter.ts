@@ -16,14 +16,22 @@ const debug = Debug('botkit:facebook');
  * or in multi-tenancy mode able to serve multiple pages.. [Read here for more information](#constructor-new-facebookadapter).
  */
 export class FacebookAdapter extends BotAdapter {
-    // Botkit Plugin fields
-    public name: string;
+    /**
+     * Name used by Botkit plugin loader
+     */
+    public name: string = 'Facebook Adapter';
+
+    /**
+     * Object containing one or more Botkit middlewares to bind automatically.
+     */
     public middlewares;
 
-    private options: FacebookAdapterOptions;
-
-    // tell botkit to use this type of worker
+    /**
+     * A customized BotWorker object that exposes additional utility methods.
+     */
     public botkit_worker = FacebookBotWorker;
+
+    private options: FacebookAdapterOptions;
 
     /**
      * Create a FacebookAdapter to handle messages from Facebook.
@@ -83,9 +91,7 @@ export class FacebookAdapter extends BotAdapter {
             api_version: 'v3.2',
             ...options
         };
-
-        this.name = 'Facebook Adapter';
-
+        
         if (!this.options.access_token && !this.options.getAccessTokenForPage) {
             throw new Error('Adapter must receive either an access_token or a getAccessTokenForPage function.');
         }

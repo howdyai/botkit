@@ -84,9 +84,9 @@ const adapter = new FacebookAdapter({
 
 | Name | Type | Description
 |--- |--- |---
-| botkit_worker | [FacebookBotWorker](#FacebookBotWorker) | 
-| middlewares | any | 
-| name | string | 
+| botkit_worker | [FacebookBotWorker](#FacebookBotWorker) | A customized BotWorker object that exposes additional utility methods.
+| middlewares | any | Object containing one or more Botkit middlewares to bind automatically.
+| name | string | Name used by Botkit plugin loader
 
 <a name="continueConversation"></a>
 ### continueConversation()
