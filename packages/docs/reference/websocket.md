@@ -9,8 +9,6 @@ This is a class reference for all the methods exposed by the [botbuilder-adapter
 
 * <a href="#WebsocketAdapter">WebsocketAdapter</a>
 
-## Interfaces
-
 
 ---
 
