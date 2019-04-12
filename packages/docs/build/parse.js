@@ -72,6 +72,8 @@ function generateReference(src, dest) {
     classes = classes.sort(sortByName);
     interfaces = interfaces.sort(sortByName);
 
+    classes = classes.sort(adapterAtTop);
+
     fs.writeFileSync(dest, template({classes: classes, interfaces: interfaces, packageName: data.children[0].name, name: data.name }));
 }
 
@@ -79,6 +81,14 @@ function sortByName(a,b) {
     if(a.name < b.name) { return -1; }
     if(a.name > b.name) { return 1; }
     return 0;
+}
+
+function adapterAtTop(a,b) {
+    if (a.name.match(/adapter/i)) { 
+        return -1;
+    } else {
+        return 0;
+    }
 }
 
 generateReference(__dirname + '/botkit.json',__dirname + '/../reference/core.md');
