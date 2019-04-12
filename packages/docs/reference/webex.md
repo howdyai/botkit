@@ -1,6 +1,6 @@
 # Botkit for Webex Teams Class Reference
 
-[Boktkit Core Docs](..) &raquo; [Botkit Class References](index.md) 
+[&larr; Botkit Core Docs](..) &gt; [&larr; Class Index](index.md) 
 
 This is a class reference for all the methods exposed by the [botbuilder-adapter-webex](../../botbuilder-adapter-webex) package.
 

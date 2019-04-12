@@ -1,4 +1,6 @@
-# Botkit Class Reference
+# Class Index
+
+[&larr; Botkit Core Docs](..)
 
 * [Botkit](../reference/core.md)
 * [Botkit for Slack](../reference/slack.md)
