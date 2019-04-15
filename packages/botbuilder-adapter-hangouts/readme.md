@@ -130,22 +130,29 @@ await bot.reply(message, {
 });
 ```
 
-### Reply in new threads
+### Reply in a new thread
 
-#### [bot.replyInThread](../docs/reference/hangouts.md#replyinthread)
-#### [bot.startConversationInThread](../docs/reference/hangouts.md#startconversationinthread)
+In Google Hangouts, messages are organized into threads. Botkit provides specialized methods for cases where a bot's reply should create a new thread, or for when a bot should conduct an entire conversation in new/separate thread.
+
+* [bot.replyInThread](../docs/reference/hangouts.md#replyinthread)
+* [bot.startConversationInThread](../docs/reference/hangouts.md#startconversationinthread)
 
 ### Respond to `card_clicked` events
 
+When a button in an card attachment is clicked, Google sends a special event that requires a special response.  Botkit will emit a `card_clicked` event, which should be responded to using 
+either `bot.replyWithUpdate()` or `bot.replyWithNew()`.
+
 [See Google doc for interactive cards &rarr;](https://developers.google.com/hangouts/chat/how-tos/cards-onclick#responding_to_clicks_with_a_new_or_updated_message).
 
-#### [bot.replyWithUpdate](../docs/reference/hangouts.md#replywithupdate)
-#### [bot.replyWithNew](../docs/reference/hangouts.md#relpywithnew)
+* [bot.replyWithUpdate](../docs/reference/hangouts.md#replywithupdate)
+* [bot.replyWithNew](../docs/reference/hangouts.md#relpywithnew)
 
 ### Update and remove messages
 
-### [bot.updateMessage](../docs/reference/hangouts.md#updatemessage)
-### [bot.deleteMessage](../docs/reference/hangouts.md#deletemessage)
+Google Hangouts supports updating and deleting messages. Do so with the following convenience methods:
+
+* [bot.updateMessage](../docs/reference/hangouts.md#updatemessage)
+* [bot.deleteMessage](../docs/reference/hangouts.md#deletemessage)
 
 
 
