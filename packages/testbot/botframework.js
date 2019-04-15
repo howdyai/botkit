@@ -1,19 +1,19 @@
-// const { FacebookAdapter } = require('botbuilder-adapter-facebook');
+const { FacebookAdapter } = require('botbuilder-adapter-facebook');
 // const { SlackAdapter, SlackMessageTypeMiddleware, SlackIdentifyBotsMiddleware, SlackEventMiddleware } = require('botbuilder-adapter-slack');
 // const { WebexAdapter } = require('botbuilder-adapter-webex');
 // const { HangoutsAdapter } = require('botbuilder-adapter-hangouts');
-const { TwilioAdapter } = require('botbuilder-adapter-twilio-sms');
+// const { TwilioAdapter } = require('botbuilder-adapter-twilio-sms');
 
 const restify = require('restify');
 
 // Load process.env values from .env file
 require('dotenv').config();
 
-// const adapter = new FacebookAdapter({
-//     verify_token: process.env.FACEBOOK_VERIFY_TOKEN,
-//     app_secret: process.env.FACEBOOK_APP_SECRET,
-//     access_token: process.env.FACEBOOK_ACCESS_TOKEN
-// });
+const adapter = new FacebookAdapter({
+    verify_token: process.env.FACEBOOK_VERIFY_TOKEN,
+    app_secret: process.env.FACEBOOK_APP_SECRET,
+    access_token: process.env.FACEBOOK_ACCESS_TOKEN
+});
 
 // const adapter = new SlackAdapter({
 //     verificationToken: process.env.verificationToken,
@@ -34,11 +34,11 @@ require('dotenv').config();
 //     }
 // });
 
-const adapter = new TwilioAdapter({
-    twilio_number: process.env.TWILIO_NUMBER,
-    account_sid: process.env.TWILIO_ACCOUNT_SID,
-    auth_token: process.env.TWILIO_AUTH_TOKEN,
-});
+// const adapter = new TwilioAdapter({
+//     twilio_number: process.env.TWILIO_NUMBER,
+//     account_sid: process.env.TWILIO_ACCOUNT_SID,
+//     auth_token: process.env.TWILIO_AUTH_TOKEN,
+// });
 
 
 const server = restify.createServer();

@@ -26,7 +26,8 @@ const { FacebookAdapter } = require('botbuilder-adapter-facebook');
 
 FacebookAdapter provides a translation layer for Botkit and BotBuilder so that bot developers can easily work with the Facebook Messenger API while taking advantage of all the extensions provided by these powerful and specialized SDKs.
 
-**Botkit Basics**
+### Botkit Basics
+
 When used in concert with Botkit, developers need only pass the configured adapter to the Botkit constructor, as seen below. Botkit will automatically create and configure the webhook endpoints and other options necessary for communicating with Facebook.
 
 Developers can then bind to Botkit's event emitting system using `controller.on` and `controller.hears` to filter and handle incoming events from the messaging platform. [Learn more about Botkit's core feature &rarr;](../docs/index.md).
@@ -43,6 +44,7 @@ const adapter = new FacebookAdapter({
 
 const controller = new Botkit({
     adapter,
+    // ...other options
 });
 
 controller.on('message', async(bot, message) => {
@@ -50,10 +52,25 @@ controller.on('message', async(bot, message) => {
 });
 ```
 
-**BotBuilder Basics**
+### BotBuilder Basics
 
-Alternately, developers may choose to use FacebookAdapter with BotBuilder.
+Alternately, developers may choose to use FacebookAdapter with BotBuilder. With BotBuilder, the adapter is used more directly with a webserver, and all incoming events are handled as [Activities](https://docs.microsoft.com/en-us/javascript/api/botframework-schema/activity?view=botbuilder-ts-latest).
 
+```javascript
+const { FacebookAdapter } = require('botbuilder-adapter-facebook');
+const adapter = new FacebookAdapter({
+     verify_token: process.env.FACEBOOK_VERIFY_TOKEN,
+     app_secret: process.env.FACEBOOK_APP_SECRET,
+     access_token: process.env.FACEBOOK_ACCESS_TOKEN
+});
+const server = restify.createServer();
+server.use(restify.plugins.bodyParser());
+server.post('/api/messages', (req, res) => {
+     adapter.processActivity(req, res, async(context) => {
+         await context.sendActivity('I heard a message!');
+     });
+});
+```
 
 ## Event List
 
