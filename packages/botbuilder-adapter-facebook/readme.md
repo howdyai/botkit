@@ -121,7 +121,7 @@ controller.on('message', async(bot, message) {
 
 In Botkit handlers, the `bot` worker contains the following extensions:
 
-### [Spawn a worker for a specific page](../docs/reference/facebook.md#facebookbotworker)
+### [Spawn a worker for a specific page](../docs/reference/facebook.md#create-a-new-facebookbotworker)
 
 For a bot that works with multiple pages, it is possible to spawn bot workers bound to a specific page by passing the page ID as the primary parameter to `controller.spawn()`:
 
