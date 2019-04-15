@@ -4,10 +4,6 @@ Connect [Botkit](https://www.npmjs.com/package/botkit) or [BotBuilder](https://w
 This package contains an adapter that communicates directly with the Facebook Messenger API,
 and translates messages to and from a standard format used by your bot. This package can be used alongside your favorite bot development framework to build bots that work with Facebook Messenger.
 
-## Get Started
-
-If you are starting a brand new project, [follow these instructions to create a customized application template.](https://botkit.ai/getstarted.html)
-
 ## Install Package
 
 Add this package to your project using npm:
@@ -22,9 +18,13 @@ Import the adapter class into your code:
 const { FacebookAdapter } = require('botbuilder-adapter-facebook');
 ```
 
+## Get Started
+
+If you are starting a brand new project, [follow these instructions to create a customized application template.](https://botkit.ai/getstarted.html)
+
 ## Use FacebookAdapter in your App
 
-FacebookAdapter provides a translation layer for Botkit and BotBuilder so that bot developers can easily work with the Facebook Messenger API while taking advantage of all the extensions provided by these powerful and specialized SDKs.
+FacebookAdapter provides a translation layer for Botkit and BotBuilder so that bot developers can connect to Facebook Messenger and have access to Facebook's API.
 
 ### Botkit Basics
 
