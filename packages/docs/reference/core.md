@@ -78,7 +78,7 @@ controller.on('message', async(bot, message) => {
 ## Botkit Class Methods
 <a name="addDep"></a>
 ### addDep()
-(For use by plugins only) - Add a dependency to Botkit's bootup process that must be marked as completed using `completeDep()`.
+(For use by Botkit plugins only) - Add a dependency to Botkit's bootup process that must be marked as completed using `completeDep()`.
 Botkit's `controller.ready()` function will not fire until all dependencies have been marked complete.
 
 **Parameters**
@@ -168,8 +168,8 @@ let webhook_uri = controller.getConfig('webhook_uri');
 
 <a name="getLocalView"></a>
 ### getLocalView()
-Convert a local path from a plugin folder to a full path relative to the webserver's main views folder
-Allows a plugin to bundle views/layouts.
+Convert a local path from a plugin folder to a full path relative to the webserver's main views folder.
+Allows a plugin to bundle views/layouts and make them available to the webserver's renderer.
 
 **Parameters**
 
@@ -309,7 +309,7 @@ controller.on('conversationUpdate', async(bot, message) => {
 
 <a name="publicFolder"></a>
 ### publicFolder()
-Expose a folder to the web as a set of static files
+Expose a folder to the web as a set of static files.
 Useful for plugins that need to bundle additional assets!
 
 **Parameters**

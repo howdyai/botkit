@@ -471,7 +471,7 @@ export class Botkit {
     }
 
     /**
-     * Expose a folder to the web as a set of static files
+     * Expose a folder to the web as a set of static files.
      * Useful for plugins that need to bundle additional assets!
      * @param alias the public alias ie /myfiles
      * @param path the actual path ie /some/folder/path
@@ -482,8 +482,8 @@ export class Botkit {
     }
 
     /**
-     * Convert a local path from a plugin folder to a full path relative to the webserver's main views folder
-     * Allows a plugin to bundle views/layouts.
+     * Convert a local path from a plugin folder to a full path relative to the webserver's main views folder.
+     * Allows a plugin to bundle views/layouts and make them available to the webserver's renderer.
      * @param path_to_view something like path.join(__dirname,'views')
      */
     public getLocalView(path_to_view): string {
@@ -491,7 +491,7 @@ export class Botkit {
     }
 
     /**
-     * (For use by plugins only) - Add a dependency to Botkit's bootup process that must be marked as completed using `completeDep()`.
+     * (For use by Botkit plugins only) - Add a dependency to Botkit's bootup process that must be marked as completed using `completeDep()`.
      * Botkit's `controller.ready()` function will not fire until all dependencies have been marked complete.
      *
      * For example, a plugin that needs to do an asynchronous task before Botkit proceeds might do:
