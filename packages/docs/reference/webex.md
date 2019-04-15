@@ -18,39 +18,7 @@ This is a class reference for all the methods exposed by the [botbuilder-adapter
 
 <a name="WebexAdapter"></a>
 ## WebexAdapter
-Connect Botkit or BotBuilder to Webex Teams. See [WebexAdapterOptions](#WebexAdapterOptions) for parameters.
-
-Use with Botkit:
-```javascript
-const adapter = new WebexAdapter({
-    access_token: process.env.ACCESS_TOKEN,
-    public_address: process.env.PUBLIC_ADDRESS
-});
-const controller = new Botkit({
-     adapter: adapter,
-     // ... other configuration options
-});
-```
-
-Use with BotBuilder:
-```javascript
-const adapter = new WebexAdapter({
-    access_token: process.env.ACCESS_TOKEN,
-    public_address: process.env.PUBLIC_ADDRESS
-});
-// set up restify...
-const server = restify.createServer();
-server.use(restify.plugins.bodyParser());
-// register the webhook subscription to start receiving messages - Botkit does this automatically!
-adapter.registerWebhookSubscription('/api/messages');
-// create an endpoint for receiving messages
-server.post('/api/messages', (req, res) => {
-     adapter.processActivity(req, res, async(context) => {
-         // do your bot logic here!
-     });
-});
-```
-
+Connect Botkit or BotBuilder to Webex Teams.
 
 To use this class in your application, first install the package:
 ```bash
@@ -71,11 +39,36 @@ const { WebexAdapter } = require('botbuilder-adapter-webex');
 
 Create a Webex adapter. See [WebexAdapterOptions](#webexadapteroptions) for a full definition of the allowed parameters.
 
+Use with Botkit:
 ```javascript
 const adapter = new WebexAdapter({
      access_token: process.env.ACCESS_TOKEN, // access token from https://developer.webex.com
      public_address: process.env.PUBLIC_ADDRESS,  // public url of this app https://myapp.com/
      secret: process.env.SECRET // webhook validation secret - you can define this yourself
+});
+const controller = new Botkit({
+     adapter: adapter,
+     // ... other configuration options
+});
+```
+
+Use with BotBuilder:
+```javascript
+const adapter = new WebexAdapter({
+     access_token: process.env.ACCESS_TOKEN, // access token from https://developer.webex.com
+     public_address: process.env.PUBLIC_ADDRESS,  // public url of this app https://myapp.com/
+     secret: process.env.SECRET // webhook validation secret - you can define this yourself
+});
+// set up restify...
+const server = restify.createServer();
+server.use(restify.plugins.bodyParser());
+// register the webhook subscription to start receiving messages - Botkit does this automatically!
+adapter.registerWebhookSubscription('/api/messages');
+// create an endpoint for receiving messages
+server.post('/api/messages', (req, res) => {
+     adapter.processActivity(req, res, async(context) => {
+         // do your bot logic here!
+     });
 });
 ```
 
