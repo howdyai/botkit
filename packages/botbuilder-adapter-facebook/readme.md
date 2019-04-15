@@ -121,7 +121,27 @@ controller.on('message', async(bot, message) {
 
 In Botkit handlers, the `bot` worker contains the following extensions:
 
-[bot.startConversationWithUser()](../docs/reference/facebook.md#startconversationwithuser)
+### [Spawn a worker for a specific page](../docs/reference/facebook.md#facebookbotworker)
+
+For a bot that works with multiple pages, it is possible to spawn bot workers bound to a specific page by passing the page ID as the primary parameter to `controller.spawn()`:
+
+```javascript
+let bot = await controller.spawn(FACEBOOK_PAGE_ID);
+```
+
+### [bot.startConversationWithUser()](../docs/reference/facebook.md#startconversationwithuser)
+
+Use this method to initiate a conversation with a user. After calling this method, any further actions carried out by the bot worker will happen with specified user.
+
+This can be used to create or resume conversations with users that are not in direct response to an incoming message, like those sent on a schedule or in response to external events.
+
+Below is an example where a bot worker is spawned, then begin a dialog with a specific user.
+
+```javascript
+let bot = await controller.spawn(FACEBOOK_PAGE_ID);
+await bot.startConversationWithUser(FACEBOOK_USER_PSID);
+await bot.beginDialog(ALERT_DIALOG);
+```
 
 ## Community & Support
 
