@@ -7,6 +7,7 @@ markup = markup.replace(/^ +/img,'');
 const template = Handlebars.compile(markup);
 
 let index = [];
+let adapters = [];
 
 Handlebars.registerHelper('no-newline', function(str) {
     if (str) {
@@ -25,12 +26,20 @@ function buildTOC(dest) {
     fs.writeFileSync(dest, toctemplate({index: index}));
 }
 
+function buildAdapters(dest) {
+
+    let toctemplate = Handlebars.compile(fs.readFileSync(__dirname + '/toc.hbs', 'utf8'));
+    console.log(JSON.stringify(index, null, 2));
+    fs.writeFileSync(dest, toctemplate({index: adapters}));
+}
+
+
 function generateAdapter(src, params, dest) {
 
     let data = {
         body: fs.readFileSync(src, 'utf8'),
         ...params
-    }
+    };
 
     // replace links
     data.body = data.body.replace(/\.\.\/docs\/reference/ig,'../reference');
@@ -40,6 +49,12 @@ function generateAdapter(src, params, dest) {
 
     fs.writeFileSync(dest, adaptertemplate(data));
 
+    adapters.push(
+        {
+            name: data.name,
+            path: dest.replace(/.*?\/(platforms\/.*)/,'$1'),
+        }
+    );
 }
 
 function generateReference(src, dest) {
@@ -158,3 +173,4 @@ generateAdapter(__dirname + '/../../botbuilder-adapter-websocket/readme.md', {na
 
 
 buildTOC(__dirname + '/../reference/index.md');
+buildAdapters(__dirname + '/../platforms/index.md');
