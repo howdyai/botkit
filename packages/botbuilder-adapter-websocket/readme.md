@@ -52,16 +52,9 @@ controller.on('message', async(bot, message) => {
 
 Alternately, developers may choose to use `WebsocketAdapter` with BotBuilder. With BotBuilder, the adapter is used more directly with a webserver, and all incoming events are handled as [Activities](https://docs.microsoft.com/en-us/javascript/api/botframework-schema/activity?view=botbuilder-ts-latest).
 
-```javascript
-const adapter = new WebsocketAdapter();
-const server = restify.createServer();
-server.use(restify.plugins.bodyParser());
-server.post('/api/messages', (req, res) => {
-     adapter.processActivity(req, res, async(context) => {
-         await context.sendActivity('I heard a message!');
-     });
-});
-```
+[Read more &rarr;](../docs/reference/websocket.md#create-a-new-websocketadapter)
+
+## Class Reference
 
 * [WebsocketADapter](../docs/reference/websocket.md#websocketadapter)
 
