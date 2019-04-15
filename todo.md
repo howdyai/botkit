@@ -1,6 +1,6 @@
 # packages
 
-* separate botkit CMS stuff from core
+
 * decide on release version numbers and package names
     *botbuilder-adapter-web?
 
@@ -12,6 +12,7 @@
 
 # core
 
+    * separate botkit CMS stuff from core
     * conversation could use some more docs probably
 
 # websocket
@@ -28,11 +29,11 @@
 * Root Readme (links to all projects, but also needs pitch)
 * botkit core 
 
-* build process copies main readme also
 * every adapter doc should link to main client API doc
 * link to provisioning guides?
 * add a widget to the nav to control v0 vs v4 docs urls
 
+~ build process copies main readme also~
 ~ignore useless methods and internal only interfaces~
 ~link to contributor/license/stuff in footer of each~
 ~every worker object should point back to main worker object~

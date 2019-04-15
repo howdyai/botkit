@@ -33,7 +33,7 @@ When used in concert with Botkit, developers need only pass the configured adapt
 
 Developers can then bind to Botkit's event emitting system using `controller.on` and `controller.hears` to filter and handle incoming events from the messaging platform. [Learn more about Botkit's core feature &rarr;](../docs/index.md).
 
-[A full description of the HangoutsAdapter options and example code can be found in the class reference docs.](../docs/hangouts.md#create-a-new-hangoutsadapter)
+[A full description of the HangoutsAdapter options and example code can be found in the class reference docs.](../docs/reference/hangouts.md#create-a-new-hangoutsadapter)
 
 ```javascript
 const adapter = new HangoutsAdapter({
