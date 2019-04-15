@@ -91,14 +91,21 @@ const adapter = new FacebookAdapter({
 
 ### Class Reference
 
-* [FacebookAdapter](../docs/reference/facebook.html#facebookadapter)
-* [BotWorker Extensions](../docs/reference/facebook.html#facebookbotworker)
-
+* [FacebookAdapter](../docs/reference/facebook.md#facebookadapter)
+* [BotWorker Extensions](../docs/reference/facebook.md#facebookbotworker)
+* [Facebook API Client](../docs/reference/facebook.md#facebookapi)
 
 ## Event List
 
+[Botkit event types are controlled by the FacebookEventMiddleware](../docs/reference/facebook.md#facebookeventtypemiddleware)
+
 ## Calling Facebook APIs
 
+This package also includes [a minimal Facebook API client](../docs/reference/facebook.md#facebookapi) for developers who want to use one of the many available API endpoints.
+
+In Botkit handlers, the `bot` worker object will contain a `bot.api` that is preconfigured and read to go.
+
+To use with a BotBuilder application, the adapter provides the [getAPI() method](../docs/reference/facebook.md#getapi).
 
 ## Community & Support
 

@@ -135,6 +135,11 @@ export class FacebookAdapter extends BotAdapter {
     /**
      * Get a Facebook API client with the correct credentials based on the page identified in the incoming activity.
      * This is used by many internal functions to get access to the Facebook API, and is exposed as `bot.api` on any BotWorker instances passed into Botkit handler functions.
+     * 
+     * ```javascript
+     * let api = adapter.getAPI(activity);
+     * let res = api.callAPI('/me/messages', 'POST', message);
+     * ```
      * @param activity An incoming message activity
      */
     public async getAPI(activity: Partial<Activity>): Promise<FacebookAPI> {
