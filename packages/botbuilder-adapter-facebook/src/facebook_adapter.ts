@@ -115,7 +115,8 @@ export class FacebookAdapter extends BotAdapter {
     }
 
     /**
-     * Botkit-only: Initialization function called automatically when used with Botkit. Amends the webhook_uri with an additional behavior for responding to Facebook's webhook verification request.
+     * Botkit-only: Initialization function called automatically when used with Botkit. 
+     *      * Amends the webhook_uri with an additional behavior for responding to Facebook's webhook verification request.
      * @param botkit
      */
     public async init(botkit): Promise<any> {

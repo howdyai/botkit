@@ -111,8 +111,8 @@ Standard BotBuilder adapter method to delete a previous message.
 
 <a name="init"></a>
 ### init()
- Botkit init function, called automatically when used alongside Botkit.
-Calls registerWebhookSubscription() during bootup.
+Botkit-only: Initialization function called automatically when used with Botkit.
+     * Calls registerWebhookSubscription() during bootup.
 
 **Parameters**
 

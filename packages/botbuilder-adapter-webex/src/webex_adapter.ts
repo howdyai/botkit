@@ -159,8 +159,8 @@ export class WebexAdapter extends BotAdapter {
     }
 
     /**
-     *  Botkit init function, called automatically when used alongside Botkit.
-     * Calls registerWebhookSubscription() during bootup.
+     * Botkit-only: Initialization function called automatically when used with Botkit. 
+     *      * Calls registerWebhookSubscription() during bootup.
      */
     public init(botkit): void {
         // when the bot is ready, register the webhook subscription with the Webex API

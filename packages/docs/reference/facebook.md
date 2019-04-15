@@ -123,7 +123,8 @@ This is used by many internal functions to get access to the Facebook API, and i
 
 <a name="init"></a>
 ### init()
-Botkit-only: Initialization function called automatically when used with Botkit. Amends the webhook_uri with an additional behavior for responding to Facebook's webhook verification request.
+Botkit-only: Initialization function called automatically when used with Botkit.
+     * Amends the webhook_uri with an additional behavior for responding to Facebook's webhook verification request.
 
 **Parameters**
 
