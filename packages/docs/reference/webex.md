@@ -85,9 +85,6 @@ const adapter = new WebexAdapter({
 
 | Name | Type | Description
 |--- |--- |---
-| botkit_worker | [WebexBotWorker](#WebexBotWorker) | A customized BotWorker object that exposes additional utility methods.
-| middlewares | any | Object containing one or more Botkit middlewares to bind automatically.
-| name | string | Name used by Botkit plugin loader
 | identity |  | Returns the identity of the bot, including {id, emails, displayName, created} and anything else from [this spec](https://webex.github.io/spark-js-sdk/api/#personobject)
 
 ## WebexAdapter Class Methods
@@ -174,19 +171,6 @@ Standard BotBuilder adapter method to send a message from the bot to the messagi
 |--- |--- |---
 | context| TurnContext | A TurnContext representing the current incoming message and environment.
 | activities|  | An array of outgoing activities to be sent back to the messaging API.<br/>
-
-
-
-<a name="updateActivity"></a>
-### updateActivity()
-Webex adapter does not support updateActivity.
-
-**Parameters**
-
-| Argument | Type | description
-|--- |--- |---
-| context| TurnContext | 
-| activity| Partial&lt;Activity&gt; | 
 
 
 

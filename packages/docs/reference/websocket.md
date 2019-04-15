@@ -64,7 +64,6 @@ Create a WebsocketAdapter
 
 | Name | Type | Description
 |--- |--- |---
-| name | string | Name used to register this adapter with Botkit.
 | wss | any | The websocket server.
 
 ## WebsocketAdapter Class Methods
@@ -94,19 +93,6 @@ Note: Create the server using Node's http.createServer
 | server| any | an http server
 | socketOptions| any | additional options passed when creating the websocket server with [WebSocket.server](https://github.com/websockets/ws/blob/master/doc/ws.md#new-websocketserveroptions-callback)
 | logic| any | a turn handler function in the form `async(context)=>{ ... }` that will handle the bot's logic.<br/>
-
-
-
-<a name="deleteActivity"></a>
-### deleteActivity()
-Websocket adapter does not support updateActivity.
-
-**Parameters**
-
-| Argument | Type | description
-|--- |--- |---
-| context| TurnContext | 
-| reference| Partial&lt;ConversationReference&gt; | 
 
 
 
@@ -147,19 +133,6 @@ Standard BotBuilder adapter method to send a message from the bot to the messagi
 |--- |--- |---
 | context| TurnContext | A TurnContext representing the current incoming message and environment. (not used)
 | activities|  | An array of outgoing activities to be sent back to the messaging API.<br/>
-
-
-
-<a name="updateActivity"></a>
-### updateActivity()
-Websocket adapter does not support updateActivity.
-
-**Parameters**
-
-| Argument | Type | description
-|--- |--- |---
-| context| TurnContext | 
-| activity| Partial&lt;Activity&gt; | 
 
 
 

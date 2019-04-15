@@ -92,13 +92,6 @@ const adapter = new SlackAdapter({
 
 
 
-## Properties and Accessors
-
-| Name | Type | Description
-|--- |--- |---
-| botkit_worker | [SlackBotWorker](#SlackBotWorker) | A customized BotWorker object that exposes additional utility methods.
-| middlewares | any | Object containing one or more Botkit middlewares to bind automatically.
-| name | string | Name used by Botkit plugin loader
 
 ## SlackAdapter Class Methods
 <a name="activityToSlack"></a>

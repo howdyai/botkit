@@ -83,13 +83,6 @@ const adapter = new HangoutsAdapter({
 
 
 
-## Properties and Accessors
-
-| Name | Type | Description
-|--- |--- |---
-| botkit_worker | [HangoutsBotWorker](#HangoutsBotWorker) | A customized BotWorker object that exposes additional utility methods.
-| middlewares | any | Object containing one or more Botkit middlewares to bind automatically.
-| name | string | Name used by Botkit plugin loader
 
 ## HangoutsAdapter Class Methods
 <a name="continueConversation"></a>

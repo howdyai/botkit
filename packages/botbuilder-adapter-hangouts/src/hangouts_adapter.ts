@@ -65,12 +65,19 @@ export interface HangoutsAdapterOptions {
 export class HangoutsAdapter extends BotAdapter {
     /**
      * Name used by Botkit plugin loader
+     * @ignore
      */
     public name: string = 'Google Hangouts Adapter';
     /**
      * Object containing one or more Botkit middlewares to bind automatically.
+     * @ignore
      */
     public middlewares;
+    /**
+     * A customized BotWorker object that exposes additional utility methods.
+     * @ignore
+     */
+    public botkit_worker = HangoutsBotWorker;
 
     /**
      * Location of configuration options.
@@ -81,11 +88,6 @@ export class HangoutsAdapter extends BotAdapter {
      * A copy of the Google Chat client.
      */
     private api: any;
-
-    /**
-     * A customized BotWorker object that exposes additional utility methods.
-     */
-    public botkit_worker = HangoutsBotWorker;
 
     /**
      * Create a Google Hangouts adapter.

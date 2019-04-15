@@ -116,16 +116,19 @@ export class SlackAdapter extends BotAdapter {
 
     /**
      * Name used by Botkit plugin loader
+     * @ignore
      */
     public name: string = 'Slack Adapter';
 
     /**
      * Object containing one or more Botkit middlewares to bind automatically.
+     * @ignore
      */
     public middlewares;
 
     /**
      * A customized BotWorker object that exposes additional utility methods.
+     * @ignore
      */
     public botkit_worker = SlackBotWorker;
 

@@ -38,6 +38,7 @@ const clients = {};
 export class WebsocketAdapter extends BotAdapter {
     /**
      * Name used to register this adapter with Botkit.
+     * @ignore
      */
     public name: string = 'Websocket Adapter';
 
@@ -210,6 +211,7 @@ export class WebsocketAdapter extends BotAdapter {
 
     /**
      * Websocket adapter does not support updateActivity.
+     * @ignore
      */
     // eslint-disable-next-line
      public async updateActivity(context: TurnContext, activity: Partial<Activity>): Promise<void> {
@@ -218,6 +220,7 @@ export class WebsocketAdapter extends BotAdapter {
 
     /**
      * Websocket adapter does not support updateActivity.
+     * @ignore
      */
     // eslint-disable-next-line
      public async deleteActivity(context: TurnContext, reference: Partial<ConversationReference>): Promise<void> {

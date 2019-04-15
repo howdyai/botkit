@@ -70,16 +70,19 @@ export class WebexAdapter extends BotAdapter {
 
     /**
      * Name used by Botkit plugin loader
+     * @ignore
      */
     public name: string = 'Webex Adapter';
 
     /**
      * Object containing one or more Botkit middlewares to bind automatically.
+     * @ignore
      */
     public middlewares;
 
     /**
      * A customized BotWorker object that exposes additional utility methods.
+     * @ignore
      */
     public botkit_worker = WebexBotWorker;
 
@@ -278,6 +281,7 @@ export class WebexAdapter extends BotAdapter {
 
     /**
      * Webex adapter does not support updateActivity.
+     * @ignore
      */
     // eslint-disable-next-line
     public async updateActivity(context: TurnContext, activity: Partial<Activity>): Promise<void> {
