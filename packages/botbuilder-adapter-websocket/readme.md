@@ -67,7 +67,19 @@ server.post('/api/messages', (req, res) => {
 
 ## Event List
 
+| Event | Description
+|--- |---
+| message | a message sent by the user
+| hello | event sent when a user first connects
+| welcome_back | event sent when a user reconnects
+
 ## Botkit Extensions
+
+In Botkit handlers, the `bot` worker for Facebook contains [all of the base methods](../docs/reference/core.md) as well as the following platform-specific extensions:
+
+### [controller.createSocketServer()](../docs/reference/websocket.md#createsocketserver)
+
+Configures the webserver to accept websocket connections. This method is called automatically by Botkit, but must be manually called when using with BotBuilder.
 
 
 ## Community & Support
