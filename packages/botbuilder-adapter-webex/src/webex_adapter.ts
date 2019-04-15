@@ -29,8 +29,8 @@ export interface WebexAdapterOptions {
 }
 
 /**
- * Connect Botkit or BotBuilder to Webex Teams.
-*/
+ * Connect [Botkit](https://www.npmjs.com/package/botkit) or [BotBuilder](https://www.npmjs.com/package/botbuilder) to Webex Teams.
+ */
 export class WebexAdapter extends BotAdapter {
     private _config: WebexAdapterOptions;
 

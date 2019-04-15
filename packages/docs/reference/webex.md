@@ -18,7 +18,7 @@ This is a class reference for all the methods exposed by the [botbuilder-adapter
 
 <a name="WebexAdapter"></a>
 ## WebexAdapter
-Connect Botkit or BotBuilder to Webex Teams.
+Connect [Botkit](https://www.npmjs.com/package/botkit) or [BotBuilder](https://www.npmjs.com/package/botbuilder) to Webex Teams.
 
 To use this class in your application, first install the package:
 ```bash
