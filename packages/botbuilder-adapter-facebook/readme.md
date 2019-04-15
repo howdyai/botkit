@@ -32,15 +32,15 @@ When used in concert with Botkit, developers need only pass the configured adapt
 
 Developers can then bind to Botkit's event emitting system using `controller.on` and `controller.hears` to filter and handle incoming events from the messaging platform. [Learn more about Botkit's core feature &rarr;](../docs/index.md).
 
-```javascript
-const { FacebookAdapter, FacebookEventTypeMiddleware } = require('botbuilder-adapter-facebook');
-const { Botkit } = require('botkit');
+[A full description of the FacebookAdapter options and example code can be found in the class reference docs.](../docs/facebook.md#create-a-new-facebookadapter)
 
+```javascript
 const adapter = new FacebookAdapter({
-    verify_token: process.env.FACEBOOK_VERIFY_TOKEN,
-    app_secret: process.env.FACEBOOK_APP_SECRET,
-    access_token: process.env.FACEBOOK_ACCESS_TOKEN 
+     verify_token: process.env.FACEBOOK_VERIFY_TOKEN,
+     app_secret: process.env.FACEBOOK_APP_SECRET,
+     access_token: process.env.FACEBOOK_ACCESS_TOKEN
 });
+
 adapter.use(new FacebookEventTypeMiddleware());
 
 const controller = new Botkit({
@@ -58,7 +58,6 @@ controller.on('message', async(bot, message) => {
 Alternately, developers may choose to use `FacebookAdapter` with BotBuilder. With BotBuilder, the adapter is used more directly with a webserver, and all incoming events are handled as [Activities](https://docs.microsoft.com/en-us/javascript/api/botframework-schema/activity?view=botbuilder-ts-latest).
 
 ```javascript
-const { FacebookAdapter } = require('botbuilder-adapter-facebook');
 const adapter = new FacebookAdapter({
      verify_token: process.env.FACEBOOK_VERIFY_TOKEN,
      app_secret: process.env.FACEBOOK_APP_SECRET,
