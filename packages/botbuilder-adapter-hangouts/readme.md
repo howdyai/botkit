@@ -93,6 +93,61 @@ Botkit will emit the following events:
 | bot_room_leave | the bot has been removed from a room
 | bot_dm_leave | a 1:1 with a user has been closed
 
+## Calling Google APIs
+
+This package exposes a pre-configured Google API client for developers who want to use one of the many available API endpoints.
+
+In Botkit handlers, the `bot` worker object passed into all handlers will contain a `bot.api` field that contains the client, preconfigured and ready to use.
+
+```javascript
+controller.on('message', async(bot, message) {
+
+    // get a list of the members of a room
+    let members = bot.api.spaces.members.get({name: message.channel});
+    // .. do stuff
+
+});
+```
+
+## Botkit Extensions
+
+In Botkit handlers, the `bot` worker for Facebook contains [all of the base methods](../docs/reference/core.md#BotWorker) as well as the following platform-specific extensions:
+
+### Use cards
+
+Botkit will automatically construct your outgoing messages according to Google's specifications. [Google Hangouts supports card attachments with buttons](https://developers.google.com/hangouts/chat/reference/message-formats/cards).
+
+To use card attachments, add the `cards` field to the outgoing message object used to create the reply:
+
+```javascript
+await bot.reply(message, {
+    text: 'Pick a card!',
+    cards: [
+        {
+            // card object
+        },
+    ]
+});
+```
+
+### [bot.replyInThread](../docs/reference/hangouts.md#replyinthread)
+
+### [bot.startConversationInThread](../docs/reference/hangouts.md#startconversationinthread)
+
+### Respond to `card_clicked` events
+
+[See Google doc for interactive cards &rarr;](https://developers.google.com/hangouts/chat/how-tos/cards-onclick#responding_to_clicks_with_a_new_or_updated_message).
+
+#### [bot.replyWithUpdate](../docs/reference/hangouts.md#replywithupdate)
+
+#### [bot.replyWithNew](../docs/reference/hangouts.md#relpywithnew)
+
+### [bot.updateMessage](../docs/reference/hangouts.md#updatemessage)
+
+### [bot.deleteMessage](../docs/reference/hangouts.md#deletemessage)
+
+
+
 ## Community & Support
 
 Join our thriving community of Botkit developers and bot enthusiasts at large.

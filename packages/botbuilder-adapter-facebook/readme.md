@@ -125,6 +125,28 @@ controller.on('message', async(bot, message) {
 
 In Botkit handlers, the `bot` worker for Facebook contains [all of the base methods](../docs/reference/core.md#BotWorker) as well as the following platform-specific extensions:
 
+### Use attachments, quick replies and other rich message features
+
+Botkit will automatically construct your outgoing messages according to Facebook's specifications. To use attachments, quick replies or other features, add them to the message object used to create the reply:
+
+```javascript
+await bot.reply(message, {
+    text: 'Choose a button', 
+    quick_replies: [
+        {
+            "content_type":"text",
+            "title":"Foo",
+            "payload":"true"
+        },
+        {
+            "content_type":"text",
+            "title":"Bar",
+            "payload":"false"
+        }
+    ]
+});
+```
+
 ### [Spawn a worker for a specific page](../docs/reference/facebook.md#create-a-new-facebookbotworker)
 
 For a bot that works with multiple pages, it is possible to spawn bot workers bound to a specific page by passing the page ID as the primary parameter to `controller.spawn()`:
