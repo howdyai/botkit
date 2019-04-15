@@ -10,13 +10,21 @@ import * as request from 'request';
  * This is a specialized version of [Botkit's core BotWorker class](core.md#BotWorker) that includes additional methods for interacting with Slack.
  * It includes all functionality from the base class, as well as the extension methods below.
  * 
- * When using the FacebookAdapter with Botkit, all `bot` objects passed to handler functions will include these extensions.
+ * When using the SlackAdapter with Botkit, all `bot` objects passed to handler functions will include these extensions.
  */
 export class SlackBotWorker extends BotWorker {
+    /**
+     * A copy of hte Slack WebClient giving, giving access to all of Slack's APIs via `let res = await bot.api.object.method(params);`
+     */
     public api: WebClient;
 
     /**
-     * Used internally by controller.spawn, creates a BotWorker instance that can send messages, replies, and make other API calls.
+     * Reserved for use internally by Botkit's `controller.spawn()`, this class is used to create a BotWorker instance that can send messages, replies, and make other API calls.
+     *
+     * When used with the SlackAdapter's multi-tenancy mode, it is possible to spawn a bot instance by passing in the Slack workspace ID of a team that has installed the app.
+     * Use this in concert with [startPrivateConversation()](#startPrivateConversation) and [changeContext()](core.md#changecontext) to start conversations
+     * or send proactive alerts to users on a schedule or in response to external events.
+     * 
      * @param botkit The Botkit controller object responsible for spawning this bot worker
      * @param config Normally, a DialogContext object.  Can also be the id of a team.
      */
