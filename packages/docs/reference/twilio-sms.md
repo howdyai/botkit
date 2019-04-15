@@ -18,7 +18,7 @@ This is a class reference for all the methods exposed by the [botbuilder-adapter
 
 <a name="TwilioAdapter"></a>
 ## TwilioAdapter
-Connect Botkit or BotBuilder to Twilio's SMS service.
+Connect [Botkit](https://www.npmjs.com/package/botkit) or [BotBuilder](https://www.npmjs.com/package/botbuilder) to Twilio's SMS service.
 
 To use this class in your application, first install the package:
 ```bash
@@ -37,7 +37,7 @@ const { TwilioAdapter } = require('botbuilder-adapter-twilio-sms');
 |--- |--- |---
 | options | [TwilioAdapterOptions](#TwilioAdapterOptions) | An object containing API credentials, a webhook verification token and other options<br/>
 
-Create a Twilio adapter.
+Create an adapter to handle incoming messages from Twilio's SMS service and translate them into a standard format for processing by your bot.
 
 Use with Botkit:
 ```javascript

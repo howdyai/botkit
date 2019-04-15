@@ -9,29 +9,7 @@ import { TwilioBotWorker } from './botworker';
 const debug = Debug('botkit:twilio');
 
 /**
- * Parameters passed to the TwilioAdapter constructor.
- */
-export interface TwilioAdapterOptions {
-    /**
-     * The phone number associated with this Twilio app, in the format 1XXXYYYZZZZ
-     */
-    twilio_number: string;
-    /**
-     * The account SID from the twilio account
-     */
-    account_sid: string;
-    /**
-     * An api auth token associated with the twilio account
-     */
-    auth_token: string;
-    /**
-     * An optional url to override the automatically generated url signature used to validate incoming requests -- [See Twilio docs about securing your endpoint.](https://www.twilio.com/docs/usage/security#validating-requests)
-     */
-    validation_url?: string;
-}
-
-/**
- * Connect Botkit or BotBuilder to Twilio's SMS service.
+ * Connect [Botkit](https://www.npmjs.com/package/botkit) or [BotBuilder](https://www.npmjs.com/package/botbuilder) to Twilio's SMS service.
  */
 export class TwilioAdapter extends BotAdapter {
     /**
@@ -56,7 +34,7 @@ export class TwilioAdapter extends BotAdapter {
     private api: Twilio.Twilio; // Twilio api
 
     /**
-     * Create a Twilio adapter.
+     * Create an adapter to handle incoming messages from Twilio's SMS service and translate them into a standard format for processing by your bot.
      *
      * Use with Botkit:
      *```javascript
@@ -282,4 +260,26 @@ export class TwilioAdapter extends BotAdapter {
             return false;
         }
     }
+}
+
+/**
+ * Parameters passed to the TwilioAdapter constructor.
+ */
+export interface TwilioAdapterOptions {
+    /**
+     * The phone number associated with this Twilio app, in the format 1XXXYYYZZZZ
+     */
+    twilio_number: string;
+    /**
+     * The account SID from the twilio account
+     */
+    account_sid: string;
+    /**
+     * An api auth token associated with the twilio account
+     */
+    auth_token: string;
+    /**
+     * An optional url to override the automatically generated url signature used to validate incoming requests -- [See Twilio docs about securing your endpoint.](https://www.twilio.com/docs/usage/security#validating-requests)
+     */
+    validation_url?: string;
 }
