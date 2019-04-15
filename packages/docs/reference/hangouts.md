@@ -148,8 +148,11 @@ Standard BotBuilder adapter method to update a previous message with new content
 
 <a name="HangoutsBotWorker"></a>
 ## HangoutsBotWorker
-Specialized version of the BotWorker class that includes additional methods for interacting with Google Hangouts.
-When using the HangoutsAdapter with Botkit, all `bot` objects will be of this type.
+This is a specialized version of [Botkit's core BotWorker class](core.md#BotWorker) that includes additional methods for interacting with Google Hangouts.
+It includes all functionality from the base class, as well as the extension methods below.
+
+When using the HangoutsAdapter with Botkit, all `bot` objects passed to handler functions will include these extensions.
+
 
 To use this class in your application, first install the package:
 ```bash
