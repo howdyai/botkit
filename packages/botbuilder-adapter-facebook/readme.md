@@ -1,5 +1,7 @@
 # botbuilder-adapter-facebook
-## a Facebook Messenger Adapter for BotBuilder and Botkit
+ * Connect [Botkit](https://www.npmjs.com/package/botkit) or [BotBuilder](https://www.npmjs.com/package/botbuilder) to Facebook Messenger.
+
+
 
 ## Community & Support
 
