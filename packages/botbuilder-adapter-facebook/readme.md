@@ -119,7 +119,7 @@ controller.on('message', async(bot, message) {
 
 ## Botkit Extensions
 
-In Botkit handlers, the `bot` worker contains the following extensions:
+In Botkit handlers, the `bot` worker for Facebook contains [all of the base methods](docs/reference/core.md#BotWorker) as well as the following platform-specific extensions:
 
 ### [Spawn a worker for a specific page](../docs/reference/facebook.md#create-a-new-facebookbotworker)
 
