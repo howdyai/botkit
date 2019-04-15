@@ -25,6 +25,22 @@ function buildTOC(dest) {
     fs.writeFileSync(dest, toctemplate({index: index}));
 }
 
+function generateAdapter(src, params, dest) {
+
+    let data = {
+        body: fs.readFileSync(src, 'utf8'),
+        ...params
+    }
+
+    // replace links
+    data.body = data.body.replace(/\.\.\/docs\/reference/ig,'../reference');
+
+    let adaptertemplate = Handlebars.compile(fs.readFileSync(__dirname + '/adapter.hbs', 'utf8'));
+
+    fs.writeFileSync(dest, adaptertemplate(data));
+
+}
+
 function generateReference(src, dest) {
 
     let data = require(src);
@@ -131,5 +147,13 @@ generateReference(__dirname + '/slack.json',__dirname + '/../reference/slack.md'
 generateReference(__dirname + '/hangouts.json',__dirname + '/../reference/hangouts.md');
 generateReference(__dirname + '/twilio-sms.json',__dirname + '/../reference/twilio-sms.md');
 generateReference(__dirname + '/facebook.json',__dirname + '/../reference/facebook.md');
+
+generateAdapter(__dirname + '/../../botbuilder-adapter-facebook/readme.md', {name: 'Facebook Messenger'} , __dirname + '/../platforms/facebook.md');
+generateAdapter(__dirname + '/../../botbuilder-adapter-hangouts/readme.md', {name: 'Google Hangouts'} , __dirname + '/../platforms/hangouts.md');
+generateAdapter(__dirname + '/../../botbuilder-adapter-slack/readme.md', {name: 'Slack'} , __dirname + '/../platforms/slack.md');
+generateAdapter(__dirname + '/../../botbuilder-adapter-twilio-sms/readme.md', {name: 'Twilio SMS'} , __dirname + '/../platforms/twilio-sms.md');
+generateAdapter(__dirname + '/../../botbuilder-adapter-webex/readme.md', {name: 'Webex Teams'} , __dirname + '/../platforms/webex.md');
+generateAdapter(__dirname + '/../../botbuilder-adapter-websocket/readme.md', {name: 'Websocket and Webhooks'} , __dirname + '/../platforms/websocket.md');
+
 
 buildTOC(__dirname + '/../reference/index.md');
