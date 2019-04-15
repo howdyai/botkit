@@ -56,7 +56,7 @@ Alternately, developers may choose to use `WebsocketAdapter` with BotBuilder. Wi
 
 ## Class Reference
 
-* [WebsocketADapter](../docs/reference/websocket.md#websocketadapter)
+* [WebsocketAdapter](../docs/reference/websocket.md#websocketadapter)
 
 ## Event List
 
