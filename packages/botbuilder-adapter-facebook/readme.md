@@ -33,7 +33,7 @@ When used in concert with Botkit, developers need only pass the configured adapt
 Developers can then bind to Botkit's event emitting system using `controller.on` and `controller.hears` to filter and handle incoming events from the messaging platform. [Learn more about Botkit's core feature &rarr;](../docs/index.md).
 
 ```javascript
-const { FacebookAdapter } = require('botbuilder-adapter-facebook');
+const { FacebookAdapter, FacebookEventTypeMiddleware } = require('botbuilder-adapter-facebook');
 const { Botkit } = require('botkit');
 
 const adapter = new FacebookAdapter({
@@ -41,6 +41,7 @@ const adapter = new FacebookAdapter({
     app_secret: process.env.FACEBOOK_APP_SECRET,
     access_token: process.env.FACEBOOK_ACCESS_TOKEN 
 });
+adapter.use(new FacebookEventTypeMiddleware());
 
 const controller = new Botkit({
     adapter,
@@ -97,7 +98,11 @@ const adapter = new FacebookAdapter({
 
 ## Event List
 
-[Botkit event types are controlled by the FacebookEventMiddleware](../docs/reference/facebook.md#facebookeventtypemiddleware)
+[Botkit event types are controlled by the FacebookEventMiddleware](../docs/reference/facebook.md#facebookeventtypemiddleware).
+
+Without this middleware applied, Botkit bots will receive `message` events when a user types a message or clicks a postback_button, and an `event` event for all other types of event received from Facebook.
+
+Most Botkit developers who plan to use features above and beyond Facebook's send API should enable this middleware.
 
 ## Calling Facebook APIs
 
