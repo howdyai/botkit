@@ -54,7 +54,7 @@ controller.on('message', async(bot, message) => {
 
 ### BotBuilder Basics
 
-Alternately, developers may choose to use FacebookAdapter with BotBuilder. With BotBuilder, the adapter is used more directly with a webserver, and all incoming events are handled as [Activities](https://docs.microsoft.com/en-us/javascript/api/botframework-schema/activity?view=botbuilder-ts-latest).
+Alternately, developers may choose to use `FacebookAdapter` with BotBuilder. With BotBuilder, the adapter is used more directly with a webserver, and all incoming events are handled as [Activities](https://docs.microsoft.com/en-us/javascript/api/botframework-schema/activity?view=botbuilder-ts-latest).
 
 ```javascript
 const { FacebookAdapter } = require('botbuilder-adapter-facebook');
@@ -71,6 +71,29 @@ server.post('/api/messages', (req, res) => {
      });
 });
 ```
+
+### Multi-page Support
+
+In the examples above, the `FacebookAdapter` constructor received a single `access_token` parameters. This binds the adapter and all API calls it makes to a single Facebook page.
+
+To use `FacebookAdapter` with multiple Facebook pages, the constructor must receive a function as a paramter named `getAccessTokenForPage` that is responsible for returning a token value when provided a Facebook page ID. The application must implement its own mechanism for securely storing and retrieving the token.
+
+```javascript
+const adapter = new FacebookAdapter({
+    verify_token: process.env.FACEBOOK_VERIFY_TOKEN,
+    app_secret: process.env.FACEBOOK_APP_SECRET,
+    getAccessTokenForPage: async(pageId) => { 
+        // do something to fetch the page access token for pageId.
+        return token;
+    })
+});
+```
+
+### Class Reference
+
+* [FacebookAdapter](../docs/reference/facebook.html#facebookadapter)
+* [BotWorker Extensions](../docs/reference/facebook.html#facebookbotworker)
+
 
 ## Event List
 
