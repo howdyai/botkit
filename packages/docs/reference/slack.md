@@ -21,9 +21,32 @@ This is a class reference for all the methods exposed by the [botbuilder-adapter
 
 <a name="SlackAdapter"></a>
 ## SlackAdapter
-Connect Botkit or BotBuilder to Slack. See [SlackAdapterOptions](#SlackAdapterOptions) for parameters.
-The SlackAdapter can be used in 2 modes: as an "internal" app connected to a single Slack workspace,
-or as a "multi-team" app that uses oauth to connect to multiple workspaces. [Read here for more information](../../botbuilder-adapter-slack/readme.md).
+Connect [Botkit](https://www.npmjs.com/package/botkit) or [BotBuilder](https://www.npmjs.com/package/botbuilder) to Slack.
+
+To use this class in your application, first install the package:
+```bash
+npm install --save botbuilder-adapter-slack
+```
+
+Then import this and other classes into your code:
+```javascript
+const { SlackAdapter } = require('botbuilder-adapter-slack');
+```
+
+### Create a new SlackAdapter()
+**Parameters**
+
+| Argument | Type | Description
+|--- |--- |---
+| options | [SlackAdapterOptions](#SlackAdapterOptions) | An object containing API credentials, a webhook verification token and other options<br/>
+
+Create a Slack adapter.
+
+The SlackAdapter can be used in 2 modes:
+     * As an "[internal integration](https://api.slack.com/internal-integrations) connected to a single Slack workspace
+     * As a "[Slack app](https://api.slack.com/slack-apps) that uses oauth to connect to multiple workspaces and can be submitted to the Slack app.
+
+[Read here for more information about all the ways to configure the SlackAdapter &rarr;](../../botbuilder-adapter-slack/readme.md).
 
 Use with Botkit:
 ```javascript
@@ -53,38 +76,14 @@ server.post('/api/messages', (req, res) => {
 });
 ```
 
-
-To use this class in your application, first install the package:
-```bash
-npm install --save botbuilder-adapter-slack
-```
-
-Then import this and other classes into your code:
-```javascript
-const { SlackAdapter } = require('botbuilder-adapter-slack');
-```
-
-### Create a new SlackAdapter()
-**Parameters**
-
-| Argument | Type | Description
-|--- |--- |---
-| options | [SlackAdapterOptions](#SlackAdapterOptions) | An object containing API credentials, a webhook verification token and other options<br/>
-
-Create a Slack adapter. See [SlackAdapterOptions](#slackadapteroptions) for a full definition of the allowed parameters.
-
+Use in "Slack app" multi-team mode:
 ```javascript
 const adapter = new SlackAdapter({
-     clientSigningSecret: process.env.SLACK_SECRET,
-
-// if single team
-     botToken: process.env.SLACK_TOKEN
-
-// if multi-team
-    clientId: process.env.clientId, // oauth client id
-    clientSecret: process.env.clientSecret, // oauth client secret
+    clientSigningSecret: process.env.SLACK_SECRET,
+    clientId: process.env.CLIENTID, // oauth client id
+    clientSecret: process.env.CLIENTSECRET, // oauth client secret
     scopes: ['bot'], // oauth scopes requested
-    redirectUri: process.env.redirectUri, // url to redirect post login defaults to `https://<mydomain>/install/auth`
+    redirectUri: process.env.REDIRECT_URI, // url to redirect post login defaults to `https://<mydomain>/install/auth`
     getTokenForTeam: async(team_id) => Promise<string>, // function that returns a token based on team id
     getBotUserByTeam: async(team_id) => Promise<string>, // function that returns a bot's user id based on team id
 });
@@ -179,7 +178,8 @@ A url pointing to the first step in Slack&#x27;s oauth flow.
 
 
 An example using Botkit's internal webserver to configure the /install route:
-```
+
+```javascript
 controller.webserver.get('/install', (req, res) => {
  res.redirect(controller.adapter.getInstallLink());
 });
@@ -241,7 +241,8 @@ Validates an oauth code sent by Slack during the install process.
 
 
 An example using Botkit's internal webserver to configure the /install/auth route:
-```
+
+```javascript
 controller.webserver.get('/install/auth', async (req, res) => {
      try {
          const results = await controller.adapter.validateOauthCode(req.query.code);

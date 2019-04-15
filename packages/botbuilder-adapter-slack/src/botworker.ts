@@ -7,8 +7,10 @@ import { WebClient, Dialog } from '@slack/client';
 import * as request from 'request';
 
 /**
- * Specialized version of the BotWorker class that includes additional methods for interacting with Slack.
- * When using the SlackAdapter with Botkit, all `bot` objects will be of this type.
+ * This is a specialized version of [Botkit's core BotWorker class](core.md#BotWorker) that includes additional methods for interacting with Slack.
+ * It includes all functionality from the base class, as well as the extension methods below.
+ * 
+ * When using the FacebookAdapter with Botkit, all `bot` objects passed to handler functions will include these extensions.
  */
 export class SlackBotWorker extends BotWorker {
     public api: WebClient;

@@ -1,7 +1,6 @@
 /**
  * @module botbuilder-adapter-slack
  */
-
 import { Activity, ActivityTypes, BotAdapter, TurnContext, ConversationReference, ResourceResponse } from 'botbuilder';
 import { WebClient, WebAPICallResult } from '@slack/client';
 import { SlackBotWorker } from './botworker';
@@ -10,102 +9,7 @@ import * as Debug from 'debug';
 const debug = Debug('botkit:slack');
 
 /**
- * This interface defines the options that can be passed into the SlackAdapter constructor function.
- */
-export interface SlackAdapterOptions {
-    /**
-     * Legacy method for validating the origin of incoming webhooks. Prefer `clientSigningSecret` instead.
-     */
-    verificationToken?: string;
-    /**
-     * A token used to validate that incoming webhooks originated with Slack.
-     */
-    clientSigningSecret?: string;
-    /**
-     * A token (provided by Slack) for a bot to work on a single workspace
-     */
-    botToken?: string;
-
-    /**
-     * The oauth client id provided by Slack for multi-team apps
-     */
-    clientId?: string;
-    /**
-     * The oauth client secret provided by Slack for multi-team apps
-     */
-    clientSecret?: string;
-    /**
-     * A an array of scope names that are being requested during the oauth process. Must match the scopes defined at api.slack.com
-     */
-    scopes?: string[];
-    /**
-     * The URL users will be redirected to after an oauth flow. In most cases, should be `https://<mydomain.com>/install/auth`
-     */
-    redirectUri: string;
-
-    /**
-     * A method that receives a Slack team id and returns the bot token associated with that team. Required for multi-team apps.
-     */
-    getTokenForTeam?: (teamId: string) => Promise<string>;
-
-    /**
-     * A method that receives a Slack team id and returns the bot user id associated with that team. Required for multi-team apps.
-     */
-    getBotUserByTeam?: (teamId: string) => Promise<string>;
-};
-
-// These interfaces are necessary to cast result of web api calls
-// See: http://slackapi.github.io/node-slack-sdk/typescript
-interface ChatPostMessageResult extends WebAPICallResult {
-    channel: string;
-    ts: string;
-    message: {
-        text: string;
-    };
-}
-
-// These interfaces are necessary to cast result of web api calls
-// See: http://slackapi.github.io/node-slack-sdk/typescript
-interface AuthTestResult extends WebAPICallResult {
-    user: string;
-    team: string;
-    team_id: string;
-    user_id: string;
-    ok: boolean;
-}
-
-/**
- * Connect Botkit or BotBuilder to Slack. See [SlackAdapterOptions](#SlackAdapterOptions) for parameters.
- * The SlackAdapter can be used in 2 modes: as an "internal" app connected to a single Slack workspace,
- * or as a "multi-team" app that uses oauth to connect to multiple workspaces. [Read here for more information](../../botbuilder-adapter-slack/readme.md).
- *
- * Use with Botkit:
- *```javascript
- * const adapter = new SlackAdapter({
- *      clientSigningSecret: process.env.SLACK_SECRET,
- *      botToken: process.env.SLACK_TOKEN
- * });
- * const controller = new Botkit({
- *      adapter: adapter,
- *      // ... other configuration options
- * });
- * ```
- *
- * Use with BotBuilder:
- *```javascript
- * const adapter = new SlackAdapter({
- *      clientSigningSecret: process.env.SLACK_SECRET,
- *      botToken: process.env.SLACK_TOKEN
- * });
- * // set up restify...
- * const server = restify.createServer();
- * server.use(restify.plugins.bodyParser());
- * server.post('/api/messages', (req, res) => {
- *      adapter.processActivity(req, res, async(context) => {
- *          // do your bot logic here!
- *      });
- * });
- * ```
+ * Connect [Botkit](https://www.npmjs.com/package/botkit) or [BotBuilder](https://www.npmjs.com/package/botbuilder) to Slack.
  */
 export class SlackAdapter extends BotAdapter {
     private options: SlackAdapterOptions;
@@ -133,20 +37,50 @@ export class SlackAdapter extends BotAdapter {
     public botkit_worker = SlackBotWorker;
 
     /**
-     * Create a Slack adapter. See [SlackAdapterOptions](#slackadapteroptions) for a full definition of the allowed parameters.
+     * Create a Slack adapter.
+     * 
+     * The SlackAdapter can be used in 2 modes: 
+     *      * As an "[internal integration](https://api.slack.com/internal-integrations) connected to a single Slack workspace
+     *      * As a "[Slack app](https://api.slack.com/slack-apps) that uses oauth to connect to multiple workspaces and can be submitted to the Slack app.
+     * 
+     * [Read here for more information about all the ways to configure the SlackAdapter &rarr;](../../botbuilder-adapter-slack/readme.md).
      *
-     * ```javascript
+     * Use with Botkit:
+     *```javascript
      * const adapter = new SlackAdapter({
      *      clientSigningSecret: process.env.SLACK_SECRET,
-     *
-     * // if single team
      *      botToken: process.env.SLACK_TOKEN
+     * });
+     * const controller = new Botkit({
+     *      adapter: adapter,
+     *      // ... other configuration options
+     * });
+     * ```
      *
-     * // if multi-team
-     *     clientId: process.env.clientId, // oauth client id
-     *     clientSecret: process.env.clientSecret, // oauth client secret
+     * Use with BotBuilder:
+     *```javascript
+     * const adapter = new SlackAdapter({
+     *      clientSigningSecret: process.env.SLACK_SECRET,
+     *      botToken: process.env.SLACK_TOKEN
+     * });
+     * // set up restify...
+     * const server = restify.createServer();
+     * server.use(restify.plugins.bodyParser());
+     * server.post('/api/messages', (req, res) => {
+     *      adapter.processActivity(req, res, async(context) => {
+     *          // do your bot logic here!
+     *      });
+     * });
+     * ```
+     *
+     * Use in "Slack app" multi-team mode:
+     * ```javascript
+     * const adapter = new SlackAdapter({
+     *     clientSigningSecret: process.env.SLACK_SECRET,
+     *     clientId: process.env.CLIENTID, // oauth client id
+     *     clientSecret: process.env.CLIENTSECRET, // oauth client secret
      *     scopes: ['bot'], // oauth scopes requested
-     *     redirectUri: process.env.redirectUri, // url to redirect post login defaults to `https://<mydomain>/install/auth`
+     *     redirectUri: process.env.REDIRECT_URI, // url to redirect post login defaults to `https://<mydomain>/install/auth`
      *     getTokenForTeam: async(team_id) => Promise<string>, // function that returns a token based on team id
      *     getBotUserByTeam: async(team_id) => Promise<string>, // function that returns a bot's user id based on team id
      * });
@@ -274,7 +208,8 @@ export class SlackAdapter extends BotAdapter {
      * Get the oauth link for this bot, based on the clientId and scopes passed in to the constructor.
      *
      * An example using Botkit's internal webserver to configure the /install route:
-     * ```
+     * 
+     * ```javascript
      * controller.webserver.get('/install', (req, res) => {
      *  res.redirect(controller.adapter.getInstallLink());
      * });
@@ -295,7 +230,8 @@ export class SlackAdapter extends BotAdapter {
      * Validates an oauth code sent by Slack during the install process.
      *
      * An example using Botkit's internal webserver to configure the /install/auth route:
-     * ```
+     * 
+     * ```javascript
      * controller.webserver.get('/install/auth', async (req, res) => {
      *      try {
      *          const results = await controller.adapter.validateOauthCode(req.query.code);
@@ -677,4 +613,69 @@ export class SlackAdapter extends BotAdapter {
             console.error('Unknown Slack event type: ', event);
         }
     }
+}
+
+/**
+ * This interface defines the options that can be passed into the SlackAdapter constructor function.
+ */
+export interface SlackAdapterOptions {
+    /**
+     * Legacy method for validating the origin of incoming webhooks. Prefer `clientSigningSecret` instead.
+     */
+    verificationToken?: string;
+    /**
+     * A token used to validate that incoming webhooks originated with Slack.
+     */
+    clientSigningSecret?: string;
+    /**
+     * A token (provided by Slack) for a bot to work on a single workspace
+     */
+    botToken?: string;
+
+    /**
+     * The oauth client id provided by Slack for multi-team apps
+     */
+    clientId?: string;
+    /**
+     * The oauth client secret provided by Slack for multi-team apps
+     */
+    clientSecret?: string;
+    /**
+     * A an array of scope names that are being requested during the oauth process. Must match the scopes defined at api.slack.com
+     */
+    scopes?: string[];
+    /**
+     * The URL users will be redirected to after an oauth flow. In most cases, should be `https://<mydomain.com>/install/auth`
+     */
+    redirectUri: string;
+
+    /**
+     * A method that receives a Slack team id and returns the bot token associated with that team. Required for multi-team apps.
+     */
+    getTokenForTeam?: (teamId: string) => Promise<string>;
+
+    /**
+     * A method that receives a Slack team id and returns the bot user id associated with that team. Required for multi-team apps.
+     */
+    getBotUserByTeam?: (teamId: string) => Promise<string>;
+};
+
+// These interfaces are necessary to cast result of web api calls
+// See: http://slackapi.github.io/node-slack-sdk/typescript
+interface ChatPostMessageResult extends WebAPICallResult {
+    channel: string;
+    ts: string;
+    message: {
+        text: string;
+    };
+}
+
+// These interfaces are necessary to cast result of web api calls
+// See: http://slackapi.github.io/node-slack-sdk/typescript
+interface AuthTestResult extends WebAPICallResult {
+    user: string;
+    team: string;
+    team_id: string;
+    user_id: string;
+    ok: boolean;
 }

@@ -10,30 +10,10 @@ const debug = Debug('botkit:websocket');
 const clients = {};
 
 /**
- * Create a websocket adapter for Botkit or BotBuilder
+ * Connect [Botkit](https://www.npmjs.com/package/botkit) or [BotBuilder](https://www.npmjs.com/package/botbuilder) to the Web.
+ * It offers both websocket and webhook capabilities.
  * Requires a compatible chat client - generate one using the Botkit yeoman generator, or find it [here]()
  * # TODO: get links for chat client!
- *
- * To use with Botkit:
- * ```javascript
- * const adapter = new WebsocketAdapter();
- * const controller = new Botkit({
- *      adapter: adapter,
- *      // other options
- * });
- * ```
- *
- * To use with BotBuilder:
- * ```javascript
- * const adapter = new WebsocketAdapter();
- * const server = restify.createServer();
- * server.use(restify.plugins.bodyParser());
- * // instead of binding processActivity to the incoming request, pass in turn handler logic to createSocketServer
- * let options = {}; // socket server configuration options
- * adapter.createSocketServer(server, options, async(context) => {
- *  // handle turn here
- * });
- * ```
  */
 export class WebsocketAdapter extends BotAdapter {
     /**
@@ -52,7 +32,29 @@ export class WebsocketAdapter extends BotAdapter {
     };
 
     /**
-     * Create a WebsocketAdapter
+     * Create an adapter to handle incoming messages from a websocket and/or webhook and translate them into a standard format for processing by your bot.
+     * 
+     * To use with Botkit:
+     * ```javascript
+     * const adapter = new WebsocketAdapter();
+     * const controller = new Botkit({
+     *      adapter: adapter,
+     *      // other options
+     * });
+     * ```
+     *
+     * To use with BotBuilder:
+     * ```javascript
+     * const adapter = new WebsocketAdapter();
+     * const server = restify.createServer();
+     * server.use(restify.plugins.bodyParser());
+     * // instead of binding processActivity to the incoming request, pass in turn handler logic to createSocketServer
+     * let options = {}; // socket server configuration options
+     * adapter.createSocketServer(server, options, async(context) => {
+     *  // handle turn here
+     * });
+     * ```
+     * 
      * @param socketServerOptions an optional object containing parameters to send to a call to [WebSocket.server](https://github.com/websockets/ws/blob/master/doc/ws.md#new-websocketserveroptions-callback).
      */
     public constructor(socketServerOptions?: {[key: string]: any}) {
@@ -61,7 +63,8 @@ export class WebsocketAdapter extends BotAdapter {
     }
 
     /**
-     * Called automatically when Botkit uses this adapter - calls createSocketServer and binds a websocket listener to Botkit's pre-existing webserver.
+     * Botkit-only: Initialization function called automatically when used with Botkit. 
+     *      * Calls createSocketServer to bind a websocket listener to Botkit's pre-existing webserver.
      * @param botkit
      */
     public init(botkit): void {
