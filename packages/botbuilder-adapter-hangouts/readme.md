@@ -130,20 +130,21 @@ await bot.reply(message, {
 });
 ```
 
-### [bot.replyInThread](../docs/reference/hangouts.md#replyinthread)
+### Reply in new threads
 
-### [bot.startConversationInThread](../docs/reference/hangouts.md#startconversationinthread)
+#### [bot.replyInThread](../docs/reference/hangouts.md#replyinthread)
+#### [bot.startConversationInThread](../docs/reference/hangouts.md#startconversationinthread)
 
 ### Respond to `card_clicked` events
 
 [See Google doc for interactive cards &rarr;](https://developers.google.com/hangouts/chat/how-tos/cards-onclick#responding_to_clicks_with_a_new_or_updated_message).
 
 #### [bot.replyWithUpdate](../docs/reference/hangouts.md#replywithupdate)
-
 #### [bot.replyWithNew](../docs/reference/hangouts.md#relpywithnew)
 
-### [bot.updateMessage](../docs/reference/hangouts.md#updatemessage)
+### Update and remove messages
 
+### [bot.updateMessage](../docs/reference/hangouts.md#updatemessage)
 ### [bot.deleteMessage](../docs/reference/hangouts.md#deletemessage)
 
 
