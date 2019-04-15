@@ -103,9 +103,22 @@ const adapter = new FacebookAdapter({
 
 This package also includes [a minimal Facebook API client](../docs/reference/facebook.md#facebookapi) for developers who want to use one of the many available API endpoints.
 
-In Botkit handlers, the `bot` worker object will contain a `bot.api` that is preconfigured and read to go.
+In Botkit handlers, the `bot` worker object passed into all handlers will contain a `bot.api` field that contains the client, preconfigured and ready to use.
 
 To use with a BotBuilder application, the adapter provides the [getAPI() method](../docs/reference/facebook.md#getapi).
+
+```javascript
+controller.on('message', async(bot, message) {
+
+    // call the facebook API to get the bot's page identity
+    let identity = bot.api.callAPI('/me', 'GET', {});
+
+});
+```
+
+## Botkit Extensions
+
+In Botkit handlers, the `bot` worker object will conta
 
 ## Community & Support
 
