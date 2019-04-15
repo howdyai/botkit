@@ -89,7 +89,7 @@ const adapter = new FacebookAdapter({
 });
 ```
 
-### Class Reference
+## Class Reference
 
 * [FacebookAdapter](../docs/reference/facebook.md#facebookadapter)
 * [BotWorker Extensions](../docs/reference/facebook.md#facebookbotworker)
