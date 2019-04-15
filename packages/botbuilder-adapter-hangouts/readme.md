@@ -79,6 +79,20 @@ server.post('/api/messages', (req, res) => {
 * [HangoutsAdapter](../docs/reference/hangouts.md#hangoutsadapter)
 * [BotWorker Extensions](../docs/reference/hangouts.md#hangoutsbotworker)
 
+## Event List
+
+Botkit will emit the following events: 
+
+| Event | Description
+|--- |---
+| message | a message from a user received in a shared channel
+| card_clicked | a user clicked a button on a card attachment
+| direct_message | a message from a user received in a private 1:1 with the bot
+| bot_room_join | the bot joined a new room
+| bot_dm_join | a new 1:1 with a user has been created
+| bot_room_leave | the bot has been removed from a room
+| bot_dm_leave | a 1:1 with a user has been closed
+
 ## Community & Support
 
 Join our thriving community of Botkit developers and bot enthusiasts at large.

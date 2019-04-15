@@ -10,6 +10,12 @@ import { BotWorker, BotkitMessage } from 'botkit';
  * When using the HangoutsAdapter with Botkit, all `bot` objects passed to handler functions will include these extensions.
  */
 export class HangoutsBotWorker extends BotWorker {
+
+    /**
+     * Access to the official [Google API client for Hangouts](https://www.npmjs.com/package/googleapis)
+     */
+    public api: any;
+
     /**
      * Update an existing message with new content.
      *

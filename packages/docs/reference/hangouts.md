@@ -165,6 +165,11 @@ const { HangoutsBotWorker } = require('botbuilder-adapter-hangouts');
 ```
 
 
+## Properties and Accessors
+
+| Name | Type | Description
+|--- |--- |---
+| api | any | Access to the official [Google API client for Hangouts](https://www.npmjs.com/package/googleapis)
 
 ## HangoutsBotWorker Class Methods
 <a name="deleteMessage"></a>
