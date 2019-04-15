@@ -53,6 +53,10 @@ server.post('/api/messages', (req, res) => {
         if (context.activity.type === 'message') {
             await context.sendActivity('Received an message: ' + context.activity.text);
         }
+
+        let api = await adapter.getAPI(context.activity);
+        let id = await api.callAPI('/me','GET', {});
+        console.log('ID FROM API', id);
     });
 });
 

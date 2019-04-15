@@ -111,14 +111,17 @@ To use with a BotBuilder application, the adapter provides the [getAPI() method]
 controller.on('message', async(bot, message) {
 
     // call the facebook API to get the bot's page identity
-    let identity = bot.api.callAPI('/me', 'GET', {});
+    let identity = await bot.api.callAPI('/me', 'GET', {});
+    await bot.reply(message,`My name is ${ identity.name }`);
 
 });
 ```
 
 ## Botkit Extensions
 
-In Botkit handlers, the `bot` worker object will conta
+In Botkit handlers, the `bot` worker contains the following extensions:
+
+[bot.startConversationWithUser()](../docs/reference/facebook.md#startconversationwithuser)
 
 ## Community & Support
 
