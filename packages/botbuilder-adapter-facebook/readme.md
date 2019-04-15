@@ -161,14 +161,6 @@ Use this method to initiate a conversation with a user. After calling this metho
 
 This can be used to create or resume conversations with users that are not in direct response to an incoming message, like those sent on a schedule or in response to external events.
 
-Below is an example where a bot worker is spawned, then begin a dialog with a specific user.
-
-```javascript
-let bot = await controller.spawn(FACEBOOK_PAGE_ID);
-await bot.startConversationWithUser(FACEBOOK_USER_PSID);
-await bot.beginDialog(ALERT_DIALOG);
-```
-
 ## Community & Support
 
 Join our thriving community of Botkit developers and bot enthusiasts at large.

@@ -1,5 +1,73 @@
 # botbuilder-adapter-websocket
-## a Websocket Adapter for Botkit and BotBuilder
+Connect [Botkit](https://www.npmjs.com/package/botkit) or [BotBuilder](https://www.npmjs.com/package/botbuilder) to the Web.
+
+This package contains an adapter that communicates directly with the web via webhooks or websocket connections.
+This package can be used alongside your favorite bot development framework to build bots that work on a website or within an existing app.
+
+## Install Package
+
+Add this package to your project using npm:
+
+```bash
+npm install --save botbuilder-adapter-websocket
+```
+
+Import the adapter class into your code:
+
+```javascript
+const { WebsocketAdapter } = require('botbuilder-adapter-websocket');
+```
+
+## Get Started
+
+If you are starting a brand new project, [follow these instructions to create a customized application template.](https://botkit.ai/getstarted.html)
+
+## Use WebsocketAdapter in your App
+
+WebsocketAdapter provides a translation layer for Botkit and BotBuilder so that bot developers can connect directly to users on the web.
+
+### Botkit Basics
+
+When used in concert with Botkit, developers need only pass the configured adapter to the Botkit constructor, as seen below. Botkit will automatically create and configure the webhook endpoints and other options necessary for communicating with the web.
+
+Developers can then bind to Botkit's event emitting system using `controller.on` and `controller.hears` to filter and handle incoming events from the messaging platform. [Learn more about Botkit's core feature &rarr;](../docs/index.md).
+
+[A full description of the WebsocketAdapter options and example code can be found in the class reference docs.](../docs/reference/websocket.md#create-a-new-websocketadapter)
+
+```javascript
+const adapter = new WebsocketAdapter();
+const controller = new Botkit({
+    adapter,
+    // ...other options
+});
+
+// TODO: expose chat client
+
+controller.on('message', async(bot, message) => {
+    await bot.reply(message, 'I heard a message!');
+});
+```
+
+### BotBuilder Basics
+
+Alternately, developers may choose to use `WebsocketAdapter` with BotBuilder. With BotBuilder, the adapter is used more directly with a webserver, and all incoming events are handled as [Activities](https://docs.microsoft.com/en-us/javascript/api/botframework-schema/activity?view=botbuilder-ts-latest).
+
+```javascript
+const adapter = new WebsocketAdapter();
+const server = restify.createServer();
+server.use(restify.plugins.bodyParser());
+server.post('/api/messages', (req, res) => {
+     adapter.processActivity(req, res, async(context) => {
+         await context.sendActivity('I heard a message!');
+     });
+});
+```
+
+* [WebsocketADapter](../docs/reference/websocket.md#websocketadapter)
+
+## Event List
+
+## Botkit Extensions
 
 
 ## Community & Support
