@@ -9,58 +9,9 @@ const debug = Debug('botkit:hangouts');
 
 const apiVersion = 'v1';
 
-export interface HangoutsAdapterOptions {
-    /**
-     * Parameters passed to the [Google API client library](https://www.npmjs.com/package/googleapis) which is in turn used to send messages.
-     * Define credentials per [the GoogleAuthOptions defined here](https://github.com/googleapis/google-auth-library-nodejs/blob/master/src/auth/googleauth.ts#L54),
-     * OR, specify GOOGLE_APPLICATION_CREDENTIALS in environment [as described in the Google docs](https://cloud.google.com/docs/authentication/getting-started).
-     */
-    google_auth_params?: {
-        client_email?: string;
-        private_key?: string;
-    };
-    /**
-     * Shared secret token used to validate the origin of incoming webhooks.
-     * Get this from the [Google API console for your bot app](https://console.cloud.google.com/apis/api/chat.googleapis.com/hangouts-chat) - it is found on the Configuration tab under the heading "Verification Token".
-     * If defined, the origin of all incoming webhooks will be validated and any non-matching requests will be rejected.
-     */
-    token: string; // webhook validation token
-}
-
 /**
- * Connect Botkit or BotBuilder to Google Hangouts. See [HangoutsAdapterOptions](#HangoutsAdapterOptions) for parameters.
- *
- * Use with Botkit:
- *```javascript
- * const adapter = new HangoutsAdapter({
- *      token: process.env.GOOGLE_TOKEN,
- *      google_auth_params: {
- *          credentials: process.env.GOOGLE_CREDS
- *      }
- * });
- * const controller = new Botkit({
- *      adapter: adapter,
- *      // ... other configuration options
- * });
- * ```
- *
- * Use with BotBuilder:
- *```javascript
- * const adapter = new HangoutsAdapter({
- *      token: process.env.GOOGLE_TOKEN,
- *      google_auth_params: {
- *          credentials: process.env.GOOGLE_CREDS
- *      }
- * });
- * // set up restify...
- * const server = restify.createServer();
- * server.use(restify.plugins.bodyParser());
- * server.post('/api/messages', (req, res) => {
- *      adapter.processActivity(req, res, async(context) => {
- *          // do your bot logic here!
- *      });
- * });
- * ```
+ * Connect [Botkit](https://www.npmjs.com/package/botkit) or [BotBuilder](https://www.npmjs.com/package/botbuilder) to Google Hangouts
+ * 
  */
 export class HangoutsAdapter extends BotAdapter {
     /**
@@ -90,14 +41,37 @@ export class HangoutsAdapter extends BotAdapter {
     private api: any;
 
     /**
-     * Create a Google Hangouts adapter.
+     * Create an adapter to handle incoming messages from Google Hangouts and translate them into a standard format for processing by your bot.
      *
-     * ```javascript
+     * Use with Botkit:
+     *```javascript
      * const adapter = new HangoutsAdapter({
      *      token: process.env.GOOGLE_TOKEN,
-     *          google_auth_params: {
+     *      google_auth_params: {
      *          credentials: process.env.GOOGLE_CREDS
      *      }
+     * });
+     * const controller = new Botkit({
+     *      adapter: adapter,
+     *      // ... other configuration options
+     * });
+     * ```
+     *
+     * Use with BotBuilder:
+     *```javascript
+     * const adapter = new HangoutsAdapter({
+     *      token: process.env.GOOGLE_TOKEN,
+     *      google_auth_params: {
+     *          credentials: process.env.GOOGLE_CREDS
+     *      }
+     * });
+     * // set up restify...
+     * const server = restify.createServer();
+     * server.use(restify.plugins.bodyParser());
+     * server.post('/api/messages', (req, res) => {
+     *      adapter.processActivity(req, res, async(context) => {
+     *          // do your bot logic here!
+     *      });
      * });
      * ```
      *
@@ -362,4 +336,22 @@ export class HangoutsAdapter extends BotAdapter {
             }
         }
     }
+}
+
+export interface HangoutsAdapterOptions {
+    /**
+     * Parameters passed to the [Google API client library](https://www.npmjs.com/package/googleapis) which is in turn used to send messages.
+     * Define credentials per [the GoogleAuthOptions defined here](https://github.com/googleapis/google-auth-library-nodejs/blob/master/src/auth/googleauth.ts#L54),
+     * OR, specify GOOGLE_APPLICATION_CREDENTIALS in environment [as described in the Google docs](https://cloud.google.com/docs/authentication/getting-started).
+     */
+    google_auth_params?: {
+        client_email?: string;
+        private_key?: string;
+    };
+    /**
+     * Shared secret token used to validate the origin of incoming webhooks.
+     * Get this from the [Google API console for your bot app](https://console.cloud.google.com/apis/api/chat.googleapis.com/hangouts-chat) - it is found on the Configuration tab under the heading "Verification Token".
+     * If defined, the origin of all incoming webhooks will be validated and any non-matching requests will be rejected.
+     */
+    token: string; // webhook validation token
 }

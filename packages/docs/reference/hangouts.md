@@ -18,7 +18,26 @@ This is a class reference for all the methods exposed by the [botbuilder-adapter
 
 <a name="HangoutsAdapter"></a>
 ## HangoutsAdapter
-Connect Botkit or BotBuilder to Google Hangouts. See [HangoutsAdapterOptions](#HangoutsAdapterOptions) for parameters.
+Connect [Botkit](https://www.npmjs.com/package/botkit) or [BotBuilder](https://www.npmjs.com/package/botbuilder) to Google Hangouts
+
+To use this class in your application, first install the package:
+```bash
+npm install --save botbuilder-adapter-hangouts
+```
+
+Then import this and other classes into your code:
+```javascript
+const { HangoutsAdapter } = require('botbuilder-adapter-hangouts');
+```
+
+### Create a new HangoutsAdapter()
+**Parameters**
+
+| Argument | Type | Description
+|--- |--- |---
+| options | [HangoutsAdapterOptions](#HangoutsAdapterOptions) | An object containing API credentials and a webhook verification token<br/>
+
+Create an adapter to handle incoming messages from Google Hangouts and translate them into a standard format for processing by your bot.
 
 Use with Botkit:
 ```javascript
@@ -49,35 +68,6 @@ server.post('/api/messages', (req, res) => {
      adapter.processActivity(req, res, async(context) => {
          // do your bot logic here!
      });
-});
-```
-
-
-To use this class in your application, first install the package:
-```bash
-npm install --save botbuilder-adapter-hangouts
-```
-
-Then import this and other classes into your code:
-```javascript
-const { HangoutsAdapter } = require('botbuilder-adapter-hangouts');
-```
-
-### Create a new HangoutsAdapter()
-**Parameters**
-
-| Argument | Type | Description
-|--- |--- |---
-| options | [HangoutsAdapterOptions](#HangoutsAdapterOptions) | An object containing API credentials and a webhook verification token<br/>
-
-Create a Google Hangouts adapter.
-
-```javascript
-const adapter = new HangoutsAdapter({
-     token: process.env.GOOGLE_TOKEN,
-         google_auth_params: {
-         credentials: process.env.GOOGLE_CREDS
-     }
 });
 ```
 
