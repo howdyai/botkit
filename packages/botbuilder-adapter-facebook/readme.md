@@ -157,7 +157,7 @@ let bot = await controller.spawn(FACEBOOK_PAGE_ID);
 
 ### [bot.startConversationWithUser()](../docs/reference/facebook.md#startconversationwithuser)
 
-Use this method to initiate a conversation with a user. After calling this method, any further actions carried out by the bot worker will happen with specified user.
+Use this method to initiate a conversation with a user. After calling this method, any further actions carried out by the bot worker will happen with the specified user.
 
 This can be used to create or resume conversations with users that are not in direct response to an incoming message, like those sent on a schedule or in response to external events.
 

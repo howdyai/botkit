@@ -103,7 +103,7 @@ In Botkit handlers, the `bot` worker object passed into all handlers will contai
 controller.on('message', async(bot, message) {
 
     // get a list of the members of a room
-    let members = bot.api.spaces.members.get({name: message.channel});
+    let members = await bot.api.spaces.members.get({name: message.channel});
     // .. do stuff
 
 });
@@ -153,7 +153,6 @@ Google Hangouts supports updating and deleting messages. Do so with the followin
 
 * [bot.updateMessage](../docs/reference/hangouts.md#updatemessage)
 * [bot.deleteMessage](../docs/reference/hangouts.md#deletemessage)
-
 
 
 ## Community & Support
