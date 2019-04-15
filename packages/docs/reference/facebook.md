@@ -121,6 +121,11 @@ This is used by many internal functions to get access to the Facebook API, and i
 
 
 
+```javascript
+let api = adapter.getAPI(activity);
+let res = api.callAPI('/me/messages', 'POST', message);
+```
+
 <a name="init"></a>
 ### init()
 Botkit-only: Initialization function called automatically when used with Botkit.
