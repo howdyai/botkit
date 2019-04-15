@@ -32,7 +32,7 @@ FacebookAdapter provides a translation layer for Botkit and BotBuilder so that b
 
 When used in concert with Botkit, developers need only pass the configured adapter to the Botkit constructor, as seen below. Botkit will automatically create and configure the webhook endpoints and other options necessary for communicating with Facebook.
 
-Developers can then bind to Botkit's event emitting system using `controller.on` and `controller.hears` to filter and handle incoming events from the messaging platform. [Learn more about Botkit's core feature &rarr;](../docs/index.md).
+Developers can then bind to Botkit's event emitting system using `controller.on` and `controller.hears` to filter and handle incoming events from the messaging platform. [Learn more about Botkit's core feature &rarr;](../index.md).
 
 [A full description of the FacebookAdapter options and example code can be found in the class reference docs.](../reference/facebook.md#create-a-new-facebookadapter)
 

@@ -34,6 +34,7 @@ function generateAdapter(src, params, dest) {
 
     // replace links
     data.body = data.body.replace(/\.\.\/docs\/reference/ig,'../reference');
+    data.body = data.body.replace(/\.\.\/docs/ig,'..');
 
     let adaptertemplate = Handlebars.compile(fs.readFileSync(__dirname + '/adapter.hbs', 'utf8'));
 
