@@ -209,7 +209,7 @@ controller.hears('thread','message', async(bot, message) =>{
 
 <a name="replyWithNew"></a>
 ### replyWithNew()
-Reply to a card_click event with a new message.
+Reply to a card_click event with a new message. [See Google doc for interactive cards &rarr;](https://developers.google.com/hangouts/chat/how-tos/cards-onclick#responding_to_clicks_with_a_new_or_updated_message).
 
 **Parameters**
 
@@ -233,7 +233,7 @@ controller.on('card_clicked', async(bot, message) => {
 
 <a name="replyWithUpdate"></a>
 ### replyWithUpdate()
-Reply to a card_click event with an update to the original message.
+Reply to a card_click event with an update to the original message. [See Google doc for interactive cards &rarr;](https://developers.google.com/hangouts/chat/how-tos/cards-onclick#responding_to_clicks_with_a_new_or_updated_message).
 
 **Parameters**
 

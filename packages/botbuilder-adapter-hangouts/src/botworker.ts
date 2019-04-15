@@ -62,7 +62,7 @@ export class HangoutsBotWorker extends BotWorker {
     }
 
     /**
-     * Reply to a card_click event with a new message.
+     * Reply to a card_click event with a new message. [See Google doc for interactive cards &rarr;](https://developers.google.com/hangouts/chat/how-tos/cards-onclick#responding_to_clicks_with_a_new_or_updated_message).
      *
      * When a user clicks a button contained in a card attachment, a `card_clicked` event will be emitted.
      * In order to reply to the incoming event with a new message (rather than replacing the original card), use this method!
@@ -93,7 +93,7 @@ export class HangoutsBotWorker extends BotWorker {
     }
 
     /**
-     * Reply to a card_click event with an update to the original message.
+     * Reply to a card_click event with an update to the original message. [See Google doc for interactive cards &rarr;](https://developers.google.com/hangouts/chat/how-tos/cards-onclick#responding_to_clicks_with_a_new_or_updated_message).
      *
      * When a user clicks a button contained in a card attachment, a `card_clicked` event will be emitted.
      * In order to reply to the incoming event by replacing the original message, use this method!
