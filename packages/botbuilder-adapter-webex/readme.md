@@ -32,7 +32,7 @@ When used in concert with Botkit, developers need only pass the configured adapt
 
 Developers can then bind to Botkit's event emitting system using `controller.on` and `controller.hears` to filter and handle incoming events from the messaging platform. [Learn more about Botkit's core feature &rarr;](../docs/index.md).
 
-[A full description of the WebexAdapter options and example code can be found in the class reference docs.](../docs/webex.md#create-a-new-webexadapter)
+[A full description of the WebexAdapter options and example code can be found in the class reference docs.](../docs/reference/webex.md#create-a-new-webexadapter)
 
 ```javascript
 const adapter = new WebexAdapter({
