@@ -1,6 +1,5 @@
-# botbuilder-adapter-hangouts
-## a Google Hangouts Adapter for Botkit and BotBuilder
-
+# generator-botkit
+## a yeoman template for generating botkit applications
 
 ## Community & Support
 
