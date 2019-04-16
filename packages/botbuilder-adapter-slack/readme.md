@@ -222,6 +222,7 @@ await bot.reply(message, content);
 ```
 
 **Use "Secondary" Attachments**
+
 Attachments are still supported by Slack, but the preferred way is to use Block Kit. [Read the official Slack documentation here](https://api.slack.com/reference/messaging/attachments)
 
 
@@ -291,7 +292,7 @@ Messages can be sent to a user "ephemerally" which will only show to them, and n
 
 ### Interactive messages
 
-Slack applications can use "interactive messages" to include buttons, menus and other interactive elements to improve the user's experience. [See here for howto attach cards and blocks.](#use-attachments-blocks-and-other-rich-message-features)
+Slack applications can use "interactive messages" to include buttons, menus and other interactive elements to improve the user's experience. [See here for how to attach cards and blocks.](#use-attachments-blocks-and-other-rich-message-features)
 
 If your interactive message contains a button, when the user clicks the button in Slack, Botkit triggers an event based on the message type.
 
