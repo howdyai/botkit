@@ -1,4 +1,4 @@
-const { SlackDialog } = require('botbuilder-slack');
+const { SlackDialog } = require('botbuilder-adapter-slack');
 
 module.exports = function(controller) {
 
@@ -8,6 +8,10 @@ module.exports = function(controller) {
             await bot.startConversationInChannel(process.env.MYCHAN,process.env.MYUSER);
             bot.say('I AM AWOKEN.');
         }
+    });
+
+    controller.on('direct_message', async(bot, message) => {
+        await bot.reply(message,'I heard a private message');
     });
 
     controller.hears('dm me', 'message', async(bot, message) => {

@@ -1,7 +1,7 @@
 {
   "name": "generator-botkit",
-  "version": "1.0.0",
-  "description": "",
+  "version": "4.0.0-prerelease-2",
+  "description": "automatically generate a botkit application template",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -10,10 +10,21 @@
     "generators"
   ],
   "keywords": [
-    "yeoman-generator"
+    "yeoman-generator",
+    "botkit",
+    "bots",
+    "chatbots"
   ],
-  "author": "benbrown@gmail.com",
+  "author": "Microsoft Corp.",
   "license": "MIT",
+  "homepage": "https://github.com/howdyai/botkit/blob/packages/generator-botkit#readme",
+  "bugs": {
+    "url": "https://github.com/howdyai/botkit/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/howdyai/botkit.git"
+  },
   "dependencies": {
     "yeoman-generator": "^3.2.0"
   }

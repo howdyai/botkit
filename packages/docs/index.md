@@ -1,6 +1,5 @@
 # Botkit Core 
 
-
 ## Botkit Basics
 
 In this simple example below, Botkit creates a webhook endpoint for communicating with the [Bot Framework Emulator](https://aka.ms/botemulator), and is configured with a single "hears" handler that instructs Botkit to listen for a wildcard pattern, and to respond to any incoming message.

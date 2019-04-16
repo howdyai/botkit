@@ -1,14 +1,22 @@
 {
   "name": "botkit",
-  "version": "4.0.0",
+  "version": "4.0.0-prerelease-1",
   "description": "building blocks for building bots",
   "main": "lib/index.js",
   "scripts": {
     "build": "tsc",
     "eslint": "./node_modules/.bin/eslint --fix src/*"
   },
-  "author": "ben@howdy.ai",
+  "author": "benbrown@gmail.com",
   "license": "MIT",
+  "keywords": [
+    "slack",
+    "botkit",
+    "botbuilder",
+    "botframework",
+    "bots",
+    "chatbots"
+  ],
   "dependencies": {
     "body-parser": "^1.18.3",
     "botbuilder": "^4.2.0",

@@ -26,8 +26,8 @@ module.exports = function(controller) {
             res.status(401);
             res.send(err.message);
         }
-    }
-}
+    });
+};
 
 /**
  * This is a placeholder implementation for getTokenForTeam and getBotUserByTeam
