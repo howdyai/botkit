@@ -164,15 +164,32 @@ This can be used to create or resume conversations with users that are not in di
 
 ### Slash Commands
 
-* bot.replyPublic()
-* bot.replyPrivate()
+[Read Slack's documentation for Slash commands here &rarr;](https://api.slack.com/slash-commands)
+
+* [bot.replyPublic()](../reference/slack.md#replypublic)
+* [bot.replyPrivate()](../reference/slack.md#replyprivate)
 
 ```javascript
 controller.on('slash_command', async(bot, message) => { 
 
+    // the /<command> part
+    let command = message.command;
+    // the /command <parameters> part
+    let parameter = message.text;
+
+    await bot.replyPublic('My response to your command is: ...');
 
 });
 ```
+
+Note that if you would prefer to send a response to the Slash command via the synchronous http response back to Slack, you can achieve this by using [bot.httpBody()](../reference/core.md#httpbody).
+
+```javascript
+controller.on('slash_command', async(bot, message) => { 
+    bot.httpBody({text:'You can send an immediate response using bot.httpBody()'});
+});
+```
+
 
 ### Working with threads
 
