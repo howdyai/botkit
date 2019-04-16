@@ -209,7 +209,8 @@ This method receives the oauth code returned by Slack at the end of the oauth-fl
 
 Botkit will automatically construct your outgoing messages according to Slack's specifications. To use attachments, blocks or other features, add them to the message object used to create the reply.
 
-#### Use Block Kit Blocks
+**Use Block Kit Blocks**
+
 The preferred way of composing interactive messages is using Slack's Block Kit.  [Read the official Slack documentation here](https://api.slack.com/messaging/composing/layouts). Slack provides a UI to help create your interactive messages. Check out [Block Kit Builder](https://api.slack.com/tools/block-kit-builder).
 
 Interactive messages using blocks can be sent via any of Botkit's built in functions by passing in the appropriate "blocks" as part of the message.  Here is an example:
@@ -222,7 +223,7 @@ const content = {
 await bot.reply(message, content);
 ```
 
-#### Use "Secondary" Attachments
+**Use "Secondary" Attachments**
 Attachments are still supported by Slack, but the preferred way is to use Block Kit. [Read the official Slack documentation here](https://api.slack.com/reference/messaging/attachments)
 
 
