@@ -116,7 +116,7 @@ In Botkit handlers, the `bot` worker object passed into all handlers will contai
 controller.on('message', async(bot, message) {
 
     // load a user profile
-    let profile = bot.api.users.info({user: message.user});
+    let profile = await bot.api.users.info({user: message.user});
 
 });
 ```
