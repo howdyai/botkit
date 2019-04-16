@@ -70,8 +70,8 @@ server.post('/api/messages', (req, res) => {
 
 * [SlackAdapter](../docs/reference/slack.md#slackadapter)
 * [BotWorker Extensions](../docs/reference/slack.md#slackbotworker)
-* [SlackMessageTypeMiddleware](../docs/slack.md#slackmessagetypemiddleware)
-* [SlackEventMiddleware](../docs/slack.md#slackeventmiddleware)
+* [SlackMessageTypeMiddleware](../docs/reference/slack.md#slackmessagetypemiddleware)
+* [SlackEventMiddleware](../docs/reference/slack.md#slackeventmiddleware)
 
 
 ## Event List
