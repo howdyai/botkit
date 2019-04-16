@@ -74,7 +74,7 @@ server.post('/api/messages', (req, res) => {
 
 In the examples above, the `SlackAdapter` constructor received a single `botToken` parameters. This binds the adapter and all API calls it makes to a single Slack workspace.
 
-To use `SlackAdapter` with multiple Facebook pages, the constructor must receive a a different set of parameters. These parameters allow the adapter to be configured to work as an oauth client application of Slack's API, and will expose an "install link" used to add the application to each Slack workspace.
+To use `SlackAdapter` with multiple Slack workspaces, the constructor must receive a a different set of parameters. These parameters allow the adapter to be configured to work as an oauth client application of Slack's API, and will expose an "install link" used to add the application to each Slack workspace.
 
 In additionto fields related to oauth, the constructor must also receive 2 functions:
 
@@ -275,7 +275,7 @@ controller.on('slash_command', async(bot, message) => {
 });
 ```
 
-### Working with threads
+### Work with threads
 
 Messages in Slack may now exist as part of a thread, separate from the messages included in the main channel. Threads can be used to create new and interesting interactions for bots.
 

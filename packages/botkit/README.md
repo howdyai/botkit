@@ -46,7 +46,7 @@ No plugins are necessary to use the Bot Framework service, and bots can be devel
 
 The Botkit project includes several official adapters. Using these plugins, your bot can communicate directly with the messaging platforms.
 
-* [Self-hosted Websocket](../botbuilder-adapter-websocket)
+* [Self-hosted web chat](../botbuilder-adapter-websocket)
 * [Slack](../botbuilder-adapter-slack)
 * [Webex Teams](../botbuilder-adapter-webex)
 * [Facebook Messenger](../botbuilder-adapter-facebook)
@@ -90,7 +90,7 @@ controller.on('channel_join', async (bot, message) => {
 
 In addition to taking direct action in response to a certain message or type of event, Botkit can also take passive action on messages as they move through the application using middlewares. Middleware functions work by changing messages, adding new fields, firing alternate events, and modifying or overriding the behavior of Botkit's core features.
 
-Middleware can be used to adjust how Botkit receives, processes, and sends messages. [Here is a list of available middleware endpoints](https://botkit.ai/docs/readme-pipeline.html).
+Middleware can be used to adjust how Botkit receives, processes, and sends messages.
 
 ```
 // Log every message received
