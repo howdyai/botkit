@@ -2,129 +2,102 @@
 
 # botbuilder-adapter-slack
 
-## a Slack Adapter for BotBuilder and Botkit
+Connect [Botkit](https://www.npmjs.com/package/botkit) or [BotBuilder](https://www.npmjs.com/package/botbuilder) to Slack.
 
-[src/slack_adapter.ts](src/slack_adapter.ts) is an adapter that connects bot builder to slack.
+This package contains an adapter that communicates directly with the Slack API,
+and translates messages to and from a standard format used by your bot. This package can be used alongside your favorite bot development framework to build bots that work with Slack.
 
-[examples/index.js](examples/index.js) is a single-team bot.
+## Install Package
 
-[examples/multiteam.js](examples/multiteam.js) is a multi-team bot that uses oauth.
+Add this package to your project using npm:
 
-#### Using the Slack adapter for a single team
-
-Import the Slack adapter.
-
-```javascript
-const { SlackAdapter } = require('botbuilder-slack');
+```bash
+npm install --save botbuilder-adapter-slack
 ```
 
-Instantiate the adapter with a bot token and verification secret as provided in the Slack API dashboard.
+Import the adapter class into your code:
 
 ```javascript
-const adapter = new SlackAdapter({
-    verificationToken: process.env.verificationToken,
-    botToken: process.env.botToken,
-});
+const { SlackAdapter } = require('botbuilder-adapter-slack');
 ```
 
-Now, pass the adapter into Botkit when creating the controller:
+## Get Started
 
-```javascript
-const controller = new Botkit({
-    adapter: adapter
-});
-```
+If you are starting a brand new project, [follow these instructions to create a customized application template.](https://botkit.ai/getstarted.html)
 
-Messages will arrive as type `message`, while most other events will arrive as `event` types.  This may change to more closely conform to previous Botkit event types (direct_message, etc).  See [Slack event middleware](#slack-event-middleware)
+## Use SlackAdapter in your App
 
-#### Using the Slack adapter for multiple teams
+SlackAdapter provides a translation layer for Botkit and BotBuilder so that bot developers can connect to Slack and have access to the Slack's API.
 
-When used with multiple teams, developers must provide a mechanism for storing and retrieving tokens provided during the oauth flow.  See below.
+### Botkit Basics
 
-Import the Slack adapter.  
+When used in concert with Botkit, developers need only pass the configured adapter to the Botkit constructor, as seen below. Botkit will automatically create and configure the webhook endpoints and other options necessary for communicating with Slack.
 
-```javascript
-const { SlackAdapter } = require('botbuilder-slack');
-```
+Developers can then bind to Botkit's event emitting system using `controller.on` and `controller.hears` to filter and handle incoming events from the messaging platform. [Learn more about Botkit's core feature &rarr;](../index.md).
 
-Instantiate the adapter with a `clientId`, `clientSecret`, scopes, redirectUrl and verification secret as provided/configured in the Slack API dashboard.
-
-In addition, pass in a `getTokenForTeam` parameter containing a function in the form `async (teamId) => { return tokenForTeam; }`  This function is responsible for loading an API token from _somewhere_ and providing it to Botkit for use in handling incoming messages.
-
+[A full description of the SlackAdapter options and example code can be found in the class reference docs.](../reference/slack.md#create-a-new-slackadapter)
 
 ```javascript
 const adapter = new SlackAdapter({
-    verificationToken: process.env.verificationToken,
-    clientId: process.env.clientId,
-    clientSecret: process.env.clientSecret,
-    scopes: ['bot'],
-    redirectUri: process.env.redirectUri,
-    getTokenForTeam: getTokenForTeam,
 });
-```
 
-Here is a simple implementation of getTokenForTeam which loads tokens from an in-memory cache. Developers should store their tokens in an encrypted database.
-
-```javascript
-const tokenCache = [];
-async function getTokenForTeam(teamId) {
-    if (tokenCache[teamId]) {
-        return tokenCache[teamId];
-    } else {
-        console.error('Team not found in tokenCache: ', teamId);
-    }
-}
-```
-
-Now, pass the adapter into Botkit when creating the controller:
-
-```javascript
 const controller = new Botkit({
-    adapter: adapter
+    adapter,
+    // ...other options
+});
+
+controller.on('message', async(bot, message) => {
+    await bot.reply(message, 'I heard a message!');
 });
 ```
 
-Finally, expose new Oauth-related endpoints by binding new routes to the build in Express webserver accessible at `controller.webserver`.  Below is a simple implementation that stores the token provided by oauth in an in-memory cache.
+### BotBuilder Basics
+
+Alternately, developers may choose to use `SlackAdapter` with BotBuilder. With BotBuilder, the adapter is used more directly with a webserver, and all incoming events are handled as [Activities](https://docs.microsoft.com/en-us/javascript/api/botframework-schema/activity?view=botbuilder-ts-latest).
 
 ```javascript
-controller.webserver.get('/install', (req, res) => {
-    // getInstallLink points to slack's oauth endpoint and includes clientId and scopes
-    res.redirect(controller.adapter.getInstallLink());
+const adapter = new SlackAdapter({
 });
 
-controller.webserver.get('/install/auth', async (req, res) => {
-    try {
-        const results = await controller.adapter.validateOauthCode(req.query.code);
-
-        tokenCache[results.team_id] = results.bot.bot_access_token;
-
-        res.send('Success! Bot installed.');
-
-    } catch (err) {
-        console.error('OAUTH ERROR:', err);
-        res.status(401);
-        res.send(err.message);
-    }
+const server = restify.createServer();
+server.use(restify.plugins.bodyParser());
+server.post('/api/messages', (req, res) => {
+     adapter.processActivity(req, res, async(context) => {
+         await context.sendActivity('I heard a message!');
+     });
 });
 ```
 
-#### Slack event middleware
+## Class Reference
 
-The slack adapter includes an optional middleware that will modify the `.type` field of incoming events to match their slack event types (rather than being cast into generic "message or "event" types).
+* [SlackAdapter](../reference/slack.md#slackadapter)
+* [BotWorker Extensions](../reference/slack.md#slackbotworker)
+* [SlackMessageTypeMiddleware](../slack.md#slackmessagetypemiddleware)
+* [SlackEventMiddleware](../slack.md#slackeventmiddleware)
 
-NOTE that the technique currently used (changing the type field) can interfere with Microsoft BotBuilder dialogs, and will likely change in upcoming versions.
 
-Import the adapter and the middleware:
+## Event List
+
+Botkit will emit the following events: 
+
+| Event | Description
+|--- |---
+| message | a message from a user received in a shared channel
+
+The slack adapter includes an optional middleware that will modify the type of incoming events to match their Slack event types (rather than being cast into generic "message or "event" types).
+
+Import the adapter and the middlewares:
 
 ```javascript
 // load SlackAdapter AND SlackEventMiddleware
-const { SlackAdapter, SlackEventMiddleware} = require('botbuilder-slack');
+const { SlackAdapter, SlackEventMiddleware, SlackMessageTypeMiddleware } = require('botbuilder-adapter-slack');
 ```
 
-Create your adapter (as above), then bind the middleware to the adapter:
+Create your adapter (as above), then bind the middlewares to the adapter:
 
 ```javascript
 adapter.use(new SlackEventMiddleware());
+adapter.use(new SlackMessageTypeMiddleware());
 ```
 
 Now, Botkit will emit events with their original Slack names:
@@ -134,6 +107,94 @@ controller.on('channel_join', async(bot, message) => {
     // do stuff
 });
 ```
+
+## Calling Slack APIs
+
+This package exposes a pre-configured [Slack API client](https://slack.dev/node-slack-sdk/web-api) for developers who want to use one of the many available API endpoints.
+
+In Botkit handlers, the `bot` worker object passed into all handlers will contain a `bot.api` field that contains the client, preconfigured and ready to use.
+
+```javascript
+controller.on('message', async(bot, message) {
+
+    // load a user profile
+    let profile = bot.api.users.info({user: message.user});
+
+});
+```
+
+## Botkit Extensions
+
+In Botkit handlers, the `bot` worker for Slack contains [all of the base methods](../reference/core.md#BotWorker) as well as the following platform-specific extensions:
+
+### getInstallLink()
+
+### validateOauthCode()
+
+### Use attachments, blocks, and other rich message features
+
+Botkit will automatically construct your outgoing messages according to Slack's specifications. To use attachments, blocks or other features, add them to the message object used to create the reply:
+
+```javascript
+await bot.reply(message, {
+    blocks: MY_BLOCKS_ARRAY
+});
+
+controller.on('block_actions', async(bot, message) => {
+    // handle block action
+});
+```
+
+### [Spawn a worker for a specific team](../reference/slack.md#create-a-new-slackbotworker)
+
+For a bot that works with multiple teams, it is possible to spawn bot workers bound to a specific team by passing the team ID as the primary parameter to `controller.spawn()`:
+
+```javascript
+let bot = await controller.spawn(SLACK_TEAM_ID);
+```
+### Start or resume conversations with people
+
+Use these method to initiate a conversation with a user, or in a specific channel or thread. After calling these methods, any further actions carried out by the bot worker will happen in that context.
+
+This can be used to create or resume conversations with users that are not in direct response to an incoming message, like those sent on a schedule or in response to external events.
+
+* [bot.startPrivateConversation()](../reference/slack.md#startprivateconversation)
+* [bot.startConversationInChannel()](../reference/slack.md#startconversationinchannel)
+* [bot.startConversationInThread()](../reference/slack.md#startconversationinthread)
+
+### Slash Commands
+
+* bot.replyPublic()
+* bot.replyPrivate()
+
+```javascript
+controller.on('slash_command', async(bot, message) => { 
+
+
+});
+```
+
+### Working with threads
+
+* bot.replyInThread()
+
+### Ephemeral Messages
+
+* bot.replyEphemeral()
+
+### Interactive messages
+
+* bot.replyInteractive()
+
+### Work with Slack Dialogs
+
+* bot.replyWithDialog()
+* bot.dialogError()
+
+### Delete and update Messages
+
+* bot.updateMessage()
+* bot.deleteMessage()
 
 ## Community & Support
 
