@@ -31,11 +31,11 @@ const { TwilioAdapter } = require('botbuilder-adapter-twilio-sms');
 ```
 
 This class includes:
-* [continueConversation(#continueConversation)
+* [continueConversation()](#continueConversation)
 
-* [processActivity(#processActivity)
+* [processActivity()](#processActivity)
 
-* [sendActivities(#sendActivities)
+* [sendActivities()](#sendActivities)
 
 
 
@@ -147,7 +147,7 @@ const { TwilioBotWorker } = require('botbuilder-adapter-twilio-sms');
 ```
 
 This class includes:
-* [startConversationWithUser(#startConversationWithUser)
+* [startConversationWithUser()](#startConversationWithUser)
 
 
 

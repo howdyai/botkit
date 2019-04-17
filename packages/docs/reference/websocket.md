@@ -30,15 +30,15 @@ const { WebsocketAdapter } = require('botbuilder-adapter-websocket');
 ```
 
 This class includes:
-* [continueConversation(#continueConversation)
+* [continueConversation()](#continueConversation)
 
-* [createSocketServer(#createSocketServer)
+* [createSocketServer()](#createSocketServer)
 
-* [init(#init)
+* [init()](#init)
 
-* [processActivity(#processActivity)
+* [processActivity()](#processActivity)
 
-* [sendActivities(#sendActivities)
+* [sendActivities()](#sendActivities)
 
 
 

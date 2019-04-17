@@ -34,25 +34,25 @@ const { SlackAdapter } = require('botbuilder-adapter-slack');
 ```
 
 This class includes:
-* [activityToSlack(#activityToSlack)
+* [activityToSlack()](#activityToSlack)
 
-* [continueConversation(#continueConversation)
+* [continueConversation()](#continueConversation)
 
-* [deleteActivity(#deleteActivity)
+* [deleteActivity()](#deleteActivity)
 
-* [getAPI(#getAPI)
+* [getAPI()](#getAPI)
 
-* [getBotUserByTeam(#getBotUserByTeam)
+* [getBotUserByTeam()](#getBotUserByTeam)
 
-* [getInstallLink(#getInstallLink)
+* [getInstallLink()](#getInstallLink)
 
-* [processActivity(#processActivity)
+* [processActivity()](#processActivity)
 
-* [sendActivities(#sendActivities)
+* [sendActivities()](#sendActivities)
 
-* [updateActivity(#updateActivity)
+* [updateActivity()](#updateActivity)
 
-* [validateOauthCode(#validateOauthCode)
+* [validateOauthCode()](#validateOauthCode)
 
 
 
@@ -303,29 +303,29 @@ const { SlackBotWorker } = require('botbuilder-adapter-slack');
 ```
 
 This class includes:
-* [deleteMessage(#deleteMessage)
+* [deleteMessage()](#deleteMessage)
 
-* [dialogError(#dialogError)
+* [dialogError()](#dialogError)
 
-* [replyEphemeral(#replyEphemeral)
+* [replyEphemeral()](#replyEphemeral)
 
-* [replyInThread(#replyInThread)
+* [replyInThread()](#replyInThread)
 
-* [replyInteractive(#replyInteractive)
+* [replyInteractive()](#replyInteractive)
 
-* [replyPrivate(#replyPrivate)
+* [replyPrivate()](#replyPrivate)
 
-* [replyPublic(#replyPublic)
+* [replyPublic()](#replyPublic)
 
-* [replyWithDialog(#replyWithDialog)
+* [replyWithDialog()](#replyWithDialog)
 
-* [startConversationInChannel(#startConversationInChannel)
+* [startConversationInChannel()](#startConversationInChannel)
 
-* [startConversationInThread(#startConversationInThread)
+* [startConversationInThread()](#startConversationInThread)
 
-* [startPrivateConversation(#startPrivateConversation)
+* [startPrivateConversation()](#startPrivateConversation)
 
-* [updateMessage(#updateMessage)
+* [updateMessage()](#updateMessage)
 
 
 
@@ -613,33 +613,33 @@ const { SlackDialog } = require('botbuilder-adapter-slack');
 ```
 
 This class includes:
-* [addEmail(#addEmail)
+* [addEmail()](#addEmail)
 
-* [addNumber(#addNumber)
+* [addNumber()](#addNumber)
 
-* [addSelect(#addSelect)
+* [addSelect()](#addSelect)
 
-* [addTel(#addTel)
+* [addTel()](#addTel)
 
-* [addText(#addText)
+* [addText()](#addText)
 
-* [addTextarea(#addTextarea)
+* [addTextarea()](#addTextarea)
 
-* [addUrl(#addUrl)
+* [addUrl()](#addUrl)
 
-* [asObject(#asObject)
+* [asObject()](#asObject)
 
-* [asString(#asString)
+* [asString()](#asString)
 
-* [callback_id(#callback_id)
+* [callback_id()](#callback_id)
 
-* [notifyOnCancel(#notifyOnCancel)
+* [notifyOnCancel()](#notifyOnCancel)
 
-* [state(#state)
+* [state()](#state)
 
-* [submit_label(#submit_label)
+* [submit_label()](#submit_label)
 
-* [title(#title)
+* [title()](#title)
 
 
 
@@ -870,7 +870,7 @@ const { SlackEventMiddleware } = require('botbuilder-adapter-slack');
 ```
 
 This class includes:
-* [onTurn(#onTurn)
+* [onTurn()](#onTurn)
 
 
 
@@ -926,7 +926,7 @@ const { SlackMessageTypeMiddleware } = require('botbuilder-adapter-slack');
 ```
 
 This class includes:
-* [onTurn(#onTurn)
+* [onTurn()](#onTurn)
 
 
 

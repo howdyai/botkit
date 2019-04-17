@@ -40,39 +40,39 @@ const { Botkit } = require('botkit');
 ```
 
 This class includes:
-* [addDep(#addDep)
+* [addDep()](#addDep)
 
-* [addDialog(#addDialog)
+* [addDialog()](#addDialog)
 
-* [completeDep(#completeDep)
+* [completeDep()](#completeDep)
 
-* [getConfig(#getConfig)
+* [getConfig()](#getConfig)
 
-* [getLocalView(#getLocalView)
+* [getLocalView()](#getLocalView)
 
-* [handleTurn(#handleTurn)
+* [handleTurn()](#handleTurn)
 
-* [hears(#hears)
+* [hears()](#hears)
 
-* [interrupts(#interrupts)
+* [interrupts()](#interrupts)
 
-* [loadModule(#loadModule)
+* [loadModule()](#loadModule)
 
-* [loadModules(#loadModules)
+* [loadModules()](#loadModules)
 
-* [on(#on)
+* [on()](#on)
 
-* [publicFolder(#publicFolder)
+* [publicFolder()](#publicFolder)
 
-* [ready(#ready)
+* [ready()](#ready)
 
-* [saveState(#saveState)
+* [saveState()](#saveState)
 
-* [spawn(#spawn)
+* [spawn()](#spawn)
 
-* [trigger(#trigger)
+* [trigger()](#trigger)
 
-* [usePlugin(#usePlugin)
+* [usePlugin()](#usePlugin)
 
 
 
@@ -464,21 +464,21 @@ const { BotWorker } = require('botkit');
 ```
 
 This class includes:
-* [beginDialog(#beginDialog)
+* [beginDialog()](#beginDialog)
 
-* [changeContext(#changeContext)
+* [changeContext()](#changeContext)
 
-* [ensureMessageFormat(#ensureMessageFormat)
+* [ensureMessageFormat()](#ensureMessageFormat)
 
-* [getConfig(#getConfig)
+* [getConfig()](#getConfig)
 
-* [httpBody(#httpBody)
+* [httpBody()](#httpBody)
 
-* [httpStatus(#httpStatus)
+* [httpStatus()](#httpStatus)
 
-* [reply(#reply)
+* [reply()](#reply)
 
-* [say(#say)
+* [say()](#say)
 
 
 
@@ -744,15 +744,15 @@ const { BotkitCMSHelper } = require('botkit');
 ```
 
 This class includes:
-* [after(#after)
+* [after()](#after)
 
-* [before(#before)
+* [before()](#before)
 
-* [loadAllScripts(#loadAllScripts)
+* [loadAllScripts()](#loadAllScripts)
 
-* [onChange(#onChange)
+* [onChange()](#onChange)
 
-* [testTrigger(#testTrigger)
+* [testTrigger()](#testTrigger)
 
 
 
@@ -908,19 +908,19 @@ const { BotkitConversation } = require('botkit');
 ```
 
 This class includes:
-* [addMessage(#addMessage)
+* [addMessage()](#addMessage)
 
-* [addQuestion(#addQuestion)
+* [addQuestion()](#addQuestion)
 
-* [after(#after)
+* [after()](#after)
 
-* [ask(#ask)
+* [ask()](#ask)
 
-* [before(#before)
+* [before()](#before)
 
-* [onChange(#onChange)
+* [onChange()](#onChange)
 
-* [say(#say)
+* [say()](#say)
 
 
 
@@ -1130,11 +1130,11 @@ const { BotkitDialogWrapper } = require('botkit');
 ```
 
 This class includes:
-* [gotoThread(#gotoThread)
+* [gotoThread()](#gotoThread)
 
-* [repeat(#repeat)
+* [repeat()](#repeat)
 
-* [setVar(#setVar)
+* [setVar()](#setVar)
 
 
 

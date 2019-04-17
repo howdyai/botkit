@@ -33,15 +33,15 @@ const { FacebookAdapter } = require('botbuilder-adapter-facebook');
 ```
 
 This class includes:
-* [continueConversation(#continueConversation)
+* [continueConversation()](#continueConversation)
 
-* [getAPI(#getAPI)
+* [getAPI()](#getAPI)
 
-* [init(#init)
+* [init()](#init)
 
-* [processActivity(#processActivity)
+* [processActivity()](#processActivity)
 
-* [sendActivities(#sendActivities)
+* [sendActivities()](#sendActivities)
 
 
 
@@ -201,7 +201,7 @@ const { FacebookBotWorker } = require('botbuilder-adapter-facebook');
 ```
 
 This class includes:
-* [startConversationWithUser(#startConversationWithUser)
+* [startConversationWithUser()](#startConversationWithUser)
 
 
 
@@ -270,7 +270,7 @@ const { FacebookAPI } = require('botbuilder-adapter-facebook');
 ```
 
 This class includes:
-* [callAPI(#callAPI)
+* [callAPI()](#callAPI)
 
 
 

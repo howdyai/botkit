@@ -31,19 +31,19 @@ const { WebexAdapter } = require('botbuilder-adapter-webex');
 ```
 
 This class includes:
-* [continueConversation(#continueConversation)
+* [continueConversation()](#continueConversation)
 
-* [deleteActivity(#deleteActivity)
+* [deleteActivity()](#deleteActivity)
 
-* [init(#init)
+* [init()](#init)
 
-* [processActivity(#processActivity)
+* [processActivity()](#processActivity)
 
-* [registerWebhookSubscription(#registerWebhookSubscription)
+* [registerWebhookSubscription()](#registerWebhookSubscription)
 
-* [resetWebhookSubscriptions(#resetWebhookSubscriptions)
+* [resetWebhookSubscriptions()](#resetWebhookSubscriptions)
 
-* [sendActivities(#sendActivities)
+* [sendActivities()](#sendActivities)
 
 
 
@@ -205,11 +205,11 @@ const { WebexBotWorker } = require('botbuilder-adapter-webex');
 ```
 
 This class includes:
-* [deleteMessage(#deleteMessage)
+* [deleteMessage()](#deleteMessage)
 
-* [startConversationInRoom(#startConversationInRoom)
+* [startConversationInRoom()](#startConversationInRoom)
 
-* [startPrivateConversation(#startPrivateConversation)
+* [startPrivateConversation()](#startPrivateConversation)
 
 
 

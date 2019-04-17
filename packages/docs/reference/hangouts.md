@@ -31,15 +31,15 @@ const { HangoutsAdapter } = require('botbuilder-adapter-hangouts');
 ```
 
 This class includes:
-* [continueConversation(#continueConversation)
+* [continueConversation()](#continueConversation)
 
-* [deleteActivity(#deleteActivity)
+* [deleteActivity()](#deleteActivity)
 
-* [processActivity(#processActivity)
+* [processActivity()](#processActivity)
 
-* [sendActivities(#sendActivities)
+* [sendActivities()](#sendActivities)
 
-* [updateActivity(#updateActivity)
+* [updateActivity()](#updateActivity)
 
 
 
@@ -179,17 +179,17 @@ const { HangoutsBotWorker } = require('botbuilder-adapter-hangouts');
 ```
 
 This class includes:
-* [deleteMessage(#deleteMessage)
+* [deleteMessage()](#deleteMessage)
 
-* [replyInThread(#replyInThread)
+* [replyInThread()](#replyInThread)
 
-* [replyWithNew(#replyWithNew)
+* [replyWithNew()](#replyWithNew)
 
-* [replyWithUpdate(#replyWithUpdate)
+* [replyWithUpdate()](#replyWithUpdate)
 
-* [startConversationInThread(#startConversationInThread)
+* [startConversationInThread()](#startConversationInThread)
 
-* [updateMessage(#updateMessage)
+* [updateMessage()](#updateMessage)
 
 
 
