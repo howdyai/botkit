@@ -203,6 +203,10 @@ controller.on('message', async(bot, message) => {
 
 ## Sending alerts and scheduled messages
 
+### Use a convenience method
+
+### Capture a reference
+
 
 
 ## Using Dialogs
