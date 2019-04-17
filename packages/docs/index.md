@@ -297,8 +297,25 @@ const controller = new Botkit({
 
 ## Enable Conversation Persistence
 
-... COMING SOON ...
+Bots that [use dialogs](#using-dialogs) for complex interactions require the ability to store and retrieve the conversation state from an external source such as a database. Without a storage mechanism in place, the bot will "forget" the state of conversations when the application is restarted.
 
+Botkit relies on [BotBuilder's storage protocol](https://docs.microsoft.com/en-us/javascript/api/botbuilder-core/storage?view=botbuilder-ts-latest) and a wide array of open source storage implementations to provide these features. Conversation state is managed automatically once enabled.
+
+Once implemented, the state of a conversation will be persisted between restarts. In addition, when using a storage mechanism, bot applications can be deployed in multi-node, load balanced scenarios.
+
+Below is an example of configuring Botkit to use MongoDB to store conversation state using [botbuilder-storage-mongodb](https://npmjs.com/package/botbuilder-storage-mongodb)
+
+```javascript
+const { MongoDbStorage } = require('botbuilder-storage-mongodb');
+let storage = mongoStorage = new MongoDbStorage({
+        url : process.env.MONGO_URI,
+});
+const controller = new Botkit({
+    storage: storage
+});
+```
+
+[More storage implementations can be found by searching NPM for "botbuilder-storage" &rarr;](https://www.npmjs.com/search?q=botbuilder-storage)
 
 
 ## Building & Using Plugins
