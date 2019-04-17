@@ -126,7 +126,7 @@ Message objects may also contain any additional fields supported by the messagin
 
 Botkit's new multi-turn conversation system is built on top of [Bot Builder's dialog stack](https://www.npmjs.com/package/botbuilder-dialogs) that provides many built-in niceties like conversation persistence, typed prompts with validators, and other advanced features. All of these features may now be used alongside Botkit!
 
-#### Botkit Conversations
+### Botkit Conversations
 
 Much of the original `convo` syntax from previous versions of Botkit is still available in this new version. However, in order to provide conversation persistence and other features, some syntax and capabilities have been changed.
 
@@ -186,7 +186,7 @@ controller.hears(['hello'], 'message', async(bot, message) => {
 });
 ```
 
-#### Botkit CMS
+### Botkit CMS
 
 [Botkit CMS](https://github.com/howdyai/botkit-cms) is an external content management system for dialogs systems. Botkit can automatically attach to a CMS instance and import content into dialogs automatically.
 
@@ -233,7 +233,7 @@ controller.ready(() => {
 });
 ```
 
-#### Native Bot Builder Dialogs
+### Native Bot Builder Dialogs
 
 Bot Builder dialogs can live alongside Botkit!  Define dialogs using `WaterfallDialogs`, `ComponentDialogs`, or your own derived dialog class.  Then, make them available for your bot to use by calling `controller.dialogSet.add()`:
 
