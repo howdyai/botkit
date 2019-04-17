@@ -446,7 +446,7 @@ Create a new BotWorker instance. Do not call this directly - instead, use [contr
 <a name="beginDialog"></a>
 ### beginDialog()
 Begin a pre-defined dialog by specifying its id. The dialog will be started in the same context (same user, same channel) in which the original incoming message was received.
-[See "Using Dialogs" in the core documentation.](../core.md#using-dialogs)
+[See "Using Dialogs" in the core documentation.](../index.md#using-dialogs)
 
 **Parameters**
 
