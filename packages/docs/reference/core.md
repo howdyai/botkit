@@ -638,8 +638,12 @@ controller.on('event', async(bot, message) => {
 
 <a name="say"></a>
 ### say()
-Send a message using whatever context the `bot` was spawned in or set using [changeContext()](#changecontext).
-Primarily used for sending proactive messages.
+Send a message using whatever context the `bot` was spawned in or set using [changeContext()](#changecontext) --
+or more likely, one of the platform-specific helpers like
+[startPrivateConversation()](../reference/slack.md#startprivateconversation] (Slack),
+[startConversationWithUser()](../reference/twilio-sms.md#startconverationwithuser) (Twilio SMS),
+and [startConversationWithUser()](../reference/facebook.md#startconversationwithuser) (Facebook Messenger).
+Be sure to check the platform documentation for others!
 
 **Parameters**
 

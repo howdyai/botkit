@@ -201,6 +201,10 @@ controller.on('message', async(bot, message) => {
 });
 ```
 
+## Sending alerts and scheduled messages
+
+
+
 ## Using Dialogs
 
 Botkit's new multi-turn conversation system is built on top of [Bot Builder's dialog stack](https://www.npmjs.com/package/botbuilder-dialogs) that provides many built-in niceties like conversation persistence, typed prompts with validators, and other advanced features. All of these features may now be used alongside Botkit!
