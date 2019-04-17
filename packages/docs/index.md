@@ -175,7 +175,7 @@ Messages sent using `bot.reply()` are sent immediately. If multiple messages are
 A simple echo response:
 ```javascript
 controller.on('message', async(bot, message) => {
-    bot.reply(message, 'I heard you say something!');
+    await bot.reply(message, 'I heard you say something!');
 });
 ```
 
@@ -185,7 +185,7 @@ Botkit will automatically map message fields to the appropriate, platform-specif
 ```javascript
 controller.on('message', async(bot, message) => { 
 
-    bot.reply(message, {
+    await bot.reply(message, {
         text: 'Here is a menu!',
         quick_replies: [
             {
@@ -203,9 +203,9 @@ controller.on('message', async(bot, message) => {
 
 ## Sending alerts and scheduled messages
 
-### Use a convenience method
+### Use a platform-specific `startConversation*` method
 
-### Capture a reference
+### Capture a reference from an incoming message
 
 
 
