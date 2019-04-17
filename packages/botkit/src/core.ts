@@ -741,6 +741,7 @@ export class Botkit {
         } else if (trigger.type === 'regexp') {
             const test = trigger.pattern as RegExp;
             if (message.text && message.text.match(test)) {
+                message.matches = message.text.match(test);
                 return true;
             }
         } else if (trigger.type === 'function') {

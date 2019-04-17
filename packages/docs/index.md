@@ -62,12 +62,11 @@ Incoming events will be in [this format](reference/core.md#botkitmessage).
 
 Note that Botkit leaves all the native fields intact, so any fields that come in from the platform are still present in the object.
 However, our recommendation for accessing any platform-native fields is to use the `message.incoming_message` field
-which contains an unmodified version of the BotBuilder Activity, or even further into `message.incoming_message.channelData` which contains the raw incoming event from the platform.
+which contains an unmodified version of the [BotBuilder Activity](https://docs.microsoft.com/en-us/javascript/api/botframework-schema/activity?view=botbuilder-ts-latest), or reach even further into `message.incoming_message.channelData` which contains an unmodified copy of the raw source webhook payload.
 
 ### Matching Patterns and Keywords with `hears()`
 
-In addition to traditional event handlers, Botkit also provides the [controller.hears()](reference/core.md#hears) function,
-which configures event handlers that look for specific keywords or phrases in the message.
+In addition to traditional event handlers, Botkit also provides the [controller.hears()](reference/core.md#hears) function, which configures event handlers that look for specific keywords or phrases in the message.
 
 Each call to `controller.hears()` sets up a separate set of patterns to listen for.
 Developers may specify a single pattern to match, or an array of patterns.
@@ -82,7 +81,7 @@ This is a major difference in the way most event handling systems work, which wi
 configured with [controller.on()](reference/core.md#on), which behave as expected.
 
 ```javascript
-controller.hears(['hi','hello','howdy','hey','aloha','hola','bonjour','oi'],['message_received'],async (bot,message) => {
+controller.hears(['hi','hello','howdy','hey','aloha','hola','bonjour','oi'],['message'],async (bot,message) => {
 
   // do something to respond to message
   await bot.reply(message,'Oh hai!');
@@ -92,11 +91,64 @@ controller.hears(['hi','hello','howdy','hey','aloha','hola','bonjour','oi'],['me
 
 ### Matching regular expressions
 
-// TODO
+In addition to simple keyword matches, `hears()` can also accept one or more [regular expressions](https://regex101.com/) that will match against the `message.text` with more control. 
+
+When using regular expressions, any capture groups will resulting from the test can be found in `message.matches`.
+
+```javascript
+controller.hears(new RegExp(/^reboot (.*?)$/i), 'message', async(bot, message) => {
+
+    // message.matches is the result of message.text.match(regexp) so in this case the parameter is in message.matches[1]
+    let param = message.matches[1];
+    await bot.reply(message, `I will reboot ${ param }`);
+
+});
+```
 
 ### Matching with a function
 
-// TODO
+For more sophisticated matches, `hears()` can also accept one or more test functions.  These test functions must be in the form:
+
+```javascript
+async (message) => {
+    // some test
+    if (some_test) {
+        return true;
+    } else {
+        return false;
+    }
+}
+```
+
+Using async functions to match triggers allows nearly limitless mechanisms to be put in play to evaluate a message. Functions can be used to test fields other than `message.text,` for example, or can test for fields added by middleware plugins such as possible `intents` added by an NLP middleware.
+
+Here are a few examples:
+```javascript
+// "listen" for the message.intent field to be set to "help"
+controller.hears(async(message) => { return message.intent==="help" }, 'message', async(bot, message) => { 
+    // do something
+});
+
+// listen for extremely long messages
+controller.hears(async(message) => { return (message.text.length > 100) }, 'message', async(bot, message) => { 
+    // do something
+});
+
+// compare a value in the message against a database
+// (onloy hear a message if user is already in the database)
+controller.hears(async(message) => {
+    return new Promise((resolve, reject) => {
+        myDatabase.get(message.user).then(function(user) {
+            if (user) {
+                resolve(true);
+            } else {
+                resolve(false);
+            }
+        }).catch(reject);
+    });
+},  'message', async(bot, message) => {
+    // handle trigger
+});
 
 ## Sending Messages
 
