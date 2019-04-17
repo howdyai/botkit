@@ -446,6 +446,7 @@ Create a new BotWorker instance. Do not call this directly - instead, use [contr
 <a name="beginDialog"></a>
 ### beginDialog()
 Begin a pre-defined dialog by specifying its id. The dialog will be started in the same context (same user, same channel) in which the original incoming message was received.
+[See "Using Dialogs" in the core documentation.](../core.md#using-dialogs)
 
 **Parameters**
 
@@ -455,6 +456,12 @@ Begin a pre-defined dialog by specifying its id. The dialog will be started in t
 | options (optional)| any | object containing options to be passed into the dialog<br/>
 
 
+
+```javascript
+controller.hears('hello', 'message', async(bot, message) => {
+     await bot.beginDialog(GREETINGS_DIALOG);
+});
+```
 
 <a name="changeContext"></a>
 ### changeContext()
@@ -568,7 +575,7 @@ controller.on('event', async(bot, message) => {
 <a name="reply"></a>
 ### reply()
 Reply to an incoming message.
-Message will be sent using the context attached to the source message, which may be different than the context used to spawn the bot.
+Message will be sent using the context of the source message, which may in some cases be different than the context used to spawn the bot.
 
 **Parameters**
 
@@ -585,6 +592,8 @@ Return value will contain the results of the send action, typically &#x60;{id: &
 
 
 
+Note that like [bot.say()](#say), `reply()` can take a string or a message object.
+
 ```javascript
 controller.on('event', async(bot, message) => {
 
@@ -596,9 +605,8 @@ controller.on('event', async(bot, message) => {
 
 <a name="say"></a>
 ### say()
-Send a message.
-Message will be sent using the context originally passed in to `controller.spawn()`.
-Primarily used for sending proactive messages, in concert with [changeContext()](#changecontext).
+Send a message using whatever context the `bot` was spawned in or set using [changeContext()](#changecontext).
+Primarily used for sending proactive messages.
 
 **Parameters**
 
@@ -614,6 +622,7 @@ Return value will contain the results of the send action, typically &#x60;{id: &
 
 
 
+Simple use in event handler (acts the same as bot.reply)
 ```javascript
 controller.on('event', async(bot, message) => {
 
@@ -621,6 +630,28 @@ controller.on('event', async(bot, message) => {
 
 });
 ```
+
+Use with a freshly spawned bot and bot.changeContext:
+```javascript
+let bot = controller.spawn(OPTIONS);
+bot.changeContext(REFERENCE);
+bot.say('ALERT! I have some news.');
+```
+
+Use with multi-field message object:
+```javascript
+controller.on('event', async(bot, message) => {
+     bot.say({
+         text: 'I heard an event',
+         attachments: [
+             title: message.type,
+             text: `The message was of type ${ message.type }`,
+             // ...
+         ]
+     });
+});
+```
+
 
 
 <a name="BotkitCMSHelper"></a>
