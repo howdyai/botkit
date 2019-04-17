@@ -29,17 +29,12 @@ Then import this and other classes into your code:
 const { WebsocketAdapter } = require('botbuilder-adapter-websocket');
 ```
 
-This class includes:
+This class includes the following methods:
 * [continueConversation()](#continueConversation)
-
 * [createSocketServer()](#createSocketServer)
-
 * [init()](#init)
-
 * [processActivity()](#processActivity)
-
 * [sendActivities()](#sendActivities)
-
 
 
 

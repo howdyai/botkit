@@ -32,17 +32,12 @@ Then import this and other classes into your code:
 const { FacebookAdapter } = require('botbuilder-adapter-facebook');
 ```
 
-This class includes:
+This class includes the following methods:
 * [continueConversation()](#continueConversation)
-
 * [getAPI()](#getAPI)
-
 * [init()](#init)
-
 * [processActivity()](#processActivity)
-
 * [sendActivities()](#sendActivities)
-
 
 
 
@@ -200,9 +195,8 @@ Then import this and other classes into your code:
 const { FacebookBotWorker } = require('botbuilder-adapter-facebook');
 ```
 
-This class includes:
+This class includes the following methods:
 * [startConversationWithUser()](#startConversationWithUser)
-
 
 
 
@@ -269,9 +263,8 @@ Then import this and other classes into your code:
 const { FacebookAPI } = require('botbuilder-adapter-facebook');
 ```
 
-This class includes:
+This class includes the following methods:
 * [callAPI()](#callAPI)
-
 
 
 

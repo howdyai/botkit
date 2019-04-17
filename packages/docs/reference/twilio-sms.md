@@ -30,13 +30,10 @@ Then import this and other classes into your code:
 const { TwilioAdapter } = require('botbuilder-adapter-twilio-sms');
 ```
 
-This class includes:
+This class includes the following methods:
 * [continueConversation()](#continueConversation)
-
 * [processActivity()](#processActivity)
-
 * [sendActivities()](#sendActivities)
-
 
 
 
@@ -146,9 +143,8 @@ Then import this and other classes into your code:
 const { TwilioBotWorker } = require('botbuilder-adapter-twilio-sms');
 ```
 
-This class includes:
+This class includes the following methods:
 * [startConversationWithUser()](#startConversationWithUser)
-
 
 
 

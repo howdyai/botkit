@@ -30,21 +30,14 @@ Then import this and other classes into your code:
 const { WebexAdapter } = require('botbuilder-adapter-webex');
 ```
 
-This class includes:
+This class includes the following methods:
 * [continueConversation()](#continueConversation)
-
 * [deleteActivity()](#deleteActivity)
-
 * [init()](#init)
-
 * [processActivity()](#processActivity)
-
 * [registerWebhookSubscription()](#registerWebhookSubscription)
-
 * [resetWebhookSubscriptions()](#resetWebhookSubscriptions)
-
 * [sendActivities()](#sendActivities)
-
 
 
 
@@ -204,13 +197,10 @@ Then import this and other classes into your code:
 const { WebexBotWorker } = require('botbuilder-adapter-webex');
 ```
 
-This class includes:
+This class includes the following methods:
 * [deleteMessage()](#deleteMessage)
-
 * [startConversationInRoom()](#startConversationInRoom)
-
 * [startPrivateConversation()](#startPrivateConversation)
-
 
 
 

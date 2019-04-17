@@ -33,27 +33,17 @@ Then import this and other classes into your code:
 const { SlackAdapter } = require('botbuilder-adapter-slack');
 ```
 
-This class includes:
+This class includes the following methods:
 * [activityToSlack()](#activityToSlack)
-
 * [continueConversation()](#continueConversation)
-
 * [deleteActivity()](#deleteActivity)
-
 * [getAPI()](#getAPI)
-
 * [getBotUserByTeam()](#getBotUserByTeam)
-
 * [getInstallLink()](#getInstallLink)
-
 * [processActivity()](#processActivity)
-
 * [sendActivities()](#sendActivities)
-
 * [updateActivity()](#updateActivity)
-
 * [validateOauthCode()](#validateOauthCode)
-
 
 
 
@@ -302,31 +292,19 @@ Then import this and other classes into your code:
 const { SlackBotWorker } = require('botbuilder-adapter-slack');
 ```
 
-This class includes:
+This class includes the following methods:
 * [deleteMessage()](#deleteMessage)
-
 * [dialogError()](#dialogError)
-
 * [replyEphemeral()](#replyEphemeral)
-
 * [replyInThread()](#replyInThread)
-
 * [replyInteractive()](#replyInteractive)
-
 * [replyPrivate()](#replyPrivate)
-
 * [replyPublic()](#replyPublic)
-
 * [replyWithDialog()](#replyWithDialog)
-
 * [startConversationInChannel()](#startConversationInChannel)
-
 * [startConversationInThread()](#startConversationInThread)
-
 * [startPrivateConversation()](#startPrivateConversation)
-
 * [updateMessage()](#updateMessage)
-
 
 
 
@@ -612,35 +590,21 @@ Then import this and other classes into your code:
 const { SlackDialog } = require('botbuilder-adapter-slack');
 ```
 
-This class includes:
+This class includes the following methods:
 * [addEmail()](#addEmail)
-
 * [addNumber()](#addNumber)
-
 * [addSelect()](#addSelect)
-
 * [addTel()](#addTel)
-
 * [addText()](#addText)
-
 * [addTextarea()](#addTextarea)
-
 * [addUrl()](#addUrl)
-
 * [asObject()](#asObject)
-
 * [asString()](#asString)
-
 * [callback_id()](#callback_id)
-
 * [notifyOnCancel()](#notifyOnCancel)
-
 * [state()](#state)
-
 * [submit_label()](#submit_label)
-
 * [title()](#title)
-
 
 
 
@@ -869,9 +833,8 @@ Then import this and other classes into your code:
 const { SlackEventMiddleware } = require('botbuilder-adapter-slack');
 ```
 
-This class includes:
+This class includes the following methods:
 * [onTurn()](#onTurn)
-
 
 
 
@@ -925,9 +888,8 @@ Then import this and other classes into your code:
 const { SlackMessageTypeMiddleware } = require('botbuilder-adapter-slack');
 ```
 
-This class includes:
+This class includes the following methods:
 * [onTurn()](#onTurn)
-
 
 
 

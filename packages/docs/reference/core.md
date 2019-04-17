@@ -39,41 +39,24 @@ Then import this and other classes into your code:
 const { Botkit } = require('botkit');
 ```
 
-This class includes:
+This class includes the following methods:
 * [addDep()](#addDep)
-
 * [addDialog()](#addDialog)
-
 * [completeDep()](#completeDep)
-
 * [getConfig()](#getConfig)
-
 * [getLocalView()](#getLocalView)
-
 * [handleTurn()](#handleTurn)
-
 * [hears()](#hears)
-
 * [interrupts()](#interrupts)
-
 * [loadModule()](#loadModule)
-
 * [loadModules()](#loadModules)
-
 * [on()](#on)
-
 * [publicFolder()](#publicFolder)
-
 * [ready()](#ready)
-
 * [saveState()](#saveState)
-
 * [spawn()](#spawn)
-
 * [trigger()](#trigger)
-
 * [usePlugin()](#usePlugin)
-
 
 
 
@@ -463,23 +446,15 @@ Then import this and other classes into your code:
 const { BotWorker } = require('botkit');
 ```
 
-This class includes:
+This class includes the following methods:
 * [beginDialog()](#beginDialog)
-
 * [changeContext()](#changeContext)
-
 * [ensureMessageFormat()](#ensureMessageFormat)
-
 * [getConfig()](#getConfig)
-
 * [httpBody()](#httpBody)
-
 * [httpStatus()](#httpStatus)
-
 * [reply()](#reply)
-
 * [say()](#say)
-
 
 
 
@@ -743,17 +718,12 @@ Then import this and other classes into your code:
 const { BotkitCMSHelper } = require('botkit');
 ```
 
-This class includes:
+This class includes the following methods:
 * [after()](#after)
-
 * [before()](#before)
-
 * [loadAllScripts()](#loadAllScripts)
-
 * [onChange()](#onChange)
-
 * [testTrigger()](#testTrigger)
-
 
 
 
@@ -907,21 +877,14 @@ Then import this and other classes into your code:
 const { BotkitConversation } = require('botkit');
 ```
 
-This class includes:
+This class includes the following methods:
 * [addMessage()](#addMessage)
-
 * [addQuestion()](#addQuestion)
-
 * [after()](#after)
-
 * [ask()](#ask)
-
 * [before()](#before)
-
 * [onChange()](#onChange)
-
 * [say()](#say)
-
 
 
 
@@ -1129,13 +1092,10 @@ Then import this and other classes into your code:
 const { BotkitDialogWrapper } = require('botkit');
 ```
 
-This class includes:
+This class includes the following methods:
 * [gotoThread()](#gotoThread)
-
 * [repeat()](#repeat)
-
 * [setVar()](#setVar)
-
 
 
 

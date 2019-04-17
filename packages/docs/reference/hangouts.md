@@ -30,17 +30,12 @@ Then import this and other classes into your code:
 const { HangoutsAdapter } = require('botbuilder-adapter-hangouts');
 ```
 
-This class includes:
+This class includes the following methods:
 * [continueConversation()](#continueConversation)
-
 * [deleteActivity()](#deleteActivity)
-
 * [processActivity()](#processActivity)
-
 * [sendActivities()](#sendActivities)
-
 * [updateActivity()](#updateActivity)
-
 
 
 
@@ -178,19 +173,13 @@ Then import this and other classes into your code:
 const { HangoutsBotWorker } = require('botbuilder-adapter-hangouts');
 ```
 
-This class includes:
+This class includes the following methods:
 * [deleteMessage()](#deleteMessage)
-
 * [replyInThread()](#replyInThread)
-
 * [replyWithNew()](#replyWithNew)
-
 * [replyWithUpdate()](#replyWithUpdate)
-
 * [startConversationInThread()](#startConversationInThread)
-
 * [updateMessage()](#updateMessage)
-
 
 
 
