@@ -5,10 +5,8 @@ Table of Contents
 * [The Botkit Controller](#the-botkit-controller)
 * [Receiving Messages](#receiving-messages-and-events)
 * [Sending Messages](#sending-messages)
-* [Multi-message Conversations](#multi-message-conversations)
-* [Controller Methods List](#botkit-controller-object)
-* [Bot Instance Methods List](#botkit-bot-instance-objects)
-* [Conversation Methods List](#botkit-conversation-objects)
+* [Using Dialogs](#using-dialogs)
+
 
 ## The Botkit Controller
 
@@ -297,11 +295,13 @@ const controller = new Botkit({
 });
 ```
 
+## Enable Conversation Persistence
+
+... COMING SOON ...
+
+
 
 ## Building & Using Plugins
 
 ... COMING SOON ...
 
-## Enable Conversation Persistence
-
-... COMING SOON ...
