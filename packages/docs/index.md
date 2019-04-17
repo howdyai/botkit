@@ -158,27 +158,48 @@ controller.hears(async(message) => { return message.sticker_id; }, 'message', as
 
 ## Sending Messages
 
-Botkit bots can send messages in several different ways, depending on the type and number of messages that will be sent.
+Sending messages is a bots primary way of communicating with users and presenting its interface to the world.
+There are three primary scenarios in which bots send messages:
 
-Simple replies requiring only one message in response to an incoming event can be sent using the [bot.reply()](reference/core.md#reply) function.
+* [Sending replies to incoming messages](#replying-to-incoming-messages)
+* [Sending alerts and scheduled messages](#sending-alerts-and-scheduled-messages)
+* [Conducting multi-message dialog scripts](#using-dialogs)
 
-Bots can originate messages - that is, send a message based on some internal logic or external stimulus -
-using [bot.say()](reference/core.md#say) method. Each platform adapter provides helper mechanisms for setting the context for calling `bot.say()` in the appropriate channel or with the appropriate user.
+## Replying to Incoming Messages
 
-For sequences of messages, including multi-message conversations, branching dialogs and other types of conversational experience, use [dialogs](#using-dialogs)
-
-## Single Message Replies to Incoming Messages
-
-Once a bot has received a message using a [controller.on()](reference/core.md#on) or [controller.hears()](reference/core.md#hears) event handler, a response
-can be sent using [bot.reply()](reference/core.md#reply).
+Once a bot has received a message using a [controller.on()](reference/core.md#on) or [controller.hears()](reference/core.md#hears) event handler, a response can be sent using [bot.reply()](reference/core.md#reply).
 
 Messages sent using `bot.reply()` are sent immediately. If multiple messages are sent via
-`bot.reply()` in a single event handler, they will arrive in the  client very quickly
-and may be difficult for the user to process.
+`bot.reply()` in a single event handler, they will arrive one after another with no delay.
 
-You may pass either a string, or a message object to the function.
+A simple echo response:
+```javascript
+controller.on('message', async(bot, message) => {
+    bot.reply(message, 'I heard you say something!');
+});
+```
 
-Message objects may also contain any additional fields supported by the messaging platform in use. Refer to the platform-specific docs for more information.
+Reply messages can contain additional fields - what features are available depends on the messaging platform in use.
+Botkit will automatically map message fields to the appropriate, platform-specific location.
+
+```javascript
+controller.on('message', async(bot, message) => { 
+
+    bot.reply(message, {
+        text: 'Here is a menu!',
+        quick_replies: [
+            {
+                title: "Main",
+                payload: "main-menu",
+            },
+            {
+                title: "Help",
+                payload: "help"
+            }
+        ]
+    });
+});
+```
 
 ## Using Dialogs
 

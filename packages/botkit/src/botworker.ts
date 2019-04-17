@@ -51,10 +51,10 @@ export class BotWorker {
     }
 
     /**
-     * Send a message.
-     * Message will be sent using the context originally passed in to `controller.spawn()`.
-     * Primarily used for sending proactive messages, in concert with [changeContext()](#changecontext).
+     * Send a message using whatever context the `bot` was spawned in or set using [changeContext()](#changecontext).
+     * Primarily used for sending proactive messages.
      *
+     * Simple use in event handler (acts the same as bot.reply)
      * ```javascript
      * controller.on('event', async(bot, message) => {
      *
@@ -62,8 +62,30 @@ export class BotWorker {
      *
      * });
      * ```
-    * @param message A string containing the text of a reply, or more fully formed message object
-    * @returns Return value will contain the results of the send action, typically `{id: <id of message>}`
+     * 
+     * Use with a freshly spawned bot and bot.changeContext:
+     * ```javascript
+     * let bot = controller.spawn(OPTIONS);
+     * bot.changeContext(REFERENCE);
+     * bot.say('ALERT! I have some news.');
+     * ```
+     * 
+     * Use with multi-field message object:
+     * ```javascript
+     * controller.on('event', async(bot, message) => {
+     *      bot.say({
+     *          text: 'I heard an event',
+     *          attachments: [
+     *              title: message.type,
+     *              text: `The message was of type ${ message.type }`,
+     *              // ...
+     *          ]
+     *      });
+     * });
+     * ```
+     * 
+     * @param message A string containing the text of a reply, or more fully formed message object
+     * @returns Return value will contain the results of the send action, typically `{id: <id of message>}`
      */
     public async say(message: Partial<BotkitMessage>): Promise<any> {
         return new Promise((resolve, reject) => {
@@ -80,7 +102,9 @@ export class BotWorker {
 
     /**
      * Reply to an incoming message.
-     * Message will be sent using the context attached to the source message, which may be different than the context used to spawn the bot.
+     * Message will be sent using the context of the source message, which may in some cases be different than the context used to spawn the bot.
+     * 
+     * Note that like [bot.say()](#say), `reply()` can take a string or a message object.
      *
      * ```javascript
      * controller.on('event', async(bot, message) => {
@@ -107,6 +131,13 @@ export class BotWorker {
 
     /**
      * Begin a pre-defined dialog by specifying its id. The dialog will be started in the same context (same user, same channel) in which the original incoming message was received.
+     * [See "Using Dialogs" in the core documentation.](../core.md#using-dialogs)
+     * 
+     * ```javascript
+     * controller.hears('hello', 'message', async(bot, message) => {
+     *      await bot.beginDialog(GREETINGS_DIALOG);
+     * });
+     * ```
      * @param id id of dialog
      * @param options object containing options to be passed into the dialog
      */
