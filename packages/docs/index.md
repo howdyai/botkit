@@ -64,7 +64,7 @@ Note that Botkit leaves all the native fields intact, so any fields that come in
 However, our recommendation for accessing any platform-native fields is to use the `message.incoming_message` field
 which contains an unmodified version of the BotBuilder Activity, or even further into `message.incoming_message.channelData` which contains the raw incoming event from the platform.
 
-## Matching Patterns and Keywords with `hears()`
+### Matching Patterns and Keywords with `hears()`
 
 In addition to traditional event handlers, Botkit also provides the [controller.hears()](reference/core.md#hears) function,
 which configures event handlers that look for specific keywords or phrases in the message.
