@@ -37,6 +37,16 @@ Then import this and other classes into your code:
 const { {{name}} } = require('{{../packageName}}');
 ```
 
+{{#if methods.length}}
+    This class includes:
+    {{#each methods}}
+    * [{{name}}(#{{name}})
+    
+    {{/each}}
+{{/if}}
+
+
+
     {{#each constructors}}
         {{#each signatures}}
             ### Create a {{name}}()

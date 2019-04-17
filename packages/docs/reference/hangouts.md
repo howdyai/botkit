@@ -30,6 +30,20 @@ Then import this and other classes into your code:
 const { HangoutsAdapter } = require('botbuilder-adapter-hangouts');
 ```
 
+This class includes:
+* [continueConversation(#continueConversation)
+
+* [deleteActivity(#deleteActivity)
+
+* [processActivity(#processActivity)
+
+* [sendActivities(#sendActivities)
+
+* [updateActivity(#updateActivity)
+
+
+
+
 ### Create a new HangoutsAdapter()
 **Parameters**
 
@@ -163,6 +177,22 @@ Then import this and other classes into your code:
 ```javascript
 const { HangoutsBotWorker } = require('botbuilder-adapter-hangouts');
 ```
+
+This class includes:
+* [deleteMessage(#deleteMessage)
+
+* [replyInThread(#replyInThread)
+
+* [replyWithNew(#replyWithNew)
+
+* [replyWithUpdate(#replyWithUpdate)
+
+* [startConversationInThread(#startConversationInThread)
+
+* [updateMessage(#updateMessage)
+
+
+
 
 
 ## Properties and Accessors

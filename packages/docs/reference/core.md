@@ -39,6 +39,44 @@ Then import this and other classes into your code:
 const { Botkit } = require('botkit');
 ```
 
+This class includes:
+* [addDep(#addDep)
+
+* [addDialog(#addDialog)
+
+* [completeDep(#completeDep)
+
+* [getConfig(#getConfig)
+
+* [getLocalView(#getLocalView)
+
+* [handleTurn(#handleTurn)
+
+* [hears(#hears)
+
+* [interrupts(#interrupts)
+
+* [loadModule(#loadModule)
+
+* [loadModules(#loadModules)
+
+* [on(#on)
+
+* [publicFolder(#publicFolder)
+
+* [ready(#ready)
+
+* [saveState(#saveState)
+
+* [spawn(#spawn)
+
+* [trigger(#trigger)
+
+* [usePlugin(#usePlugin)
+
+
+
+
 ### Create a new Botkit()
 **Parameters**
 
@@ -425,6 +463,26 @@ Then import this and other classes into your code:
 const { BotWorker } = require('botkit');
 ```
 
+This class includes:
+* [beginDialog(#beginDialog)
+
+* [changeContext(#changeContext)
+
+* [ensureMessageFormat(#ensureMessageFormat)
+
+* [getConfig(#getConfig)
+
+* [httpBody(#httpBody)
+
+* [httpStatus(#httpStatus)
+
+* [reply(#reply)
+
+* [say(#say)
+
+
+
+
 ### Create a new BotWorker()
 **Parameters**
 
@@ -685,6 +743,20 @@ Then import this and other classes into your code:
 const { BotkitCMSHelper } = require('botkit');
 ```
 
+This class includes:
+* [after(#after)
+
+* [before(#before)
+
+* [loadAllScripts(#loadAllScripts)
+
+* [onChange(#onChange)
+
+* [testTrigger(#testTrigger)
+
+
+
+
 ### Create a new BotkitCMSHelper()
 **Parameters**
 
@@ -834,6 +906,24 @@ Then import this and other classes into your code:
 ```javascript
 const { BotkitConversation } = require('botkit');
 ```
+
+This class includes:
+* [addMessage(#addMessage)
+
+* [addQuestion(#addQuestion)
+
+* [after(#after)
+
+* [ask(#ask)
+
+* [before(#before)
+
+* [onChange(#onChange)
+
+* [say(#say)
+
+
+
 
 ### Create a new BotkitConversation()
 **Parameters**
@@ -1038,6 +1128,16 @@ Then import this and other classes into your code:
 ```javascript
 const { BotkitDialogWrapper } = require('botkit');
 ```
+
+This class includes:
+* [gotoThread(#gotoThread)
+
+* [repeat(#repeat)
+
+* [setVar(#setVar)
+
+
+
 
 ### Create a new BotkitDialogWrapper()
 **Parameters**

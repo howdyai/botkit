@@ -32,6 +32,20 @@ Then import this and other classes into your code:
 const { FacebookAdapter } = require('botbuilder-adapter-facebook');
 ```
 
+This class includes:
+* [continueConversation(#continueConversation)
+
+* [getAPI(#getAPI)
+
+* [init(#init)
+
+* [processActivity(#processActivity)
+
+* [sendActivities(#sendActivities)
+
+
+
+
 ### Create a new FacebookAdapter()
 **Parameters**
 
@@ -186,6 +200,12 @@ Then import this and other classes into your code:
 const { FacebookBotWorker } = require('botbuilder-adapter-facebook');
 ```
 
+This class includes:
+* [startConversationWithUser(#startConversationWithUser)
+
+
+
+
 ### Create a new FacebookBotWorker()
 **Parameters**
 
@@ -248,6 +268,12 @@ Then import this and other classes into your code:
 ```javascript
 const { FacebookAPI } = require('botbuilder-adapter-facebook');
 ```
+
+This class includes:
+* [callAPI(#callAPI)
+
+
+
 
 ### Create a new FacebookAPI()
 **Parameters**
@@ -325,6 +351,9 @@ Then import this and other classes into your code:
 ```javascript
 const { FacebookEventTypeMiddleware } = require('botbuilder-adapter-facebook');
 ```
+
+
+
 
 
 

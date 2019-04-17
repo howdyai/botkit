@@ -30,6 +30,24 @@ Then import this and other classes into your code:
 const { WebexAdapter } = require('botbuilder-adapter-webex');
 ```
 
+This class includes:
+* [continueConversation(#continueConversation)
+
+* [deleteActivity(#deleteActivity)
+
+* [init(#init)
+
+* [processActivity(#processActivity)
+
+* [registerWebhookSubscription(#registerWebhookSubscription)
+
+* [resetWebhookSubscriptions(#resetWebhookSubscriptions)
+
+* [sendActivities(#sendActivities)
+
+
+
+
 ### Create a new WebexAdapter()
 **Parameters**
 
@@ -185,6 +203,16 @@ Then import this and other classes into your code:
 ```javascript
 const { WebexBotWorker } = require('botbuilder-adapter-webex');
 ```
+
+This class includes:
+* [deleteMessage(#deleteMessage)
+
+* [startConversationInRoom(#startConversationInRoom)
+
+* [startPrivateConversation(#startPrivateConversation)
+
+
+
 
 
 ## Properties and Accessors
