@@ -1,6 +1,5 @@
 # packages
 
-
 * decide on release version numbers and package names
     *botbuilder-adapter-web?
 
@@ -8,7 +7,7 @@
 
 * customize user agent for botframework
 
-* publishing --- generator-botkit is already taken by oaudie so we need to work that out
+* publishing
 
 # core
 
@@ -23,16 +22,16 @@
 
 # docs
 
-* Write main readme in each repo
-* Move forward content/docs from 0. branch
-
 * Root Readme (links to all projects, but also needs pitch)
 * botkit core 
+
+* Move forward content/docs from 0. branch
 
 * every adapter doc should link to main client API doc
 * link to provisioning guides?
 * add a widget to the nav to control v0 vs v4 docs urls
 
+~* Write main readme in each repo~
 ~ build process copies main readme also~
 ~ignore useless methods and internal only interfaces~
 ~link to contributor/license/stuff in footer of each~
@@ -50,3 +49,5 @@
 
 * keep?  Go?  mark as deprecated?  point at yeoman? autogenerate with yeoman??
 * glitch??
+
+# Tests!

@@ -1,5 +1,37 @@
 # Botkit Core 
 
+Table of Contents
+
+* [The Botkit Controller](#the-botkit-controller)
+* [Receiving Messages](#receiving-messages-and-events)
+* [Sending Messages](#sending-messages)
+* [Multi-message Conversations](#multi-message-conversations)
+* [Controller Methods List](#botkit-controller-object)
+* [Bot Instance Methods List](#botkit-bot-instance-objects)
+* [Conversation Methods List](#botkit-conversation-objects)
+
+## The Botkit Controller
+
+The robot brain inside every Botkit applications is the `controller`, an interface that is used to define all the features and functionality of an app. Botkit's core library provides a platform-independent interface for sending and receiving messages so that bots on any platform can be created using the same set of tools.
+
+By attaching event handlers to the controller object, developers can specify what type of messages and events their bot should look for and respond to, including keywords, patterns and status events. These event handlers can be thought of metaphorically as skills or features the robot brain has -- each event handler defines a new "When a human says THIS the bot does THAT."
+
+Once created, the controller will handle incoming messages, [spawn bot instances](reference/core.md#spawn) and [trigger handlers](#receiving-messages-and-events).
+
+For each platform, there is a specialized version of the controller object. These specialized controllers customize Botkit's core features to work with the platform, and add additional features above and beyond core that offer developers access platform-specific features.
+
+Botkit can connect to multiple messaging channels through the [Microsoft Bot Framework Service](https://dev.botframework.com).
+No plugins are necessary to use the Bot Framework service, and bots can be developed locally using the [Bot Framework Emulator](https://aka.ms/botemulator). [Read more about using the Bot Framework](#using-bot-framework-channels).
+
+The Botkit project includes several official adapters. Using these plugins, your bot can communicate directly with the messaging platforms. Each platform has its own set of configuration options - refer to the platform connector docs for details:
+
+* [Web and Apps](platforms/websocket.md)
+* [Slack](platforms/slack.md)
+* [Webex Teams](platforms/webex.md)
+* [Google Hangouts](platforms/hangouts.md)
+* [Facebook Messenger](platforms/facebook.md)
+* [Twilio SMS](platforms/twilio-sms.md)
+
 ## Botkit Basics
 
 In this simple example below, Botkit creates a webhook endpoint for communicating with the [Bot Framework Emulator](https://aka.ms/botemulator), and is configured with a single "hears" handler that instructs Botkit to listen for a wildcard pattern, and to respond to any incoming message.
@@ -8,7 +40,6 @@ In this simple example below, Botkit creates a webhook endpoint for communicatin
 const { Botkit } = require('botkit');
 
 const controller = new Botkit({
-    debug: true,
     webhook_uri: '/api/messages',
 });
 
@@ -23,47 +54,77 @@ controller.on('event', async(bot, message) => {
 });
 ```
 
-### Organize Your Bot Code
+## Receiving Messages and Events
 
-We recommend bundling your bot's features into simple JavaScript modules, and then loading them into your app using `controller.loadModules('path/to/modules')`.
+Once connected to a messaging platform, bots receive a constant stream of events - everything from the normal messages you would expect to typing notifications and presence change events. The set of events your bot will receive will depend on what messaging platform it is connected to.
 
-Make sure your modules follow the form below:
+To respond to events, use [controller.on()](reference/core.md#on) to define a handler function that receives the event details and takes actions.
+
+Incoming events will be in [this format](reference/core.md#botkitmessage).
+
+Note that Botkit leaves all the native fields intact, so any fields that come in from the platform are still present in the object.
+However, our recommendation for accessing any platform-native fields is to use the `message.incoming_message` field
+which contains an unmodified version of the BotBuilder Activity, or even further into `message.incoming_message.channelData` which contains the raw incoming event from the platform.
+
+## Matching Patterns and Keywords with `hears()`
+
+In addition to traditional event handlers, Botkit also provides the [controller.hears()](#controllerhears) function,
+which configures event handlers that look for specific keywords or phrases in the message.
+
+Each call to `controller.hears()` sets up a separate set of patterns to listen for.
+Developers may specify a single pattern to match, or an array of patterns.
+By default, Botkit treats these patterns as regular expressions to be evaluated against the `message.text` field in incoming messages.
+
+In addition to the array of patterns, `hears()` also receives as an argument one or more event types.
+Only events of the type listed will be evaluated.
+
+It is important to note that Botkit will *stop processing handlers* when the first `hears()` trigger is matched.
+Triggers are evaluated in the order in which they are defined in the code.
+This is a major difference in the way most event handling systems work, which will fire all matching handlers, and differs from handlers
+configured with [controller.on()](reference/core.md#on), which behave as expected.
 
 ```javascript
-module.exports = function(controller) {
+controller.hears(['hi','hello','howdy','hey','aloha','hola','bonjour','oi'],['message_received'],async (bot,message) => {
 
-    // define your dialogs, as well as your hears() or on() handlers
-    // ...
-}
-```
+  // do something to respond to message
+  await bot.reply(message,'Oh hai!');
 
-### Using Bot Framework Channels
-
-Bot Framework provides a unified interface to many different platforms, including Microsoft products like Microsoft Teams, Skype, Cortana, but also including platforms like Slack, and email. 
-
-To use Botkit with the Bot Framework channel service, pass in an `adapterConfig` parameter [matching this specification](https://docs.microsoft.com/en-us/javascript/api/botbuilder/botframeworkadaptersettings?view=botbuilder-ts-latest), and configure the channel service with the appropriate endpoint URL.
-
-```javascript
-const controller = new Botkit({
-    debug: true,
-    webhook_uri: '/api/messages',
-    adapterConfig: {
-        appId: process.env.appId,
-        appPassword: process.env.appPassword
-    }
 });
 ```
 
-### Using Platform Adapters
+### Matching regular expressions
 
-....
+// TODO
 
-### Matching Patterns and Keywords with Hears
+### Matching with a function
 
-### Receiving Messages and Events
+// TODO
 
+## Sending Messages
 
-### Multi-turn Conversations
+Botkit bots can send messages in several different ways, depending on the type and number of messages that will be sent.
+
+Simple replies requiring only one message in response to an incoming event can be sent using the [bot.reply()](#botreply) function.
+
+Bots can originate messages - that is, send a message based on some internal logic or external stimulus -
+using [bot.say()](#botsay) method. Each platform adapter provides helper mechanisms for setting the context for calling `bot.say()` in the appropriate channel or with the appropriate user.
+
+For sequences of messages, including multi-message conversations, branching dialogs and other types of conversational experience, use [dialogs](#using-dialogs)
+
+## Single Message Replies to Incoming Messages
+
+Once a bot has received a message using a [controller.on()](reference/core.md#on) or [controller.hears()](reference/core.md#hears) event handler, a response
+can be sent using [bot.reply()](reference/core.md#reply).
+
+Messages sent using `bot.reply()` are sent immediately. If multiple messages are sent via
+`bot.reply()` in a single event handler, they will arrive in the  client very quickly
+and may be difficult for the user to process.
+
+You may pass either a string, or a message object to the function.
+
+Message objects may also contain any additional fields supported by the messaging platform in use. Refer to the platform-specific docs for more information.
+
+## Using Dialogs
 
 Botkit's new multi-turn conversation system is built on top of [Bot Builder's dialog stack](https://www.npmjs.com/package/botbuilder-dialogs) that provides many built-in niceties like conversation persistence, typed prompts with validators, and other advanced features. All of these features may now be used alongside Botkit!
 
@@ -72,6 +133,8 @@ Botkit's new multi-turn conversation system is built on top of [Bot Builder's di
 Much of the original `convo` syntax from previous versions of Botkit is still available in this new version. However, in order to provide conversation persistence and other features, some syntax and capabilities have been changed.
 
 The biggest change is that conversations must now be created and made available to Botkit at runtime, rather than being constructed dynamically inside handler functions.  
+
+[Read all about Botkit Conversations &rarr;](conversations.md)
 
 **NOTE: these functions are heavily in flux! The syntax and features below WILL CHANGE!**
 
@@ -200,6 +263,40 @@ botkit.hears(['hello'], 'message', async(bot, message) => {
     await bot.beginDialog('welcome');
 });
 ```
+
+### Organize Your Bot Code
+
+// TODO: talk about the yeoman template and starter kits
+
+We recommend bundling your bot's features into simple JavaScript modules, and then loading them into your app using `controller.loadModules('path/to/modules')`.
+
+Make sure your modules follow the form below:
+
+```javascript
+module.exports = function(controller) {
+
+    // define your dialogs, as well as your hears() or on() handlers
+    // ...
+}
+```
+
+### Using Bot Framework Channels
+
+Bot Framework provides a unified interface to many different platforms, including Microsoft products like Microsoft Teams, Skype, Cortana, but also including platforms like Slack, and email. 
+
+To use Botkit with the Bot Framework channel service, pass in an `adapterConfig` parameter [matching this specification](https://docs.microsoft.com/en-us/javascript/api/botbuilder/botframeworkadaptersettings?view=botbuilder-ts-latest), and configure the channel service with the appropriate endpoint URL.
+
+```javascript
+const controller = new Botkit({
+    debug: true,
+    webhook_uri: '/api/messages',
+    adapterConfig: {
+        appId: process.env.appId,
+        appPassword: process.env.appPassword
+    }
+});
+```
+
 
 ## Building & Using Plugins
 
