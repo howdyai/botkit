@@ -292,8 +292,6 @@ The biggest change is that conversations must now be created and made available 
 
 [Read all about Botkit Conversations &rarr;](conversations.md)
 
-**NOTE: these functions are heavily in flux! The syntax and features below WILL CHANGE!**
-
 For example:
 
 ```javascript
@@ -343,6 +341,8 @@ controller.hears(['hello'], 'message', async(bot, message) => {
     bot.beginDialog('onboarding');
 });
 ```
+
+
 
 ### Botkit CMS
 

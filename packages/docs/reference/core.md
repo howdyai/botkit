@@ -1,6 +1,6 @@
 # Botkit Core Class Reference
 
-[&larr; Botkit Documentation](..)  [&larr; Class Index](index.md) 
+[&larr; Botkit Documentation](..) [&larr; Class Index](index.md) 
 
 This is a class reference for all the methods exposed by the [botkit](https://github.com/howdyai/botkit/tree/next/packages/botkit) package.
 

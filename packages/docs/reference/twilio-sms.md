@@ -1,6 +1,6 @@
 # Botkit for Twilio SMS Class Reference
 
-[&larr; Botkit Documentation](..)  [&larr; Class Index](index.md) 
+[&larr; Botkit Documentation](..) [&larr; Class Index](index.md) 
 
 This is a class reference for all the methods exposed by the [botbuilder-adapter-twilio-sms](https://github.com/howdyai/botkit/tree/next/packages/botbuilder-adapter-twilio-sms) package.
 

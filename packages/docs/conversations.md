@@ -153,5 +153,7 @@ Conversations end naturally when the last message has been sent and no messages 
 In this case, the value of `convo.status` will be `completed`. Other values for this field include `active`, `stopped`, and `timeout`.
 
 ```javascript
-// TODO
+convo.after(async(results, bot) => {
+    // TODO
+});
 ```

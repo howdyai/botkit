@@ -1,6 +1,6 @@
 # Botkit for Webex Teams Class Reference
 
-[&larr; Botkit Documentation](..)  [&larr; Class Index](index.md) 
+[&larr; Botkit Documentation](..) [&larr; Class Index](index.md) 
 
 This is a class reference for all the methods exposed by the [botbuilder-adapter-webex](https://github.com/howdyai/botkit/tree/next/packages/botbuilder-adapter-webex) package.
 
