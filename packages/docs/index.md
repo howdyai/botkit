@@ -203,10 +203,81 @@ controller.on('message', async(bot, message) => {
 
 ## Sending alerts and scheduled messages
 
-### Use a platform-specific `startConversation*` method
+There are some cases when a bot will send a message to a user that is not in direct response to an incoming message.
+
+* In response to an external event such as a webhook from a third party integration
+* Based on a cronjob or some other scheduling mechanism
+* Sending timed or scheduled broadcast messages
+
+To do this requires a few pieces of information - credentials necessary to make API calls, and a complicated set of fields that comprise a "conversation reference" that points to a specific user in a specific channel on a specific platform. Botkit provides a few helper functions that make this a bit easier to manage.
+
+To send this type of "proactive" message, you must first [spawn](reference/core.md#spawn) a [bot](reference/core.md#botworker), then give it a context (usually a user id, or a user id + channel) for it to do stuff like send messages and [start dialogs](#using-dialogs).
+
+It looks _something_ like the code below, though it should be noted that there are variations in how `controller.spawn()` works from platform to platform -- notably [Slack](reference/slack.md#create-a-new-slackbotworker) and [Facebook](reference/facebook.md#create-a-new-facebookbotworker) -- and also some variation in the availability of helper functions like `startConversationWithUser()` used below.  Check [platform docs](platforms/index.md) for these details!
+
+```javascript
+async (trigger) => {
+
+    // there's a user id somewhere in this trigger
+    let user = trigger.userid;
+
+    // spawn a bot
+    let bot = await controller.spawn();
+
+    await bot.startConversationWithUser(user);
+
+    await bot.say('ALERT! A trigger was detected');
+    await bot.beginDialog(ALERT_DIALOG);
+
+}
+```
 
 ### Capture a reference from an incoming message
 
+Each incoming message received by Botkit contains a conversation reference in the `message.reference` field.
+Capture this reference value and store it for later use with [bot.changeContext()](reference/core.md#changecontext) 
+to continue sending messages _in that same context_.
+
+Imagine a bot that, hearing the keyword "subscribe" captures the reference for use to later send a push notification:
+
+```javascript
+controller.hears('subscribe', 'message', async(bot, message) => {
+
+    let reference = message.reference;
+    let user = message.user;
+
+    // store reference associated with user
+    await mydatabase.subscribeUser(user, reference);
+
+    await bot.reply(message, 'You are subscribed to alerts in this channel.');
+
+});
+```
+
+Later, an alert is to be generated for the user based on an trigger of some sort:
+```javascript
+async(trigger) => {
+
+    let user = trigger.userid;
+    let reference = mydatabase.getSubscription(user);
+    
+    let bot = await controller.spawn();
+    await bot.changeContext(reference);
+
+    await bot.say('Breaking news!');
+
+}
+```
+
+### Use a platform-specific `startConversation*` method
+
+Most of the platform adapters provide convenience methods that can use used to begin or resume a conversation with a user based on their user id, as well as other relevant factors such as channel id. These can be used in lieu of capturing a pre-existing reference from an incoming message.
+
+* [Slack](platforms/slack.md#start-or-resume-conversations-with-people)
+* [Facebook](reference/facebook.md#startconversationwithuser)
+* [Webex Teams](reference/webex.md#startconversationinroom)
+* [Twilio SMS](reference/twilio-sms.md#startconversationwithuser)
+* [Google Hangouts](reference/hangouts.md#startconversationinthread)
 
 
 ## Using Dialogs
