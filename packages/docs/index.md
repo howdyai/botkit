@@ -262,39 +262,6 @@ botkit.hears(['hello'], 'message', async(bot, message) => {
 });
 ```
 
-### Organize Your Bot Code
-
-// TODO: talk about the yeoman template and starter kits
-
-We recommend bundling your bot's features into simple JavaScript modules, and then loading them into your app using `controller.loadModules('path/to/modules')`.
-
-Make sure your modules follow the form below:
-
-```javascript
-module.exports = function(controller) {
-
-    // define your dialogs, as well as your hears() or on() handlers
-    // ...
-}
-```
-
-### Using Bot Framework Channels
-
-Bot Framework provides a unified interface to many different platforms, including Microsoft products like Microsoft Teams, Skype, Cortana, but also including platforms like Slack, and email. 
-
-To use Botkit with the Bot Framework channel service, pass in an `adapterConfig` parameter [matching this specification](https://docs.microsoft.com/en-us/javascript/api/botbuilder/botframeworkadaptersettings?view=botbuilder-ts-latest), and configure the channel service with the appropriate endpoint URL.
-
-```javascript
-const controller = new Botkit({
-    debug: true,
-    webhook_uri: '/api/messages',
-    adapterConfig: {
-        appId: process.env.appId,
-        appPassword: process.env.appPassword
-    }
-});
-```
-
 ## Enable Conversation Persistence
 
 Bots that [use dialogs](#using-dialogs) for complex interactions require the ability to store and retrieve the conversation state from an external source such as a database. Without a storage mechanism in place, the bot will "forget" the state of conversations when the application is restarted.
@@ -316,6 +283,41 @@ const controller = new Botkit({
 ```
 
 [More storage implementations can be found by searching NPM for "botbuilder-storage" &rarr;](https://www.npmjs.com/search?q=botbuilder-storage)
+
+
+
+## Organize Your Bot Code
+
+// TODO: talk about the yeoman template and starter kits
+
+We recommend bundling your bot's features into simple JavaScript modules, and then loading them into your app using `controller.loadModules('path/to/modules')`.
+
+Make sure your modules follow the form below:
+
+```javascript
+module.exports = function(controller) {
+
+    // define your dialogs, as well as your hears() or on() handlers
+    // ...
+}
+```
+
+## Using Bot Framework Channels
+
+Bot Framework provides a unified interface to many different platforms, including Microsoft products like Microsoft Teams, Skype, Cortana, but also including platforms like Slack, and email. 
+
+To use Botkit with the Bot Framework channel service, pass in an `adapterConfig` parameter [matching this specification](https://docs.microsoft.com/en-us/javascript/api/botbuilder/botframeworkadaptersettings?view=botbuilder-ts-latest), and configure the channel service with the appropriate endpoint URL.
+
+```javascript
+const controller = new Botkit({
+    debug: true,
+    webhook_uri: '/api/messages',
+    adapterConfig: {
+        appId: process.env.appId,
+        appPassword: process.env.appPassword
+    }
+});
+```
 
 
 ## Building & Using Plugins
