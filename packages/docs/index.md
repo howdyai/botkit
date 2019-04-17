@@ -68,7 +68,7 @@ which contains an unmodified version of the BotBuilder Activity, or even further
 
 ## Matching Patterns and Keywords with `hears()`
 
-In addition to traditional event handlers, Botkit also provides the [controller.hears()](#controllerhears) function,
+In addition to traditional event handlers, Botkit also provides the [controller.hears()](reference/core.md#hears) function,
 which configures event handlers that look for specific keywords or phrases in the message.
 
 Each call to `controller.hears()` sets up a separate set of patterns to listen for.
@@ -104,10 +104,10 @@ controller.hears(['hi','hello','howdy','hey','aloha','hola','bonjour','oi'],['me
 
 Botkit bots can send messages in several different ways, depending on the type and number of messages that will be sent.
 
-Simple replies requiring only one message in response to an incoming event can be sent using the [bot.reply()](#botreply) function.
+Simple replies requiring only one message in response to an incoming event can be sent using the [bot.reply()](reference/core.md#reply) function.
 
 Bots can originate messages - that is, send a message based on some internal logic or external stimulus -
-using [bot.say()](#botsay) method. Each platform adapter provides helper mechanisms for setting the context for calling `bot.say()` in the appropriate channel or with the appropriate user.
+using [bot.say()](reference/core.md#say) method. Each platform adapter provides helper mechanisms for setting the context for calling `bot.say()` in the appropriate channel or with the appropriate user.
 
 For sequences of messages, including multi-message conversations, branching dialogs and other types of conversational experience, use [dialogs](#using-dialogs)
 
