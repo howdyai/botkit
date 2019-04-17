@@ -150,6 +150,12 @@ controller.hears(async(message) => {
     // handle trigger
 });
 
+// listen for a facebook sticker
+controller.hears(async(message) => { return message.sticker_id; }, 'message', async(bot, message) => {
+    await bot.reply(message,'cool sticker.');
+});
+```
+
 ## Sending Messages
 
 Botkit bots can send messages in several different ways, depending on the type and number of messages that will be sent.
