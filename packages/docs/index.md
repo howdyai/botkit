@@ -316,14 +316,12 @@ then triggered with [bot.beginDialog()](reference/core.md#begindialog).
 
 ### Botkit Conversations
 
-Much of the original `convo` syntax from previous versions of Botkit is still available in this new version. However, in order to provide conversation persistence and other features, some syntax and capabilities have been changed.
-
-The biggest change is that conversations must now be created and made available to Botkit at runtime, rather than being constructed dynamically inside handler functions.  
+[BotkitConversation](reference/core.md#botkitconversation) provides an interface for creating dialogs that is based on the
+original Botkit "convo" syntax: Dialogs are created using functions like [convo.ask()](reference/core.md#ask) and [convo.say()](reference/core.md#say-1), and dynamic actions can be implemented using a hook system ([convo.before()](reference/core.md#before), [convo.after()](reference/core.md#after) and [convo.onChange()](reference/core.md#onchange)) that provides conversation context and a `bot` worker object at key points in the dialog's execution.
 
 [Read all about Botkit Conversations &rarr;](conversations.md)
 
-For example:
-
+A simple example:
 ```javascript
 const { BotkitConversation } = require('botkit');
 
