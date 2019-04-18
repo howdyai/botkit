@@ -89,6 +89,10 @@ controller.hears(['hi','hello','howdy','hey','aloha','hola','bonjour','oi'],['me
 });
 ```
 
+**Interruptions**
+
+// TODO: write about interruptions!
+
 ### Matching regular expressions
 
 In addition to simple keyword matches, `hears()` can also accept one or more [regular expressions](https://regex101.com/) that will match against the `message.text` with more control. 
@@ -282,7 +286,33 @@ Most of the platform adapters provide convenience methods that can use used to b
 
 ## Using Dialogs
 
-Botkit's new multi-turn conversation system is built on top of [Bot Builder's dialog stack](https://www.npmjs.com/package/botbuilder-dialogs) that provides many built-in niceties like conversation persistence, typed prompts with validators, and other advanced features. All of these features may now be used alongside Botkit!
+Botkit's new multi-turn conversation system is built on top of [BotBuilder's dialog system](https://www.npmjs.com/package/botbuilder-dialogs) that provides many built-in niceties like conversation persistence, typed prompts with validators, and other advanced features. All of these features may now be used alongside Botkit!
+
+Dialogs contain pre-defined "maps" for conversations that can be triggered in various ways. Think of a dialog as a the script for an interactive, potentially branching conversation the bot can conduct. Dialogs can contain conditional tests, branching patterns, and dynamic content. There are a variety of ways to create dialogs, including one that [uses Botkit's familar syntax](conversations.md), as well as BotBuilder's own [WaterfallDialogs](https://docs.microsoft.com/en-us/javascript/api/botbuilder-dialogs/waterfalldialog?view=botbuilder-ts-latest).
+
+In order to use a dialog, it must first be defined and added to the bot's dialog stack. Below is an example showing the use of the `BotkitConversation` dialog type.
+
+```javascript
+// Import the BotkitConversation dialog class
+const { BotkitConversation } = require('botkit');
+
+// Create a very simple dialog with 2 messages.
+let DIALOG_ID = 'my_dialog_1';
+let myDialog = new BotkitConversation(DIALOG_ID, controller);
+myDialog.say('Hello!');
+myDialog.say('Welcome to the world of bots!');
+
+// Add the dialog to the bot
+controller.addDialog(myDialog);
+
+// Later, trigger the dialog
+controller.on('channel_join', async(bot, message) => {
+    await bot.beginDialog(DIALOG_ID);
+});
+```
+
+Dialog objects, once defined, are added to the bot using [controller.addDialog()](reference/core.md#adddialog) and
+then triggered with [bot.beginDialog()](reference/core.md#begindialog).
 
 ### Botkit Conversations
 
@@ -444,6 +474,10 @@ const controller = new Botkit({
 
 
 
+## Boot Process
+
+* controller.ready()
+
 ## Organize Your Bot Code
 
 // TODO: talk about the yeoman template and starter kits
@@ -481,4 +515,8 @@ const controller = new Botkit({
 ## Building & Using Plugins
 
 ... COMING SOON ...
+* controller.usePlugin()
+* controller.getLocalView()
+* controller.publicFolder()
+
 

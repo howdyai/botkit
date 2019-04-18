@@ -59,11 +59,6 @@ export interface BotkitConfiguration {
      * Defaults to the ephemeral [MemoryStorage](https://docs.microsoft.com/en-us/javascript/api/botbuilder-core/memorystorage?view=botbuilder-ts-latest) implementation.
      */
     storage?: Storage;
-
-    /**
-     * An Express middleware function used to authenticate requests to the /admin URI of your Botkit application.
-     */
-    authFunction?: (req, res, next) => void;
 }
 
 /**
