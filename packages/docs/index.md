@@ -286,7 +286,7 @@ Most of the platform adapters provide convenience methods that can use used to b
 
 ## Using Dialogs
 
-Botkit's new multi-turn conversation system is built on top of [BotBuilder's dialog system](https://www.npmjs.com/package/botbuilder-dialogs) that provides many built-in niceties like conversation persistence, typed prompts with validators, and other advanced features. All of these features may now be used alongside Botkit!
+Botkit's multi-turn conversation system is built on top of [BotBuilder's dialog system](https://www.npmjs.com/package/botbuilder-dialogs) that provides many built-in niceties like [conversation state persistence](#enable-conversation-persistence), [typed prompts with validators](https://docs.microsoft.com/en-us/azure/bot-service/bot-builder-concept-dialog?view=azure-bot-service-4.0#prompts), and other advanced features. All of these features may now be used alongside Botkit!
 
 Dialogs contain pre-defined "maps" for conversations that can be triggered in various ways. Think of a dialog as a the script for an interactive, potentially branching conversation the bot can conduct. Dialogs can contain conditional tests, branching patterns, and dynamic content. There are a variety of ways to create dialogs, including one that [uses Botkit's familar syntax](conversations.md), as well as BotBuilder's own [WaterfallDialogs](https://docs.microsoft.com/en-us/javascript/api/botbuilder-dialogs/waterfalldialog?view=botbuilder-ts-latest).
 
