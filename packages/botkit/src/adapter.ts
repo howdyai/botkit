@@ -5,7 +5,7 @@ import { BotFrameworkAdapter, TurnContext } from 'botbuilder';
 import * as request from 'request';
 
 /**
- * This class extends the BotFrameworkAdapter with a few additional features to support Microsoft Teams.
+ * This class extends the [BotFrameworkAdapter](https://docs.microsoft.com/en-us/javascript/api/botbuilder/botframeworkadapter?view=botbuilder-ts-latest) with a few additional features to support Microsoft Teams.
  */
 export class BotkitBotFrameworkAdapter extends BotFrameworkAdapter {
 
