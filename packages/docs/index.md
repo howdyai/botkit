@@ -317,7 +317,7 @@ then triggered with [bot.beginDialog()](reference/core.md#begindialog).
 ### Botkit Conversations
 
 [BotkitConversation](reference/core.md#botkitconversation) provides an interface for creating dialogs that is based on the
-original Botkit "convo" syntax: Dialogs are created using functions like [convo.ask()](reference/core.md#ask) and [convo.say()](reference/core.md#say-1), and dynamic actions can be implemented using a hook system ([convo.before()](reference/core.md#before), [convo.after()](reference/core.md#after) and [convo.onChange()](reference/core.md#onchange)) that provides conversation context and a `bot` worker object at key points in the dialog's execution.
+original Botkit "convo" syntax: Dialogs are created using functions like [convo.ask()](reference/cms.md#ask) and [convo.say()](reference/cms.md#say), and dynamic actions can be implemented using a hook system ([convo.before()](reference/cms.md#before), [convo.after()](reference/cms.md#after) and [convo.onChange()](reference/cms.md#onchange)) that provides conversation context and a `bot` worker object at key points in the dialog's execution.
 
 [Read all about Botkit Conversations &rarr;](conversations.md)
 
@@ -394,11 +394,14 @@ To use the Botkit CMS trigger API to automatically evaluate messages and fire th
 
 ```javascript
 controller.on('message', async (bot, message) => {
-    let results = await controller.cms.testTrigger(bot, message);
+    let results = await controller.plugins.cms.testTrigger(bot, message);
 });
 ```
 
-Developers may hook into the dialogs as they execute using [controller.plugins.cms.before](reference/cms.md#before), ][controller.plugins.cms.after](reference/cms.md#after), and [controller.plugins.cms.onChange](reference/cms.md#onchange).
+Developers may hook into the dialogs as they execute using 
+[controller.plugins.cms.before()](reference/cms.md#before),
+[controller.plugins.cms.after()](reference/cms.md#after),
+and [controller.plugins.cms.onChange()](reference/cms.md#onchange).
 These methods operate identically to the [BotkitConversation analogs of these methods](reference/core.md#botkitconversation-class-methods), but take an additional parameter of the dialog's _name_, allowing handlers to be bound to the externally loaded content.
 
 NOTE: Before handlers can be bound to a dialog, it must exist in the dialogSet.  To make sure this has happened, place any handler definitions inside a call to `controller.ready()`, which will fire only after all dependent subsystems have fully booted.
@@ -425,7 +428,7 @@ controller.ready(() => {
 
 ### Native Bot Builder Dialogs
 
-[BotBuilder dialogs](https://npmjs.com/packages/botbuilder-dialogs) can live alongside Botkit!  Define dialogs using `WaterfallDialogs`, `ComponentDialogs`, or your own derived dialog class.  Then, make them available for your bot to use by calling `controller.dialogSet.add()`:
+[BotBuilder dialogs](https://npmjs.com/package/botbuilder-dialogs) can live alongside Botkit!  Define dialogs using `WaterfallDialogs`, `ComponentDialogs`, or your own derived dialog class.  Then, make them available for your bot to use by calling `controller.dialogSet.add()`:
 
 [Read about BotBuilder dialogs in Microsoft's official documentation &rarr;](https://docs.microsoft.com/en-us/azure/bot-service/bot-builder-concept-dialog?view=azure-bot-service-4.0)
 
