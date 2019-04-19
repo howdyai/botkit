@@ -434,7 +434,7 @@ Load a plugin module and bind all included middlewares to their respective endpo
 
 <a name="BotkitBotFrameworkAdapter"></a>
 ## BotkitBotFrameworkAdapter
-
+This class extends the BotFrameworkAdapter with a few additional features to support Microsoft Teams.
 
 To use this class in your application, first install the package:
 ```bash
