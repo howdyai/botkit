@@ -3,7 +3,7 @@
 Botkit's core SDK ships with a Botkit-friendly dialog class called [BotkitConversation](reference/core.md#botkitconversation). This class offers developers a familiar syntax for creating scripted dialogs,
 and injecting dynamic behaviors. 
 
-Dialogs are created using functions like [convo.ask()](reference/core.md#ask) and [convo.say()](reference/core.md#say), and dynamic actions can be implemented using a hook system ([convo.before()](reference/core.md#before), [convo.after()](reference/core.md#after) and [convo.onChange()](reference/core.md#onchange)) that provides conversation context and a `bot` worker object at key points in the dialog's execution.
+Dialogs are created using functions like [convo.ask()](reference/core.md#ask) and [convo.say()](reference/core.md#say-1), and dynamic actions can be implemented using a hook system ([convo.before()](reference/core.md#before), [convo.after()](reference/core.md#after) and [convo.onChange()](reference/core.md#onchange)) that provides conversation context and a `bot` worker object at key points in the dialog's execution.
 
 ## Import the class
 
@@ -24,7 +24,7 @@ let convo = new BotkitConversation(controller, MY_DIALOG_ID);
 
 Then, using the helper methods like `say()` and `ask()`, define a series of messages, questions and actions that will be taken:
 
-* [say()](reference/core.md#say)
+* [say()](reference/core.md#say-1)
 * [ask()](reference/core.md#ask)
 * [addAction()](reference/core.md#addaction)
 * [addMessage()](reference/core.md#addmessage)
