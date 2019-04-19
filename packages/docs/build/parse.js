@@ -84,7 +84,7 @@ function generatePlugin(src, params, dest) {
     plugins.push(
         {
             name: data.name,
-            path: dest.replace(/.*?\/(platforms\/.*)/,'$1'),
+            path: dest.replace(/.*?\/(plugins\/.*)/,'$1'),
         }
     );
 }
