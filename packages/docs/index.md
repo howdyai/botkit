@@ -427,6 +427,8 @@ controller.ready(() => {
 
 [BotBuilder dialogs](https://npmjs.com/packages/botbuilder-dialogs) can live alongside Botkit!  Define dialogs using `WaterfallDialogs`, `ComponentDialogs`, or your own derived dialog class.  Then, make them available for your bot to use by calling `controller.dialogSet.add()`:
 
+[Read about BotBuilder dialogs in Microsoft's official documentation &rarr;](https://docs.microsoft.com/en-us/azure/bot-service/bot-builder-concept-dialog?view=azure-bot-service-4.0)
+
 ```javascript
 const { WaterfallDialog } = require('botbuilder-dialogs');
 

@@ -4,6 +4,9 @@
 
 Use and extend dialogs authored remotely using [Botkit CMS](https://github.com/howdyai/botkit-cms)
 
+## Class Reference
+
+* [BotkitCMSHelper](../reference/cms.md)
 
 ## Community & Support
 
