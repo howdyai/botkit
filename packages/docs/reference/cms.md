@@ -17,21 +17,20 @@ This is a class reference for all the methods exposed by the [botkit-plugin-cms]
 
 <a name="BotkitCMSHelper"></a>
 ## BotkitCMSHelper
-Provides access to an instance of Botkit CMS, including the ability to load script content into a DialogSet
+A plugin for Botkit that provides access to an instance of [Botkit CMS](https://github.com/howdyai/botkit-cms), including the ability to load script content into a DialogSet
 and bind before, after and onChange handlers to those dynamically imported dialogs by name.
 
 ```javascript
-await controller.cms.loadAllScripts(controller.dialogSet);
-controller.cms.before('my_script', 'default', async(convo, bot) => {
- /// do something before default thread of the my_script runs.
-});
+controller.use(new BotkitCMSHelper({
+     uri: process.env.CMS_URI,
+     token: process.env.CMS_TOKEN
+}));
 
 // use the cms to test remote triggers
 controller.on('message', async(bot, message) => {
-  await controller.cms.testTrigger(bot, message);
+  await controller.plugins.cms.testTrigger(bot, message);
 });
 ```
-
 
 
 To use this class in your application, first install the package:
@@ -86,7 +85,7 @@ Provides a way to use BotkitConversation.after() on dialogs loaded dynamically v
 
 
 ```javascript
-controller.cms.after('my_script', async(results, bot) => {
+controller.plugins.cms.after('my_script', async(results, bot) => {
 
 console.log('my_script just ended! here are the results', results);
 
@@ -161,7 +160,7 @@ Provides a way to use BotkitConversation.onChange() on dialogs loaded dynamicall
 
 
 ```javascript
-controller.cms.onChange('my_script','my_variable', async(new_value, convo, bot) => {
+controller.plugins.cms.onChange('my_script','my_variable', async(new_value, convo, bot) => {
 
 console.log('A new value got set for my_variable inside my_script: ', new_value);
 
