@@ -9,6 +9,20 @@
 
 * publishing
 
+# Teams 
+
+* direct_message qualifications
+* update/remove message in botworker?
+
+* -> https://github.com/howdyai/botkit/blob/master/lib/TeamsAPI.js
+* getchannels <-- can be achieved but is different/ and not compatible with getconversations
+* getuserbyid <-- predicated on getconvo members
+* getuserbyupn <-- see above
+* getconversationmembers <-- works but awkward
+* getteamroster <-- works but awkward
+* gettoken? <-- works but awkard>
+
+
 # core
 
     * separate botkit CMS stuff from core
@@ -51,3 +65,4 @@
 * glitch??
 
 # Tests!
+

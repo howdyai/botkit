@@ -11,8 +11,8 @@ module.exports = class extends Generator {
             },
             {
                 type: "input",
-                name: "appSecret",
-                message: "App Secret",
+                name: "appPassword",
+                message: "App Password",
             }
         ]);
 

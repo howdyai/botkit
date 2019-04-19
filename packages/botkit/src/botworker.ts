@@ -2,7 +2,7 @@
  * @module botkit
  */
 import { Botkit, BotkitMessage } from './core';
-import { Activity, ConversationReference, TurnContext } from 'botbuilder';
+import { Activity, ConversationAccount, ConversationReference, ConversationParameters, TurnContext } from 'botbuilder';
 
 /**
  * A base class for a `bot` instance, an object that contains the information and functionality for taking action in response to an incoming message.
@@ -197,6 +197,56 @@ export class BotWorker {
         return this;
     }
 
+    public async startConversationWithUser(reference: any): Promise<void> {
+        // this code is mostly copied from BotFrameworkAdapter.createConversation
+
+        if (!reference.serviceUrl) { throw new Error(`bot.startConversationWithUser(): missing serviceUrl.`); }
+
+        // Create conversation
+        const parameters: ConversationParameters = { bot: reference.bot, members: [reference.user], isGroup: false, activity: null, channelData: null };
+        const client = this.controller.adapter.createConnectorClient(reference.serviceUrl);
+
+        // Mix in the tenant ID if specified. This is required for MS Teams.
+        if (reference.conversation && reference.conversation.tenantId) {
+            // Putting tenantId in channelData is a temporary solution while we wait for the Teams API to be updated
+            parameters.channelData = { tenant: { id: reference.conversation.tenantId } };
+
+            // Permanent solution is to put tenantId in parameters.tenantId
+            parameters.tenantId = reference.conversation.tenantId;
+        }
+
+        const response = await client.conversations.createConversation(parameters);
+
+        // Initialize request and copy over new conversation ID and updated serviceUrl.
+        const request: Partial<Activity> = TurnContext.applyConversationReference(
+            { type: 'event', name: 'createConversation' },
+            reference,
+            true
+        );
+
+        const conversation: ConversationAccount = {
+            id: response.id,
+            isGroup: false,
+            conversationType: null,
+            tenantId: null,
+            name: null,
+        };
+        request.conversation = conversation;
+
+        if (response.serviceUrl) { request.serviceUrl = response.serviceUrl; }
+
+        // Create context and run middleware
+        const turnContext: TurnContext = this.controller.adapter.createContext(request);
+
+        // create a new dialogContext so beginDialog works.
+        const dialogContext = await this._controller.dialogSet.createContext(turnContext);
+
+        this._config.context = turnContext;
+        this._config.dialogContext = dialogContext;
+        this._config.activity = request;
+
+    }
+
     /**
      * Take a crudely-formed Botkit message with any sort of field (may just be a string, may be a partial message object)
      * and map it into a beautiful BotFramework Activity.
@@ -216,7 +266,7 @@ export class BotWorker {
         } else {
             // set up a base message activity
             activity = {
-                type: 'message',
+                type: message.type || 'message',
                 text: message.text,
 
                 attachmentLayout: message.attachmentLayout,
@@ -246,7 +296,7 @@ export class BotWorker {
                 }
             }
         }
-
+        console.log('OUTBOUND ACTIVITY', activity);
         return activity;
     }
 

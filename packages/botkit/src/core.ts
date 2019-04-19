@@ -1,9 +1,10 @@
 /**
  * @module botkit
  */
-import { Activity, BotFrameworkAdapter, MemoryStorage, Storage, ConversationReference, TurnContext } from 'botbuilder';
+import { Activity,  MemoryStorage, Storage, ConversationReference, TurnContext } from 'botbuilder';
 import { Dialog, DialogContext, DialogSet, DialogTurnStatus } from 'botbuilder-dialogs';
 import { BotkitCMSHelper } from './cms';
+import { BotkitBotFrameworkAdapter } from './adapter';
 import { BotWorker } from './botworker';
 import { BotkitConversationState } from './conversationState';
 import * as path from 'path';
@@ -77,6 +78,11 @@ export interface BotkitMessage {
     text?: string;
 
     /**
+     * Any value field received from the platform
+     */
+    value?: string;
+
+    /**
      * Unique identifier of user who sent the message. Typically contains the platform specific user id.
      */
     user: string;
@@ -96,6 +102,7 @@ export interface BotkitMessage {
      * The original incoming [BotBuilder Activity](https://docs.microsoft.com/en-us/javascript/api/botframework-schema/activity?view=botbuilder-ts-latest) object as created by the adapter.
      */
     incoming_message: Activity;
+
 
     /**
      * Any additional fields found in the incoming payload from the messaging platform.
@@ -368,7 +375,8 @@ export class Botkit {
         if (!this._config.adapter) {
             const adapterConfig = { ...this._config.adapterConfig };
             debug('Configuring BotFrameworkAdapter:', adapterConfig);
-            this.adapter = new BotFrameworkAdapter(adapterConfig);
+            this.adapter = new BotkitBotFrameworkAdapter(adapterConfig);
+            
         } else {
             debug('Using pre-configured adapter.');
             this.adapter = this._config.adapter;
@@ -569,6 +577,7 @@ export class Botkit {
             // Allow the Botbuilder middleware to fire.
             // this middleware is responsible for turning the incoming payload into a BotBuilder Activity
             // which we can then use to turn into a BotkitMessage
+            console.log('>> CALL PROCESS ACTIVITY');
             this.adapter.processActivity(req, res, this.handleTurn.bind(this)).catch((err) => {
                 // todo: expose this as a global error handler?
                 console.error('Experienced an error inside the turn handler', err);
@@ -603,6 +612,8 @@ export class Botkit {
             user: turnContext.activity.from.id,
             text: turnContext.activity.text,
             channel: turnContext.activity.conversation.id,
+
+            value: turnContext.activity.value,
 
             // generate a conversation reference, for replies.
             // included so people can easily capture it for resuming
@@ -916,9 +927,14 @@ export class Botkit {
         debug('Trigger event: ', event);
         if (this._events[event] && this._events[event].length) {
             for (var h = 0; h < this._events[event].length; h++) {
-                const handler_results = await this._events[event][h].call(bot, bot, message);
-                if (handler_results === false) {
-                    break;
+                try {
+                    const handler_results = await this._events[event][h].call(bot, bot, message);
+                    if (handler_results === false) {
+                        break;
+                    }
+                } catch(err) {
+                    console.error('Error in trigger handler', err);
+                    throw Error(err);
                 }
             }
         }

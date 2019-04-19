@@ -94,9 +94,9 @@ const controller = new Botkit({
     debug: true,
     webhook_uri: '/api/messages',
 <% if (platform === 'botframework') { %>
-    adapterConfig: { // TODO: Fix this!
+    adapterConfig: {
         appId: process.env.APP_ID,
-        appSecret: process.env.APP_SECRET,
+        appPassword: process.env.APP_PASSWORD,
     },
 <% } else { %>
     adapter: adapter,

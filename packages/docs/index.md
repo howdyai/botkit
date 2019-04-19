@@ -371,7 +371,6 @@ controller.hears(['hello'], 'message', async(bot, message) => {
 ```
 
 
-
 ### Botkit CMS
 
 [Botkit CMS](https://github.com/howdyai/botkit-cms) is an external content management system for dialogs systems. Botkit can automatically attach to a CMS instance and import content into dialogs automatically.
