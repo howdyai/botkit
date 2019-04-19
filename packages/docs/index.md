@@ -471,10 +471,6 @@ const controller = new Botkit({
 
 
 
-## Boot Process
-
-* controller.ready()
-
 ## Organize Your Bot Code
 
 // TODO: talk about the yeoman template and starter kits
