@@ -5,7 +5,27 @@ and injecting dynamic behaviors.
 
 Dialogs are created using functions like [convo.ask()](reference/cms.md#ask) and [convo.say()](reference/cms.md#say), and dynamic actions can be implemented using a hook system ([convo.before()](reference/core.md#before), [convo.after()](reference/core.md#after) and [convo.onChange()](reference/core.md#onchange)) that provides conversation context and a `bot` worker object at key points in the dialog's execution.
 
-### Conversation Threads
+## Import the class
+
+To use BotkitConversations, make sure to import the class along with Botkit:
+
+```javascript
+const { Botkit, BotkitConversations } = require('botkit';
+```
+
+## Build A Conversations
+
+```javascript
+const MY_DIALOG_ID = 'my-dialog-name-constant';
+let convo = new BotkitConversation(controller, MY_DIALOG_ID);
+```
+* [say()](reference/cms.md#say)
+* [ask()](reference/cms.md#ask)
+* [addMessage()](reference/cms.md#addmessage)
+* [addQuestion()](reference/cms.md#addquestion)
+
+
+## Conversation Threads
 
 Complex conversations that require branching, repeating or looping sections of dialog,
 or data validation can be handled using feature of the conversations we call `threads`.
@@ -16,7 +36,7 @@ You can build conversation threads in code, or you can use [Botkit CMS](https://
 
 If you've used the conversation system at all, you've used threads - you just didn't know it. When calling `convo.say()` and `convo.ask()`, you were actually adding messages to the `default` conversation thread that is activated when the conversation object is created.
 
-### Automatically Switch Threads using Actions
+## Automatically Switch Threads using Actions
 
 You can direct a conversation to switch from one thread to another automatically
 by including the `action` field on a message object. Botkit will switch threads immediately after sending the message.
@@ -86,7 +106,7 @@ From inside a handler function, use `convo.gotoThread()` to instantly switch to 
 });
 ```
 
-### Special Actions
+## Special Actions
 
 In addition to routing from one thread to another using actions, you can also use
 one of a few reserved words to control the conversation flow.
@@ -99,7 +119,7 @@ Set the action field of a message to `timeout` to end immediately and indicate t
 
 After the conversation ends, these values will be available in the `_status` field of the results parameter. This field can then be used to check the final outcome of a conversation. See [handling the end of conversations](#handling-end-of-conversation).
 
-### Using Variable Tokens and Templates in Conversation Threads
+## Using Variable Tokens and Templates in Conversation Threads
 
 Pre-defined conversation threads are great, but many times developers will need to inject dynamic content into a conversation.
 Botkit achieves this by processing the text of every message using the [Mustache template language](https://mustache.github.io/).
@@ -130,7 +150,7 @@ The object's name is {{vars.object.name}}.
 Botkit ensures that your template is a valid Mustache template, and passes the variables you specify directly to the Mustache template rendering system.
 Our philosophy is that it is OK to stuff whatever type of information your conversation needs into these variables and use them as you please!
 
-### Conversation Control Functions
+## Conversation Control Functions
 
 In order to direct the flow of the conversation, several helper functions
 are provided.  These functions should only be called from within a [ask()](reference/cms.md#ask)
@@ -143,7 +163,7 @@ handler function.
 `convo.gotoThread()`
 
 
-### Handling End of Conversation
+## Handling End of Conversation
 
 Conversations trigger events during the course of their life.  Currently,
 only two events are fired, and only one is very useful: end.
