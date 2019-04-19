@@ -4,6 +4,7 @@
 
 * [Botkit Core](../reference/core.md)
     * [Botkit](../reference/core.md#Botkit)
+    * [BotkitBotFrameworkAdapter](../reference/core.md#BotkitBotFrameworkAdapter)
     * [BotWorker](../reference/core.md#BotWorker)
     * [BotkitCMSHelper](../reference/core.md#BotkitCMSHelper)
     * [BotkitConversation](../reference/core.md#BotkitConversation)

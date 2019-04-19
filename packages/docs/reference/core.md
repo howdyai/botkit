@@ -2,12 +2,13 @@
 
 [&larr; Botkit Documentation](..) [&larr; Class Index](index.md) 
 
-This is a class reference for all the methods exposed by the [botkit](https://github.com/howdyai/botkit/tree/next/packages/botkit) package.
+This is a class reference for all the methods exposed by the [&quot;adapter&quot;](https://github.com/howdyai/botkit/tree/next/packages/&quot;adapter&quot;) package.
 
 ## Classes
 
 
 * <a href="#Botkit">Botkit</a>
+* <a href="#BotkitBotFrameworkAdapter">BotkitBotFrameworkAdapter</a>
 * <a href="#BotWorker">BotWorker</a>
 * <a href="#BotkitCMSHelper">BotkitCMSHelper</a>
 * <a href="#BotkitConversation">BotkitConversation</a>
@@ -31,12 +32,12 @@ If one is not specified, Botkit will expose an adapter for the Microsoft Bot Fra
 
 To use this class in your application, first install the package:
 ```bash
-npm install --save botkit
+npm install --save &quot;adapter&quot;
 ```
 
 Then import this and other classes into your code:
 ```javascript
-const { Botkit } = require('botkit');
+const { Botkit } = require('&quot;adapter&quot;');
 ```
 
 This class includes the following methods:
@@ -431,6 +432,57 @@ Load a plugin module and bind all included middlewares to their respective endpo
 
 
 
+<a name="BotkitBotFrameworkAdapter"></a>
+## BotkitBotFrameworkAdapter
+
+
+To use this class in your application, first install the package:
+```bash
+npm install --save &quot;adapter&quot;
+```
+
+Then import this and other classes into your code:
+```javascript
+const { BotkitBotFrameworkAdapter } = require('&quot;adapter&quot;');
+```
+
+This class includes the following methods:
+* [getChannels()](#getChannels)
+
+
+
+### Create a new BotkitBotFrameworkAdapter()
+**Parameters**
+
+| Argument | Type | Description
+|--- |--- |---
+| options | any | 
+
+
+
+
+
+## BotkitBotFrameworkAdapter Class Methods
+<a name="getChannels"></a>
+### getChannels()
+Get the list of channels in a MS Teams team.
+Can only be called with a TurnContext that originated in a team conversation - 1:1 conversations happen _outside a team_ and thus do not contain the required information to call this API.
+
+**Parameters**
+
+| Argument | Type | description
+|--- |--- |---
+| context| TurnContext | A TurnContext object representing a message or event from a user in Teams
+
+
+**Returns**
+
+an array of channels in the format [{name: string, id: string}]
+
+
+
+
+
 <a name="BotWorker"></a>
 ## BotWorker
 A base class for a `bot` instance, an object that contains the information and functionality for taking action in response to an incoming message.
@@ -438,12 +490,12 @@ Note that adapters are likely to extend this class with additional platform-spec
 
 To use this class in your application, first install the package:
 ```bash
-npm install --save botkit
+npm install --save &quot;adapter&quot;
 ```
 
 Then import this and other classes into your code:
 ```javascript
-const { BotWorker } = require('botkit');
+const { BotWorker } = require('&quot;adapter&quot;');
 ```
 
 This class includes the following methods:
@@ -455,6 +507,7 @@ This class includes the following methods:
 * [httpStatus()](#httpStatus)
 * [reply()](#reply)
 * [say()](#say)
+* [startConversationWithUser()](#startConversationWithUser)
 
 
 
@@ -690,6 +743,18 @@ controller.on('event', async(bot, message) => {
 ```
 
 
+<a name="startConversationWithUser"></a>
+### startConversationWithUser()
+
+
+**Parameters**
+
+| Argument | Type | description
+|--- |--- |---
+| reference| any | 
+
+
+
 
 <a name="BotkitCMSHelper"></a>
 ## BotkitCMSHelper
@@ -714,12 +779,12 @@ controller.on('message', async(bot, message) => {
 
 To use this class in your application, first install the package:
 ```bash
-npm install --save botkit
+npm install --save &quot;adapter&quot;
 ```
 
 Then import this and other classes into your code:
 ```javascript
-const { BotkitCMSHelper } = require('botkit');
+const { BotkitCMSHelper } = require('&quot;adapter&quot;');
 ```
 
 This class includes the following methods:
@@ -873,12 +938,12 @@ controller.on('event', async(bot, message) => {
 
 To use this class in your application, first install the package:
 ```bash
-npm install --save botkit
+npm install --save &quot;adapter&quot;
 ```
 
 Then import this and other classes into your code:
 ```javascript
-const { BotkitConversation } = require('botkit');
+const { BotkitConversation } = require('&quot;adapter&quot;');
 ```
 
 This class includes the following methods:
@@ -1088,12 +1153,12 @@ Grants access to convo.vars convo.gotoThread() convo.setVar() and convo.repeat()
 
 To use this class in your application, first install the package:
 ```bash
-npm install --save botkit
+npm install --save &quot;adapter&quot;
 ```
 
 Then import this and other classes into your code:
 ```javascript
-const { BotkitDialogWrapper } = require('botkit');
+const { BotkitDialogWrapper } = require('&quot;adapter&quot;');
 ```
 
 This class includes the following methods:
@@ -1221,6 +1286,7 @@ Will also contain any additional fields including in the incoming payload.
 | text | string | Text of the message sent by the user (or primary value in case of button click)<br/>
 | type | string | The type of event, in most cases defined by the messaging channel or adapter<br/>
 | user | string | Unique identifier of user who sent the message. Typically contains the platform specific user id.<br/>
+| value | string | Any value field received from the platform<br/>
 <a name="BotkitPlugin"></a>
 ## Interface BotkitPlugin
 An interface for plugins that can contain multiple middlewares as well as an init function.
