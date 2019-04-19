@@ -8,6 +8,7 @@ const template = Handlebars.compile(markup);
 
 let index = [];
 let adapters = [];
+let plugins = [];
 
 Handlebars.registerHelper('no-newline', function(str) {
     if (str) {
@@ -33,6 +34,13 @@ function buildAdapters(dest) {
     fs.writeFileSync(dest, toctemplate({index: adapters}));
 }
 
+function buildPlugins(dest) {
+
+    let toctemplate = Handlebars.compile(fs.readFileSync(__dirname + '/toc.hbs', 'utf8'));
+    console.log(JSON.stringify(index, null, 2));
+    fs.writeFileSync(dest, toctemplate({index: plugins}));
+}
+
 
 function generateAdapter(src, params, dest) {
 
@@ -50,6 +58,30 @@ function generateAdapter(src, params, dest) {
     fs.writeFileSync(dest, adaptertemplate(data));
 
     adapters.push(
+        {
+            name: data.name,
+            path: dest.replace(/.*?\/(platforms\/.*)/,'$1'),
+        }
+    );
+}
+
+
+function generatePlugin(src, params, dest) {
+
+    let data = {
+        body: fs.readFileSync(src, 'utf8'),
+        ...params
+    };
+
+    // replace links
+    data.body = data.body.replace(/\.\.\/docs\/reference/ig,'../reference');
+    data.body = data.body.replace(/\.\.\/docs/ig,'..');
+
+    let adaptertemplate = Handlebars.compile(fs.readFileSync(__dirname + '/plugin.hbs', 'utf8'));
+
+    fs.writeFileSync(dest, adaptertemplate(data));
+
+    plugins.push(
         {
             name: data.name,
             path: dest.replace(/.*?\/(platforms\/.*)/,'$1'),
@@ -172,6 +204,9 @@ generateAdapter(__dirname + '/../../botbuilder-adapter-hangouts/readme.md', {nam
 generateAdapter(__dirname + '/../../botbuilder-adapter-twilio-sms/readme.md', {name: 'Twilio SMS'} , __dirname + '/../platforms/twilio-sms.md');
 generateAdapter(__dirname + '/../../botbuilder-adapter-facebook/readme.md', {name: 'Facebook Messenger'} , __dirname + '/../platforms/facebook.md');
 
+generatePlugin(__dirname + '/../../botkit-plugin-cms/readme.md', {name: 'Botkit CMS Plugin'} , __dirname + '/../plugins/cms.md');
+
 
 buildTOC(__dirname + '/../reference/index.md');
 buildAdapters(__dirname + '/../platforms/index.md');
+buildPlugins(__dirname + '/../plugins/index.md');

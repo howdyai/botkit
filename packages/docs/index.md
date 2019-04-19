@@ -373,20 +373,22 @@ controller.hears(['hello'], 'message', async(bot, message) => {
 
 ### Botkit CMS
 
-[Botkit CMS](https://github.com/howdyai/botkit-cms) is an external content management system for dialogs systems. Botkit can automatically attach to a CMS instance and import content into dialogs automatically.
+[Botkit CMS](https://github.com/howdyai/botkit-cms) is an external content management system for dialogs systems. Botkit can automatically attach to a CMS instance and import content into [BotkitConversation](reference/core.md#botkitconversation) objects automatically.
 
-In order to enable this functionality, configure the botkit controller with information about your CMS instance:
+In order to enable this functionality, add the [botkit-plugin-cms](plugins/cms.md) plugin to your application, and
+load it into your Botkit controller at bootup using [reference/core.md#useplugin]:
 
 ```javascript
-const controller = new Botkit({
-    cms: {
-        cms_uri: process.env.cms_uri,
-        token: process.env.cms_token,
-    }
-})
+const { BotkitCMSHelper } = require('botkit-plugin-cms');
+
+const controller = new Botkit(OPTIONS);
+controller.usePlugin(new BotkitCMSHelper({
+    uri: process.env.CMS_URI,
+    token: process.env.CMS_TOKEN
+}));
 ```
 
-To use the Botkit CMS trigger API to automatically evaluate messages and fire the appropriate dialog, use `controller.cms.testTrigger()` as below:
+To use the Botkit CMS trigger API to automatically evaluate messages and fire the appropriate dialog, use `controller.plugins.cms.testTrigger()` as below:
 
 ```javascript
 controller.on('message', async (bot, message) => {
@@ -394,7 +396,7 @@ controller.on('message', async (bot, message) => {
 });
 ```
 
-Developers may hook into the dialogs as they execute using `controller.cms.before`, `controller.cms.after`, and `controller.cms.onChange`.
+Developers may hook into the dialogs as they execute using `controller.plugins.cms.before`, `controller.plugins.cms.after`, and `controller.plugins.cms.onChange`.
 
 NOTE: Before handlers can be bound to a dialog, it must exist in the dialogSet.  To make sure this has happened, place any handler definitions inside a call to `controller.ready()`, which will fire only after all dependent subsystems have fully booted.
 
@@ -402,17 +404,17 @@ NOTE: Before handlers can be bound to a dialog, it must exist in the dialogSet. 
 controller.ready(() => {    
     // fire a function before the `default` thread begins
     // and set a variable available to the template system
-    controller.cms.before('onboarding','default', async (bot, convo) => {
+    controller.plugins.cms.before('onboarding','default', async (bot, convo) => {
         convo.vars.foo = 'foo';
     });
 
-    controller.cms.onChange('onboarding','name', async(value, convo, bot) => {
+    controller.plugins.cms.onChange('onboarding','name', async(value, convo, bot) => {
         if (value === 'quit') {
             convo.gotoThread('quit');
         }
     });
 
-    controller.cms.after('onboarding', async(results, bot) => {
+    controller.plugins.cms.after('onboarding', async(results, bot) => {
         // do something with results
     });
 });
