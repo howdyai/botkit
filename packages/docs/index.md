@@ -376,7 +376,7 @@ controller.hears(['hello'], 'message', async(bot, message) => {
 [Botkit CMS](https://github.com/howdyai/botkit-cms) is an external content management system for dialogs systems. Botkit can automatically attach to a CMS instance and import content into [BotkitConversation](reference/core.md#botkitconversation) objects automatically.
 
 In order to enable this functionality, add the [botkit-plugin-cms](plugins/cms.md) plugin to your application, and
-load it into your Botkit controller at bootup using [reference/core.md#useplugin]:
+load it into your Botkit controller at bootup using [controller.usePlugin()](reference/core.md#useplugin) as seen below:
 
 ```javascript
 const { BotkitCMSHelper } = require('botkit-plugin-cms');
@@ -388,6 +388,8 @@ controller.usePlugin(new BotkitCMSHelper({
 }));
 ```
 
+Loading the plugin this way will extend the controller with new object at `controller.plugins.cms` with [these helpful methods](reference/cms.md#botkitcmshelper-class-methods).
+
 To use the Botkit CMS trigger API to automatically evaluate messages and fire the appropriate dialog, use `controller.plugins.cms.testTrigger()` as below:
 
 ```javascript
@@ -396,7 +398,8 @@ controller.on('message', async (bot, message) => {
 });
 ```
 
-Developers may hook into the dialogs as they execute using `controller.plugins.cms.before`, `controller.plugins.cms.after`, and `controller.plugins.cms.onChange`.
+Developers may hook into the dialogs as they execute using [controller.plugins.cms.before](reference/cms.md#before), ][controller.plugins.cms.after](reference/cms.md#after), and [controller.plugins.cms.onChange](reference/cms.md#onchange).
+These methods operate identically to the [BotkitConversation analogs of these methods](reference/core.md#botkitconversation-class-methods), but take an additional parameter of the dialog's _name_, allowing handlers to be bound to the externally loaded content.
 
 NOTE: Before handlers can be bound to a dialog, it must exist in the dialogSet.  To make sure this has happened, place any handler definitions inside a call to `controller.ready()`, which will fire only after all dependent subsystems have fully booted.
 
@@ -422,7 +425,7 @@ controller.ready(() => {
 
 ### Native Bot Builder Dialogs
 
-Bot Builder dialogs can live alongside Botkit!  Define dialogs using `WaterfallDialogs`, `ComponentDialogs`, or your own derived dialog class.  Then, make them available for your bot to use by calling `controller.dialogSet.add()`:
+[BotBuilder dialogs](https://npmjs.com/packages/botbuilder-dialogs) can live alongside Botkit!  Define dialogs using `WaterfallDialogs`, `ComponentDialogs`, or your own derived dialog class.  Then, make them available for your bot to use by calling `controller.dialogSet.add()`:
 
 ```javascript
 const { WaterfallDialog } = require('botbuilder-dialogs');
