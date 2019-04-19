@@ -4,29 +4,27 @@ const { FakeAPI, Res, Req, fakeVerifySignature } = require('./shared');
 
 describe('FacebookAdapter', function() {
 
-    it ('should not construct without required parameters', function() {
-        assert.throws(function() { let adapter = new FacebookAdapter({}) },'Foo');
-    });
+    let adapter;
 
-    it('should create a FacebookAdapter object', function() {
-
-        const adapter = new FacebookAdapter({
-            access_token: '123',
+    beforeEach(function () {
+        adapter = new FacebookAdapter({
+            getAccessTokenForPage: async (page) => {
+                if (page === 2) { return 'xyz'; } else throw new Error('no token for ' + page);
+            },
             app_secret: '123',
             verify_token: '123',
         });
+    })
 
+    it('should not construct without required parameters', function () {
+        assert.throws(function () { let adapter = new FacebookAdapter({}) }, 'Foo');
+    });
+
+    it('should create a FacebookAdapter object', function () {
         assert((adapter instanceof FacebookAdapter), 'Adapter is wrong type');
     });
 
-    it ('should process an incoming request into an activity...', function(done) {
-
-        const adapter = new FacebookAdapter({
-            access_token: '123',
-            app_secret: '123',
-            verify_token: '123',
-        });
-
+    it('should process an incoming request into an activity...', function (done) {
         adapter.verifySignature = fakeVerifySignature;
         let res = new Res();
         adapter.processActivity(new Req({
@@ -44,7 +42,7 @@ describe('FacebookAdapter', function() {
                     ]
                 }
             ]
-        }), res, async(context) => {
+        }), res, async (context) => {
             assert(context.activity.type === 'message', 'activity is not a message');
             assert(context.activity.text === 'Hello!', 'activity is missing text');
             assert(context.activity.from.id === 1,'from id is wrong');
@@ -54,14 +52,9 @@ describe('FacebookAdapter', function() {
         });
     });
 
+
+
     it ('should process an postback incoming request into an activity...', function(done) {
-
-        const adapter = new FacebookAdapter({
-            access_token: '123',
-            app_secret: '123',
-            verify_token: '123',
-        });
-
         adapter.verifySignature = fakeVerifySignature;
         let res = new Res();
         adapter.processActivity(new Req({
@@ -86,13 +79,6 @@ describe('FacebookAdapter', function() {
     });
 
     it ('should process a message echo incoming request into an event...', function(done) {
-
-        const adapter = new FacebookAdapter({
-            access_token: '123',
-            app_secret: '123',
-            verify_token: '123',
-        });
-
         adapter.verifySignature = fakeVerifySignature;
         let res = new Res();
         adapter.processActivity(new Req({
@@ -118,13 +104,6 @@ describe('FacebookAdapter', function() {
 
 
     it ('should process a non-message incoming request into an event...', function(done) {
-
-        const adapter = new FacebookAdapter({
-            access_token: '123',
-            app_secret: '123',
-            verify_token: '123',
-        });
-
         adapter.verifySignature = fakeVerifySignature;
         let res = new Res();
         adapter.processActivity(new Req({
@@ -148,15 +127,6 @@ describe('FacebookAdapter', function() {
     });
 
     it ('should process spawn using the right token.', function(done) {
-
-        const adapter = new FacebookAdapter({
-            getAccessTokenForPage: async (page) => {
-                if (page === 2) { return 'xyz'; } else throw new Error('no token for ' + page);
-            },
-            app_secret: '123',
-            verify_token: '123',
-        });
-
         adapter.verifySignature = fakeVerifySignature;
         let res = new Res();
         adapter.processActivity(new Req({
@@ -181,24 +151,15 @@ describe('FacebookAdapter', function() {
     });
 
     it ('outbound message to facebook is properly formed.', function(done) {
-
-        const adapter = new FacebookAdapter({
-            getAccessTokenForPage: async (page) => {
-                if (page === 2) { return 'xyz'; } else throw new Error('no token for ' + page);
-            },
-            app_secret: '123',
-            verify_token: '123',
-        });
-
         adapter.verifySignature = fakeVerifySignature;
-        adapter.getAPI = async (token) => { 
+        adapter.getAPI = async (token) => {
             return new FakeAPI(function(endpoint, method, params) {
                 assert(params.recipient.id === 1,'outbound message has wrong recipient');
                 assert(params.message.text === 'hello','outbound message has wrong text');
                 assert(params.message.sticker_id,'sticker id is missing');
                 assert(params.message.quick_replies.length === 3,'quick replies are missing');
                 done();
-            }); 
+            });
         };
         let res = new Res();
         adapter.processActivity(new Req({
@@ -238,7 +199,7 @@ describe('FacebookAdapter', function() {
             });
         });
     });
-
+      
     // TODO: test continueConversation resulting in properly formatted messages
 
 });
