@@ -95,19 +95,19 @@ From inside a handler function, use `convo.gotoThread()` to instantly switch to 
     convo.addQuestion('Do you like cheese?', [
         {
             pattern: 'yes',
-            handler: function(response, convo) {
+            handler: async function(response, convo, bot) {
                 await convo.gotoThread('yes_thread');
             },
         },
         {
             pattern: 'no',
-            handler: function(response, convo) {
+            handler: async function(response, convo, bot) {
                 await convo.gotoThread('no_thread');
             },
         },
         {
             default: true,
-            handler: function(response, convo) {
+            handler: async function(response, convo, bot) {
                 await convo.gotoThread('bad_response');
             },
         }
