@@ -2,7 +2,7 @@
 
 [&larr; Botkit Documentation](..) [&larr; Class Index](index.md) 
 
-This is a class reference for all the methods exposed by the [&quot;adapter&quot;](https://github.com/howdyai/botkit/tree/next/packages/&quot;adapter&quot;) package.
+This is a class reference for all the methods exposed by the [botkit](https://github.com/howdyai/botkit/tree/next/packages/botkit) package.
 
 ## Classes
 
@@ -32,12 +32,12 @@ If one is not specified, Botkit will expose an adapter for the Microsoft Bot Fra
 
 To use this class in your application, first install the package:
 ```bash
-npm install --save &quot;adapter&quot;
+npm install --save botkit
 ```
 
 Then import this and other classes into your code:
 ```javascript
-const { Botkit } = require('&quot;adapter&quot;');
+const { Botkit } = require('botkit');
 ```
 
 This class includes the following methods:
@@ -438,12 +438,12 @@ Load a plugin module and bind all included middlewares to their respective endpo
 
 To use this class in your application, first install the package:
 ```bash
-npm install --save &quot;adapter&quot;
+npm install --save botkit
 ```
 
 Then import this and other classes into your code:
 ```javascript
-const { BotkitBotFrameworkAdapter } = require('&quot;adapter&quot;');
+const { BotkitBotFrameworkAdapter } = require('botkit');
 ```
 
 This class includes the following methods:
@@ -490,12 +490,12 @@ Note that adapters are likely to extend this class with additional platform-spec
 
 To use this class in your application, first install the package:
 ```bash
-npm install --save &quot;adapter&quot;
+npm install --save botkit
 ```
 
 Then import this and other classes into your code:
 ```javascript
-const { BotWorker } = require('&quot;adapter&quot;');
+const { BotWorker } = require('botkit');
 ```
 
 This class includes the following methods:
@@ -779,12 +779,12 @@ controller.on('message', async(bot, message) => {
 
 To use this class in your application, first install the package:
 ```bash
-npm install --save &quot;adapter&quot;
+npm install --save botkit
 ```
 
 Then import this and other classes into your code:
 ```javascript
-const { BotkitCMSHelper } = require('&quot;adapter&quot;');
+const { BotkitCMSHelper } = require('botkit');
 ```
 
 This class includes the following methods:
@@ -938,12 +938,12 @@ controller.on('event', async(bot, message) => {
 
 To use this class in your application, first install the package:
 ```bash
-npm install --save &quot;adapter&quot;
+npm install --save botkit
 ```
 
 Then import this and other classes into your code:
 ```javascript
-const { BotkitConversation } = require('&quot;adapter&quot;');
+const { BotkitConversation } = require('botkit');
 ```
 
 This class includes the following methods:
@@ -1153,12 +1153,12 @@ Grants access to convo.vars convo.gotoThread() convo.setVar() and convo.repeat()
 
 To use this class in your application, first install the package:
 ```bash
-npm install --save &quot;adapter&quot;
+npm install --save botkit
 ```
 
 Then import this and other classes into your code:
 ```javascript
-const { BotkitDialogWrapper } = require('&quot;adapter&quot;');
+const { BotkitDialogWrapper } = require('botkit');
 ```
 
 This class includes the following methods:

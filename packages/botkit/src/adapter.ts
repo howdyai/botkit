@@ -1,3 +1,6 @@
+/**
+ * @module botkit
+ */
 import { BotFrameworkAdapter, TurnContext } from 'botbuilder';
 import * as request from 'request';
 
