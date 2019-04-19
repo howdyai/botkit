@@ -7,5 +7,6 @@
 ./node_modules/.bin/typedoc --excludePrivate  --ignoreCompilerErrors --module amd --hideGenerator --name "Botkit for Twilio SMS" --readme none --entryPoint "botbuilder-adapter-twilio-sms" ../botbuilder-adapter-twilio-sms/src/index.ts --json build/twilio-sms.json
 ./node_modules/.bin/typedoc --excludePrivate  --ignoreCompilerErrors --module amd --hideGenerator --name "Botkit for Webex Teams" --readme none --entryPoint "botbuilder-adapter-webex" ../botbuilder-adapter-webex/src/index.ts --json build/webex.json
 ./node_modules/.bin/typedoc --excludePrivate  --ignoreCompilerErrors --module amd --hideGenerator --name "Botkit for the Web" --readme none --entryPoint "botbuilder-adapter-websocket" ../botbuilder-adapter-websocket/src/index.ts --json build/websocket.json
+./node_modules/.bin/typedoc --excludePrivate  --ignoreCompilerErrors --module amd --hideGenerator --name "Botkit CMS Plugin" --readme none --entryPoint "botbuilder-adapter-websocket" ../botkit-plugin-cms/src/index.ts --json build/cms.json
 
 node build/parse.js

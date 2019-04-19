@@ -2,6 +2,7 @@ const { Botkit } = require('botkit');
 const { ShowTypingMiddleware } = require('botbuilder');
 const { MongoDbStorage } = require('botbuilder-storage-mongodb');
 const basicAuth = require('express-basic-auth');
+const { BotkitCMSHelper } = require('botkit-plugin-cms');
 
 // const { SlackAdapter, SlackMessageTypeMiddleware, SlackIdentifyBotsMiddleware, SlackEventMiddleware } = require('botbuilder-adapter-slack');
 // const { WebexAdapter } = require('botbuilder-adapter-webex');
@@ -144,15 +145,32 @@ const controller = new Botkit({
         appId: process.env.APP_ID,
         appPassword: process.env.APP_PASSWORD
     },
-    cms: {
-        cms_uri: process.env.cms_uri,
-        token: process.env.cms_token,
-    },
     storage
 });
 
+const cms = new BotkitCMSHelper({
+    uri: process.env.cms_uri,
+    token: process.env.cms_token,
+});
+
+// add cms tools
+controller.usePlugin(cms);
+
 // Once the bot has booted up its internal services, you can use them to do stuff.
 controller.ready(() => {
+
+    /* catch-all that uses the CMS to trigger dialogs */
+    if (controller.plugins.cms) {
+        controller.on('message,direct_message', async (bot, message) => {
+            let results = false;
+            results = await controller.plugins.cms.testTrigger(bot, message);
+
+            if (results !== false) {
+                // do not continue middleware!
+                return false;
+            }
+        });
+    }
 
     // load traditional developer-created local custom feature modules
     controller.loadModules(__dirname + '/features');
@@ -161,18 +179,7 @@ controller.ready(() => {
     // turn on verbose console logging of send/receive/web requests
     controller.usePlugin(require('./plugins/verbose/index.js'));
 
-    /* catch-all that uses the CMS to trigger dialogs */
-    if (controller.cms) {
-        controller.on('message,direct_message', async (bot, message) => {
-            let results = false;
-            results = await controller.cms.testTrigger(bot, message);
 
-            if (results !== false) {
-                // do not continue middleware!
-                return false;
-            }
-        });
-    }
 
     controller.webserver.get('/install', (req, res) => {
         // getInstallLink points to slack's oauth endpoint and includes clientId and scopes

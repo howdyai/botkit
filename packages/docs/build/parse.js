@@ -163,6 +163,7 @@ generateReference(__dirname + '/slack.json',__dirname + '/../reference/slack.md'
 generateReference(__dirname + '/hangouts.json',__dirname + '/../reference/hangouts.md');
 generateReference(__dirname + '/twilio-sms.json',__dirname + '/../reference/twilio-sms.md');
 generateReference(__dirname + '/facebook.json',__dirname + '/../reference/facebook.md');
+generateReference(__dirname + '/cms.json',__dirname + '/../reference/cms.md');
 
 generateAdapter(__dirname + '/../../botbuilder-adapter-websocket/readme.md', {name: 'Websocket and Webhooks'} , __dirname + '/../platforms/websocket.md');
 generateAdapter(__dirname + '/../../botbuilder-adapter-webex/readme.md', {name: 'Webex Teams'} , __dirname + '/../platforms/webex.md');

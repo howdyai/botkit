@@ -639,8 +639,8 @@ export class BotkitConversation<O extends object = {}> extends Dialog<O> {
         }
 
         // process templates in native botframework attachments
-        if (outgoing.attachments) {
-            outgoing.attachments = this.parseTemplatesRecursive(outgoing.attachments, vars);
+        if (line.attachments) {
+            outgoing.attachments = this.parseTemplatesRecursive(line.attachments, vars);
         }
 
         // process templates in slack attachments

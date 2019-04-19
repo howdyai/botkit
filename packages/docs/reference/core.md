@@ -10,7 +10,6 @@ This is a class reference for all the methods exposed by the [botkit](https://gi
 * <a href="#Botkit">Botkit</a>
 * <a href="#BotkitBotFrameworkAdapter">BotkitBotFrameworkAdapter</a>
 * <a href="#BotWorker">BotWorker</a>
-* <a href="#BotkitCMSHelper">BotkitCMSHelper</a>
 * <a href="#BotkitConversation">BotkitConversation</a>
 * <a href="#BotkitDialogWrapper">BotkitDialogWrapper</a>
 
@@ -43,6 +42,7 @@ const { Botkit } = require('botkit');
 This class includes the following methods:
 * [addDep()](#addDep)
 * [addDialog()](#addDialog)
+* [addPluginExtension()](#addPluginExtension)
 * [completeDep()](#completeDep)
 * [getConfig()](#getConfig)
 * [getLocalView()](#getLocalView)
@@ -90,12 +90,12 @@ controller.on('message', async(bot, message) => {
 |--- |--- |---
 | PATH | string | The path of the main Botkit SDK, used to generate relative paths
 | adapter | any | Any BotBuilder-compatible adapter - defaults to a [BotFrameworkAdapter](https://docs.microsoft.com/en-us/javascript/api/botbuilder/botframeworkadapter?view=botbuilder-ts-latest)
-| cms | [BotkitCMSHelper](#BotkitCMSHelper) | provides an interface to interact with an instance of Botkit CMS
 | dialogSet | DialogSet | A BotBuilder DialogSet that serves as the top level dialog container for the Botkit app
 | http | any | A direct reference to the underlying HTTP server object
 | storage | Storage | a BotBuilder storage driver - defaults to MemoryStorage
 | version | string | The current version of Botkit Core
 | webserver | any | An Express webserver
+| plugins |  | 
 
 ## Botkit Class Methods
 <a name="addDep"></a>
@@ -145,6 +145,19 @@ controller.on('message', async(bot, message) => {
      await bot.beginDialog('my_dialog');
 });
 ```
+
+
+<a name="addPluginExtension"></a>
+### addPluginExtension()
+
+
+**Parameters**
+
+| Argument | Type | description
+|--- |--- |---
+| name| string | 
+| extension| any | 
+
 
 
 <a name="completeDep"></a>
@@ -756,165 +769,6 @@ controller.on('event', async(bot, message) => {
 
 
 
-<a name="BotkitCMSHelper"></a>
-## BotkitCMSHelper
-Provides access to an instance of Botkit CMS, including the ability to load script content into a DialogSet
-and bind before, after and onChange handlers to those dynamically imported dialogs by name.
-
-TODO: This should be a plugin/external module not part of core.
-
-```javascript
-await controller.cms.loadAllScripts(controller.dialogSet);
-controller.cms.before('my_script', 'default', async(convo, bot) => {
- /// do something before default thread of the my_script runs.
-});
-
-// use the cms to test remote triggers
-controller.on('message', async(bot, message) => {
-  await controller.cms.testTrigger(bot, message);
-});
-```
-
-
-
-To use this class in your application, first install the package:
-```bash
-npm install --save botkit
-```
-
-Then import this and other classes into your code:
-```javascript
-const { BotkitCMSHelper } = require('botkit');
-```
-
-This class includes the following methods:
-* [after()](#after)
-* [before()](#before)
-* [loadAllScripts()](#loadAllScripts)
-* [onChange()](#onChange)
-* [testTrigger()](#testTrigger)
-
-
-
-### Create a new BotkitCMSHelper()
-**Parameters**
-
-| Argument | Type | Description
-|--- |--- |---
-| controller | [Botkit](#Botkit) | 
-| config | any | 
-
-
-
-
-
-## BotkitCMSHelper Class Methods
-<a name="after"></a>
-### after()
-Bind a handler function that will fire after a given dialog ends.
-Provides a way to use BotkitConversation.after() on dialogs loaded dynamically via the CMS api instead of being created in code.
-
-**Parameters**
-
-| Argument | Type | description
-|--- |--- |---
-| script_name| string | The name of the script to bind to
-| handler|  | A handler function in the form async(results, bot) => {}<br/>
-
-
-
-```javascript
-controller.cms.after('my_script', async(results, bot) => {
-
-console.log('my_script just ended! here are the results', results);
-
-});
-```
-
-
-<a name="before"></a>
-### before()
-Bind a handler function that will fire before a given script and thread begin.
-Provides a way to use BotkitConversation.before() on dialogs loaded dynamically via the CMS api instead of being created in code.
-
-**Parameters**
-
-| Argument | Type | description
-|--- |--- |---
-| script_name| string | The name of the script to bind to
-| thread_name| string | The name of a thread within the script to bind to
-| handler|  | A handler function in the form async(convo, bot) => {}<br/>
-
-
-
-```javascript
-controller.cms.before('my_script','my_thread', async(convo, bot) => {
-
- // do stuff
- console.log('starting my_thread as part of my_script');
- // other stuff including convo.setVar convo.gotoThread
-
-});
-```
-
-
-<a name="loadAllScripts"></a>
-### loadAllScripts()
-Load all script content from the configured CMS instance into a DialogSet and prepare them to be used.
-
-**Parameters**
-
-| Argument | Type | description
-|--- |--- |---
-| dialogSet| DialogSet | A DialogSet into which the dialogs should be loaded.  In most cases, this is `controller.dialogSet`, allowing Botkit to access these dialogs through `bot.beginDialog()`.<br/>
-
-
-
-<a name="onChange"></a>
-### onChange()
-Bind a handler function that will fire when a given variable is set within a a given script.
-Provides a way to use BotkitConversation.onChange() on dialogs loaded dynamically via the CMS api instead of being created in code.
-
-**Parameters**
-
-| Argument | Type | description
-|--- |--- |---
-| script_name| string | The name of the script to bind to
-| variable_name| string | The name of a variable within the script to bind to
-| handler|  | A handler function in the form async(value, convo, bot) => {}<br/>
-
-
-
-```javascript
-controller.cms.onChange('my_script','my_variable', async(new_value, convo, bot) => {
-
-console.log('A new value got set for my_variable inside my_script: ', new_value);
-
-});
-```
-
-
-<a name="testTrigger"></a>
-### testTrigger()
-Uses the Botkit CMS trigger API to test an incoming message against a list of predefined triggers.
-If a trigger is matched, the appropriate dialog will begin immediately.
-
-**Parameters**
-
-| Argument | Type | description
-|--- |--- |---
-| bot| [BotWorker](#BotWorker) | The current bot worker instance
-| message| Partial&lt;BotkitMessage&gt; | An incoming message to be interpretted
-
-
-**Returns**
-
-Returns false if a dialog is NOT triggered, otherwise returns void.
-
-
-
-
-
 <a name="BotkitConversation"></a>
 ## BotkitConversation
 An extension on the [BotBuilder Dialog Class](https://docs.microsoft.com/en-us/javascript/api/botbuilder-dialogs/dialog?view=botbuilder-ts-latest) that provides a Botkit-friendly interface for
@@ -1230,7 +1084,6 @@ Defines the options used when instantiating Botkit to create the main app contro
 |--- |--- |---
 | adapter | any | A fully configured BotBuilder Adapter, such as `botbuilder-adapter-slack` or `botbuilder-adapter-websocket`<br/>The adapter is responsible for translating platform-specific messages into the format understood by Botkit and BotBuilder.<br/>
 | adapterConfig |  | If using the BotFramework service, options included in `adapterConfig` will be passed to the new Adapter when created internally.<br/>See [BotFrameworkAdapterSettings](https://docs.microsoft.com/en-us/javascript/api/botbuilder/botframeworkadaptersettings?view=azure-node-latest&viewFallbackFrom=botbuilder-ts-latest).<br/>
-| cms |  | A configuration passed to the Botkit CMS helper.<br/>
 | dialogStateProperty | string | Name of the dialogState property in the ConversationState that will be used to automatically track the dialog state. Defaults to `dialogState`.<br/>
 | storage | Storage | A Storage interface compatible with [this specification](https://docs.microsoft.com/en-us/javascript/api/botbuilder-core/storage?view=botbuilder-ts-latest)<br/>Defaults to the ephemeral [MemoryStorage](https://docs.microsoft.com/en-us/javascript/api/botbuilder-core/memorystorage?view=botbuilder-ts-latest) implementation.<br/>
 | webhook_uri | string | Path used to create incoming webhook URI.  Defaults to `/api/messages`<br/>

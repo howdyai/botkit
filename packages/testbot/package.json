@@ -20,6 +20,7 @@
     "botbuilder-adapter-websocket": "1.0.0",
     "botbuilder-adapter-facebook": "1.0.0",
     "botbuilder-adapter-twilio-sms": "1.0.0",
+    "botkit-plugin-cms": "1.0.0",
     "botkit": "^4.0.0",
     "dotenv": "^6.2.0",
     "express-basic-auth": "^1.1.6"

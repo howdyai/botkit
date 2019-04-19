@@ -296,7 +296,6 @@ export class BotWorker {
                 }
             }
         }
-        console.log('OUTBOUND ACTIVITY', activity);
         return activity;
     }
 

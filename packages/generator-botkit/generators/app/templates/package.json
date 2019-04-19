@@ -9,6 +9,7 @@
     },
     "dependencies": {
       "botkit": "preview",
+      "botkit-plugin-cms": "preview",
       "botbuilder-storage-mongodb":"^0.9.5",
        "dotenv": "^7.0.0",
        "express-basic-auth": "^1.1.6"

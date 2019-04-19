@@ -3,7 +3,6 @@
  */
 import { Activity,  MemoryStorage, Storage, ConversationReference, TurnContext } from 'botbuilder';
 import { Dialog, DialogContext, DialogSet, DialogTurnStatus } from 'botbuilder-dialogs';
-import { BotkitCMSHelper } from './cms';
 import { BotkitBotFrameworkAdapter } from './adapter';
 import { BotWorker } from './botworker';
 import { BotkitConversationState } from './conversationState';
@@ -43,11 +42,6 @@ export interface BotkitConfiguration {
      * See [BotFrameworkAdapterSettings](https://docs.microsoft.com/en-us/javascript/api/botbuilder/botframeworkadaptersettings?view=azure-node-latest&viewFallbackFrom=botbuilder-ts-latest).
      */
     adapterConfig?: {[key: string]: any}; // object with stuff in it
-
-    /**
-     * A configuration passed to the Botkit CMS helper.
-     */
-    cms?: {[key: string]: any};
 
     /**
      * An instance of Express used to define web endpoints.  If not specified, oen will be created internally.
@@ -240,7 +234,14 @@ export class Botkit {
     /**
      * A list of all the installed plugins.
      */
-    private plugins: string[];
+    private plugin_list: string[];
+
+    /**
+     * A place where plugins can extend the controller object with new methods
+     */
+    private _plugins: {
+        [key: string]: any;
+    };
 
     /**
      * a BotBuilder storage driver - defaults to MemoryStorage
@@ -266,11 +267,6 @@ export class Botkit {
      * A BotBuilder DialogSet that serves as the top level dialog container for the Botkit app
      */
     public dialogSet: DialogSet;
-
-    /**
-     * provides an interface to interact with an instance of Botkit CMS
-     */
-    public cms: BotkitCMSHelper;
 
     /**
      * The path of the main Botkit SDK, used to generate relative paths
@@ -382,14 +378,11 @@ export class Botkit {
             this.adapter = this._config.adapter;
         }
 
-        if (this._config.cms && this._config.cms.cms_uri && this._config.cms.token) {
-            this.cms = new BotkitCMSHelper(this, this._config.cms);
-        }
-
         this.configureWebhookEndpoint();
 
         // initialize the plugins array.
-        this.plugins = [];
+        this.plugin_list = [];
+        this._plugins = {};
 
         // MAGIC: Treat the adapter as a botkit plugin
         // which allows them to be carry their own platform-specific behaviors
@@ -432,10 +425,12 @@ export class Botkit {
         } else {
             plugin = plugin_or_function;
         }
-        try {
-            this.registerPlugin(plugin.name, plugin);
-        } catch (err) {
-            console.error('ERROR IN PLUGIN REGISTER', err);
+        if (plugin.name) {
+            try {
+                this.registerPlugin(plugin.name, plugin);
+            } catch (err) {
+                console.error('ERROR IN PLUGIN REGISTER', err);
+            }
         }
     }
 
@@ -446,11 +441,11 @@ export class Botkit {
      */
     private registerPlugin(name: string, endpoints: BotkitPlugin): void {
         console.log('Enabling plugin: ', name);
-        if (this.plugins.indexOf(name) >= 0) {
+        if (this.plugin_list.indexOf(name) >= 0) {
             debug('Plugin already enabled:', name);
             return;
         }
-        this.plugins.push(name);
+        this.plugin_list.push(name);
 
         if (endpoints.middlewares) {
             for (var mw in endpoints.middlewares) {
@@ -471,6 +466,15 @@ export class Botkit {
         }
 
         debug('Plugin Enabled: ', name);
+    }
+
+    public addPluginExtension(name: string, extension: any): void {
+        debug('Plugin extension added: controller.' + name);
+        this._plugins[name] = extension;
+    }
+
+    get plugins() {
+        return this._plugins
     }
 
     /**
@@ -577,7 +581,6 @@ export class Botkit {
             // Allow the Botbuilder middleware to fire.
             // this middleware is responsible for turning the incoming payload into a BotBuilder Activity
             // which we can then use to turn into a BotkitMessage
-            console.log('>> CALL PROCESS ACTIVITY');
             this.adapter.processActivity(req, res, this.handleTurn.bind(this)).catch((err) => {
                 // todo: expose this as a global error handler?
                 console.error('Experienced an error inside the turn handler', err);

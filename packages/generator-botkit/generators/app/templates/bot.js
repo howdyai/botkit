@@ -6,6 +6,7 @@
 
 // Import Botkit's core features
 const { Botkit } = require('botkit');
+const { BotkitCMSHelper } = require('botkit-plugin-cms');
 
 // Import a platform-specific adapter for <%= platform %>.
 <% if (platform === 'slack') { %>
@@ -101,13 +102,15 @@ const controller = new Botkit({
 <% } else { %>
     adapter: adapter,
 <% } %>
-    cms: {
-        cms_uri: process.env.cms_uri,
-        token: process.env.cms_token,
-    },
     storage
 });
 
+if (process.env.cms_uri) {
+    controller.usePlugin(new BotkitCMSHelper({
+        cms_uri: process.env.cms_uri,
+        token: process.env.cms_token,
+    }));
+}
 
 // Once the bot has booted up its internal services, you can use them to do stuff.
 controller.ready(() => {
@@ -116,10 +119,10 @@ controller.ready(() => {
     controller.loadModules(__dirname + '/features');
 
     /* catch-all that uses the CMS to trigger dialogs */
-    if (controller.cms) {
+    if (controller.plugins.cms) {
         controller.on('message,direct_message', async (bot, message) => {
             let results = false;
-            results = await controller.cms.testTrigger(bot, message);
+            results = await controller.plugins.cms.testTrigger(bot, message);
 
             if (results !== false) {
                 // do not continue middleware!

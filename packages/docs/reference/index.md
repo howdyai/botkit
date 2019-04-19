@@ -6,7 +6,6 @@
     * [Botkit](../reference/core.md#Botkit)
     * [BotkitBotFrameworkAdapter](../reference/core.md#BotkitBotFrameworkAdapter)
     * [BotWorker](../reference/core.md#BotWorker)
-    * [BotkitCMSHelper](../reference/core.md#BotkitCMSHelper)
     * [BotkitConversation](../reference/core.md#BotkitConversation)
     * [BotkitDialogWrapper](../reference/core.md#BotkitDialogWrapper)
 * [Botkit for the Web](../reference/websocket.md)
@@ -31,3 +30,5 @@
     * [FacebookBotWorker](../reference/facebook.md#FacebookBotWorker)
     * [FacebookAPI](../reference/facebook.md#FacebookAPI)
     * [FacebookEventTypeMiddleware](../reference/facebook.md#FacebookEventTypeMiddleware)
+* [Botkit CMS Plugin](../reference/cms.md)
+    * [BotkitCMSHelper](../reference/cms.md#BotkitCMSHelper)
