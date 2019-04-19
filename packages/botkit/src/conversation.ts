@@ -147,6 +147,19 @@ export class BotkitConversation<O extends object = {}> extends Dialog<O> {
     }
 
     /**
+     * An an action, like `stop`, or `repeat` or `complete`, or the name of a thread to go to.
+     * 
+     * ```javascript
+     * convo.addAction('completed');
+     * ```
+     * @param action An action
+     * @param thread_name The name of a thread
+     */
+    public addAction(action: string, thread_name: string = 'default'): void {
+        this.addMessage({action: string}, thread_name);
+    }
+
+    /**
      * Add a message to a specific thread
      * Messages added with `say()` and `addMessage()` will _not_ wait for a response, will be sent one after another without a pause.
      *
@@ -155,7 +168,7 @@ export class BotkitConversation<O extends object = {}> extends Dialog<O> {
      * conversation.say('Hello! Welcome to my app.');
      * conversation.say('Let us get started...');
      * // pass in a message with an action that will cause gotoThread to be called...
-     * conversation.say({action: 'continuation'});
+     * conversation.addAction('continuation');
      *
      * conversation.addMessage('This is a different thread completely', 'continuation');
      * ```

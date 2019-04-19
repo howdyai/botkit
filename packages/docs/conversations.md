@@ -15,15 +15,26 @@ const { Botkit, BotkitConversations } = require('botkit';
 
 ## Build A Conversations
 
+First, create the new dialog object:
+
 ```javascript
 const MY_DIALOG_ID = 'my-dialog-name-constant';
 let convo = new BotkitConversation(controller, MY_DIALOG_ID);
 ```
+
+Then, using the helper methods like `say()` and `ask()`, define a series of messages, questions and actions that will be taken:
+
 * [say()](reference/cms.md#say)
 * [ask()](reference/cms.md#ask)
+* [addAction()](reference/cms.md#addaction)
 * [addMessage()](reference/cms.md#addmessage)
 * [addQuestion()](reference/cms.md#addquestion)
 
+## Hooks
+
+* [before()](reference/cms.md#before)
+* [onChange()](reference/cms.md#onchange)
+* [after()](reference/cms.md#after)
 
 ## Conversation Threads
 

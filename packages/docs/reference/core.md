@@ -801,6 +801,7 @@ const { BotkitConversation } = require('botkit');
 ```
 
 This class includes the following methods:
+* [addAction()](#addAction)
 * [addMessage()](#addMessage)
 * [addQuestion()](#addQuestion)
 * [after()](#after)
@@ -829,6 +830,23 @@ Create a new BotkitConversation object
 | script | any | A map of every message in the dialog, broken into threads
 
 ## BotkitConversation Class Methods
+<a name="addAction"></a>
+### addAction()
+An an action, like `stop`, or `repeat` or `complete`, or the name of a thread to go to.
+
+**Parameters**
+
+| Argument | Type | description
+|--- |--- |---
+| action| string | An action
+| thread_name| string | The name of a thread<br/>
+
+
+
+```javascript
+convo.addAction('completed');
+```
+
 <a name="addMessage"></a>
 ### addMessage()
 Add a message to a specific thread
@@ -848,7 +866,7 @@ let conversation = new BotkitConversation('welcome', controller);
 conversation.say('Hello! Welcome to my app.');
 conversation.say('Let us get started...');
 // pass in a message with an action that will cause gotoThread to be called...
-conversation.say({action: 'continuation'});
+conversation.addAction('continuation');
 
 conversation.addMessage('This is a different thread completely', 'continuation');
 ```
