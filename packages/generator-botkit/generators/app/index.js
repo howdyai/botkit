@@ -7,7 +7,7 @@ const platforms = [
     'hangouts',
     'twilio-sms',
     'webex',
-    'websocket',
+    'web',
     'facebook'
 ];
 
@@ -49,8 +49,8 @@ module.exports = class extends Generator {
             this.composeWith(require.resolve(path.join(__dirname,'..','twilio-sms')), this.answers);
         } else if (this.answers.platform === 'webex') {
             this.composeWith(require.resolve(path.join(__dirname,'..','webex')), this.answers);
-        } else if (this.answers.platform === 'websocket') {
-            this.composeWith(require.resolve(path.join(__dirname,'..','websocket')), this.answers);
+        } else if (this.answers.platform === 'web') {
+            this.composeWith(require.resolve(path.join(__dirname,'..','web')), this.answers);
         } else if (this.answers.platform === 'botframework') {
             this.composeWith(require.resolve(path.join(__dirname,'..','botframework')), this.answers);
         }

@@ -2,7 +2,7 @@
 
 [&larr; Botkit Core Docs](..)
 
-* [Websocket and Webhooks](../platforms/websocket.md)
+* [Websocket and Webhooks](../platforms/web.md)
 * [Webex Teams](../platforms/webex.md)
 * [Slack](../platforms/slack.md)
 * [Google Hangouts](../platforms/hangouts.md)

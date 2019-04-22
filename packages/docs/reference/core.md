@@ -448,6 +448,9 @@ Load a plugin module and bind all included middlewares to their respective endpo
 <a name="BotkitBotFrameworkAdapter"></a>
 ## BotkitBotFrameworkAdapter
 This class extends the [BotFrameworkAdapter](https://docs.microsoft.com/en-us/javascript/api/botbuilder/botframeworkadapter?view=botbuilder-ts-latest) with a few additional features to support Microsoft Teams.
+* Changes userAgent to reflect Botkit instead of BotBuilder
+* Adds getChannels() (MS Teams)
+* Adds middleware for adjusting location of tenant id field (MS Teams)
 
 To use this class in your application, first install the package:
 ```bash
@@ -460,6 +463,8 @@ const { BotkitBotFrameworkAdapter } = require('botkit');
 ```
 
 This class includes the following methods:
+* [createConnectorClient()](#createConnectorClient)
+* [createTokenApiClient()](#createTokenApiClient)
 * [getChannels()](#getChannels)
 
 
@@ -476,6 +481,32 @@ This class includes the following methods:
 
 
 ## BotkitBotFrameworkAdapter Class Methods
+<a name="createConnectorClient"></a>
+### createConnectorClient()
+Allows for mocking of the connector client in unit tests.
+Overridden by Botkit in order to change userAgent.
+
+**Parameters**
+
+| Argument | Type | description
+|--- |--- |---
+| serviceUrl| string | Clients service url.<br/>
+
+
+
+<a name="createTokenApiClient"></a>
+### createTokenApiClient()
+Allows for mocking of the OAuth API Client in unit tests.
+Overridden by Botkit in order to change userAgent.
+
+**Parameters**
+
+| Argument | Type | description
+|--- |--- |---
+| serviceUrl| string | Clients service url.<br/>
+
+
+
 <a name="getChannels"></a>
 ### getChannels()
 Get the list of channels in a MS Teams team.
@@ -1100,7 +1131,7 @@ Defines the options used when instantiating Botkit to create the main app contro
 
 | Name | Type | Description
 |--- |--- |---
-| adapter | any | A fully configured BotBuilder Adapter, such as `botbuilder-adapter-slack` or `botbuilder-adapter-websocket`<br/>The adapter is responsible for translating platform-specific messages into the format understood by Botkit and BotBuilder.<br/>
+| adapter | any | A fully configured BotBuilder Adapter, such as `botbuilder-adapter-slack` or `botbuilder-adapter-web`<br/>The adapter is responsible for translating platform-specific messages into the format understood by Botkit and BotBuilder.<br/>
 | adapterConfig |  | If using the BotFramework service, options included in `adapterConfig` will be passed to the new Adapter when created internally.<br/>See [BotFrameworkAdapterSettings](https://docs.microsoft.com/en-us/javascript/api/botbuilder/botframeworkadaptersettings?view=azure-node-latest&viewFallbackFrom=botbuilder-ts-latest).<br/>
 | dialogStateProperty | string | Name of the dialogState property in the ConversationState that will be used to automatically track the dialog state. Defaults to `dialogState`.<br/>
 | storage | Storage | A Storage interface compatible with [this specification](https://docs.microsoft.com/en-us/javascript/api/botbuilder-core/storage?view=botbuilder-ts-latest)<br/>Defaults to the ephemeral [MemoryStorage](https://docs.microsoft.com/en-us/javascript/api/botbuilder-core/memorystorage?view=botbuilder-ts-latest) implementation.<br/>

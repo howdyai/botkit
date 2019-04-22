@@ -23,7 +23,7 @@ No plugins are necessary to use the Bot Framework service, and bots can be devel
 
 The Botkit project includes several official adapters. Using these plugins, your bot can communicate directly with the messaging platforms. Each platform has its own set of configuration options - refer to the platform connector docs for details:
 
-* [Web and Apps](platforms/websocket.md)
+* [Web and Apps](platforms/web.md)
 * [Slack](platforms/slack.md)
 * [Webex Teams](platforms/webex.md)
 * [Google Hangouts](platforms/hangouts.md)

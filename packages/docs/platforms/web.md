@@ -1,4 +1,6 @@
-# botbuilder-adapter-websocket
+[&larr; Botkit Documentation](..)  [&larr; Platform Index](index.md) 
+
+# botbuilder-adapter-web
 Connect [Botkit](https://www.npmjs.com/package/botkit) or [BotBuilder](https://www.npmjs.com/package/botbuilder) to the Web.
 
 This package contains an adapter that communicates directly with the web via webhooks or websocket connections.
@@ -9,33 +11,33 @@ This package can be used alongside your favorite bot development framework to bu
 Add this package to your project using npm:
 
 ```bash
-npm install --save botbuilder-adapter-websocket
+npm install --save botbuilder-adapter-web
 ```
 
 Import the adapter class into your code:
 
 ```javascript
-const { WebsocketAdapter } = require('botbuilder-adapter-websocket');
+const { WebAdapter } = require('botbuilder-adapter-web');
 ```
 
 ## Get Started
 
 If you are starting a brand new project, [follow these instructions to create a customized application template.](https://botkit.ai/getstarted.html)
 
-## Use WebsocketAdapter in your App
+## Use WebAdapter in your App
 
-WebsocketAdapter provides a translation layer for Botkit and BotBuilder so that bot developers can connect directly to users on the web.
+WebAdapter provides a translation layer for Botkit and BotBuilder so that bot developers can connect directly to users on the web.
 
 ### Botkit Basics
 
 When used in concert with Botkit, developers need only pass the configured adapter to the Botkit constructor, as seen below. Botkit will automatically create and configure the webhook endpoints and other options necessary for communicating with the web.
 
-Developers can then bind to Botkit's event emitting system using `controller.on` and `controller.hears` to filter and handle incoming events from the messaging platform. [Learn more about Botkit's core feature &rarr;](../docs/index.md).
+Developers can then bind to Botkit's event emitting system using `controller.on` and `controller.hears` to filter and handle incoming events from the messaging platform. [Learn more about Botkit's core feature &rarr;](../index.md).
 
-[A full description of the WebsocketAdapter options and example code can be found in the class reference docs.](../docs/reference/websocket.md#create-a-new-websocketadapter)
+[A full description of the WebAdapter options and example code can be found in the class reference docs.](../reference/web.md#create-a-new-webadapter)
 
 ```javascript
-const adapter = new WebsocketAdapter();
+const adapter = new WebAdapter();
 const controller = new Botkit({
     adapter,
     // ...other options
@@ -50,13 +52,13 @@ controller.on('message', async(bot, message) => {
 
 ### BotBuilder Basics
 
-Alternately, developers may choose to use `WebsocketAdapter` with BotBuilder. With BotBuilder, the adapter is used more directly with a webserver, and all incoming events are handled as [Activities](https://docs.microsoft.com/en-us/javascript/api/botframework-schema/activity?view=botbuilder-ts-latest).
+Alternately, developers may choose to use `WebAdapter` with BotBuilder. With BotBuilder, the adapter is used more directly with a webserver, and all incoming events are handled as [Activities](https://docs.microsoft.com/en-us/javascript/api/botframework-schema/activity?view=botbuilder-ts-latest).
 
-[Read more &rarr;](../docs/reference/websocket.md#create-a-new-websocketadapter)
+[Read more &rarr;](../reference/web.md#create-a-new-webadapter)
 
 ## Class Reference
 
-* [WebsocketAdapter](../docs/reference/websocket.md#websocketadapter)
+* [WebAdapter](../reference/web.md#webadapter)
 
 ## Event List
 
@@ -68,9 +70,9 @@ Alternately, developers may choose to use `WebsocketAdapter` with BotBuilder. Wi
 
 ## Botkit Extensions
 
-In Botkit handlers, the `bot` worker for Facebook contains [all of the base methods](../docs/reference/core.md) as well as the following platform-specific extensions:
+In Botkit handlers, the `bot` worker for Facebook contains [all of the base methods](../reference/core.md) as well as the following platform-specific extensions:
 
-### [controller.createSocketServer()](../docs/reference/websocket.md#createsocketserver)
+### [controller.createSocketServer()](../reference/web.md#createsocketserver)
 
 Configures the webserver to accept websocket connections. This method is called automatically by Botkit, but must be manually called when using with BotBuilder.
 

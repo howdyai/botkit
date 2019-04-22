@@ -1,11 +1,11 @@
 /**
- * @module botbuilder-adapter-websocket
+ * @module botbuilder-adapter-web
  */
 
 import { Activity, ActivityTypes, BotAdapter, ConversationReference, TurnContext, ResourceResponse } from 'botbuilder';
 import * as Debug from 'debug';
 import * as WebSocket from 'ws';
-const debug = Debug('botkit:websocket');
+const debug = Debug('botkit:web');
 
 const clients = {};
 
@@ -15,12 +15,12 @@ const clients = {};
  * Requires a compatible chat client - generate one using the Botkit yeoman generator, or find it [here]()
  * # TODO: get links for chat client!
  */
-export class WebsocketAdapter extends BotAdapter {
+export class WebAdapter extends BotAdapter {
     /**
      * Name used to register this adapter with Botkit.
      * @ignore
      */
-    public name: string = 'Websocket Adapter';
+    public name: string = 'Web Adapter';
 
     /**
      * The websocket server.
@@ -36,7 +36,7 @@ export class WebsocketAdapter extends BotAdapter {
      * 
      * To use with Botkit:
      * ```javascript
-     * const adapter = new WebsocketAdapter();
+     * const adapter = new WebAdapter();
      * const controller = new Botkit({
      *      adapter: adapter,
      *      // other options
@@ -45,7 +45,7 @@ export class WebsocketAdapter extends BotAdapter {
      *
      * To use with BotBuilder:
      * ```javascript
-     * const adapter = new WebsocketAdapter();
+     * const adapter = new WebAdapter();
      * const server = restify.createServer();
      * server.use(restify.plugins.bodyParser());
      * // instead of binding processActivity to the incoming request, pass in turn handler logic to createSocketServer
@@ -213,21 +213,21 @@ export class WebsocketAdapter extends BotAdapter {
     }
 
     /**
-     * Websocket adapter does not support updateActivity.
+     * Web adapter does not support updateActivity.
      * @ignore
      */
     // eslint-disable-next-line
      public async updateActivity(context: TurnContext, activity: Partial<Activity>): Promise<void> {
-        debug('Websocket adapter does not support updateActivity.');
+        debug('Web adapter does not support updateActivity.');
     }
 
     /**
-     * Websocket adapter does not support updateActivity.
+     * Web adapter does not support updateActivity.
      * @ignore
      */
     // eslint-disable-next-line
      public async deleteActivity(context: TurnContext, reference: Partial<ConversationReference>): Promise<void> {
-        debug('Websocket adapter does not support deleteActivity.');
+        debug('Web adapter does not support deleteActivity.');
     }
 
     /**

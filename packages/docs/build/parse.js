@@ -189,7 +189,7 @@ function adapterAtTop(a,b) {
 }
 
 generateReference(__dirname + '/botkit.json',__dirname + '/../reference/core.md');
-generateReference(__dirname + '/websocket.json',__dirname + '/../reference/websocket.md');
+generateReference(__dirname + '/web.json',__dirname + '/../reference/web.md');
 generateReference(__dirname + '/webex.json',__dirname + '/../reference/webex.md');
 generateReference(__dirname + '/slack.json',__dirname + '/../reference/slack.md');
 generateReference(__dirname + '/hangouts.json',__dirname + '/../reference/hangouts.md');
@@ -197,7 +197,7 @@ generateReference(__dirname + '/twilio-sms.json',__dirname + '/../reference/twil
 generateReference(__dirname + '/facebook.json',__dirname + '/../reference/facebook.md');
 generateReference(__dirname + '/cms.json',__dirname + '/../reference/cms.md');
 
-generateAdapter(__dirname + '/../../botbuilder-adapter-websocket/readme.md', {name: 'Websocket and Webhooks'} , __dirname + '/../platforms/websocket.md');
+generateAdapter(__dirname + '/../../botbuilder-adapter-web/readme.md', {name: 'Websocket and Webhooks'} , __dirname + '/../platforms/web.md');
 generateAdapter(__dirname + '/../../botbuilder-adapter-webex/readme.md', {name: 'Webex Teams'} , __dirname + '/../platforms/webex.md');
 generateAdapter(__dirname + '/../../botbuilder-adapter-slack/readme.md', {name: 'Slack'} , __dirname + '/../platforms/slack.md');
 generateAdapter(__dirname + '/../../botbuilder-adapter-hangouts/readme.md', {name: 'Google Hangouts'} , __dirname + '/../platforms/hangouts.md');

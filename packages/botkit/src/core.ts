@@ -32,7 +32,7 @@ export interface BotkitConfiguration {
     dialogStateProperty?: string;
 
     /**
-     * A fully configured BotBuilder Adapter, such as `botbuilder-adapter-slack` or `botbuilder-adapter-websocket`
+     * A fully configured BotBuilder Adapter, such as `botbuilder-adapter-slack` or `botbuilder-adapter-web`
      * The adapter is responsible for translating platform-specific messages into the format understood by Botkit and BotBuilder.
      */
     adapter?: any;

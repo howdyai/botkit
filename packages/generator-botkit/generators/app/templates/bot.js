@@ -13,8 +13,8 @@ const { BotkitCMSHelper } = require('botkit-plugin-cms');
 const { SlackAdapter, SlackMessageTypeMiddleware, SlackEventMiddleware } = require('botbuilder-adapter-slack');
 <% } else if (platform === 'webex') { %>
 const { WebexAdapter } = require('botbuilder-adapter-webex');
-<% } else if (platform === 'websocket') { %>
-const { WebsocketAdapter } = require('botbuilder-adapter-websocket');
+<% } else if (platform === 'web') { %>
+const { WebAdapter } = require('botbuilder-adapter-web');
 <% } else if (platform === 'facebook') { %>
 const { FacebookAdapter, FacebookEventTypeMiddleware } = require('botbuilder-adapter-facebook');
 <% } else if (platform === 'twilio-sms') { %>const { TwilioAdapter } = require('botbuilder-adapter-twilio-sms');
@@ -63,8 +63,8 @@ const adapter = new WebexAdapter({
     access_token: process.env.access_token,
     public_address: process.env.public_address
 })    
-<% } else if (platform === 'websocket') { %>
-const adapter = new WebsocketAdapter({});
+<% } else if (platform === 'web') { %>
+const adapter = new WebAdapter({});
 <% } else if (platform === 'facebook') { %>
 const adapter = new FacebookAdapter({
     verify_token: process.env.FACEBOOK_VERIFY_TOKEN,
