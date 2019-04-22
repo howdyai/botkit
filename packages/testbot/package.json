@@ -1,14 +1,13 @@
 {
   "name": "testbot",
   "version": "1.0.0",
-  "description": "",
+  "description": "a test harness for testing in-progress changes to botkit",
   "main": "bot.js",
   "scripts": {
-    "start": "node bot.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node bot.js"
   },
-  "author": "",
-  "license": "ISC",
+  "author": "benbrown@gmail.com",
+  "license": "MIT",
   "dependencies": {
     "botbuilder-ai": "^4.3.2",
     "botbuilder-dialogs": "^4.3.0",

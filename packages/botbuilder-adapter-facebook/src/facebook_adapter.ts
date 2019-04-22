@@ -35,21 +35,21 @@ export class FacebookAdapter extends BotAdapter {
 
     /**
      * Create an adapter to handle incoming messages from Facebook and translate them into a standard format for processing by your bot.
-     * 
+     *
      * The Facebook Adapter can be used in 2 modes:
      * * bound to a single Facebook page
      * * multi-tenancy mode able to serve multiple pages
-     * 
+     *
      * To create an app bound to a single Facebook page, include that page's `access_token` in the options.
-     * 
+     *
      * To create an app that can be bound to multiple pages, include `getAccessTokenForPage` - a function in the form `async (pageId) => page_access_token`
-     * 
+     *
      * To use with Botkit:
      * ```javascript
      * const adapter = new FacebookAdapter({
      *      verify_token: process.env.FACEBOOK_VERIFY_TOKEN,
      *      app_secret: process.env.FACEBOOK_APP_SECRET,
-     *      access_token: process.env.FACEBOOK_ACCESS_TOKEN 
+     *      access_token: process.env.FACEBOOK_ACCESS_TOKEN
      * });
      * const controller = new Botkit({
      *      adapter: adapter,
@@ -72,19 +72,19 @@ export class FacebookAdapter extends BotAdapter {
      *      });
      * });
      * ```
-     * 
+     *
      * In multi-tenancy mode:
      * ```javascript
      * const adapter = new FacebookAdapter({
      *      verify_token: process.env.FACEBOOK_VERIFY_TOKEN,
      *      app_secret: process.env.FACEBOOK_APP_SECRET,
-     *       getAccessTokenForPage: async(pageId) => { 
+     *       getAccessTokenForPage: async(pageId) => {
      *           // do something to fetch the page access token for pageId.
      *           return token;
      *       })
      * });
      *```
-     * 
+     *
      * @param options Configuration options
      */
     public constructor(options: FacebookAdapterOptions) {
@@ -115,7 +115,7 @@ export class FacebookAdapter extends BotAdapter {
     }
 
     /**
-     * Botkit-only: Initialization function called automatically when used with Botkit. 
+     * Botkit-only: Initialization function called automatically when used with Botkit.
      *      * Amends the webhook_uri with an additional behavior for responding to Facebook's webhook verification request.
      * @param botkit
      */
@@ -135,7 +135,7 @@ export class FacebookAdapter extends BotAdapter {
     /**
      * Get a Facebook API client with the correct credentials based on the page identified in the incoming activity.
      * This is used by many internal functions to get access to the Facebook API, and is exposed as `bot.api` on any BotWorker instances passed into Botkit handler functions.
-     * 
+     *
      * ```javascript
      * let api = adapter.getAPI(activity);
      * let res = api.callAPI('/me/messages', 'POST', message);
@@ -412,9 +412,7 @@ export class FacebookAdapter extends BotAdapter {
             return true;
         }
     }
-
 }
-
 
 /**
  * This interface defines the options that can be passed into the FacebookAdapter constructor function.

@@ -38,11 +38,11 @@ export class SlackAdapter extends BotAdapter {
 
     /**
      * Create a Slack adapter.
-     * 
-     * The SlackAdapter can be used in 2 modes: 
+     *
+     * The SlackAdapter can be used in 2 modes:
      *      * As an "[internal integration](https://api.slack.com/internal-integrations) connected to a single Slack workspace
      *      * As a "[Slack app](https://api.slack.com/slack-apps) that uses oauth to connect to multiple workspaces and can be submitted to the Slack app.
-     * 
+     *
      * [Read here for more information about all the ways to configure the SlackAdapter &rarr;](../../botbuilder-adapter-slack/readme.md).
      *
      * Use with Botkit:
@@ -208,7 +208,7 @@ export class SlackAdapter extends BotAdapter {
      * Get the oauth link for this bot, based on the clientId and scopes passed in to the constructor.
      *
      * An example using Botkit's internal webserver to configure the /install route:
-     * 
+     *
      * ```javascript
      * controller.webserver.get('/install', (req, res) => {
      *  res.redirect(controller.adapter.getInstallLink());
@@ -230,7 +230,7 @@ export class SlackAdapter extends BotAdapter {
      * Validates an oauth code sent by Slack during the install process.
      *
      * An example using Botkit's internal webserver to configure the /install/auth route:
-     * 
+     *
      * ```javascript
      * controller.webserver.get('/install/auth', async (req, res) => {
      *      try {

@@ -11,7 +11,7 @@ const apiVersion = 'v1';
 
 /**
  * Connect [Botkit](https://www.npmjs.com/package/botkit) or [BotBuilder](https://www.npmjs.com/package/botbuilder) to Google Hangouts
- * 
+ *
  */
 export class HangoutsAdapter extends BotAdapter {
     /**

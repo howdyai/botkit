@@ -1,7 +1,7 @@
 /**
  * @module botkit
  */
-import { Activity,  MemoryStorage, Storage, ConversationReference, TurnContext } from 'botbuilder';
+import { Activity, MemoryStorage, Storage, ConversationReference, TurnContext } from 'botbuilder';
 import { Dialog, DialogContext, DialogSet, DialogTurnStatus } from 'botbuilder-dialogs';
 import { BotkitBotFrameworkAdapter } from './adapter';
 import { BotWorker } from './botworker';
@@ -96,7 +96,6 @@ export interface BotkitMessage {
      * The original incoming [BotBuilder Activity](https://docs.microsoft.com/en-us/javascript/api/botframework-schema/activity?view=botbuilder-ts-latest) object as created by the adapter.
      */
     incoming_message: Activity;
-
 
     /**
      * Any additional fields found in the incoming payload from the messaging platform.
@@ -372,7 +371,6 @@ export class Botkit {
             const adapterConfig = { ...this._config.adapterConfig };
             debug('Configuring BotFrameworkAdapter:', adapterConfig);
             this.adapter = new BotkitBotFrameworkAdapter(adapterConfig);
-            
         } else {
             debug('Using pre-configured adapter.');
             this.adapter = this._config.adapter;
@@ -468,13 +466,39 @@ export class Botkit {
         debug('Plugin Enabled: ', name);
     }
 
+    /**
+     * (Plugins only) Extend Botkit's controller with new functionality and make it available globally via the controller object.
+     *
+     * ```javascript
+     *
+     * // define the extension interface
+     * let extension = {
+     *         stuff: () => { return 'stuff' }
+     * }
+     *
+     * // register the extension
+     * controller.addPluginExtension('foo', extension);
+     *
+     * // call extension
+     * controller.plugins.foo.stuff();
+     *
+     *
+     * ```
+     * @param name name of plugin
+     * @param extension an object containing methods
+     */
     public addPluginExtension(name: string, extension: any): void {
         debug('Plugin extension added: controller.' + name);
         this._plugins[name] = extension;
     }
 
-    get plugins() {
-        return this._plugins
+    /**
+     * Access plugin extension methods.
+     * After a plugin calls `controller.addPluginExtension('foo', extension_methods)`, the extension will then be available at
+     * `controller.plugins.foo`
+     */
+    public get plugins(): {[key: string]: any} {
+        return this._plugins;
     }
 
     /**
@@ -935,7 +959,7 @@ export class Botkit {
                     if (handler_results === false) {
                         break;
                     }
-                } catch(err) {
+                } catch (err) {
                     console.error('Error in trigger handler', err);
                     throw Error(err);
                 }

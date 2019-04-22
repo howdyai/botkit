@@ -7,7 +7,7 @@ import * as Ciscospark from 'ciscospark';
 /**
  * This is a specialized version of [Botkit's core BotWorker class](core.md#BotWorker) that includes additional methods for interacting with Webex Teams.
  * It includes all functionality from the base class, as well as the extension methods below.
- * 
+ *
  * When using the WebexAdapter with Botkit, all `bot` objects passed to handler functions will include these extensions.
  */
 export class WebexBotWorker extends BotWorker {

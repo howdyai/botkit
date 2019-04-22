@@ -32,7 +32,6 @@ export class BotkitCMSHelper {
     public name: string = 'Botkit CMS';
 
     public constructor(config: CMSOptions) {
-
         this._config = config;
         if (config.controller) {
             this._controller = this._config.controller;
@@ -44,39 +43,36 @@ export class BotkitCMSHelper {
         if (!this._config.token) {
             throw new Error('Specify a token that matches one configured in your Botkit CMS instance');
         }
-
     }
-
 
     /**
      * Botkit plugin init function
      * Autoloads all scripts into the controller's main dialogSet.
      * @param botkit A Botkit controller object
      */
-    public init(botkit) {
+    public init(botkit): void {
         this._controller = botkit;
         this._controller.addDep('cms');
 
         // Extend the controller object with controller.plugins.cms
         botkit.addPluginExtension('cms', this);
-        
+
         // pre-load all the scripts via the CMS api
         this.loadAllScripts(this._controller.dialogSet).then(() => {
             debug('Dialogs loaded from Botkit CMS');
             this._controller.completeDep('cms');
         });
-        
     }
 
     private async apiRequest(uri: string, params: {[key: string]: any} = {}, method: string = 'GET'): Promise<any> {
         let req = {
             uri: this._config.uri + uri + '?access_token=' + this._config.token,
             headers: {
-                'content-type': 'application/json',
+                'content-type': 'application/json'
             },
             method: method,
-            form: params,
-        }
+            form: params
+        };
 
         debug('Make request to Botkit CMS: ', req);
 
@@ -90,19 +86,19 @@ export class BotkitCMSHelper {
                     let json = null;
                     try {
                         json = JSON.parse(body);
-                    } catch(err) {
+                    } catch (err) {
                         debug('Error parsing JSON from Botkit CMS api: ', err);
                         return reject(err);
                     }
 
                     if (!json || json == null) {
-                        reject('Botkit CMS API response was empty or invalid JSON');
-                      } else if (json.error) {
-                        if(res.statusCode === 401){
-                          console.error(json.error);
+                        reject(new Error('Botkit CMS API response was empty or invalid JSON'));
+                    } else if (json.error) {
+                        if (res.statusCode === 401) {
+                            console.error(json.error);
                         }
                         reject(json.error);
-                      } else {
+                    } else {
                         resolve(json);
                     }
                 }
@@ -117,7 +113,7 @@ export class BotkitCMSHelper {
     private async evaluateTrigger(text: string): Promise<any> {
         return this.apiRequest('/api/v1/commands/triggers', {
             triggers: text
-        },'POST');
+        }, 'POST');
     }
 
     /**
@@ -306,7 +302,6 @@ export class BotkitCMSHelper {
         }
     }
 }
-
 
 export interface CMSOptions {
     uri: string;

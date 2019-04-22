@@ -3,7 +3,6 @@
   "version": "4.0.0-prerelease-2",
   "description": "Automatically generate a Botkit application template for any supported platform",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
   },
   "files": [
     "generators"

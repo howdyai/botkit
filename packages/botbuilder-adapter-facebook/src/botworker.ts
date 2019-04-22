@@ -7,7 +7,7 @@ import { FacebookAPI } from './facebook_api';
 /**
  * This is a specialized version of [Botkit's core BotWorker class](core.md#BotWorker) that includes additional methods for interacting with Facebook.
  * It includes all functionality from the base class, as well as the extension methods below.
- * 
+ *
  * When using the FacebookAdapter with Botkit, all `bot` objects passed to handler functions will include these extensions.
  */
 export class FacebookBotWorker extends BotWorker {
@@ -22,7 +22,7 @@ export class FacebookBotWorker extends BotWorker {
      * When used with the FacebookAdapter's multi-tenancy mode, it is possible to spawn a bot instance by passing in the Facebook page ID representing the appropriate bot identity.
      * Use this in concert with [startConversationWithUser()](#startConversationWithUser) and [changeContext()](core.md#changecontext) to start conversations
      * or send proactive alerts to users on a schedule or in response to external events.
-     * 
+     *
      * ```javascript
      * let bot = await controller.spawn(FACEBOOK_PAGE_ID);
      * ```
@@ -52,14 +52,14 @@ export class FacebookBotWorker extends BotWorker {
     /**
      * Change the operating context of the worker to begin a conversation with a specific user.
      * After calling this method, any calls to `bot.say()` or `bot.beginDialog()` will occur in this new context.
-     * 
+     *
      * This method can be used to send users scheduled messages or messages triggered by external events.
      * ```javascript
      * let bot = await controller.spawn(FACEBOOK_PAGE_ID);
      * await bot.startConversationWithUser(FACEBOOK_USER_PSID);
      * await bot.say('Howdy human!');
      * ```
-     * 
+     *
      * @param userId the PSID of a user the bot has previously interacted with
      */
     public async startConversationWithUser(userId): Promise<void> {

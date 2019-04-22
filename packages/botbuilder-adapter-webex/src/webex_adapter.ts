@@ -78,7 +78,7 @@ export class WebexAdapter extends BotAdapter {
      *      public_address: process.env.PUBLIC_ADDRESS,  // public url of this app https://myapp.com/
      *      secret: process.env.SECRET // webhook validation secret - you can define this yourself
      * });
-     * 
+     *
      * // set up restify...
      * const server = restify.createServer();
      * server.use(restify.plugins.bodyParser());
@@ -117,8 +117,6 @@ export class WebexAdapter extends BotAdapter {
             if (!this._api) {
                 throw new Error('Could not create the Webex Teams API client');
             }
-
- 
         }
 
         if (!this._config.public_address) {
@@ -173,18 +171,24 @@ export class WebexAdapter extends BotAdapter {
     }
 
     /**
-     * Botkit-only: Initialization function called automatically when used with Botkit. 
+     * Botkit-only: Initialization function called automatically when used with Botkit.
      *      * Calls registerWebhookSubscription() during bootup.
      *      * Calls getIdentit() to load the bot's identity.
      */
     public init(botkit): void {
         // when the bot is ready, register the webhook subscription with the Webex API
+
+        botkit.addDep('webex-identity');
+
+        this.getIdentity().then(() => {
+            botkit.completeDep('webex-identity');
+        }).catch((err) => {
+            throw new Error(err);
+        });
+
         botkit.ready(() => {
             debug('Registering webhook subscription!');
             botkit.adapter.registerWebhookSubscription(botkit.getConfig('webhook_uri'));
-            this.getIdentity().catch((err) => {
-                throw new Error(err);
-            });
         });
     }
 

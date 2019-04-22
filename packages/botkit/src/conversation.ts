@@ -148,7 +148,7 @@ export class BotkitConversation<O extends object = {}> extends Dialog<O> {
 
     /**
      * An an action, like `stop`, or `repeat` or `complete`, or the name of a thread to go to.
-     * 
+     *
      * ```javascript
      * convo.addAction('completed');
      * ```
@@ -156,7 +156,7 @@ export class BotkitConversation<O extends object = {}> extends Dialog<O> {
      * @param thread_name The name of a thread
      */
     public addAction(action: string, thread_name: string = 'default'): void {
-        this.addMessage({action: action}, thread_name);
+        this.addMessage({ action: action }, thread_name);
     }
 
     /**

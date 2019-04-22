@@ -33,7 +33,7 @@ export class WebAdapter extends BotAdapter {
 
     /**
      * Create an adapter to handle incoming messages from a websocket and/or webhook and translate them into a standard format for processing by your bot.
-     * 
+     *
      * To use with Botkit:
      * ```javascript
      * const adapter = new WebAdapter();
@@ -54,7 +54,7 @@ export class WebAdapter extends BotAdapter {
      *  // handle turn here
      * });
      * ```
-     * 
+     *
      * @param socketServerOptions an optional object containing parameters to send to a call to [WebSocket.server](https://github.com/websockets/ws/blob/master/doc/ws.md#new-websocketserveroptions-callback).
      */
     public constructor(socketServerOptions?: {[key: string]: any}) {
@@ -63,7 +63,7 @@ export class WebAdapter extends BotAdapter {
     }
 
     /**
-     * Botkit-only: Initialization function called automatically when used with Botkit. 
+     * Botkit-only: Initialization function called automatically when used with Botkit.
      *      * Calls createSocketServer to bind a websocket listener to Botkit's pre-existing webserver.
      * @param botkit
      */

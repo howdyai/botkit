@@ -1,8 +1,9 @@
 # packages
 
-* review all package details (author, github, tags, license)
 
 * publishing
+
+* move/remove/ignore testbot
 
 # Teams 
 
@@ -65,3 +66,4 @@
 # DONE STUFF
 
 ~* customize user agent for botframework~
+~* review all package details (author, github, tags, license)~
