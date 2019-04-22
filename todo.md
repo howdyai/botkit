@@ -1,11 +1,6 @@
 # packages
 
-* decide on release version numbers and package names
-    *botbuilder-adapter-web?
-
 * review all package details (author, github, tags, license)
-
-* customize user agent for botframework
 
 * publishing
 
@@ -25,8 +20,9 @@
 
 # core
 
-    * separate botkit CMS stuff from core
-    * conversation could use some more docs probably
+    * conversation could use some more reference docs
+    
+    ~* separate botkit CMS stuff from core~
 
 # websocket
 
@@ -66,3 +62,6 @@
 
 # Tests!
 
+# DONE STUFF
+
+~* customize user agent for botframework~

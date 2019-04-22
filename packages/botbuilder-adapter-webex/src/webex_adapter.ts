@@ -78,11 +78,14 @@ export class WebexAdapter extends BotAdapter {
      *      public_address: process.env.PUBLIC_ADDRESS,  // public url of this app https://myapp.com/
      *      secret: process.env.SECRET // webhook validation secret - you can define this yourself
      * });
+     * 
      * // set up restify...
      * const server = restify.createServer();
      * server.use(restify.plugins.bodyParser());
      * // register the webhook subscription to start receiving messages - Botkit does this automatically!
      * adapter.registerWebhookSubscription('/api/messages');
+     * // Load up the bot's identity, otherwise it won't know how to filter messages from itself
+     * adapter.getIdentity();
      * // create an endpoint for receiving messages
      * server.post('/api/messages', (req, res) => {
      *      adapter.processActivity(req, res, async(context) => {
@@ -115,12 +118,7 @@ export class WebexAdapter extends BotAdapter {
                 throw new Error('Could not create the Webex Teams API client');
             }
 
-            this._api.people.get('me').then((identity) => {
-                debug('Webex: My identity is', identity);
-                this._identity = identity;
-            }).catch(function(err) {
-                throw new Error(err);
-            });
+ 
         }
 
         if (!this._config.public_address) {
@@ -152,28 +150,48 @@ export class WebexAdapter extends BotAdapter {
     }
 
     /**
+     * Load the bot's identity via the Webex API.
+     * MUST be called by BotBuilder bots in order to filter messages sent by the bot.
+     */
+    public async getIdentity(): Promise<any> {
+        return new Promise((resolve, reject) => {
+            this._api.people.get('me').then((identity) => {
+                debug('Webex: My identity is', identity);
+                this._identity = identity;
+                resolve(identity);
+            }).catch((err) => {
+                reject(err);
+            });
+        });
+    }
+
+    /**
      * Returns the identity of the bot, including {id, emails, displayName, created} and anything else from [this spec](https://webex.github.io/spark-js-sdk/api/#personobject)
      */
     public get identity(): any {
-        return this._identity;
+        return this._identity || {};
     }
 
     /**
      * Botkit-only: Initialization function called automatically when used with Botkit. 
      *      * Calls registerWebhookSubscription() during bootup.
+     *      * Calls getIdentit() to load the bot's identity.
      */
     public init(botkit): void {
         // when the bot is ready, register the webhook subscription with the Webex API
         botkit.ready(() => {
             debug('Registering webhook subscription!');
             botkit.adapter.registerWebhookSubscription(botkit.getConfig('webhook_uri'));
+            this.getIdentity().catch((err) => {
+                throw new Error(err);
+            });
         });
     }
 
     /**
      * Clear out and reset all the webhook subscriptions currently associated with this application.
      */
-    public async resetWebhookSubscriptions(): Promise<void> {
+    public async resetWebhookSubscriptions(): Promise<any> {
         return new Promise(async (resolve, reject) => {
             this._api.webhooks.list().then(async (list) => {
                 for (var i = 0; i < list.items.length; i++) {
@@ -353,16 +371,16 @@ export class WebexAdapter extends BotAdapter {
             };
 
             // this is the bot speaking
-            if (activity.from.id === this._identity.id) {
+            if (activity.from.id === this.identity.id) {
                 activity.channelData.botkitEventType = 'self_message';
                 activity.type = ActivityTypes.Event;
             }
 
             if (decrypted_message.html) {
                 // strip the mention & HTML from the message
-                let pattern = new RegExp('^(<p>)?<spark-mention .*?data-object-id="' + this._identity.id + '".*?>.*?</spark-mention>', 'im');
+                let pattern = new RegExp('^(<p>)?<spark-mention .*?data-object-id="' + this.identity.id + '".*?>.*?</spark-mention>', 'im');
                 if (!decrypted_message.html.match(pattern)) {
-                    var encoded_id = this._identity.id;
+                    var encoded_id = this.identity.id;
                     var decoded = Buffer.from(encoded_id, 'base64').toString('ascii');
 
                     // this should look like ciscospark://us/PEOPLE/<id string>

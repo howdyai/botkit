@@ -1,8 +1,13 @@
 {
   "name": "botkit-plugin-cms",
   "version": "1.0.0",
-  "description": "extend botkit with access to botkit-cms",
-  "main": "lib/index.js",
+  "description": "Extend Botkit with access to botkit-cms",
+  "main": "./lib/index.js",
+  "typings": "./lib/index.d.ts",
+  "files": [
+    "/lib",
+    "/src"
+  ],
   "scripts": {
     "build": "tsc",
     "eslint": "./node_modules/.bin/eslint --fix src/*"
@@ -14,6 +19,14 @@
     "bots",
     "chatbots"
   ],
+  "homepage": "https://github.com/howdyai/botkit/blob/packages/botkit-plugin-cms#readme",
+  "bugs": {
+    "url": "https://github.com/howdyai/botkit/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/howdyai/botkit.git"
+  },
   "dependencies": {
     "botbuilder": "^4.3.0",
     "botbuilder-dialogs": "^4.3.0",
@@ -23,11 +36,11 @@
   "devDependencies": {
     "@types/express": "^4.16.0",
     "@types/node": "^10.12.18",
-      "eslint": "^5.5.0",
-      "eslint-config-standard": "^12.0.0",
-      "eslint-plugin-import": "^2.14.0",
-      "eslint-plugin-node": "^7.0.1",
-      "eslint-plugin-promise": "^4.0.1",
-      "eslint-plugin-standard": "^4.0.0"
+    "eslint": "^5.5.0",
+    "eslint-config-standard": "^12.0.0",
+    "eslint-plugin-import": "^2.14.0",
+    "eslint-plugin-node": "^7.0.1",
+    "eslint-plugin-promise": "^4.0.1",
+    "eslint-plugin-standard": "^4.0.0"
   }
 }

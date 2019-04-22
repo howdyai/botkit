@@ -10,7 +10,7 @@
   ],
   "scripts": {
     "build": "tsc",
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "tsc ; nyc mocha tests/*.tests.js",
     "eslint": "./node_modules/.bin/eslint --fix src/*"
   },
   "author": "Microsoft Corp.",
@@ -35,12 +35,8 @@
   "dependencies": {
     "@slack/client": "^4.7.0",
     "botbuilder": "^4.3.0",
-    "botbuilder-dialogs": "^4.3.0",
-    "botframework-config": "^4.3.0",
     "botkit": "^4.0.0",
-    "debug": "^4.1.0",
-    "dotenv": "^6.0.0",
-    "restify": "^7.2.1"
+    "debug": "^4.1.0"
   },
   "devDependencies": {
     "eslint": "^5.5.0",
