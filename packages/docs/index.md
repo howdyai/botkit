@@ -514,11 +514,11 @@ const controller = new Botkit({
 });
 ```
 
-
 ## Building & Using Plugins
 
-... COMING SOON ...
 * controller.usePlugin()
+* controller.addPluginExtension()
+* controller.plugins
 * controller.getLocalView()
 * controller.publicFolder()
 
