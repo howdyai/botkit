@@ -95,7 +95,7 @@ controller.on('message', async(bot, message) => {
 | storage | Storage | a BotBuilder storage driver - defaults to MemoryStorage
 | version | string | The current version of Botkit Core
 | webserver | any | An Express webserver
-| plugins |  | 
+| plugins |  | Access plugin extension methods.<br/>After a plugin calls `controller.addPluginExtension('foo', extension_methods)`, the extension will then be available at<br/>`controller.plugins.foo`
 
 ## Botkit Class Methods
 <a name="addDep"></a>
@@ -149,16 +149,32 @@ controller.on('message', async(bot, message) => {
 
 <a name="addPluginExtension"></a>
 ### addPluginExtension()
-
+(Plugins only) Extend Botkit's controller with new functionality and make it available globally via the controller object.
 
 **Parameters**
 
 | Argument | Type | description
 |--- |--- |---
-| name| string | 
-| extension| any | 
+| name| string | name of plugin
+| extension| any | an object containing methods<br/>
 
 
+
+```javascript
+
+// define the extension interface
+let extension = {
+        stuff: () => { return 'stuff' }
+}
+
+// register the extension
+controller.addPluginExtension('foo', extension);
+
+// call extension
+controller.plugins.foo.stuff();
+
+
+```
 
 <a name="completeDep"></a>
 ### completeDep()

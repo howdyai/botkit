@@ -1,29 +1,11 @@
 # packages
 
-
-* publishing
-
+* PUBLISH TO NPM
 * move/remove/ignore testbot
-
-# Teams 
-
-* direct_message qualifications
-* update/remove message in botworker?
-
-* -> https://github.com/howdyai/botkit/blob/master/lib/TeamsAPI.js
-* getchannels <-- can be achieved but is different/ and not compatible with getconversations
-* getuserbyid <-- predicated on getconvo members
-* getuserbyupn <-- see above
-* getconversationmembers <-- works but awkward
-* getteamroster <-- works but awkward
-* gettoken? <-- works but awkard>
-
 
 # core
 
     * conversation could use some more reference docs
-    
-    ~* separate botkit CMS stuff from core~
 
 # websocket
 
@@ -61,9 +43,24 @@
 * keep?  Go?  mark as deprecated?  point at yeoman? autogenerate with yeoman??
 * glitch??
 
+# Teams 
+
+* direct_message qualifications
+* update/remove message in botworker?
+
+* -> https://github.com/howdyai/botkit/blob/master/lib/TeamsAPI.js
+* getchannels <-- can be achieved but is different/ and not compatible with getconversations
+* getuserbyid <-- predicated on getconvo members
+* getuserbyupn <-- see above
+* getconversationmembers <-- works but awkward
+* getteamroster <-- works but awkward
+* gettoken? <-- works but awkard>
+
+
 # Tests!
 
 # DONE STUFF
 
 ~* customize user agent for botframework~
 ~* review all package details (author, github, tags, license)~
+~* separate botkit CMS stuff from core~

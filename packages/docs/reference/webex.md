@@ -33,6 +33,7 @@ const { WebexAdapter } = require('botbuilder-adapter-webex');
 This class includes the following methods:
 * [continueConversation()](#continueConversation)
 * [deleteActivity()](#deleteActivity)
+* [getIdentity()](#getIdentity)
 * [init()](#init)
 * [processActivity()](#processActivity)
 * [registerWebhookSubscription()](#registerWebhookSubscription)
@@ -70,11 +71,14 @@ const adapter = new WebexAdapter({
      public_address: process.env.PUBLIC_ADDRESS,  // public url of this app https://myapp.com/
      secret: process.env.SECRET // webhook validation secret - you can define this yourself
 });
+
 // set up restify...
 const server = restify.createServer();
 server.use(restify.plugins.bodyParser());
 // register the webhook subscription to start receiving messages - Botkit does this automatically!
 adapter.registerWebhookSubscription('/api/messages');
+// Load up the bot's identity, otherwise it won't know how to filter messages from itself
+adapter.getIdentity();
 // create an endpoint for receiving messages
 server.post('/api/messages', (req, res) => {
      adapter.processActivity(req, res, async(context) => {
@@ -120,10 +124,17 @@ Standard BotBuilder adapter method to delete a previous message.
 
 
 
+<a name="getIdentity"></a>
+### getIdentity()
+Load the bot's identity via the Webex API.
+MUST be called by BotBuilder bots in order to filter messages sent by the bot.
+
+
 <a name="init"></a>
 ### init()
 Botkit-only: Initialization function called automatically when used with Botkit.
      * Calls registerWebhookSubscription() during bootup.
+     * Calls getIdentit() to load the bot's identity.
 
 **Parameters**
 
