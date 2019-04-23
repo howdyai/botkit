@@ -7,14 +7,14 @@ This is a class reference for all the methods exposed by the [botbuilder-adapter
 ## Classes
 
 
-* <a href="#FacebookAdapter">FacebookAdapter</a>
-* <a href="#FacebookBotWorker">FacebookBotWorker</a>
-* <a href="#FacebookAPI">FacebookAPI</a>
-* <a href="#FacebookEventTypeMiddleware">FacebookEventTypeMiddleware</a>
+* <a href="#FacebookAdapter" aria-current="page">FacebookAdapter</a>
+* <a href="#FacebookBotWorker" aria-current="page">FacebookBotWorker</a>
+* <a href="#FacebookAPI" aria-current="page">FacebookAPI</a>
+* <a href="#FacebookEventTypeMiddleware" aria-current="page">FacebookEventTypeMiddleware</a>
 
 ## Interfaces
 
-* <a href="#FacebookAdapterOptions">FacebookAdapterOptions</a>
+* <a href="#FacebookAdapterOptions" aria-current="page">FacebookAdapterOptions</a>
 
 ---
 

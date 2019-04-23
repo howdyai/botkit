@@ -7,7 +7,7 @@ This is a class reference for all the methods exposed by the [botbuilder-adapter
 ## Classes
 
 
-* <a href="#WebAdapter">WebAdapter</a>
+* <a href="#WebAdapter" aria-current="page">WebAdapter</a>
 
 
 ---

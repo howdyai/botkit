@@ -7,12 +7,12 @@ This is a class reference for all the methods exposed by the [botbuilder-adapter
 ## Classes
 
 
-* <a href="#HangoutsAdapter">HangoutsAdapter</a>
-* <a href="#HangoutsBotWorker">HangoutsBotWorker</a>
+* <a href="#HangoutsAdapter" aria-current="page">HangoutsAdapter</a>
+* <a href="#HangoutsBotWorker" aria-current="page">HangoutsBotWorker</a>
 
 ## Interfaces
 
-* <a href="#HangoutsAdapterOptions">HangoutsAdapterOptions</a>
+* <a href="#HangoutsAdapterOptions" aria-current="page">HangoutsAdapterOptions</a>
 
 ---
 

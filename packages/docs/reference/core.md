@@ -7,19 +7,19 @@ This is a class reference for all the methods exposed by the [botkit](https://gi
 ## Classes
 
 
-* <a href="#Botkit">Botkit</a>
-* <a href="#BotkitBotFrameworkAdapter">BotkitBotFrameworkAdapter</a>
-* <a href="#BotWorker">BotWorker</a>
-* <a href="#BotkitConversation">BotkitConversation</a>
-* <a href="#BotkitDialogWrapper">BotkitDialogWrapper</a>
+* <a href="#Botkit" aria-current="page">Botkit</a>
+* <a href="#BotkitBotFrameworkAdapter" aria-current="page">BotkitBotFrameworkAdapter</a>
+* <a href="#BotWorker" aria-current="page">BotWorker</a>
+* <a href="#BotkitConversation" aria-current="page">BotkitConversation</a>
+* <a href="#BotkitDialogWrapper" aria-current="page">BotkitDialogWrapper</a>
 
 ## Interfaces
 
-* <a href="#BotkitConfiguration">BotkitConfiguration</a>
-* <a href="#BotkitConversationStep">BotkitConversationStep</a>
-* <a href="#BotkitHandler">BotkitHandler</a>
-* <a href="#BotkitMessage">BotkitMessage</a>
-* <a href="#BotkitPlugin">BotkitPlugin</a>
+* <a href="#BotkitConfiguration" aria-current="page">BotkitConfiguration</a>
+* <a href="#BotkitConversationStep" aria-current="page">BotkitConversationStep</a>
+* <a href="#BotkitHandler" aria-current="page">BotkitHandler</a>
+* <a href="#BotkitMessage" aria-current="page">BotkitMessage</a>
+* <a href="#BotkitPlugin" aria-current="page">BotkitPlugin</a>
 
 ---
 

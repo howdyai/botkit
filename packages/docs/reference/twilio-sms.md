@@ -7,12 +7,12 @@ This is a class reference for all the methods exposed by the [botbuilder-adapter
 ## Classes
 
 
-* <a href="#TwilioAdapter">TwilioAdapter</a>
-* <a href="#TwilioBotWorker">TwilioBotWorker</a>
+* <a href="#TwilioAdapter" aria-current="page">TwilioAdapter</a>
+* <a href="#TwilioBotWorker" aria-current="page">TwilioBotWorker</a>
 
 ## Interfaces
 
-* <a href="#TwilioAdapterOptions">TwilioAdapterOptions</a>
+* <a href="#TwilioAdapterOptions" aria-current="page">TwilioAdapterOptions</a>
 
 ---
 

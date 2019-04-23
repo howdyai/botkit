@@ -7,12 +7,12 @@ This is a class reference for all the methods exposed by the [botbuilder-adapter
 ## Classes
 
 
-* <a href="#WebexAdapter">WebexAdapter</a>
-* <a href="#WebexBotWorker">WebexBotWorker</a>
+* <a href="#WebexAdapter" aria-current="page">WebexAdapter</a>
+* <a href="#WebexBotWorker" aria-current="page">WebexBotWorker</a>
 
 ## Interfaces
 
-* <a href="#WebexAdapterOptions">WebexAdapterOptions</a>
+* <a href="#WebexAdapterOptions" aria-current="page">WebexAdapterOptions</a>
 
 ---
 

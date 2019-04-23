@@ -7,15 +7,15 @@ This is a class reference for all the methods exposed by the [botbuilder-adapter
 ## Classes
 
 
-* <a href="#SlackAdapter">SlackAdapter</a>
-* <a href="#SlackBotWorker">SlackBotWorker</a>
-* <a href="#SlackDialog">SlackDialog</a>
-* <a href="#SlackEventMiddleware">SlackEventMiddleware</a>
-* <a href="#SlackMessageTypeMiddleware">SlackMessageTypeMiddleware</a>
+* <a href="#SlackAdapter" aria-current="page">SlackAdapter</a>
+* <a href="#SlackBotWorker" aria-current="page">SlackBotWorker</a>
+* <a href="#SlackDialog" aria-current="page">SlackDialog</a>
+* <a href="#SlackEventMiddleware" aria-current="page">SlackEventMiddleware</a>
+* <a href="#SlackMessageTypeMiddleware" aria-current="page">SlackMessageTypeMiddleware</a>
 
 ## Interfaces
 
-* <a href="#SlackAdapterOptions">SlackAdapterOptions</a>
+* <a href="#SlackAdapterOptions" aria-current="page">SlackAdapterOptions</a>
 
 ---
 

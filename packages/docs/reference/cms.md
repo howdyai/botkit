@@ -7,11 +7,11 @@ This is a class reference for all the methods exposed by the [botkit-plugin-cms]
 ## Classes
 
 
-* <a href="#BotkitCMSHelper">BotkitCMSHelper</a>
+* <a href="#BotkitCMSHelper" aria-current="page">BotkitCMSHelper</a>
 
 ## Interfaces
 
-* <a href="#CMSOptions">CMSOptions</a>
+* <a href="#CMSOptions" aria-current="page">CMSOptions</a>
 
 ---
 
