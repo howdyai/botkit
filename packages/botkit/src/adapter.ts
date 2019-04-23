@@ -40,6 +40,7 @@ export class BotkitBotFrameworkAdapter extends BotFrameworkAdapter {
     /**
      * Allows for mocking of the connector client in unit tests.
      * Overridden by Botkit in order to change userAgent.
+     * @ignore
      * @param serviceUrl Clients service url.
      */
     protected createConnectorClient(serviceUrl: string): ConnectorClient {
@@ -50,6 +51,7 @@ export class BotkitBotFrameworkAdapter extends BotFrameworkAdapter {
     /**
      * Allows for mocking of the OAuth API Client in unit tests.
      * Overridden by Botkit in order to change userAgent.
+     * @ignore
      * @param serviceUrl Clients service url.
      */
     protected createTokenApiClient(serviceUrl: string): TokenApiClient {

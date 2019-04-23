@@ -479,8 +479,6 @@ const { BotkitBotFrameworkAdapter } = require('botkit');
 ```
 
 This class includes the following methods:
-* [createConnectorClient()](#createConnectorClient)
-* [createTokenApiClient()](#createTokenApiClient)
 * [getChannels()](#getChannels)
 
 
@@ -497,32 +495,6 @@ This class includes the following methods:
 
 
 ## BotkitBotFrameworkAdapter Class Methods
-<a name="createConnectorClient"></a>
-### createConnectorClient()
-Allows for mocking of the connector client in unit tests.
-Overridden by Botkit in order to change userAgent.
-
-**Parameters**
-
-| Argument | Type | description
-|--- |--- |---
-| serviceUrl| string | Clients service url.<br/>
-
-
-
-<a name="createTokenApiClient"></a>
-### createTokenApiClient()
-Allows for mocking of the OAuth API Client in unit tests.
-Overridden by Botkit in order to change userAgent.
-
-**Parameters**
-
-| Argument | Type | description
-|--- |--- |---
-| serviceUrl| string | Clients service url.<br/>
-
-
-
 <a name="getChannels"></a>
 ### getChannels()
 Get the list of channels in a MS Teams team.

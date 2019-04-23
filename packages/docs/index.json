@@ -3750,106 +3750,6 @@
               ]
             },
             {
-              "id": 6,
-              "name": "createConnectorClient",
-              "kind": 2048,
-              "kindString": "Method",
-              "flags": {
-                "isProtected": true,
-                "isExported": true,
-                "isExternal": true
-              },
-              "signatures": [
-                {
-                  "id": 7,
-                  "name": "createConnectorClient",
-                  "kind": 4096,
-                  "kindString": "Call signature",
-                  "flags": {},
-                  "comment": {
-                    "shortText": "Allows for mocking of the connector client in unit tests.\nOverridden by Botkit in order to change userAgent."
-                  },
-                  "parameters": [
-                    {
-                      "id": 8,
-                      "name": "serviceUrl",
-                      "kind": 32768,
-                      "kindString": "Parameter",
-                      "flags": {},
-                      "comment": {
-                        "text": "Clients service url.\n"
-                      },
-                      "type": {
-                        "type": "intrinsic",
-                        "name": "string"
-                      }
-                    }
-                  ],
-                  "type": {
-                    "type": "reference",
-                    "name": "ConnectorClient"
-                  }
-                }
-              ],
-              "sources": [
-                {
-                  "fileName": "adapter.ts",
-                  "line": 45,
-                  "character": 35
-                }
-              ]
-            },
-            {
-              "id": 9,
-              "name": "createTokenApiClient",
-              "kind": 2048,
-              "kindString": "Method",
-              "flags": {
-                "isProtected": true,
-                "isExported": true,
-                "isExternal": true
-              },
-              "signatures": [
-                {
-                  "id": 10,
-                  "name": "createTokenApiClient",
-                  "kind": 4096,
-                  "kindString": "Call signature",
-                  "flags": {},
-                  "comment": {
-                    "shortText": "Allows for mocking of the OAuth API Client in unit tests.\nOverridden by Botkit in order to change userAgent."
-                  },
-                  "parameters": [
-                    {
-                      "id": 11,
-                      "name": "serviceUrl",
-                      "kind": 32768,
-                      "kindString": "Parameter",
-                      "flags": {},
-                      "comment": {
-                        "text": "Clients service url.\n"
-                      },
-                      "type": {
-                        "type": "intrinsic",
-                        "name": "string"
-                      }
-                    }
-                  ],
-                  "type": {
-                    "type": "reference",
-                    "name": "TokenApiClient"
-                  }
-                }
-              ],
-              "sources": [
-                {
-                  "fileName": "adapter.ts",
-                  "line": 55,
-                  "character": 34
-                }
-              ]
-            },
-            {
               "id": 12,
               "name": "getChannels",
               "kind": 2048,
@@ -3912,7 +3812,7 @@
                                 "sources": [
                                   {
                                     "fileName": "adapter.ts",
-                                    "line": 66,
+                                    "line": 68,
                                     "character": 63
                                   }
                                 ],
@@ -3932,7 +3832,7 @@
                                 "sources": [
                                   {
                                     "fileName": "adapter.ts",
-                                    "line": 66,
+                                    "line": 68,
                                     "character": 77
                                   }
                                 ],
@@ -3955,7 +3855,7 @@
                             "sources": [
                               {
                                 "fileName": "adapter.ts",
-                                "line": 66,
+                                "line": 68,
                                 "character": 60
                               }
                             ]
@@ -3969,7 +3869,7 @@
               "sources": [
                 {
                   "fileName": "adapter.ts",
-                  "line": 66,
+                  "line": 68,
                   "character": 28
                 }
               ]
@@ -3987,8 +3887,6 @@
               "title": "Methods",
               "kind": 2048,
               "children": [
-                6,
-                9,
                 12
               ]
             }
@@ -4009,106 +3907,6 @@
           "props": [],
           "methods": [
             {
-              "id": 6,
-              "name": "createConnectorClient",
-              "kind": 2048,
-              "kindString": "Method",
-              "flags": {
-                "isProtected": true,
-                "isExported": true,
-                "isExternal": true
-              },
-              "signatures": [
-                {
-                  "id": 7,
-                  "name": "createConnectorClient",
-                  "kind": 4096,
-                  "kindString": "Call signature",
-                  "flags": {},
-                  "comment": {
-                    "shortText": "Allows for mocking of the connector client in unit tests.\nOverridden by Botkit in order to change userAgent."
-                  },
-                  "parameters": [
-                    {
-                      "id": 8,
-                      "name": "serviceUrl",
-                      "kind": 32768,
-                      "kindString": "Parameter",
-                      "flags": {},
-                      "comment": {
-                        "text": "Clients service url.\n"
-                      },
-                      "type": {
-                        "type": "intrinsic",
-                        "name": "string"
-                      }
-                    }
-                  ],
-                  "type": {
-                    "type": "reference",
-                    "name": "ConnectorClient"
-                  }
-                }
-              ],
-              "sources": [
-                {
-                  "fileName": "adapter.ts",
-                  "line": 45,
-                  "character": 35
-                }
-              ]
-            },
-            {
-              "id": 9,
-              "name": "createTokenApiClient",
-              "kind": 2048,
-              "kindString": "Method",
-              "flags": {
-                "isProtected": true,
-                "isExported": true,
-                "isExternal": true
-              },
-              "signatures": [
-                {
-                  "id": 10,
-                  "name": "createTokenApiClient",
-                  "kind": 4096,
-                  "kindString": "Call signature",
-                  "flags": {},
-                  "comment": {
-                    "shortText": "Allows for mocking of the OAuth API Client in unit tests.\nOverridden by Botkit in order to change userAgent."
-                  },
-                  "parameters": [
-                    {
-                      "id": 11,
-                      "name": "serviceUrl",
-                      "kind": 32768,
-                      "kindString": "Parameter",
-                      "flags": {},
-                      "comment": {
-                        "text": "Clients service url.\n"
-                      },
-                      "type": {
-                        "type": "intrinsic",
-                        "name": "string"
-                      }
-                    }
-                  ],
-                  "type": {
-                    "type": "reference",
-                    "name": "TokenApiClient"
-                  }
-                }
-              ],
-              "sources": [
-                {
-                  "fileName": "adapter.ts",
-                  "line": 55,
-                  "character": 34
-                }
-              ]
-            },
-            {
               "id": 12,
               "name": "getChannels",
               "kind": 2048,
@@ -4171,7 +3969,7 @@
                                 "sources": [
                                   {
                                     "fileName": "adapter.ts",
-                                    "line": 66,
+                                    "line": 68,
                                     "character": 63
                                   }
                                 ],
@@ -4191,7 +3989,7 @@
                                 "sources": [
                                   {
                                     "fileName": "adapter.ts",
-                                    "line": 66,
+                                    "line": 68,
                                     "character": 77
                                   }
                                 ],
@@ -4214,7 +4012,7 @@
                             "sources": [
                               {
                                 "fileName": "adapter.ts",
-                                "line": 66,
+                                "line": 68,
                                 "character": 60
                               }
                             ]
@@ -4228,7 +4026,7 @@
               "sources": [
                 {
                   "fileName": "adapter.ts",
-                  "line": 66,
+                  "line": 68,
                   "character": 28
                 }
               ]
