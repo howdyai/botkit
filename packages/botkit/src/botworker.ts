@@ -13,7 +13,7 @@ export class BotWorker {
     private _config: any;
 
     /**
-     * Create a new BotWorker instance. Do not call this directly - instead, use [controller.spawn()](core.md#spawn).
+     * Create a new BotWorker instance. Do not call this directly - instead, use [controller.spawn()](#spawn).
      * @param controller A pointer to the main Botkit controller
      * @param config An object typically containing { dialogContext, reference, context, activity }
      */

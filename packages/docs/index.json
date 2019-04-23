@@ -4306,7 +4306,7 @@
                 "isExternal": true
               },
               "comment": {
-                "shortText": "Create a new BotWorker instance. Do not call this directly - instead, use [controller.spawn()](core.md#spawn)."
+                "shortText": "Create a new BotWorker instance. Do not call this directly - instead, use [controller.spawn()](#spawn)."
               },
               "signatures": [
                 {
@@ -4316,7 +4316,7 @@
                   "kindString": "Constructor signature",
                   "flags": {},
                   "comment": {
-                    "shortText": "Create a new BotWorker instance. Do not call this directly - instead, use [controller.spawn()](core.md#spawn)."
+                    "shortText": "Create a new BotWorker instance. Do not call this directly - instead, use [controller.spawn()](#spawn)."
                   },
                   "parameters": [
                     {
@@ -5617,7 +5617,7 @@
                 "isExternal": true
               },
               "comment": {
-                "shortText": "Create a new BotWorker instance. Do not call this directly - instead, use [controller.spawn()](core.md#spawn)."
+                "shortText": "Create a new BotWorker instance. Do not call this directly - instead, use [controller.spawn()](#spawn)."
               },
               "signatures": [
                 {
@@ -5627,7 +5627,7 @@
                   "kindString": "Constructor signature",
                   "flags": {},
                   "comment": {
-                    "shortText": "Create a new BotWorker instance. Do not call this directly - instead, use [controller.spawn()](core.md#spawn)."
+                    "shortText": "Create a new BotWorker instance. Do not call this directly - instead, use [controller.spawn()](#spawn)."
                   },
                   "parameters": [
                     {

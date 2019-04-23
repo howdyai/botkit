@@ -579,7 +579,7 @@ This class includes the following methods:
 | controller | [Botkit](#Botkit) | A pointer to the main Botkit controller
 | config | any | An object typically containing { dialogContext, reference, context, activity }<br/>
 
-Create a new BotWorker instance. Do not call this directly - instead, use [controller.spawn()](core.md#spawn).
+Create a new BotWorker instance. Do not call this directly - instead, use [controller.spawn()](#spawn).
 
 
 ## Properties and Accessors
