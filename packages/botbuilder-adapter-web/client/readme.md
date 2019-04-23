@@ -14,7 +14,6 @@ New chat features such as custom cards or actions can be added with just a littl
 
 * [How to embed a bot in your website](#embed-botkit-in-a-website-with-iframes)
 * [How to customize the look and feel of your web chat](#customize-the-look-and-feel-of-the-chat-interface)
-* [How to extend the UI of your web chat with custom fields](#using-botkit-studio-custom-fields-to-add-custom-features)
 * [How to share user account/profile info with Botkit](#share-user-accounts--profile-data-with-botkit)
 
 There are three ways to use the web client:
