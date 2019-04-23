@@ -4,7 +4,7 @@
 import { BotWorker, BotkitMessage } from 'botkit';
 
 /**
- * This is a specialized version of [Botkit's core BotWorker class](core.md#BotWorker) that includes additional methods for interacting with Google Hangouts.
+ * This is a specialized version of [Botkit's core BotWorker class](#BotWorker) that includes additional methods for interacting with Google Hangouts.
  * It includes all functionality from the base class, as well as the extension methods below.
  *
  * When using the HangoutsAdapter with Botkit, all `bot` objects passed to handler functions will include these extensions.
