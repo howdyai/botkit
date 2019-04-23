@@ -5,11 +5,11 @@ var Botkit = {
     config: {
         ws_url: (location.protocol === 'https:' ? 'wss' : 'ws') + '://' + location.host,
         reconnect_timeout: 3000,
-        max_reconnect: 5
+        max_reconnect: 5,
+        enable_history: false,
     },
     options: {
-        sound: false,
-        use_sockets: true
+        use_sockets: false,
     },
     reconnect_count: 0,
     guid: null,
@@ -72,7 +72,7 @@ var Botkit = {
             type: 'message',
             text: text,
             user: this.guid,
-            channel: this.options.use_sockets ? 'socket' : 'webhook'
+            channel: this.options.use_sockets ? 'websocket' : 'webhook'
         });
 
         this.input.value = '';
@@ -107,8 +107,10 @@ var Botkit = {
     webhook: function (message) {
         var that = this;
 
-        that.request('/botkit/receive', message).then(function (message) {
-            that.trigger(message.type, message);
+        that.request('/api/messages', message).then(function (messages) {
+            messages.forEach((message) => {
+                that.trigger(message.type, message);
+            });
         }).catch(function (err) {
             that.trigger('webhook_error', err);
         });
@@ -144,7 +146,9 @@ var Botkit = {
             Botkit.setCookie('botkit_guid', that.guid, 1);
         }
 
-        that.getHistory();
+        if (this.options.enable_history) {
+            that.getHistory();
+        }
 
         // connect immediately
         that.trigger('connected', {});
@@ -169,7 +173,9 @@ var Botkit = {
             Botkit.setCookie('botkit_guid', that.guid, 1);
         }
 
-        that.getHistory();
+        if (this.options.enable_history) {
+            that.getHistory();
+        }
 
         // Connection opened
         that.socket.addEventListener('open', function (event) {
@@ -370,21 +376,12 @@ var Botkit = {
         });
 
         that.on('sent', function () {
-            if (that.options.sound) {
-                var audio = new Audio('sent.mp3');
-                audio.play();
-            }
-        });
-
-        that.on('message', function () {
-            if (that.options.sound) {
-                var audio = new Audio('beep.mp3');
-                audio.play();
-            }
+            // do something after sending
         });
 
         that.on('message', function (message) {
 
+            console.log('RECEIVED MESSAGE', message);
             that.renderMessage(message);
 
         });

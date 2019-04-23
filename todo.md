@@ -9,8 +9,6 @@
 
 # websocket
 
-    * make updated client part of template
-    * make updated client part of package repo as well
     * update readme
 
 # docs
