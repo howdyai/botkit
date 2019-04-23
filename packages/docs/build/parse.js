@@ -41,6 +41,16 @@ function buildPlugins(dest) {
     fs.writeFileSync(dest, toctemplate({index: plugins}));
 }
 
+function buildIndex(dest) {
+
+    fs.writeFileSync(dest,JSON.stringify({
+        reference: index,
+        adapters: adapters,
+        plugins: plugins
+    }, null, 2));
+
+}
+
 
 function generateAdapter(src, params, dest) {
 
@@ -210,3 +220,4 @@ generatePlugin(__dirname + '/../../botkit-plugin-cms/readme.md', {name: 'Botkit 
 buildTOC(__dirname + '/../reference/index.md');
 buildAdapters(__dirname + '/../platforms/index.md');
 buildPlugins(__dirname + '/../plugins/index.md');
+buildIndex(__dirname + '/../index.json');
