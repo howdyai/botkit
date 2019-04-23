@@ -21,4 +21,4 @@ Botkit is a part of the [Microsoft Bot Framework](https://dev.botframework.com).
 
 Want to contribute? [Read the contributor guide](../../CONTRIBUTING.md)
 
-Botkit is released under 
+Botkit is released under the [MIT Open Source license](LICENSE.md)
