@@ -29,7 +29,6 @@
 # github
 
     * create official new 0. branch for future maintenance
-    * will have to update any existing pull requests to point at that branch
     * update readme for 0. branch with any additional information we need to provide
 
 # starter kits
@@ -68,3 +67,9 @@
 ~generate TOC for reference docs / others~
 ~Move forward content/docs from 0. branch~
 ~* change /new to /v4~
+
+
+# POST LAUNCH
+
+    * update web adapter link to client
+    * will have to update any existing pull requests to point at that branch
