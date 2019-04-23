@@ -22,13 +22,11 @@
     * link to provisioning guides
 
     * change /docs stuff to /v0
-    * create automatic redirect from /docs to /docs/v0 --- ??? or maybe v4??
     * add banner to top of v0 docs to indicate legacy status
     * add dropdown widget to main v0
 
 # github
 
-    * create official new 0. branch for future maintenance
     * update readme for 0. branch with any additional information we need to provide
 
 # starter kits
@@ -67,9 +65,11 @@
 ~generate TOC for reference docs / others~
 ~Move forward content/docs from 0. branch~
 ~* change /new to /v4~
+~* create official new 0. branch for future maintenance~
 
 
 # POST LAUNCH
 
     * update web adapter link to client
     * will have to update any existing pull requests to point at that branch
+    * create automatic redirect from /docs to /docs/v0 --- ??? or maybe v4??
