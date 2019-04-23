@@ -46,7 +46,7 @@ No plugins are necessary to use the Bot Framework service, and bots can be devel
 
 The Botkit project includes several official adapters. Using these plugins, your bot can communicate directly with the messaging platforms.
 
-* [Self-hosted web chat](../botbuilder-adapter-websocket)
+* [Self-hosted web chat](../botbuilder-adapter-web)
 * [Slack](../botbuilder-adapter-slack)
 * [Webex Teams](../botbuilder-adapter-webex)
 * [Facebook Messenger](../botbuilder-adapter-facebook)

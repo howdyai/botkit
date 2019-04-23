@@ -16,7 +16,7 @@
     "botbuilder-adapter-hangouts": "1.0.0",
     "botbuilder-storage-mongodb": "^0.9.5",
     "botbuilder-adapter-webex": "1.0.0",
-    "botbuilder-adapter-websocket": "1.0.0",
+    "botbuilder-adapter-web": "1.0.0",
     "botbuilder-adapter-facebook": "1.0.0",
     "botbuilder-adapter-twilio-sms": "1.0.0",
     "botkit-plugin-cms": "1.0.0",
