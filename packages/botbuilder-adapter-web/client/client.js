@@ -250,7 +250,7 @@ var Botkit = {
         this.deliverMessage({
             type: 'trigger',
             user: this.guid,
-            channel: 'socket',
+            channel: this.options.use_sockets ? 'websocket' : 'webhook'
             script: script,
             thread: thread
         });
@@ -267,7 +267,7 @@ var Botkit = {
         this.deliverMessage({
             type: 'identify',
             user: this.guid,
-            channel: 'socket',
+            channel: this.options.use_sockets ? 'websocket' : 'webhook'
             user_profile: user,
         });
     },

@@ -60,6 +60,10 @@ Alternately, developers may choose to use `WebAdapter` with BotBuilder. With Bot
 
 * [WebAdapter](../reference/web.md#webadapter)
 
+## Reference Chat Client
+
+This package includes [a reference implementation of a chat client written in HTML/JS/CSS](https://github.com/howdyai/botkit/tree/next/packages/botbuilder-adapter-web/client/#readme) that serves as a base for building a customized chat widget.
+
 ## Event List
 
 | Event | Description
@@ -67,15 +71,15 @@ Alternately, developers may choose to use `WebAdapter` with BotBuilder. With Bot
 | message | a message sent by the user
 | hello | event sent when a user first connects
 | welcome_back | event sent when a user reconnects
+| identify | an extended user profile is being sent by the client to be associated with the user id
 
 ## Botkit Extensions
 
-In Botkit handlers, the `bot` worker for Facebook contains [all of the base methods](../reference/core.md) as well as the following platform-specific extensions:
+In Botkit handlers, the `bot` worker for web contains [all of the base methods](../reference/core.md) as well as the following platform-specific extensions:
 
 ### [controller.createSocketServer()](../reference/web.md#createsocketserver)
 
 Configures the webserver to accept websocket connections. This method is called automatically by Botkit, but must be manually called when using with BotBuilder.
-
 
 ## Community & Support
 
