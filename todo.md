@@ -21,9 +21,8 @@
     * generator
 
     * every adapter doc should link to main client API doc
-    * link to provisioning guides?
+    * link to provisioning guides
 
-    * change /new to /v4
     * change /docs stuff to /v0
     * create automatic redirect from /docs to /docs/v0 --- ??? or maybe v4??
     * add banner to top of v0 docs to indicate legacy status
@@ -70,3 +69,4 @@
 ~every worker object should point back to main worker object~
 ~generate TOC for reference docs / others~
 ~Move forward content/docs from 0. branch~
+~* change /new to /v4~
