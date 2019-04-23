@@ -17,11 +17,17 @@
 
     * Root Readme (links to all projects, but also needs pitch)
     * botkit core 
-
+    * cms
+    * generator
 
     * every adapter doc should link to main client API doc
     * link to provisioning guides?
-    * add a widget to the nav to control v0 vs v4 docs urls
+
+    * change /new to /v4
+    * change /docs stuff to /v0
+    * create automatic redirect from /docs to /docs/v0 --- ??? or maybe v4??
+    * add banner to top of v0 docs to indicate legacy status
+    * add dropdown widget to main v0
 
 # github
 
