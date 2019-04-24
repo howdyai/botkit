@@ -1,3 +1,5 @@
 language: node_js
 node_js:
 - lts/*
+script:
+- lerna run test

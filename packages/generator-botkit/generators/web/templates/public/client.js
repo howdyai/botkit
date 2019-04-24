@@ -9,7 +9,7 @@ var Botkit = {
         enable_history: false,
     },
     options: {
-        use_sockets: false,
+        use_sockets: true,
     },
     reconnect_count: 0,
     guid: null,

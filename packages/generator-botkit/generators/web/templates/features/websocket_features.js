@@ -10,11 +10,11 @@ module.exports = function(controller) {
                 text: 'Here are some quick replies',
                 quick_replies: [
                     {
-                        text: 'Foo',
+                        title: 'Foo',
                         payload: 'foo',
                     },
                     {
-                        text: 'Bar',
+                        title: 'Bar',
                         payload: 'bar',
                     }
                 ]

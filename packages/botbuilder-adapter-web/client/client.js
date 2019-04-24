@@ -9,7 +9,7 @@ var Botkit = {
         enable_history: false,
     },
     options: {
-        use_sockets: false,
+        use_sockets: true,
     },
     reconnect_count: 0,
     guid: null,
@@ -34,14 +34,18 @@ var Botkit = {
                 if (xmlhttp.readyState == XMLHttpRequest.DONE) {
                     if (xmlhttp.status == 200) {
                         var response = xmlhttp.responseText;
-                        var message = null;
-                        try {
-                            message = JSON.parse(response);
-                        } catch (err) {
-                            reject(err);
-                            return;
+                        if (response !='') {
+                            var message = null;
+                            try {
+                                message = JSON.parse(response);
+                            } catch (err) {
+                                reject(err);
+                                return;
+                            }
+                            resolve(message);
+                        } else {
+                            resolve([]);
                         }
-                        resolve(message);
                     } else {
                         reject(new Error('status_' + xmlhttp.status));
                     }
@@ -138,6 +142,7 @@ var Botkit = {
     },
     connectWebhook: function () {
         var that = this;
+        var connectEvent = 'hello';
         if (Botkit.getCookie('botkit_guid')) {
             that.guid = Botkit.getCookie('botkit_guid');
             connectEvent = 'welcome_back';

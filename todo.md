@@ -6,10 +6,13 @@
 # core
 
     * conversation could use some more reference docs
+    * botbuilder card builders?
+    * catch dialog results!
 
 # websocket
 
     * update readme
+
 
 # docs
 
@@ -31,7 +34,10 @@
 
     * update readme for 0. branch with any additional information we need to provide
 
-# starter kits
+# starter kits / yeoman
+
+    * hangouts creds get escaped
+    * move over more useful skills
 
     * keep?  Go?  mark as deprecated?  point at yeoman? autogenerate with yeoman??
     * glitch??

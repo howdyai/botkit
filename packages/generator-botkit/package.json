@@ -1,9 +1,8 @@
 {
   "name": "generator-botkit",
-  "version": "4.0.0-prerelease-4",
+  "version": "4.0.0-prerelease-5",
   "description": "Automatically generate a Botkit application template for any supported platform",
-  "scripts": {
-  },
+  "scripts": {},
   "files": [
     "generators"
   ],
