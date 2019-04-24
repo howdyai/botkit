@@ -53,9 +53,9 @@ controller.on('message', async(bot, message) => {
 
 In most cases, calls to `testTrigger` should come at the _end_ of the bot's message evaluation process. Since Botkit fires handlers in the order in which they are added to the controller, this call should most often be placed _after_ other trigger definintions - particularly if the CMS has been configured with a fallback script which will ALWAYS fire even if no matching trigger is found.
 
-## Hooking code into your CMS-powered Dialogs
+## Hooking code to your CMS-powered Dialogs
 
-Since under the hood, this plugin creates [BotkitConversation Dialogs](../reference/conversations.md), all of the same [hooks](../conversations.md#hooks), [templating features](../conversations.md#using-variable-tokens-and-templates-in-conversation-threads), and special actions are available. However, since the dialogs are built dynamically, special methods are necessary to _find the dialog by name_ within Botkit's collection of dialogs before binding hooks.
+Since under the hood, this plugin creates [BotkitConversation Dialogs](../reference/core.md#botkitconversation), all of the same [hooks](../conversations.md#hooks), [templating features](../conversations.md#using-variable-tokens-and-templates-in-conversation-threads), and special actions are available. However, since the dialogs are built dynamically, special methods are necessary to _find the dialog by name_ within Botkit's collection of dialogs before binding hooks.
 
 * [controller.plugins.cms.before()](../reference/cms.md#before)
 * [controller.plugins.cms.onChange()](../reference/cms.md#onchange)
@@ -63,7 +63,7 @@ Since under the hood, this plugin creates [BotkitConversation Dialogs](../refere
 
 For example, if the CMS has a script called `onboarding`, hook functions can be bound to it like so:
 
-```
+```javascrit
 // wrap calls to the plugin in controller.ready to ensure the content has successfully loaded
 controller.ready(function() {
 
@@ -80,6 +80,7 @@ controller.ready(function() {
         await bot.say('ONBOARDING COMPLETE!');
     });
 });
+```
 
 ## Class Reference
 
