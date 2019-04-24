@@ -34,14 +34,18 @@ var Botkit = {
                 if (xmlhttp.readyState == XMLHttpRequest.DONE) {
                     if (xmlhttp.status == 200) {
                         var response = xmlhttp.responseText;
-                        var message = null;
-                        try {
-                            message = JSON.parse(response);
-                        } catch (err) {
-                            reject(err);
-                            return;
+                        if (response !='') {
+                            var message = null;
+                            try {
+                                message = JSON.parse(response);
+                            } catch (err) {
+                                reject(err);
+                                return;
+                            }
+                            resolve(message);
+                        } else {
+                            resolve([]);
                         }
-                        resolve(message);
                     } else {
                         reject(new Error('status_' + xmlhttp.status));
                     }
