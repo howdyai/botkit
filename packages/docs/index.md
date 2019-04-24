@@ -24,7 +24,7 @@ Want to dive right in? [Remix one of our starter kits on Glitch](https://glitch.
 The best way to get started locally with Botkit is by installing our command line tool, and using it to create a new Botkit project. This will install and configure a starter kit for you!
 
 ```
-npm install -g yeoman generator-botkit
+npm install -g yo generator-botkit
 yo botkit
 ```
 
