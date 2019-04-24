@@ -73,3 +73,4 @@
     * update web adapter link to client
     * will have to update any existing pull requests to point at that branch
     * create automatic redirect from /docs to /docs/v0 --- ??? or maybe v4??
+    * update cms "options" page to reflect use with botkit-plugin-cms
