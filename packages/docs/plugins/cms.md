@@ -2,7 +2,7 @@
 
 # botkit-plugin-cms
 
-Use and extend dialogs authored remotely using [Botkit CMS](https://github.com/howdyai/botkit-cms).
+Use and extend dialogs authored remotely using [Botkit CMS](https://github.com/howdyai/botkit-cms#readme).
 
 ## Install Package
 
