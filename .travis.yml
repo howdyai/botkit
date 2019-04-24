@@ -3,4 +3,5 @@ node_js:
 - lts/*
 script:
 - lerna bootstrap --hoist
+- lerna run build
 - lerna run test
