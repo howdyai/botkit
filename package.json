@@ -1,7 +1,11 @@
 {
-  "name": "root",
+  "name": "botkit-packages",
   "private": true,
   "scripts": {
+    "postinstall": "lerna bootstrap --hoist",
+    "build": "lerna run build",
+    "test": "lerna run build ; lerna run test",
+    "build-docs": "lerna run build-docs",
     "eslint": "./node_modules/.bin/eslint  ./packages/*/src/*.ts ./packages/*/src/**/*.ts",
     "eslint-fix": "./node_modules/.bin/eslint  ./packages/*/src/*.ts ./packages/*/src/**/*.ts --fix"
   },
@@ -10,6 +14,8 @@
     "@typescript-eslint/eslint-plugin": "^1.4.2",
     "@typescript-eslint/parser": "^1.4.2",
     "lerna": "^3.13.0",
-    "typescript": "^3.2.4"
+    "typescript": "^3.2.4",
+    "mocha": "^6.1.4",
+    "nyc": "^14.0.0"
   }
 }

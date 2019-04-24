@@ -2,6 +2,8 @@
 
     * PUBLISH TO NPM
     * move/remove/ignore testbot
+    * eslint version in packages
+    
 
 # core
 
