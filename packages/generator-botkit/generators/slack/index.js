@@ -69,7 +69,7 @@ module.exports = class extends Generator {
     }
 
     install() {
-        this.npmInstall(['botbuilder-adapter-slack']);
+        this.npmInstall(['botbuilder-adapter-slack@preview']);
     }
 
 };
