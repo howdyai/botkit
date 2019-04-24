@@ -18,6 +18,8 @@
     * cms
     * generator
 
+    * customize templates for plugins index and platform index
+    
     * every adapter doc should link to main client API doc
     * link to provisioning guides
 
