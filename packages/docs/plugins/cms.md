@@ -34,7 +34,7 @@ let cms = new BotkitCMSHelper({
 controller.usePlugin(cms);
 ```
 
-Once registered, Botkit will automatically load all of the available content from the Botkit CMS api and dynamically create [BotkitConversation Dialogs](../reference/conversations.md) for use in The bot.  [All of the plugin's methods](../reference/cms.md) will be available at `controller.plugins.cms`.
+Once registered, Botkit will automatically load all of the available content from the Botkit CMS api and dynamically create [BotkitConversation Dialogs](../reference/core.md#botkitconversation) for use in The bot.  [All of the plugin's methods](../reference/cms.md) will be available at `controller.plugins.cms`.
 
 To evaluate all incoming messages for triggers configured in the CMS, and automatically respond by starting the appropriate dialog, use [controller.plugins.cms.testTrigger()](../reference/cms.md#testtrigger):
 
