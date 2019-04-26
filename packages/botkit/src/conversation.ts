@@ -33,7 +33,7 @@ interface BotkitMessageTemplate {
     text: string[];
     action?: string;
     quick_replies?: [any];
-    attachments?: [];
+    attachments?: any[];
     channelData?: any;
     collect: {
         key: string;
