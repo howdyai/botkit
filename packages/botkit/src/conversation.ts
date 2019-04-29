@@ -211,7 +211,7 @@ export class BotkitConversation<O extends object = {}> extends Dialog<O> {
      * @param dialog_id the id of another dialog
      * @param thread_name the name of a thread to which this call should be added. defaults to 'default'
      */
-    public gotoDialog(dialog_id: string, thread_name: string = 'default'): BotkitConversation {
+    public addGotoDialog(dialog_id: string, thread_name: string = 'default'): BotkitConversation {
         this.addMessage({
             action: 'execute_script',
             execute: {

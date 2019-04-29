@@ -858,12 +858,12 @@ const { BotkitConversation } = require('botkit');
 This class includes the following methods:
 * [addAction()](#addAction)
 * [addChildDialog()](#addChildDialog)
+* [addGotoDialog()](#addGotoDialog)
 * [addMessage()](#addMessage)
 * [addQuestion()](#addQuestion)
 * [after()](#after)
 * [ask()](#ask)
 * [before()](#before)
-* [gotoDialog()](#gotoDialog)
 * [onChange()](#onChange)
 * [say()](#say)
 
@@ -932,6 +932,20 @@ onboard.say('Hello! It is time to collect your profile data.');
 onboard.addChildDialog('PROFILE_DIALOG', 'profile');
 onboard.say('Hello, {{vars.profile.name}}! Onboarding is complete.');
 ```
+
+
+<a name="addGotoDialog"></a>
+### addGotoDialog()
+Cause the current dialog to replace itself with another dialog.
+The parent dialog will not resume when the child dialog completes.
+
+**Parameters**
+
+| Argument | Type | description
+|--- |--- |---
+| dialog_id| string | the id of another dialog
+| thread_name| string | the name of a thread to which this call should be added. defaults to 'default'<br/>
+
 
 
 <a name="addMessage"></a>
@@ -1058,20 +1072,6 @@ convo.before('foo', async(convo, bot) => {
 
 });
 ```
-
-
-<a name="gotoDialog"></a>
-### gotoDialog()
-Cause the current dialog to replace itself with another dialog.
-The parent dialog will not resume when the child dialog completes.
-
-**Parameters**
-
-| Argument | Type | description
-|--- |--- |---
-| dialog_id| string | the id of another dialog
-| thread_name| string | the name of a thread to which this call should be added. defaults to 'default'<br/>
-
 
 
 <a name="onChange"></a>

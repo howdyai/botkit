@@ -59,12 +59,12 @@ module.exports = function(controller) {
         }
     ],{key:'confirmed'});
     confirmation.say('All done!');
-    confirmation.gotoDialog(START_OVER,'try_again');
+    confirmation.addGotoDialog(START_OVER,'try_again');
 
     const startover = new BotkitConversation(START_OVER, controller);
     startover.say('Lets start from the top...');
     startover.addChildDialog(PROFILE_DIALOG, 'profile');
-    startover.gotoDialog(CONFIRM_DIALOG);
+    startover.addGotoDialog(CONFIRM_DIALOG);
 
     /**
      * Now, define a BotkitConversation style dialog that will use the profile dialog as a child.

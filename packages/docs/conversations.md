@@ -23,9 +23,11 @@ All dialogs must be defined and added to the Botkit controller _at start time._ 
 
 ### Beginning
 
-Before a BotkitConveration begins, it will first fire any functions bound to it using the [before()](reference/core.md#before) hook. These functions can create or change variables, and take other necessary actions - for example, looking up values in a database or external API for use in the conversation.
+BotkitConversations start on the first message of the "default" thread, and proceed through the chain of messages.
 
-BotkitConversations start on the first message of the "default" thread, and proceed through the chain of messages.  When a prompt is encountered, the bot will pause and wait for the user to respond, then evaluate any associated handler functions and conditional tests. The bot will continue to process messages in the thread until it reaches a prompt, an action, or the end of the thread.
+However, before it starts sending messages, Botkit will first fire any functions bound to the "default" thread using the [before()](reference/core.md#before) hook. These functions can create or change variables, and take other necessary actions - for example, looking up values in a database or external API for use in the conversation.
+
+The bot will continue to process messages in the thread until it reaches a prompt, an action, or the end of the thread.
 
 ### Middle
 
@@ -33,7 +35,7 @@ As each message is read from the dialog script and sent to the user, it is evalu
 
 When a prompt is encountered, the message will first be sent to the user. The bot will then wait for the next message to arrive.  When it does, the value of the incoming message will automatically be captured into a variable, and any [onChange()](reference/core.md#onchange) functions that have been bound to that variable will fire. These handler functions can be used to validate the incoming value, or take other conditional actions based on the user input.
 
-After any `onChange` hooks fire, Botkit will proceed to evaluate the handler function or conditional tests that were initially passed in to `ask()` or `addQuestion()`. These functions may set variables, or modify the flow of the dialog by calling [repeat()](reference/core.md#repeat) or [gotoThread()](reference/core.md#gotothread).
+After `onChange` hooks fire, Botkit will proceed to evaluate the handler function or conditional tests that were passed in to `ask()` or `addQuestion()`. These functions may set variables, or modify the flow of the dialog by calling [repeat()](reference/core.md#repeat) or [gotoThread()](reference/core.md#gotothread).
 
 Hook functions can be bound to the beginning of _each thread_ using [before()](reference/core.md#before). Each thread will fire it's own `before` hooks _before_ sending the first message. This can be used for a variety of purposes, including conditionally skipping a thread (by calling `gotoThread()` from inside a `before()` hook).
 
@@ -56,11 +58,11 @@ Then, using the helper methods like `say()` and `ask()`, define a series of mess
 
 * [say()](reference/core.md#say-1)
 * [ask()](reference/core.md#ask)
-* [addAction()](reference/core.md#addaction)
-* [addChildDialog()](reference/core.md#addchilddialog)
-* [gotoDialog()](reference/core.md#gotodialog)
 * [addMessage()](reference/core.md#addmessage)
 * [addQuestion()](reference/core.md#addquestion)
+* [addAction()](reference/core.md#addaction)
+* [addChildDialog()](reference/core.md#addchilddialog)
+* [addGotoDialog()](reference/core.md#addgotodialog)
 
 ## Hooks
 

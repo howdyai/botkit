@@ -6097,6 +6097,72 @@
               ]
             },
             {
+              "id": 293,
+              "name": "addGotoDialog",
+              "kind": 2048,
+              "kindString": "Method",
+              "flags": {
+                "isPublic": true,
+                "isExported": true,
+                "isExternal": true
+              },
+              "signatures": [
+                {
+                  "id": 294,
+                  "name": "addGotoDialog",
+                  "kind": 4096,
+                  "kindString": "Call signature",
+                  "flags": {},
+                  "comment": {
+                    "shortText": "Cause the current dialog to replace itself with another dialog.\nThe parent dialog will not resume when the child dialog completes."
+                  },
+                  "parameters": [
+                    {
+                      "id": 295,
+                      "name": "dialog_id",
+                      "kind": 32768,
+                      "kindString": "Parameter",
+                      "flags": {},
+                      "comment": {
+                        "text": "the id of another dialog"
+                      },
+                      "type": {
+                        "type": "intrinsic",
+                        "name": "string"
+                      }
+                    },
+                    {
+                      "id": 296,
+                      "name": "thread_name",
+                      "kind": 32768,
+                      "kindString": "Parameter",
+                      "flags": {},
+                      "comment": {
+                        "text": "the name of a thread to which this call should be added. defaults to 'default'\n"
+                      },
+                      "type": {
+                        "type": "intrinsic",
+                        "name": "string"
+                      },
+                      "defaultValue": "\"default\""
+                    }
+                  ],
+                  "type": {
+                    "type": "reference",
+                    "name": "BotkitConversation",
+                    "id": 274
+                  }
+                }
+              ],
+              "sources": [
+                {
+                  "fileName": "conversation.ts",
+                  "line": 214,
+                  "character": 24
+                }
+              ]
+            },
+            {
               "id": 297,
               "name": "addMessage",
               "kind": 2048,
@@ -6718,72 +6784,6 @@
                   "fileName": "conversation.ts",
                   "line": 364,
                   "character": 17
-                }
-              ]
-            },
-            {
-              "id": 293,
-              "name": "gotoDialog",
-              "kind": 2048,
-              "kindString": "Method",
-              "flags": {
-                "isPublic": true,
-                "isExported": true,
-                "isExternal": true
-              },
-              "signatures": [
-                {
-                  "id": 294,
-                  "name": "gotoDialog",
-                  "kind": 4096,
-                  "kindString": "Call signature",
-                  "flags": {},
-                  "comment": {
-                    "shortText": "Cause the current dialog to replace itself with another dialog.\nThe parent dialog will not resume when the child dialog completes."
-                  },
-                  "parameters": [
-                    {
-                      "id": 295,
-                      "name": "dialog_id",
-                      "kind": 32768,
-                      "kindString": "Parameter",
-                      "flags": {},
-                      "comment": {
-                        "text": "the id of another dialog"
-                      },
-                      "type": {
-                        "type": "intrinsic",
-                        "name": "string"
-                      }
-                    },
-                    {
-                      "id": 296,
-                      "name": "thread_name",
-                      "kind": 32768,
-                      "kindString": "Parameter",
-                      "flags": {},
-                      "comment": {
-                        "text": "the name of a thread to which this call should be added. defaults to 'default'\n"
-                      },
-                      "type": {
-                        "type": "intrinsic",
-                        "name": "string"
-                      },
-                      "defaultValue": "\"default\""
-                    }
-                  ],
-                  "type": {
-                    "type": "reference",
-                    "name": "BotkitConversation",
-                    "id": 274
-                  }
-                }
-              ],
-              "sources": [
-                {
-                  "fileName": "conversation.ts",
-                  "line": 214,
-                  "character": 21
                 }
               ]
             },
@@ -7009,12 +7009,12 @@
               "children": [
                 284,
                 288,
+                293,
                 297,
                 308,
                 324,
                 301,
                 316,
-                293,
                 331,
                 281
               ]
@@ -7208,6 +7208,72 @@
                   "fileName": "conversation.ts",
                   "line": 191,
                   "character": 25
+                }
+              ]
+            },
+            {
+              "id": 293,
+              "name": "addGotoDialog",
+              "kind": 2048,
+              "kindString": "Method",
+              "flags": {
+                "isPublic": true,
+                "isExported": true,
+                "isExternal": true
+              },
+              "signatures": [
+                {
+                  "id": 294,
+                  "name": "addGotoDialog",
+                  "kind": 4096,
+                  "kindString": "Call signature",
+                  "flags": {},
+                  "comment": {
+                    "shortText": "Cause the current dialog to replace itself with another dialog.\nThe parent dialog will not resume when the child dialog completes."
+                  },
+                  "parameters": [
+                    {
+                      "id": 295,
+                      "name": "dialog_id",
+                      "kind": 32768,
+                      "kindString": "Parameter",
+                      "flags": {},
+                      "comment": {
+                        "text": "the id of another dialog"
+                      },
+                      "type": {
+                        "type": "intrinsic",
+                        "name": "string"
+                      }
+                    },
+                    {
+                      "id": 296,
+                      "name": "thread_name",
+                      "kind": 32768,
+                      "kindString": "Parameter",
+                      "flags": {},
+                      "comment": {
+                        "text": "the name of a thread to which this call should be added. defaults to 'default'\n"
+                      },
+                      "type": {
+                        "type": "intrinsic",
+                        "name": "string"
+                      },
+                      "defaultValue": "\"default\""
+                    }
+                  ],
+                  "type": {
+                    "type": "reference",
+                    "name": "BotkitConversation",
+                    "id": 274
+                  }
+                }
+              ],
+              "sources": [
+                {
+                  "fileName": "conversation.ts",
+                  "line": 214,
+                  "character": 24
                 }
               ]
             },
@@ -7833,72 +7899,6 @@
                   "fileName": "conversation.ts",
                   "line": 364,
                   "character": 17
-                }
-              ]
-            },
-            {
-              "id": 293,
-              "name": "gotoDialog",
-              "kind": 2048,
-              "kindString": "Method",
-              "flags": {
-                "isPublic": true,
-                "isExported": true,
-                "isExternal": true
-              },
-              "signatures": [
-                {
-                  "id": 294,
-                  "name": "gotoDialog",
-                  "kind": 4096,
-                  "kindString": "Call signature",
-                  "flags": {},
-                  "comment": {
-                    "shortText": "Cause the current dialog to replace itself with another dialog.\nThe parent dialog will not resume when the child dialog completes."
-                  },
-                  "parameters": [
-                    {
-                      "id": 295,
-                      "name": "dialog_id",
-                      "kind": 32768,
-                      "kindString": "Parameter",
-                      "flags": {},
-                      "comment": {
-                        "text": "the id of another dialog"
-                      },
-                      "type": {
-                        "type": "intrinsic",
-                        "name": "string"
-                      }
-                    },
-                    {
-                      "id": 296,
-                      "name": "thread_name",
-                      "kind": 32768,
-                      "kindString": "Parameter",
-                      "flags": {},
-                      "comment": {
-                        "text": "the name of a thread to which this call should be added. defaults to 'default'\n"
-                      },
-                      "type": {
-                        "type": "intrinsic",
-                        "name": "string"
-                      },
-                      "defaultValue": "\"default\""
-                    }
-                  ],
-                  "type": {
-                    "type": "reference",
-                    "name": "BotkitConversation",
-                    "id": 274
-                  }
-                }
-              ],
-              "sources": [
-                {
-                  "fileName": "conversation.ts",
-                  "line": 214,
-                  "character": 21
                 }
               ]
             },
