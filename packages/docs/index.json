@@ -5964,8 +5964,8 @@
                   "kindString": "Call signature",
                   "flags": {},
                   "comment": {
-                    "shortText": "An an action, like `stop`, or `repeat` or `complete`, or the name of a thread to go to.",
-                    "text": "```javascript\nconvo.addAction('completed');\n```"
+                    "shortText": "An an action to the conversation timeline. This can be used to go to switch threads or end the dialog.",
+                    "text": "When provided the name of another thread in the conversation, this will cause the bot to go immediately\nto that thread.\n\nOtherwise, use one of the following keywords:\n* `stop`\n* `repeat`\n* `complete`\n* `timeout`\n\n```javascript\n\n// go to a thread called \"next_thread\"\nconvo.addAction('next_thread');\n\n// end the conversation and mark as successful\nconvo.addAction('complete');\n```"
                   },
                   "parameters": [
                     {
@@ -5975,7 +5975,7 @@
                       "kindString": "Parameter",
                       "flags": {},
                       "comment": {
-                        "text": "An action"
+                        "text": "An action or thread name"
                       },
                       "type": {
                         "type": "intrinsic",
@@ -5989,7 +5989,7 @@
                       "kindString": "Parameter",
                       "flags": {},
                       "comment": {
-                        "text": "The name of a thread\n"
+                        "text": "The name of the thread to which this action is added.  Defaults to `default`\n"
                       },
                       "type": {
                         "type": "intrinsic",
@@ -6008,7 +6008,7 @@
               "sources": [
                 {
                   "fileName": "conversation.ts",
-                  "line": 163,
+                  "line": 177,
                   "character": 20
                 }
               ]
@@ -6091,7 +6091,7 @@
               "sources": [
                 {
                   "fileName": "conversation.ts",
-                  "line": 191,
+                  "line": 205,
                   "character": 25
                 }
               ]
@@ -6157,7 +6157,7 @@
               "sources": [
                 {
                   "fileName": "conversation.ts",
-                  "line": 214,
+                  "line": 228,
                   "character": 24
                 }
               ]
@@ -6239,7 +6239,7 @@
               "sources": [
                 {
                   "fileName": "conversation.ts",
-                  "line": 242,
+                  "line": 256,
                   "character": 21
                 }
               ]
@@ -6353,7 +6353,7 @@
                                   "sources": [
                                     {
                                       "fileName": "conversation.ts",
-                                      "line": 312,
+                                      "line": 326,
                                       "character": 139
                                     }
                                   ],
@@ -6375,7 +6375,7 @@
                               "sources": [
                                 {
                                   "fileName": "conversation.ts",
-                                  "line": 312,
+                                  "line": 326,
                                   "character": 134
                                 }
                               ]
@@ -6413,7 +6413,7 @@
               "sources": [
                 {
                   "fileName": "conversation.ts",
-                  "line": 312,
+                  "line": 326,
                   "character": 22
                 }
               ]
@@ -6497,7 +6497,7 @@
                           "sources": [
                             {
                               "fileName": "conversation.ts",
-                              "line": 401,
+                              "line": 415,
                               "character": 25
                             }
                           ]
@@ -6514,7 +6514,7 @@
               "sources": [
                 {
                   "fileName": "conversation.ts",
-                  "line": 401,
+                  "line": 415,
                   "character": 16
                 }
               ]
@@ -6631,7 +6631,7 @@
                                   "sources": [
                                     {
                                       "fileName": "conversation.ts",
-                                      "line": 300,
+                                      "line": 314,
                                       "character": 131
                                     }
                                   ],
@@ -6653,7 +6653,7 @@
                               "sources": [
                                 {
                                   "fileName": "conversation.ts",
-                                  "line": 300,
+                                  "line": 314,
                                   "character": 126
                                 }
                               ]
@@ -6677,7 +6677,7 @@
               "sources": [
                 {
                   "fileName": "conversation.ts",
-                  "line": 300,
+                  "line": 314,
                   "character": 14
                 }
               ]
@@ -6783,7 +6783,7 @@
                           "sources": [
                             {
                               "fileName": "conversation.ts",
-                              "line": 364,
+                              "line": 378,
                               "character": 47
                             }
                           ]
@@ -6800,7 +6800,7 @@
               "sources": [
                 {
                   "fileName": "conversation.ts",
-                  "line": 364,
+                  "line": 378,
                   "character": 17
                 }
               ]
@@ -6915,7 +6915,7 @@
                           "sources": [
                             {
                               "fileName": "conversation.ts",
-                              "line": 437,
+                              "line": 451,
                               "character": 46
                             }
                           ]
@@ -6932,7 +6932,7 @@
               "sources": [
                 {
                   "fileName": "conversation.ts",
-                  "line": 437,
+                  "line": 451,
                   "character": 19
                 }
               ]
@@ -7097,8 +7097,8 @@
                   "kindString": "Call signature",
                   "flags": {},
                   "comment": {
-                    "shortText": "An an action, like `stop`, or `repeat` or `complete`, or the name of a thread to go to.",
-                    "text": "```javascript\nconvo.addAction('completed');\n```"
+                    "shortText": "An an action to the conversation timeline. This can be used to go to switch threads or end the dialog.",
+                    "text": "When provided the name of another thread in the conversation, this will cause the bot to go immediately\nto that thread.\n\nOtherwise, use one of the following keywords:\n* `stop`\n* `repeat`\n* `complete`\n* `timeout`\n\n```javascript\n\n// go to a thread called \"next_thread\"\nconvo.addAction('next_thread');\n\n// end the conversation and mark as successful\nconvo.addAction('complete');\n```"
                   },
                   "parameters": [
                     {
@@ -7108,7 +7108,7 @@
                       "kindString": "Parameter",
                       "flags": {},
                       "comment": {
-                        "text": "An action"
+                        "text": "An action or thread name"
                       },
                       "type": {
                         "type": "intrinsic",
@@ -7122,7 +7122,7 @@
                       "kindString": "Parameter",
                       "flags": {},
                       "comment": {
-                        "text": "The name of a thread\n"
+                        "text": "The name of the thread to which this action is added.  Defaults to `default`\n"
                       },
                       "type": {
                         "type": "intrinsic",
@@ -7141,7 +7141,7 @@
               "sources": [
                 {
                   "fileName": "conversation.ts",
-                  "line": 163,
+                  "line": 177,
                   "character": 20
                 }
               ]
@@ -7224,7 +7224,7 @@
               "sources": [
                 {
                   "fileName": "conversation.ts",
-                  "line": 191,
+                  "line": 205,
                   "character": 25
                 }
               ]
@@ -7290,7 +7290,7 @@
               "sources": [
                 {
                   "fileName": "conversation.ts",
-                  "line": 214,
+                  "line": 228,
                   "character": 24
                 }
               ]
@@ -7372,7 +7372,7 @@
               "sources": [
                 {
                   "fileName": "conversation.ts",
-                  "line": 242,
+                  "line": 256,
                   "character": 21
                 }
               ]
@@ -7486,7 +7486,7 @@
                                   "sources": [
                                     {
                                       "fileName": "conversation.ts",
-                                      "line": 312,
+                                      "line": 326,
                                       "character": 139
                                     }
                                   ],
@@ -7508,7 +7508,7 @@
                               "sources": [
                                 {
                                   "fileName": "conversation.ts",
-                                  "line": 312,
+                                  "line": 326,
                                   "character": 134
                                 }
                               ]
@@ -7546,7 +7546,7 @@
               "sources": [
                 {
                   "fileName": "conversation.ts",
-                  "line": 312,
+                  "line": 326,
                   "character": 22
                 }
               ]
@@ -7630,7 +7630,7 @@
                           "sources": [
                             {
                               "fileName": "conversation.ts",
-                              "line": 401,
+                              "line": 415,
                               "character": 25
                             }
                           ]
@@ -7647,7 +7647,7 @@
               "sources": [
                 {
                   "fileName": "conversation.ts",
-                  "line": 401,
+                  "line": 415,
                   "character": 16
                 }
               ]
@@ -7764,7 +7764,7 @@
                                   "sources": [
                                     {
                                       "fileName": "conversation.ts",
-                                      "line": 300,
+                                      "line": 314,
                                       "character": 131
                                     }
                                   ],
@@ -7786,7 +7786,7 @@
                               "sources": [
                                 {
                                   "fileName": "conversation.ts",
-                                  "line": 300,
+                                  "line": 314,
                                   "character": 126
                                 }
                               ]
@@ -7810,7 +7810,7 @@
               "sources": [
                 {
                   "fileName": "conversation.ts",
-                  "line": 300,
+                  "line": 314,
                   "character": 14
                 }
               ]
@@ -7916,7 +7916,7 @@
                           "sources": [
                             {
                               "fileName": "conversation.ts",
-                              "line": 364,
+                              "line": 378,
                               "character": 47
                             }
                           ]
@@ -7933,7 +7933,7 @@
               "sources": [
                 {
                   "fileName": "conversation.ts",
-                  "line": 364,
+                  "line": 378,
                   "character": 17
                 }
               ]
@@ -8048,7 +8048,7 @@
                           "sources": [
                             {
                               "fileName": "conversation.ts",
-                              "line": 437,
+                              "line": 451,
                               "character": 46
                             }
                           ]
@@ -8065,7 +8065,7 @@
               "sources": [
                 {
                   "fileName": "conversation.ts",
-                  "line": 437,
+                  "line": 451,
                   "character": 19
                 }
               ]

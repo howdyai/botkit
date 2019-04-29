@@ -152,13 +152,27 @@ export class BotkitConversation<O extends object = {}> extends Dialog<O> {
     }
 
     /**
-     * An an action, like `stop`, or `repeat` or `complete`, or the name of a thread to go to.
+     * An an action to the conversation timeline. This can be used to go to switch threads or end the dialog.
+     * 
+     * When provided the name of another thread in the conversation, this will cause the bot to go immediately
+     * to that thread.
+     * 
+     * Otherwise, use one of the following keywords:
+     * * `stop`
+     * * `repeat`
+     * * `complete`
+     * * `timeout`
      *
      * ```javascript
-     * convo.addAction('completed');
+     * 
+     * // go to a thread called "next_thread"
+     * convo.addAction('next_thread');
+     * 
+     * // end the conversation and mark as successful
+     * convo.addAction('complete');
      * ```
-     * @param action An action
-     * @param thread_name The name of a thread
+     * @param action An action or thread name
+     * @param thread_name The name of the thread to which this action is added.  Defaults to `default`
      */
     public addAction(action: string, thread_name: string = 'default'): BotkitConversation {
         this.addMessage({ action: action }, thread_name);

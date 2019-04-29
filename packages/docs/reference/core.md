@@ -889,19 +889,33 @@ Create a new BotkitConversation object
 ## BotkitConversation Class Methods
 <a name="addAction"></a>
 ### addAction()
-An an action, like `stop`, or `repeat` or `complete`, or the name of a thread to go to.
+An an action to the conversation timeline. This can be used to go to switch threads or end the dialog.
 
 **Parameters**
 
 | Argument | Type | description
 |--- |--- |---
-| action| string | An action
-| thread_name| string | The name of a thread<br/>
+| action| string | An action or thread name
+| thread_name| string | The name of the thread to which this action is added.  Defaults to `default`<br/>
 
 
+
+When provided the name of another thread in the conversation, this will cause the bot to go immediately
+to that thread.
+
+Otherwise, use one of the following keywords:
+* `stop`
+* `repeat`
+* `complete`
+* `timeout`
 
 ```javascript
-convo.addAction('completed');
+
+// go to a thread called "next_thread"
+convo.addAction('next_thread');
+
+// end the conversation and mark as successful
+convo.addAction('complete');
 ```
 
 <a name="addChildDialog"></a>
