@@ -183,7 +183,6 @@ export class BotkitConversation<O extends object = {}> extends Dialog<O> {
     /**
      * Cause the dialog to call a child dialog, wait for it to complete,
      * then store the results in a variable and resume the parent dialog.
-     * 
      * Use this to [combine multiple dialogs into bigger interactions.](../conversations.md#composing-dialogs)
      * 
      * ```javascript
@@ -223,7 +222,6 @@ export class BotkitConversation<O extends object = {}> extends Dialog<O> {
      /**
      * Cause the current dialog to handoff to another dialog.
      * The parent dialog will not resume when the child dialog completes. However, the afterDialog event will not fire for the parent dialog until all child dialogs complete.
-     * 
      * Use this to [combine multiple dialogs into bigger interactions.](../conversations.md#composing-dialogs)
      * 
      * ```javascript
@@ -248,8 +246,8 @@ export class BotkitConversation<O extends object = {}> extends Dialog<O> {
     }
 
     /**
-     * Add a message to a specific thread
-     * Messages added with `say()` and `addMessage()` will _not_ wait for a response, will be sent one after another without a pause.
+     * Add a message template to a specific thread.
+     * Messages added with `say()` and `addMessage()` will be sent one after another without a pause.
      *
      * ```javascript
      * let conversation = new BotkitConversation('welcome', controller);

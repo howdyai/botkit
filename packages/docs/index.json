@@ -6031,8 +6031,8 @@
                   "kindString": "Call signature",
                   "flags": {},
                   "comment": {
-                    "shortText": "Cause the dialog to call a child dialog, wait for it to complete,\nthen store the results in a variable and resume the parent dialog.",
-                    "text": "Use this to [combine multiple dialogs into bigger interactions.](../conversations.md#composing-dialogs)\n\n```javascript\n// define a profile collection dialog\nlet profileDialog = new BotkitConversation('PROFILE_DIALOG', controller);\nprofileDialog.ask('What is your name?', async(res, convo, bot) => {}, {key: 'name'});\nprofileDialog.ask('What is your age?', async(res, convo, bot) => {}, {key: 'age'});\nprofileDialog.ask('What is your location?', async(res, convo, bot) => {}, {key: 'location'});\ncontroller.addDialog(profileDialog);\n\nlet onboard = new BotkitConversation('ONBOARDING', controller);\nonboard.say('Hello! It is time to collect your profile data.');\nonboard.addChildDialog('PROFILE_DIALOG', 'profile');\nonboard.say('Hello, {{vars.profile.name}}! Onboarding is complete.');\n```\n"
+                    "shortText": "Cause the dialog to call a child dialog, wait for it to complete,\nthen store the results in a variable and resume the parent dialog.\nUse this to [combine multiple dialogs into bigger interactions.](../conversations.md#composing-dialogs)",
+                    "text": "```javascript\n// define a profile collection dialog\nlet profileDialog = new BotkitConversation('PROFILE_DIALOG', controller);\nprofileDialog.ask('What is your name?', async(res, convo, bot) => {}, {key: 'name'});\nprofileDialog.ask('What is your age?', async(res, convo, bot) => {}, {key: 'age'});\nprofileDialog.ask('What is your location?', async(res, convo, bot) => {}, {key: 'location'});\ncontroller.addDialog(profileDialog);\n\nlet onboard = new BotkitConversation('ONBOARDING', controller);\nonboard.say('Hello! It is time to collect your profile data.');\nonboard.addChildDialog('PROFILE_DIALOG', 'profile');\nonboard.say('Hello, {{vars.profile.name}}! Onboarding is complete.');\n```\n"
                   },
                   "parameters": [
                     {
@@ -6091,7 +6091,7 @@
               "sources": [
                 {
                   "fileName": "conversation.ts",
-                  "line": 207,
+                  "line": 206,
                   "character": 25
                 }
               ]
@@ -6114,8 +6114,8 @@
                   "kindString": "Call signature",
                   "flags": {},
                   "comment": {
-                    "shortText": "Cause the current dialog to handoff to another dialog.\nThe parent dialog will not resume when the child dialog completes. However, the afterDialog event will not fire for the parent dialog until all child dialogs complete.",
-                    "text": "Use this to [combine multiple dialogs into bigger interactions.](../conversations.md#composing-dialogs)\n\n```javascript\nlet parent = new BotkitConversation('parent', controller);\nlet child = new BotkitConversation('child', controller);\nparent.say('Moving on....');\nparent.addGotoDialog('child');\n```\n"
+                    "shortText": "Cause the current dialog to handoff to another dialog.\nThe parent dialog will not resume when the child dialog completes. However, the afterDialog event will not fire for the parent dialog until all child dialogs complete.\nUse this to [combine multiple dialogs into bigger interactions.](../conversations.md#composing-dialogs)",
+                    "text": "```javascript\nlet parent = new BotkitConversation('parent', controller);\nlet child = new BotkitConversation('child', controller);\nparent.say('Moving on....');\nparent.addGotoDialog('child');\n```\n"
                   },
                   "parameters": [
                     {
@@ -6158,7 +6158,7 @@
               "sources": [
                 {
                   "fileName": "conversation.ts",
-                  "line": 239,
+                  "line": 237,
                   "character": 24
                 }
               ]
@@ -6181,7 +6181,7 @@
                   "kindString": "Call signature",
                   "flags": {},
                   "comment": {
-                    "shortText": "Add a message to a specific thread\nMessages added with `say()` and `addMessage()` will _not_ wait for a response, will be sent one after another without a pause.",
+                    "shortText": "Add a message template to a specific thread.\nMessages added with `say()` and `addMessage()` will be sent one after another without a pause.",
                     "text": "```javascript\nlet conversation = new BotkitConversation('welcome', controller);\nconversation.say('Hello! Welcome to my app.');\nconversation.say('Let us get started...');\n// pass in a message with an action that will cause gotoThread to be called...\nconversation.addAction('continuation');\n\nconversation.addMessage('This is a different thread completely', 'continuation');\n```\n"
                   },
                   "parameters": [
@@ -6240,7 +6240,7 @@
               "sources": [
                 {
                   "fileName": "conversation.ts",
-                  "line": 267,
+                  "line": 265,
                   "character": 21
                 }
               ]
@@ -6354,7 +6354,7 @@
                                   "sources": [
                                     {
                                       "fileName": "conversation.ts",
-                                      "line": 337,
+                                      "line": 335,
                                       "character": 139
                                     }
                                   ],
@@ -6376,7 +6376,7 @@
                               "sources": [
                                 {
                                   "fileName": "conversation.ts",
-                                  "line": 337,
+                                  "line": 335,
                                   "character": 134
                                 }
                               ]
@@ -6414,7 +6414,7 @@
               "sources": [
                 {
                   "fileName": "conversation.ts",
-                  "line": 337,
+                  "line": 335,
                   "character": 22
                 }
               ]
@@ -6498,7 +6498,7 @@
                           "sources": [
                             {
                               "fileName": "conversation.ts",
-                              "line": 426,
+                              "line": 424,
                               "character": 25
                             }
                           ]
@@ -6515,7 +6515,7 @@
               "sources": [
                 {
                   "fileName": "conversation.ts",
-                  "line": 426,
+                  "line": 424,
                   "character": 16
                 }
               ]
@@ -6632,7 +6632,7 @@
                                   "sources": [
                                     {
                                       "fileName": "conversation.ts",
-                                      "line": 325,
+                                      "line": 323,
                                       "character": 131
                                     }
                                   ],
@@ -6654,7 +6654,7 @@
                               "sources": [
                                 {
                                   "fileName": "conversation.ts",
-                                  "line": 325,
+                                  "line": 323,
                                   "character": 126
                                 }
                               ]
@@ -6678,7 +6678,7 @@
               "sources": [
                 {
                   "fileName": "conversation.ts",
-                  "line": 325,
+                  "line": 323,
                   "character": 14
                 }
               ]
@@ -6784,7 +6784,7 @@
                           "sources": [
                             {
                               "fileName": "conversation.ts",
-                              "line": 389,
+                              "line": 387,
                               "character": 47
                             }
                           ]
@@ -6801,7 +6801,7 @@
               "sources": [
                 {
                   "fileName": "conversation.ts",
-                  "line": 389,
+                  "line": 387,
                   "character": 17
                 }
               ]
@@ -6916,7 +6916,7 @@
                           "sources": [
                             {
                               "fileName": "conversation.ts",
-                              "line": 462,
+                              "line": 460,
                               "character": 46
                             }
                           ]
@@ -6933,7 +6933,7 @@
               "sources": [
                 {
                   "fileName": "conversation.ts",
-                  "line": 462,
+                  "line": 460,
                   "character": 19
                 }
               ]
@@ -7165,8 +7165,8 @@
                   "kindString": "Call signature",
                   "flags": {},
                   "comment": {
-                    "shortText": "Cause the dialog to call a child dialog, wait for it to complete,\nthen store the results in a variable and resume the parent dialog.",
-                    "text": "Use this to [combine multiple dialogs into bigger interactions.](../conversations.md#composing-dialogs)\n\n```javascript\n// define a profile collection dialog\nlet profileDialog = new BotkitConversation('PROFILE_DIALOG', controller);\nprofileDialog.ask('What is your name?', async(res, convo, bot) => {}, {key: 'name'});\nprofileDialog.ask('What is your age?', async(res, convo, bot) => {}, {key: 'age'});\nprofileDialog.ask('What is your location?', async(res, convo, bot) => {}, {key: 'location'});\ncontroller.addDialog(profileDialog);\n\nlet onboard = new BotkitConversation('ONBOARDING', controller);\nonboard.say('Hello! It is time to collect your profile data.');\nonboard.addChildDialog('PROFILE_DIALOG', 'profile');\nonboard.say('Hello, {{vars.profile.name}}! Onboarding is complete.');\n```\n"
+                    "shortText": "Cause the dialog to call a child dialog, wait for it to complete,\nthen store the results in a variable and resume the parent dialog.\nUse this to [combine multiple dialogs into bigger interactions.](../conversations.md#composing-dialogs)",
+                    "text": "```javascript\n// define a profile collection dialog\nlet profileDialog = new BotkitConversation('PROFILE_DIALOG', controller);\nprofileDialog.ask('What is your name?', async(res, convo, bot) => {}, {key: 'name'});\nprofileDialog.ask('What is your age?', async(res, convo, bot) => {}, {key: 'age'});\nprofileDialog.ask('What is your location?', async(res, convo, bot) => {}, {key: 'location'});\ncontroller.addDialog(profileDialog);\n\nlet onboard = new BotkitConversation('ONBOARDING', controller);\nonboard.say('Hello! It is time to collect your profile data.');\nonboard.addChildDialog('PROFILE_DIALOG', 'profile');\nonboard.say('Hello, {{vars.profile.name}}! Onboarding is complete.');\n```\n"
                   },
                   "parameters": [
                     {
@@ -7225,7 +7225,7 @@
               "sources": [
                 {
                   "fileName": "conversation.ts",
-                  "line": 207,
+                  "line": 206,
                   "character": 25
                 }
               ]
@@ -7248,8 +7248,8 @@
                   "kindString": "Call signature",
                   "flags": {},
                   "comment": {
-                    "shortText": "Cause the current dialog to handoff to another dialog.\nThe parent dialog will not resume when the child dialog completes. However, the afterDialog event will not fire for the parent dialog until all child dialogs complete.",
-                    "text": "Use this to [combine multiple dialogs into bigger interactions.](../conversations.md#composing-dialogs)\n\n```javascript\nlet parent = new BotkitConversation('parent', controller);\nlet child = new BotkitConversation('child', controller);\nparent.say('Moving on....');\nparent.addGotoDialog('child');\n```\n"
+                    "shortText": "Cause the current dialog to handoff to another dialog.\nThe parent dialog will not resume when the child dialog completes. However, the afterDialog event will not fire for the parent dialog until all child dialogs complete.\nUse this to [combine multiple dialogs into bigger interactions.](../conversations.md#composing-dialogs)",
+                    "text": "```javascript\nlet parent = new BotkitConversation('parent', controller);\nlet child = new BotkitConversation('child', controller);\nparent.say('Moving on....');\nparent.addGotoDialog('child');\n```\n"
                   },
                   "parameters": [
                     {
@@ -7292,7 +7292,7 @@
               "sources": [
                 {
                   "fileName": "conversation.ts",
-                  "line": 239,
+                  "line": 237,
                   "character": 24
                 }
               ]
@@ -7315,7 +7315,7 @@
                   "kindString": "Call signature",
                   "flags": {},
                   "comment": {
-                    "shortText": "Add a message to a specific thread\nMessages added with `say()` and `addMessage()` will _not_ wait for a response, will be sent one after another without a pause.",
+                    "shortText": "Add a message template to a specific thread.\nMessages added with `say()` and `addMessage()` will be sent one after another without a pause.",
                     "text": "```javascript\nlet conversation = new BotkitConversation('welcome', controller);\nconversation.say('Hello! Welcome to my app.');\nconversation.say('Let us get started...');\n// pass in a message with an action that will cause gotoThread to be called...\nconversation.addAction('continuation');\n\nconversation.addMessage('This is a different thread completely', 'continuation');\n```\n"
                   },
                   "parameters": [
@@ -7374,7 +7374,7 @@
               "sources": [
                 {
                   "fileName": "conversation.ts",
-                  "line": 267,
+                  "line": 265,
                   "character": 21
                 }
               ]
@@ -7488,7 +7488,7 @@
                                   "sources": [
                                     {
                                       "fileName": "conversation.ts",
-                                      "line": 337,
+                                      "line": 335,
                                       "character": 139
                                     }
                                   ],
@@ -7510,7 +7510,7 @@
                               "sources": [
                                 {
                                   "fileName": "conversation.ts",
-                                  "line": 337,
+                                  "line": 335,
                                   "character": 134
                                 }
                               ]
@@ -7548,7 +7548,7 @@
               "sources": [
                 {
                   "fileName": "conversation.ts",
-                  "line": 337,
+                  "line": 335,
                   "character": 22
                 }
               ]
@@ -7632,7 +7632,7 @@
                           "sources": [
                             {
                               "fileName": "conversation.ts",
-                              "line": 426,
+                              "line": 424,
                               "character": 25
                             }
                           ]
@@ -7649,7 +7649,7 @@
               "sources": [
                 {
                   "fileName": "conversation.ts",
-                  "line": 426,
+                  "line": 424,
                   "character": 16
                 }
               ]
@@ -7766,7 +7766,7 @@
                                   "sources": [
                                     {
                                       "fileName": "conversation.ts",
-                                      "line": 325,
+                                      "line": 323,
                                       "character": 131
                                     }
                                   ],
@@ -7788,7 +7788,7 @@
                               "sources": [
                                 {
                                   "fileName": "conversation.ts",
-                                  "line": 325,
+                                  "line": 323,
                                   "character": 126
                                 }
                               ]
@@ -7812,7 +7812,7 @@
               "sources": [
                 {
                   "fileName": "conversation.ts",
-                  "line": 325,
+                  "line": 323,
                   "character": 14
                 }
               ]
@@ -7918,7 +7918,7 @@
                           "sources": [
                             {
                               "fileName": "conversation.ts",
-                              "line": 389,
+                              "line": 387,
                               "character": 47
                             }
                           ]
@@ -7935,7 +7935,7 @@
               "sources": [
                 {
                   "fileName": "conversation.ts",
-                  "line": 389,
+                  "line": 387,
                   "character": 17
                 }
               ]
@@ -8050,7 +8050,7 @@
                           "sources": [
                             {
                               "fileName": "conversation.ts",
-                              "line": 462,
+                              "line": 460,
                               "character": 46
                             }
                           ]
@@ -8067,7 +8067,7 @@
               "sources": [
                 {
                   "fileName": "conversation.ts",
-                  "line": 462,
+                  "line": 460,
                   "character": 19
                 }
               ]

@@ -922,6 +922,7 @@ convo.addAction('complete');
 ### addChildDialog()
 Cause the dialog to call a child dialog, wait for it to complete,
 then store the results in a variable and resume the parent dialog.
+Use this to [combine multiple dialogs into bigger interactions.](../conversations.md#composing-dialogs)
 
 **Parameters**
 
@@ -932,8 +933,6 @@ then store the results in a variable and resume the parent dialog.
 | thread_name| string | the name of a thread to which this call should be added. defaults to 'default'<br/>
 
 
-
-Use this to [combine multiple dialogs into bigger interactions.](../conversations.md#composing-dialogs)
 
 ```javascript
 // define a profile collection dialog
@@ -954,6 +953,7 @@ onboard.say('Hello, {{vars.profile.name}}! Onboarding is complete.');
 ### addGotoDialog()
 Cause the current dialog to handoff to another dialog.
 The parent dialog will not resume when the child dialog completes. However, the afterDialog event will not fire for the parent dialog until all child dialogs complete.
+Use this to [combine multiple dialogs into bigger interactions.](../conversations.md#composing-dialogs)
 
 **Parameters**
 
@@ -963,8 +963,6 @@ The parent dialog will not resume when the child dialog completes. However, the 
 | thread_name| string | the name of a thread to which this call should be added. defaults to 'default'<br/>
 
 
-
-Use this to [combine multiple dialogs into bigger interactions.](../conversations.md#composing-dialogs)
 
 ```javascript
 let parent = new BotkitConversation('parent', controller);
@@ -976,8 +974,8 @@ parent.addGotoDialog('child');
 
 <a name="addMessage"></a>
 ### addMessage()
-Add a message to a specific thread
-Messages added with `say()` and `addMessage()` will _not_ wait for a response, will be sent one after another without a pause.
+Add a message template to a specific thread.
+Messages added with `say()` and `addMessage()` will be sent one after another without a pause.
 
 **Parameters**
 
