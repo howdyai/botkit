@@ -4,12 +4,6 @@
     * move/remove/ignore testbot
     * eslint version in packages
     
-    * copyright headers!!
-
-/**
- * Copyright (c) Microsoft Corporation. All rights reserved.
- * Licensed under the MIT License.
- */
 
 # core
 
