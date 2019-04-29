@@ -1,5 +1,34 @@
 # generator-botkit
-## a yeoman template for generating botkit applications
+**A [Yeoman](https://yeoman.io) template for generating [Botkit](https://npmjs.org/package/botkit) applications**
+
+## Get Started
+
+Install Yeoman and this template:
+
+```bash
+npm install -g yo generator-botkit
+```
+
+Create a new folder for your project:
+
+```bash
+mkdir mybot
+cd mybot
+```
+
+From inside your project folder, generate the project:
+
+```bash
+yo botkit
+```
+
+The generator will walk you through the process of configuring and installing your Botkit application. For each platform, a different set of API credentials and options will be collected.  [Platform specific provisioning guides can be found in the Botkit docs site](https://botkit.ai/docs/provisioning).
+
+Once the generator has completed its work, you will be left with a fully operational bot ready to be connected to the messaging platform.  To start the application, run `npm start`
+
+The entire process is shown below:
+
+![Botkit Yeoman generator in action](yeoman-generator.gif)
 
 ## Community & Support
 

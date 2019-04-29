@@ -3,7 +3,6 @@
     * PUBLISH TO NPM
     * move/remove/ignore testbot
     * eslint version in packages
-    
 
 # core
 
@@ -39,7 +38,6 @@
 
 # starter kits / yeoman
 
-    * hangouts creds get escaped
     * move over more useful skills
 
     * keep?  Go?  mark as deprecated?  point at yeoman? autogenerate with yeoman??
@@ -78,6 +76,7 @@
 ~* change /new to /v4~
 ~* create official new 0. branch for future maintenance~
 ~* catch dialog results!~
+~* hangouts creds get escaped~
 
 
 # POST LAUNCH
