@@ -37,7 +37,7 @@ interface BotkitMessageTemplate {
         thread?: string;
     },
     quick_replies?: [any];
-    attachments?: [];
+    attachments?: any[];
     channelData?: any;
     collect: {
         key: string;

@@ -93,7 +93,7 @@ export class BotWorker {
      * @param message A string containing the text of a reply, or more fully formed message object
      * @returns Return value will contain the results of the send action, typically `{id: <id of message>}`
      */
-    public async say(message: Partial<BotkitMessage>): Promise<any> {
+    public async say(message: Partial<BotkitMessage> | string): Promise<any> {
         return new Promise((resolve, reject) => {
             let activity = this.ensureMessageFormat(message);
 
@@ -124,7 +124,7 @@ export class BotWorker {
     * @param resp A string containing the text of a reply, or more fully formed message object
     * @returns Return value will contain the results of the send action, typically `{id: <id of message>}`
     */
-    public async reply(src: Partial<BotkitMessage>, resp: Partial<BotkitMessage>): Promise<any> {
+    public async reply(src: Partial<BotkitMessage>, resp: Partial<BotkitMessage> | string): Promise<any> {
         let activity = this.ensureMessageFormat(resp);
 
         // Get conversation reference from src
@@ -291,7 +291,7 @@ export class BotWorker {
      * @params message a string or partial outgoing message object
      * @returns a properly formed Activity object
      */
-    public ensureMessageFormat(message: Partial<BotkitMessage>): Partial<Activity> {
+    public ensureMessageFormat(message: Partial<BotkitMessage> | string): Partial<Activity> {
         let activity: Partial<Activity> = {};
 
         if (typeof (message) === 'string') {
