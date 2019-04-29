@@ -23,7 +23,7 @@
 
 # advanced topics
     * anatomy
-    * upgrade guide!
+    * upgrade guide
 
     * customize templates for plugins index and platform index
     

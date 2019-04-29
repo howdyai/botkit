@@ -76,7 +76,7 @@ convo.say('Howdy!');
 convo.ask('What is your name?', async(response, convo, bot) => {
     console.log(`user name is ${ response }`);
     // do something?
-}, {key: 'name'});
+}, 'name');
 
 // use add action to switch to a different thread, defined below...
 convo.addAction('favorite_color');
@@ -85,7 +85,7 @@ convo.addAction('favorite_color');
 convo.addMessage('Awesome {{vars.name}}!', 'favorite_color');
 convo.addQuestion('Now, what is your favorite color?', async(response, convo, bot) => {
     console.log(`user favorite color is ${ response }`);
-}, {key: 'color'}, 'favorite_color');
+},'color', 'favorite_color');
 
 // go to a confirmation
 convo.addAction('confirmation');
@@ -105,7 +105,7 @@ convo.addQuestion('Your name is {{vars.name}} and your favorite color is {{vars.
             // do nothing, allow convo to complete.
         }
     }
-], {key: 'confirm', 'confirmation');
+], 'confirm', 'confirmation');
 ```
 
 Finally, make sure to add the dialog to the Botkit controller. This activates the dialog and makes it available to use later:
@@ -194,7 +194,7 @@ From inside a prompt handler function, use `convo.gotoThread()` to instantly swi
                 await convo.gotoThread('bad_response');
             },
         }
-    ],{key: 'likes_cheese'},'default');
+    ],'likes_cheese','default');
 
     controller.addDialog(convo);
 });
@@ -266,9 +266,9 @@ let child = new BotkitConversation(CHILD_ID, controller);
 parent.say('I have a few questions...');
 parent.addChildDialog(CHILD_ID, 'answers'); // capture responses in vars.questions
 
-child.ask('Question 1!', async(response, convo, bot) => {} , {key: 'question_1'});
-child.ask('Question 2!', async(response, convo, bot) => {} , {key: 'question_2'});
-child.ask('Question 3!', async(response, convo, bot) => {} , {key: 'question_3'});
+child.ask('Question 1!',[], 'question_1'); // no handler
+child.ask('Question 2!',[], 'question_2'); // no handler
+child.ask('Question 3!',[], 'question_3'); // no handler
 
 controller.addDialog(parent);
 controller.addDialog(child);
@@ -290,7 +290,7 @@ In this case, the value of `results._status` will be `completed`. Other values f
 
 ```javascript
 const my_dialog = new BotkitDialog('dialog', controller);
-my_dialog.ask('What is your name?', MY_HANDLER, {key: name});
+my_dialog.ask('What is your name?', [], 'name');
 controller.addDialog(my_dialog);
 
 controller.afterDialog(my_dialog, async(bot, results) => {

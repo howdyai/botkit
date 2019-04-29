@@ -424,7 +424,7 @@
               "sources": [
                 {
                   "fileName": "core.ts",
-                  "line": 1064,
+                  "line": 1063,
                   "character": 20
                 }
               ]
@@ -563,7 +563,7 @@
               "sources": [
                 {
                   "fileName": "core.ts",
-                  "line": 1092,
+                  "line": 1091,
                   "character": 22
                 }
               ]
@@ -923,7 +923,7 @@
                               "sources": [
                                 {
                                   "fileName": "core.ts",
-                                  "line": 816,
+                                  "line": 815,
                                   "character": 115
                                 }
                               ]
@@ -983,7 +983,7 @@
               "sources": [
                 {
                   "fileName": "core.ts",
-                  "line": 816,
+                  "line": 815,
                   "character": 16
                 }
               ]
@@ -1140,7 +1140,7 @@
                               "sources": [
                                 {
                                   "fileName": "core.ts",
-                                  "line": 871,
+                                  "line": 870,
                                   "character": 131
                                 }
                               ]
@@ -1200,7 +1200,7 @@
               "sources": [
                 {
                   "fileName": "core.ts",
-                  "line": 871,
+                  "line": 870,
                   "character": 21
                 }
               ]
@@ -1250,7 +1250,7 @@
               "sources": [
                 {
                   "fileName": "core.ts",
-                  "line": 1019,
+                  "line": 1018,
                   "character": 21
                 }
               ]
@@ -1301,7 +1301,7 @@
               "sources": [
                 {
                   "fileName": "core.ts",
-                  "line": 1038,
+                  "line": 1037,
                   "character": 22
                 }
               ]
@@ -1379,7 +1379,7 @@
               "sources": [
                 {
                   "fileName": "core.ts",
-                  "line": 923,
+                  "line": 922,
                   "character": 13
                 }
               ]
@@ -1577,7 +1577,7 @@
               "sources": [
                 {
                   "fileName": "core.ts",
-                  "line": 686,
+                  "line": 685,
                   "character": 26
                 }
               ]
@@ -1634,7 +1634,7 @@
               "sources": [
                 {
                   "fileName": "core.ts",
-                  "line": 978,
+                  "line": 977,
                   "character": 22
                 }
               ]
@@ -1721,7 +1721,7 @@
               "sources": [
                 {
                   "fileName": "core.ts",
-                  "line": 955,
+                  "line": 954,
                   "character": 24
                 }
               ]
@@ -2376,7 +2376,7 @@
               "sources": [
                 {
                   "fileName": "core.ts",
-                  "line": 1064,
+                  "line": 1063,
                   "character": 20
                 }
               ]
@@ -2515,7 +2515,7 @@
               "sources": [
                 {
                   "fileName": "core.ts",
-                  "line": 1092,
+                  "line": 1091,
                   "character": 22
                 }
               ]
@@ -2875,7 +2875,7 @@
                               "sources": [
                                 {
                                   "fileName": "core.ts",
-                                  "line": 816,
+                                  "line": 815,
                                   "character": 115
                                 }
                               ]
@@ -2935,7 +2935,7 @@
               "sources": [
                 {
                   "fileName": "core.ts",
-                  "line": 816,
+                  "line": 815,
                   "character": 16
                 }
               ]
@@ -3092,7 +3092,7 @@
                               "sources": [
                                 {
                                   "fileName": "core.ts",
-                                  "line": 871,
+                                  "line": 870,
                                   "character": 131
                                 }
                               ]
@@ -3152,7 +3152,7 @@
               "sources": [
                 {
                   "fileName": "core.ts",
-                  "line": 871,
+                  "line": 870,
                   "character": 21
                 }
               ]
@@ -3202,7 +3202,7 @@
               "sources": [
                 {
                   "fileName": "core.ts",
-                  "line": 1019,
+                  "line": 1018,
                   "character": 21
                 }
               ]
@@ -3253,7 +3253,7 @@
               "sources": [
                 {
                   "fileName": "core.ts",
-                  "line": 1038,
+                  "line": 1037,
                   "character": 22
                 }
               ]
@@ -3331,7 +3331,7 @@
               "sources": [
                 {
                   "fileName": "core.ts",
-                  "line": 923,
+                  "line": 922,
                   "character": 13
                 }
               ]
@@ -3529,7 +3529,7 @@
               "sources": [
                 {
                   "fileName": "core.ts",
-                  "line": 686,
+                  "line": 685,
                   "character": 26
                 }
               ]
@@ -3586,7 +3586,7 @@
               "sources": [
                 {
                   "fileName": "core.ts",
-                  "line": 978,
+                  "line": 977,
                   "character": 22
                 }
               ]
@@ -3673,7 +3673,7 @@
               "sources": [
                 {
                   "fileName": "core.ts",
-                  "line": 955,
+                  "line": 954,
                   "character": 24
                 }
               ]
@@ -6331,52 +6331,61 @@
                       "flags": {},
                       "comment": {},
                       "type": {
-                        "type": "reflection",
-                        "declaration": {
-                          "id": 313,
-                          "name": "__type",
-                          "kind": 65536,
-                          "kindString": "Type literal",
-                          "flags": {},
-                          "children": [
-                            {
-                              "id": 314,
-                              "name": "key",
-                              "kind": 32,
-                              "kindString": "Variable",
-                              "flags": {
-                                "isExternal": true
-                              },
+                        "type": "union",
+                        "types": [
+                          {
+                            "type": "reflection",
+                            "declaration": {
+                              "id": 313,
+                              "name": "__type",
+                              "kind": 65536,
+                              "kindString": "Type literal",
+                              "flags": {},
+                              "children": [
+                                {
+                                  "id": 314,
+                                  "name": "key",
+                                  "kind": 32,
+                                  "kindString": "Variable",
+                                  "flags": {
+                                    "isExternal": true
+                                  },
+                                  "sources": [
+                                    {
+                                      "fileName": "conversation.ts",
+                                      "line": 312,
+                                      "character": 139
+                                    }
+                                  ],
+                                  "type": {
+                                    "type": "intrinsic",
+                                    "name": "string"
+                                  }
+                                }
+                              ],
+                              "groups": [
+                                {
+                                  "title": "Variables",
+                                  "kind": 32,
+                                  "children": [
+                                    314
+                                  ]
+                                }
+                              ],
                               "sources": [
                                 {
                                   "fileName": "conversation.ts",
                                   "line": 312,
-                                  "character": 139
+                                  "character": 134
                                 }
-                              ],
-                              "type": {
-                                "type": "intrinsic",
-                                "name": "string"
-                              }
-                            }
-                          ],
-                          "groups": [
-                            {
-                              "title": "Variables",
-                              "kind": 32,
-                              "children": [
-                                314
                               ]
                             }
-                          ],
-                          "sources": [
-                            {
-                              "fileName": "conversation.ts",
-                              "line": 312,
-                              "character": 134
-                            }
-                          ]
-                        }
+                          },
+                          {
+                            "type": "intrinsic",
+                            "name": "string"
+                          }
+                        ]
                       }
                     },
                     {
@@ -6600,52 +6609,61 @@
                         "text": "\n"
                       },
                       "type": {
-                        "type": "reflection",
-                        "declaration": {
-                          "id": 306,
-                          "name": "__type",
-                          "kind": 65536,
-                          "kindString": "Type literal",
-                          "flags": {},
-                          "children": [
-                            {
-                              "id": 307,
-                              "name": "key",
-                              "kind": 32,
-                              "kindString": "Variable",
-                              "flags": {
-                                "isExternal": true
-                              },
+                        "type": "union",
+                        "types": [
+                          {
+                            "type": "reflection",
+                            "declaration": {
+                              "id": 306,
+                              "name": "__type",
+                              "kind": 65536,
+                              "kindString": "Type literal",
+                              "flags": {},
+                              "children": [
+                                {
+                                  "id": 307,
+                                  "name": "key",
+                                  "kind": 32,
+                                  "kindString": "Variable",
+                                  "flags": {
+                                    "isExternal": true
+                                  },
+                                  "sources": [
+                                    {
+                                      "fileName": "conversation.ts",
+                                      "line": 300,
+                                      "character": 131
+                                    }
+                                  ],
+                                  "type": {
+                                    "type": "intrinsic",
+                                    "name": "string"
+                                  }
+                                }
+                              ],
+                              "groups": [
+                                {
+                                  "title": "Variables",
+                                  "kind": 32,
+                                  "children": [
+                                    307
+                                  ]
+                                }
+                              ],
                               "sources": [
                                 {
                                   "fileName": "conversation.ts",
                                   "line": 300,
-                                  "character": 131
+                                  "character": 126
                                 }
-                              ],
-                              "type": {
-                                "type": "intrinsic",
-                                "name": "string"
-                              }
-                            }
-                          ],
-                          "groups": [
-                            {
-                              "title": "Variables",
-                              "kind": 32,
-                              "children": [
-                                307
                               ]
                             }
-                          ],
-                          "sources": [
-                            {
-                              "fileName": "conversation.ts",
-                              "line": 300,
-                              "character": 126
-                            }
-                          ]
-                        }
+                          },
+                          {
+                            "type": "intrinsic",
+                            "name": "string"
+                          }
+                        ]
                       }
                     }
                   ],
@@ -7446,52 +7464,61 @@
                       "flags": {},
                       "comment": {},
                       "type": {
-                        "type": "reflection",
-                        "declaration": {
-                          "id": 313,
-                          "name": "__type",
-                          "kind": 65536,
-                          "kindString": "Type literal",
-                          "flags": {},
-                          "children": [
-                            {
-                              "id": 314,
-                              "name": "key",
-                              "kind": 32,
-                              "kindString": "Variable",
-                              "flags": {
-                                "isExternal": true
-                              },
+                        "type": "union",
+                        "types": [
+                          {
+                            "type": "reflection",
+                            "declaration": {
+                              "id": 313,
+                              "name": "__type",
+                              "kind": 65536,
+                              "kindString": "Type literal",
+                              "flags": {},
+                              "children": [
+                                {
+                                  "id": 314,
+                                  "name": "key",
+                                  "kind": 32,
+                                  "kindString": "Variable",
+                                  "flags": {
+                                    "isExternal": true
+                                  },
+                                  "sources": [
+                                    {
+                                      "fileName": "conversation.ts",
+                                      "line": 312,
+                                      "character": 139
+                                    }
+                                  ],
+                                  "type": {
+                                    "type": "intrinsic",
+                                    "name": "string"
+                                  }
+                                }
+                              ],
+                              "groups": [
+                                {
+                                  "title": "Variables",
+                                  "kind": 32,
+                                  "children": [
+                                    314
+                                  ]
+                                }
+                              ],
                               "sources": [
                                 {
                                   "fileName": "conversation.ts",
                                   "line": 312,
-                                  "character": 139
+                                  "character": 134
                                 }
-                              ],
-                              "type": {
-                                "type": "intrinsic",
-                                "name": "string"
-                              }
-                            }
-                          ],
-                          "groups": [
-                            {
-                              "title": "Variables",
-                              "kind": 32,
-                              "children": [
-                                314
                               ]
                             }
-                          ],
-                          "sources": [
-                            {
-                              "fileName": "conversation.ts",
-                              "line": 312,
-                              "character": 134
-                            }
-                          ]
-                        }
+                          },
+                          {
+                            "type": "intrinsic",
+                            "name": "string"
+                          }
+                        ]
                       }
                     },
                     {
@@ -7715,52 +7742,61 @@
                         "text": "\n"
                       },
                       "type": {
-                        "type": "reflection",
-                        "declaration": {
-                          "id": 306,
-                          "name": "__type",
-                          "kind": 65536,
-                          "kindString": "Type literal",
-                          "flags": {},
-                          "children": [
-                            {
-                              "id": 307,
-                              "name": "key",
-                              "kind": 32,
-                              "kindString": "Variable",
-                              "flags": {
-                                "isExternal": true
-                              },
+                        "type": "union",
+                        "types": [
+                          {
+                            "type": "reflection",
+                            "declaration": {
+                              "id": 306,
+                              "name": "__type",
+                              "kind": 65536,
+                              "kindString": "Type literal",
+                              "flags": {},
+                              "children": [
+                                {
+                                  "id": 307,
+                                  "name": "key",
+                                  "kind": 32,
+                                  "kindString": "Variable",
+                                  "flags": {
+                                    "isExternal": true
+                                  },
+                                  "sources": [
+                                    {
+                                      "fileName": "conversation.ts",
+                                      "line": 300,
+                                      "character": 131
+                                    }
+                                  ],
+                                  "type": {
+                                    "type": "intrinsic",
+                                    "name": "string"
+                                  }
+                                }
+                              ],
+                              "groups": [
+                                {
+                                  "title": "Variables",
+                                  "kind": 32,
+                                  "children": [
+                                    307
+                                  ]
+                                }
+                              ],
                               "sources": [
                                 {
                                   "fileName": "conversation.ts",
                                   "line": 300,
-                                  "character": 131
+                                  "character": 126
                                 }
-                              ],
-                              "type": {
-                                "type": "intrinsic",
-                                "name": "string"
-                              }
-                            }
-                          ],
-                          "groups": [
-                            {
-                              "title": "Variables",
-                              "kind": 32,
-                              "children": [
-                                307
                               ]
                             }
-                          ],
-                          "sources": [
-                            {
-                              "fileName": "conversation.ts",
-                              "line": 300,
-                              "character": 126
-                            }
-                          ]
-                        }
+                          },
+                          {
+                            "type": "intrinsic",
+                            "name": "string"
+                          }
+                        ]
                       }
                     }
                   ],
