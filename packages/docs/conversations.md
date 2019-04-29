@@ -255,7 +255,7 @@ are provided.  These functions should only be called from within a handler funct
 
 ## Handling End of Conversation
 
-Any dialog - not just `BotkitConversations`, but any [dialog built on the BotBuilder dialog base class](https://npmjs.com/package/botbuilder-dialogs - will emit a special event whenever it completes that can be handled using [afterDialog()](reference/core.md#afterdialog). Each handler function will receive an object containing all of the variables set and/or collected during the course of the conversation, and a [bot worker](reference/core.md#botworker) object that can take further actions.
+Any dialog - not just `BotkitConversations`, but any [dialog built on the BotBuilder dialog base class](https://npmjs.com/package/botbuilder-dialogs) - will emit a special event whenever it completes that can be handled using [afterDialog()](reference/core.md#afterdialog). Each handler function will receive an object containing all of the variables set and/or collected during the course of the conversation, and a [bot worker](reference/core.md#botworker) object that can take further actions.
 
 Conversations end naturally when the last message has been sent and no messages remain in the queue.
 In this case, the value of `results._status` will be `completed`. Other values for this field include `canceled`, and `timeout`.

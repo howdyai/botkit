@@ -562,7 +562,9 @@ export class BotkitConversation<O extends object = {}> extends Dialog<O> {
                         test = new RegExp(condition.pattern, 'i');
                     } else if (condition.type === 'regex') {
                         test = new RegExp(condition.pattern, 'i');
-                    }
+                    } 
+                    // TODO: Allow functions to be passed in as patterns
+                    // ie async(test) => Promise<boolean>
 
                     if (step.result.match(test)) {
                         path = condition;
