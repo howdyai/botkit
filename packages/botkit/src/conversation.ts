@@ -520,10 +520,9 @@ export class BotkitConversation<O extends object = {}> extends Dialog<O> {
     private async onStep(dc, step): Promise<any> {
         // Let's interpret the current line of the script.
         const thread = this.script[step.thread];
-        let line = thread[step.index];
 
-        var previous = (step.index >= 1) ? thread[step.index - 1] : null;
         // Capture the previous step value if there previous line included a prompt
+        var previous = (step.index >= 1) ? thread[step.index - 1] : null;
         if (step.result && previous && previous.collect) {
             if (previous.collect.key) {
                 // capture before values
@@ -588,32 +587,41 @@ export class BotkitConversation<O extends object = {}> extends Dialog<O> {
             }
         }
 
-        // If a prompt is defined in the script, use dc.prompt to call it.
-        // This prompt must be a valid dialog defined somewhere in your code!
-        if (line.collect && line.action !== 'beginDialog') {
-            try {
-                return await dc.prompt(this._prompt, this.makeOutgoing(line, step.values));
-            } catch (err) {
-                console.error(err);
-                await dc.context.sendActivity(`Failed to start prompt ${ line.prompt.id }`);
+
+
+        if (step.index < thread.length) {
+            let line = thread[step.index];
+
+            // If a prompt is defined in the script, use dc.prompt to call it.
+            // This prompt must be a valid dialog defined somewhere in your code!
+            if (line.collect && line.action !== 'beginDialog') {
+                try {
+                    return await dc.prompt(this._prompt, this.makeOutgoing(line, step.values));
+                } catch (err) {
+                    console.error(err);
+                    await dc.context.sendActivity(`Failed to start prompt ${ line.prompt.id }`);
+                    return await step.next();
+                }
+            // If there's nothing but text, send it!
+            // This could be extended to include cards and other activity attributes.
+            } else {
+                // if there is text, attachments, or any channel data fields at all...
+                if (line.text || line.attachments || (line.channelData && Object.keys(line.channelData).length)) {
+                    await dc.context.sendActivity(this.makeOutgoing(line, step.values));
+                }
+
+                if (line.action) {
+                    let res = await this.handleAction(line, dc, step);
+                    if (res !== false) {
+                        return res;
+                    }
+                }
+
                 return await step.next();
             }
-        // If there's nothing but text, send it!
-        // This could be extended to include cards and other activity attributes.
         } else {
-            // if there is text, attachments, or any channel data fields at all...
-            if (line.text || line.attachments || (line.channelData && Object.keys(line.channelData).length)) {
-                await dc.context.sendActivity(this.makeOutgoing(line, step.values));
-            }
-
-            if (line.action) {
-                let res = await this.handleAction(line, dc, step);
-                if (res !== false) {
-                    return res;
-                }
-            }
-
-            return await step.next();
+            // End of script so just return to parent
+            return await this.end(dc, step.result);
         }
     }
 
@@ -627,7 +635,7 @@ export class BotkitConversation<O extends object = {}> extends Dialog<O> {
      */
     private async runStep(dc: DialogContext, index: number, thread_name: string, reason: DialogReason, result?: any): Promise<any> {
         const thread = this.script[thread_name];
-        if (index < thread.length) {
+        // if (index < thread.length) {
             // Update the step index
             const state = dc.activeDialog.state;
             state.stepIndex = index;
@@ -668,10 +676,10 @@ export class BotkitConversation<O extends object = {}> extends Dialog<O> {
             const res = await this.onStep(dc, step);
 
             return res;
-        } else {
-            // End of script so just return to parent
-            return await this.end(dc, result);
-        }
+        // } else {
+        //     // End of script so just return to parent
+        //     return await this.end(dc, result);
+        // }
     }
 
     /**
