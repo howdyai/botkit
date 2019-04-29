@@ -253,6 +253,36 @@ are provided.  These functions should only be called from within a handler funct
 * [convo.setVar()](reference/core.md#setvar)
 * [convo.gotoThread()](reference/core.md#gotothread)
 
+## Composing Dialogs
+
+TODO
+
+Multiple dialogs can be combined into larger, more complex interactions. The results of "child" dialogs roll up to the "parent" dialog.
+
+To use a child dialog, add a pointer to it to the parent dialog using [addChildDialog()](reference/core.md#addchilddialog). Then, at the appropriate place in the performance of the parent dialog, the bot will switch automatically to the child dialog, run it to completion, then resume the parent dialog where it left off. The results of the child dialog (any variables or user responses captured) will be stored in the parent dialog's variable set.
+
+```javascript
+let parent = new BotkitConversation(PARENT_ID, controller);
+let child = new BotkitConversation(CHILD_ID, controller);
+
+parent.say('I have a few questions...');
+parent.addChildDialog(CHILD_ID, 'answers'); // capture responses in vars.questions
+
+child.ask('Question 1!', async(response, convo, bot) => {} , {key: 'question_1'});
+child.ask('Question 2!', async(response, convo, bot) => {} , {key: 'question_2'});
+child.ask('Question 3!', async(response, convo, bot) => {} , {key: 'question_3'});
+
+controller.addDialog(parent);
+controller.addDialog(child);
+controller.afterDialog(parent, async(bot, results) => {
+
+    let question_1 = results.answers.question_1;
+    let question_2 = results.answers.question_2;
+    // ... do stuff with responses
+
+});
+```
+
 ## Handling End of Conversation
 
 Any dialog - not just `BotkitConversations`, but any [dialog built on the BotBuilder dialog base class](https://npmjs.com/package/botbuilder-dialogs) - will emit a special event whenever it completes that can be handled using [afterDialog()](reference/core.md#afterdialog). Each handler function will receive an object containing all of the variables set and/or collected during the course of the conversation, and a [bot worker](reference/core.md#botworker) object that can take further actions.
