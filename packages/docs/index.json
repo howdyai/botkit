@@ -6263,7 +6263,7 @@
                   "kindString": "Call signature",
                   "flags": {},
                   "comment": {
-                    "shortText": "Identical to `ask()`, but accepts the name of a thread to which the question is added."
+                    "shortText": "Identical to [ask()](#ask), but accepts the name of a thread to which the question is added."
                   },
                   "parameters": [
                     {
@@ -7397,7 +7397,7 @@
                   "kindString": "Call signature",
                   "flags": {},
                   "comment": {
-                    "shortText": "Identical to `ask()`, but accepts the name of a thread to which the question is added."
+                    "shortText": "Identical to [ask()](#ask), but accepts the name of a thread to which the question is added."
                   },
                   "parameters": [
                     {

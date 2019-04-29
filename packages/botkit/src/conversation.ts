@@ -326,7 +326,7 @@ export class BotkitConversation<O extends object = {}> extends Dialog<O> {
     }
 
     /**
-     * Identical to `ask()`, but accepts the name of a thread to which the question is added.
+     * Identical to [ask()](#ask), but accepts the name of a thread to which the question is added.
      * @param message a message that will be used as the prompt
      * @param handlers one or more handler functions defining possible conditional actions based on the response to the question
      * @param options {key: <name of key to store response in>}

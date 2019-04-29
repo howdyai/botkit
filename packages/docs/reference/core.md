@@ -999,7 +999,7 @@ conversation.addMessage('This is a different thread completely', 'continuation')
 
 <a name="addQuestion"></a>
 ### addQuestion()
-Identical to `ask()`, but accepts the name of a thread to which the question is added.
+Identical to [ask()](#ask), but accepts the name of a thread to which the question is added.
 
 **Parameters**
 
