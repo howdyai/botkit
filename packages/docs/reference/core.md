@@ -909,6 +909,8 @@ Otherwise, use one of the following keywords:
 * `complete`
 * `timeout`
 
+[Learn more about building conversations &rarr;](../conversations.md#build-a-conversation)
+
 ```javascript
 
 // go to a thread called "next_thread"
@@ -934,6 +936,7 @@ Use this to [combine multiple dialogs into bigger interactions.](../conversation
 
 
 
+[Learn more about building conversations &rarr;](../conversations.md#build-a-conversation)
 ```javascript
 // define a profile collection dialog
 let profileDialog = new BotkitConversation('PROFILE_DIALOG', controller);
@@ -964,6 +967,7 @@ Use this to [combine multiple dialogs into bigger interactions.](../conversation
 
 
 
+[Learn more about building conversations &rarr;](../conversations.md#build-a-conversation)
 ```javascript
 let parent = new BotkitConversation('parent', controller);
 let child = new BotkitConversation('child', controller);
@@ -986,6 +990,7 @@ Messages added with `say()` and `addMessage()` will be sent one after another wi
 
 
 
+[Learn more about building conversations &rarr;](../conversations.md#build-a-conversation)
 ```javascript
 let conversation = new BotkitConversation('welcome', controller);
 conversation.say('Hello! Welcome to my app.');
@@ -1029,6 +1034,9 @@ The second parameter to the handler is a BotWorker object that can be used to st
 <a name="ask"></a>
 ### ask()
 Add a question to the default thread.
+In addition to a message template, receives either a single handler function to call when an answer is provided,
+or an array of handlers paired with trigger patterns. When providing multiple conditions to test, developers may also provide a
+handler marked as the default choice.
 
 **Parameters**
 
@@ -1133,6 +1141,8 @@ Messages added with `say()` and `addMessage()` will _not_ wait for a response, w
 | message|  | Message template to be sent<br/>
 
 
+
+[Learn more about building conversations &rarr;](../conversations.md#build-a-conversation)
 
 ```javascript
 let conversation = new BotkitConversation('welcome', controller);

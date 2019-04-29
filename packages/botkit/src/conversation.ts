@@ -137,6 +137,8 @@ export class BotkitConversation<O extends object = {}> extends Dialog<O> {
     /**
      * Add a non-interactive message to the default thread.
      * Messages added with `say()` and `addMessage()` will _not_ wait for a response, will be sent one after another without a pause.
+     * 
+     * [Learn more about building conversations &rarr;](../conversations.md#build-a-conversation)
      *
      * ```javascript
      * let conversation = new BotkitConversation('welcome', controller);
@@ -162,6 +164,8 @@ export class BotkitConversation<O extends object = {}> extends Dialog<O> {
      * * `repeat`
      * * `complete`
      * * `timeout`
+     * 
+     * [Learn more about building conversations &rarr;](../conversations.md#build-a-conversation)
      *
      * ```javascript
      * 
@@ -184,7 +188,8 @@ export class BotkitConversation<O extends object = {}> extends Dialog<O> {
      * Cause the dialog to call a child dialog, wait for it to complete,
      * then store the results in a variable and resume the parent dialog.
      * Use this to [combine multiple dialogs into bigger interactions.](../conversations.md#composing-dialogs)
-     * 
+     *
+     * [Learn more about building conversations &rarr;](../conversations.md#build-a-conversation)
      * ```javascript
      * // define a profile collection dialog
      * let profileDialog = new BotkitConversation('PROFILE_DIALOG', controller);
@@ -224,6 +229,7 @@ export class BotkitConversation<O extends object = {}> extends Dialog<O> {
      * The parent dialog will not resume when the child dialog completes. However, the afterDialog event will not fire for the parent dialog until all child dialogs complete.
      * Use this to [combine multiple dialogs into bigger interactions.](../conversations.md#composing-dialogs)
      * 
+     * [Learn more about building conversations &rarr;](../conversations.md#build-a-conversation)
      * ```javascript
      * let parent = new BotkitConversation('parent', controller);
      * let child = new BotkitConversation('child', controller);
@@ -249,6 +255,7 @@ export class BotkitConversation<O extends object = {}> extends Dialog<O> {
      * Add a message template to a specific thread.
      * Messages added with `say()` and `addMessage()` will be sent one after another without a pause.
      *
+     * [Learn more about building conversations &rarr;](../conversations.md#build-a-conversation)
      * ```javascript
      * let conversation = new BotkitConversation('welcome', controller);
      * conversation.say('Hello! Welcome to my app.');
@@ -282,6 +289,9 @@ export class BotkitConversation<O extends object = {}> extends Dialog<O> {
 
     /**
      * Add a question to the default thread.
+     * In addition to a message template, receives either a single handler function to call when an answer is provided,
+     * or an array of handlers paired with trigger patterns. When providing multiple conditions to test, developers may also provide a
+     * handler marked as the default choice.
      *
      * ```javascript
      * // ask a question, handle the response with a function

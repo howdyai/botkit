@@ -47,7 +47,7 @@ When the dialog reaches its end (no messages remaining to be sent, or one of the
 
 There are several ways to register an end-of-conversation hook, [discussed in more detail here &rarr;](#handling-end-of-conversation)
 
-## Build A Conversations
+## Build a Conversation
 
 First, create the new dialog object. Each dialog must have it's own unique identifier that will be used to invoke it later:
 
