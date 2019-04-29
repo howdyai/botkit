@@ -9,7 +9,6 @@
 
     * conversation could use some more reference docs
     * botbuilder card builders?
-    * catch dialog results!
 
 # websocket
 
@@ -22,6 +21,8 @@
     * botkit core 
     * cms
     * generator
+
+    * upgrade guide!
 
     * customize templates for plugins index and platform index
     
@@ -76,6 +77,7 @@
 ~Move forward content/docs from 0. branch~
 ~* change /new to /v4~
 ~* create official new 0. branch for future maintenance~
+~* catch dialog results!~
 
 
 # POST LAUNCH

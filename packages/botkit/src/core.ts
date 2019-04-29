@@ -2,7 +2,7 @@
  * @module botkit
  */
 import { Activity, MemoryStorage, Storage, ConversationReference, TurnContext } from 'botbuilder';
-import { Dialog, DialogContext, DialogSet, DialogTurnStatus } from 'botbuilder-dialogs';
+import { Dialog, DialogContext, DialogSet, DialogTurnStatus, WaterfallDialog } from 'botbuilder-dialogs';
 import { BotkitBotFrameworkAdapter } from './adapter';
 import { BotWorker } from './botworker';
 import { BotkitConversationState } from './conversationState';
@@ -266,6 +266,7 @@ export class Botkit {
      * A BotBuilder DialogSet that serves as the top level dialog container for the Botkit app
      */
     public dialogSet: DialogSet;
+    // todo: make this private?
 
     /**
      * The path of the main Botkit SDK, used to generate relative paths
@@ -663,7 +664,8 @@ export class Botkit {
                     if (interrupt_results === false) {
                         // Continue dialog if one is present
                         const dialog_results = await dialogContext.continueDialog();
-                        if (dialog_results.status === DialogTurnStatus.empty) {
+                        console.log('DIALOG RESULTS ===', dialog_results);
+                        if (dialog_results && dialog_results.status === DialogTurnStatus.empty) {
                             await this.ingest(bot, message);
                         }
                     }
@@ -1060,6 +1062,42 @@ export class Botkit {
      * @param dialog A dialog to be added to the bot's dialog set
      */
     public addDialog(dialog: Dialog): void {
+
+        // add the actual dialog
         this.dialogSet.add(dialog);
+
+        // add a wrapper dialog that will be called by bot.beginDialog
+        // and is responsible for capturing the parent results
+        this.dialogSet.add(new WaterfallDialog(dialog.id+':botkit-wrapper', [
+            async(step) => {
+                return step.beginDialog(dialog.id, step.options);
+            },
+            async(step) => {
+
+                let bot = await this.spawn(step.context);
+
+                await this.trigger('after-' + dialog.id, bot, step.result);
+
+                return step.endDialog(step.result);
+            },
+        ]));
     }
+
+    /**
+     * Bind a handler to the END of a dialog.
+     * NOTE: bot worker cannot use bot.reply(), must use bot.send()
+     * @param dialog the dialog object or the id of the dialog
+     * @param handler a handler function in the form `async(bot, dialog_results) => {}`
+     */
+    public afterDialog(dialog: Dialog | string, handler: BotkitHandler): void {
+        let id = '';
+        if (typeof(dialog) === 'string') {
+            id = dialog as string;
+        } else {
+            id = dialog.id;
+        }
+
+        this.on('after-' + id, handler);
+    }
+
 }

@@ -4,12 +4,12 @@ const { MongoDbStorage } = require('botbuilder-storage-mongodb');
 const basicAuth = require('express-basic-auth');
 const { BotkitCMSHelper } = require('botkit-plugin-cms');
 
-// const { SlackAdapter, SlackMessageTypeMiddleware, SlackIdentifyBotsMiddleware, SlackEventMiddleware } = require('botbuilder-adapter-slack');
+const { SlackAdapter, SlackMessageTypeMiddleware, SlackIdentifyBotsMiddleware, SlackEventMiddleware } = require('botbuilder-adapter-slack');
 // const { WebexAdapter } = require('botbuilder-adapter-webex');
 // const { WebsocketAdapter } = require('botbuilder-adapter-websocket');
 // const { FacebookAdapter, FacebookEventTypeMiddleware } = require('botbuilder-adapter-facebook');
 // const { HangoutsAdapter } = require('botbuilder-adapter-hangouts');
-const { TwilioAdapter } = require('botbuilder-adapter-twilio-sms');
+// const { TwilioAdapter } = require('botbuilder-adapter-twilio-sms');
 
 
 // Load process.env values from .env file
@@ -48,17 +48,17 @@ if (process.env.MONGO_URI) {
  * Configure the Slack adapter
  * ----------------------------------------------------------------------
  */
-// const adapter = new SlackAdapter({
-//    verificationToken: process.env.verificationToken,
-//     clientSigningSecret: process.env.clientSigningSecret,  
-//     botToken: process.env.botToken,
-//     clientId: process.env.clientId,
-//     clientSecret: process.env.clientSecret,
-//     scopes: ['bot'],
-//     redirectUri: process.env.redirectUri,
-//     getTokenForTeam: getTokenForTeam,
-//     getBotUserByTeam: getBotUserByTeam,
-// });
+const adapter = new SlackAdapter({
+   verificationToken: process.env.verificationToken,
+    clientSigningSecret: process.env.clientSigningSecret,  
+    botToken: process.env.botToken,
+    clientId: process.env.clientId,
+    clientSecret: process.env.clientSecret,
+    scopes: ['bot'],
+    redirectUri: process.env.redirectUri,
+    getTokenForTeam: getTokenForTeam,
+    getBotUserByTeam: getBotUserByTeam,
+});
 
 let tokenCache = {};
 let userCache = {};
@@ -97,10 +97,10 @@ async function getBotUserByTeam(teamId) {
 
 
 // Use SlackEventMiddleware to emit events that match their original Slack event types.
-// adapter.use(new SlackEventMiddleware());
+adapter.use(new SlackEventMiddleware());
 
 // Use SlackMessageType middleware to further classify messages as direct_message, direct_mention, or mention
-// adapter.use(new SlackMessageTypeMiddleware());
+adapter.use(new SlackMessageTypeMiddleware());
 // 
 /* ----------------------------------------------------------------------
  *  __      __      ___.                        __           __   
@@ -140,11 +140,11 @@ async function getBotUserByTeam(teamId) {
 const controller = new Botkit({
     debug: true,
     webhook_uri: '/api/messages',
-    // adapter: adapter,
-    adapterConfig: {
-        appId: process.env.APP_ID,
-        appPassword: process.env.APP_PASSWORD
-    },
+    adapter: adapter,
+    // adapterConfig: {
+    //     appId: process.env.APP_ID,
+    //     appPassword: process.env.APP_PASSWORD
+    // },
     storage
 });
 

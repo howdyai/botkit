@@ -15,22 +15,29 @@ const sample_waterfall = new WaterfallDialog(DIALOG_ID, [
     },
     async (step) => {
         const result = step.result;
+        step.values.something = result;
         await step.context.sendActivity('You said ' + result);
         return await step.next();
     },
     async (step) => {
         await step.context.sendActivity('Done');
-        return await step.next();
+        return await step.endDialog(step.values);
     }
 ]);
 
 module.exports = function(controller) {
 
-    controller.dialogSet.add(new TextPrompt(PROMPT_ID));
-    controller.dialogSet.add(sample_waterfall);
+    controller.addDialog(new TextPrompt(PROMPT_ID));
+    controller.addDialog(sample_waterfall);
+
+    controller.afterDialog(sample_waterfall, async(bot, results) => {
+
+        console.log('WATERFALL DIALOG HAS COMPLETED WITH RESULTS', results);
+
+    });
 
     controller.hears(['waterfall'], 'message, direct_message', async(bot) => {
-        await bot.beginDialog(DIALOG_ID);
+        await bot.beginDialog(DIALOG_ID, {});
     });
 
 }

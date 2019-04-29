@@ -6,12 +6,23 @@ module.exports = function(controller) {
     const welcome = new BotkitConversation(DIALOG_ID, controller);
 
     welcome.say('Hey!');
+    welcome.ask({
+        text: ['Check this out...'],
+        action: 'beginDialog',
+        execute: {
+            script: 'waterfall_sample'
+        }
+    },async(answer, convo, bot) => {
+        // noop.
+    },{key: 'waterfall_results'});
+
     welcome.say('What is up??');
     welcome.ask('what is your name', async (answer, convo, bot) => {
         // noop
         // answer contains the user's answer
         // as does convo.vars.name
     },{key: 'name'});
+
 
     welcome.say('hrrm!');
     welcome.say('ok, {{vars.name}}!');
@@ -62,13 +73,13 @@ module.exports = function(controller) {
         convo.vars.bar = 'YOU HAVE BEEN REDIRECTED HERE.';
 
         // you can send adhoc messages you want using bot.say
-        bot.say('I refuse to accept that answer.');
+        await bot.say('I refuse to accept that answer.');
 
         await convo.gotoThread('foo');
     });
 
     welcome.after(async(results, bot) => {
-        console.log('welcome completed', results);
+        // console.log('welcome completed', results);
         // await bot.beginDialog('tacos');
     });
 
@@ -77,9 +88,18 @@ module.exports = function(controller) {
     //     await bot.beginDialog('menu'); 
     // });
 
-    controller.dialogSet.add(welcome);
+    
+    controller.addDialog(welcome);
+
+    controller.afterDialog(welcome, async(bot, results) => {
+
+        console.log('WELCOME DIALOG HAS COMPLETED WITH RESULTS', results);
+        await bot.say('WELCOME SCRIPT COMPLETE, FULL RESULTS:\n\n```' + JSON.stringify(results,null,2) + '\n```');
+
+    });
+
     controller.hears(['welcome'],'message', async (bot, message) => {
-        await bot.beginDialog(DIALOG_ID);
+        await bot.beginDialog(DIALOG_ID, {});
     });
 
     controller.on('conversationUpdate', async(bot, message) => {

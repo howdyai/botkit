@@ -54,5 +54,5 @@ export class BotkitDialogWrapper {
     }
 
     // TODO: Add other control mechanisms
-    // Botkit currently has things convo.repeat, convo.stop, etc
+    // TODO: Add gotoDialog or startChildDialog?
 }

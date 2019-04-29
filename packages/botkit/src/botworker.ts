@@ -3,6 +3,8 @@
  */
 import { Botkit, BotkitMessage } from './core';
 import { Activity, ConversationAccount, ConversationReference, ConversationParameters, TurnContext } from 'botbuilder';
+import { WaterfallDialog } from 'botbuilder-dialogs';
+import { stringify } from 'querystring';
 
 /**
  * A base class for a `bot` instance, an object that contains the information and functionality for taking action in response to an incoming message.
@@ -147,7 +149,12 @@ export class BotWorker {
      */
     public async beginDialog(id: string, options?: any): Promise<void> {
         if (this._config.dialogContext) {
-            await this._config.dialogContext.beginDialog(id, options);
+
+            await this._config.dialogContext.beginDialog(id +':botkit-wrapper', {
+                user: this.getConfig('context').activity.from.id,
+                channel: this.getConfig('context').activity.conversation.id,
+                ...options
+            });
 
             // make sure we save the state change caused by the dialog.
             // this may also get saved again at end of turn
@@ -156,6 +163,37 @@ export class BotWorker {
             throw new Error('Call to beginDialog on a bot that did not receive a dialogContext during spawn');
         }
     }
+
+    /**
+     * Replace any active dialogs with a new a pre-defined dialog by specifying its id. The dialog will be started in the same context (same user, same channel) in which the original incoming message was received.
+     * [See "Using Dialogs" in the core documentation.](../index.md#using-dialogs)
+     *
+     * ```javascript
+     * controller.hears('hello', 'message', async(bot, message) => {
+     *      await bot.replaceDialog(GREETINGS_DIALOG);
+     * });
+     * ```
+     * @param id id of dialog
+     * @param options object containing options to be passed into the dialog
+     */
+     public async replaceDialog(id: string, options?: any): Promise<void> {
+         if (this._config.dialogContext) {
+
+            await this._config.dialogContext.replaceDialog(id +':botkit-wrapper', {
+                user: this.getConfig('context').activity.from.id,
+                channel: this.getConfig('context').activity.conversation.id,
+                ...options
+            });
+
+            // make sure we save the state change caused by the dialog.
+            // this may also get saved again at end of turn
+            await this._controller.saveState(this);
+        } else {
+            throw new Error('Call to beginDialog on a bot that did not receive a dialogContext during spawn');
+        }
+     }
+   
+    // TODO: cancel dialogs
 
     /**
      * Alter the context in which a bot instance will send messages.
