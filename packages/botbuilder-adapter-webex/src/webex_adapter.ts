@@ -1,6 +1,11 @@
 /**
  * @module botbuilder-adapter-webex
  */
+/**
+ * Copyright (c) Microsoft Corporation. All rights reserved.
+ * Licensed under the MIT License.
+ */
+
 import { Activity, ActivityTypes, BotAdapter, ResourceResponse, ConversationReference, TurnContext } from 'botbuilder';
 import { WebexBotWorker } from './botworker';
 import * as Ciscospark from 'ciscospark';

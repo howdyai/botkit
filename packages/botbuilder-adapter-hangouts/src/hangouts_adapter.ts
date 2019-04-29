@@ -1,6 +1,11 @@
 /**
  * @module botbuilder-adapter-hangouts
  */
+/**
+ * Copyright (c) Microsoft Corporation. All rights reserved.
+ * Licensed under the MIT License.
+ */
+
 import { Activity, ActivityTypes, BotAdapter, TurnContext, ConversationReference, ResourceResponse } from 'botbuilder';
 import * as Debug from 'debug';
 import { google } from 'googleapis';

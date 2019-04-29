@@ -1,6 +1,10 @@
 /**
  * @module botbuilder-adapter-web
  */
+/**
+ * Copyright (c) Microsoft Corporation. All rights reserved.
+ * Licensed under the MIT License.
+ */
 
 import { Activity, ActivityTypes, BotAdapter, ConversationReference, TurnContext, ResourceResponse } from 'botbuilder';
 import * as Debug from 'debug';

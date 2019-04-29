@@ -516,6 +516,8 @@ const controller = new Botkit({
 
 ## Building & Using Plugins
 
+TODO:
+
 * controller.usePlugin()
 * controller.addPluginExtension()
 * controller.plugins
@@ -523,3 +525,5 @@ const controller = new Botkit({
 * controller.publicFolder()
 
 ## Middlwares
+
+TODO:

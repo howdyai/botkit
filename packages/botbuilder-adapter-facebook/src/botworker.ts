@@ -1,6 +1,11 @@
 /**
  * @module botbuilder-adapter-facebook
  */
+/**
+ * Copyright (c) Microsoft Corporation. All rights reserved.
+ * Licensed under the MIT License.
+ */
+
 import { Botkit, BotWorker } from 'botkit';
 import { FacebookAPI } from './facebook_api';
 

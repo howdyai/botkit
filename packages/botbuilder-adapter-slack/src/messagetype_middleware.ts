@@ -1,6 +1,11 @@
 /**
  * @module botbuilder-adapter-slack
  */
+/**
+ * Copyright (c) Microsoft Corporation. All rights reserved.
+ * Licensed under the MIT License.
+ */
+
 import { ActivityTypes, TurnContext, MiddlewareSet } from 'botbuilder';
 import { SlackAdapter } from './slack_adapter';
 

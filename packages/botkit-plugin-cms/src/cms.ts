@@ -1,7 +1,12 @@
 /**
  * @module botkit-plugin-cms
  */
-import { Botkit, BotkitDialogWrapper, BotkitMessage, BotWorker, BotkitConversation } from 'botkit';
+/**
+ * Copyright (c) Microsoft Corporation. All rights reserved.
+ * Licensed under the MIT License.
+ */
+
+ import { Botkit, BotkitDialogWrapper, BotkitMessage, BotWorker, BotkitConversation } from 'botkit';
 import { DialogSet } from 'botbuilder-dialogs';
 import * as request from 'request';
 const debug = require('debug')('botkit:cms');

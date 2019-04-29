@@ -1,5 +1,3 @@
-
-
 # Advanced topics
 
 * What causes the error: `UnhandledPromiseRejectionWarning: TypeError: Cannot perform 'get' on a proxy that has been revoked`

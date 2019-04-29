@@ -1,10 +1,12 @@
 /**
  * @module botkit
  */
+/**
+ * Copyright (c) Microsoft Corporation. All rights reserved.
+ * Licensed under the MIT License.
+ */
 import { Botkit, BotkitMessage } from './core';
 import { Activity, ConversationAccount, ConversationReference, ConversationParameters, TurnContext } from 'botbuilder';
-import { WaterfallDialog } from 'botbuilder-dialogs';
-import { stringify } from 'querystring';
 
 /**
  * A base class for a `bot` instance, an object that contains the information and functionality for taking action in response to an incoming message.

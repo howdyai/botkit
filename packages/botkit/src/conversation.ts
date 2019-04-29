@@ -1,6 +1,10 @@
 /**
  * @module botkit
  */
+/**
+ * Copyright (c) Microsoft Corporation. All rights reserved.
+ * Licensed under the MIT License.
+ */
 import { Botkit } from './core';
 import { BotWorker } from './botworker';
 import { BotkitDialogWrapper } from './dialogWrapper';

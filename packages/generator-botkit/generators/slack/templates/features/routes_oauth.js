@@ -1,4 +1,8 @@
 /**
+ * Copyright (c) Microsoft Corporation. All rights reserved.
+ * Licensed under the MIT License.
+ */
+/**
  * This module implements the oauth routes needed to install an app
  */
 module.exports = function(controller) {

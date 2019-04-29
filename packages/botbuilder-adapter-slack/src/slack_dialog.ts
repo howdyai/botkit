@@ -1,6 +1,11 @@
 /**
  * @module botbuilder-adapter-slack
  */
+/**
+ * Copyright (c) Microsoft Corporation. All rights reserved.
+ * Licensed under the MIT License.
+ */
+
 
 /**
   * Create a Slack Dialog object for use with [replyWithDialog()](#replyWithDialog).

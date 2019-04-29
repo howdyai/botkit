@@ -1,6 +1,10 @@
 /**
  * @module botkit
  */
+/**
+ * Copyright (c) Microsoft Corporation. All rights reserved.
+ * Licensed under the MIT License.
+ */
 import { BotFrameworkAdapter, TurnContext } from 'botbuilder';
 import { ConnectorClient, TokenApiClient } from 'botframework-connector';
 import * as request from 'request';

@@ -6,15 +6,24 @@
     
     * copyright headers!!
 
+/**
+ * Copyright (c) Microsoft Corporation. All rights reserved.
+ * Licensed under the MIT License.
+ */
+
 # core
 
     * botbuilder card builders?
-    * ears?
-    
+    * ears? check for intent, others?
+
 # docs
 
     * Root Readme (links to all projects, but also needs pitch)
     * botkit core 
+        * plugins
+        * middlewares
+        * interrupts
+        * organize your bot code
 
 # advanced topics
     * anatomy

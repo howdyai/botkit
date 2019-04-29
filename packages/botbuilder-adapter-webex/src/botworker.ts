@@ -1,6 +1,11 @@
 /**
  * @module botbuilder-adapter-webex
  */
+/**
+ * Copyright (c) Microsoft Corporation. All rights reserved.
+ * Licensed under the MIT License.
+ */
+
 import { BotWorker, BotkitMessage } from 'botkit';
 import * as Ciscospark from 'ciscospark';
 
