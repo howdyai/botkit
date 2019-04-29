@@ -293,6 +293,7 @@ export class BotkitConversation<O extends object = {}> extends Dialog<O> {
      * or an array of handlers paired with trigger patterns. When providing multiple conditions to test, developers may also provide a
      * handler marked as the default choice.
      *
+     * [Learn more about building conversations &rarr;](../conversations.md#build-a-conversation)
      * ```javascript
      * // ask a question, handle the response with a function
      * convo.ask('What is your name?', async(response, convo, bot) => {
@@ -337,6 +338,8 @@ export class BotkitConversation<O extends object = {}> extends Dialog<O> {
 
     /**
      * Identical to [ask()](#ask), but accepts the name of a thread to which the question is added.
+     *
+     * [Learn more about building conversations &rarr;](../conversations.md#build-a-conversation)
      * @param message A message that will be used as the prompt
      * @param handlers One or more handler functions defining possible conditional actions based on the response to the question
      * @param key Name of variable to store response in.

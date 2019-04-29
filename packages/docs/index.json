@@ -6263,7 +6263,8 @@
                   "kindString": "Call signature",
                   "flags": {},
                   "comment": {
-                    "shortText": "Identical to [ask()](#ask), but accepts the name of a thread to which the question is added."
+                    "shortText": "Identical to [ask()](#ask), but accepts the name of a thread to which the question is added.",
+                    "text": "[Learn more about building conversations &rarr;](../conversations.md#build-a-conversation)"
                   },
                   "parameters": [
                     {
@@ -6356,7 +6357,7 @@
                                   "sources": [
                                     {
                                       "fileName": "conversation.ts",
-                                      "line": 345,
+                                      "line": 348,
                                       "character": 135
                                     }
                                   ],
@@ -6378,7 +6379,7 @@
                               "sources": [
                                 {
                                   "fileName": "conversation.ts",
-                                  "line": 345,
+                                  "line": 348,
                                   "character": 130
                                 }
                               ]
@@ -6416,7 +6417,7 @@
               "sources": [
                 {
                   "fileName": "conversation.ts",
-                  "line": 345,
+                  "line": 348,
                   "character": 22
                 }
               ]
@@ -6500,7 +6501,7 @@
                           "sources": [
                             {
                               "fileName": "conversation.ts",
-                              "line": 434,
+                              "line": 437,
                               "character": 25
                             }
                           ]
@@ -6517,7 +6518,7 @@
               "sources": [
                 {
                   "fileName": "conversation.ts",
-                  "line": 434,
+                  "line": 437,
                   "character": 16
                 }
               ]
@@ -6541,7 +6542,7 @@
                   "flags": {},
                   "comment": {
                     "shortText": "Add a question to the default thread.\nIn addition to a message template, receives either a single handler function to call when an answer is provided,\nor an array of handlers paired with trigger patterns. When providing multiple conditions to test, developers may also provide a\nhandler marked as the default choice.",
-                    "text": "```javascript\n// ask a question, handle the response with a function\nconvo.ask('What is your name?', async(response, convo, bot) => {\n await bot.say('Oh your name is ' + response);\n}, {key: 'name'});\n\n// ask a question, evaluate answer, take conditional action based on response\nconvo.ask('Do you want to eat a taco?', [\n {\n     pattern: 'yes',\n     type: 'string',\n     handler: async(response, convo, bot) => {\n         return await convo.gotoThread('yes_taco');\n     }\n },\n {\n     pattern: 'no',\n     type: 'string',\n     handler: async(response, convo, bot) => {\n         return await convo.gotoThread('no_taco');\n     }\n  },s\n  {\n      default: true,\n      handler: async(response, convo, bot) => {\n          await bot.say('I do not understand your response!');\n          // start over!\n          return await convo.repeat();\n      }\n  }\n], {key: 'tacos'});\n```\n"
+                    "text": "[Learn more about building conversations &rarr;](../conversations.md#build-a-conversation)\n```javascript\n// ask a question, handle the response with a function\nconvo.ask('What is your name?', async(response, convo, bot) => {\n await bot.say('Oh your name is ' + response);\n}, {key: 'name'});\n\n// ask a question, evaluate answer, take conditional action based on response\nconvo.ask('Do you want to eat a taco?', [\n {\n     pattern: 'yes',\n     type: 'string',\n     handler: async(response, convo, bot) => {\n         return await convo.gotoThread('yes_taco');\n     }\n },\n {\n     pattern: 'no',\n     type: 'string',\n     handler: async(response, convo, bot) => {\n         return await convo.gotoThread('no_taco');\n     }\n  },s\n  {\n      default: true,\n      handler: async(response, convo, bot) => {\n          await bot.say('I do not understand your response!');\n          // start over!\n          return await convo.repeat();\n      }\n  }\n], {key: 'tacos'});\n```\n"
                   },
                   "parameters": [
                     {
@@ -6634,7 +6635,7 @@
                                   "sources": [
                                     {
                                       "fileName": "conversation.ts",
-                                      "line": 333,
+                                      "line": 334,
                                       "character": 127
                                     }
                                   ],
@@ -6656,7 +6657,7 @@
                               "sources": [
                                 {
                                   "fileName": "conversation.ts",
-                                  "line": 333,
+                                  "line": 334,
                                   "character": 122
                                 }
                               ]
@@ -6680,7 +6681,7 @@
               "sources": [
                 {
                   "fileName": "conversation.ts",
-                  "line": 333,
+                  "line": 334,
                   "character": 14
                 }
               ]
@@ -6786,7 +6787,7 @@
                           "sources": [
                             {
                               "fileName": "conversation.ts",
-                              "line": 397,
+                              "line": 400,
                               "character": 47
                             }
                           ]
@@ -6803,7 +6804,7 @@
               "sources": [
                 {
                   "fileName": "conversation.ts",
-                  "line": 397,
+                  "line": 400,
                   "character": 17
                 }
               ]
@@ -6918,7 +6919,7 @@
                           "sources": [
                             {
                               "fileName": "conversation.ts",
-                              "line": 470,
+                              "line": 473,
                               "character": 46
                             }
                           ]
@@ -6935,7 +6936,7 @@
               "sources": [
                 {
                   "fileName": "conversation.ts",
-                  "line": 470,
+                  "line": 473,
                   "character": 19
                 }
               ]
@@ -7399,7 +7400,8 @@
                   "kindString": "Call signature",
                   "flags": {},
                   "comment": {
-                    "shortText": "Identical to [ask()](#ask), but accepts the name of a thread to which the question is added."
+                    "shortText": "Identical to [ask()](#ask), but accepts the name of a thread to which the question is added.",
+                    "text": "[Learn more about building conversations &rarr;](../conversations.md#build-a-conversation)"
                   },
                   "parameters": [
                     {
@@ -7492,7 +7494,7 @@
                                   "sources": [
                                     {
                                       "fileName": "conversation.ts",
-                                      "line": 345,
+                                      "line": 348,
                                       "character": 135
                                     }
                                   ],
@@ -7514,7 +7516,7 @@
                               "sources": [
                                 {
                                   "fileName": "conversation.ts",
-                                  "line": 345,
+                                  "line": 348,
                                   "character": 130
                                 }
                               ]
@@ -7552,7 +7554,7 @@
               "sources": [
                 {
                   "fileName": "conversation.ts",
-                  "line": 345,
+                  "line": 348,
                   "character": 22
                 }
               ]
@@ -7636,7 +7638,7 @@
                           "sources": [
                             {
                               "fileName": "conversation.ts",
-                              "line": 434,
+                              "line": 437,
                               "character": 25
                             }
                           ]
@@ -7653,7 +7655,7 @@
               "sources": [
                 {
                   "fileName": "conversation.ts",
-                  "line": 434,
+                  "line": 437,
                   "character": 16
                 }
               ]
@@ -7677,7 +7679,7 @@
                   "flags": {},
                   "comment": {
                     "shortText": "Add a question to the default thread.\nIn addition to a message template, receives either a single handler function to call when an answer is provided,\nor an array of handlers paired with trigger patterns. When providing multiple conditions to test, developers may also provide a\nhandler marked as the default choice.",
-                    "text": "```javascript\n// ask a question, handle the response with a function\nconvo.ask('What is your name?', async(response, convo, bot) => {\n await bot.say('Oh your name is ' + response);\n}, {key: 'name'});\n\n// ask a question, evaluate answer, take conditional action based on response\nconvo.ask('Do you want to eat a taco?', [\n {\n     pattern: 'yes',\n     type: 'string',\n     handler: async(response, convo, bot) => {\n         return await convo.gotoThread('yes_taco');\n     }\n },\n {\n     pattern: 'no',\n     type: 'string',\n     handler: async(response, convo, bot) => {\n         return await convo.gotoThread('no_taco');\n     }\n  },s\n  {\n      default: true,\n      handler: async(response, convo, bot) => {\n          await bot.say('I do not understand your response!');\n          // start over!\n          return await convo.repeat();\n      }\n  }\n], {key: 'tacos'});\n```\n"
+                    "text": "[Learn more about building conversations &rarr;](../conversations.md#build-a-conversation)\n```javascript\n// ask a question, handle the response with a function\nconvo.ask('What is your name?', async(response, convo, bot) => {\n await bot.say('Oh your name is ' + response);\n}, {key: 'name'});\n\n// ask a question, evaluate answer, take conditional action based on response\nconvo.ask('Do you want to eat a taco?', [\n {\n     pattern: 'yes',\n     type: 'string',\n     handler: async(response, convo, bot) => {\n         return await convo.gotoThread('yes_taco');\n     }\n },\n {\n     pattern: 'no',\n     type: 'string',\n     handler: async(response, convo, bot) => {\n         return await convo.gotoThread('no_taco');\n     }\n  },s\n  {\n      default: true,\n      handler: async(response, convo, bot) => {\n          await bot.say('I do not understand your response!');\n          // start over!\n          return await convo.repeat();\n      }\n  }\n], {key: 'tacos'});\n```\n"
                   },
                   "parameters": [
                     {
@@ -7770,7 +7772,7 @@
                                   "sources": [
                                     {
                                       "fileName": "conversation.ts",
-                                      "line": 333,
+                                      "line": 334,
                                       "character": 127
                                     }
                                   ],
@@ -7792,7 +7794,7 @@
                               "sources": [
                                 {
                                   "fileName": "conversation.ts",
-                                  "line": 333,
+                                  "line": 334,
                                   "character": 122
                                 }
                               ]
@@ -7816,7 +7818,7 @@
               "sources": [
                 {
                   "fileName": "conversation.ts",
-                  "line": 333,
+                  "line": 334,
                   "character": 14
                 }
               ]
@@ -7922,7 +7924,7 @@
                           "sources": [
                             {
                               "fileName": "conversation.ts",
-                              "line": 397,
+                              "line": 400,
                               "character": 47
                             }
                           ]
@@ -7939,7 +7941,7 @@
               "sources": [
                 {
                   "fileName": "conversation.ts",
-                  "line": 397,
+                  "line": 400,
                   "character": 17
                 }
               ]
@@ -8054,7 +8056,7 @@
                           "sources": [
                             {
                               "fileName": "conversation.ts",
-                              "line": 470,
+                              "line": 473,
                               "character": 46
                             }
                           ]
@@ -8071,7 +8073,7 @@
               "sources": [
                 {
                   "fileName": "conversation.ts",
-                  "line": 470,
+                  "line": 473,
                   "character": 19
                 }
               ]

@@ -1017,6 +1017,8 @@ Identical to [ask()](#ask), but accepts the name of a thread to which the questi
 
 
 
+[Learn more about building conversations &rarr;](../conversations.md#build-a-conversation)
+
 <a name="after"></a>
 ### after()
 Bind a function to run after the dialog has completed.
@@ -1048,6 +1050,7 @@ handler marked as the default choice.
 
 
 
+[Learn more about building conversations &rarr;](../conversations.md#build-a-conversation)
 ```javascript
 // ask a question, handle the response with a function
 convo.ask('What is your name?', async(response, convo, bot) => {
