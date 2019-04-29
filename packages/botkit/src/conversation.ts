@@ -327,9 +327,9 @@ export class BotkitConversation<O extends object = {}> extends Dialog<O> {
 
     /**
      * Identical to [ask()](#ask), but accepts the name of a thread to which the question is added.
-     * @param message a message that will be used as the prompt
-     * @param handlers one or more handler functions defining possible conditional actions based on the response to the question
-     * @param key name of variable to store response in>}
+     * @param message A message that will be used as the prompt
+     * @param handlers One or more handler functions defining possible conditional actions based on the response to the question
+     * @param key Name of variable to store response in.
      * @param thread_name Name of thread to which message will be added
      */
     public addQuestion(message: Partial<BotkitMessageTemplate> | string, handlers: BotkitConvoTrigger | BotkitConvoTrigger[], key: {key: string} | string, thread_name: string): BotkitConversation {

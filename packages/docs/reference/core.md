@@ -1005,9 +1005,9 @@ Identical to [ask()](#ask), but accepts the name of a thread to which the questi
 
 | Argument | Type | description
 |--- |--- |---
-| message|  | a message that will be used as the prompt
-| handlers|  | one or more handler functions defining possible conditional actions based on the response to the question
-| options|  | 
+| message|  | A message that will be used as the prompt
+| handlers|  | One or more handler functions defining possible conditional actions based on the response to the question
+| key|  | Name of variable to store response in.
 | thread_name| string | Name of thread to which message will be added<br/>
 
 

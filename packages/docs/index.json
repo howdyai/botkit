@@ -6273,7 +6273,7 @@
                       "kindString": "Parameter",
                       "flags": {},
                       "comment": {
-                        "text": "a message that will be used as the prompt"
+                        "text": "A message that will be used as the prompt"
                       },
                       "type": {
                         "type": "union",
@@ -6303,7 +6303,7 @@
                       "kindString": "Parameter",
                       "flags": {},
                       "comment": {
-                        "text": "one or more handler functions defining possible conditional actions based on the response to the question"
+                        "text": "One or more handler functions defining possible conditional actions based on the response to the question"
                       },
                       "type": {
                         "type": "union",
@@ -6326,11 +6326,13 @@
                     },
                     {
                       "id": 312,
-                      "name": "options",
+                      "name": "key",
                       "kind": 32768,
                       "kindString": "Parameter",
                       "flags": {},
-                      "comment": {},
+                      "comment": {
+                        "text": "Name of variable to store response in."
+                      },
                       "type": {
                         "type": "union",
                         "types": [
@@ -6355,7 +6357,7 @@
                                     {
                                       "fileName": "conversation.ts",
                                       "line": 335,
-                                      "character": 139
+                                      "character": 135
                                     }
                                   ],
                                   "type": {
@@ -6377,7 +6379,7 @@
                                 {
                                   "fileName": "conversation.ts",
                                   "line": 335,
-                                  "character": 134
+                                  "character": 130
                                 }
                               ]
                             }
@@ -7407,7 +7409,7 @@
                       "kindString": "Parameter",
                       "flags": {},
                       "comment": {
-                        "text": "a message that will be used as the prompt"
+                        "text": "A message that will be used as the prompt"
                       },
                       "type": {
                         "type": "union",
@@ -7437,7 +7439,7 @@
                       "kindString": "Parameter",
                       "flags": {},
                       "comment": {
-                        "text": "one or more handler functions defining possible conditional actions based on the response to the question"
+                        "text": "One or more handler functions defining possible conditional actions based on the response to the question"
                       },
                       "type": {
                         "type": "union",
@@ -7460,11 +7462,13 @@
                     },
                     {
                       "id": 312,
-                      "name": "options",
+                      "name": "key",
                       "kind": 32768,
                       "kindString": "Parameter",
                       "flags": {},
-                      "comment": {},
+                      "comment": {
+                        "text": "Name of variable to store response in."
+                      },
                       "type": {
                         "type": "union",
                         "types": [
@@ -7489,7 +7493,7 @@
                                     {
                                       "fileName": "conversation.ts",
                                       "line": 335,
-                                      "character": 139
+                                      "character": 135
                                     }
                                   ],
                                   "type": {
@@ -7511,7 +7515,7 @@
                                 {
                                   "fileName": "conversation.ts",
                                   "line": 335,
-                                  "character": 134
+                                  "character": 130
                                 }
                               ]
                             }
