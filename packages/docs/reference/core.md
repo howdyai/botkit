@@ -922,7 +922,6 @@ convo.addAction('complete');
 ### addChildDialog()
 Cause the dialog to call a child dialog, wait for it to complete,
 then store the results in a variable and resume the parent dialog.
-Use this to [combine multiple dialogs into bigger interactions.](../conversations.md#composing-dialogs)
 
 **Parameters**
 
@@ -933,6 +932,8 @@ Use this to [combine multiple dialogs into bigger interactions.](../conversation
 | thread_name| string | the name of a thread to which this call should be added. defaults to 'default'<br/>
 
 
+
+Use this to [combine multiple dialogs into bigger interactions.](../conversations.md#composing-dialogs)
 
 ```javascript
 // define a profile collection dialog
@@ -951,8 +952,8 @@ onboard.say('Hello, {{vars.profile.name}}! Onboarding is complete.');
 
 <a name="addGotoDialog"></a>
 ### addGotoDialog()
-Cause the current dialog to replace itself with another dialog.
-The parent dialog will not resume when the child dialog completes.
+Cause the current dialog to handoff to another dialog.
+The parent dialog will not resume when the child dialog completes. However, the afterDialog event will not fire for the parent dialog until all child dialogs complete.
 
 **Parameters**
 
@@ -961,6 +962,16 @@ The parent dialog will not resume when the child dialog completes.
 | dialog_id| string | the id of another dialog
 | thread_name| string | the name of a thread to which this call should be added. defaults to 'default'<br/>
 
+
+
+Use this to [combine multiple dialogs into bigger interactions.](../conversations.md#composing-dialogs)
+
+```javascript
+let parent = new BotkitConversation('parent', controller);
+let child = new BotkitConversation('child', controller);
+parent.say('Moving on....');
+parent.addGotoDialog('child');
+```
 
 
 <a name="addMessage"></a>

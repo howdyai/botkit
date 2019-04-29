@@ -221,10 +221,18 @@ export class BotkitConversation<O extends object = {}> extends Dialog<O> {
     }
 
      /**
-     * Cause the current dialog to replace itself with another dialog.
-     * The parent dialog will not resume when the child dialog completes.
+     * Cause the current dialog to handoff to another dialog.
+     * The parent dialog will not resume when the child dialog completes. However, the afterDialog event will not fire for the parent dialog until all child dialogs complete.
      * 
      * Use this to [combine multiple dialogs into bigger interactions.](../conversations.md#composing-dialogs)
+     * 
+     * ```javascript
+     * let parent = new BotkitConversation('parent', controller);
+     * let child = new BotkitConversation('child', controller);
+     * parent.say('Moving on....');
+     * parent.addGotoDialog('child');
+     * ```
+     * 
      * @param dialog_id the id of another dialog
      * @param thread_name the name of a thread to which this call should be added. defaults to 'default'
      */

@@ -114,6 +114,12 @@ Finally, make sure to add the dialog to the Botkit controller. This activates th
 controller.addDialog(convo);
 ```
 
+## Trigger Conversations
+
+* [beginDialog()](reference/core.md#beginDialog)
+* [addChildDialog()](reference/core.md#addchilddialog)
+* [addGotoDialog()](reference/core.md#addgotodialog)
+
 ## Hooks
 
 * [before()](reference/core.md#before)
