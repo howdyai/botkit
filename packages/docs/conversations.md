@@ -62,11 +62,11 @@ Then, using the helper methods like `say()` and `ask()`, define a series of mess
 |--- |---
 | [say()](reference/core.md#say-1) | Add a normal message template to the default thread
 | [ask()](reference/core.md#ask) | Add a questin/prompt to the default thread
-* [addMessage()](reference/core.md#addmessage) | Add a message template to a thread
-* [addQuestion()](reference/core.md#addquestion) | Add a question/prompt to a thread
-* [addAction()](reference/core.md#addaction) | Add an action (or instructions to switch threads) to a thread
-* [addChildDialog()](reference/core.md#addchilddialog) |  Add a child-dialog to a thread
-* [addGotoDialog()](reference/core.md#addgotodialog) | Add instructions to jump to another dialog
+| [addMessage()](reference/core.md#addmessage) | Add a message template to a thread
+| [addQuestion()](reference/core.md#addquestion) | Add a question/prompt to a thread
+| [addAction()](reference/core.md#addaction) | Add an action (or instructions to switch threads) to a thread
+| [addChildDialog()](reference/core.md#addchilddialog) |  Add a child-dialog to a thread
+| [addGotoDialog()](reference/core.md#addgotodialog) | Add instructions to jump to another dialog
 
 ```javascript
 // send a greeting
