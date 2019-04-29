@@ -21,6 +21,8 @@ BotkitConversations are constructed from one or more sequences of messages known
 
 All dialogs must be defined and added to the Botkit controller _at start time._ It is bad practice to create new dialogs from within handler functions or in response to user actions - this may cause your bot to lose its place in the conversation, or become confused. Think about it this way: your bot has to know every possible dialog and action it might take at start time so that it can consistently respond across multiple instances of the application, or between restarts.
 
+Like all conversations, those conducted by your bot have a beginning, middle and an end. Botkit provides ways to hook into all of these events to make your dialog more dynamic and useful:
+
 ### Beginning
 
 BotkitConversations start on the first message of the "default" thread, and proceed through the chain of messages.
@@ -47,11 +49,11 @@ There are several ways to register an end-of-conversation hook, [discussed in mo
 
 ## Build A Conversations
 
-First, create the new dialog object:
+First, create the new dialog object. Each dialog must have it's own unique identifier that will be used to invoke it later:
 
 ```javascript
 const MY_DIALOG_ID = 'my-dialog-name-constant';
-let convo = new BotkitConversation(controller, MY_DIALOG_ID);
+let convo = new BotkitConversation(MY_DIALOG_ID, controller);
 ```
 
 Then, using the helper methods like `say()` and `ask()`, define a series of messages, questions and actions that will be taken:
@@ -83,7 +85,7 @@ If you've used the conversation system at all, you've used threads - you just di
 
 ## Automatically Switch Threads using Actions
 
-You can direct a conversation to switch from one thread to another automatically
+You can direct a conversation to switch from one thread to another by using [addAction()](reference/core.md#addaction), or
 by including the `action` field on a message object. Botkit will switch threads immediately after sending the message.
 
 ```javascript
@@ -96,14 +98,13 @@ convo.addMessage({
 // send a message, and tell botkit to immediately go to the next_step thread
 convo.addMessage({
     text: 'Anyways, moving on...',
-    action: 'next_step'
+    action: 'next_step',
 });
 ```
 
-Developers can create fairly complex conversational systems by combining these message actions with conditionals in `ask()` and `addQuestion()`.  Actions can be used to specify
-default or next step actions, while conditionals can be used to route between threads.
+Developers can create complex conversational systems by combining these message actions with conditionals in `ask()` and `addQuestion()`. Actions can be used to specify default or next step actions, while conditionals can be used to route between threads.
 
-From inside a handler function, use `convo.gotoThread()` to instantly switch to a different pre-defined part of the conversation. Botkit can be set to automatically navigate between threads based on user input, such as in the example below.
+From inside a prompt handler function, use `convo.gotoThread()` to instantly switch to a different part of the conversation. Botkit can be set to automatically navigate between threads based on user input, such as in the example below.
 
 ```javascript
     let convo = new BotkitConversation(controller, 'cheese');
