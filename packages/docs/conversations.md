@@ -255,8 +255,6 @@ are provided.  These functions should only be called from within a handler funct
 
 ## Composing Dialogs
 
-TODO
-
 Multiple dialogs can be combined into larger, more complex interactions. The results of "child" dialogs roll up to the "parent" dialog.
 
 To use a child dialog, add a pointer to it to the parent dialog using [addChildDialog()](reference/core.md#addchilddialog). Then, at the appropriate place in the performance of the parent dialog, the bot will switch automatically to the child dialog, run it to completion, then resume the parent dialog where it left off. The results of the child dialog (any variables or user responses captured) will be stored in the parent dialog's variable set.
