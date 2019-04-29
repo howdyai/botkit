@@ -58,13 +58,61 @@ let convo = new BotkitConversation(MY_DIALOG_ID, controller);
 
 Then, using the helper methods like `say()` and `ask()`, define a series of messages, questions and actions that will be taken:
 
-* [say()](reference/core.md#say-1)
-* [ask()](reference/core.md#ask)
-* [addMessage()](reference/core.md#addmessage)
-* [addQuestion()](reference/core.md#addquestion)
-* [addAction()](reference/core.md#addaction)
-* [addChildDialog()](reference/core.md#addchilddialog)
-* [addGotoDialog()](reference/core.md#addgotodialog)
+| Method | Description
+|--- |---
+| [say()](reference/core.md#say-1) | Add a normal message template to the default thread
+| [ask()](reference/core.md#ask) | Add a questin/prompt to the default thread
+* [addMessage()](reference/core.md#addmessage) | Add a message template to a thread
+* [addQuestion()](reference/core.md#addquestion) | Add a question/prompt to a thread
+* [addAction()](reference/core.md#addaction) | Add an action (or instructions to switch threads) to a thread
+* [addChildDialog()](reference/core.md#addchilddialog) |  Add a child-dialog to a thread
+* [addGotoDialog()](reference/core.md#addgotodialog) | Add instructions to jump to another dialog
+
+```javascript
+// send a greeting
+convo.say('Howdy!');
+
+// ask a question, store the the response in 'name'
+convo.ask('What is your name?', async(response, convo, bot) => {
+    console.log(`user name is ${ response }`);
+    // do something?
+}, {key: 'name'});
+
+// use add action to switch to a different thread, defined below...
+convo.addAction('favorite_color');
+
+// add a message and a prompt to a new thread called `favorite_color`
+convo.addMessage('Awesome {{vars.name}}!', 'favorite_color');
+convo.addQuestion('Now, what is your favorite color?', async(response, convo, bot) => {
+    console.log(`user favorite color is ${ response }`);
+}, {key: 'color'}, 'favorite_color');
+
+// go to a confirmation
+convo.addAction('confirmation');
+
+// do a simple conditional branch looking for user to say "no"
+convo.addQuestion('Your name is {{vars.name}} and your favorite color is {{vars.color}}. Is that right?', [
+    {
+        pattern: 'no',
+        handler: async(response, convo, bot) => {
+            // if user says no, go back to favorite color.
+            await convo.gotoThread('favorite_color');
+        }
+    },
+    {
+        default: true,
+        handler: async(response, convo, bot) => {
+            // do nothing, allow convo to complete.
+        }
+    }
+], {key: 'confirm', 'confirmation');
+```
+
+Finally, make sure to add the dialog to the Botkit controller. This activates the dialog and makes it available to use later:
+
+```javascript
+controller.addDialog(convo);
+```
 
 ## Hooks
 
@@ -201,14 +249,38 @@ Our philosophy is that it is OK to stuff whatever type of information your conve
 In order to direct the flow of the conversation, several helper functions
 are provided.  These functions should only be called from within a handler function passed to [ask()] (reference/core.md#ask)  or [addQuestion()](reference/core.md#addquestion)
 
-* [convo.repeat()](reference/core.md/#repeat)
+* [convo.repeat()](reference/core.md#repeat)
 * [convo.setVar()](reference/core.md#setvar)
 * [convo.gotoThread()](reference/core.md#gotothread)
 
 ## Handling End of Conversation
 
+Any dialog - not just `BotkitConversations`, but any [dialog built on the BotBuilder dialog base class](https://npmjs.com/package/botbuilder-dialogs - will emit a special event whenever it completes that can be handled using [afterDialog()](reference/core.md#afterdialog). Each handler function will receive an object containing all of the variables set and/or collected during the course of the conversation, and a [bot worker](reference/core.md#botworker) object that can take further actions.
+
 Conversations end naturally when the last message has been sent and no messages remain in the queue.
 In this case, the value of `results._status` will be `completed`. Other values for this field include `canceled`, and `timeout`.
+
+```javascript
+const my_dialog = new BotkitDialog('dialog', controller);
+my_dialog.ask('What is your name?', MY_HANDLER, {key: name});
+controller.addDialog(my_dialog);
+
+controller.afterDialog(my_dialog, async(bot, results) => {
+
+    // use results of dialog here
+    let name = results.name;
+
+    // do some cool database stuff here
+
+    // start next dialog
+    await bot.beginDialog(NEXT_DIALOG);
+
+});
+```
+
+When constructing `BotkitConversation` dialogs, it may be easier to define the end-of-conversation handler directly on the dialog object using [after()](reference/core.md#after).  This is an equivalent method of binding the handler, though the order of the parameters _is reversed here_ with the first parameter being containing the dialog results instead of the second.
+
+Note that this syntax is only supported by BotkitConversation, so it when using a mix of dialog types, it may be better to standardize on the `afterDialog()` syntax.
 
 ```javascript
 convo.after(async(results, bot) => {

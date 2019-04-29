@@ -1076,7 +1076,7 @@ export class Botkit {
 
                 let bot = await this.spawn(step.context);
 
-                await this.trigger('after-' + dialog.id, bot, step.result);
+                await this.trigger(dialog.id + ':after', bot, step.result);
 
                 return step.endDialog(step.result);
             },
@@ -1097,7 +1097,7 @@ export class Botkit {
             id = dialog.id;
         }
 
-        this.on('after-' + id, handler);
+        this.on(id+ ':after', handler);
     }
 
 }
