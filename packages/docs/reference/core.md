@@ -922,6 +922,7 @@ convo.addAction('complete');
 ### addChildDialog()
 Cause the dialog to call a child dialog, wait for it to complete,
 then store the results in a variable and resume the parent dialog.
+Use this to [combine multiple dialogs into bigger interactions.](../conversations.md#composing-dialogs)
 
 **Parameters**
 

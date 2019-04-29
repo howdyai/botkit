@@ -184,6 +184,8 @@ export class BotkitConversation<O extends object = {}> extends Dialog<O> {
      * Cause the dialog to call a child dialog, wait for it to complete,
      * then store the results in a variable and resume the parent dialog.
      * 
+     * Use this to [combine multiple dialogs into bigger interactions.](../conversations.md#composing-dialogs)
+     * 
      * ```javascript
      * // define a profile collection dialog
      * let profileDialog = new BotkitConversation('PROFILE_DIALOG', controller);
@@ -222,6 +224,7 @@ export class BotkitConversation<O extends object = {}> extends Dialog<O> {
      * Cause the current dialog to replace itself with another dialog.
      * The parent dialog will not resume when the child dialog completes.
      * 
+     * Use this to [combine multiple dialogs into bigger interactions.](../conversations.md#composing-dialogs)
      * @param dialog_id the id of another dialog
      * @param thread_name the name of a thread to which this call should be added. defaults to 'default'
      */
