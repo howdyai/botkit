@@ -43,6 +43,7 @@ This class includes the following methods:
 * [addDep()](#addDep)
 * [addDialog()](#addDialog)
 * [addPluginExtension()](#addPluginExtension)
+* [afterDialog()](#afterDialog)
 * [completeDep()](#completeDep)
 * [getConfig()](#getConfig)
 * [getLocalView()](#getLocalView)
@@ -175,6 +176,20 @@ controller.plugins.foo.stuff();
 
 
 ```
+
+<a name="afterDialog"></a>
+### afterDialog()
+Bind a handler to the END of a dialog.
+NOTE: bot worker cannot use bot.reply(), must use bot.send()
+
+**Parameters**
+
+| Argument | Type | description
+|--- |--- |---
+| dialog|  | the dialog object or the id of the dialog
+| handler| [BotkitHandler](#BotkitHandler) | a handler function in the form `async(bot, dialog_results) => {}`<br/>
+
+
 
 <a name="completeDep"></a>
 ### completeDep()
@@ -537,6 +552,7 @@ This class includes the following methods:
 * [getConfig()](#getConfig)
 * [httpBody()](#httpBody)
 * [httpStatus()](#httpStatus)
+* [replaceDialog()](#replaceDialog)
 * [reply()](#reply)
 * [say()](#say)
 * [startConversationWithUser()](#startConversationWithUser)
@@ -615,7 +631,7 @@ Any fields not found in the Activity definition will be moved to activity.channe
 
 | Argument | Type | description
 |--- |--- |---
-| message| Partial&lt;BotkitMessage&gt; | 
+| message|  | 
 
 
 **Returns**
@@ -690,6 +706,26 @@ controller.on('event', async(bot, message) => {
 ```
 
 
+<a name="replaceDialog"></a>
+### replaceDialog()
+Replace any active dialogs with a new a pre-defined dialog by specifying its id. The dialog will be started in the same context (same user, same channel) in which the original incoming message was received.
+[See "Using Dialogs" in the core documentation.](../index.md#using-dialogs)
+
+**Parameters**
+
+| Argument | Type | description
+|--- |--- |---
+| id| string | id of dialog
+| options (optional)| any | object containing options to be passed into the dialog<br/>
+
+
+
+```javascript
+controller.hears('hello', 'message', async(bot, message) => {
+     await bot.replaceDialog(GREETINGS_DIALOG);
+});
+```
+
 <a name="reply"></a>
 ### reply()
 Reply to an incoming message.
@@ -700,7 +736,7 @@ Message will be sent using the context of the source message, which may in some 
 | Argument | Type | description
 |--- |--- |---
 | src| Partial&lt;BotkitMessage&gt; | An incoming message, usually passed in to a handler function
-| resp| Partial&lt;BotkitMessage&gt; | A string containing the text of a reply, or more fully formed message object
+| resp|  | A string containing the text of a reply, or more fully formed message object
 
 
 **Returns**
@@ -734,7 +770,7 @@ Be sure to check the platform documentation for others - most adapters include a
 
 | Argument | Type | description
 |--- |--- |---
-| message| Partial&lt;BotkitMessage&gt; | A string containing the text of a reply, or more fully formed message object
+| message|  | A string containing the text of a reply, or more fully formed message object
 
 
 **Returns**
@@ -821,11 +857,13 @@ const { BotkitConversation } = require('botkit');
 
 This class includes the following methods:
 * [addAction()](#addAction)
+* [addChildDialog()](#addChildDialog)
 * [addMessage()](#addMessage)
 * [addQuestion()](#addQuestion)
 * [after()](#after)
 * [ask()](#ask)
 * [before()](#before)
+* [gotoDialog()](#gotoDialog)
 * [onChange()](#onChange)
 * [say()](#say)
 
@@ -865,6 +903,36 @@ An an action, like `stop`, or `repeat` or `complete`, or the name of a thread to
 ```javascript
 convo.addAction('completed');
 ```
+
+<a name="addChildDialog"></a>
+### addChildDialog()
+Cause the dialog to call a child dialog, wait for it to complete,
+then store the results in a variable and resume the parent dialog.
+
+**Parameters**
+
+| Argument | Type | description
+|--- |--- |---
+| dialog_id| string | the id of another dialog
+| key_name (optional)| string | the variable name in which to store the results of the child dialog. if not provided, defaults to dialog_id.
+| thread_name| string | the name of a thread to which this call should be added. defaults to 'default'<br/>
+
+
+
+```javascript
+// define a profile collection dialog
+let profileDialog = new BotkitConversation('PROFILE_DIALOG', controller);
+profileDialog.ask('What is your name?', async(res, convo, bot) => {}, {key: 'name'});
+profileDialog.ask('What is your age?', async(res, convo, bot) => {}, {key: 'age'});
+profileDialog.ask('What is your location?', async(res, convo, bot) => {}, {key: 'location'});
+controller.addDialog(profileDialog);
+
+let onboard = new BotkitConversation('ONBOARDING', controller);
+onboard.say('Hello! It is time to collect your profile data.');
+onboard.addChildDialog('PROFILE_DIALOG', 'profile');
+onboard.say('Hello, {{vars.profile.name}}! Onboarding is complete.');
+```
+
 
 <a name="addMessage"></a>
 ### addMessage()
@@ -990,6 +1058,20 @@ convo.before('foo', async(convo, bot) => {
 
 });
 ```
+
+
+<a name="gotoDialog"></a>
+### gotoDialog()
+Cause the current dialog to replace itself with another dialog.
+The parent dialog will not resume when the child dialog completes.
+
+**Parameters**
+
+| Argument | Type | description
+|--- |--- |---
+| dialog_id| string | the id of another dialog
+| thread_name| string | the name of a thread to which this call should be added. defaults to 'default'<br/>
+
 
 
 <a name="onChange"></a>
