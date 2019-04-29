@@ -8,14 +8,9 @@
 
 # core
 
-    * conversation could use some more reference docs
     * botbuilder card builders?
-
-# websocket
-
-    * update readme
-
-
+    * ears?
+    
 # docs
 
     * Root Readme (links to all projects, but also needs pitch)

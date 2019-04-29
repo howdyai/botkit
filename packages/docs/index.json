@@ -6440,7 +6440,8 @@
                   "kindString": "Call signature",
                   "flags": {},
                   "comment": {
-                    "shortText": "Bind a function to run after the dialog has completed.\nThe first parameter to the handler will include a hash of all variables set and values collected from the user during the conversation.\nThe second parameter to the handler is a BotWorker object that can be used to start new dialogs or take other actions."
+                    "shortText": "Bind a function to run after the dialog has completed.\nThe first parameter to the handler will include a hash of all variables set and values collected from the user during the conversation.\nThe second parameter to the handler is a BotWorker object that can be used to start new dialogs or take other actions.",
+                    "text": "[Learn more about handling end of conversation](../conversation.md#handling-end-of-conversation)\n```javascript\nlet convo = new BotkitConversation(MY_CONVO, controller);\nconvo.ask('What is your name?', [], 'name');\nconvo.ask('What is your age?', [], 'age');\nconvo.ask('What is your favorite color?', [], 'color');\nconvo.after(async(results, bot) => {\n\n     // handle results.name, results.age, results.color\n\n});\ncontroller.addDialog(convo);\n```\n"
                   },
                   "parameters": [
                     {
@@ -6501,7 +6502,7 @@
                           "sources": [
                             {
                               "fileName": "conversation.ts",
-                              "line": 437,
+                              "line": 452,
                               "character": 25
                             }
                           ]
@@ -6518,7 +6519,7 @@
               "sources": [
                 {
                   "fileName": "conversation.ts",
-                  "line": 437,
+                  "line": 452,
                   "character": 16
                 }
               ]
@@ -6828,7 +6829,7 @@
                   "flags": {},
                   "comment": {
                     "shortText": "Bind a function to run whenever a user answers a specific question.  Can be used to validate input and take conditional actions.",
-                    "text": "```javascript\nconvo.ask('What is your name?', async(response, convo, bot) { ... }, {key: 'name'});\nconvo.onChange('name', async(response, convo, bot) {\n\n // user changed their name!\n // do something...\n\n});\n```"
+                    "text": "```javascript\nconvo.ask('What is your name?', [], 'name');\nconvo.onChange('name', async(response, convo, bot) {\n\n // user changed their name!\n // do something...\n\n});\n```"
                   },
                   "parameters": [
                     {
@@ -6919,7 +6920,7 @@
                           "sources": [
                             {
                               "fileName": "conversation.ts",
-                              "line": 473,
+                              "line": 488,
                               "character": 46
                             }
                           ]
@@ -6936,7 +6937,7 @@
               "sources": [
                 {
                   "fileName": "conversation.ts",
-                  "line": 473,
+                  "line": 488,
                   "character": 19
                 }
               ]
@@ -7577,7 +7578,8 @@
                   "kindString": "Call signature",
                   "flags": {},
                   "comment": {
-                    "shortText": "Bind a function to run after the dialog has completed.\nThe first parameter to the handler will include a hash of all variables set and values collected from the user during the conversation.\nThe second parameter to the handler is a BotWorker object that can be used to start new dialogs or take other actions."
+                    "shortText": "Bind a function to run after the dialog has completed.\nThe first parameter to the handler will include a hash of all variables set and values collected from the user during the conversation.\nThe second parameter to the handler is a BotWorker object that can be used to start new dialogs or take other actions.",
+                    "text": "[Learn more about handling end of conversation](../conversation.md#handling-end-of-conversation)\n```javascript\nlet convo = new BotkitConversation(MY_CONVO, controller);\nconvo.ask('What is your name?', [], 'name');\nconvo.ask('What is your age?', [], 'age');\nconvo.ask('What is your favorite color?', [], 'color');\nconvo.after(async(results, bot) => {\n\n     // handle results.name, results.age, results.color\n\n});\ncontroller.addDialog(convo);\n```\n"
                   },
                   "parameters": [
                     {
@@ -7638,7 +7640,7 @@
                           "sources": [
                             {
                               "fileName": "conversation.ts",
-                              "line": 437,
+                              "line": 452,
                               "character": 25
                             }
                           ]
@@ -7655,7 +7657,7 @@
               "sources": [
                 {
                   "fileName": "conversation.ts",
-                  "line": 437,
+                  "line": 452,
                   "character": 16
                 }
               ]
@@ -7965,7 +7967,7 @@
                   "flags": {},
                   "comment": {
                     "shortText": "Bind a function to run whenever a user answers a specific question.  Can be used to validate input and take conditional actions.",
-                    "text": "```javascript\nconvo.ask('What is your name?', async(response, convo, bot) { ... }, {key: 'name'});\nconvo.onChange('name', async(response, convo, bot) {\n\n // user changed their name!\n // do something...\n\n});\n```"
+                    "text": "```javascript\nconvo.ask('What is your name?', [], 'name');\nconvo.onChange('name', async(response, convo, bot) {\n\n // user changed their name!\n // do something...\n\n});\n```"
                   },
                   "parameters": [
                     {
@@ -8056,7 +8058,7 @@
                           "sources": [
                             {
                               "fileName": "conversation.ts",
-                              "line": 473,
+                              "line": 488,
                               "character": 46
                             }
                           ]
@@ -8073,7 +8075,7 @@
               "sources": [
                 {
                   "fileName": "conversation.ts",
-                  "line": 473,
+                  "line": 488,
                   "character": 19
                 }
               ]

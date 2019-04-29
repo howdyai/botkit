@@ -1033,6 +1033,21 @@ The second parameter to the handler is a BotWorker object that can be used to st
 
 
 
+[Learn more about handling end of conversation](../conversation.md#handling-end-of-conversation)
+```javascript
+let convo = new BotkitConversation(MY_CONVO, controller);
+convo.ask('What is your name?', [], 'name');
+convo.ask('What is your age?', [], 'age');
+convo.ask('What is your favorite color?', [], 'color');
+convo.after(async(results, bot) => {
+
+     // handle results.name, results.age, results.color
+
+});
+controller.addDialog(convo);
+```
+
+
 <a name="ask"></a>
 ### ask()
 Add a question to the default thread.
@@ -1123,7 +1138,7 @@ Bind a function to run whenever a user answers a specific question.  Can be used
 
 
 ```javascript
-convo.ask('What is your name?', async(response, convo, bot) { ... }, {key: 'name'});
+convo.ask('What is your name?', [], 'name');
 convo.onChange('name', async(response, convo, bot) {
 
  // user changed their name!

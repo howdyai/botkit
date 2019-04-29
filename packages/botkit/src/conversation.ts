@@ -432,6 +432,21 @@ export class BotkitConversation<O extends object = {}> extends Dialog<O> {
      * Bind a function to run after the dialog has completed.
      * The first parameter to the handler will include a hash of all variables set and values collected from the user during the conversation.
      * The second parameter to the handler is a BotWorker object that can be used to start new dialogs or take other actions.
+     *
+     * [Learn more about handling end of conversation](../conversation.md#handling-end-of-conversation)
+     * ```javascript
+     * let convo = new BotkitConversation(MY_CONVO, controller);
+     * convo.ask('What is your name?', [], 'name');
+     * convo.ask('What is your age?', [], 'age');
+     * convo.ask('What is your favorite color?', [], 'color');
+     * convo.after(async(results, bot) => {
+     * 
+     *      // handle results.name, results.age, results.color
+     * 
+     * });
+     * controller.addDialog(convo);
+     * ```
+     * 
      * @param handler in the form async(results, bot) { ... }
      */
     public after(handler: (results: any, bot: BotWorker) => void): void {
@@ -459,7 +474,7 @@ export class BotkitConversation<O extends object = {}> extends Dialog<O> {
      * Bind a function to run whenever a user answers a specific question.  Can be used to validate input and take conditional actions.
      *
      * ```javascript
-     * convo.ask('What is your name?', async(response, convo, bot) { ... }, {key: 'name'});
+     * convo.ask('What is your name?', [], 'name');
      * convo.onChange('name', async(response, convo, bot) {
      *
      *  // user changed their name!
@@ -623,8 +638,7 @@ export class BotkitConversation<O extends object = {}> extends Dialog<O> {
             }
         }
 
-
-
+        // Handle the current step
         if (step.index < thread.length) {
             let line = thread[step.index];
 
