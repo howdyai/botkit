@@ -1035,8 +1035,8 @@ Add a question to the default thread.
 | Argument | Type | description
 |--- |--- |---
 | message|  | a message that will be used as the prompt
-| handlers|  | one or more handler functions defining possible conditional actions based on the response to the question
-| options|  | <br/>
+| handlers|  | one or more handler functions defining possible conditional actions based on the response to the question.
+| key|  | name of variable to store response in.<br/>
 
 
 

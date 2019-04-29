@@ -317,11 +317,11 @@ export class BotkitConversation<O extends object = {}> extends Dialog<O> {
      * ```
      *
      * @param message a message that will be used as the prompt
-     * @param handlers one or more handler functions defining possible conditional actions based on the response to the question
-     * @param options {key: <name of key to store response in>}
+     * @param handlers one or more handler functions defining possible conditional actions based on the response to the question.
+     * @param key name of variable to store response in.
      */
-    public ask(message: Partial<BotkitMessageTemplate> | string, handlers: BotkitConvoTrigger | BotkitConvoTrigger[], options: {key: string} | string): BotkitConversation {
-        this.addQuestion(message, handlers, options, 'default');
+    public ask(message: Partial<BotkitMessageTemplate> | string, handlers: BotkitConvoTrigger | BotkitConvoTrigger[], key: {key: string} | string): BotkitConversation {
+        this.addQuestion(message, handlers, key, 'default');
         return this;
     }
 
@@ -329,10 +329,10 @@ export class BotkitConversation<O extends object = {}> extends Dialog<O> {
      * Identical to [ask()](#ask), but accepts the name of a thread to which the question is added.
      * @param message a message that will be used as the prompt
      * @param handlers one or more handler functions defining possible conditional actions based on the response to the question
-     * @param options {key: <name of key to store response in>}
+     * @param key name of variable to store response in>}
      * @param thread_name Name of thread to which message will be added
      */
-    public addQuestion(message: Partial<BotkitMessageTemplate> | string, handlers: BotkitConvoTrigger | BotkitConvoTrigger[], options: {key: string} | string, thread_name: string): BotkitConversation {
+    public addQuestion(message: Partial<BotkitMessageTemplate> | string, handlers: BotkitConvoTrigger | BotkitConvoTrigger[], key: {key: string} | string, thread_name: string): BotkitConversation {
         if (!thread_name) {
             thread_name = 'default';
         }
@@ -346,7 +346,7 @@ export class BotkitConversation<O extends object = {}> extends Dialog<O> {
         }
 
         message.collect = {
-            key: typeof(options) === 'string' ? options : options.key
+            key: typeof(key) === 'string' ? key : key.key
         };
 
         if (Array.isArray(handlers)) {

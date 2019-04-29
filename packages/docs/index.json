@@ -6579,7 +6579,7 @@
                       "kindString": "Parameter",
                       "flags": {},
                       "comment": {
-                        "text": "one or more handler functions defining possible conditional actions based on the response to the question"
+                        "text": "one or more handler functions defining possible conditional actions based on the response to the question."
                       },
                       "type": {
                         "type": "union",
@@ -6602,12 +6602,12 @@
                     },
                     {
                       "id": 305,
-                      "name": "options",
+                      "name": "key",
                       "kind": 32768,
                       "kindString": "Parameter",
                       "flags": {},
                       "comment": {
-                        "text": "\n"
+                        "text": "name of variable to store response in.\n"
                       },
                       "type": {
                         "type": "union",
@@ -6633,7 +6633,7 @@
                                     {
                                       "fileName": "conversation.ts",
                                       "line": 323,
-                                      "character": 131
+                                      "character": 127
                                     }
                                   ],
                                   "type": {
@@ -6655,7 +6655,7 @@
                                 {
                                   "fileName": "conversation.ts",
                                   "line": 323,
-                                  "character": 126
+                                  "character": 122
                                 }
                               ]
                             }
@@ -7713,7 +7713,7 @@
                       "kindString": "Parameter",
                       "flags": {},
                       "comment": {
-                        "text": "one or more handler functions defining possible conditional actions based on the response to the question"
+                        "text": "one or more handler functions defining possible conditional actions based on the response to the question."
                       },
                       "type": {
                         "type": "union",
@@ -7736,12 +7736,12 @@
                     },
                     {
                       "id": 305,
-                      "name": "options",
+                      "name": "key",
                       "kind": 32768,
                       "kindString": "Parameter",
                       "flags": {},
                       "comment": {
-                        "text": "\n"
+                        "text": "name of variable to store response in.\n"
                       },
                       "type": {
                         "type": "union",
@@ -7767,7 +7767,7 @@
                                     {
                                       "fileName": "conversation.ts",
                                       "line": 323,
-                                      "character": 131
+                                      "character": 127
                                     }
                                   ],
                                   "type": {
@@ -7789,7 +7789,7 @@
                                 {
                                   "fileName": "conversation.ts",
                                   "line": 323,
-                                  "character": 126
+                                  "character": 122
                                 }
                               ]
                             }
