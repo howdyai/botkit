@@ -297,7 +297,7 @@ export class BotkitConversation<O extends object = {}> extends Dialog<O> {
      * @param handlers one or more handler functions defining possible conditional actions based on the response to the question
      * @param options {key: <name of key to store response in>}
      */
-    public ask(message: Partial<BotkitMessageTemplate> | string, handlers: BotkitConvoTrigger | BotkitConvoTrigger[], options: {key: string}): BotkitConversation {
+    public ask(message: Partial<BotkitMessageTemplate> | string, handlers: BotkitConvoTrigger | BotkitConvoTrigger[], options: {key: string} | string): BotkitConversation {
         this.addQuestion(message, handlers, options, 'default');
         return this;
     }
@@ -309,7 +309,7 @@ export class BotkitConversation<O extends object = {}> extends Dialog<O> {
      * @param options {key: <name of key to store response in>}
      * @param thread_name Name of thread to which message will be added
      */
-    public addQuestion(message: Partial<BotkitMessageTemplate> | string, handlers: BotkitConvoTrigger | BotkitConvoTrigger[], options: {key: string}, thread_name: string): BotkitConversation {
+    public addQuestion(message: Partial<BotkitMessageTemplate> | string, handlers: BotkitConvoTrigger | BotkitConvoTrigger[], options: {key: string} | string, thread_name: string): BotkitConversation {
         if (!thread_name) {
             thread_name = 'default';
         }
@@ -323,7 +323,7 @@ export class BotkitConversation<O extends object = {}> extends Dialog<O> {
         }
 
         message.collect = {
-            key: options.key
+            key: typeof(options) === 'string' ? options : options.key
         };
 
         if (Array.isArray(handlers)) {
@@ -479,7 +479,6 @@ export class BotkitConversation<O extends object = {}> extends Dialog<O> {
         state.options = options || {};
         state.values = { ...options };
 
-        console.log('calling runstep from begindialog');
         // Run the first step
         return await this.runStep(dc, 0, state.options.thread || 'default', DialogReason.beginCalled);
     }
@@ -509,7 +508,6 @@ export class BotkitConversation<O extends object = {}> extends Dialog<O> {
     public async resumeDialog(dc, reason, result): Promise<any> {
         // Increment step index and run step
         const state = dc.activeDialog.state;
-        console.log('calling runstep from resumedialog');
         return await this.runStep(dc, state.stepIndex + 1, state.thread || 'default', reason, result);
     }
 
@@ -544,7 +542,6 @@ export class BotkitConversation<O extends object = {}> extends Dialog<O> {
 
                 // did we just change threads? if so, restart this turn
                 if (index !== step.index || thread_name !== step.thread) {
-                    console.log('calling runstep from onstep');
                     return await this.runStep(dc, step.index, step.thread, DialogReason.nextCalled, step.values);
                 }
             }
@@ -630,7 +627,6 @@ export class BotkitConversation<O extends object = {}> extends Dialog<O> {
      */
     private async runStep(dc: DialogContext, index: number, thread_name: string, reason: DialogReason, result?: any): Promise<any> {
         const thread = this.script[thread_name];
-        console.log('RUN STEP FOR THREAD', thread_name);
         if (index < thread.length) {
             // Update the step index
             const state = dc.activeDialog.state;
@@ -664,7 +660,6 @@ export class BotkitConversation<O extends object = {}> extends Dialog<O> {
 
                 // did we just change threads? if so, restart
                 if (index !== step.index || thread_name !== step.thread) {
-                    console.log('calling runstep from runstep');
                     return await this.runStep(dc, step.index, step.thread, DialogReason.nextCalled, step.values);
                 }
             }
@@ -851,7 +846,7 @@ export class BotkitConversation<O extends object = {}> extends Dialog<O> {
                 return await this.gotoThreadAction(path.action, dc, step);
             }
             // TODO
-            console.log('NOT SURE WHAT TO DO WITH THIS!!', path);
+            console.warn('NOT SURE WHAT TO DO WITH THIS!!', path);
             break;
         }
 

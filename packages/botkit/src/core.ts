@@ -664,7 +664,6 @@ export class Botkit {
                     if (interrupt_results === false) {
                         // Continue dialog if one is present
                         const dialog_results = await dialogContext.continueDialog();
-                        console.log('DIALOG RESULTS ===', dialog_results);
                         if (dialog_results && dialog_results.status === DialogTurnStatus.empty) {
                             await this.ingest(bot, message);
                         }

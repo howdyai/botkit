@@ -74,7 +74,7 @@ module.exports = function(controller) {
     onboarding.say('Before we begin, I need to ask you some questions.');
     onboarding.addChildDialog(PROFILE_DIALOG, 'profile');
     onboarding.say('Thanks, {{vars.profile.name}}! Your onboarding has completed.');
-    onboarding.gotoDialog(CONFIRM_DIALOG);
+    onboarding.addGotoDialog(CONFIRM_DIALOG);
 
     /**
      * Add all of our dialogs to the bot.
