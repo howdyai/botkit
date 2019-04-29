@@ -6,7 +6,7 @@
  * Licensed under the MIT License.
  */
 
- import { Botkit, BotkitDialogWrapper, BotkitMessage, BotWorker, BotkitConversation } from 'botkit';
+import { Botkit, BotkitDialogWrapper, BotkitMessage, BotWorker, BotkitConversation } from 'botkit';
 import { DialogSet } from 'botbuilder-dialogs';
 import * as request from 'request';
 const debug = require('debug')('botkit:cms');

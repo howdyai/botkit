@@ -6,4 +6,4 @@
  * Licensed under the MIT License.
  */
 
- export * from './cms';
+export * from './cms';

@@ -39,7 +39,7 @@ interface BotkitMessageTemplate {
     execute?: {
         script: string;
         thread?: string;
-    },
+    };
     quick_replies?: [any];
     attachments?: any[];
     channelData?: any;
@@ -141,7 +141,7 @@ export class BotkitConversation<O extends object = {}> extends Dialog<O> {
     /**
      * Add a non-interactive message to the default thread.
      * Messages added with `say()` and `addMessage()` will _not_ wait for a response, will be sent one after another without a pause.
-     * 
+     *
      * [Learn more about building conversations &rarr;](../conversations.md#build-a-conversation)
      *
      * ```javascript
@@ -159,23 +159,23 @@ export class BotkitConversation<O extends object = {}> extends Dialog<O> {
 
     /**
      * An an action to the conversation timeline. This can be used to go to switch threads or end the dialog.
-     * 
+     *
      * When provided the name of another thread in the conversation, this will cause the bot to go immediately
      * to that thread.
-     * 
+     *
      * Otherwise, use one of the following keywords:
      * * `stop`
      * * `repeat`
      * * `complete`
      * * `timeout`
-     * 
+     *
      * [Learn more about building conversations &rarr;](../conversations.md#build-a-conversation)
      *
      * ```javascript
-     * 
+     *
      * // go to a thread called "next_thread"
      * convo.addAction('next_thread');
-     * 
+     *
      * // end the conversation and mark as successful
      * convo.addAction('complete');
      * ```
@@ -186,7 +186,6 @@ export class BotkitConversation<O extends object = {}> extends Dialog<O> {
         this.addMessage({ action: action }, thread_name);
         return this;
     }
-
 
     /**
      * Cause the dialog to call a child dialog, wait for it to complete,
@@ -201,13 +200,13 @@ export class BotkitConversation<O extends object = {}> extends Dialog<O> {
      * profileDialog.ask('What is your age?', async(res, convo, bot) => {}, {key: 'age'});
      * profileDialog.ask('What is your location?', async(res, convo, bot) => {}, {key: 'location'});
      * controller.addDialog(profileDialog);
-     * 
+     *
      * let onboard = new BotkitConversation('ONBOARDING', controller);
      * onboard.say('Hello! It is time to collect your profile data.');
      * onboard.addChildDialog('PROFILE_DIALOG', 'profile');
      * onboard.say('Hello, {{vars.profile.name}}! Onboarding is complete.');
      * ```
-     * 
+     *
      * @param dialog_id the id of another dialog
      * @param key_name the variable name in which to store the results of the child dialog. if not provided, defaults to dialog_id.
      * @param thread_name the name of a thread to which this call should be added. defaults to 'default'
@@ -216,23 +215,18 @@ export class BotkitConversation<O extends object = {}> extends Dialog<O> {
         this.addQuestion({
             action: 'beginDialog',
             execute: {
-                script: dialog_id,
+                script: dialog_id
             }
-        }, [{
-                default: true,
-                handler: async(res, convo, bot) => {
-                    // noop
-                }
-            }], {key: key_name || dialog_id }, thread_name);
+        }, [], { key: key_name || dialog_id }, thread_name);
 
         return this;
     }
 
-     /**
+    /**
      * Cause the current dialog to handoff to another dialog.
      * The parent dialog will not resume when the child dialog completes. However, the afterDialog event will not fire for the parent dialog until all child dialogs complete.
      * Use this to [combine multiple dialogs into bigger interactions.](../conversations.md#composing-dialogs)
-     * 
+     *
      * [Learn more about building conversations &rarr;](../conversations.md#build-a-conversation)
      * ```javascript
      * let parent = new BotkitConversation('parent', controller);
@@ -240,7 +234,7 @@ export class BotkitConversation<O extends object = {}> extends Dialog<O> {
      * parent.say('Moving on....');
      * parent.addGotoDialog('child');
      * ```
-     * 
+     *
      * @param dialog_id the id of another dialog
      * @param thread_name the name of a thread to which this call should be added. defaults to 'default'
      */
@@ -248,7 +242,7 @@ export class BotkitConversation<O extends object = {}> extends Dialog<O> {
         this.addMessage({
             action: 'execute_script',
             execute: {
-                script: dialog_id,
+                script: dialog_id
             }
         }, thread_name);
 
@@ -287,7 +281,7 @@ export class BotkitConversation<O extends object = {}> extends Dialog<O> {
         }
 
         this.script[thread_name].push(message);
-        
+
         return this;
     }
 
@@ -363,7 +357,7 @@ export class BotkitConversation<O extends object = {}> extends Dialog<O> {
         }
 
         message.collect = {
-            key: typeof(key) === 'string' ? key : key.key
+            key: typeof (key) === 'string' ? key : key.key
         };
 
         if (Array.isArray(handlers)) {
@@ -444,13 +438,13 @@ export class BotkitConversation<O extends object = {}> extends Dialog<O> {
      * convo.ask('What is your age?', [], 'age');
      * convo.ask('What is your favorite color?', [], 'color');
      * convo.after(async(results, bot) => {
-     * 
+     *
      *      // handle results.name, results.age, results.color
-     * 
+     *
      * });
      * controller.addDialog(convo);
      * ```
-     * 
+     *
      * @param handler in the form async(results, bot) { ... }
      */
     public after(handler: (results: any, bot: BotWorker) => void): void {
@@ -613,7 +607,7 @@ export class BotkitConversation<O extends object = {}> extends Dialog<O> {
                         test = new RegExp(condition.pattern, 'i');
                     } else if (condition.type === 'regex') {
                         test = new RegExp(condition.pattern, 'i');
-                    } 
+                    }
                     // TODO: Allow functions to be passed in as patterns
                     // ie async(test) => Promise<boolean>
 
@@ -675,7 +669,7 @@ export class BotkitConversation<O extends object = {}> extends Dialog<O> {
             }
         } else {
             // End of script so just return to parent
-            return await this.end(dc, step.result);
+            return await this.end(dc);
         }
     }
 
@@ -688,52 +682,46 @@ export class BotkitConversation<O extends object = {}> extends Dialog<O> {
      * @param result The result of the previous turn if any
      */
     private async runStep(dc: DialogContext, index: number, thread_name: string, reason: DialogReason, result?: any): Promise<any> {
-        const thread = this.script[thread_name];
-        // if (index < thread.length) {
-            // Update the step index
-            const state = dc.activeDialog.state;
-            state.stepIndex = index;
-            const previous_thread = state.thread;
-            state.thread = thread_name;
+        // Update the step index
+        const state = dc.activeDialog.state;
+        state.stepIndex = index;
+        const previous_thread = state.thread;
+        state.thread = thread_name;
 
-            // Create step context
-            const nextCalled = false;
-            const step = {
-                index: index,
-                thread: thread_name,
-                state: state,
-                options: state.options,
-                reason: reason,
-                result: result,
-                values: state.values,
-                next: async (stepResult) => {
-                    if (nextCalled) {
-                        throw new Error(`ScriptedStepContext.next(): method already called for dialog and step '${ this.id }[${ index }]'.`);
-                    }
-
-                    return await this.resumeDialog(dc, DialogReason.nextCalled, stepResult);
+        // Create step context
+        const nextCalled = false;
+        const step = {
+            index: index,
+            thread: thread_name,
+            state: state,
+            options: state.options,
+            reason: reason,
+            result: result,
+            values: state.values,
+            next: async (stepResult) => {
+                if (nextCalled) {
+                    throw new Error(`ScriptedStepContext.next(): method already called for dialog and step '${ this.id }[${ index }]'.`);
                 }
-            };
 
-            // did we just start a new thread?
-            // if so, run the before stuff.
-            if (index === 0 && previous_thread !== thread_name) {
-                await this.runBefore(step.thread, dc, step);
-
-                // did we just change threads? if so, restart
-                if (index !== step.index || thread_name !== step.thread) {
-                    return await this.runStep(dc, step.index, step.thread, DialogReason.nextCalled, step.values);
-                }
+                return await this.resumeDialog(dc, DialogReason.nextCalled, stepResult);
             }
+        };
 
-            // Execute step
-            const res = await this.onStep(dc, step);
+        // did we just start a new thread?
+        // if so, run the before stuff.
+        if (index === 0 && previous_thread !== thread_name) {
+            await this.runBefore(step.thread, dc, step);
 
-            return res;
-        // } else {
-        //     // End of script so just return to parent
-        //     return await this.end(dc, result);
-        // }
+            // did we just change threads? if so, restart
+            if (index !== step.index || thread_name !== step.thread) {
+                return await this.runStep(dc, step.index, step.thread, DialogReason.nextCalled, step.values);
+            }
+        }
+
+        // Execute step
+        const res = await this.onStep(dc, step);
+
+        return res;
     }
 
     /**
@@ -742,7 +730,7 @@ export class BotkitConversation<O extends object = {}> extends Dialog<O> {
      * @param dc The current DialogContext
      * @param value The final value collected by the dialog.
      */
-    public async end(dc: DialogContext, value: any): Promise<DialogTurnStatus> {
+    public async end(dc: DialogContext): Promise<DialogTurnStatus> {
         // TODO: may have to move these around
         // shallow copy todo: may need deep copy
         const result = {
@@ -874,13 +862,13 @@ export class BotkitConversation<O extends object = {}> extends Dialog<O> {
             break;
         case 'complete':
             step.values._status = 'completed';
-            return await this.end(dc, step.result);
+            return await this.end(dc);
         case 'stop':
             step.values._status = 'canceled';
-            return await this.end(dc, step.result);
+            return await this.end(dc);
         case 'timeout':
             step.values._status = 'timeout';
-            return await this.end(dc, step.result);
+            return await this.end(dc);
         case 'execute_script':
             const ebot = await this._controller.spawn(dc);
 

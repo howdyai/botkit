@@ -151,8 +151,7 @@ export class BotWorker {
      */
     public async beginDialog(id: string, options?: any): Promise<void> {
         if (this._config.dialogContext) {
-
-            await this._config.dialogContext.beginDialog(id +':botkit-wrapper', {
+            await this._config.dialogContext.beginDialog(id + ':botkit-wrapper', {
                 user: this.getConfig('context').activity.from.id,
                 channel: this.getConfig('context').activity.conversation.id,
                 ...options
@@ -178,10 +177,9 @@ export class BotWorker {
      * @param id id of dialog
      * @param options object containing options to be passed into the dialog
      */
-     public async replaceDialog(id: string, options?: any): Promise<void> {
-         if (this._config.dialogContext) {
-
-            await this._config.dialogContext.replaceDialog(id +':botkit-wrapper', {
+    public async replaceDialog(id: string, options?: any): Promise<void> {
+        if (this._config.dialogContext) {
+            await this._config.dialogContext.replaceDialog(id + ':botkit-wrapper', {
                 user: this.getConfig('context').activity.from.id,
                 channel: this.getConfig('context').activity.conversation.id,
                 ...options
@@ -193,8 +191,8 @@ export class BotWorker {
         } else {
             throw new Error('Call to beginDialog on a bot that did not receive a dialogContext during spawn');
         }
-     }
-   
+    }
+
     // TODO: cancel dialogs
 
     /**

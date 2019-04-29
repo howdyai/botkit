@@ -1065,24 +1065,22 @@ export class Botkit {
      * @param dialog A dialog to be added to the bot's dialog set
      */
     public addDialog(dialog: Dialog): void {
-
         // add the actual dialog
         this.dialogSet.add(dialog);
 
         // add a wrapper dialog that will be called by bot.beginDialog
         // and is responsible for capturing the parent results
-        this.dialogSet.add(new WaterfallDialog(dialog.id+':botkit-wrapper', [
-            async(step) => {
+        this.dialogSet.add(new WaterfallDialog(dialog.id + ':botkit-wrapper', [
+            async (step) => {
                 return step.beginDialog(dialog.id, step.options);
             },
-            async(step) => {
-
+            async (step) => {
                 let bot = await this.spawn(step.context);
 
                 await this.trigger(dialog.id + ':after', bot, step.result);
 
                 return step.endDialog(step.result);
-            },
+            }
         ]));
     }
 
@@ -1094,13 +1092,12 @@ export class Botkit {
      */
     public afterDialog(dialog: Dialog | string, handler: BotkitHandler): void {
         let id = '';
-        if (typeof(dialog) === 'string') {
+        if (typeof (dialog) === 'string') {
             id = dialog as string;
         } else {
             id = dialog.id;
         }
 
-        this.on(id+ ':after', handler);
+        this.on(id + ':after', handler);
     }
-
 }

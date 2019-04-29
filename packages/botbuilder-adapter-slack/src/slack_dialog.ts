@@ -6,7 +6,6 @@
  * Licensed under the MIT License.
  */
 
-
 /**
   * Create a Slack Dialog object for use with [replyWithDialog()](#replyWithDialog).
   *
