@@ -5999,15 +5999,16 @@
                     }
                   ],
                   "type": {
-                    "type": "intrinsic",
-                    "name": "void"
+                    "type": "reference",
+                    "name": "BotkitConversation",
+                    "id": 274
                   }
                 }
               ],
               "sources": [
                 {
                   "fileName": "conversation.ts",
-                  "line": 162,
+                  "line": 163,
                   "character": 20
                 }
               ]
@@ -6081,15 +6082,16 @@
                     }
                   ],
                   "type": {
-                    "type": "intrinsic",
-                    "name": "void"
+                    "type": "reference",
+                    "name": "BotkitConversation",
+                    "id": 274
                   }
                 }
               ],
               "sources": [
                 {
                   "fileName": "conversation.ts",
-                  "line": 189,
+                  "line": 191,
                   "character": 25
                 }
               ]
@@ -6162,15 +6164,16 @@
                     }
                   ],
                   "type": {
-                    "type": "intrinsic",
-                    "name": "void"
+                    "type": "reference",
+                    "name": "BotkitConversation",
+                    "id": 274
                   }
                 }
               ],
               "sources": [
                 {
                   "fileName": "conversation.ts",
-                  "line": 236,
+                  "line": 242,
                   "character": 21
                 }
               ]
@@ -6281,7 +6284,7 @@
                               "sources": [
                                 {
                                   "fileName": "conversation.ts",
-                                  "line": 303,
+                                  "line": 312,
                                   "character": 139
                                 }
                               ],
@@ -6303,7 +6306,7 @@
                           "sources": [
                             {
                               "fileName": "conversation.ts",
-                              "line": 303,
+                              "line": 312,
                               "character": 134
                             }
                           ]
@@ -6326,15 +6329,16 @@
                     }
                   ],
                   "type": {
-                    "type": "intrinsic",
-                    "name": "void"
+                    "type": "reference",
+                    "name": "BotkitConversation",
+                    "id": 274
                   }
                 }
               ],
               "sources": [
                 {
                   "fileName": "conversation.ts",
-                  "line": 303,
+                  "line": 312,
                   "character": 22
                 }
               ]
@@ -6418,7 +6422,7 @@
                           "sources": [
                             {
                               "fileName": "conversation.ts",
-                              "line": 390,
+                              "line": 401,
                               "character": 25
                             }
                           ]
@@ -6435,7 +6439,7 @@
               "sources": [
                 {
                   "fileName": "conversation.ts",
-                  "line": 390,
+                  "line": 401,
                   "character": 16
                 }
               ]
@@ -6549,7 +6553,7 @@
                               "sources": [
                                 {
                                   "fileName": "conversation.ts",
-                                  "line": 292,
+                                  "line": 300,
                                   "character": 131
                                 }
                               ],
@@ -6571,7 +6575,7 @@
                           "sources": [
                             {
                               "fileName": "conversation.ts",
-                              "line": 292,
+                              "line": 300,
                               "character": 126
                             }
                           ]
@@ -6580,15 +6584,16 @@
                     }
                   ],
                   "type": {
-                    "type": "intrinsic",
-                    "name": "void"
+                    "type": "reference",
+                    "name": "BotkitConversation",
+                    "id": 274
                   }
                 }
               ],
               "sources": [
                 {
                   "fileName": "conversation.ts",
-                  "line": 292,
+                  "line": 300,
                   "character": 14
                 }
               ]
@@ -6694,7 +6699,7 @@
                           "sources": [
                             {
                               "fileName": "conversation.ts",
-                              "line": 353,
+                              "line": 364,
                               "character": 47
                             }
                           ]
@@ -6711,7 +6716,7 @@
               "sources": [
                 {
                   "fileName": "conversation.ts",
-                  "line": 353,
+                  "line": 364,
                   "character": 17
                 }
               ]
@@ -6768,15 +6773,16 @@
                     }
                   ],
                   "type": {
-                    "type": "intrinsic",
-                    "name": "void"
+                    "type": "reference",
+                    "name": "BotkitConversation",
+                    "id": 274
                   }
                 }
               ],
               "sources": [
                 {
                   "fileName": "conversation.ts",
-                  "line": 210,
+                  "line": 214,
                   "character": 21
                 }
               ]
@@ -6891,7 +6897,7 @@
                           "sources": [
                             {
                               "fileName": "conversation.ts",
-                              "line": 426,
+                              "line": 437,
                               "character": 46
                             }
                           ]
@@ -6908,7 +6914,7 @@
               "sources": [
                 {
                   "fileName": "conversation.ts",
-                  "line": 426,
+                  "line": 437,
                   "character": 19
                 }
               ]
@@ -6967,8 +6973,9 @@
                     }
                   ],
                   "type": {
-                    "type": "intrinsic",
-                    "name": "void"
+                    "type": "reference",
+                    "name": "BotkitConversation",
+                    "id": 274
                   }
                 }
               ],
@@ -7107,15 +7114,16 @@
                     }
                   ],
                   "type": {
-                    "type": "intrinsic",
-                    "name": "void"
+                    "type": "reference",
+                    "name": "BotkitConversation",
+                    "id": 274
                   }
                 }
               ],
               "sources": [
                 {
                   "fileName": "conversation.ts",
-                  "line": 162,
+                  "line": 163,
                   "character": 20
                 }
               ]
@@ -7189,15 +7197,16 @@
                     }
                   ],
                   "type": {
-                    "type": "intrinsic",
-                    "name": "void"
+                    "type": "reference",
+                    "name": "BotkitConversation",
+                    "id": 274
                   }
                 }
               ],
               "sources": [
                 {
                   "fileName": "conversation.ts",
-                  "line": 189,
+                  "line": 191,
                   "character": 25
                 }
               ]
@@ -7270,15 +7279,16 @@
                     }
                   ],
                   "type": {
-                    "type": "intrinsic",
-                    "name": "void"
+                    "type": "reference",
+                    "name": "BotkitConversation",
+                    "id": 274
                   }
                 }
               ],
               "sources": [
                 {
                   "fileName": "conversation.ts",
-                  "line": 236,
+                  "line": 242,
                   "character": 21
                 }
               ]
@@ -7389,7 +7399,7 @@
                               "sources": [
                                 {
                                   "fileName": "conversation.ts",
-                                  "line": 303,
+                                  "line": 312,
                                   "character": 139
                                 }
                               ],
@@ -7411,7 +7421,7 @@
                           "sources": [
                             {
                               "fileName": "conversation.ts",
-                              "line": 303,
+                              "line": 312,
                               "character": 134
                             }
                           ]
@@ -7434,15 +7444,16 @@
                     }
                   ],
                   "type": {
-                    "type": "intrinsic",
-                    "name": "void"
+                    "type": "reference",
+                    "name": "BotkitConversation",
+                    "id": 274
                   }
                 }
               ],
               "sources": [
                 {
                   "fileName": "conversation.ts",
-                  "line": 303,
+                  "line": 312,
                   "character": 22
                 }
               ]
@@ -7526,7 +7537,7 @@
                           "sources": [
                             {
                               "fileName": "conversation.ts",
-                              "line": 390,
+                              "line": 401,
                               "character": 25
                             }
                           ]
@@ -7543,7 +7554,7 @@
               "sources": [
                 {
                   "fileName": "conversation.ts",
-                  "line": 390,
+                  "line": 401,
                   "character": 16
                 }
               ]
@@ -7657,7 +7668,7 @@
                               "sources": [
                                 {
                                   "fileName": "conversation.ts",
-                                  "line": 292,
+                                  "line": 300,
                                   "character": 131
                                 }
                               ],
@@ -7679,7 +7690,7 @@
                           "sources": [
                             {
                               "fileName": "conversation.ts",
-                              "line": 292,
+                              "line": 300,
                               "character": 126
                             }
                           ]
@@ -7688,15 +7699,16 @@
                     }
                   ],
                   "type": {
-                    "type": "intrinsic",
-                    "name": "void"
+                    "type": "reference",
+                    "name": "BotkitConversation",
+                    "id": 274
                   }
                 }
               ],
               "sources": [
                 {
                   "fileName": "conversation.ts",
-                  "line": 292,
+                  "line": 300,
                   "character": 14
                 }
               ]
@@ -7802,7 +7814,7 @@
                           "sources": [
                             {
                               "fileName": "conversation.ts",
-                              "line": 353,
+                              "line": 364,
                               "character": 47
                             }
                           ]
@@ -7819,7 +7831,7 @@
               "sources": [
                 {
                   "fileName": "conversation.ts",
-                  "line": 353,
+                  "line": 364,
                   "character": 17
                 }
               ]
@@ -7876,15 +7888,16 @@
                     }
                   ],
                   "type": {
-                    "type": "intrinsic",
-                    "name": "void"
+                    "type": "reference",
+                    "name": "BotkitConversation",
+                    "id": 274
                   }
                 }
               ],
               "sources": [
                 {
                   "fileName": "conversation.ts",
-                  "line": 210,
+                  "line": 214,
                   "character": 21
                 }
               ]
@@ -7999,7 +8012,7 @@
                           "sources": [
                             {
                               "fileName": "conversation.ts",
-                              "line": 426,
+                              "line": 437,
                               "character": 46
                             }
                           ]
@@ -8016,7 +8029,7 @@
               "sources": [
                 {
                   "fileName": "conversation.ts",
-                  "line": 426,
+                  "line": 437,
                   "character": 19
                 }
               ]
@@ -8075,8 +8088,9 @@
                     }
                   ],
                   "type": {
-                    "type": "intrinsic",
-                    "name": "void"
+                    "type": "reference",
+                    "name": "BotkitConversation",
+                    "id": 274
                   }
                 }
               ],

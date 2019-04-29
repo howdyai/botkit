@@ -13,6 +13,36 @@ To use BotkitConversations, make sure to import the class along with Botkit:
 const { Botkit, BotkitConversation } = require('botkit';
 ```
 
+## Anatomy of a Botkit Conversation
+
+The `BotkitConversation` class is an implementation of the generic [BotBuilder Dialog Class](https://npmjs.com/package/botbuilder-dialogs) that provides a fluent interface for defining the structure and content of an interactive dialog. Note that the following information is specific to BotkitConversations, and does not apply to other dialog types like `WaterfallDialog` that, while compatible with Botkit, do not have all of the same features.
+
+BotkitConversations are constructed from one or more sequences of messages known as "[threads](#conversation-threads)." The threads are linked to one another through special conditional actions that can be part of an `ask()` prompt, or defined directly in the thread using `addAction()`. Each item in a thread is actually a message template - they can include variable tokens that will be replaced with live values automatically before being sent.
+
+All dialogs must be defined and added to the Botkit controller _at start time._ It is bad practice to create new dialogs from within handler functions or in response to user actions - this may cause your bot to lose its place in the conversation, or become confused. Think about it this way: your bot has to know every possible dialog and action it might take at start time so that it can consistently respond across multiple instances of the application, or between restarts.
+
+### Beginning
+
+Before a BotkitConveration begins, it will first fire any functions bound to it using the [before()](reference/core.md#before) hook. These functions can create or change variables, and take other necessary actions - for example, looking up values in a database or external API for use in the conversation.
+
+BotkitConversations start on the first message of the "default" thread, and proceed through the chain of messages.  When a prompt is encountered, the bot will pause and wait for the user to respond, then evaluate any associated handler functions and conditional tests. The bot will continue to process messages in the thread until it reaches a prompt, an action, or the end of the thread.
+
+### Middle
+
+As each message is read from the dialog script and sent to the user, it is evaluated for template variables. Variables may be used in almost any field in the message object. [Learn more about using variables &rarr;](#using-variable-tokens-and-templates-in-conversation-threads)
+
+When a prompt is encountered, the message will first be sent to the user. The bot will then wait for the next message to arrive.  When it does, the value of the incoming message will automatically be captured into a variable, and any [onChange()](reference/core.md#onchange) functions that have been bound to that variable will fire. These handler functions can be used to validate the incoming value, or take other conditional actions based on the user input.
+
+After any `onChange` hooks fire, Botkit will proceed to evaluate the handler function or conditional tests that were initially passed in to `ask()` or `addQuestion()`. These functions may set variables, or modify the flow of the dialog by calling [repeat()](reference/core.md#repeat) or [gotoThread()](reference/core.md#gotothread).
+
+Hook functions can be bound to the beginning of _each thread_ using [before()](reference/core.md#before). Each thread will fire it's own `before` hooks _before_ sending the first message. This can be used for a variety of purposes, including conditionally skipping a thread (by calling `gotoThread()` from inside a `before()` hook).
+
+### End
+
+When the dialog reaches its end (no messages remaining to be sent, or one of the end actions called), it will fire its last set of hooks, and then finally come to an end.  The end of a conversation can be thought of in the same light as a web form "submit" -- all of the user responses and any other information collected during the course of the conversation will be sent to the final hook for processing.  Commonly, these hooks are used to store/submit that information, and then possibly to begin the next dialog.
+
+There are several ways to register an end-of-conversation hook, [discussed in more detail here &rarr;](#handling-end-of-conversation)
+
 ## Build A Conversations
 
 First, create the new dialog object:
@@ -27,6 +57,8 @@ Then, using the helper methods like `say()` and `ask()`, define a series of mess
 * [say()](reference/core.md#say-1)
 * [ask()](reference/core.md#ask)
 * [addAction()](reference/core.md#addaction)
+* [addChildDialog()](reference/core.md#addchilddialog)
+* [gotoDialog()](reference/core.md#gotodialog)
 * [addMessage()](reference/core.md#addmessage)
 * [addQuestion()](reference/core.md#addquestion)
 
@@ -164,20 +196,13 @@ Our philosophy is that it is OK to stuff whatever type of information your conve
 ## Conversation Control Functions
 
 In order to direct the flow of the conversation, several helper functions
-are provided.  These functions should only be called from within a [ask()](reference/core.md#ask)
-handler function.
+are provided.  These functions should only be called from within a handler function passed to [ask()] (reference/core.md#ask)  or [addQuestion()](reference/core.md#addquestion)
 
-`convo.repeat()` repeat the last question sent and continue to wait for a response.
-
-`convo.setVar()`
-
-`convo.gotoThread()`
-
+* [convo.repeat()](reference/core.md/#repeat)
+* [convo.setVar()](reference/core.md#setvar)
+* [convo.gotoThread()](reference/core.md#gotothread)
 
 ## Handling End of Conversation
-
-Conversations trigger events during the course of their life.  Currently,
-only two events are fired, and only one is very useful: end.
 
 Conversations end naturally when the last message has been sent and no messages remain in the queue.
 In this case, the value of `results._status` will be `completed`. Other values for this field include `canceled`, and `timeout`.

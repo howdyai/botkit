@@ -146,8 +146,9 @@ export class BotkitConversation<O extends object = {}> extends Dialog<O> {
      *
      * @param message Message template to be sent
      */
-    public say(message: Partial<BotkitMessageTemplate> | string): void {
+    public say(message: Partial<BotkitMessageTemplate> | string): BotkitConversation {
         this.addMessage(message, 'default');
+        return this;
     }
 
     /**
@@ -159,8 +160,9 @@ export class BotkitConversation<O extends object = {}> extends Dialog<O> {
      * @param action An action
      * @param thread_name The name of a thread
      */
-    public addAction(action: string, thread_name: string = 'default'): void {
+    public addAction(action: string, thread_name: string = 'default'): BotkitConversation {
         this.addMessage({ action: action }, thread_name);
+        return this;
     }
 
 
@@ -186,7 +188,7 @@ export class BotkitConversation<O extends object = {}> extends Dialog<O> {
      * @param key_name the variable name in which to store the results of the child dialog. if not provided, defaults to dialog_id.
      * @param thread_name the name of a thread to which this call should be added. defaults to 'default'
      */
-    public addChildDialog(dialog_id: string, key_name?: string, thread_name: string = 'default'): void {
+    public addChildDialog(dialog_id: string, key_name?: string, thread_name: string = 'default'): BotkitConversation {
         this.addQuestion({
             action: 'beginDialog',
             execute: {
@@ -198,6 +200,8 @@ export class BotkitConversation<O extends object = {}> extends Dialog<O> {
                     // noop
                 }
             }], {key: key_name || dialog_id }, thread_name);
+
+        return this;
     }
 
      /**
@@ -207,13 +211,15 @@ export class BotkitConversation<O extends object = {}> extends Dialog<O> {
      * @param dialog_id the id of another dialog
      * @param thread_name the name of a thread to which this call should be added. defaults to 'default'
      */
-    public gotoDialog(dialog_id: string, thread_name: string = 'default'): void {
+    public gotoDialog(dialog_id: string, thread_name: string = 'default'): BotkitConversation {
         this.addMessage({
             action: 'execute_script',
             execute: {
                 script: dialog_id,
             }
         }, thread_name);
+
+        return this;
     }
 
     /**
@@ -233,7 +239,7 @@ export class BotkitConversation<O extends object = {}> extends Dialog<O> {
      * @param message Message template to be sent
      * @param thread_name Name of thread to which message will be added
      */
-    public addMessage(message: Partial<BotkitMessageTemplate> | string, thread_name: string): void {
+    public addMessage(message: Partial<BotkitMessageTemplate> | string, thread_name: string): BotkitConversation {
         if (!thread_name) {
             thread_name = 'default';
         }
@@ -247,6 +253,8 @@ export class BotkitConversation<O extends object = {}> extends Dialog<O> {
         }
 
         this.script[thread_name].push(message);
+        
+        return this;
     }
 
     /**
@@ -289,8 +297,9 @@ export class BotkitConversation<O extends object = {}> extends Dialog<O> {
      * @param handlers one or more handler functions defining possible conditional actions based on the response to the question
      * @param options {key: <name of key to store response in>}
      */
-    public ask(message: Partial<BotkitMessageTemplate> | string, handlers: BotkitConvoTrigger | BotkitConvoTrigger[], options: {key: string}): void {
+    public ask(message: Partial<BotkitMessageTemplate> | string, handlers: BotkitConvoTrigger | BotkitConvoTrigger[], options: {key: string}): BotkitConversation {
         this.addQuestion(message, handlers, options, 'default');
+        return this;
     }
 
     /**
@@ -300,7 +309,7 @@ export class BotkitConversation<O extends object = {}> extends Dialog<O> {
      * @param options {key: <name of key to store response in>}
      * @param thread_name Name of thread to which message will be added
      */
-    public addQuestion(message: Partial<BotkitMessageTemplate> | string, handlers: BotkitConvoTrigger | BotkitConvoTrigger[], options: {key: string}, thread_name: string): void {
+    public addQuestion(message: Partial<BotkitMessageTemplate> | string, handlers: BotkitConvoTrigger | BotkitConvoTrigger[], options: {key: string}, thread_name: string): BotkitConversation {
         if (!thread_name) {
             thread_name = 'default';
         }
@@ -332,6 +341,8 @@ export class BotkitConversation<O extends object = {}> extends Dialog<O> {
         message.collect.options.forEach((o) => { if (!o.type) { o.type = 'string'; } });
 
         this.script[thread_name].push(message);
+
+        return this;
     }
 
     /**
@@ -758,17 +769,6 @@ export class BotkitConversation<O extends object = {}> extends Dialog<O> {
 
         return attachments;
     }
-
-    // /**
-    //  * Cause the dialog to jump to a new thread as defined by the thread name.
-    //  * @param thread The name of the thread to jump to
-    //  * @param dc The current DialogContext
-    //  * @param step The current step object
-    //  */
-    // public async gotoThread(thread: string, dc: DialogContext, step: BotkitConversationStep) {
-    //     step.thread = thread;
-    //     step.index = 0;
-    // }
 
     /**
      * Handle the scripted "gotothread" action - requires an additional call to runStep.
