@@ -3,6 +3,8 @@
     * PUBLISH TO NPM
     * move/remove/ignore testbot
     * eslint version in packages
+    
+    * copyright headers!!
 
 # core
 
@@ -18,9 +20,9 @@
 
     * Root Readme (links to all projects, but also needs pitch)
     * botkit core 
-    * cms
-    * generator
 
+# advanced topics
+    * anatomy
     * upgrade guide!
 
     * customize templates for plugins index and platform index

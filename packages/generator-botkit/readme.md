@@ -22,9 +22,9 @@ From inside your project folder, generate the project:
 yo botkit
 ```
 
-The generator will walk you through the process of configuring and installing your Botkit application. For each platform, a different set of API credentials and options will be collected.  [Platform specific provisioning guides can be found in the Botkit docs site](https://botkit.ai/docs/provisioning).
+The generator will walk you through the process of configuring and installing your Botkit application. For each platform, a different set of API credentials and options will be collected.  [Platform specific provisioning guides can be found in the Botkit docs site &rarr;](https://botkit.ai/docs/provisioning)
 
-Once the generator has completed its work, you will be left with a fully operational bot ready to be connected to the messaging platform.  To start the application, run `npm start`
+Once the generator has completed its work, you will be left with a fully operational bot ready to be connected to the messaging platform.  To start the application, run `npm start`.  [Learn more about the anatomy of a Botkit application &rarr;](https://botkit.ai/docs/v4/advanced.html#anatomy-of-a-botkit-app)
 
 The entire process is shown below:
 
