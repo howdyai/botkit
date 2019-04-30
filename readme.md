@@ -16,9 +16,9 @@ and is released under the [MIT Open Source license](LICENSE.md)
 
 ## Packages included in this repo
 
-| Package | Description
+| Package | Description | NPM Status
 |--- |---
-| [botkit](packages/botkit) | Botkit Core library
+| [botkit](packages/botkit) | Botkit Core library | [![Botkit Badge](https://img.shields.io/npm/dt/botkit.svg?logo=npm&label=botkit)](https://www.npmjs.com/package/botkit/) 
 | [botbuilder-adapter-websocket](packages/botbuilder-adapter-websocket) | A platform adapter for the web
 | [botbuilder-adapter-slack](packages/botbuilder-adapter-slack) | A platform adapter for Slack
 | [botbuilder-adapter-webex](packages/botbuilder-adapter-webex) | A platform adapter for Webex Teams
