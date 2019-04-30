@@ -67,6 +67,27 @@ module.exports = function(controller) {
     // some code here.
 }
 ```
+## Flow of activity as a message is processed
+
+* Adapter receives incoming http request
+* Activity object is created, passed off to Botkit
+* Botkit turns the Activity object into a BotkitMessage
+* Botkit runs ingest middleware
+* Botkit evaluates for interrupts -> end if triggered
+* Botkit passes to dialog stack -> end if active dialog 
+* Botkit evaluates for hears -> end if triggered
+* Botkit runs receive middleware
+* Botkit emits an event based on the `type` field of the message
+* Any handlers bound to event fire
+* Adapter sends http response
+
+When a message is sent:
+
+* Botkit receives message from code
+* Botkit runs send middleware
+* Activity object is created, passed off to BotBuilder
+* BotBuilder sends the message to the platform API
+
 
 
 ## Typescript

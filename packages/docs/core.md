@@ -606,16 +606,16 @@ Plugin related methods:
 * [controller.publicFolder()](reference/core.md#publicfolder)
 * [controller.plugins](reference/core.md#properties-and-accessors)
 
-## Middlwares
+## Middlewares
 
 Botkit middleware functions can be used to inspect and modify messages as they pass through.
 There are a few types of middleware in the Botkit universe: 
 
-* Botkit middleware - changes the way Botkit itself handles messages
-* BotBuilder adapter middleware - changes the way the platform translation layer handles messages
-* Webserver middleware - changes the way the web server handles requests
+* Botkit middleware - change the way Botkit itself handles messages
+* BotBuilder adapter middleware - change the way the platform translation layer handles messages
+* Webserver middleware - change the way the web server handles requests
 
-### Bokit Middleware
+### Botkit Middleware
 
 Middleware can do things like:
 * Log information about incoming and outgoing activity for debugging, analytics or other services
@@ -649,5 +649,9 @@ controller.middleware.ingest.use(myBotkitMiddleware);
 ```
 
 ### BotBuilder Adapter Middleware
+
+BotBuilder adapters like those used by Botkit also support middleware.  Some of the adapters included in the Botkit project use these middleware to modify the "native" BotBuilder activity objects along the way so that they play nicer with Botkit -- for example, see [SlackEventMiddleware](reference/slack.md#slackeventmiddleware).
+
+Middleware for BotBuilder works on a similar principle as Botkit, but comes in a 
 
 ### Webserver Middleware
