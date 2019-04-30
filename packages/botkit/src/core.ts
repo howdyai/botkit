@@ -1085,7 +1085,7 @@ export class Botkit {
     }
 
     /**
-     * Bind a handler to the END of a dialog.
+     * Bind a handler to the end of a dialog.
      * NOTE: bot worker cannot use bot.reply(), must use bot.send()
      * 
      * [Learn more about handling end-of-conversation](../docs/conversations.md#handling-end-of-conversation)

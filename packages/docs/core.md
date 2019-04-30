@@ -81,7 +81,7 @@ This is a major difference in the way most event handling systems work, which wi
 configured with [controller.on()](reference/core.md#on), which behave as expected.
 
 ```javascript
-controller.hears(['hi','hello','howdy','hey','aloha','hola','bonjour','oi'],['message'],async (bot,message) => {
+controller.hears(['hi','hello','howdy','hey','aloha','hola','bonjour','oi'],['message'], async (bot,message) => {
 
   // do something to respond to message
   await bot.reply(message,'Oh hai!');
@@ -93,7 +93,7 @@ controller.hears(['hi','hello','howdy','hey','aloha','hola','bonjour','oi'],['me
 
 Some bots have certain operations that should take precidence, even if that means stopping or interupting an ongoing conversation. Near universal examples of this are providing a "help" command, and providing a "quit" mechanism.
 
-For this type of trigger, Botkit provides a version of "hearing" that occurs _before_ any other processing of the message: [interrupts()](reference/core.md#interrupts). Triggers for inter
+For this type of trigger, Botkit provides a version of "hearing" that occurs _before_ any other processing of the message: [interrupts()](reference/core.md#interrupts). Botkit will look for interruptions before passing the message through the dialog system, and before looking for any other triggers.
 
 
 
