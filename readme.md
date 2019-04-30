@@ -21,14 +21,16 @@ GOALS:
 
 # Use Botkit
 
-* [Install Botkit and get started](packages/botkit#botkit---building-blocks-for-building-bots)
+* [Install Botkit and get started](packages/botkit#readme)
 * [Botkit Core Docs](packages/docs/index.md)
-* [Botkit for the Web](packages/botbuilder-adapter-websocket/readme.md)
-* [Botkit for Slack](packages/botbuilder-adapter-slack/readme.md)
-* [Botkit for Webex Teams](packages/botbuilder-adapter-webex/readme.md)
-* [Botkit for Google Hangouts](packages/botbuilder-adapter-hangouts/readme.md)
-* [Botkit for Twilio SMS](packages/botbuilder-adapter-twilio-sms/readme.md)
-* [Botkit for Facebook Messenger](packages/botbuilder-adapter-facebook/readme.md)
+* [Botkit for the Web](packages/botbuilder-adapter-websocket#readme)
+* [Botkit for Slack](packages/botbuilder-adapter-slack#readme)
+* [Botkit for Webex Teams](packages/botbuilder-adapter-webex#readme)
+* [Botkit for Google Hangouts](packages/botbuilder-adapter-hangouts#readme)
+* [Botkit for Twilio SMS](packages/botbuilder-adapter-twilio-sms#readme)
+* [Botkit for Facebook Messenger](packages/botbuilder-adapter-facebook#readme)
+* [Botkit CMS Plugin](packages/botkit-plugin-cms#readme)
+
 
 ## Packages included in this repo
 
@@ -42,7 +44,7 @@ GOALS:
 | [botbuilder-adapter-twilio-sms](packages/botbuilder-adapter-twilio-sms) | A platform adapter for Twilio SMS
 | [botbuilder-adapter-facebook](packages/botbuilder-facebook) | A platform adapter for Facebook Messenger
 | [generator-botkit](packages/generator-botkit) | A Yeoman generator for creating a new Botkit project
-| [botbuilder-dialogs-botkit-cms](packages/botbuilder-dialogs-botkit-cms) | A library that allows using Botkit CMS content in Bot Builder apps (without Botkit)
+| [botkit-plugin-cms](packages/botkit-plugin-cms) | A plugin that adds support for [Botkit CMS](https://github.com/howdyai/botkit-cms)
 
 ## Build Botkit locally
 
