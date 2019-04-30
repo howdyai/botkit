@@ -4,6 +4,18 @@
 
 ## what's different between 0.7 and 4.0?
 
+GOALS:
+* Keep as much of the feature set, syntax and special sauce developers know and love
+* Solve persistent and hard to solve problems in previous versions of Botkit
+* Use modern JavaScript language features like async/await instead of callbacks
+* Full Typescript support
+* Break platform adapters (and their large dependency trees) into optional packages
+* Reorganize some related projects into a monorepo
+* Inherit much goodness from [Bot Builder](https://github.com/microsoft/botbuilder-js)
+* Provide a way for bots to be extended with plugins and modular features, and for those plugins to provide a consistent interface to administrators
+
+
+
 ## How to upgrade from 0.7 to 4.0
 
     * you may need to update your node version. we suggest using the lts version.

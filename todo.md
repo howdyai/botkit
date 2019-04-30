@@ -11,11 +11,6 @@
 # docs
 
     * Root Readme (links to all projects, but also needs pitch)
-    * botkit core 
-        * plugins
-        * middlewares
-        * interrupts
-        * organize your bot code
 
 # advanced topics
     * anatomy
