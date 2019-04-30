@@ -14,7 +14,7 @@
 The best way to get started locally with Botkit is by installing our Yeoman template, and using it to create a new Botkit project. 
 This will install and configure a starter kit for you!
 
-```
+```bash
 npm install -g yo generator-botkit
 yo botkit
 ```
@@ -76,7 +76,7 @@ controller.hears(['string','pattern .*',new RegExp('.*','i')],'message,other_eve
 
 Bots can respond to non-verbal events as well, like when a new user joins a channel, a file gets uploaded, or a button gets clicked. These events are handled using an event handling pattern that should look familiar. Most events in Botkit can be replied to like normal messages.
 
-```
+```javascript
 controller.on('channel_join', async (bot, message) => {
 
   await bot.reply(message,'Welcome to the channel!');
@@ -92,7 +92,7 @@ In addition to taking direct action in response to a certain message or type of 
 
 Middleware can be used to adjust how Botkit receives, processes, and sends messages.
 
-```
+```javascript
 // Log every message received
 controller.middleware.receive.use(function(bot, message, next) {
 
