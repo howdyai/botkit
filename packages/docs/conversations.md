@@ -252,10 +252,16 @@ Our philosophy is that it is OK to stuff whatever type of information your conve
 
 ## Conversation Control Functions
 
-In order to direct the flow of the conversation, several helper functions
-are provided.  These functions should only be called from within a handler function passed to [ask()] (reference/core.md#ask)  or [addQuestion()](reference/core.md#addquestion)
+When a user responds to a prompt, the answer is automatically added to the list of variables.
+Then, any conditionals or handler functions associated with the prompt will be fired.
 
-* [convo.repeat()](reference/core.md#repeat)
+All the conditions will be tested in the order they are specified in code. If no other condition matches, Botkit will fire the handler that includes `default: true`.
+For the winning condition, the handler function will fire. The handler receives 3 parameters: the raw response to the prompt, a [convo helper object](reference/core.md#botkitdialogwrapper), 
+and a [bot worker](reference/core.md#botworker).
+
+Several helper functions are available in order to direct the flow of the conversation from within the handler:
+
+* [convo.repeat()](reference/core.md#rebpeat)
 * [convo.setVar()](reference/core.md#setvar)
 * [convo.gotoThread()](reference/core.md#gotothread)
 
