@@ -559,9 +559,10 @@ A plugin module should contain an object (or a function that returns an object) 
 module.exports = function(botkit) {
 
     return {
+        // The name of the plugin. Used to log messages at boot time.
         name: 'My Plugin',
+        // initialize this module. called at load time.
         init: function(controller) {
-            // initialize this module. called at load time.
             // do things like:
 
             // expose the methods from this plugin as controller.plugins.myplugin.<method>
@@ -573,21 +574,23 @@ module.exports = function(botkit) {
             // add a web route
             // controller.webserver.get('/myplugin', async(req, res) => { 
             //      Use a local handlebars view (bundled with plugin) to render a page
-            //      res.render(controller.getLocalView(__dirname + '/views/main.hbs'));
+            //      res.render(controller.getLocalView(__dirname + '/views/main'));
             // });
 
             // can also define normal handlers
             // controller.on('event', async(bot, message) => { ... });
         },
+        // Any middlewares that should be automatically bound
+        // Can include more than 1 of each kind.
         middleware: {
             ingest: [
-                ...
+                (bot, message, next) => { next(); }
             ],
             receive: [
-                ...
+                (bot, message, next) => { next(); }
             ],
             send: [
-                ...                
+                (bot, message, next) => { next(); }
             ]
         },
         // this method will live at controller.plugins.myplugin.customMethod()
@@ -595,7 +598,6 @@ module.exports = function(botkit) {
     }
 }
 ```
-
 
 Plugin related methods:
 * [controller.usePlugin()](reference/core.md#useplugin)
