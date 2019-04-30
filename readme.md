@@ -26,7 +26,7 @@ and is released under the [MIT Open Source license](LICENSE.md)
 | [botbuilder-adapter-twilio-sms](packages/botbuilder-adapter-twilio-sms) | A platform adapter for Twilio SMS | [![NPM Badge](https://img.shields.io/npm/dw/botbuilder-adapter-twilio-sms.svg?logo=npm)](https://www.npmjs.com/package/botbuilder-adapter-twilio-sms) 
 | [botbuilder-adapter-facebook](packages/botbuilder-facebook) | A platform adapter for Facebook Messenger | [![NPM Badge](https://img.shields.io/npm/dw/botbuilder-adapter-facebook.svg?logo=npm)](https://www.npmjs.com/package/botbuilder-adapter-facebook) 
 | [generator-botkit](packages/generator-botkit) | A Yeoman generator for creating a new Botkit project | [![NPM Badge](https://img.shields.io/npm/dw/generator-botkit.svg?logo=npm)](https://www.npmjs.com/package/generator-botkit) 
-| [botkit-plugin-cms](packages/botkit-plugin-cms) | A plugin that adds support for [Botkit CMS](https://github.com/howdyai/botkit-cms) | [![NPM Badge](https://img.shields.io/npm/dw/botkit-plugin-cms.svg?logo=npm\)](https://www.npmjs.com/package/botkit-plugin-cms) 
+| [botkit-plugin-cms](packages/botkit-plugin-cms) | A plugin that adds support for [Botkit CMS](https://github.com/howdyai/botkit-cms) | [![NPM Badge](https://img.shields.io/npm/dw/botkit-plugin-cms.svg?logo=npm)](https://www.npmjs.com/package/botkit-plugin-cms)
 
 ## Build Botkit locally
 
