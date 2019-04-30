@@ -1,4 +1,4 @@
-[&larr; Botkit Documentation](..)  [&larr; Platform Index](index.md) 
+[&larr; Botkit Documentation](../#readme)  [&larr; Platform Index](index.md) 
 
 # botbuilder-adapter-web
 Connect [Botkit](https://www.npmjs.com/package/botkit) or [BotBuilder](https://www.npmjs.com/package/botbuilder) to the Web.

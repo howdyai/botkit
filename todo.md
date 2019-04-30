@@ -2,14 +2,10 @@
 
     * PUBLISH TO NPM
     * move/remove/ignore testbot
-    * eslint version in packages
-    
+    * npm audit in every pacakge    
 
 # core
-
-
 # docs
-
 
 # advanced topics
     * anatomy
@@ -69,7 +65,8 @@
 ~* create official new 0. branch for future maintenance~
 ~* catch dialog results!~
 ~* hangouts creds get escaped
-~* Root Readme (links to all projects, but also needs pitch)~
+~* Root Readme (links to all projects, but also needs pitch)
+~* eslint version in packages~
 
 
 # POST LAUNCH

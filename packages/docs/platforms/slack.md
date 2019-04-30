@@ -1,4 +1,4 @@
-[&larr; Botkit Documentation](..)  [&larr; Platform Index](index.md) 
+[&larr; Botkit Documentation](../#readme)  [&larr; Platform Index](index.md) 
 
 # botbuilder-adapter-slack
 

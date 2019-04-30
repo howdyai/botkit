@@ -1,6 +1,6 @@
 # Platform Adapters
 
-[&larr; Botkit Core Docs](..)
+[&larr; Botkit Core Docs](../#readme)
 
 * [Websocket and Webhooks](../platforms/web.md)
 * [Webex Teams](../platforms/webex.md)

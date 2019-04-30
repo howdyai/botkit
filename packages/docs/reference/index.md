@@ -1,6 +1,6 @@
 # Class Index
 
-[&larr; Botkit Core Docs](..)
+[&larr; Botkit Core Docs](../#readme)
 
 * [Botkit Core](../reference/core.md)
     * [Botkit](../reference/core.md#Botkit)
