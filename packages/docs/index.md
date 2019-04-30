@@ -10,7 +10,7 @@
 
 ## Install Botkit
 
-[**New to Botkit?** Read our full guide to getting started with Botkit](/getstarted.html).
+[**New to Botkit?** Read our guide to getting started with Botkit](https://botkit.ai/getstarted.html).
 
 ### Remix on Glitch
 
