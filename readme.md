@@ -17,7 +17,7 @@ and is released under the [MIT Open Source license](LICENSE.md)
 ## Packages included in this repo
 
 | Package | Description | NPM Status
-|--- |---
+|--- |--- |---
 | [botkit](packages/botkit) | Botkit Core library | [![NPM Badge](https://img.shields.io/npm/dw/botkit.svg?logo=npm)](https://www.npmjs.com/package/botkit/) 
 | [botbuilder-adapter-websocket](packages/botbuilder-adapter-websocket) | A platform adapter for the web | [![NPM Badge](https://img.shields.io/npm/dw/botbuilder-adapter-web.svg?logo=npm)](https://www.npmjs.com/package/botbuilder-adapter-web) 
 | [botbuilder-adapter-slack](packages/botbuilder-adapter-slack) | A platform adapter for Slack | [![NPM Badge](https://img.shields.io/npm/dw/botbuilder-adapter-slack.svg?logo=npm)](https://www.npmjs.com/package/botbuilder-adapter-slack) 
