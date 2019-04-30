@@ -89,41 +89,16 @@ server.post('/api/messages', (req, res) => {
 Standard BotBuilder adapter method for continuing an existing conversation based on a conversation reference.
 [BotBuilder reference docs](https://docs.microsoft.com/en-us/javascript/api/botbuilder-core/botadapter?view=botbuilder-ts-latest#continueconversation)
 
-**Parameters**
-
-| Argument | Type | description
-|--- |--- |---
-| reference| Partial&lt;ConversationReference&gt; | A conversation reference to be applied to future messages.
-| logic|  | A bot logic function that will perform continuing action in the form `async(context) => { ... }`<br/>
-
-
 
 <a name="deleteActivity"></a>
 ### deleteActivity()
 Standard BotBuilder adapter method to delete a previous message.
 [BotBuilder reference docs](https://docs.microsoft.com/en-us/javascript/api/botbuilder-core/botadapter?view=botbuilder-ts-latest#deleteactivity).
 
-**Parameters**
-
-| Argument | Type | description
-|--- |--- |---
-| context| TurnContext | A TurnContext representing the current incoming message and environment. (Not used)
-| reference| Partial&lt;ConversationReference&gt; | An object in the form `{activityId: <id of message to delete>}`<br/>
-
-
 
 <a name="processActivity"></a>
 ### processActivity()
 Accept an incoming webhook request and convert it into a TurnContext which can be processed by the bot's logic.
-
-**Parameters**
-
-| Argument | Type | description
-|--- |--- |---
-| req| any | A request object from Restify or Express
-| res| any | A response object from Restify or Express
-| logic|  | A bot logic function in the form `async(context) => { ... }`<br/>
-
 
 
 <a name="sendActivities"></a>
@@ -131,27 +106,11 @@ Accept an incoming webhook request and convert it into a TurnContext which can b
 Standard BotBuilder adapter method to send a message from the bot to the messaging API.
 [BotBuilder reference docs](https://docs.microsoft.com/en-us/javascript/api/botbuilder-core/botadapter?view=botbuilder-ts-latest#sendactivities).
 
-**Parameters**
-
-| Argument | Type | description
-|--- |--- |---
-| context| TurnContext | A TurnContext representing the current incoming message and environment. (Not used)
-| activities|  | An array of outgoing activities to be sent back to the messaging API.<br/>
-
-
 
 <a name="updateActivity"></a>
 ### updateActivity()
 Standard BotBuilder adapter method to update a previous message with new content.
 [BotBuilder reference docs](https://docs.microsoft.com/en-us/javascript/api/botbuilder-core/botadapter?view=botbuilder-ts-latest#updateactivity).
-
-**Parameters**
-
-| Argument | Type | description
-|--- |--- |---
-| context| TurnContext | A TurnContext representing the current incoming message and environment. (Not used)
-| activity| Partial&lt;Activity&gt; | The updated activity in the form `{id: <id of activity to update>, text: <updated text>, cards?: [<array of updated hangouts cards>]}`<br/>
-
 
 
 
@@ -195,13 +154,6 @@ This class includes the following methods:
 ### deleteMessage()
 Delete an existing message.
 
-**Parameters**
-
-| Argument | Type | description
-|--- |--- |---
-| update| Partial&lt;BotkitMessage&gt; | An object in the form of `{id: <id of message to delete>}`<br/>
-
-
 
 ```javascript
 // send a reply, capture the results
@@ -216,14 +168,6 @@ await bot.deleteMessage(sent);
 ### replyInThread()
 Reply to an incoming message in a brand new thread.  Works for a single message reply - if multiple replies or replying with a dialog is necessary, use [startConversationInThread](#startconversationinthread).
 
-**Parameters**
-
-| Argument | Type | description
-|--- |--- |---
-| src| any | An incoming message or event object
-| resp| any | A reply message containing text and/or cards<br/>
-
-
 
 ```javascript
 controller.hears('thread','message', async(bot, message) =>{
@@ -234,14 +178,6 @@ controller.hears('thread','message', async(bot, message) =>{
 <a name="replyWithNew"></a>
 ### replyWithNew()
 Reply to a card_click event with a new message. [See Google doc for interactive cards &rarr;](https://developers.google.com/hangouts/chat/how-tos/cards-onclick#responding_to_clicks_with_a_new_or_updated_message).
-
-**Parameters**
-
-| Argument | Type | description
-|--- |--- |---
-| src| any | An incoming event object representing a card_clicked event
-| resp| Partial&lt;BotkitMessage&gt; | A reply message containing text and/or cards<br/>
-
 
 
 When a user clicks a button contained in a card attachment, a `card_clicked` event will be emitted.
@@ -258,14 +194,6 @@ controller.on('card_clicked', async(bot, message) => {
 <a name="replyWithUpdate"></a>
 ### replyWithUpdate()
 Reply to a card_click event with an update to the original message. [See Google doc for interactive cards &rarr;](https://developers.google.com/hangouts/chat/how-tos/cards-onclick#responding_to_clicks_with_a_new_or_updated_message).
-
-**Parameters**
-
-| Argument | Type | description
-|--- |--- |---
-| src| any | An incoming event object representing a card_clicked event
-| resp| Partial&lt;BotkitMessage&gt; | A reply message containing text and/or cards<br/>
-
 
 
 When a user clicks a button contained in a card attachment, a `card_clicked` event will be emitted.
@@ -284,15 +212,6 @@ controller.on('card_clicked', async(bot, message) => {
 Switch the bot's active context to a new thread.
 Use this to change the location of a bot's responses or calls to beginDialog into a new conversation thread (rather than continuing in the same thread as the originating message)
 
-**Parameters**
-
-| Argument | Type | description
-|--- |--- |---
-| spaceName| string | The name of the main space - usually `message.channel`
-| userId| string | The id of the user conducting the conversation - usually `message.user`
-| threadKey (optional)| string | An optional key definining the thread - if one is not provided, a random one is generated.<br/>
-
-
 
 ```javascript
 controller.hears('new thread', 'message', async(bot, message) => {
@@ -310,13 +229,6 @@ controller.hears('new thread', 'message', async(bot, message) => {
 <a name="updateMessage"></a>
 ### updateMessage()
 Update an existing message with new content.
-
-**Parameters**
-
-| Argument | Type | description
-|--- |--- |---
-| update| Partial&lt;BotkitMessage&gt; | An object in the form `{id: <id of message to update>, text: <new text>, card: <array of card objects>}`<br/>
-
 
 
 ```javascript

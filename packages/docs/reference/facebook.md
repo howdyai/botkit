@@ -108,26 +108,11 @@ const adapter = new FacebookAdapter({
 Standard BotBuilder adapter method for continuing an existing conversation based on a conversation reference.
 [BotBuilder reference docs](https://docs.microsoft.com/en-us/javascript/api/botbuilder-core/botadapter?view=botbuilder-ts-latest#continueconversation)
 
-**Parameters**
-
-| Argument | Type | description
-|--- |--- |---
-| reference| Partial&lt;ConversationReference&gt; | A conversation reference to be applied to future messages.
-| logic|  | A bot logic function that will perform continuing action in the form `async(context) => { ... }`<br/>
-
-
 
 <a name="getAPI"></a>
 ### getAPI()
 Get a Facebook API client with the correct credentials based on the page identified in the incoming activity.
 This is used by many internal functions to get access to the Facebook API, and is exposed as `bot.api` on any BotWorker instances passed into Botkit handler functions.
-
-**Parameters**
-
-| Argument | Type | description
-|--- |--- |---
-| activity| Partial&lt;Activity&gt; | An incoming message activity<br/>
-
 
 
 ```javascript
@@ -140,40 +125,16 @@ let res = api.callAPI('/me/messages', 'POST', message);
 Botkit-only: Initialization function called automatically when used with Botkit.
      * Amends the webhook_uri with an additional behavior for responding to Facebook's webhook verification request.
 
-**Parameters**
-
-| Argument | Type | description
-|--- |--- |---
-| botkit| any | <br/>
-
-
 
 <a name="processActivity"></a>
 ### processActivity()
 Accept an incoming webhook request and convert it into a TurnContext which can be processed by the bot's logic.
-
-**Parameters**
-
-| Argument | Type | description
-|--- |--- |---
-| req| any | A request object from Restify or Express
-| res| any | A response object from Restify or Express
-| logic|  | A bot logic function in the form `async(context) => { ... }`<br/>
-
 
 
 <a name="sendActivities"></a>
 ### sendActivities()
 Standard BotBuilder adapter method to send a message from the bot to the messaging API.
 [BotBuilder reference docs](https://docs.microsoft.com/en-us/javascript/api/botbuilder-core/botadapter?view=botbuilder-ts-latest#sendactivities).
-
-**Parameters**
-
-| Argument | Type | description
-|--- |--- |---
-| context| TurnContext | A TurnContext representing the current incoming message and environment.
-| activities|  | An array of outgoing activities to be sent back to the messaging API.<br/>
-
 
 
 
@@ -231,13 +192,6 @@ let bot = await controller.spawn(FACEBOOK_PAGE_ID);
 Change the operating context of the worker to begin a conversation with a specific user.
 After calling this method, any calls to `bot.say()` or `bot.beginDialog()` will occur in this new context.
 
-**Parameters**
-
-| Argument | Type | description
-|--- |--- |---
-| userId| any | the PSID of a user the bot has previously interacted with<br/>
-
-
 
 This method can be used to send users scheduled messages or messages triggered by external events.
 ```javascript
@@ -290,15 +244,6 @@ await api.callAPI('/some/api','POST', {some_options});
 <a name="callAPI"></a>
 ### callAPI()
 Call one of the Facebook APIs
-
-**Parameters**
-
-| Argument | Type | description
-|--- |--- |---
-| path| string | Path to the API endpoint, for example `/me/messages`
-| method| string | HTTP method, for example POST, GET, DELETE or PUT.
-| payload| any | An object to be sent as parameters to the API call.<br/>
-
 
 
 

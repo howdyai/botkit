@@ -87,41 +87,16 @@ server.post('/api/messages', (req, res) => {
 Standard BotBuilder adapter method for continuing an existing conversation based on a conversation reference.
 [BotBuilder reference docs](https://docs.microsoft.com/en-us/javascript/api/botbuilder-core/botadapter?view=botbuilder-ts-latest#continueconversation)
 
-**Parameters**
-
-| Argument | Type | description
-|--- |--- |---
-| reference| Partial&lt;ConversationReference&gt; | A conversation reference to be applied to future messages.
-| logic|  | A bot logic function that will perform continuing action in the form `async(context) => { ... }`<br/>
-
-
 
 <a name="processActivity"></a>
 ### processActivity()
 Accept an incoming webhook request and convert it into a TurnContext which can be processed by the bot's logic.
-
-**Parameters**
-
-| Argument | Type | description
-|--- |--- |---
-| req| any | A request object from Restify or Express
-| res| any | A response object from Restify or Express
-| logic|  | A bot logic function in the form `async(context) => { ... }`<br/>
-
 
 
 <a name="sendActivities"></a>
 ### sendActivities()
 Standard BotBuilder adapter method to send a message from the bot to the messaging API.
 [BotBuilder reference docs](https://docs.microsoft.com/en-us/javascript/api/botbuilder-core/botadapter?view=botbuilder-ts-latest#sendactivities).
-
-**Parameters**
-
-| Argument | Type | description
-|--- |--- |---
-| context| TurnContext | A TurnContext representing the current incoming message and environment. (Not used)
-| activities|  | An array of outgoing activities to be sent back to the messaging API.<br/>
-
 
 
 
@@ -159,13 +134,6 @@ This class includes the following methods:
 <a name="startConversationWithUser"></a>
 ### startConversationWithUser()
 Start a conversation with a given user identified by their phone number. Useful for sending pro-active messages:
-
-**Parameters**
-
-| Argument | Type | description
-|--- |--- |---
-| userId| string | A phone number in the form +1XXXYYYZZZZ<br/>
-
 
 
 ```javascript

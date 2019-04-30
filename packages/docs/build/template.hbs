@@ -83,19 +83,17 @@ const { {{name}} } = require('{{../packageName}}');
         {{#each methods}}
             <a name="{{name}}"></a>
             ### {{name}}()
+            {{#if parameters}}
+
+                | Argument | Type | description
+                |--- |--- |---
+                {{#each parameters}}
+                | {{name}}{{#if flags.isOptional}} (optional){{/if}}| {{#if type.id}}[{{type.name}}](#{{type.name}}){{else}}{{type.name}}{{/if}}{{#if type.typeArguments}}&lt;{{type.typeArguments.[0].name}}&gt;{{/if}} | {{#if comment.shortText}}{{{no-newline comment.shortText}}}<br/>{{/if}}{{#if comment.text}}{{{no-newline comment.text}}}{{/if}}
+                {{/each}}
+
+            {{/if}}
             {{#each signatures}}
                 {{{comment.shortText}}}
-                {{#if parameters}}
-
-                    **Parameters**
-
-                    | Argument | Type | description
-                    |--- |--- |---
-                    {{#each parameters}}
-                    | {{name}}{{#if flags.isOptional}} (optional){{/if}}| {{#if type.id}}[{{type.name}}](#{{type.name}}){{else}}{{type.name}}{{/if}}{{#if type.typeArguments}}&lt;{{type.typeArguments.[0].name}}&gt;{{/if}} | {{#if comment.shortText}}{{{no-newline comment.shortText}}}<br/>{{/if}}{{#if comment.text}}{{{no-newline comment.text}}}{{/if}}
-                    {{/each}}
-
-                {{/if}}
                 {{#if comment.returns}}
                 
                 **Returns**

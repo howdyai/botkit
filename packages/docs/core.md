@@ -531,7 +531,6 @@ To use Botkit with the Bot Framework channel service, pass in an `adapterConfig`
 
 ```javascript
 const controller = new Botkit({
-    debug: true,
     webhook_uri: '/api/messages',
     adapterConfig: {
         appId: process.env.appId,

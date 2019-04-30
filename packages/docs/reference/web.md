@@ -82,28 +82,11 @@ adapter.createSocketServer(server, options, async(context) => {
 Standard BotBuilder adapter method for continuing an existing conversation based on a conversation reference.
 [BotBuilder reference docs](https://docs.microsoft.com/en-us/javascript/api/botbuilder-core/botadapter?view=botbuilder-ts-latest#continueconversation)
 
-**Parameters**
-
-| Argument | Type | description
-|--- |--- |---
-| reference| Partial&lt;ConversationReference&gt; | A conversation reference to be applied to future messages.
-| logic|  | A bot logic function that will perform continuing action in the form `async(context) => { ... }`<br/>
-
-
 
 <a name="createSocketServer"></a>
 ### createSocketServer()
 Bind a websocket listener to an existing webserver object.
 Note: Create the server using Node's http.createServer
-
-**Parameters**
-
-| Argument | Type | description
-|--- |--- |---
-| server| any | an http server
-| socketOptions| any | additional options passed when creating the websocket server with [WebSocket.server](https://github.com/websockets/ws/blob/master/doc/ws.md#new-websocketserveroptions-callback)
-| logic| any | a turn handler function in the form `async(context)=>{ ... }` that will handle the bot's logic.<br/>
-
 
 
 <a name="init"></a>
@@ -111,40 +94,16 @@ Note: Create the server using Node's http.createServer
 Botkit-only: Initialization function called automatically when used with Botkit.
      * Calls createSocketServer to bind a websocket listener to Botkit's pre-existing webserver.
 
-**Parameters**
-
-| Argument | Type | description
-|--- |--- |---
-| botkit| any | <br/>
-
-
 
 <a name="processActivity"></a>
 ### processActivity()
 Accept an incoming webhook request and convert it into a TurnContext which can be processed by the bot's logic.
-
-**Parameters**
-
-| Argument | Type | description
-|--- |--- |---
-| req| any | A request object from Restify or Express
-| res| any | A response object from Restify or Express
-| logic|  | A bot logic function in the form `async(context) => { ... }`<br/>
-
 
 
 <a name="sendActivities"></a>
 ### sendActivities()
 Standard BotBuilder adapter method to send a message from the bot to the messaging API.
 [BotBuilder reference docs](https://docs.microsoft.com/en-us/javascript/api/botbuilder-core/botadapter?view=botbuilder-ts-latest#sendactivities).
-
-**Parameters**
-
-| Argument | Type | description
-|--- |--- |---
-| context| TurnContext | A TurnContext representing the current incoming message and environment. (not used)
-| activities|  | An array of outgoing activities to be sent back to the messaging API.<br/>
-
 
 
 
