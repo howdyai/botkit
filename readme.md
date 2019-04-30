@@ -1,35 +1,18 @@
-# Botkit Project
+# Botkit
 
 **Botkit is the leading developer tool for building chat bots, apps and custom integrations for major messaging platforms.**
 
+This repository contains the core Botkit library, as well as a series of plugins and extensions for connecting Botkit to messaging and chat platforms and other tools in the bot building ecosystem.
 
-Next Major Release
-
-This branch is home to the next major release of Botkit, which is based on a complete rewrite of the library.
-
-**This is a not a finished product!** We are publishing it now as a preview so our community of 
-developers, users and contributors can get involved. Some features are missing or not working,
-and some features currently included may be removed. 
-
-<a href="https://github.com/howdyai/botkit/projects/9">View the roadmap planning board for this release</a>
-
-GOALS:
-* Keep as much of the feature set, syntax and special sauce developers know and love
-* Solve persistent and hard to solve problems in previous versions of Botkit
-* Use modern JavaScript language features like async/await instead of callbacks
-* Full Typescript support
-* Break platform adapters (and their large dependency trees) into optional packages
-* Reorganize some related projects into a monorepo
-* Inherit much goodness from [Bot Builder](https://github.com/microsoft/botbuilder-js)
-* Provide a way for bots to be extended with plugins and modular features, and for those plugins to provide a consistent interface to administrators
-
+Botkit is part of the [Microsoft Bot Framework](https://dev.botframework.com)
+and is released under the [MIT Open Source license](LICENSE.md)
 
 # Use Botkit
 
 * [Install Botkit and get started](packages/botkit#readme)
-* [Botkit Core Docs](packages/docs/index.md)
-* [Botkit Platform Support](packages/docs/platforms/index.md)
-* [Botkit Class Reference](packages/docs/reference/index.md)
+* [Botkit Core Docs](https://botkit.ai/docs/v4/)
+* [Botkit Platform Support](https://botkit.ai/docs/v4/platforms/)
+* [Botkit Class Reference](https://botkit.ai/docs/v4/reference/)
 
 ## Packages included in this repo
 
