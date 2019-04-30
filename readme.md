@@ -1,6 +1,6 @@
 # Botkit Project
 
-Botkit 
+**Botkit is the leading developer tool for building chat bots, apps and custom integrations for major messaging platforms.**
 
 
 Next Major Release

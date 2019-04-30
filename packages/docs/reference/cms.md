@@ -75,6 +75,14 @@ This class includes the following methods:
 Bind a handler function that will fire after a given dialog ends.
 Provides a way to use BotkitConversation.after() on dialogs loaded dynamically via the CMS api instead of being created in code.
 
+**Parameters**
+
+| Argument | Type | description
+|--- |--- |---
+| script_name| string | The name of the script to bind to
+| handler|  | A handler function in the form async(results, bot) => {}<br/>
+
+
 
 ```javascript
 controller.plugins.cms.after('my_script', async(results, bot) => {
@@ -89,6 +97,15 @@ console.log('my_script just ended! here are the results', results);
 ### before()
 Bind a handler function that will fire before a given script and thread begin.
 Provides a way to use BotkitConversation.before() on dialogs loaded dynamically via the CMS api instead of being created in code.
+
+**Parameters**
+
+| Argument | Type | description
+|--- |--- |---
+| script_name| string | The name of the script to bind to
+| thread_name| string | The name of a thread within the script to bind to
+| handler|  | A handler function in the form async(convo, bot) => {}<br/>
+
 
 
 ```javascript
@@ -107,16 +124,39 @@ controller.cms.before('my_script','my_thread', async(convo, bot) => {
 Botkit plugin init function
 Autoloads all scripts into the controller's main dialogSet.
 
+**Parameters**
+
+| Argument | Type | description
+|--- |--- |---
+| botkit| any | A Botkit controller object<br/>
+
+
 
 <a name="loadAllScripts"></a>
 ### loadAllScripts()
 Load all script content from the configured CMS instance into a DialogSet and prepare them to be used.
+
+**Parameters**
+
+| Argument | Type | description
+|--- |--- |---
+| dialogSet| DialogSet | A DialogSet into which the dialogs should be loaded.  In most cases, this is `controller.dialogSet`, allowing Botkit to access these dialogs through `bot.beginDialog()`.<br/>
+
 
 
 <a name="onChange"></a>
 ### onChange()
 Bind a handler function that will fire when a given variable is set within a a given script.
 Provides a way to use BotkitConversation.onChange() on dialogs loaded dynamically via the CMS api instead of being created in code.
+
+**Parameters**
+
+| Argument | Type | description
+|--- |--- |---
+| script_name| string | The name of the script to bind to
+| variable_name| string | The name of a variable within the script to bind to
+| handler|  | A handler function in the form async(value, convo, bot) => {}<br/>
+
 
 
 ```javascript
@@ -132,6 +172,14 @@ console.log('A new value got set for my_variable inside my_script: ', new_value)
 ### testTrigger()
 Uses the Botkit CMS trigger API to test an incoming message against a list of predefined triggers.
 If a trigger is matched, the appropriate dialog will begin immediately.
+
+**Parameters**
+
+| Argument | Type | description
+|--- |--- |---
+| bot| BotWorker | The current bot worker instance
+| message| Partial&lt;BotkitMessage&gt; | An incoming message to be interpretted
+
 
 **Returns**
 

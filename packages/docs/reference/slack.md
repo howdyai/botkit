@@ -111,6 +111,13 @@ const adapter = new SlackAdapter({
 ### activityToSlack()
 Formats a BotBuilder activity into an outgoing Slack message.
 
+**Parameters**
+
+| Argument | Type | description
+|--- |--- |---
+| activity| Partial&lt;Activity&gt; | A BotBuilder Activity object
+
+
 **Returns**
 
 a Slack message object with {text, attachments, channel, thread_ts} as well as any fields found in activity.channelData
@@ -123,11 +130,27 @@ a Slack message object with {text, attachments, channel, thread_ts} as well as a
 Standard BotBuilder adapter method for continuing an existing conversation based on a conversation reference.
 [BotBuilder reference docs](https://docs.microsoft.com/en-us/javascript/api/botbuilder-core/botadapter?view=botbuilder-ts-latest#continueconversation)
 
+**Parameters**
+
+| Argument | Type | description
+|--- |--- |---
+| reference| Partial&lt;ConversationReference&gt; | A conversation reference to be applied to future messages.
+| logic|  | A bot logic function that will perform continuing action in the form `async(context) => { ... }`<br/>
+
+
 
 <a name="deleteActivity"></a>
 ### deleteActivity()
 Standard BotBuilder adapter method to delete a previous message.
 [BotBuilder reference docs](https://docs.microsoft.com/en-us/javascript/api/botbuilder-core/botadapter?view=botbuilder-ts-latest#deleteactivity).
+
+**Parameters**
+
+| Argument | Type | description
+|--- |--- |---
+| context| TurnContext | A TurnContext representing the current incoming message and environment.
+| reference| Partial&lt;ConversationReference&gt; | An object in the form `{activityId: <id of message to delete>, conversation: { id: <id of slack channel>}}`<br/>
+
 
 
 <a name="getAPI"></a>
@@ -135,12 +158,26 @@ Standard BotBuilder adapter method to delete a previous message.
 Get a Slack API client with the correct credentials based on the team identified in the incoming activity.
 This is used by many internal functions to get access to the Slack API, and is exposed as `bot.api` on any bot worker instances.
 
+**Parameters**
+
+| Argument | Type | description
+|--- |--- |---
+| activity| Partial&lt;Activity&gt; | An incoming message activity<br/>
+
+
 
 <a name="getBotUserByTeam"></a>
 ### getBotUserByTeam()
 Get the bot user id associated with the team on which an incoming activity originated. This is used internally by the SlackMessageTypeMiddleware to identify direct_mention and mention events.
 In single-team mode, this will pull the information from the Slack API at launch.
 In multi-team mode, this will use the `getBotUserByTeam` method passed to the constructor to pull the information from a developer-defined source.
+
+**Parameters**
+
+| Argument | Type | description
+|--- |--- |---
+| activity| Activity | An incoming message activity<br/>
+
 
 
 <a name="getInstallLink"></a>
@@ -167,11 +204,28 @@ controller.webserver.get('/install', (req, res) => {
 ### processActivity()
 Accept an incoming webhook request and convert it into a TurnContext which can be processed by the bot's logic.
 
+**Parameters**
+
+| Argument | Type | description
+|--- |--- |---
+| req| any | A request object from Restify or Express
+| res| any | A response object from Restify or Express
+| logic|  | A bot logic function in the form `async(context) => { ... }`<br/>
+
+
 
 <a name="sendActivities"></a>
 ### sendActivities()
 Standard BotBuilder adapter method to send a message from the bot to the messaging API.
 [BotBuilder reference docs](https://docs.microsoft.com/en-us/javascript/api/botbuilder-core/botadapter?view=botbuilder-ts-latest#sendactivities).
+
+**Parameters**
+
+| Argument | Type | description
+|--- |--- |---
+| context| TurnContext | A TurnContext representing the current incoming message and environment.
+| activities|  | An array of outgoing activities to be sent back to the messaging API.<br/>
+
 
 
 <a name="updateActivity"></a>
@@ -179,10 +233,25 @@ Standard BotBuilder adapter method to send a message from the bot to the messagi
 Standard BotBuilder adapter method to update a previous message with new content.
 [BotBuilder reference docs](https://docs.microsoft.com/en-us/javascript/api/botbuilder-core/botadapter?view=botbuilder-ts-latest#updateactivity).
 
+**Parameters**
+
+| Argument | Type | description
+|--- |--- |---
+| context| TurnContext | A TurnContext representing the current incoming message and environment.
+| activity| Partial&lt;Activity&gt; | The updated activity in the form `{id: <id of activity to update>, ...}`<br/>
+
+
 
 <a name="validateOauthCode"></a>
 ### validateOauthCode()
 Validates an oauth code sent by Slack during the install process.
+
+**Parameters**
+
+| Argument | Type | description
+|--- |--- |---
+| code| string | the value found in `req.query.code` as part of Slack's response to the oauth flow.<br/>
+
 
 
 An example using Botkit's internal webserver to configure the /install/auth route:
@@ -266,6 +335,13 @@ or send proactive alerts to users on a schedule or in response to external event
 ### deleteMessage()
 Delete an existing message.
 
+**Parameters**
+
+| Argument | Type | description
+|--- |--- |---
+| update| Partial&lt;BotkitMessage&gt; | An object in the form of `{id: <id of message to delete>, conversation: { id: <channel of message> }}`<br/>
+
+
 
 ```javascript
 // send a reply, capture the results
@@ -281,21 +357,52 @@ await bot.deleteMessage(sent);
 Return 1 or more error to a `dialog_submission` event that will be displayed as form validation errors.
 Each error must be mapped to the name of an input in the dialog.
 
+**Parameters**
+
+| Argument | Type | description
+|--- |--- |---
+| errors|  | 1 or more objects in form {name: string, error: string}<br/>
+
+
 
 <a name="replyEphemeral"></a>
 ### replyEphemeral()
 Like bot.reply, but sent as an "ephemeral" message meaning only the recipient can see it.
 Uses [chat.postEphemeral](https://api.slack.com/methods/chat.postEphemeral)
 
+**Parameters**
+
+| Argument | Type | description
+|--- |--- |---
+| src| any | an incoming message object
+| resp| any | an outgoing message object (or part of one or just reply text)<br/>
+
+
 
 <a name="replyInThread"></a>
 ### replyInThread()
 Like bot.reply, but as a threaded response to the incoming message rather than a new message in the main channel.
 
+**Parameters**
+
+| Argument | Type | description
+|--- |--- |---
+| src| any | an incoming message object
+| resp| any | an outgoing message object (or part of one or just reply text)<br/>
+
+
 
 <a name="replyInteractive"></a>
 ### replyInteractive()
 Like bot.reply, but used to respond to an `interactive_message` event and cause the original message to be replaced with a new one.
+
+**Parameters**
+
+| Argument | Type | description
+|--- |--- |---
+| src| any | an incoming message object of type `interactive_message`
+| resp| any | a new or modified message that will replace the original one<br/>
+
 
 
 <a name="replyPrivate"></a>
@@ -303,22 +410,54 @@ Like bot.reply, but used to respond to an `interactive_message` event and cause 
 Like bot.reply, but used to send an immediate private reply to a /slash command.
 The message in `resp` will be displayed only to the person who executed the slash command.
 
+**Parameters**
+
+| Argument | Type | description
+|--- |--- |---
+| src| any | an incoming message object of type `slash_command`
+| resp| any | an outgoing message object (or part of one or just reply text)<br/>
+
+
 
 <a name="replyPublic"></a>
 ### replyPublic()
 Like bot.reply, but used to send an immediate public reply to a /slash command.
 The message in `resp` will be displayed to everyone in the channel.
 
+**Parameters**
+
+| Argument | Type | description
+|--- |--- |---
+| src| any | an incoming message object of type `slash_command`
+| resp| any | an outgoing message object (or part of one or just reply text)<br/>
+
+
 
 <a name="replyWithDialog"></a>
 ### replyWithDialog()
 Reply to a button click with a request to open a dialog.
+
+**Parameters**
+
+| Argument | Type | description
+|--- |--- |---
+| src| any | An incoming `interactive_callback` event containing a `trigger_id` field
+| dialog_obj| Dialog | A dialog, as created using [SlackDialog](#SlackDialog) or [authored to this spec](https://api.slack.com/dialogs).<br/>
+
 
 
 <a name="startConversationInChannel"></a>
 ### startConversationInChannel()
 Switch a bot's context into a different channel.
 After calling this method, messages sent with `bot.say` and any dialogs started with `bot.beginDialog` will occur in this new context.
+
+**Parameters**
+
+| Argument | Type | description
+|--- |--- |---
+| channelId| string | A Slack channel id, like one found in `message.channel`
+| userId| string | A Slack user id, like one found in `message.user` or in a `<@mention>`<br/>
+
 
 
 ```javascript
@@ -340,6 +479,15 @@ controller.hears('dm me', 'message', async(bot, message) => {
 Switch a bot's context into a specific sub-thread within a channel.
 After calling this method, messages sent with `bot.say` and any dialogs started with `bot.beginDialog` will occur in this new context.
 
+**Parameters**
+
+| Argument | Type | description
+|--- |--- |---
+| channelId| string | A Slack channel id, like one found in `message.channel`
+| userId| string | A Slack user id, like one found in `message.user` or in a `<@mention>`
+| thread_ts| string | A thread_ts value found in the `message.thread_ts` or `message.ts` field.<br/>
+
+
 
 ```javascript
 controller.hears('in a thread', 'message', async(bot, message) => {
@@ -359,6 +507,13 @@ controller.hears('in a thread', 'message', async(bot, message) => {
 ### startPrivateConversation()
 Switch a bot's context to a 1:1 private message channel with a specific user.
 After calling this method, messages sent with `bot.say` and any dialogs started with `bot.beginDialog` will occur in this new context.
+
+**Parameters**
+
+| Argument | Type | description
+|--- |--- |---
+| userId| string | A Slack user id, like one found in `message.user` or in a `<@mention>`<br/>
+
 
 
 ```javascript
@@ -390,6 +545,13 @@ await bot.beginDialog(ALERT_DIALOG);
 <a name="updateMessage"></a>
 ### updateMessage()
 Update an existing message with new content.
+
+**Parameters**
+
+| Argument | Type | description
+|--- |--- |---
+| update| Partial&lt;BotkitMessage&gt; | An object in the form `{id: <id of message to update>, conversation: { id: <channel> }, text: <new text>, card: <array of card objects>}`<br/>
+
 
 
 ```javascript
@@ -465,35 +627,108 @@ Create a new dialog object
 ### addEmail()
 Add an email input to the dialog
 
+**Parameters**
+
+| Argument | Type | description
+|--- |--- |---
+| label| string | 
+| name| string | 
+| value| string | 
+| options (optional)| any | <br/>
+
+
 
 <a name="addNumber"></a>
 ### addNumber()
 Add a number input to the dialog
+
+**Parameters**
+
+| Argument | Type | description
+|--- |--- |---
+| label| string | 
+| name| string | 
+| value| string | 
+| options (optional)| any | <br/>
+
 
 
 <a name="addSelect"></a>
 ### addSelect()
 Add a dropdown select input to the dialog
 
+**Parameters**
+
+| Argument | Type | description
+|--- |--- |---
+| label| string | 
+| name| string | 
+| value| string | 
+| option_list| string | 
+| options (optional)| any | <br/>
+
+
 
 <a name="addTel"></a>
 ### addTel()
 Add a telephone number input to the dialog
+
+**Parameters**
+
+| Argument | Type | description
+|--- |--- |---
+| label| string | 
+| name| string | 
+| value| string | 
+| options (optional)| any | <br/>
+
 
 
 <a name="addText"></a>
 ### addText()
 Add a text input to the dialog
 
+**Parameters**
+
+| Argument | Type | description
+|--- |--- |---
+| label|  | 
+| name| string | 
+| value| string | 
+| options|  | 
+| subtype (optional)| string | <br/>
+
+
 
 <a name="addTextarea"></a>
 ### addTextarea()
 Add a text area input to the dialog
 
+**Parameters**
+
+| Argument | Type | description
+|--- |--- |---
+| label| string | 
+| name| string | 
+| value| string | 
+| options| any | 
+| subtype| string | <br/>
+
+
 
 <a name="addUrl"></a>
 ### addUrl()
 Add a URL input to the dialog
+
+**Parameters**
+
+| Argument | Type | description
+|--- |--- |---
+| label| string | 
+| name| string | 
+| value| string | 
+| options (optional)| any | <br/>
+
 
 
 <a name="asObject"></a>
@@ -510,25 +745,60 @@ Get the dialog object as a JSON encoded string.
 ### callback_id()
 Set the dialog's callback_id
 
+**Parameters**
+
+| Argument | Type | description
+|--- |--- |---
+| v| string | Value for the callback_id<br/>
+
+
 
 <a name="notifyOnCancel"></a>
 ### notifyOnCancel()
 Set true to have Slack notify you with a `dialog_cancellation` event if a user cancels the dialog without submitting
+
+**Parameters**
+
+| Argument | Type | description
+|--- |--- |---
+| set| boolean | True or False<br/>
+
 
 
 <a name="state"></a>
 ### state()
 Set the dialog's state field
 
+**Parameters**
+
+| Argument | Type | description
+|--- |--- |---
+| v| any | value for state<br/>
+
+
 
 <a name="submit_label"></a>
 ### submit_label()
 Set the button text for the submit button on the dialog
 
+**Parameters**
+
+| Argument | Type | description
+|--- |--- |---
+| v| string | Value for the button label<br/>
+
+
 
 <a name="title"></a>
 ### title()
 Set the title of the dialog
+
+**Parameters**
+
+| Argument | Type | description
+|--- |--- |---
+| v| string | Value for title<br/>
+
 
 
 
@@ -574,6 +844,14 @@ This class includes the following methods:
 <a name="onTurn"></a>
 ### onTurn()
 Not for direct use - implements the MiddlewareSet's required onTurn function used to process the event
+
+**Parameters**
+
+| Argument | Type | description
+|--- |--- |---
+| context| TurnContext | 
+| next|  | <br/>
+
 
 
 
@@ -621,6 +899,14 @@ This class includes the following methods:
 <a name="onTurn"></a>
 ### onTurn()
 Not for direct use - implements the MiddlewareSet's required onTurn function used to process the event
+
+**Parameters**
+
+| Argument | Type | description
+|--- |--- |---
+| context| TurnContext | 
+| next|  | <br/>
+
 
 
 
