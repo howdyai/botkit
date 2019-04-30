@@ -61,7 +61,7 @@ Additional adapters can be found by searching npm for [Bot Framework-compatible 
 
 Most bots do their thing by listening for keywords, phrases or patterns in messages from users. Botkit has a special event handler called `hears()` that makes it easy to configure your bot to listen for this type of trigger.
 
-```
+```javascript
 controller.hears(['string','pattern .*',new RegExp('.*','i')],'message,other_event', async (bot, message) => {
 
   // do something!
@@ -121,12 +121,9 @@ controller.middleware.send.use(function(bot, message, next) {
 
 });
 ```
-## [Documentation](../docs)
+## Documentation
 
-The main documentation for Botkit, including class references for all included packages,
-is currently in [in this package](../docs). 
-
-TODO: update with a table of contents and link to published versions of the docs
+[Full documentation of Botkit, including a class reference, can be found on the docs site](https://botkit.ai/docs/v4), as well as [on Github](../docs/index.md).
 
 ## [Change Log](https://github.com/howdyai/botkit/blob/master/changelog.md)
 
