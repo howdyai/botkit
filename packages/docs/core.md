@@ -608,11 +608,46 @@ Plugin related methods:
 
 ## Middlwares
 
-ingest
+Botkit middleware functions can be used to inspect and modify messages as they pass through.
+There are a few types of middleware in the Botkit universe: 
 
-receive
+* Botkit middleware - changes the way Botkit itself handles messages
+* BotBuilder adapter middleware - changes the way the platform translation layer handles messages
+* Webserver middleware - changes the way the web server handles requests
 
-send
+### Bokit Middleware
 
+Middleware can do things like:
+* Log information about incoming and outgoing activity for debugging, analytics or other services
+* Amend messages with additional information - for example, call an NLP service and add an "intent" field
+* Intercept messages and prevent them from being processed
+* Change the type of the resulting event that will be emitted
 
-TODO:
+There are three endpoints available to register middleware functions:
+
+| Name | Description
+|--- |---
+| ingest | occurs immediately after the message has been received, before any other processing
+| receive | occurs after the message has been evaluated for interruptions and for inclusion in an ongoing dialog. signals the receipt of a message that needs to be handled.
+| send | occurs just before a message is sent out of the bot to the messaging platform
+
+Middleware functions are in the form:
+
+```javascript
+function myBotkitMiddleware(bot, message, next) { 
+    // do stuff
+
+    // call next, or else the message will be intercepted
+    next();
+}
+```
+
+To enable a middleware, register it at the appropriate endpoint:
+
+```javascript
+controller.middleware.ingest.use(myBotkitMiddleware);
+```
+
+### BotBuilder Adapter Middleware
+
+### Webserver Middleware
