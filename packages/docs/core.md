@@ -3,10 +3,14 @@
 Table of Contents
 
 * [The Botkit Controller](#the-botkit-controller)
+* [Botkit Basics](#botkit-basics)
 * [Receiving Messages](#receiving-messages-and-events)
 * [Sending Messages](#sending-messages)
 * [Using Dialogs](#using-dialogs)
-
+* [Organize Your Bot Code](#organize-your-bot-code)
+* [Using Bot Framework Channels](#using-bot-framework-channels)
+* [Building & Using Plugins](#building--using-plugins)
+* [Middlewares](#middlewares)
 
 ## The Botkit Controller
 
@@ -476,7 +480,7 @@ botkit.hears(['hello'], 'message', async(bot, message) => {
 });
 ```
 
-## Enable Conversation Persistence
+### Enable Conversation Persistence
 
 Bots that [use dialogs](#using-dialogs) for complex interactions require the ability to store and retrieve the conversation state from an external source such as a database. Without a storage mechanism in place, the bot will "forget" the state of conversations when the application is restarted.
 

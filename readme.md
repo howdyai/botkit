@@ -1,4 +1,9 @@
-# Botkit Next Major Release
+# Botkit Project
+
+Botkit 
+
+
+Next Major Release
 
 This branch is home to the next major release of Botkit, which is based on a complete rewrite of the library.
 
