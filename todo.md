@@ -7,8 +7,6 @@
 
 # core
 
-    * botbuilder card builders?
-    * ears? check for intent, others?
 
 # docs
 
@@ -85,3 +83,6 @@
     * will have to update any existing pull requests to point at that branch
     * create automatic redirect from /docs to /docs/v0 --- ??? or maybe v4??
     * update cms "options" page to reflect use with botkit-plugin-cms
+    * botbuilder card builders?
+    * ears? check for intent, others?
+    * how to determine what is active dialog / do contextual help

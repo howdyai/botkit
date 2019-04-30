@@ -7,6 +7,7 @@
  */
 import { Botkit, BotkitMessage } from './core';
 import { Activity, ConversationAccount, ConversationReference, ConversationParameters, TurnContext } from 'botbuilder';
+import { DialogTurnResult } from 'botbuilder-dialogs';
 
 /**
  * A base class for a `bot` instance, an object that contains the information and functionality for taking action in response to an incoming message.
@@ -162,6 +163,15 @@ export class BotWorker {
             await this._controller.saveState(this);
         } else {
             throw new Error('Call to beginDialog on a bot that did not receive a dialogContext during spawn');
+        }
+    }
+
+    /**
+     * Cancel any and all active dialogs for the current user/context.
+     */
+    public async cancelAllDialogs(): Promise<DialogTurnResult> {
+        if (this._config.dialogContext) {
+            return this._config.dialogContext.cancelAllDialogs()
         }
     }
 

@@ -12,14 +12,14 @@
 
 [**New to Botkit?** Read our full guide to getting started with Botkit](/getstarted.html).
 
-### **Remix on Glitch**
+### Remix on Glitch
 
 Want to dive right in? [Remix one of our starter kits on Glitch](https://glitch.com/botkit). You'll start with a fully functioning app that you can edit and run from the browser!
 
  [![Remix on Glitch](glitch.png)](https://glitch.com/botkit)
 
 
-### **Command Line Interface**
+### Command Line Interface
 
 The best way to get started locally with Botkit is by installing our command line tool, and using it to create a new Botkit project. This will install and configure a starter kit for you!
 

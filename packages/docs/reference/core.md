@@ -179,7 +179,7 @@ controller.plugins.foo.stuff();
 
 <a name="afterDialog"></a>
 ### afterDialog()
-Bind a handler to the END of a dialog.
+Bind a handler to the end of a dialog.
 NOTE: bot worker cannot use bot.reply(), must use bot.send()
 
 **Parameters**
@@ -190,6 +190,8 @@ NOTE: bot worker cannot use bot.reply(), must use bot.send()
 | handler| [BotkitHandler](#BotkitHandler) | a handler function in the form `async(bot, dialog_results) => {}`<br/>
 
 
+
+[Learn more about handling end-of-conversation](../docs/conversations.md#handling-end-of-conversation)
 
 <a name="completeDep"></a>
 ### completeDep()
@@ -547,6 +549,7 @@ const { BotWorker } = require('botkit');
 
 This class includes the following methods:
 * [beginDialog()](#beginDialog)
+* [cancelAllDialogs()](#cancelAllDialogs)
 * [changeContext()](#changeContext)
 * [ensureMessageFormat()](#ensureMessageFormat)
 * [getConfig()](#getConfig)
@@ -596,6 +599,11 @@ controller.hears('hello', 'message', async(bot, message) => {
      await bot.beginDialog(GREETINGS_DIALOG);
 });
 ```
+
+<a name="cancelAllDialogs"></a>
+### cancelAllDialogs()
+Cancel any and all active dialogs for the current user/context.
+
 
 <a name="changeContext"></a>
 ### changeContext()

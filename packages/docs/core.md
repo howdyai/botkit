@@ -89,15 +89,28 @@ controller.hears(['hi','hello','howdy','hey','aloha','hola','bonjour','oi'],['me
 });
 ```
 
-**Interruptions**
+### Interruptions
 
 Some bots have certain operations that should take precidence, even if that means stopping or interupting an ongoing conversation. Near universal examples of this are providing a "help" command, and providing a "quit" mechanism.
 
-For this type of trigger, Botkit provides a version of "hearing" that occurs _before_ any other processing of the message: [interrupts()](reference/core.md#interrupts). Botkit will look for interruptions before passing the message through the dialog system, and before looking for any other triggers.
+For this type of trigger, Botkit provides a version of "hearing" that occurs _before_ any other processing of the message: [interrupts()](reference/core.md#interrupts). Botkit will look for interruptions before passing the message through the dialog system, and before looking for any other triggers. `interrupts()` works just like `hears()` - it takes the same parameters, and functions the same way: if a trigger is matched, further processing of the message is halted.
+
+[Learn more about ways to combine multiple dialogs into bigger experiences](conversations.md#composing-dialogs)
 
 
+```javascript
+controller.interrupts('help', 'message', async(bot, message) => {
+    // start a help dialog, then eventually resume any ongoing dialog
+    await bot.beginDialog(HELP_DIALOG);
+});
 
-// TODO: write about interruptions!
+controller.interrupts('quit', 'message', async(bot, message) => {
+    await bot.reply(message, 'Quitting!');
+
+    // cancel any active dialogs
+    await bot.cancelAllDialogs();
+});
+```
 
 ### Matching regular expressions
 
@@ -489,11 +502,14 @@ const controller = new Botkit({
 
 ## Organize Your Bot Code
 
-// TODO: talk about the yeoman template and starter kits
+The [recommended application structure](advanced.md#anatomy-of-a-botkit-app) can created quickly by using the [Yeoman Generator](index.md#install-botkit)
+or one of the remixable starter kits.
 
-We recommend bundling your bot's features into simple JavaScript modules, and then loading them into your app using `controller.loadModules('path/to/modules')`.
+A Botkit application usually has 2 main components: a main app file called `bot.js` where Botkit is configured, and a folder of modules that get automatically loaded into the application.
 
-Make sure your modules follow the form below:
+The bot's features - all of the stuff involved in defining trigger patterns, dialogs, custom middlewares and handlers - are organized into JavaScript modules, and then loaded into the app using [controller.loadModules()](reference/core.md#loadmodules). Each feature file should contain only the code required for a specific feature. This will help to keep the project code well organized and modular.
+
+The feature modules follow the form below:
 
 ```javascript
 module.exports = function(controller) {
@@ -522,14 +538,31 @@ const controller = new Botkit({
 
 ## Building & Using Plugins
 
-TODO:
+Botkit includes a plugin loader that allows external packages to plugin to and modify the Botkit application.
 
-* controller.usePlugin()
-* controller.addPluginExtension()
-* controller.plugins
-* controller.getLocalView()
-* controller.publicFolder()
+Plugins can:
+* Include middleware that is automatically applied
+* Make additional extension methods available for the bot to use
+* Add web routes to the application
+* Expose static assets to the web server
+* Define dialogs, triggers and handlers
+* Be packaged and published as self-contained JavaScript modules
+
+
+Plugin related methods:
+* [controller.usePlugin()](reference/core.md#useplugin)
+* [controller.addPluginExtension()](reference/core.md#addpluginextension)
+* [controller.getLocalView()](reference/core.md#getlocalview)
+* [controller.publicFolder()](reference/core.md#publicfolder)
+* [controller.plugins](reference/core.md#properties-and-accessors)
 
 ## Middlwares
+
+ingest
+
+receive
+
+send
+
 
 TODO:

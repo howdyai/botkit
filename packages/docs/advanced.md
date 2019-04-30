@@ -1,10 +1,10 @@
 # Advanced topics
 
-* What causes the error: `UnhandledPromiseRejectionWarning: TypeError: Cannot perform 'get' on a proxy that has been revoked`
+## What causes the error: `UnhandledPromiseRejectionWarning: TypeError: Cannot perform 'get' on a proxy that has been revoked`
 
-* what's different between 0.7 and 4.0?
+## what's different between 0.7 and 4.0?
 
-* How to upgrade from 0.7 to 4.0
+## How to upgrade from 0.7 to 4.0
 
     * you may need to update your node version. we suggest using the lts version.
 
@@ -28,8 +28,6 @@ convo changes:
 * can use bot.say to send adhoc messages
 * convo.before takes a thread name, to fire before anything, set that to default.
 
-
-
 FROM:
 ```
 bot.hears('foo', 'message_received', function(bot, message) { 
@@ -44,13 +42,37 @@ bot.hears('foo', 'message', async(bot, message) => {
 });
 ```
 
+## Anatomy of a Botkit App
 
-* anatomy of a botkit app
+File structure:
 
-* typescript
+* main app file (normally bot.js)
+* features/ folder
+* .env file
+* package.json file
 
-* hearing other types of things
+in bot.js:
+
+* create adapter
+* create botkit
+* load any middlewares or plugins
+* use `controller.loadModules()` to load features/ folder
+
+in features/ folder:
+
+modules in the form:
+
+```javascript
+module.exports = function(controller) {
+    // some code here.
+}
+```
+
+
+## Typescript
+
+## Hearing other types of things
     * lambda
     * regexps
 
-* how to build a new adapter
+## How to build a new adapter
