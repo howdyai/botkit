@@ -23,7 +23,7 @@ Want to dive right in? [Remix one of our starter kits on Glitch](https://glitch.
 
 The best way to get started locally with Botkit is by installing our command line tool, and using it to create a new Botkit project. This will install and configure a starter kit for you!
 
-```
+```bash
 npm install -g yo generator-botkit
 yo botkit
 ```
@@ -34,13 +34,13 @@ You can also add Botkit into an existing Node application.
 
 First, add it to your project:
 
-```
+```bash
 npm install --save botkit
 ```
 
 Then, add Botkit to your application code:
 
-```
+```javascript
 var Botkit = require('botkit');
 
 var controller = new Botkit(MY_CONFIGURATION);
