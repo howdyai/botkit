@@ -1,6 +1,6 @@
 # Botkit CMS Plugin Class Reference
 
-[&larr; Botkit Documentation](../#readme) [&larr; Class Index](index.md) 
+[&larr; Botkit Documentation](../core.md) [&larr; Class Index](index.md) 
 
 This is a class reference for all the methods exposed by the [botkit-plugin-cms](https://github.com/howdyai/botkit/tree/next/packages/botkit-plugin-cms) package.
 

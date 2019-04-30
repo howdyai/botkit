@@ -1,4 +1,4 @@
-[&larr; Botkit Documentation](../#readme)  [&larr; Platform Index](index.md) 
+[&larr; Botkit Documentation](../core.md)  [&larr; Platform Index](index.md) 
 
 # botbuilder-adapter-facebook
 Connect [Botkit](https://www.npmjs.com/package/botkit) or [BotBuilder](https://www.npmjs.com/package/botbuilder) to Facebook Messenger.

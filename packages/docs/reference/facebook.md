@@ -1,6 +1,6 @@
 # Botkit for Facebook Class Reference
 
-[&larr; Botkit Documentation](../#readme) [&larr; Class Index](index.md) 
+[&larr; Botkit Documentation](../core.md) [&larr; Class Index](index.md) 
 
 This is a class reference for all the methods exposed by the [botbuilder-adapter-facebook](https://github.com/howdyai/botkit/tree/next/packages/botbuilder-adapter-facebook) package.
 

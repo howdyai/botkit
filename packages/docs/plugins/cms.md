@@ -1,4 +1,4 @@
-[&larr; Botkit Documentation](../#readme)  [&larr; Plugin Index](index.md) 
+[&larr; Botkit Documentation](../core.md)  [&larr; Plugin Index](index.md) 
 
 # botkit-plugin-cms
 
