@@ -6526,7 +6526,7 @@
                   "flags": {},
                   "comment": {
                     "shortText": "Bind a function to run after the dialog has completed.\nThe first parameter to the handler will include a hash of all variables set and values collected from the user during the conversation.\nThe second parameter to the handler is a BotWorker object that can be used to start new dialogs or take other actions.",
-                    "text": "[Learn more about handling end of conversation](../conversation.md#handling-end-of-conversation)\n```javascript\nlet convo = new BotkitConversation(MY_CONVO, controller);\nconvo.ask('What is your name?', [], 'name');\nconvo.ask('What is your age?', [], 'age');\nconvo.ask('What is your favorite color?', [], 'color');\nconvo.after(async(results, bot) => {\n\n     // handle results.name, results.age, results.color\n\n});\ncontroller.addDialog(convo);\n```\n"
+                    "text": "[Learn more about handling end of conversation](../conversations.md#handling-end-of-conversation)\n```javascript\nlet convo = new BotkitConversation(MY_CONVO, controller);\nconvo.ask('What is your name?', [], 'name');\nconvo.ask('What is your age?', [], 'age');\nconvo.ask('What is your favorite color?', [], 'color');\nconvo.after(async(results, bot) => {\n\n     // handle results.name, results.age, results.color\n\n});\ncontroller.addDialog(convo);\n```\n"
                   },
                   "parameters": [
                     {
@@ -7664,7 +7664,7 @@
                   "flags": {},
                   "comment": {
                     "shortText": "Bind a function to run after the dialog has completed.\nThe first parameter to the handler will include a hash of all variables set and values collected from the user during the conversation.\nThe second parameter to the handler is a BotWorker object that can be used to start new dialogs or take other actions.",
-                    "text": "[Learn more about handling end of conversation](../conversation.md#handling-end-of-conversation)\n```javascript\nlet convo = new BotkitConversation(MY_CONVO, controller);\nconvo.ask('What is your name?', [], 'name');\nconvo.ask('What is your age?', [], 'age');\nconvo.ask('What is your favorite color?', [], 'color');\nconvo.after(async(results, bot) => {\n\n     // handle results.name, results.age, results.color\n\n});\ncontroller.addDialog(convo);\n```\n"
+                    "text": "[Learn more about handling end of conversation](../conversations.md#handling-end-of-conversation)\n```javascript\nlet convo = new BotkitConversation(MY_CONVO, controller);\nconvo.ask('What is your name?', [], 'name');\nconvo.ask('What is your age?', [], 'age');\nconvo.ask('What is your favorite color?', [], 'color');\nconvo.after(async(results, bot) => {\n\n     // handle results.name, results.age, results.color\n\n});\ncontroller.addDialog(convo);\n```\n"
                   },
                   "parameters": [
                     {

@@ -1046,7 +1046,7 @@ The second parameter to the handler is a BotWorker object that can be used to st
 
 
 
-[Learn more about handling end of conversation](../conversation.md#handling-end-of-conversation)
+[Learn more about handling end of conversation](../conversations.md#handling-end-of-conversation)
 ```javascript
 let convo = new BotkitConversation(MY_CONVO, controller);
 convo.ask('What is your name?', [], 'name');

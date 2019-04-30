@@ -431,7 +431,7 @@ export class BotkitConversation<O extends object = {}> extends Dialog<O> {
      * The first parameter to the handler will include a hash of all variables set and values collected from the user during the conversation.
      * The second parameter to the handler is a BotWorker object that can be used to start new dialogs or take other actions.
      *
-     * [Learn more about handling end of conversation](../conversation.md#handling-end-of-conversation)
+     * [Learn more about handling end of conversation](../conversations.md#handling-end-of-conversation)
      * ```javascript
      * let convo = new BotkitConversation(MY_CONVO, controller);
      * convo.ask('What is your name?', [], 'name');
