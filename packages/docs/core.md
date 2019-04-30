@@ -653,7 +653,7 @@ controller.middleware.ingest.use(myBotkitMiddleware);
 BotBuilder adapters like those used by Botkit also support middleware.  Some of the adapters included in the Botkit project use these middleware to modify the "native" BotBuilder activity objects along the way so that they play nicer with Botkit -- for example, see [SlackEventMiddleware](reference/slack.md#slackeventmiddleware).
 
 Middleware for BotBuilder works on a similar principle as Botkit, but comes in a different form.
-In addition, BotBuilder middleware work on Activity objects, not Botkit messages.  [Read more about BotBuilder middleware here &rarr](https://docs.microsoft.com/en-us/azure/bot-service/bot-builder-concept-middleware?view=azure-bot-service-4.0)
+In addition, BotBuilder middleware work on Activity objects, not Botkit messages.  [Read more about BotBuilder middleware here &rarr;](https://docs.microsoft.com/en-us/azure/bot-service/bot-builder-concept-middleware?view=azure-bot-service-4.0)
 
 BotBuilder middleware functions are in the form:
 ```javascript
