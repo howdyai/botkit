@@ -548,6 +548,54 @@ Plugins can:
 * Define dialogs, triggers and handlers
 * Be packaged and published as self-contained JavaScript modules
 
+To use a plugin, use `usePlugin()`:
+```javascript
+let plugin = require('botkit-plugin-whatever');
+controller.usePlugin(plugin);
+``` 
+
+A plugin module should contain an object (or a function that returns an object) in the form:
+```javascript
+module.exports = function(botkit) {
+
+    return {
+        name: 'My Plugin',
+        init: function(controller) {
+            // initialize this module. called at load time.
+            // do things like:
+
+            // expose the methods from this plugin as controller.plugins.myplugin.<method>
+            // controller.addPluginExtension('myplugin', this);
+
+            // make locally bundled content public on the webservice:
+            // controller.publicFolder('/public/myplugin', __dirname + '/public);
+
+            // add a web route
+            // controller.webserver.get('/myplugin', async(req, res) => { 
+            //      Use a local handlebars view (bundled with plugin) to render a page
+            //      res.render(controller.getLocalView(__dirname + '/views/main.hbs'));
+            // });
+
+            // can also define normal handlers
+            // controller.on('event', async(bot, message) => { ... });
+        },
+        middleware: {
+            ingest: [
+                ...
+            ],
+            receive: [
+                ...
+            ],
+            send: [
+                ...                
+            ]
+        },
+        // this method will live at controller.plugins.myplugin.customMethod()
+        customMethod: async() => {}
+    }
+}
+```
+
 
 Plugin related methods:
 * [controller.usePlugin()](reference/core.md#useplugin)
