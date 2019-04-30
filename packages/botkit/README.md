@@ -70,7 +70,7 @@ controller.hears(['string','pattern .*',new RegExp('.*','i')],'message,other_eve
 });
 ```
 
-[Read more about hearing things &rsaquo;](../docs/index.md#matching-patterns-and-keywords-with-hears)
+[Read more about hearing things &rsaquo;](../docs/core.md#matching-patterns-and-keywords-with-hears)
 
 ### Responding to Events
 
@@ -84,7 +84,7 @@ controller.on('channel_join', async (bot, message) => {
 });
 ```
 
-[See a full list of events and more information about handling them &rsaquo;](../docs/index.md#receiving-messages-and-events)
+[See a full list of events and more information about handling them &rsaquo;](../docs/core.md#receiving-messages-and-events)
 
 ### Middleware
 
