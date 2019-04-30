@@ -373,7 +373,7 @@
               "sources": [
                 {
                   "fileName": "core.ts",
-                  "line": 543,
+                  "line": 548,
                   "character": 17
                 }
               ]
@@ -424,7 +424,7 @@
               "sources": [
                 {
                   "fileName": "core.ts",
-                  "line": 1067,
+                  "line": 1072,
                   "character": 20
                 }
               ]
@@ -564,7 +564,7 @@
               "sources": [
                 {
                   "fileName": "core.ts",
-                  "line": 1095,
+                  "line": 1100,
                   "character": 22
                 }
               ]
@@ -614,7 +614,7 @@
               "sources": [
                 {
                   "fileName": "core.ts",
-                  "line": 554,
+                  "line": 559,
                   "character": 22
                 }
               ]
@@ -718,7 +718,7 @@
               "sources": [
                 {
                   "fileName": "core.ts",
-                  "line": 525,
+                  "line": 530,
                   "character": 23
                 }
               ]
@@ -774,7 +774,7 @@
               "sources": [
                 {
                   "fileName": "core.ts",
-                  "line": 627,
+                  "line": 632,
                   "character": 27
                 }
               ]
@@ -924,7 +924,7 @@
                               "sources": [
                                 {
                                   "fileName": "core.ts",
-                                  "line": 819,
+                                  "line": 824,
                                   "character": 115
                                 }
                               ]
@@ -984,7 +984,7 @@
               "sources": [
                 {
                   "fileName": "core.ts",
-                  "line": 819,
+                  "line": 824,
                   "character": 16
                 }
               ]
@@ -1141,7 +1141,7 @@
                               "sources": [
                                 {
                                   "fileName": "core.ts",
-                                  "line": 874,
+                                  "line": 879,
                                   "character": 131
                                 }
                               ]
@@ -1201,7 +1201,7 @@
               "sources": [
                 {
                   "fileName": "core.ts",
-                  "line": 874,
+                  "line": 879,
                   "character": 21
                 }
               ]
@@ -1251,7 +1251,7 @@
               "sources": [
                 {
                   "fileName": "core.ts",
-                  "line": 1022,
+                  "line": 1027,
                   "character": 21
                 }
               ]
@@ -1302,7 +1302,7 @@
               "sources": [
                 {
                   "fileName": "core.ts",
-                  "line": 1041,
+                  "line": 1046,
                   "character": 22
                 }
               ]
@@ -1380,7 +1380,7 @@
               "sources": [
                 {
                   "fileName": "core.ts",
-                  "line": 926,
+                  "line": 931,
                   "character": 13
                 }
               ]
@@ -1403,7 +1403,8 @@
                   "kindString": "Call signature",
                   "flags": {},
                   "comment": {
-                    "shortText": "Expose a folder to the web as a set of static files.\nUseful for plugins that need to bundle additional assets!"
+                    "shortText": "Expose a folder to the web as a set of static files.\nUseful for plugins that need to bundle additional assets!",
+                    "text": "```javascript\n// make content of the local public folder available at http://MYBOTURL/public/myplugin\ncontroller.publicFolder('/public/myplugin', __dirname + '/public);\n```"
                   },
                   "parameters": [
                     {
@@ -1427,7 +1428,7 @@
                       "kindString": "Parameter",
                       "flags": {},
                       "comment": {
-                        "text": "the actual path ie /some/folder/path\n"
+                        "text": "the actual path something like `__dirname + '/public'`\n"
                       },
                       "type": {
                         "type": "intrinsic",
@@ -1444,7 +1445,7 @@
               "sources": [
                 {
                   "fileName": "core.ts",
-                  "line": 515,
+                  "line": 520,
                   "character": 23
                 }
               ]
@@ -1504,7 +1505,7 @@
                           "sources": [
                             {
                               "fileName": "core.ts",
-                              "line": 596,
+                              "line": 601,
                               "character": 25
                             }
                           ]
@@ -1521,7 +1522,7 @@
               "sources": [
                 {
                   "fileName": "core.ts",
-                  "line": 596,
+                  "line": 601,
                   "character": 16
                 }
               ]
@@ -1578,7 +1579,7 @@
               "sources": [
                 {
                   "fileName": "core.ts",
-                  "line": 689,
+                  "line": 694,
                   "character": 26
                 }
               ]
@@ -1635,7 +1636,7 @@
               "sources": [
                 {
                   "fileName": "core.ts",
-                  "line": 981,
+                  "line": 986,
                   "character": 22
                 }
               ]
@@ -1722,7 +1723,7 @@
               "sources": [
                 {
                   "fileName": "core.ts",
-                  "line": 958,
+                  "line": 963,
                   "character": 24
                 }
               ]
@@ -2326,7 +2327,7 @@
               "sources": [
                 {
                   "fileName": "core.ts",
-                  "line": 543,
+                  "line": 548,
                   "character": 17
                 }
               ]
@@ -2377,7 +2378,7 @@
               "sources": [
                 {
                   "fileName": "core.ts",
-                  "line": 1067,
+                  "line": 1072,
                   "character": 20
                 }
               ]
@@ -2517,7 +2518,7 @@
               "sources": [
                 {
                   "fileName": "core.ts",
-                  "line": 1095,
+                  "line": 1100,
                   "character": 22
                 }
               ]
@@ -2567,7 +2568,7 @@
               "sources": [
                 {
                   "fileName": "core.ts",
-                  "line": 554,
+                  "line": 559,
                   "character": 22
                 }
               ]
@@ -2671,7 +2672,7 @@
               "sources": [
                 {
                   "fileName": "core.ts",
-                  "line": 525,
+                  "line": 530,
                   "character": 23
                 }
               ]
@@ -2727,7 +2728,7 @@
               "sources": [
                 {
                   "fileName": "core.ts",
-                  "line": 627,
+                  "line": 632,
                   "character": 27
                 }
               ]
@@ -2877,7 +2878,7 @@
                               "sources": [
                                 {
                                   "fileName": "core.ts",
-                                  "line": 819,
+                                  "line": 824,
                                   "character": 115
                                 }
                               ]
@@ -2937,7 +2938,7 @@
               "sources": [
                 {
                   "fileName": "core.ts",
-                  "line": 819,
+                  "line": 824,
                   "character": 16
                 }
               ]
@@ -3094,7 +3095,7 @@
                               "sources": [
                                 {
                                   "fileName": "core.ts",
-                                  "line": 874,
+                                  "line": 879,
                                   "character": 131
                                 }
                               ]
@@ -3154,7 +3155,7 @@
               "sources": [
                 {
                   "fileName": "core.ts",
-                  "line": 874,
+                  "line": 879,
                   "character": 21
                 }
               ]
@@ -3204,7 +3205,7 @@
               "sources": [
                 {
                   "fileName": "core.ts",
-                  "line": 1022,
+                  "line": 1027,
                   "character": 21
                 }
               ]
@@ -3255,7 +3256,7 @@
               "sources": [
                 {
                   "fileName": "core.ts",
-                  "line": 1041,
+                  "line": 1046,
                   "character": 22
                 }
               ]
@@ -3333,7 +3334,7 @@
               "sources": [
                 {
                   "fileName": "core.ts",
-                  "line": 926,
+                  "line": 931,
                   "character": 13
                 }
               ]
@@ -3356,7 +3357,8 @@
                   "kindString": "Call signature",
                   "flags": {},
                   "comment": {
-                    "shortText": "Expose a folder to the web as a set of static files.\nUseful for plugins that need to bundle additional assets!"
+                    "shortText": "Expose a folder to the web as a set of static files.\nUseful for plugins that need to bundle additional assets!",
+                    "text": "```javascript\n// make content of the local public folder available at http://MYBOTURL/public/myplugin\ncontroller.publicFolder('/public/myplugin', __dirname + '/public);\n```"
                   },
                   "parameters": [
                     {
@@ -3380,7 +3382,7 @@
                       "kindString": "Parameter",
                       "flags": {},
                       "comment": {
-                        "text": "the actual path ie /some/folder/path\n"
+                        "text": "the actual path something like `__dirname + '/public'`\n"
                       },
                       "type": {
                         "type": "intrinsic",
@@ -3397,7 +3399,7 @@
               "sources": [
                 {
                   "fileName": "core.ts",
-                  "line": 515,
+                  "line": 520,
                   "character": 23
                 }
               ]
@@ -3457,7 +3459,7 @@
                           "sources": [
                             {
                               "fileName": "core.ts",
-                              "line": 596,
+                              "line": 601,
                               "character": 25
                             }
                           ]
@@ -3474,7 +3476,7 @@
               "sources": [
                 {
                   "fileName": "core.ts",
-                  "line": 596,
+                  "line": 601,
                   "character": 16
                 }
               ]
@@ -3531,7 +3533,7 @@
               "sources": [
                 {
                   "fileName": "core.ts",
-                  "line": 689,
+                  "line": 694,
                   "character": 26
                 }
               ]
@@ -3588,7 +3590,7 @@
               "sources": [
                 {
                   "fileName": "core.ts",
-                  "line": 981,
+                  "line": 986,
                   "character": 22
                 }
               ]
@@ -3675,7 +3677,7 @@
               "sources": [
                 {
                   "fileName": "core.ts",
-                  "line": 958,
+                  "line": 963,
                   "character": 24
                 }
               ]

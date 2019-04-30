@@ -385,9 +385,14 @@ Useful for plugins that need to bundle additional assets!
 | Argument | Type | description
 |--- |--- |---
 | alias| any | the public alias ie /myfiles
-| path| any | the actual path ie /some/folder/path<br/>
+| path| any | the actual path something like `__dirname + '/public'`<br/>
 
 
+
+```javascript
+// make content of the local public folder available at http://MYBOTURL/public/myplugin
+controller.publicFolder('/public/myplugin', __dirname + '/public);
+```
 
 <a name="ready"></a>
 ### ready()

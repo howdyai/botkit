@@ -509,8 +509,13 @@ export class Botkit {
     /**
      * Expose a folder to the web as a set of static files.
      * Useful for plugins that need to bundle additional assets!
+     * 
+     * ```javascript
+     * // make content of the local public folder available at http://MYBOTURL/public/myplugin
+     * controller.publicFolder('/public/myplugin', __dirname + '/public);
+     * ```
      * @param alias the public alias ie /myfiles
-     * @param path the actual path ie /some/folder/path
+     * @param path the actual path something like `__dirname + '/public'`
      */
     public publicFolder(alias, path): void {
         debug('Make folder public: ', path, 'at alias', alias);
