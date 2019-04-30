@@ -270,7 +270,7 @@ controller.on('slash_command', async(bot, message) => {
 Note that if you would prefer to send a response to the Slash command via the synchronous http response back to Slack, you can achieve this by using [bot.httpBody()](../docs/reference/core.md#httpbody).
 
 ```javascript
-controller.on('slash_command', async(bot, message) => { 
+controller.on('slash_command', async(bot, message) => {
     bot.httpBody({text:'You can send an immediate response using bot.httpBody()'});
 });
 ```
