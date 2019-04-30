@@ -1,4 +1,4 @@
-# Class Index
+# Botkit Plugins
 
 [&larr; Botkit Core Docs](..)
 

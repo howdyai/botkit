@@ -10,7 +10,6 @@
 
 # docs
 
-    * Root Readme (links to all projects, but also needs pitch)
 
 # advanced topics
     * anatomy
@@ -69,7 +68,8 @@
 ~* change /new to /v4~
 ~* create official new 0. branch for future maintenance~
 ~* catch dialog results!~
-~* hangouts creds get escaped~
+~* hangouts creds get escaped
+~* Root Readme (links to all projects, but also needs pitch)~
 
 
 # POST LAUNCH

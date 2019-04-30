@@ -1,4 +1,4 @@
-# Class Index
+# Platform Adapters
 
 [&larr; Botkit Core Docs](..)
 

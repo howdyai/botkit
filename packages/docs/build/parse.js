@@ -24,21 +24,21 @@ function buildTOC(dest) {
 
     let toctemplate = Handlebars.compile(fs.readFileSync(__dirname + '/toc.hbs', 'utf8'));
     console.log(JSON.stringify(index, null, 2));
-    fs.writeFileSync(dest, toctemplate({index: index}));
+    fs.writeFileSync(dest, toctemplate({index: index, title: 'Class Index'}));
 }
 
 function buildAdapters(dest) {
 
     let toctemplate = Handlebars.compile(fs.readFileSync(__dirname + '/toc.hbs', 'utf8'));
     console.log(JSON.stringify(index, null, 2));
-    fs.writeFileSync(dest, toctemplate({index: adapters}));
+    fs.writeFileSync(dest, toctemplate({index: adapters, title: 'Platform Adapters'}));
 }
 
 function buildPlugins(dest) {
 
     let toctemplate = Handlebars.compile(fs.readFileSync(__dirname + '/toc.hbs', 'utf8'));
     console.log(JSON.stringify(index, null, 2));
-    fs.writeFileSync(dest, toctemplate({index: plugins}));
+    fs.writeFileSync(dest, toctemplate({index: plugins, title: 'Botkit Plugins'}));
 }
 
 function buildIndex(dest) {
