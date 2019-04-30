@@ -23,14 +23,8 @@ GOALS:
 
 * [Install Botkit and get started](packages/botkit#readme)
 * [Botkit Core Docs](packages/docs/index.md)
-* [Botkit for the Web](packages/botbuilder-adapter-websocket#readme)
-* [Botkit for Slack](packages/botbuilder-adapter-slack#readme)
-* [Botkit for Webex Teams](packages/botbuilder-adapter-webex#readme)
-* [Botkit for Google Hangouts](packages/botbuilder-adapter-hangouts#readme)
-* [Botkit for Twilio SMS](packages/botbuilder-adapter-twilio-sms#readme)
-* [Botkit for Facebook Messenger](packages/botbuilder-adapter-facebook#readme)
-* [Botkit CMS Plugin](packages/botkit-plugin-cms#readme)
-
+* [Botkit Platform Support](packages/docs/platforms/index.md)
+* [Botkit Class Reference](packages/docs/reference/index.md)
 
 ## Packages included in this repo
 
