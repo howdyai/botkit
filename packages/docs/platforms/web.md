@@ -77,7 +77,7 @@ This package includes [a reference implementation of a chat client written in HT
 
 In Botkit handlers, the `bot` worker for web contains [all of the base methods](../reference/core.md) as well as the following platform-specific extensions:
 
-### [controller.createSocketServer()](../reference/web.md#createsocketserver)
+### [adapter.createSocketServer()](../reference/web.md#createsocketserver)
 
 Configures the webserver to accept websocket connections. This method is called automatically by Botkit, but must be manually called when using with BotBuilder.
 
