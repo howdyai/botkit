@@ -91,6 +91,12 @@ controller.hears(['hi','hello','howdy','hey','aloha','hola','bonjour','oi'],['me
 
 **Interruptions**
 
+Some bots have certain operations that should take precidence, even if that means stopping or interupting an ongoing conversation. Near universal examples of this are providing a "help" command, and providing a "quit" mechanism.
+
+For this type of trigger, Botkit provides a version of "hearing" that occurs _before_ any other processing of the message: [interrupts()](reference/core.md#interrupts). Triggers for inter
+
+
+
 // TODO: write about interruptions!
 
 ### Matching regular expressions
