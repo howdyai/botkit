@@ -1,6 +1,6 @@
 {
   "name": "botkit",
-  "version": "4.0.0-prerelease-3",
+  "version": "4.0.0",
   "description": "Building Blocks for Building Bots",
   "main": "lib/index.js",
   "typings": "./lib/index.d.ts",
@@ -31,8 +31,8 @@
   },
   "dependencies": {
     "body-parser": "^1.18.3",
-    "botbuilder": "^4.3.0",
-    "botbuilder-dialogs": "^4.3.0",
+    "botbuilder": "^4.4.0",
+    "botbuilder-dialogs": "^4.4.0",
     "debug": "^4.1.0",
     "express": "^4.16.4",
     "mustache": "^3.0.1",
