@@ -191,7 +191,7 @@ export class SlackAdapter extends BotAdapter {
      * In multi-team mode, this will use the `getBotUserByTeam` method passed to the constructor to pull the information from a developer-defined source.
      * @param activity An incoming message activity
      */
-    public async getBotUserByTeam(activity: Activity): Promise<string> {
+    public async getBotUserByTeam(activity: Partial<Activity>): Promise<string> {
         if (this.identity) {
             return this.identity.user_id;
         } else {
@@ -495,9 +495,13 @@ export class SlackAdapter extends BotAdapter {
                         team: event.team.id
                     },
                     from: { id: event.bot_id ? event.bot_id : event.user.id },
+                    recipient: { id: null },
                     channelData: event,
                     type: ActivityTypes.Event
                 };
+
+                // @ts-ignore this complains because of extra fields in conversation
+                activity.recipient.id = await this.getBotUserByTeam(activity as Activity);
 
                 // create a conversation reference
                 // @ts-ignore
@@ -532,11 +536,14 @@ export class SlackAdapter extends BotAdapter {
                         thread_ts: event.event.thread_ts
                     },
                     from: { id: event.event.bot_id ? event.event.bot_id : event.event.user }, // TODO: bot_messages do not have a user field
-                    // recipient: event.api_app_id, // TODO: what should this actually be? hard to make it consistent.
+                    recipient: { id: null },
                     channelData: event.event,
                     text: null,
                     type: ActivityTypes.Event
                 };
+
+                // @ts-ignore this complains because of extra fields in conversation
+                activity.recipient.id = await this.getBotUserByTeam(activity as Activity);
 
                 // Normalize the location of the team id
                 activity.channelData.team = event.team_id;
@@ -583,10 +590,13 @@ export class SlackAdapter extends BotAdapter {
                         id: event.channel_id
                     },
                     from: { id: event.user_id },
+                    recipient: { id: null },
                     channelData: event,
                     text: event.text,
                     type: ActivityTypes.Event
                 };
+
+                activity.recipient.id = await this.getBotUserByTeam(activity as Activity);
 
                 // Normalize the location of the team id
                 activity.channelData.team = event.team_id;

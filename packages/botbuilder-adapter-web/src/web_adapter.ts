@@ -111,8 +111,15 @@ export class WebAdapter extends BotAdapter {
                     const activity = {
                         timestamp: new Date(),
                         channelId: 'websocket',
-                        conversation: { id: message.user },
-                        from: { id: message.user },
+                        conversation: { 
+                            id: message.user
+                        },
+                        from: { 
+                            id: message.user
+                        },
+                        recipient: { 
+                            id: 'bot'
+                        },
                         channelData: message,
                         text: message.text,
                         type: message.type === 'message' ? ActivityTypes.Message : ActivityTypes.Event
@@ -260,13 +267,18 @@ export class WebAdapter extends BotAdapter {
     public async processActivity(req, res, logic: (context: TurnContext) => Promise<void>): Promise<void> {
         const message = req.body;
 
-        const activity: Activity = {
+        const activity = {
             timestamp: new Date(),
             channelId: 'webhook',
-            // @ts-ignore
-            conversation: { id: message.user },
-            // @ts-ignore
-            from: { id: message.user },
+            conversation: { 
+                id: message.user 
+            },
+            from: { 
+                id: message.user
+            },
+            recipient: { 
+                id: 'bot'
+            },
             channelData: message,
             text: message.text,
             type: message.type === 'message' ? ActivityTypes.Message : ActivityTypes.Event
@@ -278,7 +290,7 @@ export class WebAdapter extends BotAdapter {
         }
 
         // create a conversation reference
-        const context = new TurnContext(this, activity);
+        const context = new TurnContext(this, activity as Activity);
 
         context.turnState.set('httpStatus', 200);
 

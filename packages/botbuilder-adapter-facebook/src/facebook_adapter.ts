@@ -6,6 +6,7 @@
  * Licensed under the MIT License.
  */
 
+ 
 import { Activity, ActivityTypes, BotAdapter, TurnContext, ConversationReference, ResourceResponse } from 'botbuilder';
 import * as Debug from 'debug';
 import { FacebookBotWorker } from './botworker';

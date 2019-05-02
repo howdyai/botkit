@@ -374,6 +374,7 @@ export class WebexAdapter extends BotAdapter {
                 channelId: 'webex',
                 conversation: { id: decrypted_message.roomId },
                 from: { id: decrypted_message.personId, name: decrypted_message.personEmail },
+                recipient: { id: this.identity.id },
                 text: decrypted_message.text,
                 channelData: decrypted_message,
                 type: ActivityTypes.Message
@@ -409,7 +410,7 @@ export class WebexAdapter extends BotAdapter {
                 // replace the message text with the the HTML version
                 activity.text = action;
             } else {
-                let pattern = new RegExp('^' + this._identity.displayName + '\\s+', 'i');
+                let pattern = new RegExp('^' + this.identity.displayName + '\\s+', 'i');
                 if (activity.text) {
                     activity.text = activity.text.replace(pattern, '');
                 }
@@ -430,6 +431,7 @@ export class WebexAdapter extends BotAdapter {
                 channelId: 'webex',
                 conversation: { id: payload.data.roomId },
                 from: { id: payload.actorId },
+                recipient: { id: this.identity.id },
                 channelData: {
                     ...payload,
                     botkitEventType: payload.resource + '.' + payload.event
