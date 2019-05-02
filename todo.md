@@ -2,15 +2,14 @@
 
     * PUBLISH TO NPM
     * move/remove/ignore testbot
-    * update botbuilder to 4.4
-    * add recipient field to everything
 
 # core
 
     * emit a message about webserver up and listening on port
     * look for pending todos in code!
 # docs
-about botkit links break in docs site (license and contrib)
+
+    * about botkit links break in docs site (license and contrib)
 
 
 # advanced topics
@@ -31,10 +30,6 @@ about botkit links break in docs site (license and contrib)
     * update readme for 0. branch with any additional information we need to provide
 
 # starter kits / yeoman
-
-    * .gitignore file
-    * readme file
-    * 
 
     * move over more useful skills
 
