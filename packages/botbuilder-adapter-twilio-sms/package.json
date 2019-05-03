@@ -1,6 +1,6 @@
 {
   "name": "botbuilder-adapter-twilio-sms",
-  "version": "1.0.0",
+  "version": "1.0.0-prerelease-2",
   "description": "Connect Botkit or BotBuilder to Twilio SMS",
   "main": "./lib/index.js",
   "typings": "./lib/index.d.ts",
