@@ -58,6 +58,11 @@ export interface BotkitConfiguration {
      * Defaults to the ephemeral [MemoryStorage](https://docs.microsoft.com/en-us/javascript/api/botbuilder-core/memorystorage?view=botbuilder-ts-latest) implementation.
      */
     storage?: Storage;
+
+    /**
+     * Disable webserver. If true, Botkit will not create a webserver or expose any webhook endpoints automatically. Defaults to false.
+     */
+    disable_webserver?: boolean;
 }
 
 /**
@@ -306,6 +311,7 @@ export class Botkit {
         this._config = {
             webhook_uri: '/api/messages',
             dialogStateProperty: 'dialogState',
+            disable_webserver: false,
             ...config
         };
 
@@ -335,61 +341,72 @@ export class Botkit {
 
         this.dialogSet = new DialogSet(dialogState);
 
-        if (!this._config.webserver) {
-            // Create HTTP server
-            this.addDep('webserver');
+        if (this._config.disable_webserver !== true) {
+            if (!this._config.webserver) {
+                // Create HTTP server
+                this.addDep('webserver');
 
-            this.webserver = express();
+                this.webserver = express();
 
-            // capture raw body
-            this.webserver.use((req, res, next) => {
-                req.rawBody = '';
-                req.on('data', function(chunk) {
-                    req.rawBody += chunk;
+                // capture raw body
+                this.webserver.use((req, res, next) => {
+                    req.rawBody = '';
+                    req.on('data', function(chunk) {
+                        req.rawBody += chunk;
+                    });
+                    next();
                 });
-                next();
-            });
 
-            this.webserver.use(bodyParser.json());
-            this.webserver.use(bodyParser.urlencoded({ extended: true }));
+                this.webserver.use(bodyParser.json());
+                this.webserver.use(bodyParser.urlencoded({ extended: true }));
 
-            this.http = http.createServer(this.webserver);
+                this.http = http.createServer(this.webserver);
 
-            hbs.localsAsTemplateData(this.webserver);
+                hbs.localsAsTemplateData(this.webserver);
 
-            // From https://stackoverflow.com/questions/10232574/handlebars-js-parse-object-instead-of-object-object
-            hbs.registerHelper('json', function(context) {
-                return JSON.stringify(context);
-            });
+                // From https://stackoverflow.com/questions/10232574/handlebars-js-parse-object-instead-of-object-object
+                hbs.registerHelper('json', function(context) {
+                    return JSON.stringify(context);
+                });
 
-            this.webserver.set('view engine', 'hbs');
+                this.webserver.set('view engine', 'hbs');
 
-            this.http.listen(process.env.port || process.env.PORT || 3000, () => {
-                debug(`Webhook Endpoint online:  ${ this.webserver.url }${ this._config.webhook_uri }`);
-                this.completeDep('webserver');
-            });
-        } else {
-            this.webserver = this._config.webserver;
+                this.http.listen(process.env.port || process.env.PORT || 3000, () => {
+                    console.log(`Webhook endpoint online:  http://localhost:${ process.env.PORT || 3000 }${ this._config.webhook_uri }`);
+                    this.completeDep('webserver');
+                });
+            } else {
+                this.webserver = this._config.webserver;
+            }
         }
 
         if (!this._config.adapter) {
             const adapterConfig = { ...this._config.adapterConfig };
             debug('Configuring BotFrameworkAdapter:', adapterConfig);
             this.adapter = new BotkitBotFrameworkAdapter(adapterConfig);
+            if (this.webserver) {
+                console.log(`Open this bot in Bot Framework Emulator: bfemulator://livechat.open?botUrl=` + encodeURIComponent(`http://localhost:${ process.env.PORT || 3000 }${ this._config.webhook_uri }`));
+            }
         } else {
             debug('Using pre-configured adapter.');
             this.adapter = this._config.adapter;
         }
 
-        this.configureWebhookEndpoint();
+        // If a webserver has been configured, auto-configure the default webhook url
+        if (this.webserver) {
+            this.configureWebhookEndpoint();
+        }
 
         // initialize the plugins array.
         this.plugin_list = [];
         this._plugins = {};
 
-        // MAGIC: Treat the adapter as a botkit plugin
-        // which allows them to be carry their own platform-specific behaviors
-        this.usePlugin(this.adapter);
+        // if an adapter has been configured, add it as a plugin.
+        if (this.adapter) {
+            // MAGIC: Treat the adapter as a botkit plugin
+            // which allows them to be carry their own platform-specific behaviors
+            this.usePlugin(this.adapter);
+        }
 
         this.completeDep('booted');
     }
@@ -539,8 +556,12 @@ export class Botkit {
      * @param path the actual path something like `__dirname + '/public'`
      */
     public publicFolder(alias, path): void {
-        debug('Make folder public: ', path, 'at alias', alias);
-        this.webserver.use(alias, express.static(path));
+        if (this.webserver) {
+            debug('Make folder public: ', path, 'at alias', alias);
+            this.webserver.use(alias, express.static(path));
+        } else {
+            throw new Error('Cannot create public folder alias when webserver is disabled');
+        }
     }
 
     /**
@@ -549,7 +570,11 @@ export class Botkit {
      * @param path_to_view something like path.join(__dirname,'views')
      */
     public getLocalView(path_to_view): string {
-        return path.relative(path.join(this.webserver.get('views')), path_to_view);
+        if (this.webserver) {
+            return path.relative(path.join(this.webserver.get('views')), path_to_view);
+        } else {
+            throw new Error('Cannot get local view when webserver is disabled');
+        }
     }
 
     /**
@@ -632,16 +657,20 @@ export class Botkit {
      * pass them through a normalization process, and then ingest them for processing.
      */
     private configureWebhookEndpoint(): void {
-        this.webserver.post(this._config.webhook_uri, (req, res) => {
-            // Allow the Botbuilder middleware to fire.
-            // this middleware is responsible for turning the incoming payload into a BotBuilder Activity
-            // which we can then use to turn into a BotkitMessage
-            this.adapter.processActivity(req, res, this.handleTurn.bind(this)).catch((err) => {
-                // todo: expose this as a global error handler?
-                console.error('Experienced an error inside the turn handler', err);
-                throw err;
+        if (this.webserver) {
+            this.webserver.post(this._config.webhook_uri, (req, res) => {
+                // Allow the Botbuilder middleware to fire.
+                // this middleware is responsible for turning the incoming payload into a BotBuilder Activity
+                // which we can then use to turn into a BotkitMessage
+                this.adapter.processActivity(req, res, this.handleTurn.bind(this)).catch((err) => {
+                    // todo: expose this as a global error handler?
+                    console.error('Experienced an error inside the turn handler', err);
+                    throw err;
+                });
             });
-        });
+        } else {
+            throw new Error('Cannot configure webhook endpoints when webserver is disabled');
+        }
     }
 
     /**

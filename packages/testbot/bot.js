@@ -140,7 +140,8 @@ adapter.use(new SlackMessageTypeMiddleware());
 const controller = new Botkit({
     debug: true,
     webhook_uri: '/api/messages',
-    adapter: adapter,
+    // adapter: adapter,
+    // disable_webserver: true,
     // adapterConfig: {
     //     appId: process.env.APP_ID,
     //     appPassword: process.env.APP_PASSWORD
@@ -180,32 +181,34 @@ controller.ready(() => {
     controller.usePlugin(require('./plugins/verbose/index.js'));
 
 
+    if (controller.webserver) {
 
-    controller.webserver.get('/install', (req, res) => {
-        // getInstallLink points to slack's oauth endpoint and includes clientId and scopes
-        res.redirect(controller.adapter.getInstallLink());
-    });
+        controller.webserver.get('/install', (req, res) => {
+            // getInstallLink points to slack's oauth endpoint and includes clientId and scopes
+            res.redirect(controller.adapter.getInstallLink());
+        });
 
-    controller.webserver.get('/install/auth', async (req, res) => {
-        try {
-            const results = await controller.adapter.validateOauthCode(req.query.code);
+        controller.webserver.get('/install/auth', async (req, res) => {
+            try {
+                const results = await controller.adapter.validateOauthCode(req.query.code);
 
-            console.log('FULL OAUTH DETAILS', results);
+                console.log('FULL OAUTH DETAILS', results);
 
-            // Store token by team in bot state.
-            tokenCache[results.team_id] = results.bot.bot_access_token;
+                // Store token by team in bot state.
+                tokenCache[results.team_id] = results.bot.bot_access_token;
 
-            // Capture team to bot id
-            // TODO: this will have to be customized
-            userCache[results.team_id] =  results.bot.bot_user_id;
+                // Capture team to bot id
+                // TODO: this will have to be customized
+                userCache[results.team_id] =  results.bot.bot_user_id;
 
-            res.json('Success! Bot installed.');
+                res.json('Success! Bot installed.');
 
-        } catch (err) {
-            console.error('OAUTH ERROR:', err);
-            res.status(401);
-            res.send(err.message);
-        }
-    });
+            } catch (err) {
+                console.error('OAUTH ERROR:', err);
+                res.status(401);
+                res.send(err.message);
+            }
+        });
+    }
 });
 
