@@ -41,9 +41,9 @@ npm install --save botkit
 Then, add Botkit to your application code:
 
 ```javascript
-var Botkit = require('botkit');
+let { Botkit } = require('botkit');
 
-var controller = new Botkit(MY_CONFIGURATION);
+const controller = new Botkit(MY_CONFIGURATION);
 
 controller.hears('hello','direct_message', function(bot, message) {
     bot.reply(message,'Hello yourself!');
