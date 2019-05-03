@@ -111,13 +111,13 @@ export class WebAdapter extends BotAdapter {
                     const activity = {
                         timestamp: new Date(),
                         channelId: 'websocket',
-                        conversation: { 
+                        conversation: {
                             id: message.user
                         },
-                        from: { 
+                        from: {
                             id: message.user
                         },
-                        recipient: { 
+                        recipient: {
                             id: 'bot'
                         },
                         channelData: message,
@@ -270,13 +270,13 @@ export class WebAdapter extends BotAdapter {
         const activity = {
             timestamp: new Date(),
             channelId: 'webhook',
-            conversation: { 
-                id: message.user 
-            },
-            from: { 
+            conversation: {
                 id: message.user
             },
-            recipient: { 
+            from: {
+                id: message.user
+            },
+            recipient: {
                 id: 'bot'
             },
             channelData: message,

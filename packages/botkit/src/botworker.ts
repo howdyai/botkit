@@ -171,7 +171,7 @@ export class BotWorker {
      */
     public async cancelAllDialogs(): Promise<DialogTurnResult> {
         if (this._config.dialogContext) {
-            return this._config.dialogContext.cancelAllDialogs()
+            return this._config.dialogContext.cancelAllDialogs();
         }
     }
 

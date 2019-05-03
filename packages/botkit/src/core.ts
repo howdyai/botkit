@@ -415,7 +415,7 @@ export class Botkit {
      * Shutdown the webserver and prepare to terminate the app.
      * Causes Botkit to first emit a special `shutdown` event, process any bound handlers, and then finally terminate the webserver.
      * Bind any necessary cleanup helpers to the shutdown event - for example, close the connection to mongo.
-     * 
+     *
      * ```javascript
      * await controller.shutdown();
      * controller.on('shutdown', async() => {
@@ -547,7 +547,7 @@ export class Botkit {
     /**
      * Expose a folder to the web as a set of static files.
      * Useful for plugins that need to bundle additional assets!
-     * 
+     *
      * ```javascript
      * // make content of the local public folder available at http://MYBOTURL/public/myplugin
      * controller.publicFolder('/public/myplugin', __dirname + '/public);
@@ -1142,7 +1142,7 @@ export class Botkit {
     /**
      * Bind a handler to the end of a dialog.
      * NOTE: bot worker cannot use bot.reply(), must use bot.send()
-     * 
+     *
      * [Learn more about handling end-of-conversation](../docs/conversations.md#handling-end-of-conversation)
      * @param dialog the dialog object or the id of the dialog
      * @param handler a handler function in the form `async(bot, dialog_results) => {}`
