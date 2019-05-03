@@ -23,6 +23,9 @@
 
     * update readme for 0. branch with any additional information we need to provide
 
+    * update legacy branch to incorporate any latest changes from master
+    * tag new v4 branch
+
 # starter kits / yeoman
 
     * move over more useful skills
