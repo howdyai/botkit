@@ -40,7 +40,7 @@ module.exports = class extends Generator {
     }
 
     install() {
-        this.npmInstall(['botbuilder-adapter-webex@preview']);
+        this.npmInstall(['botbuilder-adapter-webex']);
     }
 
 };

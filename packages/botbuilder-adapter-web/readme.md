@@ -60,7 +60,7 @@ Alternately, developers may choose to use `WebAdapter` with BotBuilder. With Bot
 
 ## Reference Chat Client
 
-This package includes [a reference implementation of a chat client written in HTML/JS/CSS](https://github.com/howdyai/botkit/tree/next/packages/botbuilder-adapter-web/client/#readme) that serves as a base for building a customized chat widget.
+This package includes [a reference implementation of a chat client written in HTML/JS/CSS](https://github.com/howdyai/botkit/tree/master/packages/botbuilder-adapter-web/client/#readme) that serves as a base for building a customized chat widget.
 
 ## Event List
 
