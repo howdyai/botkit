@@ -4,6 +4,10 @@ This is the maintenance branch for the legacy version of Botkit (< 0.7.4).
 
 Only security and bug fix updates will be made to this branch!
 
+## New Project?
+
+If you are starting a new project, use the [4+ version found here](https://github.com/howdyai/botkit).
+
 ### **Start from Scratch**
 
 You can also add Botkit into an existing Node application.
