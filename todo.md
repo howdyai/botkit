@@ -7,6 +7,11 @@
 
     * emit a message about webserver up and listening on port
     * look for pending todos in code!
+    * make a way to pass options to webserver
+    * make a way to disable webserver
+    * other things to disable/turn off?
+
+
 # docs
 
     * about botkit links break in docs site (license and contrib)

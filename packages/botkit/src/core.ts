@@ -395,6 +395,27 @@ export class Botkit {
     }
 
     /**
+     * Shutdown the webserver and prepare to terminate the app.
+     * Causes Botkit to first emit a special `shutdown` event, process any bound handlers, and then finally terminate the webserver.
+     * Bind any necessary cleanup helpers to the shutdown event - for example, close the connection to mongo.
+     * 
+     * ```javascript
+     * await controller.shutdown();
+     * controller.on('shutdown', async() => {
+     *      console.log('Bot is shutting down!');
+     * });
+     * ```
+     */
+    public async shutdown(): Promise<void> {
+        // trigger a special shutdown event
+        await this.trigger('shutdown');
+
+        if (this.http) {
+            this.http.close();
+        }
+    }
+
+    /**
      * Get a value from the configuration.
      *
      * For example:
@@ -960,7 +981,7 @@ export class Botkit {
      * @param bot {BotWorker} a BotWorker instance created using `controller.spawn()`
      * @param message {BotkitMessagE} An incoming message or event
      */
-    public async trigger(event: string, bot: BotWorker, message: BotkitMessage): Promise<any> {
+    public async trigger(event: string, bot?: BotWorker, message?: BotkitMessage): Promise<any> {
         debug('Trigger event: ', event);
         if (this._events[event] && this._events[event].length) {
             for (var h = 0; h < this._events[event].length; h++) {
