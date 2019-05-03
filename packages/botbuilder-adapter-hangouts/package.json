@@ -1,6 +1,6 @@
 {
   "name": "botbuilder-adapter-hangouts",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Connect Botkit or BotBuilder to Google Hangouts",
   "main": "./lib/index.js",
   "typings": "./lib/index.d.ts",
@@ -25,7 +25,7 @@
     "chatbots",
     "azure"
   ],
-  "homepage": "https://github.com/howdyai/botkit/blob/packages/botbuilder-adapter-hangouts#readme",
+  "homepage": "https://github.com/howdyai/botkit/blob/master/packages/botbuilder-adapter-hangouts#readme",
   "bugs": {
     "url": "https://github.com/howdyai/botkit/issues"
   },

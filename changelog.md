@@ -8,7 +8,6 @@
 
 This is the first major release of the new version of Botkit.
 
-
 # 0.7.4
 
 * only require simple_storage when used: [#1566](https://github.com/howdyai/botkit/pull/1566)
