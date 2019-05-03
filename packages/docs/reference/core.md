@@ -56,6 +56,7 @@ This class includes the following methods:
 * [publicFolder()](#publicFolder)
 * [ready()](#ready)
 * [saveState()](#saveState)
+* [shutdown()](#shutdown)
 * [spawn()](#spawn)
 * [trigger()](#trigger)
 * [usePlugin()](#usePlugin)
@@ -430,6 +431,21 @@ Note: this is normally called internally and is only required when state changes
 
 
 
+<a name="shutdown"></a>
+### shutdown()
+Shutdown the webserver and prepare to terminate the app.
+Causes Botkit to first emit a special `shutdown` event, process any bound handlers, and then finally terminate the webserver.
+Bind any necessary cleanup helpers to the shutdown event - for example, close the connection to mongo.
+
+
+```javascript
+await controller.shutdown();
+controller.on('shutdown', async() => {
+     console.log('Bot is shutting down!');
+});
+```
+
+
 <a name="spawn"></a>
 ### spawn()
 Create a platform-specific BotWorker instance that can be used to respond to messages or generate new outbound messages.
@@ -454,8 +470,8 @@ Note: This is normally used internally, but can be used to emit custom events.
 | Argument | Type | description
 |--- |--- |---
 | event| string | the name of the event
-| bot| [BotWorker](#BotWorker) | a BotWorker instance created using `controller.spawn()`
-| message| [BotkitMessage](#BotkitMessage) | An incoming message or event<br/>
+| bot (optional)| [BotWorker](#BotWorker) | a BotWorker instance created using `controller.spawn()`
+| message (optional)| [BotkitMessage](#BotkitMessage) | An incoming message or event<br/>
 
 
 
@@ -1269,6 +1285,7 @@ Defines the options used when instantiating Botkit to create the main app contro
 | adapter | any | A fully configured BotBuilder Adapter, such as `botbuilder-adapter-slack` or `botbuilder-adapter-web`<br/>The adapter is responsible for translating platform-specific messages into the format understood by Botkit and BotBuilder.<br/>
 | adapterConfig |  | If using the BotFramework service, options included in `adapterConfig` will be passed to the new Adapter when created internally.<br/>See [BotFrameworkAdapterSettings](https://docs.microsoft.com/en-us/javascript/api/botbuilder/botframeworkadaptersettings?view=azure-node-latest&viewFallbackFrom=botbuilder-ts-latest).<br/>
 | dialogStateProperty | string | Name of the dialogState property in the ConversationState that will be used to automatically track the dialog state. Defaults to `dialogState`.<br/>
+| disable_webserver | boolean | Disable webserver. If true, Botkit will not create a webserver or expose any webhook endpoints automatically. Defaults to false.<br/>
 | storage | Storage | A Storage interface compatible with [this specification](https://docs.microsoft.com/en-us/javascript/api/botbuilder-core/storage?view=botbuilder-ts-latest)<br/>Defaults to the ephemeral [MemoryStorage](https://docs.microsoft.com/en-us/javascript/api/botbuilder-core/memorystorage?view=botbuilder-ts-latest) implementation.<br/>
 | webhook_uri | string | Path used to create incoming webhook URI.  Defaults to `/api/messages`<br/>
 | webserver | any | An instance of Express used to define web endpoints.  If not specified, oen will be created internally.<br/>Note: only use your own Express if you absolutely must for some reason. Otherwise, use `controller.webserver`<br/>

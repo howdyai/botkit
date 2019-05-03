@@ -176,7 +176,7 @@ In multi-team mode, this will use the `getBotUserByTeam` method passed to the co
 
 | Argument | Type | description
 |--- |--- |---
-| activity| Activity | An incoming message activity<br/>
+| activity| Partial&lt;Activity&gt; | An incoming message activity<br/>
 
 
 

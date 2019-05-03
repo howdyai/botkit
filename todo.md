@@ -12,10 +12,8 @@
     * other things to disable/turn off?
 
 
+
 # docs
-
-    * about botkit links break in docs site (license and contrib)
-
 
 # advanced topics
     * anatomy

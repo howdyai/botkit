@@ -170,6 +170,6 @@ You can also find help from members of the Botkit team [in our dedicated Cisco S
 
 Botkit is a part of the [Microsoft Bot Framework](https://dev.botframework.com).
 
-Want to contribute? [Read the contributor guide](../../CONTRIBUTING.md)
+Want to contribute? [Read the contributor guide](https://github.com/howdyai/botkit/blob/master/CONTRIBUTING.md)
 
-Botkit is released under the [MIT Open Source license](LICENSE.md)
+Botkit is released under the [MIT Open Source license](https://github.com/howdyai/botkit/blob/master/LICENSE.md)
