@@ -2,7 +2,7 @@
 
 [&larr; Botkit Documentation](../core.md) [&larr; Class Index](index.md) 
 
-This is a class reference for all the methods exposed by the [botbuilder-adapter-hangouts](https://github.com/howdyai/botkit/tree/next/packages/botbuilder-adapter-hangouts) package.
+This is a class reference for all the methods exposed by the [botbuilder-adapter-hangouts](https://github.com/howdyai/botkit/tree/master/packages/botbuilder-adapter-hangouts) package.
 
 ## Classes
 
