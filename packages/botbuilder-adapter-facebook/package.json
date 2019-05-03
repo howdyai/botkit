@@ -1,0 +1,49 @@
+{
+  "name": "botbuilder-adapter-facebook",
+  "version": "1.0.0",
+  "description": "Connect Botkit or BotBuilder to Facebook Messenger",
+  "main": "lib/index.js",
+  "typings": "./lib/index.d.ts",
+  "files": [
+    "/lib",
+    "/src"
+  ],
+  "scripts": {
+    "build": "tsc",
+    "test": "tsc ; nyc mocha tests/*.tests.js",
+    "eslint": "./node_modules/.bin/eslint --fix src/*"
+  },
+  "author": "Microsoft Corp.",
+  "license": "MIT",
+  "keywords": [
+    "facebook",
+    "facebook messenger",
+    "botkit",
+    "botbuilder",
+    "botframework",
+    "bots",
+    "chatbots",
+    "azure"
+  ],
+  "homepage": "https://github.com/howdyai/botkit/blob/packages/botbuilder-adapter-facebook#readme",
+  "bugs": {
+    "url": "https://github.com/howdyai/botkit/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/howdyai/botkit.git"
+  },
+  "dependencies": {
+    "botbuilder": "^4.4.0",
+    "botkit": "^4.0.0",
+    "debug": "^4.1.0"
+  },
+  "devDependencies": {
+    "eslint": "^5.16.0",
+    "eslint-config-standard": "^12.0.0",
+    "eslint-plugin-import": "^2.14.0",
+    "eslint-plugin-node": "^7.0.1",
+    "eslint-plugin-promise": "^4.0.1",
+    "eslint-plugin-standard": "^4.0.0"
+  }
+}

@@ -1,0 +1,17 @@
+{
+    "name": "botkit-<%= safe_name %>",
+    "version": "1.0.0",
+    "description": "",
+    "main": "bot.js",
+    "scripts": {
+      "start": "node bot.js",
+      "test": "echo \"Error: no test specified\" && exit 1"
+    },
+    "dependencies": {
+      "botkit": "preview",
+      "botkit-plugin-cms": "preview",
+      "botbuilder-storage-mongodb":"^0.9.5",
+       "dotenv": "^7.0.0"
+    }
+  }
+  

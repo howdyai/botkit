@@ -1,1 +1,0 @@
-/* TODO bot that demonstrates sending incoming webhooks to one specific team */

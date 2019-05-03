@@ -1,0 +1,27 @@
+{
+  "name": "testbot",
+  "version": "1.0.0",
+  "description": "a test harness for testing in-progress changes to botkit",
+  "main": "bot.js",
+  "scripts": {
+    "start": "node bot.js"
+  },
+  "author": "benbrown@gmail.com",
+  "license": "MIT",
+  "dependencies": {
+    "botbuilder-ai": "^4.4.0",
+    "botbuilder-dialogs": "^4.4.0",
+    "botbuilder-dialogs-botkit-cms": "0.0.1",
+    "botbuilder-adapter-slack": "1.0.0",
+    "botbuilder-adapter-hangouts": "1.0.0",
+    "botbuilder-storage-mongodb": "^0.9.5",
+    "botbuilder-adapter-webex": "1.0.0",
+    "botbuilder-adapter-web": "1.0.0",
+    "botbuilder-adapter-facebook": "1.0.0",
+    "botbuilder-adapter-twilio-sms": "1.0.0",
+    "botkit-plugin-cms": "1.0.0",
+    "botkit": "^4.0.0",
+    "dotenv": "^6.2.0",
+    "express-basic-auth": "^1.1.6"
+  }
+}

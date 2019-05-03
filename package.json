@@ -1,89 +1,21 @@
 {
-  "name": "botkit",
-  "version": "0.7.4",
-  "description": "Building blocks for Building Bots",
-  "main": "lib/Botkit.js",
-  "types": "lib/Botkit.d.ts",
-  "jest": {
-    "verbose": true,
-    "testEnvironment": "node",
-    "testPathIgnorePatterns": [
-      "/node_modules/",
-      "/test/legacy/"
-    ],
-    "testMatch": [
-      "**/test/**/*.js"
-    ],
-    "collectCoverage": false
-  },
-  "dependencies": {
-    "async": "^2.6.1",
-    "back": "^1.0.2",
-    "body-parser": "^1.18.3",
-    "botbuilder": "^3.16.0",
-    "botkit-studio-sdk": "^1.0.8",
-    "chalk": "^2.4.1",
-    "ciscospark": "^1.48.0",
-    "clone": "2.1.2",
-    "command-line-args": "^5.0.2",
-    "command-line-usage": "^5.0.5",
-    "debug": "^4.1.0",
-    "email-addresses": "^3.0.2",
-    "express": "^4.16.4",
-    "googleapis": "^34.0.0",
-    "https-proxy-agent": "^2.2.1",
-    "jfs": "^0.3.0",
-    "localtunnel": "^1.9.1",
-    "md5": "^2.2.1",
-    "mustache": "^3.0.0",
-    "prompts": "^1.1.1",
-    "request": "^2.88.0",
-    "requestretry": "^3.0.2",
-    "simple-xmpp": "^1.3.0",
-    "twilio": "^3.23.1",
-    "ware": "^1.3.0",
-    "ws": "^6.1.0"
+  "name": "botkit-packages",
+  "private": true,
+  "scripts": {
+    "postinstall": "lerna bootstrap --hoist",
+    "build": "lerna run build",
+    "test": "lerna run build ; lerna run test",
+    "build-docs": "lerna run build-docs",
+    "eslint": "./node_modules/.bin/eslint  ./packages/*/src/*.ts ./packages/*/src/**/*.ts",
+    "eslint-fix": "./node_modules/.bin/eslint  ./packages/*/src/*.ts ./packages/*/src/**/*.ts --fix"
   },
   "devDependencies": {
-    "eslint": "^5.14.1",
-    "jest-cli": "^24.1.0",
-    "mkdirp": "^0.5.1",
-    "mocha": "^5.1.1",
-    "nock": "^10.0.0",
-    "winston": "^2.3.1"
-  },
-  "scripts": {
-    "pretest:disabled": "npm run lint",
-    "lint": "eslint .",
-    "test": "jest",
-    "test:facebook": "jest test/facebook --coverage",
-    "test-watch": "jest --watch"
-  },
-  "bin": {
-    "botkit": "./bin/cli.js"
-  },
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/howdyai/botkit.git"
-  },
-  "bugs": {
-    "url": "https://github.com/howdyai/botkit/issues"
-  },
-  "homepage": "http://howdy.ai/botkit",
-  "keywords": [
-    "bots",
-    "chatbots",
-    "slack",
-    "cisco spark",
-    "webex",
-    "facebook messenger",
-    "twilio",
-    "microsoft bot framework",
-    "web chat",
-    "jabber",
-    "microsoft teams",
-    "google hangouts"
-  ],
-  "author": "ben@howdy.ai",
-  "license": "MIT"
+    "@typescript-eslint/eslint-plugin": "^1.4.2",
+    "@typescript-eslint/parser": "^1.4.2",
+    "eslint": "^5.16.0",
+    "lerna": "^3.13.4",
+    "mocha": "^6.1.4",
+    "nyc": "^14.0.0",
+    "typescript": "^3.2.4"
+  }
 }

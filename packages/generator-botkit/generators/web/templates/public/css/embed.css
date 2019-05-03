@@ -1,0 +1,23 @@
+#embedded_messenger {
+  position: fixed;
+  z-index: 1000;
+  bottom: -400px;
+  right: 2rem;
+  height: 434px;
+  transition: 0.5s ease-in-out bottom;
+}
+#embedded_messenger.active {
+  bottom: 0;
+}
+#embedded_messenger iframe {
+  height: 400px;
+  width: 100%;
+  border: 0;
+}
+#embedded_messenger #message_header {
+  background: #000;
+  padding: 0.5rem 1rem;
+  color: #FFF;
+}
+
+/*# sourceMappingURL=embed.css.map */

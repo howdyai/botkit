@@ -1,0 +1,17 @@
+{
+    "name": "testbot.bot",
+    "description": "",
+    "services": [
+        {
+            "type": "endpoint",
+            "appId": "",
+            "appPassword": "",
+            "endpoint": "http://localhost:3000/api/messages",
+            "id": "b9a54960-1f51-11e9-8939-03499153c69d",
+            "name": "http://localhost:3000/api/messages"
+        }
+    ],
+    "padlock": "",
+    "version": "2.0",
+    "overrides": null
+}
