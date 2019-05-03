@@ -19,7 +19,7 @@ and is released under the [MIT Open Source license](LICENSE.md)
 | Package | Description | NPM Status
 |--- |--- |---
 | [botkit](packages/botkit) | Botkit Core library | [![NPM Badge](https://img.shields.io/npm/dw/botkit.svg?logo=npm)](https://www.npmjs.com/package/botkit/) 
-| [botbuilder-adapter-websocket](packages/botbuilder-adapter-websocket) | A platform adapter for the web | [![NPM Badge](https://img.shields.io/npm/dw/botbuilder-adapter-web.svg?logo=npm)](https://www.npmjs.com/package/botbuilder-adapter-web) 
+| [botbuilder-adapter-web](packages/botbuilder-adapter-web) | A platform adapter for the web | [![NPM Badge](https://img.shields.io/npm/dw/botbuilder-adapter-web.svg?logo=npm)](https://www.npmjs.com/package/botbuilder-adapter-web) 
 | [botbuilder-adapter-slack](packages/botbuilder-adapter-slack) | A platform adapter for Slack | [![NPM Badge](https://img.shields.io/npm/dw/botbuilder-adapter-slack.svg?logo=npm)](https://www.npmjs.com/package/botbuilder-adapter-slack) 
 | [botbuilder-adapter-webex](packages/botbuilder-adapter-webex) | A platform adapter for Webex Teams | [![NPM Badge](https://img.shields.io/npm/dw/botbuilder-adapter-webex.svg?logo=npm)](https://www.npmjs.com/package/botbuilder-adapter-webex) 
 | [botbuilder-adapter-hangouts](packages/botbuilder-adapter-hangouts) | A platform adapter for Google  | [![NPM Badge](https://img.shields.io/npm/dw/botbuilder-adapter-hangouts.svg?logo=npm)](https://www.npmjs.com/package/botbuilder-adapter-hangouts)
@@ -50,7 +50,6 @@ Enter the new folder, and switch to the `next` branch.
 
 ```bash
 cd botkit
-git checkout next
 npm install
 ```
 
