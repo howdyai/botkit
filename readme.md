@@ -50,7 +50,6 @@ Enter the new folder, and switch to the `next` branch.
 
 ```bash
 cd botkit
-git checkout next
 npm install
 ```
 
