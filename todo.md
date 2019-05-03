@@ -5,13 +5,6 @@
 
 # core
 
-    * emit a message about webserver up and listening on port
-    * look for pending todos in code!
-    * make a way to pass options to webserver
-    * make a way to disable webserver
-    * other things to disable/turn off?
-
-
 
 # docs
 
@@ -19,8 +12,6 @@
     * anatomy
     * upgrade guide
 
-    * customize templates for plugins index and platform index
-    
     * every adapter doc should link to main client API doc
     * link to provisioning guides
 
