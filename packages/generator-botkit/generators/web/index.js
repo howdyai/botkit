@@ -42,7 +42,7 @@ module.exports = class extends Generator {
     }
 
     install() {
-        this.npmInstall(['botbuilder-adapter-web']);
+        this.npmInstall(['botbuilder-adapter-web@latest']);
 
         // TODO: Install sass?
         // TODO: Add build step to package.json
