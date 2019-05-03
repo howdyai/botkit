@@ -275,7 +275,6 @@ export class Botkit {
      * A BotBuilder DialogSet that serves as the top level dialog container for the Botkit app
      */
     public dialogSet: DialogSet;
-    // todo: make this private?
 
     /**
      * The path of the main Botkit SDK, used to generate relative paths

@@ -203,8 +203,6 @@ export class BotWorker {
         }
     }
 
-    // TODO: cancel dialogs
-
     /**
      * Alter the context in which a bot instance will send messages.
      * Use this method to create or adjust a bot instance so that it can send messages to a predefined user/channel combination.

@@ -895,7 +895,6 @@ export class BotkitConversation<O extends object = {}> extends Dialog<O> {
             if (this.script[path.action]) {
                 return await this.gotoThreadAction(path.action, dc, step);
             }
-            // TODO
             console.warn('NOT SURE WHAT TO DO WITH THIS!!', path);
             break;
         }
