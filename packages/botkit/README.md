@@ -5,7 +5,7 @@
 [![npm](https://img.shields.io/npm/l/botkit.svg)](https://spdx.org/licenses/MIT)
 [![Build Status](https://travis-ci.com/howdyai/botkit.svg?branch=master)](https://travis-ci.com/howdyai/botkit)
 
-**Botkit is the leading developer tool for building chat bots, apps and custom integrations for major messaging platforms.**
+**Botkit is an open source developer tool for building chat bots, apps and custom integrations for major messaging platforms.**
 
 ## The information in this document is for the brand new 4.0 branch of Botkit! If you're looking for documentation for previous versions, [look here](https://botkit.ai/docs/v0/).
 
