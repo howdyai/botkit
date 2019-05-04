@@ -385,7 +385,7 @@ onboarding.after(async(results, bot) => {
 });
 
 // add the conversation to the dialogset
-controller.dialogSet.add(onboarding);
+controller.addDialog(onboarding);
 
 // launch the dialog in response to a message or event
 controller.hears(['hello'], 'message', async(bot, message) => {
@@ -451,7 +451,7 @@ controller.ready(() => {
 
 ### Native Bot Builder Dialogs
 
-[BotBuilder dialogs](https://npmjs.com/package/botbuilder-dialogs) can live alongside Botkit!  Define dialogs using `WaterfallDialogs`, `ComponentDialogs`, or your own derived dialog class.  Then, make them available for your bot to use by calling `controller.dialogSet.add()`:
+[BotBuilder dialogs](https://npmjs.com/package/botbuilder-dialogs) can live alongside Botkit!  Define dialogs using `WaterfallDialogs`, `ComponentDialogs`, or your own derived dialog class.  Then, make them available for your bot to use by calling `controller.addDialog()`:
 
 [Read about BotBuilder dialogs in Microsoft's official documentation &rarr;](https://docs.microsoft.com/en-us/azure/bot-service/bot-builder-concept-dialog?view=azure-bot-service-4.0)
 
@@ -469,7 +469,7 @@ const myWelcomeDialog = new WaterfallDialog('welcome', [
     }
 ]);
 
-controller.dialogSet.add(myWelcomeDialog);
+controller.addDialog(myWelcomeDialog);
 ```
 
 In order to trigger the dialog from within a Botkit handler function, call `await bot.beginDialog('dialog_id');` as below:
