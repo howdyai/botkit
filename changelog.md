@@ -6,7 +6,30 @@
 
 # 4.0.1
 
-This is the first major release of the new version of Botkit.
+This is the first major release of the new version of Botkit!
+
+* The same `hears()`, `says()` and `ask()` syntax you know and love, but now with modern Javascript conventions like async/await.
+* New capabilities like [interruptions](https://botkit.ai/docs/v4/core.html#interruptions) and [composable dialogs](https://botkit.ai/docs/v4/conversations.html#composing-dialogs).
+* All new platform adapters for Web chat, Slack, Webex, Facebook, Google Hangouts and Twilio SMS.
+* Built-in support for [Microsoft Bot Framework](https://dev.botframework.com) features like:
+    * Support for the [Bot Framework Emulator](http://aka.ms/botframework-emulator)
+    * Support for [Dialogs](https://npmjs.com/package/botbuilder-dialogs)
+    * Support for [Azure Bot Service](https://azure.microsoft.com/en-us/services/bot-service/)
+* Long awaited fixes and improvements like:
+    * Multi-page support for Facebook
+    * Conversation state persistence between across app nodes / app restarts
+    * Full Typescript support
+
+The [all new docs for Botkit 4 can be found here](https://botkit.ai/docs/v4).
+All of the [Glitch starter kits have been updated with the latest version](https://glitch.com/botkit).
+
+The best way to get started with 4.0 is to boot up a brand new bot using the [Yeoman generator](https://npmjs.com/package/generator-botkit), and connect it to the [Bot Framework Emulator](http://aka.ms/botframework-emulator).
+You'll be chatting with your new bot in minutes!
+
+```javascript
+npm install -g yo botkit
+yo botkit
+```
 
 # 0.7.4
 
