@@ -166,6 +166,16 @@ To access dialog content build in Botkit CMS, install `botkit-plugin-cms`, and a
 Read [more about using botkit-plugin-cms here](plugins/cms.html)
 
 
+### Storage changes
+
+In v4 of Botkit, the storage system is currently only used to store and retrieve the conversation state between turns.
+Other than this, Botkit will no longer be providing an interface for connecting to or using databases. Developers
+should build their own database abstractions.
+
+However to reduce the complexity of the upgrade process, existing bots can continue to use storage adapters from 
+previous versions of Botkit using [the technique discussed here](https://github.com/howdyai/botkit-storage-mongo/issues/42#issuecomment-489654424).
+
+
 ## Anatomy of a Botkit App
 
 File structure:
