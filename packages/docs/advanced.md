@@ -242,6 +242,24 @@ When a message is sent:
 * Activity object is created, passed off to BotBuilder
 * BotBuilder sends the message to the platform API
 
+## How to use "Bot Inspector" mode
+
+With Bot Inspector mode enabled, you can use [Bot Framework Emulator](https://aka.ms/botframework-emulator) to
+connect to your bot _while it also sends and receives messages to the live platform of your choice._ Once activated,
+you'll be able to inspect the JSON payloads of incoming and outgoing messages, as well as inspect your bot's state variables.
+
+It is TRULY COOL AND USEFUL, like opening an access panel into your bot's brain and being able to poke around like they did with Data on Star Trek: The Next Generation.
+
+To enable this in a Botkit app:
+
+* Add [this module](https://gist.github.com/benbrown/d6fbf2c8aac37b60c746abc08b9b96e7) to your app.
+* Download the latest [Bot Framework Emulator](https://aka.ms/botframework-emulator)
+* Launch your bot app and make sure it is connected to the outside world with a tool like ngrok
+* Launch Bot Framework emulator and enable inspector mode "View > Bot Inspector Mode" in the menu
+* Connect to "http://localhost:3000/api/sidecar"
+* Bot Framework emulator will display a command like "/INSPECT attach XYZ".  Copy paste this into the channel with your bot that you want to inspect.
+* If successful, your bot should respond automatically.
+* Watch the emulator for future messages between your bot and the channel being inspected.
 
 
 ## Typescript
