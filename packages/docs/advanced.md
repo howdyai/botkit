@@ -22,8 +22,12 @@ GOALS:
 ## How to upgrade from 0.7 to 4.0
 
 Though many things have changed in the latest version of Botkit, and it is not directly backwards compatible with previous versions,
-many elements of the previous Botkit syntax are still present and the vast majority of features from the previous verisons
-Experienced Botkit developers will recognize familiar syntax of features like `hears()` and `ask()`.
+many elements of the previous Botkit syntax are still present and the vast majority of features from the previous versions.
+Experienced Botkit developers will recognize the familiar syntax of features like `hears()` and `ask()`.
+
+The overall structure of the Botkit application is roughly the same, though the shape of some components have shifted.
+Before upgrading your bot, use the yeoman generator to create a sample app -- if only to understand its structure.
+In most cases, the best approach will be to create a new bot using the generator, then port existing "skill" files to the new syntax.
 
 You may need to update your Node version because v4 of Botkit uses modern Javascript syntax. We suggest using the LTS version.
 
