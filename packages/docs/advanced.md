@@ -179,10 +179,10 @@ and into a plugin module.
 
 To access dialog content build in Botkit CMS, install `botkit-plugin-cms`, and adjust calls to the CMS from `controller.studio.*` to `controller.plugins.cms.*`:
 
-* `controller.studio.before('script', ...)` -> controller.plugins.cms.before('script', 'default', ...)
-* `controller.studio.beforeThread('script', 'thread')` -> controller.plugins.cms.before('script', 'thread', ...')
-* `controller.studio.after('script', ...)` -> controller.plugins.cms.after('script', ...)
-* `controller.studio.validate('script', 'variable', ...')` -> controller.plugins.cms.onChange('script', 'variable', ...)
+* `controller.studio.before('script', ...)` becomes `controller.plugins.cms.before('script', 'default', ...)`
+* `controller.studio.beforeThread('script', 'thread')` becomes `controller.plugins.cms.before('script', 'thread', ...)`
+* `controller.studio.after('script', ...)` becomes `controller.plugins.cms.after('script', ...)`
+* `controller.studio.validate('script', 'variable', ...')` becomes `controller.plugins.cms.onChange('script', 'variable', ...)`
 
 Read [more about using botkit-plugin-cms here](plugins/cms.html)
 
