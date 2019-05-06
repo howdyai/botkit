@@ -177,10 +177,14 @@ controller.hears('tacos', 'direct_message', async(bot, message) => {
 The functionality previously associated with Botkit Studio and now associated with Botkit CMS has been now been moved out of the core SDK
 and into a plugin module.
 
-To access dialog content build in Botkit CMS, install `botkit-plugin-cms`, and adjust calls to the CMS from `controller.studio.*` to `controller.plugins.cms.*`. This includes calls to  handler registration functions like `controller.studio.before` and `controller.studio.after`.
+To access dialog content build in Botkit CMS, install `botkit-plugin-cms`, and adjust calls to the CMS from `controller.studio.*` to `controller.plugins.cms.*`:
+
+* `controller.studio.before('script', ...)` -> controller.plugins.cms.before('script', 'default', ...)
+* `controller.studio.beforeThread('script', 'thread')` -> controller.plugins.cms.before('script', 'thread', ...')
+* `controller.studio.after('script', ...)` -> controller.plugins.cms.after('script', ...)
+* `controller.studio.validate('script', 'variable', ...')` -> controller.plugins.cms.onChange('script', 'variable', ...)
 
 Read [more about using botkit-plugin-cms here](plugins/cms.html)
-
 
 ### Storage changes
 
