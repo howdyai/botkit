@@ -7,9 +7,10 @@ This happens when a call to bot.say, bot.reply, or bot.beginDialog has been used
 Make sure you `await` all calls to these and similar functions! These functions return promises that have to be resolved
 properly, otherwise you'll get the above error!
 
-## what's different between 0.7 and 4.0?
+## Botkit 4.0 Goals:
 
-GOALS:
+These were the goals we set out to achieve in creating the new version of Botkit.
+
 * Keep as much of the feature set, syntax and special sauce developers know and love
 * Solve persistent and hard to solve problems in previous versions of Botkit
 * Use modern JavaScript language features like async/await instead of callbacks
@@ -18,6 +19,21 @@ GOALS:
 * Reorganize some related projects into a monorepo
 * Inherit much goodness from [Bot Framework SDK](https://github.com/microsoft/botbuilder-js)
 * Provide a way for bots to be extended with plugins and modular features, and for those plugins to provide a consistent interface to administrators
+
+
+## What's different between 0.7 and 4.0?
+
+The [changelog](https://github.com/howdyai/botkit/blob/master/changelog.md) has lots of details on the new features.
+
+In addition, here are some notes on the major changes:
+
+* All of the major features now uses promises and the async/await pattern. Goodbye, nested callbacks!
+* Everything has been rebuilt using Typescript classes. If you want types, you got 'em!
+* The dialog system has been rearchitected to solve some long term issues - but much of the familiar syntax has been retained.
+* The core Botkit library now contains just the platform-independent APIs for building bot features. Platform adapters are now separate modules.
+* Botkit is now inherits core classes from [Bot Framework SDK](https://github.com/microsoft/botframework-sdk#readme) and as a result gains compatibility with all of the tools from Bot Framework - in particular [dialogs](https://npmjs.com/package/botbuilder-dialogs) and [Bot Framework Emulator](https://aka.ms/botframework-emulator)
+* Botkit no longer provides a generic "storage" layer. Developers will need to build their own or use a hybrid approach (see below.)
+
 
 ## How to upgrade from 0.7 to 4.0
 
