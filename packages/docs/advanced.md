@@ -55,15 +55,6 @@ Syntax changes in your bot code:
 * Add "await" keyword in front of all calls to bot.reply or bot.say or similar functions.
 * The name of the event for normal messages has changed.  Change any instance of 'message_received' to 'message'
 
-convo changes:
-* any call to startConversation or the like has to be updated to use BotkitConversation
-* no longer has support for doing additional calls to convo.say or convo.ask from inside callbacks. this type of thing now has to be done using threads.
-* must be created and added to dialogset at startup (not inside handler or dynamically)
-* convo.ask and convo.say remain the same
-* convo.ask handlers now get (response, convo, bot)
-* can use bot.say to send adhoc messages
-* convo.before takes a thread name, to fire before anything, set that to default.
-
 FROM:
 ```
 bot.hears('foo', 'message_received', function(bot, message) { 
@@ -75,6 +66,87 @@ TO:
 ```
 bot.hears('foo', 'message', async(bot, message) => { 
     await bot.reply(message,'bar');
+});
+```
+
+Conversation changes:
+
+* All conversations have to be constructed using `new BotkitConversation()` added using `controller.addDialog()` at startup (not inside handler or dynamically)
+* Any call to startConversation (and related functions) has to be updated - these functions still exist but work differently, and must be paired with a call to `bot.beginDialog()`
+* The new system no longer has support for modifying the conversation structure on the fly by doing additional calls to convo.say or convo.ask from inside callbacks. If your dialog requires sending ad hoc messages, it is still possible to do that using use `bot.say()` rather than `convo.say()`
+* The syntax for convo.ask and convo.say remains mostly the same
+* convo.ask handlers are now in the format `async(response, convo, bot)=>{}`. as a result of these being promises, it is no longer necessary to call convo.next
+* Hook functions have changed a bit: convo.before takes a thread name, to fire before anything, set that to default.
+
+FROM:
+```
+bot.hears('tacos', 'direct_message', function(bot, message) {
+    bot.startConversation(function(err, convo) { 
+
+        convo.say('SOMEONE SAID TACOS!');
+        convo.ask('Do you want to eat a taco?', [
+            {
+                pattern: 'yes',
+                default: true,
+                callback: function(response, convo) {
+                    convo.gotoThread('yes_tacos');
+                }
+            },
+            {
+                pattern: 'no',
+                callback: function(response, convo) {
+                    convo.gotoThread('no_tacos');
+                }
+            }
+        ], {key: 'wants_taco'});
+
+        convo.addMessage('Hooray for tacos!', 'yes_tacos');
+        convo.addMessage('ERROR: Tacos missing!!', 'no_tacos');
+
+        convo.on('end', function(convo) {
+            var responses = convo.extractResponses();
+            // responses.wants_tacos
+        });
+    });
+});
+```
+
+TO:
+```
+const { BotkitConversation } = require('botkit');
+
+let convo = new BotkitConversation('tacos', controller);
+convo.say('SOMEONE SAID TACOS!');
+convo.ask('Do you want to eat a taco?', [
+    {
+        pattern: 'yes',
+        default: true,
+        handler: async(response, convo, bot) => {
+            await convo.gotoThread('yes_tacos');
+        }
+    },
+    {
+        pattern: 'no',
+        handler: async(response, convo, bot) => {
+            await convo.gotoThread('no_tacos');
+        }
+    }
+], 'wants_taco');
+
+convo.addMessage('Hooray for tacos!', 'yes_tacos');
+convo.addMessage('ERROR: Tacos missing!!', 'no_tacos');
+
+convo.after(async(results, bot) => {
+
+    // results.wants_taco
+
+})
+
+// add to the controller to make it available for later.
+controller.addDialog(convo);
+
+controller.hears('tacos', 'direct_message', async(bot, message) => {
+    await bot.beginDialog(convo);
 });
 ```
 
