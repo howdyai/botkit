@@ -1,4 +1,4 @@
-# botbuilder-webex adapter
+# botbuilder-adapter-webex
 Connect [Botkit](https://www.npmjs.com/package/botkit) or [BotBuilder](https://www.npmjs.com/package/botbuilder) to Webex Teams.
 
 This package contains an adapter that communicates directly with the Webex Teams API,
