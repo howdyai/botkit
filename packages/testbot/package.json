@@ -11,6 +11,7 @@
   "dependencies": {
     "botbuilder-ai": "^4.4.0",
     "botbuilder-dialogs": "^4.4.0",
+    "botbuilder": "^4.4.0",
     "botbuilder-dialogs-botkit-cms": "0.0.1",
     "botbuilder-adapter-slack": "1.0.0",
     "botbuilder-adapter-hangouts": "1.0.0",
