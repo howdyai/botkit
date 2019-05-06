@@ -19588,12 +19588,82 @@
                       "flags": {},
                       "comment": {},
                       "type": {
-                        "type": "intrinsic",
-                        "name": "string"
+                        "type": "tuple",
+                        "elements": [
+                          {
+                            "type": "reflection",
+                            "declaration": {
+                              "id": 204,
+                              "name": "__type",
+                              "kind": 65536,
+                              "kindString": "Type literal",
+                              "flags": {},
+                              "children": [
+                                {
+                                  "id": 205,
+                                  "name": "label",
+                                  "kind": 32,
+                                  "kindString": "Variable",
+                                  "flags": {
+                                    "isExternal": true
+                                  },
+                                  "sources": [
+                                    {
+                                      "fileName": "slack_dialog.ts",
+                                      "line": 192,
+                                      "character": 85
+                                    }
+                                  ],
+                                  "type": {
+                                    "type": "intrinsic",
+                                    "name": "string"
+                                  }
+                                },
+                                {
+                                  "id": 206,
+                                  "name": "value",
+                                  "kind": 32,
+                                  "kindString": "Variable",
+                                  "flags": {
+                                    "isExternal": true
+                                  },
+                                  "sources": [
+                                    {
+                                      "fileName": "slack_dialog.ts",
+                                      "line": 192,
+                                      "character": 100
+                                    }
+                                  ],
+                                  "type": {
+                                    "type": "intrinsic",
+                                    "name": "string"
+                                  }
+                                }
+                              ],
+                              "groups": [
+                                {
+                                  "title": "Variables",
+                                  "kind": 32,
+                                  "children": [
+                                    205,
+                                    206
+                                  ]
+                                }
+                              ],
+                              "sources": [
+                                {
+                                  "fileName": "slack_dialog.ts",
+                                  "line": 192,
+                                  "character": 79
+                                }
+                              ]
+                            }
+                          }
+                        ]
                       }
                     },
                     {
-                      "id": 204,
+                      "id": 207,
                       "name": "options",
                       "kind": 32768,
                       "kindString": "Parameter",
@@ -20021,7 +20091,7 @@
               ]
             },
             {
-              "id": 207,
+              "id": 210,
               "name": "asObject",
               "kind": 2048,
               "kindString": "Method",
@@ -20032,7 +20102,7 @@
               },
               "signatures": [
                 {
-                  "id": 208,
+                  "id": 211,
                   "name": "asObject",
                   "kind": 4096,
                   "kindString": "Call signature",
@@ -20055,7 +20125,7 @@
               ]
             },
             {
-              "id": 205,
+              "id": 208,
               "name": "asString",
               "kind": 2048,
               "kindString": "Method",
@@ -20066,7 +20136,7 @@
               },
               "signatures": [
                 {
-                  "id": 206,
+                  "id": 209,
                   "name": "asString",
                   "kind": 4096,
                   "kindString": "Call signature",
@@ -20363,8 +20433,8 @@
                 160,
                 191,
                 185,
-                207,
-                205,
+                210,
+                208,
                 154,
                 148,
                 145,
@@ -20625,12 +20695,82 @@
                       "flags": {},
                       "comment": {},
                       "type": {
-                        "type": "intrinsic",
-                        "name": "string"
+                        "type": "tuple",
+                        "elements": [
+                          {
+                            "type": "reflection",
+                            "declaration": {
+                              "id": 204,
+                              "name": "__type",
+                              "kind": 65536,
+                              "kindString": "Type literal",
+                              "flags": {},
+                              "children": [
+                                {
+                                  "id": 205,
+                                  "name": "label",
+                                  "kind": 32,
+                                  "kindString": "Variable",
+                                  "flags": {
+                                    "isExternal": true
+                                  },
+                                  "sources": [
+                                    {
+                                      "fileName": "slack_dialog.ts",
+                                      "line": 192,
+                                      "character": 85
+                                    }
+                                  ],
+                                  "type": {
+                                    "type": "intrinsic",
+                                    "name": "string"
+                                  }
+                                },
+                                {
+                                  "id": 206,
+                                  "name": "value",
+                                  "kind": 32,
+                                  "kindString": "Variable",
+                                  "flags": {
+                                    "isExternal": true
+                                  },
+                                  "sources": [
+                                    {
+                                      "fileName": "slack_dialog.ts",
+                                      "line": 192,
+                                      "character": 100
+                                    }
+                                  ],
+                                  "type": {
+                                    "type": "intrinsic",
+                                    "name": "string"
+                                  }
+                                }
+                              ],
+                              "groups": [
+                                {
+                                  "title": "Variables",
+                                  "kind": 32,
+                                  "children": [
+                                    205,
+                                    206
+                                  ]
+                                }
+                              ],
+                              "sources": [
+                                {
+                                  "fileName": "slack_dialog.ts",
+                                  "line": 192,
+                                  "character": 79
+                                }
+                              ]
+                            }
+                          }
+                        ]
                       }
                     },
                     {
-                      "id": 204,
+                      "id": 207,
                       "name": "options",
                       "kind": 32768,
                       "kindString": "Parameter",
@@ -21058,7 +21198,7 @@
               ]
             },
             {
-              "id": 207,
+              "id": 210,
               "name": "asObject",
               "kind": 2048,
               "kindString": "Method",
@@ -21069,7 +21209,7 @@
               },
               "signatures": [
                 {
-                  "id": 208,
+                  "id": 211,
                   "name": "asObject",
                   "kind": 4096,
                   "kindString": "Call signature",
@@ -21092,7 +21232,7 @@
               ]
             },
             {
-              "id": 205,
+              "id": 208,
               "name": "asString",
               "kind": 2048,
               "kindString": "Method",
@@ -21103,7 +21243,7 @@
               },
               "signatures": [
                 {
-                  "id": 206,
+                  "id": 209,
                   "name": "asString",
                   "kind": 4096,
                   "kindString": "Call signature",
@@ -21489,7 +21629,7 @@
           ]
         },
         {
-          "id": 218,
+          "id": 221,
           "name": "SlackEventMiddleware",
           "kind": 128,
           "kindString": "Class",
@@ -21503,7 +21643,7 @@
           },
           "children": [
             {
-              "id": 219,
+              "id": 222,
               "name": "onTurn",
               "kind": 2048,
               "kindString": "Method",
@@ -21514,7 +21654,7 @@
               },
               "signatures": [
                 {
-                  "id": 220,
+                  "id": 223,
                   "name": "onTurn",
                   "kind": 4096,
                   "kindString": "Call signature",
@@ -21524,7 +21664,7 @@
                   },
                   "parameters": [
                     {
-                      "id": 221,
+                      "id": 224,
                       "name": "context",
                       "kind": 32768,
                       "kindString": "Parameter",
@@ -21536,7 +21676,7 @@
                       }
                     },
                     {
-                      "id": 222,
+                      "id": 225,
                       "name": "next",
                       "kind": 32768,
                       "kindString": "Parameter",
@@ -21547,14 +21687,14 @@
                       "type": {
                         "type": "reflection",
                         "declaration": {
-                          "id": 223,
+                          "id": 226,
                           "name": "__type",
                           "kind": 65536,
                           "kindString": "Type literal",
                           "flags": {},
                           "signatures": [
                             {
-                              "id": 224,
+                              "id": 227,
                               "name": "__call",
                               "kind": 4096,
                               "kindString": "Call signature",
@@ -21608,7 +21748,7 @@
               "title": "Methods",
               "kind": 2048,
               "children": [
-                219
+                222
               ]
             }
           ],
@@ -21628,7 +21768,7 @@
           "props": [],
           "methods": [
             {
-              "id": 219,
+              "id": 222,
               "name": "onTurn",
               "kind": 2048,
               "kindString": "Method",
@@ -21639,7 +21779,7 @@
               },
               "signatures": [
                 {
-                  "id": 220,
+                  "id": 223,
                   "name": "onTurn",
                   "kind": 4096,
                   "kindString": "Call signature",
@@ -21649,7 +21789,7 @@
                   },
                   "parameters": [
                     {
-                      "id": 221,
+                      "id": 224,
                       "name": "context",
                       "kind": 32768,
                       "kindString": "Parameter",
@@ -21661,7 +21801,7 @@
                       }
                     },
                     {
-                      "id": 222,
+                      "id": 225,
                       "name": "next",
                       "kind": 32768,
                       "kindString": "Parameter",
@@ -21672,14 +21812,14 @@
                       "type": {
                         "type": "reflection",
                         "declaration": {
-                          "id": 223,
+                          "id": 226,
                           "name": "__type",
                           "kind": 65536,
                           "kindString": "Type literal",
                           "flags": {},
                           "signatures": [
                             {
-                              "id": 224,
+                              "id": 227,
                               "name": "__call",
                               "kind": 4096,
                               "kindString": "Call signature",
@@ -21731,7 +21871,7 @@
           "constructors": []
         },
         {
-          "id": 210,
+          "id": 213,
           "name": "SlackMessageTypeMiddleware",
           "kind": 128,
           "kindString": "Class",
@@ -21745,7 +21885,7 @@
           },
           "children": [
             {
-              "id": 211,
+              "id": 214,
               "name": "onTurn",
               "kind": 2048,
               "kindString": "Method",
@@ -21756,7 +21896,7 @@
               },
               "signatures": [
                 {
-                  "id": 212,
+                  "id": 215,
                   "name": "onTurn",
                   "kind": 4096,
                   "kindString": "Call signature",
@@ -21766,7 +21906,7 @@
                   },
                   "parameters": [
                     {
-                      "id": 213,
+                      "id": 216,
                       "name": "context",
                       "kind": 32768,
                       "kindString": "Parameter",
@@ -21778,7 +21918,7 @@
                       }
                     },
                     {
-                      "id": 214,
+                      "id": 217,
                       "name": "next",
                       "kind": 32768,
                       "kindString": "Parameter",
@@ -21789,14 +21929,14 @@
                       "type": {
                         "type": "reflection",
                         "declaration": {
-                          "id": 215,
+                          "id": 218,
                           "name": "__type",
                           "kind": 65536,
                           "kindString": "Type literal",
                           "flags": {},
                           "signatures": [
                             {
-                              "id": 216,
+                              "id": 219,
                               "name": "__call",
                               "kind": 4096,
                               "kindString": "Call signature",
@@ -21850,7 +21990,7 @@
               "title": "Methods",
               "kind": 2048,
               "children": [
-                211
+                214
               ]
             }
           ],
@@ -21870,7 +22010,7 @@
           "props": [],
           "methods": [
             {
-              "id": 211,
+              "id": 214,
               "name": "onTurn",
               "kind": 2048,
               "kindString": "Method",
@@ -21881,7 +22021,7 @@
               },
               "signatures": [
                 {
-                  "id": 212,
+                  "id": 215,
                   "name": "onTurn",
                   "kind": 4096,
                   "kindString": "Call signature",
@@ -21891,7 +22031,7 @@
                   },
                   "parameters": [
                     {
-                      "id": 213,
+                      "id": 216,
                       "name": "context",
                       "kind": 32768,
                       "kindString": "Parameter",
@@ -21903,7 +22043,7 @@
                       }
                     },
                     {
-                      "id": 214,
+                      "id": 217,
                       "name": "next",
                       "kind": 32768,
                       "kindString": "Parameter",
@@ -21914,14 +22054,14 @@
                       "type": {
                         "type": "reflection",
                         "declaration": {
-                          "id": 215,
+                          "id": 218,
                           "name": "__type",
                           "kind": 65536,
                           "kindString": "Type literal",
                           "flags": {},
                           "signatures": [
                             {
-                              "id": 216,
+                              "id": 219,
                               "name": "__call",
                               "kind": 4096,
                               "kindString": "Call signature",

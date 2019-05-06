@@ -664,7 +664,7 @@ Add a dropdown select input to the dialog
 | label| string | 
 | name| string | 
 | value| string | 
-| option_list| string | 
+| option_list|  | 
 | options (optional)| any | <br/>
 
 
