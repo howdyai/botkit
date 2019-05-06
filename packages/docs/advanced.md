@@ -19,13 +19,15 @@ GOALS:
 * Inherit much goodness from [Bot Framework SDK](https://github.com/microsoft/botbuilder-js)
 * Provide a way for bots to be extended with plugins and modular features, and for those plugins to provide a consistent interface to administrators
 
-
-
 ## How to upgrade from 0.7 to 4.0
+
+Though many things have changed in the latest version of Botkit, and it is not directly backwards compatible with previous versions,
+many elements of the previous Botkit syntax are still present and the vast majority of features from the previous verisons
+Experienced Botkit developers will recognize familiar syntax of features like `hears()` and `ask()`.
 
 You may need to update your Node version because v4 of Botkit uses modern Javascript syntax. We suggest using the LTS version.
 
-Changes to how Botkit is installed and configured:
+### Changes to how Botkit is installed and configured:
 
 * Previous versions of Botkit contained all the adapters. Now the adapters are separate packages.
 * Now have to separately configure Botkit and the adapter.
@@ -49,7 +51,7 @@ let controller = new Botkit({
 });
 ```
 
-Syntax changes in your bot code:
+### Syntax changes in your bot code:
 
 * Everything has been promisified! Before all your "hears" or "on" handlers, add the "async" keyword to the function.
 * Add "await" keyword in front of all calls to bot.reply or bot.say or similar functions.
@@ -69,7 +71,7 @@ bot.hears('foo', 'message', async(bot, message) => {
 });
 ```
 
-Conversation changes:
+### Conversation changes:
 
 * All conversations have to be constructed using `new BotkitConversation()` added using `controller.addDialog()` at startup (not inside handler or dynamically)
 * Any call to startConversation (and related functions) has to be updated - these functions still exist but work differently, and must be paired with a call to `bot.beginDialog()`
@@ -150,6 +152,16 @@ controller.hears('tacos', 'direct_message', async(bot, message) => {
 });
 ```
 
+### Botkit Studio / Botkit CMS changes:
+
+The functionality previously associated with Botkit Studio and now associated with Botkit CMS has been now been moved out of the core SDK
+and into a plugin module.
+
+To access dialog content build in Botkit CMS, install `botkit-plugin-cms`, and adjust calls to the CMS from `controller.studio.*` to `controller.plugins.cms.*`. This includes calls to  handler registration functions like `controller.studio.before` and `controller.studio.after`.
+
+Read [more about using botkit-plugin-cms here](plugins/cms.html)
+
+
 ## Anatomy of a Botkit App
 
 File structure:
@@ -200,8 +212,8 @@ When a message is sent:
 
 ## Typescript
 
-## Hearing other types of things
-    * lambda
-    * regexps
+coming 
 
 ## How to build a new adapter
+
+coming
