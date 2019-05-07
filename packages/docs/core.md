@@ -34,7 +34,7 @@ The Botkit project includes several official adapters. Using these plugins, your
 * [Facebook Messenger](platforms/facebook.md)
 * [Twilio SMS](platforms/twilio-sms.md)
 
-In addition, the open source community has created a variety of plugins and extensions to Bot Framework.  Check out the [BotBuilder Community Repo](https://github.com/BotBuilderCommunity/botbuilder-community-js) for additional adapters, storage connectors and middlewares.
+In addition, the open source community has created a variety of plugins and extensions to Bot Framework.  Check out the [Bot Builder Community Repo](https://github.com/BotBuilderCommunity/botbuilder-community-js) for additional adapters, storage connectors and middlewares.
 
 ## Botkit Basics
 
