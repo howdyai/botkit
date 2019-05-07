@@ -22,8 +22,8 @@ module.exports = function(controller) {
         sidecar.use(inspector)
         
         // set up an alternate route for the emulator to connect to
+        console.log(`Use the Bot Framework Emulator in Inspect mode: http://localhost:${ process.env.PORT || 3000 }/api/sidecar`);
         controller.webserver.post('/api/sidecar', (req, res) => {
-            console.log(`Use the Bot Framework Emulator in Inspect mode: http://localhost:${ process.env.PORT || 3000 }/api/sidecar`);
             sidecar.processActivity(req, res, async(turnContext) => {
                 // noop
             });
