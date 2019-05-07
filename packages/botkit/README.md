@@ -42,7 +42,7 @@ The [full documentation for Botkit's capabilities begins here &raquo;](../docs/i
 ## Platform Support
 
 Botkit can connect to multiple messaging channels through the [Microsoft Bot Framework Service](https://dev.botframework.com).
-No plugins are necessary to use the Bot Framework service, and bots can be developed locally using the [Bot Framework Emulator](https://aka.ms/botemulator).
+No plugins are necessary to use the Bot Framework service, and bots can be developed locally using the [Bot Framework Emulator](https://aka.ms/botframework-emulator).
 
 The Botkit project includes several official adapters. Using these plugins, your bot can communicate directly with the messaging platforms.
 
@@ -53,7 +53,7 @@ The Botkit project includes several official adapters. Using these plugins, your
 * [Twilio SMS](../botbuilder-adapter-twilio-sms)
 * [Google Hangouts](../botbuilder-adapter-hangouts)
 
-Additional adapters can be found by searching npm for [Bot Framework-compatible adapters](https://www.npmjs.com/search?q=botbuilder-adapter-).
+Additional adapters can be found by [searching npm for Bot Framework-compatible adapters](https://www.npmjs.com/search?q=botbuilder-adapter). The open source community has created a variety of plugins and extensions to Bot Framework.  Check out the [BotBuilder Community Repo](https://github.com/BotBuilderCommunity/botbuilder-community-js) for additional adapters, storage connectors and middlewares.
 
 [Platform specific documentation can be found on the main docs site  &raquo;](../docs/platforms/index.md)
 
