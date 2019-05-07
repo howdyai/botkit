@@ -53,7 +53,7 @@ The Botkit project includes several official adapters. Using these plugins, your
 * [Twilio SMS](../botbuilder-adapter-twilio-sms)
 * [Google Hangouts](../botbuilder-adapter-hangouts)
 
-Additional adapters can be found by [searching npm for Bot Framework-compatible adapters](https://www.npmjs.com/search?q=botbuilder-adapter). The open source community has created a variety of plugins and extensions to Bot Framework.  Check out the [BotBuilder Community Repo](https://github.com/BotBuilderCommunity/botbuilder-community-js) for additional adapters, storage connectors and middlewares.
+Additional adapters can be found by [searching npm for Bot Framework-compatible adapters](https://www.npmjs.com/search?q=botbuilder-adapter). The open source community has created a variety of plugins and extensions to Bot Framework.  Check out the [Bot Builder Community Repo](https://github.com/BotBuilderCommunity/botbuilder-community-js) for additional adapters, storage connectors and middlewares.
 
 [Platform specific documentation can be found on the main docs site  &raquo;](../docs/platforms/index.md)
 
