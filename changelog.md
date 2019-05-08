@@ -6,8 +6,8 @@
 
 # Sub-package release notes
 
-* [botbuilder-adapter-web v1.0.1](packages/botbuilder-adapter-web/CHANGELOG.md#1.0.1)
-* [botbuilder-adapter-slack v1.0.1](packages/botbuilder-adapter-slack/CHANGELOG.md#1.0.1)
+* [botbuilder-adapter-web v1.0.2](packages/botbuilder-adapter-web/CHANGELOG.md#102)
+* [botbuilder-adapter-slack v1.0.2](packages/botbuilder-adapter-slack/CHANGELOG.md#102)
 
 # 4.0.1
 
