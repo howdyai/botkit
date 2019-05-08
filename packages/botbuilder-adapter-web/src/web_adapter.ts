@@ -305,4 +305,14 @@ export class WebAdapter extends BotAdapter {
             res.end();
         }
     }
+
+    /**
+     * Is given user currently connected?
+     *
+     * Example: `bot.controller.adapter.isConnected(message.user)`
+     * @param user
+     */
+    public isConnected(user: string): boolean {
+        return typeof clients[user] !== 'undefined';
+    }
 }
