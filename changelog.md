@@ -4,6 +4,8 @@
 
 [Want to contribute? Read our guide!](https://github.com/howdyai/botkit/blob/master/CONTRIBUTING.md)
 
+# [botbuilder-adapter-web v1.0.1](blob/master/packages/botbuilder-adapter-web/CHANGELOG.md#1.0.1)
+
 # 4.0.1
 
 This is the first major release of the new version of Botkit!
