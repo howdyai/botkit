@@ -122,13 +122,15 @@ Botkit-only: Initialization function called automatically when used with Botkit.
 
 <a name="isConnected"></a>
 ### isConnected()
-Is given user currently connected?
+Is given user currently connected? Use this to test the websocket connection
+between the bot and a given user before sending messages,
+particularly in cases where a long period of time may have passed.
 
 **Parameters**
 
 | Argument | Type | description
 |--- |--- |---
-| user| string | <br/>
+| user| string | the id of a user, typically from `message.user`<br/>
 
 
 

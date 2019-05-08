@@ -12410,7 +12410,7 @@
                   "kindString": "Call signature",
                   "flags": {},
                   "comment": {
-                    "shortText": "Is given user currently connected?",
+                    "shortText": "Is given user currently connected? Use this to test the websocket connection\nbetween the bot and a given user before sending messages,\nparticularly in cases where a long period of time may have passed.",
                     "text": "Example: `bot.controller.adapter.isConnected(message.user)`"
                   },
                   "parameters": [
@@ -12421,7 +12421,7 @@
                       "kindString": "Parameter",
                       "flags": {},
                       "comment": {
-                        "text": "\n"
+                        "text": "the id of a user, typically from `message.user`\n"
                       },
                       "type": {
                         "type": "intrinsic",
@@ -12438,7 +12438,7 @@
               "sources": [
                 {
                   "fileName": "web_adapter.ts",
-                  "line": 315,
+                  "line": 317,
                   "character": 22
                 }
               ]
@@ -12992,7 +12992,7 @@
                   "kindString": "Call signature",
                   "flags": {},
                   "comment": {
-                    "shortText": "Is given user currently connected?",
+                    "shortText": "Is given user currently connected? Use this to test the websocket connection\nbetween the bot and a given user before sending messages,\nparticularly in cases where a long period of time may have passed.",
                     "text": "Example: `bot.controller.adapter.isConnected(message.user)`"
                   },
                   "parameters": [
@@ -13003,7 +13003,7 @@
                       "kindString": "Parameter",
                       "flags": {},
                       "comment": {
-                        "text": "\n"
+                        "text": "the id of a user, typically from `message.user`\n"
                       },
                       "type": {
                         "type": "intrinsic",
@@ -13020,7 +13020,7 @@
               "sources": [
                 {
                   "fileName": "web_adapter.ts",
-                  "line": 315,
+                  "line": 317,
                   "character": 22
                 }
               ]
