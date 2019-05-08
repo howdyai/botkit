@@ -4,7 +4,8 @@
 
 [Want to contribute? Read our guide!](https://github.com/howdyai/botkit/blob/master/CONTRIBUTING.md)
 
-# [botbuilder-adapter-web v1.0.1](blob/master/packages/botbuilder-adapter-web/CHANGELOG.md#1.0.1)
+* [botbuilder-adapter-web v1.0.1](packages/botbuilder-adapter-web/CHANGELOG.md#1.0.1)
+* [botbuilder-adapter-slack v1.0.1](packages/botbuilder-adapter-slack/CHANGELOG.md#1.0.1)
 
 # 4.0.1
 
