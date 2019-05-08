@@ -647,7 +647,7 @@ export class BotkitConversation<O extends object = {}> extends Dialog<O> {
                     return await dc.prompt(this._prompt, this.makeOutgoing(line, step.values));
                 } catch (err) {
                     console.error(err);
-                    await dc.context.sendActivity(`Failed to start prompt ${ line.prompt.id }`);
+                    await dc.context.sendActivity(`Failed to start prompt ${ this._prompt }`);
                     return await step.next();
                 }
             // If there's nothing but text, send it!

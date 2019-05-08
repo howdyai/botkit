@@ -33,6 +33,7 @@ This class includes the following methods:
 * [continueConversation()](#continueConversation)
 * [createSocketServer()](#createSocketServer)
 * [init()](#init)
+* [isConnected()](#isConnected)
 * [processActivity()](#processActivity)
 * [sendActivities()](#sendActivities)
 
@@ -118,6 +119,20 @@ Botkit-only: Initialization function called automatically when used with Botkit.
 | botkit| any | <br/>
 
 
+
+<a name="isConnected"></a>
+### isConnected()
+Is given user currently connected?
+
+**Parameters**
+
+| Argument | Type | description
+|--- |--- |---
+| user| string | <br/>
+
+
+
+Example: `bot.controller.adapter.isConnected(message.user)`
 
 <a name="processActivity"></a>
 ### processActivity()
