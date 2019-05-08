@@ -224,7 +224,7 @@ export class SlackAdapter extends BotAdapter {
      */
     public getInstallLink(): string {
         if (this.options.clientId && this.options.scopes) {
-            const redirect = 'https://slack.com/oauth/authorize?client_id=' + this.options.clientId + '&scope=' + this.options.scopes.join(',');
+            const redirect = 'https://slack.com/oauth/authorize?client_id=' + this.options.clientId + '&scope=' + this.options.scopes.join(',') + '&redirect_uri=' + this.options.redirectUri;
             return redirect;
         } else {
             throw new Error('getInstallLink() cannot be called without clientId and scopes in adapter options');
