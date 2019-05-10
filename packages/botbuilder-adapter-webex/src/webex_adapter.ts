@@ -380,10 +380,21 @@ export class WebexAdapter extends BotAdapter {
                 type: ActivityTypes.Message
             };
 
+            // add in some fields from the original payload
+            activity.channelData.orgId = payload.orgId;
+            activity.channelData.createdBy = payload.createdBy;
+            activity.channelData.appId = payload.appId;
+            activity.channelData.actorId = payload.actorId;
+
             // this is the bot speaking
             if (activity.from.id === this.identity.id) {
                 activity.channelData.botkitEventType = 'self_message';
                 activity.type = ActivityTypes.Event;
+            } else {
+                // change the event type of messages sent in 1:1s
+                if (activity.channelData.roomType === 'direct') {
+                    activity.channelData.botkitEventType = 'direct_message';
+                }
             }
 
             if (decrypted_message.html) {
@@ -416,6 +427,7 @@ export class WebexAdapter extends BotAdapter {
                 }
             }
 
+
             // create a conversation reference
             const context = new TurnContext(this, activity);
 
@@ -446,5 +458,3 @@ export class WebexAdapter extends BotAdapter {
         }
     }
 }
-
-// TODO: Add event classifier middleware for direct messages, etc.
