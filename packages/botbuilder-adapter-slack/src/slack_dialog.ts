@@ -189,7 +189,7 @@ export class SlackDialog {
      * @param option_list
      * @param options
      */
-    public addSelect(label: string, name: string, value: string, option_list: [{label: string; value: string}], options?: any): SlackDialog {
+    public addSelect(label: string, name: string, value: string, option_list: { label: string; value: string | boolean | Object | null }[], options?: any): SlackDialog {
         var element = {
             label: label,
             name: name,
