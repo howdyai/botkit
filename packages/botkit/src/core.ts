@@ -685,7 +685,7 @@ export class Botkit {
         const dialogContext = await this.dialogSet.createContext(turnContext);
 
         // Spawn a bot worker with the dialogContext
-        const bot = await this.spawn(dialogContext).catch((err) => { throw err; });
+        const bot = await this.spawn(dialogContext);
 
         // Turn this turnContext into a Botkit message.
         const message: BotkitMessage = {
