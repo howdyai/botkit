@@ -103,7 +103,7 @@ export class SlackAdapter extends BotAdapter {
         * spoof messages from Slack.
         * These will be required in upcoming versions of Botkit.
         */
-        if (!this.options.verificationToken && !this.options.clientSigningSecret) {
+        if (!this.options.enable_incomplete && !this.options.verificationToken && !this.options.clientSigningSecret) {
             const warning = [
                 ``,
                 `****************************************************************************************`,
@@ -133,14 +133,25 @@ export class SlackAdapter extends BotAdapter {
                 console.error(err);
                 process.exit(1);
             });
-        } else if (!this.options.getTokenForTeam || !this.options.getBotUserByTeam) {
+        } else if (!this.options.enable_incomplete && (!this.options.getTokenForTeam || !this.options.getBotUserByTeam)) {
             // This is a fatal error. No way to get a token to interact with the Slack API.
             console.error('Missing Slack API credentials! Provide either a botToken or a getTokenForTeam() and getBotUserByTeam function as part of the SlackAdapter options.');
             process.exit(1);
-        } else if (!this.options.clientId || !this.options.clientSecret || !this.options.scopes || !this.options.redirectUri) {
+        } else if (!this.options.enable_incomplete && (!this.options.clientId || !this.options.clientSecret || !this.options.scopes || !this.options.redirectUri)) {
             // This is a fatal error. Need info to connet to Slack via oauth
             console.error('Missing Slack API credentials! Provide clientId, clientSecret, scopes and redirectUri as part of the SlackAdapter options.');
             process.exit(1);
+        } else if (this.options.enable_incomplete) {
+            const warning = [
+                ``,
+                `****************************************************************************************`,
+                `* WARNING: Your adapter may be running with an incomplete/unsafe configuration.        *`,
+                `* - Ensure all required configuration options are present                              *`,
+                `* - Disable the "enable_incomplete" option!                                            *`,
+                `****************************************************************************************`,
+                ``
+            ];
+            console.warn(warning.join('\n'));
         } else {
             debug('** Slack adapter running in multi-team mode.');
         }
@@ -693,6 +704,13 @@ export interface SlackAdapterOptions {
      * A method that receives a Slack team id and returns the bot user id associated with that team. Required for multi-team apps.
      */
     getBotUserByTeam?: (teamId: string) => Promise<string>;
+
+    /**
+     * Allow the adapter to startup without a complete configuration.
+     * This is risky as it may result in a non-functioning or insecure adapter.
+     * This should only be used when getting started.
+     */
+    enable_incomplete?: boolean;
 };
 
 // These interfaces are necessary to cast result of web api calls
