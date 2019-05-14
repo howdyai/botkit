@@ -6,6 +6,10 @@
 
 # 4.0.2
 
+* https://github.com/howdyai/botkit/pull/1648
+* https://github.com/howdyai/botkit/issues/1646
+* https://github.com/howdyai/botkit/pull/1654 
+
 * Fix an issue where the convo.before hook would not fire as expected in some circumstances
 
 # 4.0.1
