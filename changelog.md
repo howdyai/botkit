@@ -14,9 +14,9 @@
 
 # Sub-package release notes
 
-* [botbuilder-adapter-web v1.0.3](packages/botbuilder-adapter-web/CHANGELOG.md#102)
-* [botbuilder-adapter-slack v1.0.3](packages/botbuilder-adapter-slack/CHANGELOG.md#102)
-* [botbuilder-adapter-webex v1.0.3](packages/botbuilder-adapter-webex/CHANGELOG.md#102)
+* [botbuilder-adapter-web v1.0.3](packages/botbuilder-adapter-web/CHANGELOG.md#103)
+* [botbuilder-adapter-slack v1.0.3](packages/botbuilder-adapter-slack/CHANGELOG.md#103)
+* [botbuilder-adapter-webex v1.0.1](packages/botbuilder-adapter-webex/CHANGELOG.md#101)
 * [botkit-plugin-cms v1.0.1](packages/botkit-plugin-cms/CHANGELOG.md#101)
 
 

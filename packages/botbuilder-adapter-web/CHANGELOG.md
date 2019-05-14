@@ -2,7 +2,7 @@
 
 # 1.0.3
 
-* https://github.com/howdyai/botkit/pull/1657
+* Fix - will not attempt to send a message if socket is closed. https://github.com/howdyai/botkit/pull/1657
 
 # 1.0.2
 
