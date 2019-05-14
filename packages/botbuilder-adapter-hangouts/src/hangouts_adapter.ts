@@ -229,8 +229,6 @@ export class HangoutsAdapter extends BotAdapter {
                 const results = await this.api.spaces.messages.delete({
                     name: reference.activityId
                 });
-                console.log('results of delete', results);
-
                 if (!results || results.status !== 200) {
                     throw new Error('deleteActivity failed: ' + results.statusText);
                 }

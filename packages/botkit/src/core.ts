@@ -63,6 +63,11 @@ export interface BotkitConfiguration {
      * Disable webserver. If true, Botkit will not create a webserver or expose any webhook endpoints automatically. Defaults to false.
      */
     disable_webserver?: boolean;
+
+    /**
+     * Disable messages normally sent to the console during startup.
+     */
+    disable_console?: boolean;
 }
 
 /**
@@ -327,9 +332,11 @@ export class Botkit {
         if (!this._config.storage) {
             // Set up temporary storage for dialog state.
             this.storage = new MemoryStorage();
-            console.warn('** Your bot is using memory storage and will forget everything when it reboots!');
-            console.warn('** To preserve dialog state, specify a storage adapter in your Botkit config:');
-            console.warn('** const controller = new Botkit({storage: myStorageAdapter});');
+            if (this._config.disable_console !== true) {
+                console.warn('** Your bot is using memory storage and will forget everything when it reboots!');
+                console.warn('** To preserve dialog state, specify a storage adapter in your Botkit config:');
+                console.warn('** const controller = new Botkit({storage: myStorageAdapter});');
+            }
         } else {
             this.storage = this._config.storage;
         }
@@ -371,7 +378,9 @@ export class Botkit {
                 this.webserver.set('view engine', 'hbs');
 
                 this.http.listen(process.env.port || process.env.PORT || 3000, () => {
-                    console.log(`Webhook endpoint online:  http://localhost:${ process.env.PORT || 3000 }${ this._config.webhook_uri }`);
+                    if (this._config.disable_console !== true) {
+                        console.log(`Webhook endpoint online:  http://localhost:${ process.env.PORT || 3000 }${ this._config.webhook_uri }`);
+                    }
                     this.completeDep('webserver');
                 });
             } else {
@@ -384,7 +393,9 @@ export class Botkit {
             debug('Configuring BotFrameworkAdapter:', adapterConfig);
             this.adapter = new BotkitBotFrameworkAdapter(adapterConfig);
             if (this.webserver) {
-                console.log(`Open this bot in Bot Framework Emulator: bfemulator://livechat.open?botUrl=` + encodeURIComponent(`http://localhost:${ process.env.PORT || 3000 }${ this._config.webhook_uri }`));
+                if (this._config.disable_console !== true) {
+                    console.log(`Open this bot in Bot Framework Emulator: bfemulator://livechat.open?botUrl=` + encodeURIComponent(`http://localhost:${ process.env.PORT || 3000 }${ this._config.webhook_uri }`));
+                }
             }
         } else {
             debug('Using pre-configured adapter.');
@@ -480,7 +491,9 @@ export class Botkit {
      * @param endpoints the plugin object that contains middleware endpoint definitions
      */
     private registerPlugin(name: string, endpoints: BotkitPlugin): void {
-        console.log('Enabling plugin: ', name);
+        if (this._config.disable_console !== true) {
+            console.log('Enabling plugin: ', name);
+        }
         if (this.plugin_list.indexOf(name) >= 0) {
             debug('Plugin already enabled:', name);
             return;

@@ -4,6 +4,10 @@
 
 [Want to contribute? Read our guide!](https://github.com/howdyai/botkit/blob/master/CONTRIBUTING.md)
 
+# 4.0.2
+
+* Fix an issue where the convo.before hook would not fire as expected in some circumstances
+
 # 4.0.1
 
 This is the first major release of the new version of Botkit!

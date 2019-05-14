@@ -6,7 +6,7 @@ const { BotkitCMSHelper } = require('botkit-plugin-cms');
 
 const { SlackAdapter, SlackMessageTypeMiddleware, SlackIdentifyBotsMiddleware, SlackEventMiddleware } = require('botbuilder-adapter-slack');
 // const { WebexAdapter } = require('botbuilder-adapter-webex');
-// const { WebsocketAdapter } = require('botbuilder-adapter-websocket');
+// const { WebAdapter } = require('botbuilder-adapter-web');
 // const { FacebookAdapter, FacebookEventTypeMiddleware } = require('botbuilder-adapter-facebook');
 // const { HangoutsAdapter } = require('botbuilder-adapter-hangouts');
 // const { TwilioAdapter } = require('botbuilder-adapter-twilio-sms');
@@ -49,7 +49,7 @@ if (process.env.MONGO_URI) {
  * ----------------------------------------------------------------------
  */
 const adapter = new SlackAdapter({
-   verificationToken: process.env.verificationToken,
+    verificationToken: process.env.verificationToken,
     clientSigningSecret: process.env.clientSigningSecret,  
     botToken: process.env.botToken,
     clientId: process.env.clientId,
@@ -112,7 +112,7 @@ adapter.use(new SlackMessageTypeMiddleware());
  * Configure the Websocket adapter
  * ----------------------------------------------------------------------
  */
-// const adapter = new WebsocketAdapter({});
+// const adapter = new WebAdapter({});
 
 // const adapter = new FacebookAdapter({
 //     verify_token: process.env.FACEBOOK_VERIFY_TOKEN,
@@ -140,7 +140,8 @@ adapter.use(new SlackMessageTypeMiddleware());
 const controller = new Botkit({
     debug: true,
     webhook_uri: '/api/messages',
-    // adapter: adapter,
+    disable_console: true,
+    adapter: adapter,
     // disable_webserver: true,
     // adapterConfig: {
     //     appId: process.env.APP_ID,
@@ -178,8 +179,7 @@ controller.ready(() => {
 
     // load "packaged" plugins
     // turn on verbose console logging of send/receive/web requests
-    controller.usePlugin(require('./plugins/verbose/index.js'));
-
+    // controller.usePlugin(require('./plugins/verbose/index.js'));
 
     if (controller.webserver) {
 

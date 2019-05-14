@@ -656,7 +656,7 @@ export class BotkitConversation<O extends object = {}> extends Dialog<O> {
                 // if there is text, attachments, or any channel data fields at all...
                 if (line.type || line.text || line.attachments || (line.channelData && Object.keys(line.channelData).length)) {
                     await dc.context.sendActivity(this.makeOutgoing(line, step.values));
-                } else {
+                } else if (!line.action) {
                     console.error('Dialog contains invalid message', line);
                 }
 
@@ -711,7 +711,8 @@ export class BotkitConversation<O extends object = {}> extends Dialog<O> {
 
         // did we just start a new thread?
         // if so, run the before stuff.
-        if (index === 0 && previous_thread !== thread_name) {
+        // if (index === 0 && previous_thread !== thread_name) {
+        if (index===0) {
             await this.runBefore(step.thread, dc, step);
 
             // did we just change threads? if so, restart
@@ -761,7 +762,7 @@ export class BotkitConversation<O extends object = {}> extends Dialog<O> {
         if (!outgoing.channelData) {
             outgoing.channelData = {};
         }
-        
+
         // set the type
         if (line.type) {
             outgoing.type = line.type;
@@ -833,6 +834,7 @@ export class BotkitConversation<O extends object = {}> extends Dialog<O> {
     private async gotoThreadAction(thread: string, dc: DialogContext, step: BotkitConversationStep): Promise<any> {
         step.thread = thread;
         step.index = 0;
+
         return await this.runStep(dc, step.index, step.thread, DialogReason.nextCalled, step.values);
     }
 
