@@ -200,7 +200,7 @@ export class WebAdapter extends BotAdapter {
             if (channel === 'websocket') {
                 // If this turn originated with a websocket message, respond via websocket
                 var ws = clients[activity.recipient.id];
-                if (ws) {
+                if (ws && ws.readyState === 1) {
                     try {
                         ws.send(JSON.stringify(message));
                     } catch (err) {
