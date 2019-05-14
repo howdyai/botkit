@@ -201,7 +201,7 @@ export class WebAdapter extends BotAdapter {
             if (channel === 'websocket') {
                 // If this turn originated with a websocket message, respond via websocket
                 var ws = clients[activity.recipient.id];
-                if (ws) {
+                if (ws && ws.readyState === 1) {
                     try {
                         ws.send(JSON.stringify(message));
                     } catch (err) {
@@ -295,8 +295,7 @@ export class WebAdapter extends BotAdapter {
 
         context.turnState.set('httpStatus', 200);
 
-        await this.runMiddleware(context, logic)
-            .catch((err) => { throw err; });
+        await this.runMiddleware(context, logic);
 
         // send http response back
         res.status(context.turnState.get('httpStatus'));

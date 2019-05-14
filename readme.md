@@ -46,7 +46,7 @@ Clone the entire Botkit project from Github.
 git clone git@github.com:howdyai/botkit.git
 ```
 
-Enter the new folder, and switch to the `next` branch.
+Enter the new folder and install the dependent packages:
 
 ```bash
 cd botkit

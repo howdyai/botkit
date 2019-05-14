@@ -698,7 +698,7 @@ export class Botkit {
         const dialogContext = await this.dialogSet.createContext(turnContext);
 
         // Spawn a bot worker with the dialogContext
-        const bot = await this.spawn(dialogContext).catch((err) => { throw err; });
+        const bot = await this.spawn(dialogContext);
 
         // Turn this turnContext into a Botkit message.
         const message: BotkitMessage = {
@@ -1045,7 +1045,7 @@ export class Botkit {
      * for handling platform-specific events or activities.
      * @param config {any} Preferably receives a DialogContext, though can also receive a TurnContext. If excluded, must call `bot.changeContext(reference)` before calling any other method.
      */
-    public async spawn(config: any): Promise<BotWorker> {
+    public async spawn(config?: any): Promise<BotWorker> {
         if (config instanceof TurnContext) {
             config = {
                 dialogContext: await this.dialogSet.createContext(config as TurnContext),
