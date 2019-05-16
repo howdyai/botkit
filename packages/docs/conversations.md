@@ -88,7 +88,7 @@ convo.addQuestion('Now, what is your favorite color?', async(response, convo, bo
 },'color', 'favorite_color');
 
 // go to a confirmation
-convo.addAction('confirmation');
+convo.addAction('confirmation' ,'favorite_color');
 
 // do a simple conditional branch looking for user to say "no"
 convo.addQuestion('Your name is {{vars.name}} and your favorite color is {{vars.color}}. Is that right?', [
