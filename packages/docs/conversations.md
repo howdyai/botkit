@@ -10,7 +10,7 @@ Dialogs are created using functions like [convo.ask()](reference/core.md#ask) an
 To use BotkitConversations, make sure to import the class along with Botkit:
 
 ```javascript
-const { Botkit, BotkitConversation } = require('botkit';
+const { Botkit, BotkitConversation } = require('botkit');
 ```
 
 ## Anatomy of a Botkit Conversation
