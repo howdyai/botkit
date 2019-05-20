@@ -306,7 +306,7 @@ export class WebAdapter extends BotAdapter {
     }
 
     /**
-     * Is given user currently connected? Use this to test the websocket connection 
+     * Is given user currently connected? Use this to test the websocket connection
      * between the bot and a given user before sending messages,
      * particularly in cases where a long period of time may have passed.
      *
@@ -315,5 +315,16 @@ export class WebAdapter extends BotAdapter {
      */
     public isConnected(user: string): boolean {
         return typeof clients[user] !== 'undefined';
+    }
+
+    /**
+     * Returns websocket connection of given user
+     * @param user
+     */
+    public getConnection(user: string): WebSocket {
+        if (!this.isConnected(user)) {
+            throw new Error('User ' + user + ' is not connected');
+        }
+        return clients[user];
     }
 }
