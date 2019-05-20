@@ -10,7 +10,7 @@ Dialogs are created using functions like [convo.ask()](reference/core.md#ask) an
 To use BotkitConversations, make sure to import the class along with Botkit:
 
 ```javascript
-const { Botkit, BotkitConversation } = require('botkit';
+const { Botkit, BotkitConversation } = require('botkit');
 ```
 
 ## Anatomy of a Botkit Conversation
@@ -88,7 +88,7 @@ convo.addQuestion('Now, what is your favorite color?', async(response, convo, bo
 },'color', 'favorite_color');
 
 // go to a confirmation
-convo.addAction('confirmation');
+convo.addAction('confirmation' ,'favorite_color');
 
 // do a simple conditional branch looking for user to say "no"
 convo.addQuestion('Your name is {{vars.name}} and your favorite color is {{vars.color}}. Is that right?', [

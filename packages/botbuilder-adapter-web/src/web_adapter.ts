@@ -317,4 +317,16 @@ export class WebAdapter extends BotAdapter {
     public isConnected(user: string): boolean {
         return typeof clients[user] !== 'undefined';
     }
+
+    /**
+     * Returns websocket connection of given user
+     * Example: `if (message.action === 'disconnect') bot.controller.adapter.getConnection(message.user).terminate()`
+     * @param user
+     */
+    public getConnection(user: string): WebSocket {
+        if (!this.isConnected(user)) {
+            throw new Error('User ' + user + ' is not connected');
+        }
+        return clients[user];
+    }
 }
