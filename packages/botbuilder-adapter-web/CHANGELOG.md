@@ -2,8 +2,8 @@
 
 # 1.0.3
 
-* Fix - will not attempt to send a message if socket is closed. https://github.com/howdyai/botkit/pull/1657
-* New: Add getConnection method() https://github.com/howdyai/botkit/pull/1666
+* Fix - will not attempt to send a message if socket is closed. - Thanks [@naktibalda](https://github.com/Naktibalda) for [the fix](https://github.com/howdyai/botkit/pull/1657)
+* Add getConnection method() - Thanks to [@naktibalda](https://github.com/Naktibalda) for [the contribution](https://github.com/howdyai/botkit/pull/1666)
 
 # 1.0.2
 

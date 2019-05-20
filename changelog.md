@@ -6,21 +6,21 @@
 
 # 4.0.2
 
-* Fix Typerscript signature of controller.spawn() - https://github.com/howdyai/botkit/pull/1648
-* Fix for allowing typing messages in dialogs - https://github.com/howdyai/botkit/issues/1646
-* Remove useless try/catch blocks - https://github.com/howdyai/botkit/pull/1654 
-* Fix an issue where the convo.before hook would not fire as expected when looping a thread.
+* Added `disable_console` option to controller. When set to true, Botkit will not emit normal console output.
+* Fix Typerscript signature of controller.spawn() - Thanks to [@naktibalda](https://github.com/Naktibalda) for [the fix](https://github.com/howdyai/botkit/pull/1648)
+* Fix for allowing typing messages in dialogs - [Details](https://github.com/howdyai/botkit/issues/1646)
+* Remove useless try/catch blocks -  - Thanks to [@naktibalda](https://github.com/Naktibalda) for [the fix](https://github.com/howdyai/botkit/pull/1654)
+* Fix an issue where the convo.before hook would not fire as expected when looping a thread. 
 
-
-# Sub-package release notes
+Coinciding with 4.0.2, the adapters and plugin have also been updated with bug fixes and minor updates:
 
 * [botbuilder-adapter-web v1.0.3](packages/botbuilder-adapter-web/CHANGELOG.md#103)
 * [botbuilder-adapter-slack v1.0.3](packages/botbuilder-adapter-slack/CHANGELOG.md#103)
 * [botbuilder-adapter-webex v1.0.1](packages/botbuilder-adapter-webex/CHANGELOG.md#101)
+* [botbuilder-adapter-facebook v1.0.3](packages/botbuilder-adapter-facebook/CHANGELOG.md#103)
+* [botbuilder-adapter-hangouts v1.0.2](packages/botbuilder-adapter-hangouts/CHANGELOG.md#102)
+* [botbuilder-adapter-twilio-sms v1.0.1](packages/botbuilder-adapter-twilio-sms/CHANGELOG.md#101)
 * [botkit-plugin-cms v1.0.1](packages/botkit-plugin-cms/CHANGELOG.md#101)
-
-
-
 
 # Sub-package release notes
 
