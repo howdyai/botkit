@@ -80,16 +80,56 @@ export class TwilioAdapter extends BotAdapter {
         this.options = options;
 
         if (!options.twilio_number) {
-            throw new Error('twilio_number is a required part of the configuration.');
+            let err = 'twilio_number is a required part of the configuration.';
+            if (!this.options.enable_incomplete) {
+                throw new Error(err);
+            } else {
+                console.error(err);
+            }
         }
         if (!options.account_sid) {
-            throw new Error('account_sid  is a required part of the configuration.');
+            let err = 'account_sid  is a required part of the configuration.';
+            if (!this.options.enable_incomplete) {
+                throw new Error(err);
+            } else {
+                console.error(err);
+            }
+
         }
         if (!options.auth_token) {
-            throw new Error('auth_token is a required part of the configuration.');
+            let err = 'auth_token is a required part of the configuration.';
+            if (!this.options.enable_incomplete) {
+                throw new Error(err);
+            } else {
+                console.error(err);
+            }
+
         }
 
-        this.api = Twilio(this.options.account_sid, this.options.auth_token);
+        if (this.options.enable_incomplete) {
+            const warning = [
+                ``,
+                `****************************************************************************************`,
+                `* WARNING: Your adapter may be running with an incomplete/unsafe configuration.        *`,
+                `* - Ensure all required configuration options are present                              *`,
+                `* - Disable the "enable_incomplete" option!                                            *`,
+                `****************************************************************************************`,
+                ``
+            ];
+            console.warn(warning.join('\n'));
+        }
+
+        try {
+            this.api = Twilio(this.options.account_sid, this.options.auth_token);
+        } catch(err) {
+            if (err) {
+                if (!this.options.enable_incomplete) {
+                    throw new Error(err);
+                } else {
+                    console.error(err);
+                }
+            }
+        }
 
         this.middlewares = {
             spawn: [
@@ -285,4 +325,11 @@ export interface TwilioAdapterOptions {
      * An optional url to override the automatically generated url signature used to validate incoming requests -- [See Twilio docs about securing your endpoint.](https://www.twilio.com/docs/usage/security#validating-requests)
      */
     validation_url?: string;
+    /**
+     * Allow the adapter to startup without a complete configuration.
+     * This is risky as it may result in a non-functioning or insecure adapter.
+     * This should only be used when getting started.
+     */
+    enable_incomplete?: boolean;
+
 }

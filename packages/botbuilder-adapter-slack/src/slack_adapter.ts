@@ -103,7 +103,7 @@ export class SlackAdapter extends BotAdapter {
         * spoof messages from Slack.
         * These will be required in upcoming versions of Botkit.
         */
-        if (!this.options.enable_incomplete && !this.options.verificationToken && !this.options.clientSigningSecret) {
+        if (!this.options.verificationToken && !this.options.clientSigningSecret) {
             const warning = [
                 ``,
                 `****************************************************************************************`,
@@ -118,7 +118,9 @@ export class SlackAdapter extends BotAdapter {
                 ``
             ];
             console.warn(warning.join('\n'));
-            throw new Error('Required: include a verificationToken or clientSigningSecret to verify incoming Events API webhooks');
+            if (!this.options.enable_incomplete) {
+                throw new Error('Required: include a verificationToken or clientSigningSecret to verify incoming Events API webhooks');
+            }
         }
 
         if (this.options.botToken) {
@@ -133,15 +135,23 @@ export class SlackAdapter extends BotAdapter {
                 console.error(err);
                 process.exit(1);
             });
-        } else if (!this.options.enable_incomplete && (!this.options.getTokenForTeam || !this.options.getBotUserByTeam)) {
+        } else if (!this.options.getTokenForTeam || !this.options.getBotUserByTeam) {
             // This is a fatal error. No way to get a token to interact with the Slack API.
             console.error('Missing Slack API credentials! Provide either a botToken or a getTokenForTeam() and getBotUserByTeam function as part of the SlackAdapter options.');
-            process.exit(1);
-        } else if (!this.options.enable_incomplete && (!this.options.clientId || !this.options.clientSecret || !this.options.scopes || !this.options.redirectUri)) {
+            if (!this.options.enable_incomplete) {
+                throw new Error('Incomplete Slack configuration');
+            }
+        } else if (!this.options.clientId || !this.options.clientSecret || !this.options.scopes || !this.options.redirectUri) {
             // This is a fatal error. Need info to connet to Slack via oauth
             console.error('Missing Slack API credentials! Provide clientId, clientSecret, scopes and redirectUri as part of the SlackAdapter options.');
-            process.exit(1);
-        } else if (this.options.enable_incomplete) {
+            if (!this.options.enable_incomplete) {
+                throw new Error('Incomplete Slack configuration');
+            }
+        } else {
+            debug('** Slack adapter running in multi-team mode.');
+        }
+
+        if (this.options.enable_incomplete) {
             const warning = [
                 ``,
                 `****************************************************************************************`,
@@ -152,8 +162,6 @@ export class SlackAdapter extends BotAdapter {
                 ``
             ];
             console.warn(warning.join('\n'));
-        } else {
-            debug('** Slack adapter running in multi-team mode.');
         }
 
         this.middlewares = {

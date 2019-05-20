@@ -4,8 +4,8 @@ const { MongoDbStorage } = require('botbuilder-storage-mongodb');
 const basicAuth = require('express-basic-auth');
 const { BotkitCMSHelper } = require('botkit-plugin-cms');
 
-const { SlackAdapter, SlackMessageTypeMiddleware, SlackIdentifyBotsMiddleware, SlackEventMiddleware } = require('botbuilder-adapter-slack');
-// const { WebexAdapter } = require('botbuilder-adapter-webex');
+// const { SlackAdapter, SlackMessageTypeMiddleware, SlackIdentifyBotsMiddleware, SlackEventMiddleware } = require('botbuilder-adapter-slack');
+const { WebexAdapter } = require('botbuilder-adapter-webex');
 // const { WebAdapter } = require('botbuilder-adapter-web');
 // const { FacebookAdapter, FacebookEventTypeMiddleware } = require('botbuilder-adapter-facebook');
 // const { HangoutsAdapter } = require('botbuilder-adapter-hangouts');
@@ -33,11 +33,12 @@ if (process.env.MONGO_URI) {
  * Configure the Webex Teams adapter
  * ----------------------------------------------------------------------
  */
-// const adapter = new WebexAdapter({
-//     access_token: process.env.WEBEX_ACCESS_TOKEN,
-//     public_address: process.env.WEBEX_PUBLIC_ADDRESS,
-//     secret: 'random-secret-1234',
-// })
+const adapter = new WebexAdapter({
+    enable_incomplete: true,
+    // access_token: process.env.WEBEX_ACCESS_TOKEN,
+    // public_address: process.env.WEBEX_PUBLIC_ADDRESS,
+    secret: 'random-secret-1234',
+})
 
 /* ----------------------------------------------------------------------
  *  .--. .-.               .-.
@@ -47,61 +48,61 @@ if (process.env.MONGO_URI) {
  * `.__.'`.__;`.__,_;`.__.':_;:_;
  * Configure the Slack adapter
  * ----------------------------------------------------------------------
- */
-const adapter = new SlackAdapter({
-    enable_incomplete: true,
-    // verificationToken: process.env.verificationToken,
-    clientSigningSecret: process.env.clientSigningSecret,  
-    // botToken: process.env.botToken,
-    clientId: process.env.clientId,
-    clientSecret: process.env.clientSecret,
-    scopes: ['bot'],
-    redirectUri: process.env.redirectUri,
-    getTokenForTeam: getTokenForTeam,
-    getBotUserByTeam: getBotUserByTeam,
-});
+//  */
+// const adapter = new SlackAdapter({
+//     enable_incomplete: true,
+//     // verificationToken: process.env.verificationToken,
+//     clientSigningSecret: process.env.clientSigningSecret,  
+//     // botToken: process.env.botToken,
+//     // clientId: process.env.clientId,
+//     // clientSecret: process.env.clientSecret,
+//     // scopes: ['bot'],
+//     // redirectUri: process.env.redirectUri,
+//     // getTokenForTeam: getTokenForTeam,
+//     // getBotUserByTeam: getBotUserByTeam,
+// });
 
-let tokenCache = {};
-let userCache = {};
+// let tokenCache = {};
+// let userCache = {};
 
-if (process.env.TOKENS) {
-    tokenCache = JSON.parse(process.env.TOKENS);
-} 
+// if (process.env.TOKENS) {
+//     tokenCache = JSON.parse(process.env.TOKENS);
+// } 
 
-if (process.env.USERS) {
-    userCache = JSON.parse(process.env.USERS);
-} 
+// if (process.env.USERS) {
+//     userCache = JSON.parse(process.env.USERS);
+// } 
 
-async function getTokenForTeam(teamId) {
-    if (tokenCache[teamId]) {
-        return new Promise((resolve) => {
-            setTimeout(function() {
-                resolve(tokenCache[teamId]);
-            }, 150);
-        });
-    } else {
-        console.error('Team not found in tokenCache: ', teamId);
-    }
-}
+// async function getTokenForTeam(teamId) {
+//     if (tokenCache[teamId]) {
+//         return new Promise((resolve) => {
+//             setTimeout(function() {
+//                 resolve(tokenCache[teamId]);
+//             }, 150);
+//         });
+//     } else {
+//         console.error('Team not found in tokenCache: ', teamId);
+//     }
+// }
 
-async function getBotUserByTeam(teamId) {
-    if (userCache[teamId]) {
-        return new Promise((resolve) => {
-            setTimeout(function() {
-                resolve(userCache[teamId]);
-            }, 150);
-        });
-    } else {
-        console.error('Team not found in userCache: ', teamId);
-    }
-}
+// async function getBotUserByTeam(teamId) {
+//     if (userCache[teamId]) {
+//         return new Promise((resolve) => {
+//             setTimeout(function() {
+//                 resolve(userCache[teamId]);
+//             }, 150);
+//         });
+//     } else {
+//         console.error('Team not found in userCache: ', teamId);
+//     }
+// }
 
 
-// Use SlackEventMiddleware to emit events that match their original Slack event types.
-adapter.use(new SlackEventMiddleware());
+// // Use SlackEventMiddleware to emit events that match their original Slack event types.
+// adapter.use(new SlackEventMiddleware());
 
-// Use SlackMessageType middleware to further classify messages as direct_message, direct_mention, or mention
-adapter.use(new SlackMessageTypeMiddleware());
+// // Use SlackMessageType middleware to further classify messages as direct_message, direct_mention, or mention
+// adapter.use(new SlackMessageTypeMiddleware());
 // 
 /* ----------------------------------------------------------------------
  *  __      __      ___.                        __           __   
@@ -116,7 +117,8 @@ adapter.use(new SlackMessageTypeMiddleware());
 // const adapter = new WebAdapter({});
 
 // const adapter = new FacebookAdapter({
-//     verify_token: process.env.FACEBOOK_VERIFY_TOKEN,
+//     // enable_incomplete: true,
+//     // verify_token: process.env.FACEBOOK_VERIFY_TOKEN,
 //     getAccessTokenForPage: async(team) => { console.log('GET TOKEN FOR TEAM', team); if (team === process.env.FACEBOOK_PAGE_ID) { return process.env.FACEBOOK_ACCESS_TOKEN } },
 //     app_secret: process.env.FACEBOOK_APP_SECRET,
 // })
@@ -126,6 +128,7 @@ adapter.use(new SlackMessageTypeMiddleware());
 
 
 // const adapter = new HangoutsAdapter({
+//     // enable_incomplete: true,
 //     token: process.env.GOOGLE_TOKEN,
 //     google_auth_params: {
 //         credentials: JSON.parse(process.env['GOOGLE_CREDS'])
@@ -133,9 +136,10 @@ adapter.use(new SlackMessageTypeMiddleware());
 // });
 
 // const adapter = new TwilioAdapter({
-//     twilio_number: process.env.TWILIO_NUMBER,
-//     account_sid: process.env.TWILIO_ACCOUNT_SID,
-//     auth_token: process.env.TWILIO_AUTH_TOKEN,
+//     // enable_incomplete: true,
+//     // twilio_number: process.env.TWILIO_NUMBER,
+//     // account_sid: process.env.TWILIO_ACCOUNT_SID,
+//     // auth_token: process.env.TWILIO_AUTH_TOKEN,
 // });
 
 const controller = new Botkit({

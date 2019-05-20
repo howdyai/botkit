@@ -31,13 +31,19 @@ export interface WebexAdapterOptions {
      * a name for the webhook subscription that will be created to tell Webex to send your bot webhooks.
      */
     webhook_name?: string;
+    /**
+     * Allow the adapter to startup without a complete configuration.
+     * This is risky as it may result in a non-functioning or insecure adapter.
+     * This should only be used when getting started.
+     */
+    enable_incomplete?: boolean;    
 }
 
 /**
  * Connect [Botkit](https://www.npmjs.com/package/botkit) or [BotBuilder](https://www.npmjs.com/package/botbuilder) to Webex Teams.
  */
 export class WebexAdapter extends BotAdapter {
-    private _config: WebexAdapterOptions;
+    private options: WebexAdapterOptions;
 
     private _api: Ciscospark;
     private _identity: any;
@@ -104,39 +110,67 @@ export class WebexAdapter extends BotAdapter {
     public constructor(config: WebexAdapterOptions) {
         super();
 
-        this._config = {
+        this.options = {
             ...config
         };
 
-        if (!this._config.access_token) {
-            throw new Error('access_token required to create controller');
+        if (!this.options.access_token) {
+            let err = 'Missing required parameter `access_token`';
+            if (!this.options.enable_incomplete) {
+                throw new Error(err);
+            } else {
+                console.error(err);
+            }
         } else {
             this._api = Ciscospark.init({
                 credentials: {
                     authorization: {
-                        access_token: this._config.access_token
+                        access_token: this.options.access_token
                     }
                 }
             });
 
             if (!this._api) {
-                throw new Error('Could not create the Webex Teams API client');
+                let err = 'Could not create the Webex Teams API client';
+                if (!this.options.enable_incomplete) {
+                    throw new Error(err);
+                } else {
+                    console.error(err);
+                }
             }
         }
 
-        if (!this._config.public_address) {
-            throw new Error('public_address parameter required to receive webhooks');
-        } else {
-            var endpoint = url.parse(this._config.public_address);
-            if (!endpoint.hostname) {
-                throw new Error('Could not determine hostname of public address: ' + this._config.public_address);
+        if (!this.options.public_address) {
+            let err = 'Missing required parameter `public_address`';
+            if (!this.options.enable_incomplete) {
+                throw new Error(err);
             } else {
-                this._config.public_address = endpoint.hostname + (endpoint.port ? ':' + endpoint.port : '');
+                console.error(err);
+            }
+        } else {
+            var endpoint = url.parse(this.options.public_address);
+            if (!endpoint.hostname) {
+                throw new Error('Could not determine hostname of public address: ' + this.options.public_address);
+            } else {
+                this.options.public_address = endpoint.hostname + (endpoint.port ? ':' + endpoint.port : '');
             }
         }
 
-        if (!this._config.secret) {
+        if (!this.options.secret) {
             console.warn('WARNING: No secret specified. Source of incoming webhooks will not be validated. https://developer.webex.com/webhooks-explained.html#auth');
+        }
+
+        if (this.options.enable_incomplete) {
+            const warning = [
+                ``,
+                `****************************************************************************************`,
+                `* WARNING: Your adapter may be running with an incomplete/unsafe configuration.        *`,
+                `* - Ensure all required configuration options are present                              *`,
+                `* - Disable the "enable_incomplete" option!                                            *`,
+                `****************************************************************************************`,
+                ``
+            ];
+            console.warn(warning.join('\n'));
         }
 
         // Botkit Plugin additions
@@ -158,13 +192,17 @@ export class WebexAdapter extends BotAdapter {
      */
     public async getIdentity(): Promise<any> {
         return new Promise((resolve, reject) => {
-            this._api.people.get('me').then((identity) => {
-                debug('Webex: My identity is', identity);
-                this._identity = identity;
-                resolve(identity);
-            }).catch((err) => {
-                reject(err);
-            });
+            if (this._api) {
+                this._api.people.get('me').then((identity) => {
+                    debug('Webex: My identity is', identity);
+                    this._identity = identity;
+                    resolve(identity);
+                }).catch((err) => {
+                    reject(err);
+                });
+            } else {
+                reject('No API client configured');
+            }
         });
     }
 
@@ -216,7 +254,7 @@ export class WebexAdapter extends BotAdapter {
      * @param webhook_path the path of the webhook endpoint like `/api/messages`
      */
     public registerWebhookSubscription(webhook_path): void {
-        var webhook_name = this._config.webhook_name || 'Botkit Firehose';
+        var webhook_name = this.options.webhook_name || 'Botkit Firehose';
 
         this._api.webhooks.list().then((list) => {
             var hook_id = null;
@@ -227,7 +265,7 @@ export class WebexAdapter extends BotAdapter {
                 }
             }
 
-            var hook_url = 'https://' + this._config.public_address + webhook_path;
+            var hook_url = 'https://' + this.options.public_address + webhook_path;
 
             debug('Webex: incoming webhook url is ', hook_url);
 
@@ -237,7 +275,7 @@ export class WebexAdapter extends BotAdapter {
                     resource: 'all',
                     targetUrl: hook_url,
                     event: 'all',
-                    secret: this._config.secret,
+                    secret: this.options.secret,
                     name: webhook_name
                 }).then(function() {
                     debug('Webex: SUCCESSFULLY UPDATED WEBEX WEBHOOKS');
@@ -250,7 +288,7 @@ export class WebexAdapter extends BotAdapter {
                     resource: 'all',
                     targetUrl: hook_url,
                     event: 'all',
-                    secret: this._config.secret,
+                    secret: this.options.secret,
                     name: webhook_name
                 }).then(function() {
                     debug('Webex: SUCCESSFULLY REGISTERED WEBEX WEBHOOKS');
@@ -357,9 +395,9 @@ export class WebexAdapter extends BotAdapter {
         var payload = req.body;
         let activity;
 
-        if (this._config.secret) {
+        if (this.options.secret) {
             var signature = req.headers['x-spark-signature'];
-            var hash = crypto.createHmac('sha1', this._config.secret).update(JSON.stringify(payload)).digest('hex');
+            var hash = crypto.createHmac('sha1', this.options.secret).update(JSON.stringify(payload)).digest('hex');
             if (signature !== hash) {
                 console.warn('WARNING: Webhook received message with invalid signature. Potential malicious behavior!');
                 return false;

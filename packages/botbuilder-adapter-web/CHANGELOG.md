@@ -3,6 +3,7 @@
 # 1.0.3
 
 * Fix - will not attempt to send a message if socket is closed. https://github.com/howdyai/botkit/pull/1657
+* New: Add getConnection method() https://github.com/howdyai/botkit/pull/1666
 
 # 1.0.2
 
