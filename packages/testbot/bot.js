@@ -5,8 +5,8 @@ const basicAuth = require('express-basic-auth');
 const { BotkitCMSHelper } = require('botkit-plugin-cms');
 
 // const { SlackAdapter, SlackMessageTypeMiddleware, SlackIdentifyBotsMiddleware, SlackEventMiddleware } = require('botbuilder-adapter-slack');
-const { WebexAdapter } = require('botbuilder-adapter-webex');
-// const { WebAdapter } = require('botbuilder-adapter-web');
+// const { WebexAdapter } = require('botbuilder-adapter-webex');
+const { WebAdapter } = require('botbuilder-adapter-web');
 // const { FacebookAdapter, FacebookEventTypeMiddleware } = require('botbuilder-adapter-facebook');
 // const { HangoutsAdapter } = require('botbuilder-adapter-hangouts');
 // const { TwilioAdapter } = require('botbuilder-adapter-twilio-sms');
@@ -33,12 +33,12 @@ if (process.env.MONGO_URI) {
  * Configure the Webex Teams adapter
  * ----------------------------------------------------------------------
  */
-const adapter = new WebexAdapter({
-    enable_incomplete: true,
-    // access_token: process.env.WEBEX_ACCESS_TOKEN,
-    // public_address: process.env.WEBEX_PUBLIC_ADDRESS,
-    secret: 'random-secret-1234',
-})
+// const adapter = new WebexAdapter({
+//     enable_incomplete: true,
+//     // access_token: process.env.WEBEX_ACCESS_TOKEN,
+//     // public_address: process.env.WEBEX_PUBLIC_ADDRESS,
+//     secret: 'random-secret-1234',
+// })
 
 /* ----------------------------------------------------------------------
  *  .--. .-.               .-.
@@ -114,7 +114,7 @@ const adapter = new WebexAdapter({
  * Configure the Websocket adapter
  * ----------------------------------------------------------------------
  */
-// const adapter = new WebAdapter({});
+const adapter = new WebAdapter({});
 
 // const adapter = new FacebookAdapter({
 //     // enable_incomplete: true,

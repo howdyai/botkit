@@ -28,9 +28,8 @@
     "url": "https://github.com/howdyai/botkit.git"
   },
   "dependencies": {
-    "botbuilder": "^4.4.0",
     "debug": "^4.1.0",
-    "botkit": "^4.0.1"
+    "botkit": "^4.0.2"
   },
   "devDependencies": {
     "@types/express": "^4.16.0",

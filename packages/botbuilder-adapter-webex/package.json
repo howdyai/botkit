@@ -33,7 +33,7 @@
     "url": "https://github.com/howdyai/botkit.git"
   },
     "dependencies": {
-    "botkit": "^4.0.1",
+    "botkit": "^4.0.2",
     "botbuilder": "^4.4.0",
     "ciscospark": "^1.32.23",
     "debug": "^4.1.0",
