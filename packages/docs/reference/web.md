@@ -32,6 +32,7 @@ const { WebAdapter } = require('botbuilder-adapter-web');
 This class includes the following methods:
 * [continueConversation()](#continueConversation)
 * [createSocketServer()](#createSocketServer)
+* [getConnection()](#getConnection)
 * [init()](#init)
 * [isConnected()](#isConnected)
 * [processActivity()](#processActivity)
@@ -104,6 +105,19 @@ Note: Create the server using Node's http.createServer
 | server| any | an http server
 | socketOptions| any | additional options passed when creating the websocket server with [WebSocket.server](https://github.com/websockets/ws/blob/master/doc/ws.md#new-websocketserveroptions-callback)
 | logic| any | a turn handler function in the form `async(context)=>{ ... }` that will handle the bot's logic.<br/>
+
+
+
+<a name="getConnection"></a>
+### getConnection()
+Returns websocket connection of given user
+Example: `if (message.action === 'disconnect') bot.controller.adapter.getConnection(message.user).terminate()`
+
+**Parameters**
+
+| Argument | Type | description
+|--- |--- |---
+| user| string | <br/>
 
 
 

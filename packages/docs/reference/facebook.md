@@ -364,5 +364,6 @@ This interface defines the options that can be passed into the FacebookAdapter c
 | api_host | string | Alternate root url used to contruct calls to Facebook's API.  Defaults to 'graph.facebook.com' but can be changed (for mocking, proxy, etc).<br/>
 | api_version | string | Alternate API version used to construct calls to Facebook's API. Defaults to v3.2<br/>
 | app_secret | string | The "app secret" from the "basic settings" page from your app's configuration in the Facebook developer portal<br/>
+| enable_incomplete | boolean | Allow the adapter to startup without a complete configuration.<br/>This is risky as it may result in a non-functioning or insecure adapter.<br/>This should only be used when getting started.<br/>
 | getAccessTokenForPage |  | When bound to multiple teams, provide a function that, given a page id, will return the page access token for that page.<br/>
 | verify_token | string | The "verify token" used to initially create and verify the Webhooks subscription settings on Facebook's developer portal.<br/>

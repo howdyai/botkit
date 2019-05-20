@@ -544,7 +544,6 @@ export class SlackAdapter extends BotAdapter {
                 }
             }
         } else if (event.type === 'event_callback') {
-
             // this is an event api post
             if (this.options.verificationToken && event.token !== this.options.verificationToken) {
                 console.error('Rejected due to mismatched verificationToken:', event);
@@ -567,7 +566,6 @@ export class SlackAdapter extends BotAdapter {
                 };
 
                 if (!activity.conversation.id) {
-
                     // uhoh! this doesn't have a conversation id because it might have occurred outside a channel.
                     // or be in reference to an item in a channel.
                     if (event.event.item && event.event.item.channel) {
@@ -575,7 +573,6 @@ export class SlackAdapter extends BotAdapter {
                     } else {
                         activity.conversation.id = event.team_id;
                     }
-
                 }
 
                 // @ts-ignore this complains because of extra fields in conversation

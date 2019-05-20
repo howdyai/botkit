@@ -94,7 +94,6 @@ export class TwilioAdapter extends BotAdapter {
             } else {
                 console.error(err);
             }
-
         }
         if (!options.auth_token) {
             let err = 'auth_token is a required part of the configuration.';
@@ -103,7 +102,6 @@ export class TwilioAdapter extends BotAdapter {
             } else {
                 console.error(err);
             }
-
         }
 
         if (this.options.enable_incomplete) {
@@ -121,7 +119,7 @@ export class TwilioAdapter extends BotAdapter {
 
         try {
             this.api = Twilio(this.options.account_sid, this.options.auth_token);
-        } catch(err) {
+        } catch (err) {
             if (err) {
                 if (!this.options.enable_incomplete) {
                     throw new Error(err);

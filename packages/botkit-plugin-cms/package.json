@@ -29,7 +29,6 @@
   },
   "dependencies": {
     "botbuilder": "^4.4.0",
-    "botbuilder-dialogs": "^4.4.0",
     "debug": "^4.1.0",
     "botkit": "^4.0.1"
   },

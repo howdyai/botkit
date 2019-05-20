@@ -36,7 +36,7 @@ export interface WebexAdapterOptions {
      * This is risky as it may result in a non-functioning or insecure adapter.
      * This should only be used when getting started.
      */
-    enable_incomplete?: boolean;    
+    enable_incomplete?: boolean;
 }
 
 /**
@@ -201,7 +201,7 @@ export class WebexAdapter extends BotAdapter {
                     reject(err);
                 });
             } else {
-                reject('No API client configured');
+                reject(new Error('No API client configured'));
             }
         });
     }
@@ -464,7 +464,6 @@ export class WebexAdapter extends BotAdapter {
                     activity.text = activity.text.replace(pattern, '');
                 }
             }
-
 
             // create a conversation reference
             const context = new TurnContext(this, activity);

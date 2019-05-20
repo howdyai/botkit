@@ -130,7 +130,7 @@ export class FacebookAdapter extends BotAdapter {
             ];
             console.warn(warning.join('\n'));
         }
-        
+
         this.middlewares = {
             spawn: [
                 async (bot, next) => {

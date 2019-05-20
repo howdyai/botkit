@@ -140,7 +140,7 @@ Load all script content from the configured CMS instance into a DialogSet and pr
 
 | Argument | Type | description
 |--- |--- |---
-| dialogSet| DialogSet | A DialogSet into which the dialogs should be loaded.  In most cases, this is `controller.dialogSet`, allowing Botkit to access these dialogs through `bot.beginDialog()`.<br/>
+| botkit| Botkit | 
 
 
 

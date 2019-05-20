@@ -687,7 +687,6 @@ export class BotkitConversation<O extends object = {}> extends Dialog<O> {
         // Update the step index
         const state = dc.activeDialog.state;
         state.stepIndex = index;
-        const previous_thread = state.thread;
         state.thread = thread_name;
 
         // Create step context
@@ -711,8 +710,7 @@ export class BotkitConversation<O extends object = {}> extends Dialog<O> {
 
         // did we just start a new thread?
         // if so, run the before stuff.
-        // if (index === 0 && previous_thread !== thread_name) {
-        if (index===0) {
+        if (index === 0) {
             await this.runBefore(step.thread, dc, step);
 
             // did we just change threads? if so, restart
