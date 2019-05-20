@@ -319,6 +319,7 @@ export class WebAdapter extends BotAdapter {
 
     /**
      * Returns websocket connection of given user
+     * Example: `if (message.action === 'disconnect') bot.controller.adapter.getConnection(message.user).terminate()`
      * @param user
      */
     public getConnection(user: string): WebSocket {
