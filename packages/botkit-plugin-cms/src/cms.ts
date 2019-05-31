@@ -70,7 +70,7 @@ export class BotkitCMSHelper {
 
     private async apiRequest(uri: string, params: {[key: string]: any} = {}, method: string = 'GET'): Promise<any> {
         let req = {
-            uri: this._config.uri + uri + '?access_token=' + this._config.token,
+            uri: new URL(uri + '?access_token=' + this._config.token, this._config.uri),
             headers: {
                 'content-type': 'application/json'
             },
