@@ -172,7 +172,9 @@ declare namespace botkit {
   }
   interface FacebookConfiguration extends Configuration {
     access_token: string;
+    api_version?: string;
     app_secret?: string;
+    getAccessTokenByPageId(pageId: string, cb: (err: Error, pageAccessToken: string) => void): void;
     receive_via_postback?: boolean;
     require_delivery?: boolean;
     validate_requests?: boolean;
@@ -190,6 +192,7 @@ declare namespace botkit {
 
     };
     createWebhookEndpoints(webserver: any, bot: FacebookBot, cb?: () => void): this;
+    handleWebhookPayload(req: express.Request, res: express.Response, bot: FacebookBot): void;
   }
   interface FacebookMessage extends Message {
     attachment?: FacebookAttachment;
