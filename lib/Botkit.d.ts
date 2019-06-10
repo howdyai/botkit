@@ -174,7 +174,6 @@ declare namespace botkit {
     access_token: string;
     api_version?: string;
     app_secret?: string;
-    getAccessTokenByPageId(pageId: string, cb: (err: Error, pageAccessToken: string) => void): void;
     receive_via_postback?: boolean;
     require_delivery?: boolean;
     validate_requests?: boolean;
