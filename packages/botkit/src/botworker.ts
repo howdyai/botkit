@@ -336,7 +336,7 @@ export class BotWorker {
             // This way, any fields added by the developer to the root object
             // end up in the approved channelData location.
             for (var key in message) {
-                if (key !== 'channelData' && !activity[key]) {
+                if (key !== 'channelData' && !activity.hasOwnProperty(key)) {
                     activity.channelData[key] = message[key];
                 }
             }
