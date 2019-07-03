@@ -300,45 +300,55 @@ export class BotWorker {
      * @returns a properly formed Activity object
      */
     public ensureMessageFormat(message: Partial<BotkitMessage> | string): Partial<Activity> {
-        let activity: Partial<Activity> = {};
 
         if (typeof (message) === 'string') {
-            activity = {
+            return {
                 type: 'message',
                 text: message,
                 channelData: {}
             };
-        } else {
-            // set up a base message activity
-            activity = {
-                type: message.type || 'message',
-                text: message.text,
+        }
 
-                attachmentLayout: message.attachmentLayout,
-                attachments: message.attachments,
+        // set up a base message activity
+        const activity = {
+            type: message.type || 'message',
+            text: message.text,
 
-                suggestedActions: message.suggestedActions,
+            attachmentLayout: message.attachmentLayout,
+            attachments: message.attachments,
 
-                speak: message.speak,
-                inputHint: message.inputHint,
-                summary: message.summary,
-                textFormat: message.textFormat,
-                importance: message.importance,
-                deliveryMode: message.deliveryMode,
-                expiration: message.expiration,
-                value: message.value,
-                channelData: {
-                    ...message.channelData
-                }
-            };
+            suggestedActions: message.suggestedActions,
 
-            // Now, copy any additional fields not in the activity into channelData
-            // This way, any fields added by the developer to the root object
-            // end up in the approved channelData location.
-            for (var key in message) {
-                if (key !== 'channelData' && !activity[key]) {
-                    activity.channelData[key] = message[key];
-                }
+            speak: message.speak,
+            inputHint: message.inputHint,
+            summary: message.summary,
+            textFormat: message.textFormat,
+            importance: message.importance,
+            deliveryMode: message.deliveryMode,
+            expiration: message.expiration,
+            value: message.value,
+            channelData: {
+                ...message.channelData
+            }
+        };
+
+        const internalFields = [
+            'channelData',
+            'channelId',
+            'serviceUrl',
+            'conversation',
+            'from',
+            'recipient',
+            'replyToId'
+        ];
+
+        // Now, copy any additional fields not in the activity into channelData
+        // This way, any fields added by the developer to the root object
+        // end up in the approved channelData location.
+        for (const key in message) {
+            // Don't copy activity and reference fields
+            if (!activity.hasOwnProperty(key) && internalFields.indexOf(key) === -1) {
+                activity.channelData[key] = message[key];
             }
         }
         return activity;
