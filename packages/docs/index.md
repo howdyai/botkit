@@ -61,7 +61,7 @@ The toolkit is designed to provide meaningful building blocks for creating conve
 Most bots do their thing by listening for keywords, phrases or patterns in messages from users. Botkit has a special event handler called `hears()` that makes it easy to configure your bot to listen for this type of trigger.
 
 ```javascript
-// listen for a message containing the world "hello", and send a reply
+// listen for a message containing the word "hello", and send a reply
 controller.hears('hello','message',async(bot, message) => {
     // do something!
     await bot.reply(message, 'Hello human')
