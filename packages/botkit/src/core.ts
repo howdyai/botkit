@@ -736,7 +736,18 @@ export class Botkit {
                         // Continue dialog if one is present
                         const dialog_results = await dialogContext.continueDialog();
                         if (dialog_results && dialog_results.status === DialogTurnStatus.empty) {
-                            await this.ingest(bot, message);
+                            // Run receive middleware if no Dialog is active
+                            this.middleware.receive.run(bot, message, async (err, bot, message) => {
+                                if (err) {
+                                    return reject(err);
+                                }
+                                const listen_results = await this.listenForTriggers(bot, message);
+
+                                if (listen_results === false) {
+                                    // Trigger event handlers
+                                    await this.trigger(message.type, bot, message);
+                                }
+                            });
                         }
                     }
 
@@ -755,32 +766,6 @@ export class Botkit {
      */
     public async saveState(bot: BotWorker): Promise<void> {
         await this.conversationState.saveChanges(bot.getConfig('context'));
-    }
-
-    /**
-     * Ingests a message and evaluates it for triggers, run the receive middleware, and triggers any events.
-     * Note: This is normally called automatically from inside `handleTurn()` and in most cases should not be called directly.
-     * @param bot {BotWorker} An instance of the bot
-     * @param message {BotkitMessage} an incoming message
-     */
-    private async ingest(bot: BotWorker, message: BotkitMessage): Promise<any> {
-        return new Promise(async (resolve, reject) => {
-            this.middleware.receive.run(bot, message, async (err, bot, message) => {
-                if (err) {
-                    return reject(err);
-                }
-                const listen_results = await this.listenForTriggers(bot, message);
-
-                if (listen_results !== false) {
-                    resolve(listen_results);
-                } else {
-                    // Trigger event handlers
-                    const trigger_results = await this.trigger(message.type, bot, message);
-
-                    resolve(trigger_results);
-                }
-            });
-        });
     }
 
     /**
