@@ -644,7 +644,7 @@ export class BotkitConversation<O extends object = {}> extends Dialog<O> {
             // This prompt must be a valid dialog defined somewhere in your code!
             if (line.collect && line.action !== 'beginDialog') {
                 try {
-                    return await dc.prompt(this._prompt, this.makeOutgoing(line, step.values));
+                    return await dc.prompt(this._prompt, this.makeOutgoing(dc, line, step.values));
                 } catch (err) {
                     console.error(err);
                     await dc.context.sendActivity(`Failed to start prompt ${ this._prompt }`);
@@ -655,7 +655,7 @@ export class BotkitConversation<O extends object = {}> extends Dialog<O> {
             } else {
                 // if there is text, attachments, or any channel data fields at all...
                 if (line.type || line.text || line.attachments || (line.channelData && Object.keys(line.channelData).length)) {
-                    await dc.context.sendActivity(this.makeOutgoing(line, step.values));
+                    await dc.context.sendActivity(this.makeOutgoing(dc, line, step.values));
                 } else if (!line.action) {
                     console.error('Dialog contains invalid message', line);
                 }
@@ -791,7 +791,12 @@ export class BotkitConversation<O extends object = {}> extends Dialog<O> {
             outgoing.channelData.attachment = this.parseTemplatesRecursive(outgoing.channelData.attachment, vars);
         }
 
-        return outgoing;
+        const bot = this._controller.spawn(dc);
+
+        this._controller.middleware.send.run(bot, outgoing);
+
+        return outgoing
+
     }
 
     /**
