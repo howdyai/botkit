@@ -748,7 +748,7 @@ export class BotkitConversation<O extends object = {}> extends Dialog<O> {
      * @param line a message template from the script
      * @param vars an object containing key/value pairs used to do token replacement on fields in the message template
      */
-    private makeOutgoing(line, vars): any {
+    private makeOutgoing(dc, line, vars): any {
         let outgoing;
 
         if (line.quick_replies) {
