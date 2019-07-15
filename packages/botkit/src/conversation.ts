@@ -278,6 +278,8 @@ export class BotkitConversation<O extends object = {}> extends Dialog<O> {
 
         if (typeof (message) === 'string') {
             message = { text: [message] };
+        } else if (typeof (message.text) === 'string') {
+            message.text = [message.text];
         }
 
         this.script[thread_name].push(message);
@@ -754,7 +756,7 @@ export class BotkitConversation<O extends object = {}> extends Dialog<O> {
         if (line.quick_replies) {
             outgoing = MessageFactory.suggestedActions(line.quick_replies.map((reply) => { return { type: ActionTypes.PostBack, title: reply.title, text: reply.payload, displayText: reply.title, value: reply.payload }; }), line.text ? line.text[0] : '');
         } else {
-            outgoing = MessageFactory.text(line.text ? line.text[Math.floor(Math.random() * line.text.length)] : '');
+            outgoing = MessageFactory.text(line.text ? line.text[0] : '');
         }
 
         if (!outgoing.channelData) {
