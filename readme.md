@@ -33,13 +33,6 @@ and is released under the [MIT Open Source license](LICENSE.md)
 This repo contains multiple inter-linked packages containing Botkit Core, platform adapter packages, and some additional plugins and extensions.
 To build these locally, follow the instructions below.
 
-Install [lerna](https://github.com/lerna/lerna) and [TypeScript](https://www.typescriptlang.org/) globally:
-
-```bash
-npm install -g typescript
-npm install -g lerna
-```
-
 Clone the entire Botkit project from Github.
 
 ```bash
@@ -53,20 +46,14 @@ cd botkit
 npm install
 ```
 
-Use lerna to set up the local packages:
-
-```bash
-lerna bootstrap --hoist
-```
-
 Now, build all of the libraries:
 
 ```bash
-lerna run build
+npm run build
 ```
 
 To build updated versions of the class reference documents found in `packages/docs`, run:
 
 ```bash
-lerna run build-docs
+npm run build-docs
 ```
