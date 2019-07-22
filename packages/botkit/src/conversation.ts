@@ -750,7 +750,6 @@ export class BotkitConversation<O extends object = {}> extends Dialog<O> {
      */
     private async makeOutgoing(dc: DialogContext, line: any, vars: any): Promise<any> {
         let outgoing;
-
         let text = '';
 
         // if the text is just a string, use it.
@@ -761,16 +760,32 @@ export class BotkitConversation<O extends object = {}> extends Dialog<O> {
             text = line.text[Math.floor(Math.random() * line.text.length)];
         }
 
+
         if (line.quick_replies) {
             outgoing = MessageFactory.suggestedActions(line.quick_replies.map((reply) => { return { type: ActionTypes.PostBack, title: reply.title, text: reply.payload, displayText: reply.title, value: reply.payload }; }), text);
         } else {
             outgoing = MessageFactory.text(text);
         }
 
-        if (!outgoing.channelData) {
-            outgoing.channelData = {};
+        outgoing.channelData = outgoing.channelData ? outgoing.channelData : {};
+        
+        // Quick replies are used by Facebook and Web adapters, but in a different way than they are for Bot Framework.
+        // In order to make this as easy as possible, copy these fields for the developer into channelData.
+        if (line.quick_replies) {
+            outgoing.channelData.quick_replies = [...line.quick_replies];
         }
 
+        // Similarly, attachment and blocks fields are platform specific.
+        // handle slack Block attachments
+        if (line.blocks) {
+            outgoing.channelData.blocks = line.blocks;
+        }
+        // handle facebook attachments.
+        if (line.attachment) {
+            outgoing.channelData.attachment = line.attachment;
+        }
+
+    
         // set the type
         if (line.type) {
             outgoing.type = line.type;
@@ -794,6 +809,9 @@ export class BotkitConversation<O extends object = {}> extends Dialog<O> {
         // process templates in slack attachments
         if (outgoing.channelData.attachments) {
             outgoing.channelData.attachments = this.parseTemplatesRecursive(outgoing.channelData.attachments, vars);
+        }
+        if (outgoing.channelData.blocks) {
+            outgoing.channelData.blocks = this.parseTemplatesRecursive(outgoing.channelData.blocks, vars);
         }
 
         // process templates in facebook attachments
