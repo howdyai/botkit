@@ -525,13 +525,13 @@ export class SlackAdapter extends BotAdapter {
                     text: null
                 };
 
-                // If this is a message originating from a block_action, we'll mark it as a message
+                // If this is a message originating from a block_action or button click, we'll mark it as a message
                 // so it gets processed in BotkitConversations
-                if (event.type === 'block_actions' && event.actions) {
+                if ((event.type === 'block_actions' || event.type == 'interactive_message') && event.actions) {
                     activity.type = ActivityTypes.Message;
                     activity.text = event.actions[0].value;
                 }
-
+                  
                 // @ts-ignore this complains because of extra fields in conversation
                 activity.recipient.id = await this.getBotUserByTeam(activity as Activity);
 
