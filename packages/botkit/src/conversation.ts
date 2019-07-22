@@ -644,7 +644,7 @@ export class BotkitConversation<O extends object = {}> extends Dialog<O> {
             // This prompt must be a valid dialog defined somewhere in your code!
             if (line.collect && line.action !== 'beginDialog') {
                 try {
-                    return await dc.prompt(this._prompt, this.makeOutgoing(line, step.values));
+                    return await dc.prompt(this._prompt, await this.makeOutgoing(dc, line, step.values));
                 } catch (err) {
                     console.error(err);
                     await dc.context.sendActivity(`Failed to start prompt ${ this._prompt }`);
@@ -655,7 +655,7 @@ export class BotkitConversation<O extends object = {}> extends Dialog<O> {
             } else {
                 // if there is text, attachments, or any channel data fields at all...
                 if (line.type || line.text || line.attachments || (line.channelData && Object.keys(line.channelData).length)) {
-                    await dc.context.sendActivity(this.makeOutgoing(line, step.values));
+                    await dc.context.sendActivity(await this.makeOutgoing(dc, line, step.values));
                 } else if (!line.action) {
                     console.error('Dialog contains invalid message', line);
                 }
@@ -748,7 +748,7 @@ export class BotkitConversation<O extends object = {}> extends Dialog<O> {
      * @param line a message template from the script
      * @param vars an object containing key/value pairs used to do token replacement on fields in the message template
      */
-    private makeOutgoing(line, vars): any {
+    private async makeOutgoing(dc: DialogContext, line: any, vars: any): Promise<any> {
         let outgoing;
 
         if (line.quick_replies) {
@@ -791,7 +791,19 @@ export class BotkitConversation<O extends object = {}> extends Dialog<O> {
             outgoing.channelData.attachment = this.parseTemplatesRecursive(outgoing.channelData.attachment, vars);
         }
 
-        return outgoing;
+        const that = this;
+        return new Promise(async (resolve, reject) => {
+            // run the outgoing message through the Botkit send middleware
+            const bot = await that._controller.spawn(dc);
+            that._controller.middleware.send.run(bot, outgoing, (err, bot, outgoing) => {
+                if (err) {
+                    reject(err);
+                } else {
+                    resolve(outgoing);
+                }
+            });
+        });
+
     }
 
     /**
