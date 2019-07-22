@@ -751,10 +751,20 @@ export class BotkitConversation<O extends object = {}> extends Dialog<O> {
     private async makeOutgoing(dc: DialogContext, line: any, vars: any): Promise<any> {
         let outgoing;
 
+        let text = '';
+
+        // if the text is just a string, use it.
+        // otherwise, if it is an array, pick a random element
+        if (line.text && typeof(line.text)=='string') {
+            text = line.text;
+        } else if (Array.isArray(line.text)) {
+            text = line.text[Math.floor(Math.random() * line.text.length)];
+        }
+
         if (line.quick_replies) {
-            outgoing = MessageFactory.suggestedActions(line.quick_replies.map((reply) => { return { type: ActionTypes.PostBack, title: reply.title, text: reply.payload, displayText: reply.title, value: reply.payload }; }), line.text ? line.text[0] : '');
+            outgoing = MessageFactory.suggestedActions(line.quick_replies.map((reply) => { return { type: ActionTypes.PostBack, title: reply.title, text: reply.payload, displayText: reply.title, value: reply.payload }; }), text);
         } else {
-            outgoing = MessageFactory.text(line.text ? line.text[Math.floor(Math.random() * line.text.length)] : '');
+            outgoing = MessageFactory.text(text);
         }
 
         if (!outgoing.channelData) {
