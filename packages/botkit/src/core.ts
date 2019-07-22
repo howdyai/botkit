@@ -765,22 +765,21 @@ export class Botkit {
      */
     private async ingest(bot: BotWorker, message: BotkitMessage): Promise<any> {
         return new Promise(async (resolve, reject) => {
-            const listen_results = await this.listenForTriggers(bot, message);
+            this.middleware.receive.run(bot, message, async (err, bot, message) => {
+                if (err) {
+                    return reject(err);
+                }
+                const listen_results = await this.listenForTriggers(bot, message);
 
-            if (listen_results !== false) {
-                resolve(listen_results);
-            } else {
-                this.middleware.receive.run(bot, message, async (err, bot, message) => {
-                    if (err) {
-                        return reject(err);
-                    }
-
+                if (listen_results !== false) {
+                    resolve(listen_results);
+                } else {
                     // Trigger event handlers
                     const trigger_results = await this.trigger(message.type, bot, message);
 
                     resolve(trigger_results);
-                });
-            }
+                }
+            });
         });
     }
 
