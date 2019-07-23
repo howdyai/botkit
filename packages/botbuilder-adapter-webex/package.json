@@ -34,7 +34,7 @@
   },
     "dependencies": {
     "botkit": "^4.0.2",
-    "botbuilder": "^4.4.0",
+    "botbuilder": "^4.5.1",
     "ciscospark": "^1.32.23",
     "debug": "^4.1.0",
     "url": "^0.11.0"

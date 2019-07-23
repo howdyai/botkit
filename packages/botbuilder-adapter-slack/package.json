@@ -34,7 +34,7 @@
   },
   "dependencies": {
     "@slack/client": "^4.7.0",
-    "botbuilder": "^4.4.0",
+    "botbuilder": "^4.5.1",
     "botkit": "^4.0.2",
     "debug": "^4.1.0"
   },
