@@ -761,6 +761,20 @@ export class BotkitConversation<O extends object = {}> extends Dialog<O> {
         }
 
 
+        /*******************************************************************************************************************/
+        // allow dynamic generation of quick replies and/or attachments
+        if (typeof(line.quick_replies)=='function') {
+            line.quick_replies = await line.quick_replies(line, vars);
+        }
+        if (typeof(line.attachment)=='function') {
+            line.attachment = await line.attachment(line, vars);
+        }
+        if (typeof(line.attachments)=='function') {
+            line.attachments = await line.attachments(line, vars);
+        }
+
+        /*******************************************************************************************************************/
+        // use Bot Framework's message factory to construct the initial object.
         if (line.quick_replies) {
             outgoing = MessageFactory.suggestedActions(line.quick_replies.map((reply) => { return { type: ActionTypes.PostBack, title: reply.title, text: reply.payload, displayText: reply.title, value: reply.payload }; }), text);
         } else {
@@ -769,6 +783,10 @@ export class BotkitConversation<O extends object = {}> extends Dialog<O> {
 
         outgoing.channelData = outgoing.channelData ? outgoing.channelData : {};
         
+
+        /*******************************************************************************************************************/
+        // Map some fields into the appropriate places for processing by Botkit/ Bot Framework
+
         // Quick replies are used by Facebook and Web adapters, but in a different way than they are for Bot Framework.
         // In order to make this as easy as possible, copy these fields for the developer into channelData.
         if (line.quick_replies) {
@@ -780,12 +798,12 @@ export class BotkitConversation<O extends object = {}> extends Dialog<O> {
         if (line.blocks) {
             outgoing.channelData.blocks = line.blocks;
         }
+
         // handle facebook attachments.
         if (line.attachment) {
             outgoing.channelData.attachment = line.attachment;
         }
 
-    
         // set the type
         if (line.type) {
             outgoing.type = line.type;
@@ -796,17 +814,18 @@ export class BotkitConversation<O extends object = {}> extends Dialog<O> {
             outgoing.channelData[key] = line.channelData[key];
         }
 
+        /*******************************************************************************************************************/
         // Handle template token replacements
         if (outgoing.text) {
             outgoing.text = mustache.render(outgoing.text, { vars: vars });
         }
 
-        // process templates in native botframework attachments
+        // process templates in native botframework attachments and/or slack attachments
         if (line.attachments) {
             outgoing.attachments = this.parseTemplatesRecursive(line.attachments, vars);
         }
 
-        // process templates in slack attachments
+        // process templates in slack attachments in channelData
         if (outgoing.channelData.attachments) {
             outgoing.channelData.attachments = this.parseTemplatesRecursive(outgoing.channelData.attachments, vars);
         }
@@ -817,6 +836,11 @@ export class BotkitConversation<O extends object = {}> extends Dialog<O> {
         // process templates in facebook attachments
         if (outgoing.channelData.attachment) {
             outgoing.channelData.attachment = this.parseTemplatesRecursive(outgoing.channelData.attachment, vars);
+        }
+
+        // process templates in quick replies
+        if (outgoing.channelData.quick_replies) {
+            outgoing.channelData.quick_replies = this.parseTemplatesRecursive(outgoing.channelData.quick_replies, vars);
         }
 
         const that = this;

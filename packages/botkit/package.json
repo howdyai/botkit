@@ -31,9 +31,9 @@
   },
   "dependencies": {
     "body-parser": "^1.18.3",
-    "botbuilder": "^4.4.0",
-    "botbuilder-dialogs": "^4.4.0",
-    "botframework-connector": "^4.4.0",
+    "botbuilder": "^4.5.1",
+    "botbuilder-dialogs": "^4.5.1",
+    "botframework-connector": "^4.5.1",
     "debug": "^4.1.0",
     "express": "^4.16.4",
     "mustache": "^3.0.1",
