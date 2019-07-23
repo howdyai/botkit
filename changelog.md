@@ -4,6 +4,30 @@
 
 [Want to contribute? Read our guide!](https://github.com/howdyai/botkit/blob/master/CONTRIBUTING.md)
 
+# 4.5
+
+We're skipping a few version numbers here to keep in sync with the rest of [Microsoft Bot Framework](https://github.com/microsoft/botframework). 
+
+* add: dynamic quick replies, facebook attachmentn, bot framework attachments, and slack block attachments and "legacy" attachments.
+* FIX: update to latest botbuilder packages
+* FIX: over pruning of elements
+* block actions  and other button clicks now are message type events and get included in dialogs
+    -> https://github.com/howdyai/botkit/pull/1712
+* FIX: text in convos expected to be an array
+    -> fixed.
+* FIX: no way to bind middleware to webserver
+    -> added
+* FIX: middlewares don't fire as expected
+    -> receive https://github.com/howdyai/botkit/pull/1717
+    -> send https://github.com/howdyai/botkit/pull/1720
+
+
+* FIX: issue where child dialog results causes match to bork
+    --??
+
+
+----
+
 # 4.0.2
 
 * Added `disable_console` option to controller. When set to true, Botkit will not emit normal console output.
