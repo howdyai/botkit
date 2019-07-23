@@ -6,7 +6,7 @@
 * https://github.com/Microsoft/botframework/blob/master/README.md#bot-inspector-new---preview
 */
 // import botbuilder 4.4 library
-const { InspectionMiddleware, InspectionState, BotFrameworkAdapter } = require('botbuilder')
+const { InspectionMiddleware, InspectionState, BotFrameworkAdapter } = require('botbuilder');
 
 module.exports = function(controller) {
 

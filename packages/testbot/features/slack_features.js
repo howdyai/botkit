@@ -1,4 +1,5 @@
 const { SlackDialog } = require('botbuilder-adapter-slack');
+const { BotkitConversation } = require('botkit');
 
 module.exports = function(controller) {
 
@@ -221,6 +222,81 @@ module.exports = function(controller) {
 
         controller.on('dialog_cancellation', async (bot, message) => {
             await bot.reply(message, 'Got a dialog cancellation');
+        });
+
+
+        const dialog = new BotkitConversation('slack_buttons', controller);
+
+        dialog.ask({
+            text: 'Click one of these ATTACHMENT BUTTONS',
+            attachments: [
+                {
+                    title: 'This is an attachment',
+                    text: 'It has some buttons',
+                    callback_id: '123',
+                    actions: [
+                        {
+                            name: 'buttona',
+                            type:  'button',
+                            text: 'Click this',
+                            value: 'Clicked this',                                
+                        },
+                        {
+                            name: 'buttonb',
+                            type:  'button',
+                            text: 'Click that',
+                            value: 'Clicked that',                                
+                        }
+                    ]
+                }
+            ]
+        }, [], 'button');
+
+        dialog.say('You clicked {{vars.button}}');
+
+        dialog.ask({
+            text: 'Click one of these BLOCK BUTTONS',
+            blocks: [
+                {
+                    "type": "actions",
+                    "elements": [
+                        {
+                            "type": "button",
+                            "text": {
+                                "type": "plain_text",
+                                "text": "BLOCK A",
+                                "emoji": true
+                            },
+                            "value": "A"
+                        },
+                        {
+                            "type": "button",
+                            "text": {
+                                "type": "plain_text",
+                                "text": "BLOCK B",
+                                "emoji": true
+                            },
+                            "value": "B"
+                        },
+                        {
+                            "type": "button",
+                            "text": {
+                                "type": "plain_text",
+                                "text": "BLOCK C",
+                                "emoji": true
+                            },
+                            "value": "C"
+                        }
+                    ]
+                }
+            ]
+        }, [], 'block');
+
+        dialog.say('You clicked {{vars.block}}');
+        controller.addDialog(dialog);
+
+        controller.hears('buttons', 'message,direct_message,direct_mention', async(bot, message) => {
+            await bot.beginDialog('slack_buttons');
         });
 
     }

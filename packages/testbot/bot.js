@@ -4,7 +4,7 @@ const { MongoDbStorage } = require('botbuilder-storage-mongodb');
 const basicAuth = require('express-basic-auth');
 const { BotkitCMSHelper } = require('botkit-plugin-cms');
 
-// const { SlackAdapter, SlackMessageTypeMiddleware, SlackIdentifyBotsMiddleware, SlackEventMiddleware } = require('botbuilder-adapter-slack');
+const { SlackAdapter, SlackMessageTypeMiddleware, SlackIdentifyBotsMiddleware, SlackEventMiddleware } = require('botbuilder-adapter-slack');
 // const { WebexAdapter } = require('botbuilder-adapter-webex');
 const { WebAdapter } = require('botbuilder-adapter-web');
 // const { FacebookAdapter, FacebookEventTypeMiddleware } = require('botbuilder-adapter-facebook');
@@ -50,10 +50,10 @@ if (process.env.MONGO_URI) {
  * ----------------------------------------------------------------------
 //  */
 // const adapter = new SlackAdapter({
-//     enable_incomplete: true,
-//     // verificationToken: process.env.verificationToken,
+//     // enable_incomplete: true,
+//     verificationToken: process.env.verificationToken,
 //     clientSigningSecret: process.env.clientSigningSecret,  
-//     // botToken: process.env.botToken,
+//     botToken: process.env.botToken,
 //     // clientId: process.env.clientId,
 //     // clientSecret: process.env.clientSecret,
 //     // scopes: ['bot'],
@@ -145,7 +145,8 @@ const adapter = new WebAdapter({});
 const controller = new Botkit({
     debug: true,
     webhook_uri: '/api/messages',
-    disable_console: true,
+    webserver_middlewares: [(req, res, next) => { console.log('REQ > ', req.url); next(); }],
+    // disable_console: true,
     adapter: adapter,
     // disable_webserver: true,
     // adapterConfig: {
@@ -187,6 +188,11 @@ controller.ready(() => {
     // controller.usePlugin(require('./plugins/verbose/index.js'));
 
     if (controller.webserver) {
+
+        controller.webserver.get('/', (req, res) => {
+            res.send(controller.version);
+        });
+
 
         controller.webserver.get('/install', (req, res) => {
             // getInstallLink points to slack's oauth endpoint and includes clientId and scopes

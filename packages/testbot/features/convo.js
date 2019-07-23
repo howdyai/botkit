@@ -7,7 +7,7 @@ module.exports = function(controller) {
 
     welcome.say('Hey!');
     welcome.ask({
-        text: ['Check this out...'],
+        text: ['Check this out...', 'YO! Check it.', 'HELLO HUME...'],
         channelData: { 
             quick_replies: [
                 {
