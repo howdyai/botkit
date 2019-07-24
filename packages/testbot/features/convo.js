@@ -29,6 +29,11 @@ module.exports = function(controller) {
         // as does convo.vars.name
     },{key: 'name'});
 
+    welcome.ask('Tell me something! I\'ll hear it but won\'t save the value.', async (answer, convo, bot) => {
+        // noop
+        // answer contains the user's answer
+        // answer can be used but is not persisted into the convo.vars
+    });
 
     welcome.say('hrrm!');
     welcome.say('ok, {{vars.name}}!');
@@ -64,8 +69,9 @@ module.exports = function(controller) {
     welcome.addMessage('NOOOOOO', 'bar');
 
     welcome.onChange('name', async(response, convo, bot) => {
-        await bot.say('NO! NEVER!!!');
-        await convo.gotoThread('bar');
+        // await bot.say('NO! NEVER!!!');
+        // await convo.gotoThread('bar')
+        await bot.say('You changed your name.');
     });
 
     welcome.before('foo', async(convo, bot) => {
