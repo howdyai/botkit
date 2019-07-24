@@ -112,7 +112,7 @@ if (process.env.MONGO_URI) {
  * Configure the Websocket adapter
  * ----------------------------------------------------------------------
  */
-// const adapter = new WebAdapter({});
+const adapter = new WebAdapter({});
 
 // const adapter = new FacebookAdapter({
 //     // enable_incomplete: true,
@@ -145,7 +145,7 @@ const controller = new Botkit({
     webhook_uri: '/api/messages',
     webserver_middlewares: [(req, res, next) => { console.log('REQ > ', req.url); next(); }],
     // disable_console: true,
-    // adapter: adapter,
+    adapter: adapter,
     // disable_webserver: true,
     // adapterConfig: {
     //     appId: process.env.APP_ID,
@@ -155,7 +155,7 @@ const controller = new Botkit({
 });
 
 const cms = new BotkitCMSHelper({
-    uri: process.env.cms_uri,
+    cms_uri: process.env.cms_uri,
     token: process.env.cms_token,
 });
 
@@ -166,17 +166,17 @@ controller.usePlugin(cms);
 controller.ready(() => {
 
     /* catch-all that uses the CMS to trigger dialogs */
-    // if (controller.plugins.cms) {
-    //     controller.on('message,direct_message', async (bot, message) => {
-    //         let results = false;
-    //         results = await controller.plugins.cms.testTrigger(bot, message);
+    if (controller.plugins.cms) {
+        controller.on('message,direct_message', async (bot, message) => {
+            let results = false;
+            results = await controller.plugins.cms.testTrigger(bot, message);
 
-    //         if (results !== false) {
-    //             // do not continue middleware!
-    //             return false;
-    //         }
-    //     });
-    // }
+            if (results !== false) {
+                // do not continue middleware!
+                return false;
+            }
+        });
+    }
 
     // load traditional developer-created local custom feature modules
     controller.loadModules(__dirname + '/features');
