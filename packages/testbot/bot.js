@@ -47,18 +47,18 @@ if (process.env.MONGO_URI) {
  * Configure the Slack adapter
  * ----------------------------------------------------------------------
 //  */
-const adapter = new SlackAdapter({
-    // enable_incomplete: true,
-    verificationToken: process.env.verificationToken,
-    clientSigningSecret: process.env.clientSigningSecret,  
-    botToken: process.env.botToken,
-    // clientId: process.env.clientId,
-    // clientSecret: process.env.clientSecret,
-    // scopes: ['bot'],
-    // redirectUri: process.env.redirectUri,
-    // getTokenForTeam: getTokenForTeam,
-    // getBotUserByTeam: getBotUserByTeam,
-});
+// const adapter = new SlackAdapter({
+//     // enable_incomplete: true,
+//     verificationToken: process.env.verificationToken,
+//     clientSigningSecret: process.env.clientSigningSecret,  
+//     botToken: process.env.botToken,
+//     // clientId: process.env.clientId,
+//     // clientSecret: process.env.clientSecret,
+//     // scopes: ['bot'],
+//     // redirectUri: process.env.redirectUri,
+//     // getTokenForTeam: getTokenForTeam,
+//     // getBotUserByTeam: getBotUserByTeam,
+// });
 
 // let tokenCache = {};
 // let userCache = {};
@@ -97,10 +97,10 @@ const adapter = new SlackAdapter({
 
 
 // // Use SlackEventMiddleware to emit events that match their original Slack event types.
-adapter.use(new SlackEventMiddleware());
+// adapter.use(new SlackEventMiddleware());
 
 // // Use SlackMessageType middleware to further classify messages as direct_message, direct_mention, or mention
-adapter.use(new SlackMessageTypeMiddleware());
+// adapter.use(new SlackMessageTypeMiddleware());
 
 /* ----------------------------------------------------------------------
  *  __      __      ___.                        __           __   
@@ -145,7 +145,7 @@ const controller = new Botkit({
     webhook_uri: '/api/messages',
     webserver_middlewares: [(req, res, next) => { console.log('REQ > ', req.url); next(); }],
     // disable_console: true,
-    adapter: adapter,
+    // adapter: adapter,
     // disable_webserver: true,
     // adapterConfig: {
     //     appId: process.env.APP_ID,
