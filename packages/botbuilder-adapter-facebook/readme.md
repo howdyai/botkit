@@ -85,7 +85,7 @@ const adapter = new FacebookAdapter({
     getAccessTokenForPage: async(pageId) => { 
         // do something to fetch the page access token for pageId.
         return token;
-    })
+    }
 });
 ```
 
