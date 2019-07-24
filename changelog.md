@@ -41,7 +41,7 @@ This update includes the following packages:
 * [botbuilder-adapter-facebook v1.0.4](packages/botbuilder-adapter-facebook/CHANGELOG.md#104)
 * [botbuilder-adapter-hangouts v1.0.3](packages/botbuilder-adapter-hangouts/CHANGELOG.md#103)
 * [botbuilder-adapter-twilio-sms v1.0.2](packages/botbuilder-adapter-twilio-sms/CHANGELOG.md#102)
-* [botkit-plugin-cms v1.0.1](packages/botkit-plugin-cms/CHANGELOG.md#101)
+* [botkit-plugin-cms v1.0.2](packages/botkit-plugin-cms/CHANGELOG.md#102)
 
 ----
 
