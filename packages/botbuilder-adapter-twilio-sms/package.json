@@ -1,6 +1,6 @@
 {
   "name": "botbuilder-adapter-twilio-sms",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Connect Botkit or BotBuilder to Twilio SMS",
   "main": "./lib/index.js",
   "typings": "./lib/index.d.ts",
@@ -37,8 +37,8 @@
     "url": "https://github.com/howdyai/botkit.git"
   },
   "dependencies": {
-    "botbuilder": "^4.4.0",
-    "botkit": "^4.0.2",
+    "botbuilder": "^4.5.2",
+    "botkit": "^4.5.0",
     "debug": "^4.1.0",
     "twilio": "^3.29.2"
   },

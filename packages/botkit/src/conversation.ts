@@ -44,7 +44,7 @@ interface BotkitMessageTemplate {
     attachments?: any[];
     channelData?: any;
     collect: {
-        key: string;
+        key?: string;
         options?: BotkitConvoTrigger[];
     };
 }
@@ -329,7 +329,7 @@ export class BotkitConversation<O extends object = {}> extends Dialog<O> {
      * @param handlers one or more handler functions defining possible conditional actions based on the response to the question.
      * @param key name of variable to store response in.
      */
-    public ask(message: Partial<BotkitMessageTemplate> | string, handlers: BotkitConvoTrigger | BotkitConvoTrigger[], key: {key: string} | string): BotkitConversation {
+    public ask(message: Partial<BotkitMessageTemplate> | string, handlers: BotkitConvoTrigger | BotkitConvoTrigger[], key: {key: string} | string | null): BotkitConversation {
         this.addQuestion(message, handlers, key, 'default');
         return this;
     }
@@ -343,7 +343,7 @@ export class BotkitConversation<O extends object = {}> extends Dialog<O> {
      * @param key Name of variable to store response in.
      * @param thread_name Name of thread to which message will be added
      */
-    public addQuestion(message: Partial<BotkitMessageTemplate> | string, handlers: BotkitConvoTrigger | BotkitConvoTrigger[], key: {key: string} | string, thread_name: string): BotkitConversation {
+    public addQuestion(message: Partial<BotkitMessageTemplate> | string, handlers: BotkitConvoTrigger | BotkitConvoTrigger[], key: {key: string} | string | null, thread_name: string): BotkitConversation {
         if (!thread_name) {
             thread_name = 'default';
         }
@@ -356,9 +356,13 @@ export class BotkitConversation<O extends object = {}> extends Dialog<O> {
             message = { text: [message as string] };
         }
 
-        message.collect = {
-            key: typeof (key) === 'string' ? key : key.key
-        };
+        message.collect = {};
+
+        if (key) {
+            message.collect = {
+                key: typeof (key) === 'string' ? key : key.key
+            };
+        }
 
         if (Array.isArray(handlers)) {
             message.collect.options = handlers;
@@ -611,7 +615,7 @@ export class BotkitConversation<O extends object = {}> extends Dialog<O> {
                     // TODO: Allow functions to be passed in as patterns
                     // ie async(test) => Promise<boolean>
 
-                    if (step.result.match(test)) {
+                    if (step.result && typeof(step.result) == 'string' && step.result.match(test)) {
                         path = condition;
                         break;
                     }
@@ -644,7 +648,7 @@ export class BotkitConversation<O extends object = {}> extends Dialog<O> {
             // This prompt must be a valid dialog defined somewhere in your code!
             if (line.collect && line.action !== 'beginDialog') {
                 try {
-                    return await dc.prompt(this._prompt, this.makeOutgoing(line, step.values));
+                    return await dc.prompt(this._prompt, await this.makeOutgoing(dc, line, step.values));
                 } catch (err) {
                     console.error(err);
                     await dc.context.sendActivity(`Failed to start prompt ${ this._prompt }`);
@@ -655,7 +659,7 @@ export class BotkitConversation<O extends object = {}> extends Dialog<O> {
             } else {
                 // if there is text, attachments, or any channel data fields at all...
                 if (line.type || line.text || line.attachments || (line.channelData && Object.keys(line.channelData).length)) {
-                    await dc.context.sendActivity(this.makeOutgoing(line, step.values));
+                    await dc.context.sendActivity(await this.makeOutgoing(dc, line, step.values));
                 } else if (!line.action) {
                     console.error('Dialog contains invalid message', line);
                 }
@@ -748,17 +752,64 @@ export class BotkitConversation<O extends object = {}> extends Dialog<O> {
      * @param line a message template from the script
      * @param vars an object containing key/value pairs used to do token replacement on fields in the message template
      */
-    private makeOutgoing(line, vars): any {
+    private async makeOutgoing(dc: DialogContext, line: any, vars: any): Promise<any> {
         let outgoing;
+        let text = '';
 
-        if (line.quick_replies) {
-            outgoing = MessageFactory.suggestedActions(line.quick_replies.map((reply) => { return { type: ActionTypes.PostBack, title: reply.title, text: reply.payload, displayText: reply.title, value: reply.payload }; }), line.text ? line.text[0] : '');
-        } else {
-            outgoing = MessageFactory.text(line.text ? line.text[Math.floor(Math.random() * line.text.length)] : '');
+        // if the text is just a string, use it.
+        // otherwise, if it is an array, pick a random element
+        if (line.text && typeof(line.text)=='string') {
+            text = line.text;
+        } else if (Array.isArray(line.text)) {
+            text = line.text[Math.floor(Math.random() * line.text.length)];
         }
 
-        if (!outgoing.channelData) {
-            outgoing.channelData = {};
+        /*******************************************************************************************************************/
+        // use Bot Framework's message factory to construct the initial object.
+        if (line.quick_replies && typeof(line.quick_replies) != 'function') {
+            outgoing = MessageFactory.suggestedActions(line.quick_replies.map((reply) => { return { type: ActionTypes.PostBack, title: reply.title, text: reply.payload, displayText: reply.title, value: reply.payload }; }), text);
+        } else {
+            outgoing = MessageFactory.text(text);
+        }
+
+        outgoing.channelData = outgoing.channelData ? outgoing.channelData : {};
+        
+        /*******************************************************************************************************************/
+        // allow dynamic generation of quick replies and/or attachments
+        if (typeof(line.quick_replies)=='function') {
+            // set both formats of quick replies
+            outgoing.channelData.quick_replies = await line.quick_replies(line, vars);
+            outgoing.suggestedActions = {actions: outgoing.channelData.quick_replies.map((reply) => { return { type: ActionTypes.PostBack, title: reply.title, text: reply.payload, displayText: reply.title, value: reply.payload }; }) };
+        }
+        if (typeof(line.attachment)=='function') {
+            outgoing.channelData.attachment = await line.attachment(line, vars);
+        }
+        if (typeof(line.attachments)=='function') {
+            // set both locations for attachments
+            outgoing.attachments = outgoing.channelData.attachments = await line.attachments(line, vars);
+        }
+        if (typeof(line.blocks)=='function') {
+            outgoing.channelData.blocks = await line.blocks(line, vars);
+        }
+
+        /*******************************************************************************************************************/
+        // Map some fields into the appropriate places for processing by Botkit/ Bot Framework
+
+        // Quick replies are used by Facebook and Web adapters, but in a different way than they are for Bot Framework.
+        // In order to make this as easy as possible, copy these fields for the developer into channelData.
+        if (line.quick_replies && typeof(line.quick_replies) != 'function') {
+            outgoing.channelData.quick_replies = [...line.quick_replies];
+        }
+
+        // Similarly, attachment and blocks fields are platform specific.
+        // handle slack Block attachments
+        if (line.blocks && typeof(line.blocks) != 'function') {
+            outgoing.channelData.blocks = line.blocks;
+        }
+
+        // handle facebook attachments.
+        if (line.attachment && typeof(line.attachment) != 'function') {
+            outgoing.channelData.attachment = line.attachment;
         }
 
         // set the type
@@ -771,19 +822,23 @@ export class BotkitConversation<O extends object = {}> extends Dialog<O> {
             outgoing.channelData[key] = line.channelData[key];
         }
 
+        /*******************************************************************************************************************/
         // Handle template token replacements
         if (outgoing.text) {
             outgoing.text = mustache.render(outgoing.text, { vars: vars });
         }
 
-        // process templates in native botframework attachments
-        if (line.attachments) {
+        // process templates in native botframework attachments and/or slack attachments
+        if (line.attachments && typeof(line.attachments) != 'function') {
             outgoing.attachments = this.parseTemplatesRecursive(line.attachments, vars);
         }
 
-        // process templates in slack attachments
+        // process templates in slack attachments in channelData
         if (outgoing.channelData.attachments) {
             outgoing.channelData.attachments = this.parseTemplatesRecursive(outgoing.channelData.attachments, vars);
+        }
+        if (outgoing.channelData.blocks) {
+            outgoing.channelData.blocks = this.parseTemplatesRecursive(outgoing.channelData.blocks, vars);
         }
 
         // process templates in facebook attachments
@@ -791,7 +846,28 @@ export class BotkitConversation<O extends object = {}> extends Dialog<O> {
             outgoing.channelData.attachment = this.parseTemplatesRecursive(outgoing.channelData.attachment, vars);
         }
 
-        return outgoing;
+        // process templates in quick replies
+        if (outgoing.channelData.quick_replies) {
+            outgoing.channelData.quick_replies = this.parseTemplatesRecursive(outgoing.channelData.quick_replies, vars);
+        }
+        // process templates in quick replies
+        if (outgoing.suggestedActions) {
+            outgoing.suggestedActions = this.parseTemplatesRecursive(outgoing.suggestedActions, vars);
+        }
+
+        const that = this;
+        return new Promise(async (resolve, reject) => {
+            // run the outgoing message through the Botkit send middleware
+            const bot = await that._controller.spawn(dc);
+            that._controller.middleware.send.run(bot, outgoing, (err, bot, outgoing) => {
+                if (err) {
+                    reject(err);
+                } else {
+                    resolve(outgoing);
+                }
+            });
+        });
+
     }
 
     /**

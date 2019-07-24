@@ -28,6 +28,7 @@ module.exports = function(controller) {
          */
         controller.hears(new RegExp('quick'), 'message', async (bot, message) => {
 
+
             await bot.reply(message,{
                 text: 'Here are some quick replies',
                 quick_replies: [
@@ -80,6 +81,31 @@ module.exports = function(controller) {
             }, 1000);
     
         });
+
+        let replies = new BotkitConversation('replies', controller);
+        replies.ask({
+            text: 'Click one of these suggestions!',
+            quick_replies: [
+                {
+                    title: 'Foo',
+                    payload: 'foo',
+                },
+                {
+                    title: 'Bar',
+                    payload: 'bar',
+                }
+            ]
+        }, [], 'reply');
+        replies.say('You clicked {{vars.reply}}');
+        controller.addDialog(replies);
+
+        controller.hears('qqq', 'message', async(bot, message) => {
+            await bot.beginDialog('replies');
+        });
+
+
+
+
 
     }
 
