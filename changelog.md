@@ -30,8 +30,14 @@ We're skipping a few version numbers here to keep in sync with the rest of [Micr
 -> https://github.com/howdyai/botkit/pull/1675
 -> https://github.com/howdyai/botkit/pull/1677
 
-* websocet module updated to latest
+* websocket module updated to latest
 -> https://github.com/howdyai/botkit/pull/1668
+
+* Fix webex adapter to support FormData
+-> https://github.com/howdyai/botkit/pull/1667
+
+* Expand typedefs for Slack dialogs
+-> https://github.com/howdyai/botkit/pull/1653
 
 * FIX: issue where child dialog results causes match to bork
     --??

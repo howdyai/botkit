@@ -1,6 +1,6 @@
 {
   "name": "botkit-plugin-cms",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Extend Botkit with access to botkit-cms",
   "main": "./lib/index.js",
   "typings": "./lib/index.d.ts",
@@ -28,7 +28,7 @@
     "url": "https://github.com/howdyai/botkit.git"
   },
   "dependencies": {
-    "botkit": "^4.0.2",
+    "botkit": "^4.5.0",
     "debug": "^4.1.0"
   },
   "devDependencies": {
