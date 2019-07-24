@@ -44,7 +44,7 @@ interface BotkitMessageTemplate {
     attachments?: any[];
     channelData?: any;
     collect: {
-        key: string;
+        key?: string;
         options?: BotkitConvoTrigger[];
     };
 }
@@ -330,7 +330,7 @@ export class BotkitConversation<O extends object = {}> extends Dialog<O> {
      * @param key name of variable to store response in.
      */
     public ask(message: Partial<BotkitMessageTemplate> | string, handlers: BotkitConvoTrigger | BotkitConvoTrigger[], key: {key: string} | string): BotkitConversation {
-        this.addQuestion(message, handlers, key, 'default');
+        this.addQuestion(message, handlers, key = null, 'default');
         return this;
     }
 
@@ -356,9 +356,13 @@ export class BotkitConversation<O extends object = {}> extends Dialog<O> {
             message = { text: [message as string] };
         }
 
-        message.collect = {
-            key: typeof (key) === 'string' ? key : key.key
-        };
+        message.collect = {};
+
+        if (key) {
+            message.collect = {
+                key: typeof (key) === 'string' ? key : key.key
+            };
+        }
 
         if (Array.isArray(handlers)) {
             message.collect.options = handlers;
