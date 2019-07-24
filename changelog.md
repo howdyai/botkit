@@ -26,6 +26,10 @@ We're skipping a few version numbers here to keep in sync with the rest of [Micr
 * keyname for convo.ask and convo.addQuestion can now be set to null to discard answer.
 -> https://github.com/howdyai/botkit/pull/1716
 
+* improve handling of CMS url when using botkitcmshelper
+-> https://github.com/howdyai/botkit/pull/1675
+-> https://github.com/howdyai/botkit/pull/1677
+
 * FIX: issue where child dialog results causes match to bork
     --??
 

@@ -40,12 +40,20 @@ export class BotkitCMSHelper {
         if (config.controller) {
             this._controller = this._config.controller;
         }
+        
+        // for backwards compat, handle these alternate locations
+        if (this._config.cms_uri && !this._config.uri) {
+            this._config.uri = this._config.cms_uri;
+        }
+        if (this._config.cms_token && !this._config.token) {
+            this._config.token = this._config.cms_token;
+        }
 
         if (!this._config.uri) {
-            throw new Error('Specify the root url of your Botkit CMS instance as uri');
+            throw new Error('Specify the root url of your Botkit CMS instance as `uri`');
         }
         if (!this._config.token) {
-            throw new Error('Specify a token that matches one configured in your Botkit CMS instance');
+            throw new Error('Specify a token that matches one configured in your Botkit CMS instance as `token`');
         }
     }
 
