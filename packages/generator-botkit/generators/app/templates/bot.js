@@ -107,7 +107,7 @@ const controller = new Botkit({
 
 if (process.env.cms_uri) {
     controller.usePlugin(new BotkitCMSHelper({
-        cms_uri: process.env.cms_uri,
+        uri: process.env.cms_uri,
         token: process.env.cms_token,
     }));
 }

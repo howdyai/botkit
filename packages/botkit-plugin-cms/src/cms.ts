@@ -8,6 +8,7 @@
 
 import { Botkit, BotkitDialogWrapper, BotkitMessage, BotWorker, BotkitConversation } from 'botkit';
 import * as request from 'request';
+const url = require('url');
 const debug = require('debug')('botkit:cms');
 
 /**
@@ -78,7 +79,7 @@ export class BotkitCMSHelper {
 
     private async apiRequest(uri: string, params: {[key: string]: any} = {}, method: string = 'GET'): Promise<any> {
         let req = {
-            uri: this._config.uri + uri + '?access_token=' + this._config.token,
+            uri: url.resolve(this._config.uri, uri + '?access_token=' + this._config.token),
             headers: {
                 'content-type': 'application/json'
             },
