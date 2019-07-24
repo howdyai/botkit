@@ -8,7 +8,7 @@
 
 We're skipping a few version numbers here to keep in sync with the rest of [Microsoft Bot Framework](https://github.com/microsoft/botframework).
 Welcome to Botkit 4.5!  This release contains a host of improvements and bug fixes affecting Botkit's conversation system, as well the behavior
-of some of the platform adapters.  We recommend that all developers currently using Botkit 4.0.2 upgrade to 4.5. 
+of some of the platform adapters.  We recommend that all developers currently using Botkit v4 upgrade to 4.5. 
 
 Specific Changes: 
 
