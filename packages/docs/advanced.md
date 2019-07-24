@@ -168,7 +168,7 @@ convo.after(async(results, bot) => {
 controller.addDialog(convo);
 
 controller.hears('tacos', 'direct_message', async(bot, message) => {
-    await bot.beginDialog(convo);
+    await bot.beginDialog('tacos');
 });
 ```
 
