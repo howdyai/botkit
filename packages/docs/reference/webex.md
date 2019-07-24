@@ -311,6 +311,7 @@ USE WITH CAUTION while we try to sort this out.
 | Name | Type | Description
 |--- |--- |---
 | access_token | string | An access token for the bot. Get one from [https://developer.webex.com/](https://developer.webex.com/)<br/>
+| enable_incomplete | boolean | Allow the adapter to startup without a complete configuration.<br/>This is risky as it may result in a non-functioning or insecure adapter.<br/>This should only be used when getting started.<br/>
 | public_address | string | The root URL of your bot application.  Something like `https://mybot.com/`<br/>
 | secret | string | Secret used to validate incoming webhooks - you can define this yourself<br/>
 | webhook_name | string | a name for the webhook subscription that will be created to tell Webex to send your bot webhooks.<br/>

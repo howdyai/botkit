@@ -8,6 +8,24 @@ module.exports = function(controller) {
         await bot.reply(message,'Cool sticker.');
     });
 
+
+    controller.hears(new RegExp('quick'), 'message', async (bot, message) => {
+
+      await bot.reply(message,{
+          text: 'Here are some quick replies',
+          quick_replies: [
+              {
+                  title: 'Foo',
+                  payload: 'foo',
+              },
+              {
+                  title: 'Bar',
+                  payload: 'bar',
+              }
+          ]
+      });
+  });
+  
     /**
      * Detect a button click 
      */

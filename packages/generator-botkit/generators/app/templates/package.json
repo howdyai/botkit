@@ -8,8 +8,8 @@
       "test": "echo \"Error: no test specified\" && exit 1"
     },
     "dependencies": {
-      "botkit": "^4.0.1",
-      "botkit-plugin-cms": "^1.0.0",
+      "botkit": "^4.0.2",
+      "botkit-plugin-cms": "^1.0.1",
       "botbuilder-storage-mongodb":"^0.9.5",
       "dotenv": "^7.0.0"
     }

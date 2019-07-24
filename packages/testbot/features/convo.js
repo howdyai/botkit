@@ -8,10 +8,18 @@ module.exports = function(controller) {
     welcome.say('Hey!');
     welcome.ask({
         text: ['Check this out...'],
-        action: 'beginDialog',
-        execute: {
-            script: 'waterfall_sample'
-        }
+        channelData: { 
+            quick_replies: [
+                {
+                    title: 'Foo',
+                    payload: 'foo',
+                },
+                {
+                    title: 'Bar',
+                    payload: 'bar',
+                }
+            ],
+        },
     },async(answer, convo, bot) => {
         // noop.
     },{key: 'waterfall_results'});

@@ -102,7 +102,9 @@ export class HangoutsAdapter extends BotAdapter {
                 ``
             ];
             console.warn(warning.join('\n'));
-            throw new Error('Required: include a verificationToken or clientSigningSecret to verify incoming Events API webhooks');
+            if (!this.options.enable_incomplete) {
+                throw new Error('Required: include a verificationToken or clientSigningSecret to verify incoming Events API webhooks');
+            }
         }
 
         let params = {
@@ -118,8 +120,23 @@ export class HangoutsAdapter extends BotAdapter {
             })
             .catch(err => {
                 console.error('Could not get google auth client !');
-                throw new Error(err);
+                if (!this.options.enable_incomplete) {
+                    throw new Error(err);
+                }
             });
+
+        if (this.options.enable_incomplete) {
+            const warning = [
+                ``,
+                `****************************************************************************************`,
+                `* WARNING: Your adapter may be running with an incomplete/unsafe configuration.        *`,
+                `* - Ensure all required configuration options are present                              *`,
+                `* - Disable the "enable_incomplete" option!                                            *`,
+                `****************************************************************************************`,
+                ``
+            ];
+            console.warn(warning.join('\n'));
+        }
 
         this.middlewares = {
             spawn: [
@@ -229,8 +246,6 @@ export class HangoutsAdapter extends BotAdapter {
                 const results = await this.api.spaces.messages.delete({
                     name: reference.activityId
                 });
-                console.log('results of delete', results);
-
                 if (!results || results.status !== 200) {
                     throw new Error('deleteActivity failed: ' + results.statusText);
                 }
@@ -358,4 +373,12 @@ export interface HangoutsAdapterOptions {
      * If defined, the origin of all incoming webhooks will be validated and any non-matching requests will be rejected.
      */
     token: string; // webhook validation token
+
+    /**
+     * Allow the adapter to startup without a complete configuration.
+     * This is risky as it may result in a non-functioning or insecure adapter.
+     * This should only be used when getting started.
+     */
+    enable_incomplete?: boolean;
+
 }

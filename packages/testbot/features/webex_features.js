@@ -43,5 +43,12 @@ module.exports = function(controller) {
         console.log('memberships created', message);
     });
 
+    controller.hears('orgId', 'message, direct_message', async(bot, message) => {
+        await bot.reply(message, 'Your org id is ' + message.orgId);
+    });
+
+    controller.on('direct_message', async(bot, message) => {
+        await bot.reply(message, 'I heard a DM on webex');
+    });
 
 }

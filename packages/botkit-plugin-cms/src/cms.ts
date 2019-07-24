@@ -7,8 +7,8 @@
  */
 
 import { Botkit, BotkitDialogWrapper, BotkitMessage, BotWorker, BotkitConversation } from 'botkit';
-import { DialogSet } from 'botbuilder-dialogs';
 import * as request from 'request';
+const url = require('url');
 const debug = require('debug')('botkit:cms');
 
 /**
@@ -63,7 +63,7 @@ export class BotkitCMSHelper {
         botkit.addPluginExtension('cms', this);
 
         // pre-load all the scripts via the CMS api
-        this.loadAllScripts(this._controller.dialogSet).then(() => {
+        this.loadAllScripts(this._controller).then(() => {
             debug('Dialogs loaded from Botkit CMS');
             this._controller.completeDep('cms');
         });
@@ -71,7 +71,7 @@ export class BotkitCMSHelper {
 
     private async apiRequest(uri: string, params: {[key: string]: any} = {}, method: string = 'GET'): Promise<any> {
         let req = {
-            uri: this._config.uri + uri + '?access_token=' + this._config.token,
+            uri: url.resolve(this._config.uri, uri + '?access_token=' + this._config.token),
             headers: {
                 'content-type': 'application/json'
             },
@@ -125,7 +125,7 @@ export class BotkitCMSHelper {
      * Load all script content from the configured CMS instance into a DialogSet and prepare them to be used.
      * @param dialogSet A DialogSet into which the dialogs should be loaded.  In most cases, this is `controller.dialogSet`, allowing Botkit to access these dialogs through `bot.beginDialog()`.
      */
-    public async loadAllScripts(dialogSet: DialogSet): Promise<void> {
+    public async loadAllScripts(botkit: Botkit): Promise<void> {
         var scripts = await this.getScripts();
 
         scripts.forEach((script) => {
@@ -137,7 +137,7 @@ export class BotkitCMSHelper {
 
             let d = new BotkitConversation(script.command, this._controller);
             d.script = threads;
-            dialogSet.add(d);
+            botkit.addDialog(d);
         });
     }
 

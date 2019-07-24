@@ -923,6 +923,7 @@ This interface defines the options that can be passed into the SlackAdapter cons
 | clientId | string | The oauth client id provided by Slack for multi-team apps<br/>
 | clientSecret | string | The oauth client secret provided by Slack for multi-team apps<br/>
 | clientSigningSecret | string | A token used to validate that incoming webhooks originated with Slack.<br/>
+| enable_incomplete | boolean | Allow the adapter to startup without a complete configuration.<br/>This is risky as it may result in a non-functioning or insecure adapter.<br/>This should only be used when getting started.<br/>
 | getBotUserByTeam |  | A method that receives a Slack team id and returns the bot user id associated with that team. Required for multi-team apps.<br/>
 | getTokenForTeam |  | A method that receives a Slack team id and returns the bot token associated with that team. Required for multi-team apps.<br/>
 | redirectUri | string | The URL users will be redirected to after an oauth flow. In most cases, should be `https://<mydomain.com>/install/auth`<br/>

@@ -9,12 +9,6 @@ module.exports = function(botkit) {
                     console.log('> ', req.url);
                     next();
                 });
-
-                botkit.webserver.get('/', function(req, res) {
-                    res.render(botkit.getLocalView(__dirname + '/views/template'),{layout: botkit.getLocalView(__dirname + '/views/layout')});
-                });
-
-                botkit.publicFolder('/public',__dirname + '/public');
             }
 
         },

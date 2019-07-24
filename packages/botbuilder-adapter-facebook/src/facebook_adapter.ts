@@ -101,11 +101,34 @@ export class FacebookAdapter extends BotAdapter {
         };
 
         if (!this.options.access_token && !this.options.getAccessTokenForPage) {
-            throw new Error('Adapter must receive either an access_token or a getAccessTokenForPage function.');
+            let err = 'Adapter must receive either an access_token or a getAccessTokenForPage function.';
+            if (!this.options.enable_incomplete) {
+                throw new Error(err);
+            } else {
+                console.error(err);
+            }
         }
 
         if (!this.options.app_secret) {
-            throw new Error('Provide an app_secret in order to validate incoming webhooks and better secure api requests');
+            let err = 'Provide an app_secret in order to validate incoming webhooks and better secure api requests';
+            if (!this.options.enable_incomplete) {
+                throw new Error(err);
+            } else {
+                console.error(err);
+            }
+        }
+
+        if (this.options.enable_incomplete) {
+            const warning = [
+                ``,
+                `****************************************************************************************`,
+                `* WARNING: Your adapter may be running with an incomplete/unsafe configuration.        *`,
+                `* - Ensure all required configuration options are present                              *`,
+                `* - Disable the "enable_incomplete" option!                                            *`,
+                `****************************************************************************************`,
+                ``
+            ];
+            console.warn(warning.join('\n'));
         }
 
         this.middlewares = {
@@ -449,4 +472,11 @@ export interface FacebookAdapterOptions {
      * When bound to multiple teams, provide a function that, given a page id, will return the page access token for that page.
      */
     getAccessTokenForPage?: (pageId: string) => Promise<string>;
+
+    /**
+     * Allow the adapter to startup without a complete configuration.
+     * This is risky as it may result in a non-functioning or insecure adapter.
+     * This should only be used when getting started.
+     */
+    enable_incomplete?: boolean;
 }

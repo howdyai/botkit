@@ -1,6 +1,6 @@
 {
   "name": "botbuilder-adapter-webex",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Connect Botkit or BotBuilder to Webex Teams",
   "main": "./lib/index.js",
   "typings": "./lib/index.d.ts",
@@ -33,7 +33,7 @@
     "url": "https://github.com/howdyai/botkit.git"
   },
     "dependencies": {
-    "botkit": "^4.0.1",
+    "botkit": "^4.0.2",
     "botbuilder": "^4.4.0",
     "ciscospark": "^1.32.23",
     "debug": "^4.1.0",

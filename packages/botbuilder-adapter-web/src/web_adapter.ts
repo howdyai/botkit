@@ -180,6 +180,7 @@ export class WebAdapter extends BotAdapter {
             });
         }
 
+        debug('OUTGOING > ', message);
         return message;
     }
     /**
