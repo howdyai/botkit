@@ -18,6 +18,7 @@ Specific Changes:
 * NEW: Slack block actions and other button clicks now are message type events and get included in dialogs. Thanks to [@apemberton](https://github.com/apemberton) for the [pull request](https://github.com/howdyai/botkit/pull/1712).
 * NEW: The key name passed in to convo.ask and convo.addQuestion can now be set to null in order to discard the answer. Thanks to [@adantoscano](https://github.com/adantoscano) for [the pull request](https://github.com/howdyai/botkit/pull/1716)
 
+
 * FIX: Botkit will no longer improperly prune platform specific fields like quick replies and attachments specified inside BotkitConversations. [Fix for #1664](https://github.com/howdyai/botkit/issues/1664), [#1679](https://github.com/howdyai/botkit/issues/1679), and [#1699](https://github.com/howdyai/botkit/issues/1699).
 * FIX: The text field in BotkitConversations was expected to always be an array, causing some confusion. It is now possible to pass in a string OR an array. Passing an array will cause Botkit to choose a random entry in the array for the message text.
 * FIX: Several updates have been made to the middleware pipeline so that it better matches expected behavior.  The receive and send middlewares will now fire for every incoming message - previously, there were cases where these would not fire. Thanks to [@adantoscano](https://github.com/adantoscano) for [this pull request](https://github.com/howdyai/botkit/pull/1717) and also [this one](https://github.com/howdyai/botkit/pull/1720). 
@@ -25,6 +26,7 @@ Specific Changes:
 * FIX: Webex adapter has been updated to better support file uploads. Thanks to [@Teamop](https://github.com/Teamop) for [the pull request](https://github.com/howdyai/botkit/pull/1667)
 * FIX: Improve mapping of Bot Framework "Activity" fields. Thanks to [@Naktibalda](https://github.com/Naktibalda) for [the pull request](https://github.com/howdyai/botkit/pull/1707).
 * FIX: Expand typedefs for Slack dialogs. Thanks to [@roger-king](https://github.com/roger-king) for [the pull request](https://github.com/howdyai/botkit/pull/1653)
+
 
 * UPDATE: Update to v4.5.2 of all Bot Framework packages
 * UPDATE: `ws` websocket module updated to v7.1.1
