@@ -5,12 +5,12 @@ module.exports = function(controller) {
     let dialog = new BotkitConversation('dynamic_attachments', controller);   
     dialog.ask({
         text: 'What is your name?',
-        channelData: { quick_replies: [
+        quick_replies: [
             {
                 title: '{{vars.default_name}}',
                 payload: '{{vars.default_name}}',
             }
-        ]}
+        ]
     }, [], 'name');
 
     dialog.ask({
@@ -45,7 +45,7 @@ module.exports = function(controller) {
     });
     controller.addDialog(dialog);
 
-    controller.hears('dynamic', 'message', async(bot, message) => {
+    controller.hears('dynamic', 'message,direct_message,direct_mention', async(bot, message) => {
         await bot.beginDialog('dynamic_attachments', {default_name: 'BEN'});
     });
 

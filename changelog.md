@@ -20,7 +20,8 @@ We're skipping a few version numbers here to keep in sync with the rest of [Micr
 * FIX: middlewares don't fire as expected
     -> receive https://github.com/howdyai/botkit/pull/1717
     -> send https://github.com/howdyai/botkit/pull/1720
-
+* FIX: improve mapping of bot framework activity fields
+* quick replies and suggestedActions now procssed as mustache templates
 
 * FIX: issue where child dialog results causes match to bork
     --??

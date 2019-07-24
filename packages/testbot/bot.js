@@ -1,7 +1,5 @@
 const { Botkit } = require('botkit');
-const { ShowTypingMiddleware } = require('botbuilder');
 const { MongoDbStorage } = require('botbuilder-storage-mongodb');
-const basicAuth = require('express-basic-auth');
 const { BotkitCMSHelper } = require('botkit-plugin-cms');
 
 const { SlackAdapter, SlackMessageTypeMiddleware, SlackIdentifyBotsMiddleware, SlackEventMiddleware } = require('botbuilder-adapter-slack');
@@ -49,18 +47,18 @@ if (process.env.MONGO_URI) {
  * Configure the Slack adapter
  * ----------------------------------------------------------------------
 //  */
-// const adapter = new SlackAdapter({
-//     // enable_incomplete: true,
-//     verificationToken: process.env.verificationToken,
-//     clientSigningSecret: process.env.clientSigningSecret,  
-//     botToken: process.env.botToken,
-//     // clientId: process.env.clientId,
-//     // clientSecret: process.env.clientSecret,
-//     // scopes: ['bot'],
-//     // redirectUri: process.env.redirectUri,
-//     // getTokenForTeam: getTokenForTeam,
-//     // getBotUserByTeam: getBotUserByTeam,
-// });
+const adapter = new SlackAdapter({
+    // enable_incomplete: true,
+    verificationToken: process.env.verificationToken,
+    clientSigningSecret: process.env.clientSigningSecret,  
+    botToken: process.env.botToken,
+    // clientId: process.env.clientId,
+    // clientSecret: process.env.clientSecret,
+    // scopes: ['bot'],
+    // redirectUri: process.env.redirectUri,
+    // getTokenForTeam: getTokenForTeam,
+    // getBotUserByTeam: getBotUserByTeam,
+});
 
 // let tokenCache = {};
 // let userCache = {};
@@ -99,11 +97,11 @@ if (process.env.MONGO_URI) {
 
 
 // // Use SlackEventMiddleware to emit events that match their original Slack event types.
-// adapter.use(new SlackEventMiddleware());
+adapter.use(new SlackEventMiddleware());
 
 // // Use SlackMessageType middleware to further classify messages as direct_message, direct_mention, or mention
-// adapter.use(new SlackMessageTypeMiddleware());
-// 
+adapter.use(new SlackMessageTypeMiddleware());
+
 /* ----------------------------------------------------------------------
  *  __      __      ___.                        __           __   
  * /  \    /  \ ____\_ |__   __________   ____ |  | __ _____/  |_ 
@@ -114,7 +112,7 @@ if (process.env.MONGO_URI) {
  * Configure the Websocket adapter
  * ----------------------------------------------------------------------
  */
-const adapter = new WebAdapter({});
+// const adapter = new WebAdapter({});
 
 // const adapter = new FacebookAdapter({
 //     // enable_incomplete: true,
@@ -168,17 +166,17 @@ controller.usePlugin(cms);
 controller.ready(() => {
 
     /* catch-all that uses the CMS to trigger dialogs */
-    if (controller.plugins.cms) {
-        controller.on('message,direct_message', async (bot, message) => {
-            let results = false;
-            results = await controller.plugins.cms.testTrigger(bot, message);
+    // if (controller.plugins.cms) {
+    //     controller.on('message,direct_message', async (bot, message) => {
+    //         let results = false;
+    //         results = await controller.plugins.cms.testTrigger(bot, message);
 
-            if (results !== false) {
-                // do not continue middleware!
-                return false;
-            }
-        });
-    }
+    //         if (results !== false) {
+    //             // do not continue middleware!
+    //             return false;
+    //         }
+    //     });
+    // }
 
     // load traditional developer-created local custom feature modules
     controller.loadModules(__dirname + '/features');

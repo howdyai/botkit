@@ -773,13 +773,16 @@ export class BotkitConversation<O extends object = {}> extends Dialog<O> {
         /*******************************************************************************************************************/
         // allow dynamic generation of quick replies and/or attachments
         if (typeof(line.quick_replies)=='function') {
+            // set both formats of quick replies
             outgoing.channelData.quick_replies = await line.quick_replies(line, vars);
+            outgoing.suggestedActions = {actions: outgoing.channelData.quick_replies.map((reply) => { return { type: ActionTypes.PostBack, title: reply.title, text: reply.payload, displayText: reply.title, value: reply.payload }; }) };
         }
         if (typeof(line.attachment)=='function') {
             outgoing.channelData.attachment = await line.attachment(line, vars);
         }
         if (typeof(line.attachments)=='function') {
-            outgoing.channelData.attachments = await line.attachments(line, vars);
+            // set both locations for attachments
+            outgoing.attachments = outgoing.channelData.attachments = await line.attachments(line, vars);
         }
         if (typeof(line.blocks)=='function') {
             outgoing.channelData.blocks = await line.blocks(line, vars);
@@ -842,6 +845,10 @@ export class BotkitConversation<O extends object = {}> extends Dialog<O> {
         // process templates in quick replies
         if (outgoing.channelData.quick_replies) {
             outgoing.channelData.quick_replies = this.parseTemplatesRecursive(outgoing.channelData.quick_replies, vars);
+        }
+        // process templates in quick replies
+        if (outgoing.suggestedActions) {
+            outgoing.suggestedActions = this.parseTemplatesRecursive(outgoing.suggestedActions, vars);
         }
 
         const that = this;
