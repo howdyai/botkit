@@ -250,6 +250,32 @@ The object's name is {{vars.object.name}}.
 Botkit ensures that your template is a valid Mustache template, and passes the variables you specify directly to the Mustache template rendering system.
 Our philosophy is that it is OK to stuff whatever type of information your conversation needs into these variables and use them as you please!
 
+## Dynamic Quick Replies and Attachments
+
+In some cases, developers will need to create dynamic quick replies and/or attachments to the messages within an otherwise pre-scripted dialog.
+As of Botkit v4.5, this can be achieved by specifying a function responsible for generating this content as part of the message template.
+
+Functions may be passed in in the `quick_replies`, `attachment`, `attachments` and `blocks` fields.  All of these functions share the same signature:
+`async(message_template, vars) => { return CONTENT; }`
+
+The `message_template` parameter includes the entire template initially passed in to `ask()` or `say()` or any other function used to construct the dialog structure.
+
+The `vars` parameter includes all of the currently available conversation variables otherwise accessible via `convo.vars` and/or the `{{vars.name}}` syntax.
+
+These two variables, along with any other information currently in scope, can be used to dynamically generate these attachments, as seen in the example below:
+
+```
+let dialog = new BotkitConversation('sample_dialog', controller);
+
+dialog.ask('What would you like the quick reply to say?', [], 'reply_title');
+dialog.say({
+    text: 'Here is your dynamic button:',
+    quick_replies: async(template, vars) => { return [{title: vars.reply_title, payload: vars.reply_title }]}
+});
+```
+
+These generator functions are responsible for creating the attachment content in the platform-appropriate format.  The returned content may include `{{vars.name}}` style Mustache tags.
+
 ## Conversation Control Functions
 
 When a user responds to a prompt, the answer is automatically added to the list of variables.
