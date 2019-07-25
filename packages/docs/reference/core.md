@@ -456,7 +456,7 @@ for handling platform-specific events or activities.
 
 | Argument | Type | description
 |--- |--- |---
-| config (optional)| any | Preferably receives a DialogContext, though can also receive a TurnContext. If excluded, must call `bot.changeContext(reference)` before calling any other method.<br/>
+| config (optional)| any | Preferably receives a DialogContext, though can also receive a TurnContext. If excluded, must call `bot.changeContext(reference)` before calling any other method.<br/>Can also take the string of the Slack ID of the team for which you'd like to spawn the bot. See <a href='https://github.com/howdyai/botkit/tree/master/packages/botbuilder-adapter-slack for more information'>the botbuilder Slack adapter readme</a> for details.
 
 
 
