@@ -587,7 +587,7 @@ module.exports = function(botkit) {
         },
         // Any middlewares that should be automatically bound
         // Can include more than 1 of each kind.
-        middleware: {
+        middlewares: {
             ingest: [
                 (bot, message, next) => { next(); }
             ],
