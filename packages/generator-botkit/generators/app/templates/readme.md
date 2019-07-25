@@ -1,6 +1,8 @@
 # Botkit Starter Kit
 
-This is a Botkit starter kit for <%= platform %>, created with the [Yeoman generator](https://github.com/howdyai/botkit/tree/master/packages/generator-botkit#readme)
+This is a Botkit starter kit for <%= platform %>, created with the [Yeoman generator](https://github.com/howdyai/botkit/tree/master/packages/generator-botkit#readme).
+
+To complete the configuration of this bot, make sure to update the included `.env` file with your platform tokens and credentials.
 
 [Botkit Docs](https://botkit.ai/docs/v4)
 

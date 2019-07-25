@@ -1,5 +1,12 @@
 # botbuilder-adapter-slack changelog
 
+# 1.0.4
+
+* Update dependencies (Bot Framework to 4.5.2, Botkit to 4.5)
+* Block actions and interactive button clicks are now classified as "message" type events, and thus included in conversations
+* Update some type definitions in the Slack Dialog class.
+
+
 # 1.0.3
 
 * Fix typo in replyInteractive - Thanks to [@VictorGrycuk](https://github.com/VictorGrycuk) for [the fix](https://github.com/howdyai/botkit/pull/1650)

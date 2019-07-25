@@ -2,6 +2,12 @@
 
 # botkit-plugin-cms changelog
 
+# 1.0.2
+
+* Update dependencies (Bot Framework to 4.5.2, Botkit to 4.5)
+* Improvements to reliability of the `uri` parameter on the constructor. 
+
+
 # 1.0.1
 
 * Fix critical issue that causes CMS-powered dialogs to fail to load.

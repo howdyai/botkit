@@ -16,7 +16,6 @@ module.exports = function(controller) {
     // start the loop
     dialog.addAction('question-loop');
 
-
     dialog.before('question-loop', async(convo, bot) => {
 
         if (convo.vars.question_index < convo.vars.questions.length) {

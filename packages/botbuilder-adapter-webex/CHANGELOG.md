@@ -1,5 +1,10 @@
 # botbuilder-adapter-webex changelog
 
+# 1.0.2
+
+* Update dependencies (Bot Framework to 4.5.2, Botkit to 4.5)
+* Fix for file attachments
+
 # 1.0.1
 
 * 1:1 messages between bot and user will now emit `direct_message` events instead of `message` events

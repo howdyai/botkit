@@ -1116,7 +1116,7 @@ convo.ask('Do you want to eat a taco?', [
      handler: async(response, convo, bot) => {
          return await convo.gotoThread('no_taco');
      }
-  },
+  },s
   {
       default: true,
       handler: async(response, convo, bot) => {
@@ -1290,6 +1290,7 @@ Defines the options used when instantiating Botkit to create the main app contro
 | storage | Storage | A Storage interface compatible with [this specification](https://docs.microsoft.com/en-us/javascript/api/botbuilder-core/storage?view=botbuilder-ts-latest)<br/>Defaults to the ephemeral [MemoryStorage](https://docs.microsoft.com/en-us/javascript/api/botbuilder-core/memorystorage?view=botbuilder-ts-latest) implementation.<br/>
 | webhook_uri | string | Path used to create incoming webhook URI.  Defaults to `/api/messages`<br/>
 | webserver | any | An instance of Express used to define web endpoints.  If not specified, oen will be created internally.<br/>Note: only use your own Express if you absolutely must for some reason. Otherwise, use `controller.webserver`<br/>
+| webserver_middlewares |  | An array of middlewares that will be automatically bound to the webserver.<br/>Should be in the form (req, res, next) => {}<br/>
 <a name="BotkitConversationStep"></a>
 ## Interface BotkitConversationStep
 

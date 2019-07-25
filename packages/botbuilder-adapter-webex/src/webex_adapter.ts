@@ -317,14 +317,22 @@ export class WebexAdapter extends BotAdapter {
 
                 // transform activity into the webex message format
                 // https://developer.webex.com/docs/api/v1/messages/create-a-message
-                const message = {
-                    roomId: activity.conversation ? activity.conversation.id : null,
-                    toPersonId: activity.conversation ? null : activity.recipient.id,
-                    toPersonEmail: activity.channelData && activity.channelData.toPersonEmail ? activity.channelData.toPersonEmail : null,
-                    text: activity.text,
-                    markdown: activity.channelData ? activity.channelData.markdown : null,
-                    files: activity.channelData ? activity.channelData.files : null
+                const message: any = {
+                    files: activity.channelData ? activity.channelData.files : ''
                 };
+                if (activity.text) {
+                    message.text = activity.text;
+                }
+                if (activity.channelData && activity.channelData.markdown) {
+                    message.markdown = activity.channelData.markdown;
+                }
+                if (activity.conversation && activity.conversation.id) {
+                    message.roomId = activity.conversation.id;
+                } else if (!activity.conversation && activity.recipient.id) {
+                    message.toPersonId = activity.recipient.id;
+                } else if (activity.channelData && activity.channelData.toPersonEmail) {
+                    message.toPersonEmail = activity.channelData.toPersonEmail;
+                }
 
                 let response = await this._api.messages.create(message);
 
