@@ -113,7 +113,6 @@ export class BotkitConversation<O extends object = {}> extends Dialog<O> {
     private _beforeHooks: {};
     private _afterHooks: { (context: TurnContext, results: any): void }[];
     private _changeHooks: {};
-    private _transformHooks: {};
     private _controller: Botkit;
 
     /**
@@ -127,7 +126,6 @@ export class BotkitConversation<O extends object = {}> extends Dialog<O> {
         this._beforeHooks = {};
         this._afterHooks = [];
         this._changeHooks = {};
-        this._transformHooks = {};
         this.script = {};
 
         this._controller = controller;
@@ -523,34 +521,6 @@ export class BotkitConversation<O extends object = {}> extends Dialog<O> {
     }
 
     /**
-     * Bind a function to transform message text before performing template replacement.
-     * Can be used for i18n, for example.
-     *
-     * ```javascript
-     * convo.say('Hello, {{vars.name}}!');
-     * convo.transform('text', (text, vars) {
-     *  return text.replace('Hello', 'Hola');
-     * });
-     * ```
-     *
-     * ```javascript
-     * convo.say('translation.hello');
-     * convo.transform('text', (text, vars) {
-     *  return i18n.t(text, vars);
-     * });
-     * ```
-     * @param type type of data to transform (currently supports: text)
-     * @param handler a handler function that can be used to change the value
-     */
-    public transform(type: string, handler: (text, vars) => string): void {
-        if (!this._transformHooks[type]) {
-            this._transformHooks[type] = [];
-        }
-
-        this._transformHooks[type].push(handler);
-    }
-
-    /**
      * Called automatically when a dialog begins. Do not call this directly!
      * @ignore
      * @param dc the current DialogContext
@@ -786,6 +756,11 @@ export class BotkitConversation<O extends object = {}> extends Dialog<O> {
         let outgoing;
         let text = '';
 
+        // If text is a function, call the function to get the actual text value.
+        if (typeof line.text === 'function') {
+            text = await line.text(vars);
+        }
+
         // if the text is just a string, use it.
         // otherwise, if it is an array, pick a random element
         if (line.text && typeof(line.text)=='string') {
@@ -850,13 +825,6 @@ export class BotkitConversation<O extends object = {}> extends Dialog<O> {
         // copy all the values in channelData fields
         for (var key in line.channelData) {
             outgoing.channelData[key] = line.channelData[key];
-        }
-
-        // Transform the text BEFORE doing token replacement, e.g. to allow i18n.
-        if (this._transformHooks['text']) {
-            this._transformHooks['text'].forEach((hook) => {
-                outgoing.text = hook(outgoing.text, vars);
-            })
         }
 
         /*******************************************************************************************************************/
