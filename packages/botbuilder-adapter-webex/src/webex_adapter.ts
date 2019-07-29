@@ -8,7 +8,7 @@
 
 import { Activity, ActivityTypes, BotAdapter, ResourceResponse, ConversationReference, TurnContext } from 'botbuilder';
 import { WebexBotWorker } from './botworker';
-import * as Ciscospark from 'ciscospark';
+import * as Webex from 'webex';
 import * as url from 'url';
 import * as crypto from 'crypto';
 import * as Debug from 'debug';
@@ -45,7 +45,7 @@ export interface WebexAdapterOptions {
 export class WebexAdapter extends BotAdapter {
     private options: WebexAdapterOptions;
 
-    private _api: Ciscospark;
+    private _api: Webex;
     private _identity: any;
 
     /**
@@ -122,7 +122,7 @@ export class WebexAdapter extends BotAdapter {
                 console.error(err);
             }
         } else {
-            this._api = Ciscospark.init({
+            this._api = Webex.init({
                 credentials: {
                     authorization: {
                         access_token: this.options.access_token

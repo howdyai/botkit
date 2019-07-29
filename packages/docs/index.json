@@ -15038,7 +15038,7 @@
                 "isExternal": true
               },
               "comment": {
-                "shortText": "An instance of the [webex api client](https://www.npmjs.com/package/ciscospark)"
+                "shortText": "An instance of the [webex api client](https://www.npmjs.com/package/webex)"
               },
               "sources": [
                 {
@@ -15049,7 +15049,7 @@
               ],
               "type": {
                 "type": "reference",
-                "name": "Ciscospark"
+                "name": "Webex"
               }
             },
             {
@@ -15286,7 +15286,7 @@
                 "isExternal": true
               },
               "comment": {
-                "shortText": "An instance of the [webex api client](https://www.npmjs.com/package/ciscospark)"
+                "shortText": "An instance of the [webex api client](https://www.npmjs.com/package/webex)"
               },
               "sources": [
                 {
@@ -15297,7 +15297,7 @@
               ],
               "type": {
                 "type": "reference",
-                "name": "Ciscospark"
+                "name": "Webex"
               }
             }
           ],
