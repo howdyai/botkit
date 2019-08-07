@@ -333,7 +333,10 @@ export class WebexAdapter extends BotAdapter {
                 } else if (activity.channelData && activity.channelData.toPersonEmail) {
                     message.toPersonEmail = activity.channelData.toPersonEmail;
                 }
-
+                if (activity.attachments) {
+                    message.attachments = activity.attachments;
+                }
+                
                 let response = await this._api.messages.create(message);
 
                 responses.push(response);
