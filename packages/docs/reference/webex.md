@@ -36,6 +36,7 @@ This class includes the following methods:
 * [getIdentity()](#getIdentity)
 * [init()](#init)
 * [processActivity()](#processActivity)
+* [registerAdaptiveCardWebhookSubscription()](#registerAdaptiveCardWebhookSubscription)
 * [registerWebhookSubscription()](#registerWebhookSubscription)
 * [resetWebhookSubscriptions()](#resetWebhookSubscriptions)
 * [sendActivities()](#sendActivities)
@@ -155,6 +156,18 @@ Accept an incoming webhook request and convert it into a TurnContext which can b
 | req| any | A request object from Restify or Express
 | res| any | A response object from Restify or Express
 | logic|  | A bot logic function in the form `async(context) => { ... }`<br/>
+
+
+
+<a name="registerAdaptiveCardWebhookSubscription"></a>
+### registerAdaptiveCardWebhookSubscription()
+Register a webhook subscription with Webex Teams to start receiving message events.
+
+**Parameters**
+
+| Argument | Type | description
+|--- |--- |---
+| webhook_path| any | the path of the webhook endpoint like `/api/messages`<br/>
 
 
 
