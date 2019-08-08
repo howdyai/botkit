@@ -1108,7 +1108,15 @@ export class Botkit {
      */
     public loadModule(p: string): void {
         debug('Load Module:', p);
-        require(p)(this);
+        const module = require(p);
+        // Handle both CJS `module.exports` and ESM `export default` syntax.
+        if (typeof module === 'function') {
+            module(this);
+        } else if (module && typeof module.default === 'function') {
+            module.default(this);
+        } else {
+            throw new Error(`Failed to load '${p}', did you export a function?`);
+        }
     }
 
     /**
