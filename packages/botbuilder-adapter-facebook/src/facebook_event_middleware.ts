@@ -53,6 +53,8 @@ export class FacebookEventTypeMiddleware extends MiddlewareSet {
                 type = 'facebook_postback';
             } else if (context.activity.channelData.referral) {
                 type = 'facebook_referral';
+            } else if (context.activity.channelData.quick_reply) {
+                type = 'facebook_quick_reply';
             } else if (context.activity.channelData.optin) {
                 type = 'facebook_optin';
             } else if (context.activity.channelData.delivery) {
