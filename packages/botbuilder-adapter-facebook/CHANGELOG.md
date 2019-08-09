@@ -1,5 +1,9 @@
 #botbuilder-adapter-facebook changelog
 
+# 1.0.5
+
+* Properly export the facebook_api class so it can be used directly. Thanks to [@luckyluo](https://github.com/howdyai/botkit/pull/1766)!
+
 # 1.0.4
 
 * Update dependencies (Bot Framework to 4.5.2, Botkit to 4.5)
