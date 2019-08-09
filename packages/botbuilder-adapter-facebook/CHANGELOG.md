@@ -1,4 +1,4 @@
-#botbuilder-adapter-facebook changelog
+# botbuilder-adapter-facebook changelog
 
 # 1.0.5
 
