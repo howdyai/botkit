@@ -48,7 +48,7 @@ export class FacebookAPI {
      * @param payload An object to be sent as parameters to the API call.
      */
     public async callAPI(path: string, method: string = 'POST', payload: any = {}, query: any = {}): Promise<any> {
-        let proof = this.getAppSecretProof(this.token, this.secret);
+        const proof = this.getAppSecretProof(this.token, this.secret);
 
         let queryString = '?';
 
@@ -61,7 +61,7 @@ export class FacebookAPI {
                 method: method,
                 json: true,
                 body: payload,
-                uri: 'https://' + this.api_host + '/' + this.api_version + path + queryString + 'access_token=' + this.token + '&appsecret_proof=' + proof
+                uri: `https://${this.api_host}/${this.api_version}${path}${queryString}access_token=${this.token}&appsecret_proof=${proof}`
             }, (err, res, body) => {
                 if (err) {
                     reject(err);
@@ -91,6 +91,7 @@ export class FacebookAPI {
      *
      * @param {string} path
      * @param {*} body
+     * @param {*} query
      * @returns {Promise<any>}
      * @memberof FacebookAPI
      */
