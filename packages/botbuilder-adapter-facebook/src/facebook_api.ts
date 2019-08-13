@@ -67,6 +67,35 @@ export class FacebookAPI {
             });
         });
     }
+    
+    /**
+     * Make a post to a path with a body
+     *
+     * @param {string} path
+     * @param {*} body
+     * @returns {Promise<any>}
+     * @memberof FacebookAPI
+     */
+    public async post(path: string, body: any): Promise<any> {
+        let proof = this.getAppSecretProof(this.token, this.secret);
+
+        return new Promise((resolve, reject) => {
+            request({
+                method: 'POST',
+                json: true,
+                body,
+                uri: 'https://' + this.api_host + '/' + this.api_version + path + '?access_token=' + this.token + '&appsecret_proof=' + proof
+            }, (err, res, body) => {
+                if (err) {
+                    reject(err);
+                } else if (body.error) {
+                    reject(body.error.message);
+                } else {
+                    resolve(body);
+                }
+            });
+        });
+    }
 
     /**
      * Generate the app secret proof used to increase security on calls to the graph API
