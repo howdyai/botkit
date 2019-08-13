@@ -47,7 +47,7 @@ export class FacebookAPI {
      * @param method HTTP method, for example POST, GET, DELETE or PUT.
      * @param payload An object to be sent as parameters to the API call.
      */
-    public async callAPI(path: string, method: string = 'POST', payload: any, query: any): Promise<any> {
+    public async callAPI(path: string, method: string = 'POST', payload: any = {}, query: any = {}): Promise<any> {
         let proof = this.getAppSecretProof(this.token, this.secret);
 
         let queryString = '?';
