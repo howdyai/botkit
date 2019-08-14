@@ -53,7 +53,7 @@ export class FacebookAPI {
         let queryString = '?';
         let body = {};
 
-        if (method === 'GET') {
+        if (method.toUpperCase() === 'GET') {
             for(const key in payload) {
                 queryString = queryString + `${key}=${payload[key]}&`;
             }
@@ -63,7 +63,7 @@ export class FacebookAPI {
 
         return new Promise((resolve, reject) => {
             request({
-                method,
+                method: method.toUpperCase(),
                 json: true,
                 body,
                 uri: `https://${this.api_host}/${this.api_version}${path}${queryString}access_token=${this.token}&appsecret_proof=${proof}`
