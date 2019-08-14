@@ -55,7 +55,7 @@ export class FacebookAPI {
 
         if (method.toUpperCase() === 'GET') {
             for(const key in payload) {
-                queryString = queryString + `${key}=${payload[key]}&`;
+                queryString = queryString + `${encodeURIComponent(key)}=${encodeURIComponent(payload[key])}&`;
             }
         } else {
             body = payload;
