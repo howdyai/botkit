@@ -47,20 +47,25 @@ export class FacebookAPI {
      * @param method HTTP method, for example POST, GET, DELETE or PUT.
      * @param payload An object to be sent as parameters to the API call.
      */
-    public async callAPI(path: string, method: string = 'POST', payload: any = {}, query: any = {}): Promise<any> {
+    public async callAPI(path: string, method: string = 'POST', payload: any = {}): Promise<any> {
         const proof = this.getAppSecretProof(this.token, this.secret);
 
         let queryString = '?';
+        let body = {};
 
-        for(const key in query) {
-            queryString = queryString + `${key}=${query[key]}&`;
+        if (method === 'GET') {
+            for(const key in payload) {
+                queryString = queryString + `${key}=${payload[key]}&`;
+            }
+        } else {
+            body = payload;
         }
 
         return new Promise((resolve, reject) => {
             request({
-                method: method,
+                method,
                 json: true,
-                body: payload,
+                body,
                 uri: `https://${this.api_host}/${this.api_version}${path}${queryString}access_token=${this.token}&appsecret_proof=${proof}`
             }, (err, res, body) => {
                 if (err) {
@@ -72,31 +77,6 @@ export class FacebookAPI {
                 }
             });
         });
-    }
-
-    /**
-     * Make get to a path with a query
-     *
-     * @param {string} path
-     * @param {*} query
-     * @returns {Promise<any>}
-     * @memberof FacebookAPI
-     */
-    public async get(path: string, query: any): Promise<any> {
-        return this.callAPI(path, 'GET', {}, query);
-    }
-
-    /**
-     * Make post to a path with a body
-     *
-     * @param {string} path
-     * @param {*} body
-     * @param {*} query
-     * @returns {Promise<any>}
-     * @memberof FacebookAPI
-     */
-    public async post(path: string, body: any, query: any): Promise<any> {
-        return this.callAPI(path, 'POST', body, query);
     }
 
     /**
