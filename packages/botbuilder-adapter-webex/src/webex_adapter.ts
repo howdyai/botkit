@@ -294,7 +294,7 @@ export class WebexAdapter extends BotAdapter {
                     throw new Error(err);
                 });
             }
-        }).catch(function(err) {
+        }).catch((err) => {
             throw new Error(err);
         });
     }
@@ -347,7 +347,7 @@ export class WebexAdapter extends BotAdapter {
                     throw new Error(err);
                 });
             }
-        }).catch(function(err) {
+        }).catch((err) => {
             throw new Error(err);
         });
     }
