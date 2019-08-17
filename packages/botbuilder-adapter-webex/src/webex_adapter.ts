@@ -251,17 +251,15 @@ export class WebexAdapter extends BotAdapter {
 
     /**
      * Register a webhook subscription with Webex Teams to start receiving message events.
-     * @param webhook_path the path of the webhook endpoint like `/api/messages`
+     * @param webhookPath the path of the webhook endpoint like `/api/messages`
      */
-    public registerWebhookSubscription(webhook_path: string): void {
-        var webhook_name = this.options.webhook_name || 'Botkit Firehose';
+    public registerWebhookSubscription(webhookPath: string): void {
+        const webhookName = this.options.webhook_name || 'Botkit Firehose';
 
         this._api.webhooks.list().then((list) => {
             var hook_id = null;
 
-            for (var i = 0; i < list.items.length; i++) {
-                if (list.items[i].name === webhook_name) {
-                    hook_id = list.items[i].id;
+                if (list.items[i].name === webhookName) {
                 }
             }
 
