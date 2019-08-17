@@ -307,18 +307,18 @@ export class WebexAdapter extends BotAdapter {
      * @param webhook_path the path of the webhook endpoint like `/api/messages`
      */
     public registerAdaptiveCardWebhookSubscription(webhook_path): void {
-        var webhook_name = this.options.webhook_name || 'Botkit AttachmentActions';
+        let webhook_name = this.options.webhook_name || 'Botkit AttachmentActions';
 
         this._api.webhooks.list().then((list) => {
-            var hook_id = null;
+            let hook_id = null;
 
-            for (var i = 0; i < list.items.length; i++) {
+            for (let i = 0; i < list.items.length; i++) {
                 if (list.items[i].name === webhook_name) {
                     hook_id = list.items[i].id;
                 }
             }
 
-            var hook_url = 'https://' + this.options.public_address + webhook_path;
+            let hook_url = 'https://' + this.options.public_address + webhook_path;
 
             debug('Webex: incoming webhook url is ', hook_url);
 
@@ -363,7 +363,7 @@ export class WebexAdapter extends BotAdapter {
      */
     public async sendActivities(context: TurnContext, activities: Partial<Activity>[]): Promise<ResourceResponse[]> {
         const responses = [];
-        for (var a = 0; a < activities.length; a++) {
+        for (let a = 0; a < activities.length; a++) {
             const activity = activities[a];
             if (activity.type === ActivityTypes.Message) {
                 // debug('OUTGOING ACTIVITY', activity);
@@ -459,7 +459,7 @@ export class WebexAdapter extends BotAdapter {
         res.status(200);
         res.end();
 
-        var payload = req.body;
+        let payload = req.body;
         let activity;
 
         if (this.options.secret) {
@@ -511,12 +511,12 @@ export class WebexAdapter extends BotAdapter {
                     var decoded = Buffer.from(encoded_id, 'base64').toString('ascii');
 
                     // this should look like ciscospark://us/PEOPLE/<id string>
-                    var matches;
+                    let matches;
                     if ((matches = decoded.match(/ciscospark:\/\/.*\/(.*)/im))) {
                         pattern = new RegExp('^(<p>)?<spark-mention .*?data-object-id="' + matches[1] + '".*?>.*?</spark-mention>', 'im');
                     }
                 }
-                var action = decrypted_message.html.replace(pattern, '');
+                let action = decrypted_message.html.replace(pattern, '');
 
                 // strip the remaining HTML tags
                 action = action.replace(/<.*?>/img, '');
