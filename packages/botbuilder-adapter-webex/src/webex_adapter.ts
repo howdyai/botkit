@@ -463,8 +463,8 @@ export class WebexAdapter extends BotAdapter {
         let activity;
 
         if (this.options.secret) {
-            var signature = req.headers['x-spark-signature'];
-            var hash = crypto.createHmac('sha1', this.options.secret).update(JSON.stringify(payload)).digest('hex');
+            const signature = req.headers['x-spark-signature'];
+            const hash = crypto.createHmac('sha1', this.options.secret).update(JSON.stringify(payload)).digest('hex');
             if (signature !== hash) {
                 console.warn('WARNING: Webhook received message with invalid signature. Potential malicious behavior!');
                 return false;
@@ -507,8 +507,8 @@ export class WebexAdapter extends BotAdapter {
                 // strip the mention & HTML from the message
                 let pattern = new RegExp('^(<p>)?<spark-mention .*?data-object-id="' + this.identity.id + '".*?>.*?</spark-mention>', 'im');
                 if (!decrypted_message.html.match(pattern)) {
-                    var encoded_id = this.identity.id;
-                    var decoded = Buffer.from(encoded_id, 'base64').toString('ascii');
+                    const encoded_id = this.identity.id;
+                    const decoded = Buffer.from(encoded_id, 'base64').toString('ascii');
 
                     // this should look like ciscospark://us/PEOPLE/<id string>
                     let matches;
