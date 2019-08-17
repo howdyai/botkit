@@ -269,7 +269,7 @@ export class WebexAdapter extends BotAdapter {
 
             debug('Webex: incoming webhook url is ', hookUrl);
 
-            const webhookConfig = {
+            const webhookConfig: WebhookConfig = {
                 resource: WebhookResourceType.All,
                 targetUrl: hookUrl,
                 event: WebhookEventType.All,
@@ -278,8 +278,7 @@ export class WebexAdapter extends BotAdapter {
             };
 
             if (!hookId) {
-                this._api.webhooks.create(webhookConfig, ApiActionType.Create)
-                .then(() => {
+                this._api.webhooks.create(webhookConfig, ApiActionType.Create).then(() => {
                     debug('Webex: SUCCESSFULLY REGISTERED WEBEX WEBHOOKS');
                 }).catch((err) => {
                     console.error('FAILED TO REGISTER WEBHOOK', err);
@@ -288,8 +287,7 @@ export class WebexAdapter extends BotAdapter {
             } else {
                 webhookConfig['id'] = hookId;
 
-                this._api.webhooks.update(webhookConfig, ApiActionType.Update)
-                .then(() => {
+                this._api.webhooks.update(webhookConfig, ApiActionType.Update).then(() => {
                     debug('Webex: SUCCESSFULLY UPDATED WEBEX WEBHOOKS');
                 }).catch((err) => {
                     console.error('FAILED TO REGISTER WEBHOOK', err);
