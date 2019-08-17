@@ -257,28 +257,22 @@ export class WebexAdapter extends BotAdapter {
         const webhookName = this.options.webhook_name || 'Botkit Firehose';
 
         this._api.webhooks.list().then((list) => {
-            let hookId = null;
-
-            for (let i = 0; i < list.items.length; i++) {
-                if (list.items[i].name === webhookName) {
-                    hookId = list.items[i].id;
-                }
-            }
-
             const hookUrl = 'https://' + this.options.public_address + webhookPath;
-
+            
             debug('Webex: incoming webhook url is ', hookUrl);
-
+            
             const webhookConfig: WebhookConfig = {
                 resource: WebhookResourceType.All,
                 targetUrl: hookUrl,
                 event: WebhookEventType.All,
-                    secret: this.options.secret,
+                secret: this.options.secret,
                 name: webhookName
             };
+            
+            const hookId = this.getHookId(list, webhookName);
 
             if (!hookId) {
-                this._api.webhooks.create(webhookConfig, ApiActionType.Create).then(() => {
+                this._api.webhooks.create(webhookConfig).then(() => {
                     debug('Webex: SUCCESSFULLY REGISTERED WEBEX WEBHOOKS');
                 }).catch((err) => {
                     console.error('FAILED TO REGISTER WEBHOOK', err);
@@ -287,7 +281,7 @@ export class WebexAdapter extends BotAdapter {
             } else {
                 webhookConfig['id'] = hookId;
 
-                this._api.webhooks.update(webhookConfig, ApiActionType.Update).then(() => {
+                this._api.webhooks.update(webhookConfig).then(() => {
                     debug('Webex: SUCCESSFULLY UPDATED WEBEX WEBHOOKS');
                 }).catch((err) => {
                     console.error('FAILED TO REGISTER WEBHOOK', err);
@@ -299,7 +293,23 @@ export class WebexAdapter extends BotAdapter {
         });
     }
 
-        /**
+    /**
+     * Returns the hook id of the given web hook name.
+     * @param webhookName The name of the hook
+     */
+    private getHookId(list: any, webhookName: string): any {
+        let hookId = null;
+
+        for (let i = 0; i < list.items.length; i++) {
+            if (list.items[i].name === webhookName) {
+                hookId = list.items[i].id;
+            }
+        }
+
+        return hookId;
+    }
+
+    /**
      * Register a webhook subscription with Webex Teams to start receiving message events.
      * @param webhookPath the path of the webhook endpoint like `/api/messages`
      */
@@ -307,14 +317,6 @@ export class WebexAdapter extends BotAdapter {
         const webhookName = this.options.webhook_name || 'Botkit AttachmentActions';
 
         this._api.webhooks.list().then((list) => {
-            let hookId = null;
-
-            for (let i = 0; i < list.items.length; i++) {
-                if (list.items[i].name === webhookName) {
-                    hookId = list.items[i].id;
-                }
-            }
-
             const hookUrl = 'https://' + this.options.public_address + webhookPath;
 
             debug('Webex: incoming webhook url is ', hookUrl);
@@ -323,9 +325,11 @@ export class WebexAdapter extends BotAdapter {
                 resource: WebhookResourceType.AttachmentActions,
                 targetUrl: hookUrl,
                 event: WebhookEventType.All,
-                    secret: this.options.secret,
+                secret: this.options.secret,
                 name: webhookName
             };
+
+            const hookId = this.getHookId(list, webhookName);
 
             if (!hookId) {
                 this._api.webhooks.create(webHookConfig).then(() => {
@@ -593,4 +597,37 @@ export class WebexAdapter extends BotAdapter {
                 .catch((err) => { console.error(err.toString()); });
         }
     }
+}
+
+/**
+ * Defines values for WebhookEventType.
+ * Possible values include: 'all'
+ * @readonly
+ * @enum {string}
+ */
+export declare enum WebhookEventType {
+    All = "all"
+}
+
+/**
+ * Defines values for WebhookResourceType.
+ * Possible values include: 'all', 'attachmentActions'
+ * @readonly
+ * @enum {string}
+ */
+export declare enum WebhookResourceType {
+    All = "all",
+    AttachmentActions = "attachmentActions"
+}
+
+/**
+ * Configuration properties for a webhook creation/update.
+ */
+export interface WebhookConfig {
+    resource: WebhookResourceType;
+    event: WebhookEventType;
+    targetUrl: string;
+    secret: string;
+    name: string;
+    id?: string;
 }
