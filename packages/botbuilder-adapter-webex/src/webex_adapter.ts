@@ -277,9 +277,9 @@ export class WebexAdapter extends BotAdapter {
                     event: 'all',
                     secret: this.options.secret,
                     name: webhook_name
-                }).then(function() {
+                }).then(() => {
                     debug('Webex: SUCCESSFULLY UPDATED WEBEX WEBHOOKS');
-                }).catch(function(err) {
+                }).catch((err) => {
                     console.error('FAILED TO REGISTER WEBHOOK', err);
                     throw new Error(err);
                 });
@@ -290,9 +290,9 @@ export class WebexAdapter extends BotAdapter {
                     event: 'all',
                     secret: this.options.secret,
                     name: webhook_name
-                }).then(function() {
+                }).then(() => {
                     debug('Webex: SUCCESSFULLY REGISTERED WEBEX WEBHOOKS');
-                }).catch(function(err) {
+                }).catch((err) => {
                     console.error('FAILED TO REGISTER WEBHOOK', err);
                     throw new Error(err);
                 });
@@ -330,9 +330,9 @@ export class WebexAdapter extends BotAdapter {
                     event: 'all',
                     secret: this.options.secret,
                     name: webhook_name
-                }).then(function() {
+                }).then(() => {
                     debug('Webex: SUCCESSFULLY UPDATED WEBEX WEBHOOKS');
-                }).catch(function(err) {
+                }).catch((err) => {
                     console.error('FAILED TO REGISTER WEBHOOK', err);
                     throw new Error(err);
                 });
@@ -343,9 +343,9 @@ export class WebexAdapter extends BotAdapter {
                     event: 'all',
                     secret: this.options.secret,
                     name: webhook_name
-                }).then(function() {
+                }).then(() => {
                     debug('Webex: SUCCESSFULLY REGISTERED WEBEX WEBHOOKS');
-                }).catch(function(err) {
+                }).catch((err) => {
                     console.error('FAILED TO REGISTER WEBHOOK', err);
                     throw new Error(err);
                 });
