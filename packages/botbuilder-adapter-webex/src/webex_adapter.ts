@@ -241,7 +241,7 @@ export class WebexAdapter extends BotAdapter {
     public async resetWebhookSubscriptions(): Promise<any> {
         return new Promise(async (resolve, reject) => {
             this._api.webhooks.list().then(async (list) => {
-                for (var i = 0; i < list.items.length; i++) {
+                for (let i = 0; i < list.items.length; i++) {
                     await this._api.webhooks.remove(list.items[i]).catch(reject);
                 }
                 resolve();
@@ -257,9 +257,11 @@ export class WebexAdapter extends BotAdapter {
         const webhookName = this.options.webhook_name || 'Botkit Firehose';
 
         this._api.webhooks.list().then((list) => {
-            var hook_id = null;
+            let hookId = null;
 
+            for (let i = 0; i < list.items.length; i++) {
                 if (list.items[i].name === webhookName) {
+                    hookId = list.items[i].id;
                 }
             }
 
