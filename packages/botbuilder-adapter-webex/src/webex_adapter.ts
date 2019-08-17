@@ -301,47 +301,44 @@ export class WebexAdapter extends BotAdapter {
 
         /**
      * Register a webhook subscription with Webex Teams to start receiving message events.
-     * @param webhook_path the path of the webhook endpoint like `/api/messages`
+     * @param webhookPath the path of the webhook endpoint like `/api/messages`
      */
-    public registerAdaptiveCardWebhookSubscription(webhook_path): void {
-        let webhook_name = this.options.webhook_name || 'Botkit AttachmentActions';
+    public registerAdaptiveCardWebhookSubscription(webhookPath: string): void {
+        const webhookName = this.options.webhook_name || 'Botkit AttachmentActions';
 
         this._api.webhooks.list().then((list) => {
-            let hook_id = null;
+            let hookId = null;
 
             for (let i = 0; i < list.items.length; i++) {
-                if (list.items[i].name === webhook_name) {
-                    hook_id = list.items[i].id;
+                if (list.items[i].name === webhookName) {
+                    hookId = list.items[i].id;
                 }
             }
 
-            let hook_url = 'https://' + this.options.public_address + webhook_path;
+            const hookUrl = 'https://' + this.options.public_address + webhookPath;
 
-            debug('Webex: incoming webhook url is ', hook_url);
+            debug('Webex: incoming webhook url is ', hookUrl);
 
-            if (hook_id) {
-                this._api.webhooks.update({
-                    id: hook_id,
-                    resource: 'attachmentActions',
-                    targetUrl: hook_url,
-                    event: 'all',
+            const webHookConfig: WebhookConfig = {
+                resource: WebhookResourceType.AttachmentActions,
+                targetUrl: hookUrl,
+                event: WebhookEventType.All,
                     secret: this.options.secret,
-                    name: webhook_name
-                }).then(() => {
-                    debug('Webex: SUCCESSFULLY UPDATED WEBEX WEBHOOKS');
+                name: webhookName
+            };
+
+            if (!hookId) {
+                this._api.webhooks.create(webHookConfig).then(() => {
+                    debug('Webex: SUCCESSFULLY REGISTERED WEBEX WEBHOOKS');
                 }).catch((err) => {
                     console.error('FAILED TO REGISTER WEBHOOK', err);
                     throw new Error(err);
                 });
             } else {
-                this._api.webhooks.create({
-                    resource: 'attachmentActions',
-                    targetUrl: hook_url,
-                    event: 'all',
-                    secret: this.options.secret,
-                    name: webhook_name
-                }).then(() => {
-                    debug('Webex: SUCCESSFULLY REGISTERED WEBEX WEBHOOKS');
+                webHookConfig['id'] = hookId;
+
+                this._api.webhooks.update(webHookConfig).then(() => {
+                    debug('Webex: SUCCESSFULLY UPDATED WEBEX WEBHOOKS');
                 }).catch((err) => {
                     console.error('FAILED TO REGISTER WEBHOOK', err);
                     throw new Error(err);
