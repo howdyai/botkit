@@ -148,7 +148,7 @@ export class WebexAdapter extends BotAdapter {
                 console.error(err);
             }
         } else {
-            var endpoint = url.parse(this.options.public_address);
+            const endpoint = url.parse(this.options.public_address);
             if (!endpoint.hostname) {
                 throw new Error('Could not determine hostname of public address: ' + this.options.public_address);
             } else {
