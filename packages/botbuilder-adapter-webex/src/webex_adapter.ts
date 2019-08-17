@@ -265,33 +265,32 @@ export class WebexAdapter extends BotAdapter {
                 }
             }
 
-            var hook_url = 'https://' + this.options.public_address + webhook_path;
+            const hookUrl = 'https://' + this.options.public_address + webhookPath;
 
-            debug('Webex: incoming webhook url is ', hook_url);
+            debug('Webex: incoming webhook url is ', hookUrl);
 
-            if (hook_id) {
-                this._api.webhooks.update({
-                    id: hook_id,
-                    resource: 'all',
-                    targetUrl: hook_url,
-                    event: 'all',
+            const webhookConfig = {
+                resource: WebhookResourceType.All,
+                targetUrl: hookUrl,
+                event: WebhookEventType.All,
                     secret: this.options.secret,
-                    name: webhook_name
-                }).then(() => {
-                    debug('Webex: SUCCESSFULLY UPDATED WEBEX WEBHOOKS');
+                name: webhookName
+            };
+
+            if (!hookId) {
+                this._api.webhooks.create(webhookConfig, ApiActionType.Create)
+                .then(() => {
+                    debug('Webex: SUCCESSFULLY REGISTERED WEBEX WEBHOOKS');
                 }).catch((err) => {
                     console.error('FAILED TO REGISTER WEBHOOK', err);
                     throw new Error(err);
                 });
             } else {
-                this._api.webhooks.create({
-                    resource: 'all',
-                    targetUrl: hook_url,
-                    event: 'all',
-                    secret: this.options.secret,
-                    name: webhook_name
-                }).then(() => {
-                    debug('Webex: SUCCESSFULLY REGISTERED WEBEX WEBHOOKS');
+                webhookConfig['id'] = hookId;
+
+                this._api.webhooks.update(webhookConfig, ApiActionType.Update)
+                .then(() => {
+                    debug('Webex: SUCCESSFULLY UPDATED WEBEX WEBHOOKS');
                 }).catch((err) => {
                     console.error('FAILED TO REGISTER WEBHOOK', err);
                     throw new Error(err);
