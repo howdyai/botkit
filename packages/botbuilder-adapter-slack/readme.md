@@ -103,7 +103,7 @@ const adapter = new SlackAdapter({
 // Create a route for the install link.
 // This will redirect the user to Slack's permission request page.
 controller.webserver.get('/install', (req, res) => {
-    res.redirect(controller.getInstallLink());
+    res.redirect(adapter.getInstallLink());
 });
 
 // Create a route to capture the results of the oauth flow.
