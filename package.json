@@ -10,10 +10,10 @@
     "eslint-fix": "./node_modules/.bin/eslint  ./packages/*/src/*.ts ./packages/*/src/**/*.ts --fix"
   },
   "devDependencies": {
-    "@typescript-eslint/eslint-plugin": "^1.4.2",
-    "@typescript-eslint/parser": "^1.4.2",
-    "eslint": "^5.16.0",
-    "lerna": "^3.13.4",
+    "@typescript-eslint/eslint-plugin": "^2.0.0",
+    "@typescript-eslint/parser": "^2.0.0",
+    "eslint": "^6.2.2",
+    "lerna": "^3.16.4",
     "mocha": "^6.1.4",
     "nyc": "^14.0.0",
     "typescript": "^3.2.4"
