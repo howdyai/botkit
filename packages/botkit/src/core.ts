@@ -57,7 +57,7 @@ export interface BotkitConfiguration {
      * An array of middlewares that will be automatically bound to the webserver.
      * Should be in the form (req, res, next) => {}
      */
-    webserver_middlewares: any[];
+    webserver_middlewares?: any[];
 
     /**
      * A Storage interface compatible with [this specification](https://docs.microsoft.com/en-us/javascript/api/botbuilder-core/storage?view=botbuilder-ts-latest)
