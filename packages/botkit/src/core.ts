@@ -1123,7 +1123,7 @@ export class Botkit {
      * ```
      *
      * @param p {string} path to a folder of module files
-     * @param exts {string[]} the extensions that you would like to load (default: ['.js', '.ts'])
+     * @param exts {string[]} the extensions that you would like to load (default: ['.js'])
      */
     public loadModules(p: string, exts: string[] = ['.js']): void {
         // load all the .js|.ts files from this path
