@@ -48,7 +48,8 @@ module.exports = function(controller) {
         {
             pattern: 'no',
             handler: async(res, convo, bot) => {
-                convo.gotoThread('try_again');
+                await convo.gotoThread('try_again');
+                // convo
             }
         },
         {

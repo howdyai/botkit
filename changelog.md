@@ -4,6 +4,47 @@
 
 [Want to contribute? Read our guide!](https://github.com/howdyai/botkit/blob/master/CONTRIBUTING.md)
 
+# 4.5
+
+We're skipping a few version numbers here to keep in sync with the rest of [Microsoft Bot Framework](https://github.com/microsoft/botframework).
+Welcome to Botkit 4.5!  This release contains a host of improvements and bug fixes affecting Botkit's conversation system, as well the behavior
+of some of the platform adapters.  We recommend that all developers currently using Botkit v4 upgrade to 4.5. 
+
+Specific Changes: 
+
+* NEW: It is now possible to create dynamic quick replies, and attachments within a BotkitConversation. [See full docs](https://botkit.ai/docs/v4/conversations.html#dynamic-quick-replies-and-attachments).
+* NEW: Previously, there was no way to bind middleware to the internally created Express webserver. It is now possible to do so using the `webserver_middlewares` parameter.  [Full docs](https://botkit.ai/docs/v4/reference/slack.html#interface-slackadapteroptions)
+* NEW: Quick replies and suggestedActions are now procssed as mustache templates. Thanks to [@InnoraG](https://github.com/innorag) for [the pull request](https://github.com/howdyai/botkit/pull/1731).
+* NEW: Slack block actions and other button clicks now are message type events and get included in dialogs. Thanks to [@apemberton](https://github.com/apemberton) for the [pull request](https://github.com/howdyai/botkit/pull/1712).
+* NEW: The key name passed in to convo.ask and convo.addQuestion can now be set to null in order to discard the answer. Thanks to [@adantoscano](https://github.com/adantoscano) for [the pull request](https://github.com/howdyai/botkit/pull/1716)
+
+
+* FIX: Botkit will no longer improperly prune platform specific fields like quick replies and attachments specified inside BotkitConversations. [Fix for #1664](https://github.com/howdyai/botkit/issues/1664), [#1679](https://github.com/howdyai/botkit/issues/1679), and [#1699](https://github.com/howdyai/botkit/issues/1699).
+* FIX: The text field in BotkitConversations was expected to always be an array, causing some confusion. It is now possible to pass in a string OR an array. Passing an array will cause Botkit to choose a random entry in the array for the message text.
+* FIX: Several updates have been made to the middleware pipeline so that it better matches expected behavior.  The receive and send middlewares will now fire for every incoming message - previously, there were cases where these would not fire. Thanks to [@adantoscano](https://github.com/adantoscano) for [this pull request](https://github.com/howdyai/botkit/pull/1717) and also [this one](https://github.com/howdyai/botkit/pull/1720). 
+* FIX: The method for passing in a URI for communicating with Botkit CMS has been made more reliable, thanks to [@adantoscano](https://github.com/adantoscano). [See #1675](https://github.com/howdyai/botkit/pull/1675) and [#1677](https://github.com/howdyai/botkit/pull/1677).
+* FIX: Webex adapter has been updated to better support file uploads. Thanks to [@Teamop](https://github.com/Teamop) for [the pull request](https://github.com/howdyai/botkit/pull/1667)
+* FIX: Improve mapping of Bot Framework "Activity" fields. Thanks to [@Naktibalda](https://github.com/Naktibalda) for [the pull request](https://github.com/howdyai/botkit/pull/1707).
+* FIX: Expand typedefs for Slack dialogs. Thanks to [@roger-king](https://github.com/roger-king) for [the pull request](https://github.com/howdyai/botkit/pull/1653)
+
+
+* UPDATE: Update to v4.5.2 of all Bot Framework packages
+* UPDATE: `ws` websocket module updated to v7.1.1
+
+This update includes the following packages:
+
+* Botkit v4.5.0
+* generator-botkit v4.5.0
+* [botbuilder-adapter-web v1.0.4](packages/botbuilder-adapter-web/CHANGELOG.md#104)
+* [botbuilder-adapter-slack v1.0.4](packages/botbuilder-adapter-slack/CHANGELOG.md#104)
+* [botbuilder-adapter-webex v1.0.2](packages/botbuilder-adapter-webex/CHANGELOG.md#102)
+* [botbuilder-adapter-facebook v1.0.4](packages/botbuilder-adapter-facebook/CHANGELOG.md#104)
+* [botbuilder-adapter-hangouts v1.0.3](packages/botbuilder-adapter-hangouts/CHANGELOG.md#103)
+* [botbuilder-adapter-twilio-sms v1.0.2](packages/botbuilder-adapter-twilio-sms/CHANGELOG.md#102)
+* [botkit-plugin-cms v1.0.2](packages/botkit-plugin-cms/CHANGELOG.md#102)
+
+----
+
 # 4.0.2
 
 * Added `disable_console` option to controller. When set to true, Botkit will not emit normal console output.

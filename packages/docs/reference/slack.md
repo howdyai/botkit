@@ -463,7 +463,8 @@ After calling this method, messages sent with `bot.say` and any dialogs started 
 ```javascript
 controller.hears('dm me', 'message', async(bot, message) => {
 
-     // switch to a 1:1 conversation in a DM
+     // switch to the channel specified in SLACK_CHANNEL_ID
+     // if just using bot.say and not starting a dialog, can use a fake value for user id.
      await bot.startConversationInChannel(SLACK_CHANNEL_ID, message.user);
 
      // say hello
@@ -663,7 +664,7 @@ Add a dropdown select input to the dialog
 |--- |--- |---
 | label| string | 
 | name| string | 
-| value| string | 
+| value|  | 
 | option_list|  | 
 | options (optional)| any | <br/>
 

@@ -1,5 +1,9 @@
 # botbuilder-adapter-hangouts changelog
 
+# 1.0.3
+
+* Update dependencies (Bot Framework to 4.5.2, Botkit to 4.5)
+
 # 1.0.2
 
 * Add `enable_incomplete` option to allow adapter to start without a complete config.

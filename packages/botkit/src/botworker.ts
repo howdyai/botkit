@@ -300,48 +300,75 @@ export class BotWorker {
      * @returns a properly formed Activity object
      */
     public ensureMessageFormat(message: Partial<BotkitMessage> | string): Partial<Activity> {
-        let activity: Partial<Activity> = {};
 
         if (typeof (message) === 'string') {
-            activity = {
+            return {
                 type: 'message',
                 text: message,
                 channelData: {}
             };
         } else {
             // set up a base message activity
-            activity = {
+            // https://docs.microsoft.com/en-us/javascript/api/botframework-schema/activity?view=botbuilder-ts-latest
+            const activity: Partial<Activity> = {
                 type: message.type || 'message',
                 text: message.text,
 
+                action: message.action,
                 attachmentLayout: message.attachmentLayout,
                 attachments: message.attachments,
 
-                suggestedActions: message.suggestedActions,
-
-                speak: message.speak,
-                inputHint: message.inputHint,
-                summary: message.summary,
-                textFormat: message.textFormat,
-                importance: message.importance,
-                deliveryMode: message.deliveryMode,
-                expiration: message.expiration,
-                value: message.value,
                 channelData: {
                     ...message.channelData
-                }
+                },
+                channelId: message.channelId,
+                code: message.code,
+                conversation: message.conversation,
+
+                deliveryMode: message.deliveryMode,
+                entities: message.entities,
+                expiration: message.expiration,
+                from: message.from,
+                historyDisclosed: message.historyDisclosed,
+                id: message.id,
+                importance: message.importance,
+                inputHint: message.inputHint,
+                label: message.label,
+                listenFor: message.listenFor,
+                locale: message.locale,
+                localTimestamp: message.localTimestamp,
+                localTimezone: message.localTimezone,
+                membersAdded: message.membersAdded,
+                membersRemoved: message.membersRemoved,
+                name: message.name,
+                reactionsAdded: message.reactionsAdded,
+                reactionsRemoved: message.reactionsRemoved,
+                recipient: message.recipient,
+                relatesTo: message.relatesTo,
+                replyToId: message.replyToId,
+                semanticAction: message.semanticAction,
+                serviceUrl: message.serviceUrl,
+                speak: message.speak,
+                suggestedActions: message.suggestedActions,
+                summary: message.summary,
+                textFormat: message.textFormat,
+                textHighlights: message.textHighlights,
+                timestamp: message.timestamp,
+                topicName: message.topicName,
+                value: message.value,
+                valueType: message.valueType,
             };
 
             // Now, copy any additional fields not in the activity into channelData
             // This way, any fields added by the developer to the root object
             // end up in the approved channelData location.
             for (var key in message) {
-                if (key !== 'channelData' && !activity[key]) {
+                if (key !== 'channelData' && !activity.hasOwnProperty(key)) {
                     activity.channelData[key] = message[key];
                 }
             }
+            return activity;
         }
-        return activity;
     }
 
     /**

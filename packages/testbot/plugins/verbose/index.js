@@ -13,7 +13,7 @@ module.exports = function(botkit) {
 
         },
         middlewares: {
-            ingest: [
+            receive: [
                 function(bot, message, next) {
                     console.log(`RCVD > ${ message.type } >`, message.text);
                     next();

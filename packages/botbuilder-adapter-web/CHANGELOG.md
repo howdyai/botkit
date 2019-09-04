@@ -1,5 +1,9 @@
 # botbuilder-adapter-web changelog
 
+# 1.0.4
+
+* Update dependencies (Bot Framework to 4.5.2, Botkit to 4.5, WS to 7.1.1)
+
 # 1.0.3
 
 * Fix - will not attempt to send a message if socket is closed. - Thanks [@naktibalda](https://github.com/Naktibalda) for [the fix](https://github.com/howdyai/botkit/pull/1657)

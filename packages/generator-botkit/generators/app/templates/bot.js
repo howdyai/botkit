@@ -34,6 +34,9 @@ if (process.env.MONGO_URI) {
 <% if (platform === 'slack') { %>
 
 const adapter = new SlackAdapter({
+    // REMOVE THIS OPTION AFTER YOU HAVE CONFIGURED YOUR APP!
+    enable_incomplete: true,
+
     // parameters used to secure webhook endpoint
     verificationToken: process.env.verificationToken,
     clientSigningSecret: process.env.clientSigningSecret,  
@@ -60,6 +63,10 @@ adapter.use(new SlackEventMiddleware());
 adapter.use(new SlackMessageTypeMiddleware());
 <% } else if (platform === 'webex') { %>
 const adapter = new WebexAdapter({
+    // REMOVE THIS OPTION AFTER YOU HAVE CONFIGURED YOUR APP!
+    enable_incomplete: true,
+
+    
     access_token: process.env.access_token,
     public_address: process.env.public_address
 })    
@@ -67,6 +74,10 @@ const adapter = new WebexAdapter({
 const adapter = new WebAdapter({});
 <% } else if (platform === 'facebook') { %>
 const adapter = new FacebookAdapter({
+
+    // REMOVE THIS OPTION AFTER YOU HAVE CONFIGURED YOUR APP!
+    enable_incomplete: true,
+
     verify_token: process.env.FACEBOOK_VERIFY_TOKEN,
     access_token: process.env.FACEBOOK_ACCESS_TOKEN,
     app_secret: process.env.FACEBOOK_APP_SECRET,
@@ -76,12 +87,19 @@ const adapter = new FacebookAdapter({
 adapter.use(new FacebookEventTypeMiddleware());
 <% } else if (platform === 'twilio-sms') { %>
 const adapter = new TwilioAdapter({
+
+    // REMOVE THIS OPTION AFTER YOU HAVE CONFIGURED YOUR APP!
+    enable_incomplete: true,
+
     twilio_number: process.env.TWILIO_NUMBER,
     account_sid: process.env.TWILIO_ACCOUNT_SID,
     auth_token: process.env.TWILIO_AUTH_TOKEN,
 });
 <% } else if (platform === 'hangouts') { %>
 const adapter = new HangoutsAdapter({
+    // REMOVE THIS OPTION AFTER YOU HAVE CONFIGURED YOUR APP!
+    enable_incomplete: true,
+
     token: process.env.GOOGLE_TOKEN,
     google_auth_params: {
         credentials: JSON.parse(process.env['GOOGLE_CREDS'])
@@ -92,7 +110,6 @@ const adapter = new HangoutsAdapter({
 <% } %>
 
 const controller = new Botkit({
-    debug: true,
     webhook_uri: '/api/messages',
 <% if (platform === 'botframework') { %>
     adapterConfig: {
@@ -107,7 +124,7 @@ const controller = new Botkit({
 
 if (process.env.cms_uri) {
     controller.usePlugin(new BotkitCMSHelper({
-        cms_uri: process.env.cms_uri,
+        uri: process.env.cms_uri,
         token: process.env.cms_token,
     }));
 }
@@ -132,6 +149,17 @@ controller.ready(() => {
     }
 
 });
+
+<% if (platform !== 'web') { %>
+
+controller.webserver.get('/', (req, res) => {
+
+    res.send(`This app is running Botkit ${ controller.version }.`);
+
+});
+
+<% } %>
+
 
 <% if (platform === 'slack') { %>
 

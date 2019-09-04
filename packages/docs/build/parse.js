@@ -29,7 +29,7 @@ function buildTOC(dest) {
 
 function buildAdapters(dest) {
 
-    let toctemplate = Handlebars.compile(fs.readFileSync(__dirname + '/toc.hbs', 'utf8'));
+    let toctemplate = Handlebars.compile(fs.readFileSync(__dirname + '/toc-platforms.hbs', 'utf8'));
     console.log(JSON.stringify(index, null, 2));
     fs.writeFileSync(dest, toctemplate({index: adapters, title: 'Platform Adapters'}));
 }

@@ -54,6 +54,12 @@ export interface BotkitConfiguration {
     webserver?: any;
 
     /**
+     * An array of middlewares that will be automatically bound to the webserver.
+     * Should be in the form (req, res, next) => {}
+     */
+    webserver_middlewares?: any[];
+
+    /**
      * A Storage interface compatible with [this specification](https://docs.microsoft.com/en-us/javascript/api/botbuilder-core/storage?view=botbuilder-ts-latest)
      * Defaults to the ephemeral [MemoryStorage](https://docs.microsoft.com/en-us/javascript/api/botbuilder-core/memorystorage?view=botbuilder-ts-latest) implementation.
      */
@@ -241,7 +247,8 @@ export class Botkit {
         spawn: new Ware(),
         ingest: new Ware(),
         send: new Ware(),
-        receive: new Ware()
+        receive: new Ware(),
+        interpret: new Ware(),
     }
 
     /**
@@ -365,6 +372,12 @@ export class Botkit {
 
                 this.webserver.use(bodyParser.json());
                 this.webserver.use(bodyParser.urlencoded({ extended: true }));
+
+                if (this._config.webserver_middlewares && this._config.webserver_middlewares.length) {
+                    this._config.webserver_middlewares.forEach((middleware) => {
+                        this.webserver.use(middleware);
+                    });
+                }
 
                 this.http = http.createServer(this.webserver);
 
@@ -730,19 +743,26 @@ export class Botkit {
                 if (err) {
                     reject(err);
                 } else {
-                    const interrupt_results = await this.listenForInterrupts(bot, message);
+                    this.middleware.receive.run(bot, message, async (err, bot, message) => {
+                        if (err) {
+                            reject(err);
+                        } else {
 
-                    if (interrupt_results === false) {
-                        // Continue dialog if one is present
-                        const dialog_results = await dialogContext.continueDialog();
-                        if (dialog_results && dialog_results.status === DialogTurnStatus.empty) {
-                            await this.ingest(bot, message);
+                            const interrupt_results = await this.listenForInterrupts(bot, message);
+
+                            if (interrupt_results === false) {
+                                // Continue dialog if one is present
+                                const dialog_results = await dialogContext.continueDialog();
+                                if (dialog_results && dialog_results.status === DialogTurnStatus.empty) {
+                                    await this.processTriggersAndEvents(bot, message);
+                                }
+                            }
+
+                            // make sure changes to the state get persisted after the turn is over.
+                            await this.saveState(bot);
+                            resolve();
                         }
-                    }
-
-                    // make sure changes to the state get persisted after the turn is over.
-                    await this.saveState(bot);
-                    resolve();
+                    });
                 }
             });
         });
@@ -763,24 +783,23 @@ export class Botkit {
      * @param bot {BotWorker} An instance of the bot
      * @param message {BotkitMessage} an incoming message
      */
-    private async ingest(bot: BotWorker, message: BotkitMessage): Promise<any> {
+    private async processTriggersAndEvents(bot: BotWorker, message: BotkitMessage): Promise<any> {
         return new Promise(async (resolve, reject) => {
-            const listen_results = await this.listenForTriggers(bot, message);
+            this.middleware.interpret.run(bot, message, async (err, bot, message) => {
+                if (err) {
+                    return reject(err);
+                }
+                const listen_results = await this.listenForTriggers(bot, message);
 
-            if (listen_results !== false) {
-                resolve(listen_results);
-            } else {
-                this.middleware.receive.run(bot, message, async (err, bot, message) => {
-                    if (err) {
-                        return reject(err);
-                    }
-
+                if (listen_results !== false) {
+                    resolve(listen_results);
+                } else {
                     // Trigger event handlers
                     const trigger_results = await this.trigger(message.type, bot, message);
 
                     resolve(trigger_results);
-                });
-            }
+                }
+            });
         });
     }
 
