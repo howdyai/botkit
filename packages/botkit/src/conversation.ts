@@ -8,8 +8,8 @@
 import { Botkit } from './core';
 import { BotWorker } from './botworker';
 import { BotkitDialogWrapper } from './dialogWrapper';
-import { ActivityTypes, TurnContext, MessageFactory, ActionTypes } from 'botbuilder';
-import { Dialog, DialogContext, DialogReason, TextPrompt, DialogTurnStatus } from 'botbuilder-dialogs';
+import { Activity, ActivityTypes, TurnContext, MessageFactory, ActionTypes } from 'botbuilder';
+import { Dialog, DialogContext, DialogReason, PromptValidatorContext, ActivityPrompt, DialogTurnStatus } from 'botbuilder-dialogs';
 import * as mustache from 'mustache';
 const debug = require('debug')('botkit:conversation');
 
@@ -133,7 +133,10 @@ export class BotkitConversation<O extends object = {}> extends Dialog<O> {
         // Make sure there is a prompt we can use.
         // TODO: maybe this ends up being managed by Botkit
         this._prompt = this.id + '_default_prompt';
-        this._controller.dialogSet.add(new TextPrompt(this._prompt));
+        this._controller.dialogSet.add(new ActivityPrompt(
+            this._prompt,
+            (prompt: PromptValidatorContext<Activity>) => Promise.resolve(prompt.recognized.succeeded === true)
+        ));
 
         return this;
     }
@@ -573,7 +576,7 @@ export class BotkitConversation<O extends object = {}> extends Dialog<O> {
     private async onStep(dc, step): Promise<any> {
         // Let's interpret the current line of the script.
         const thread = this.script[step.thread];
-
+        const result = step.result ? step.result.text : step.result;
         // Capture the previous step value if there previous line included a prompt
         var previous = (step.index >= 1) ? thread[step.index - 1] : null;
         if (step.result && previous && previous.collect) {
@@ -584,13 +587,13 @@ export class BotkitConversation<O extends object = {}> extends Dialog<O> {
 
                 // capture the user input value into the array
                 if (step.values[previous.collect.key] && previous.collect.multiple) {
-                    step.values[previous.collect.key] = [ step.values[previous.collect.key], step.result ].join('\n');
+                    step.values[previous.collect.key] = [ step.values[previous.collect.key], result ].join('\n');
                 } else {
-                    step.values[previous.collect.key] = step.result;
+                    step.values[previous.collect.key] = result;
                 }
 
                 // run onChange handlers
-                await this.runOnChange(previous.collect.key, step.result, dc, step);
+                await this.runOnChange(previous.collect.key, result, dc, step);
 
                 // did we just change threads? if so, restart this turn
                 if (index !== step.index || thread_name !== step.thread) {
@@ -615,7 +618,7 @@ export class BotkitConversation<O extends object = {}> extends Dialog<O> {
                     // TODO: Allow functions to be passed in as patterns
                     // ie async(test) => Promise<boolean>
 
-                    if (step.result && typeof(step.result) == 'string' && step.result.match(test)) {
+                    if (result && typeof(result) == 'string' && result.match(test)) {
                         path = condition;
                         break;
                     }

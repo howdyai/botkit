@@ -80,16 +80,21 @@ export interface BotkitConfiguration {
  * Defines the expected form of a message or event object being handled by Botkit.
  * Will also contain any additional fields including in the incoming payload.
  */
-export interface BotkitMessage {
+export interface BotkitMessage extends Activity {
     /**
      * The type of event, in most cases defined by the messaging channel or adapter
      */
     type: string;
 
     /**
+     * The event name if the type is 'event'
+     */
+    event: string;
+
+    /**
      * Text of the message sent by the user (or primary value in case of button click)
      */
-    text?: string;
+    text: string;
 
     /**
      * Any value field received from the platform
@@ -115,7 +120,7 @@ export interface BotkitMessage {
     /**
      * The original incoming [BotBuilder Activity](https://docs.microsoft.com/en-us/javascript/api/botframework-schema/activity?view=botbuilder-ts-latest) object as created by the adapter.
      */
-    incoming_message: Activity;
+    // incoming_message: Activity;
 
     /**
      * Any additional fields found in the incoming payload from the messaging platform.
@@ -714,6 +719,8 @@ export class Botkit {
         const bot = await this.spawn(dialogContext);
 
         // Turn this turnContext into a Botkit message.
+        const message = turnContext.activity;
+        /*
         const message: BotkitMessage = {
             ...turnContext.activity.channelData, // start with all the fields that were in the original incoming payload. NOTE: this is a shallow copy, is that a problem?
 
@@ -735,8 +742,9 @@ export class Botkit {
             context: turnContext,
 
             // include the full unmodified record here
-            incoming_message: turnContext.activity
+            // incoming_message: turnContext.activity
         };
+        */
 
         return new Promise((resolve, reject) => {
             this.middleware.ingest.run(bot, message, async (err, bot, message) => {
@@ -795,7 +803,7 @@ export class Botkit {
                     resolve(listen_results);
                 } else {
                     // Trigger event handlers
-                    const trigger_results = await this.trigger(message.type, bot, message);
+                    const trigger_results = await this.trigger(message.event, bot, message);
 
                     resolve(trigger_results);
                 }
@@ -809,8 +817,8 @@ export class Botkit {
      * @param message {BotkitMessage} an incoming message
      */
     private async listenForTriggers(bot: BotWorker, message: BotkitMessage): Promise<any> {
-        if (this._triggers[message.type]) {
-            const triggers = this._triggers[message.type];
+        if (this._triggers[message.event]) {
+            const triggers = this._triggers[message.event];
             for (var t = 0; t < triggers.length; t++) {
                 const test_results = await this.testTrigger(triggers[t], message);
                 if (test_results) {
@@ -833,8 +841,8 @@ export class Botkit {
      * @param message {BotkitMessage} an incoming message
      */
     private async listenForInterrupts(bot: BotWorker, message: BotkitMessage): Promise<any> {
-        if (this._interrupts[message.type]) {
-            const triggers = this._interrupts[message.type];
+        if (this._interrupts[message.event]) {
+            const triggers = this._interrupts[message.event];
             for (var t = 0; t < triggers.length; t++) {
                 const test_results = await this.testTrigger(triggers[t], message);
                 if (test_results) {

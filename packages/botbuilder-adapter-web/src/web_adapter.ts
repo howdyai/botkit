@@ -7,6 +7,7 @@
  */
 
 import { Activity, ActivityTypes, BotAdapter, ConversationReference, TurnContext, ResourceResponse } from 'botbuilder';
+import { BotkitMessage } from 'botkit';
 import * as Debug from 'debug';
 import * as WebSocket from 'ws';
 const debug = Debug('botkit:web');
@@ -109,6 +110,7 @@ export class WebAdapter extends BotAdapter {
 
                     // this stuff normally lives inside Botkit.congfigureWebhookEndpoint
                     const activity = {
+                        ...message,
                         timestamp: new Date(),
                         channelId: 'websocket',
                         conversation: {
@@ -122,7 +124,11 @@ export class WebAdapter extends BotAdapter {
                         },
                         channelData: message,
                         text: message.text,
-                        type: message.type === 'message' ? ActivityTypes.Message : ActivityTypes.Event
+                        type: message.type === 'message' ? ActivityTypes.Message : ActivityTypes.Event,
+                        event: message.type,
+                        user: message.user,
+                        channel: message.user,
+                        value: message.value,
                     };
 
                     // set botkit's event type
@@ -130,7 +136,13 @@ export class WebAdapter extends BotAdapter {
                         activity.channelData.botkitEventType = message.type;
                     }
 
-                    const context = new TurnContext(this, activity as Activity);
+                    const context = new TurnContext(this, activity as BotkitMessage);
+                    // generate a conversation reference, for replies.
+                    // included so people can easily capture it for resuming
+                    activity.reference = TurnContext.getConversationReference(context.activity);
+                    // include the context possible useful.
+                    // activity.context = context;
+
                     this.runMiddleware(context, logic)
                         .catch((err) => { console.error(err.toString()); });
                 } catch (e) {
