@@ -9,7 +9,9 @@
 import { Activity, ActivityTypes, BotAdapter, TurnContext, ConversationReference, ResourceResponse } from 'botbuilder';
 import * as Debug from 'debug';
 import * as Twilio from 'twilio';
+import { Botkit } from 'botkit';
 import { TwilioBotWorker } from './botworker';
+
 const debug = Debug('botkit:twilio');
 
 /**
@@ -229,7 +231,6 @@ export class TwilioAdapter extends BotAdapter {
 
             const activity = {
                 id: event.MessageSid,
-                timestamp: new Date(),
                 channelId: 'twilio-sms',
                 conversation: {
                     id: event.From
@@ -251,8 +252,9 @@ export class TwilioAdapter extends BotAdapter {
                 activity.channelData.botkitEventType = 'picture_message';
             }
 
+            const botkit_message_activity = Botkit.incomingMessageToBotkitMessage(activity);
             // create a conversation reference
-            const context = new TurnContext(this, activity as Activity);
+            const context = new TurnContext(this, botkit_message_activity);
 
             context.turnState.set('httpStatus', 200);
 

@@ -7,6 +7,7 @@
  */
 
 import { Activity, ActivityTypes, BotAdapter, ConversationReference, TurnContext, ResourceResponse } from 'botbuilder';
+import { Botkit } from 'botkit';
 import * as Debug from 'debug';
 import * as WebSocket from 'ws';
 const debug = Debug('botkit:web');
@@ -109,7 +110,6 @@ export class WebAdapter extends BotAdapter {
 
                     // this stuff normally lives inside Botkit.congfigureWebhookEndpoint
                     const activity = {
-                        timestamp: new Date(),
                         channelId: 'websocket',
                         conversation: {
                             id: message.user
@@ -122,15 +122,11 @@ export class WebAdapter extends BotAdapter {
                         },
                         channelData: message,
                         text: message.text,
-                        type: message.type === 'message' ? ActivityTypes.Message : ActivityTypes.Event
+                        type: message.type
                     };
+                    const activity_message = Botkit.incomingMessageToBotkitMessage(activity);
+                    const context = new TurnContext(this, activity_message);
 
-                    // set botkit's event type
-                    if (activity.type !== ActivityTypes.Message) {
-                        activity.channelData.botkitEventType = message.type;
-                    }
-
-                    const context = new TurnContext(this, activity as Activity);
                     this.runMiddleware(context, logic)
                         .catch((err) => { console.error(err.toString()); });
                 } catch (e) {
@@ -267,9 +263,7 @@ export class WebAdapter extends BotAdapter {
      */
     public async processActivity(req, res, logic: (context: TurnContext) => Promise<void>): Promise<void> {
         const message = req.body;
-
         const activity = {
-            timestamp: new Date(),
             channelId: 'webhook',
             conversation: {
                 id: message.user
@@ -280,19 +274,11 @@ export class WebAdapter extends BotAdapter {
             recipient: {
                 id: 'bot'
             },
-            channelData: message,
-            text: message.text,
-            type: message.type === 'message' ? ActivityTypes.Message : ActivityTypes.Event
+            channelData: message
         };
-
-        // set botkit's event type
-        if (activity.type !== ActivityTypes.Message) {
-            activity.channelData.botkitEventType = message.type;
-        }
-
+        const activity_message = Botkit.incomingMessageToBotkitMessage(activity);
         // create a conversation reference
-        const context = new TurnContext(this, activity as Activity);
-
+        const context = new TurnContext(this, activity_message);
         context.turnState.set('httpStatus', 200);
 
         await this.runMiddleware(context, logic);

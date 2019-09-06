@@ -11,6 +11,7 @@ import { WebClient, WebAPICallResult } from '@slack/client';
 import { SlackBotWorker } from './botworker';
 import * as crypto from 'crypto';
 import * as Debug from 'debug';
+import { Botkit } from 'botkit';
 const debug = Debug('botkit:slack');
 
 /**
@@ -511,7 +512,6 @@ export class SlackAdapter extends BotAdapter {
                 res.end();
             } else {
                 const activity = {
-                    timestamp: new Date(),
                     channelId: 'slack',
                     conversation: {
                         id: event.channel.id,
@@ -537,7 +537,8 @@ export class SlackAdapter extends BotAdapter {
 
                 // create a conversation reference
                 // @ts-ignore
-                const context = new TurnContext(this, activity as Activity);
+                const botkit_message_activity = Botkit.incomingMessageToBotkitMessage(activity);
+                const context = new TurnContext(this, botkit_message_activity);
 
                 context.turnState.set('httpStatus', 200);
 

@@ -12,6 +12,7 @@ import * as Webex from 'webex';
 import * as url from 'url';
 import * as crypto from 'crypto';
 import * as Debug from 'debug';
+import { Botkit } from 'botkit';
 const debug = Debug('botkit:webex');
 
 export interface WebexAdapterOptions {
@@ -476,7 +477,6 @@ export class WebexAdapter extends BotAdapter {
 
             activity = {
                 id: decrypted_message.id,
-                timestamp: new Date(),
                 channelId: 'webex',
                 conversation: { id: decrypted_message.roomId },
                 from: { id: decrypted_message.personId, name: decrypted_message.personEmail },
@@ -534,7 +534,8 @@ export class WebexAdapter extends BotAdapter {
             }
 
             // create a conversation reference
-            const context = new TurnContext(this, activity);
+            const botkit_message_activity = Botkit.incomingMessageToBotkitMessage(activity);
+            const context = new TurnContext(this, botkit_message_activity);
 
             this.runMiddleware(context, logic)
                 .catch((err) => { console.error(err.toString()); });

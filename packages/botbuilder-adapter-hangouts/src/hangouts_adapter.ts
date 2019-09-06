@@ -10,6 +10,7 @@ import { Activity, ActivityTypes, BotAdapter, TurnContext, ConversationReference
 import * as Debug from 'debug';
 import { google } from 'googleapis';
 import { HangoutsBotWorker } from './botworker';
+import { Botkit } from 'botkit';
 const debug = Debug('botkit:hangouts');
 
 const apiVersion = 'v1';
@@ -290,9 +291,8 @@ export class HangoutsAdapter extends BotAdapter {
             res.status(401);
             debug('Token verification failed, Ignoring message');
         } else {
-            const activity: Activity = {
+            const activity = {
                 id: event.message ? event.message.name : event.eventTime,
-                timestamp: new Date(),
                 channelId: 'googlehangouts',
                 conversation: {
                     id: event.space.name,
@@ -330,8 +330,9 @@ export class HangoutsAdapter extends BotAdapter {
                 activity.channelData.botkitEventType = event.type.toLowerCase();
             }
 
+            const botkit_message_activity = Botkit.incomingMessageToBotkitMessage(activity);
             // create a conversation reference
-            const context = new TurnContext(this, activity);
+            const context = new TurnContext(this, botkit_message_activity);
 
             if (event.type !== 'CARD_CLICKED') {
                 // send 200 status immediately, otherwise

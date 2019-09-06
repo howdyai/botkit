@@ -11,6 +11,7 @@ import * as Debug from 'debug';
 import { FacebookBotWorker } from './botworker';
 import { FacebookAPI } from './facebook_api';
 import * as crypto from 'crypto';
+import { Botkit } from 'botkit';
 const debug = Debug('botkit:facebook');
 
 /**
@@ -380,9 +381,8 @@ export class FacebookAdapter extends BotAdapter {
             message.sender = { id: message.optin.user_ref };
         }
 
-        const activity: Activity = {
+        const activity = {
             channelId: 'facebook',
-            timestamp: new Date(),
             // @ts-ignore ignore missing optional fields
             conversation: {
                 id: message.sender.id
@@ -416,8 +416,8 @@ export class FacebookAdapter extends BotAdapter {
             activity.type = ActivityTypes.Message;
             activity.text = message.postback.payload;
         }
-
-        const context = new TurnContext(this, activity as Activity);
+        const botkit_message_activity = Botkit.incomingMessageToBotkitMessage(activity);
+        const context = new TurnContext(this, botkit_message_activity);
         await this.runMiddleware(context, logic);
     }
 
