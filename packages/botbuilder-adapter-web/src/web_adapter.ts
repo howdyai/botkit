@@ -274,7 +274,9 @@ export class WebAdapter extends BotAdapter {
             recipient: {
                 id: 'bot'
             },
-            channelData: message
+            channelData: message,
+            text: message.text,
+            type: message.type
         };
         const activity_message = Botkit.incomingMessageToBotkitMessage(activity);
         // create a conversation reference
