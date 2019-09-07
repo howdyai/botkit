@@ -658,7 +658,7 @@ export class BotkitConversation<O extends object = {}> extends Dialog<O> {
             // This could be extended to include cards and other activity attributes.
             } else {
                 // if there is text, attachments, or any channel data fields at all...
-                if (line.type || line.text || line.attachments || (line.channelData && Object.keys(line.channelData).length)) {
+                if (line.generator || line.type || line.text || line.attachments || (line.channelData && Object.keys(line.channelData).length)) {
                     await dc.context.sendActivity(await this.makeOutgoing(dc, line, step.values));
                 } else if (!line.action) {
                     console.error('Dialog contains invalid message', line);
@@ -772,9 +772,15 @@ export class BotkitConversation<O extends object = {}> extends Dialog<O> {
             outgoing = MessageFactory.text(text);
         }
 
-        outgoing.channelData = outgoing.channelData ? outgoing.channelData : {};
+        // outgoing.channelData = outgoing.channelData ? outgoing.channelData : {};
         
         /*******************************************************************************************************************/
+        let channel_data = outgoing.channelData;
+        if (typeof line.generator === 'function') {
+            channel_data = await line.generator(line, vars)
+        }
+        outgoing.channelData = channel_data || {};
+        
         // allow dynamic generation of quick replies and/or attachments
         if (typeof(line.quick_replies)=='function') {
             // set both formats of quick replies
