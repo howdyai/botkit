@@ -5,7 +5,7 @@
  * Copyright (c) Microsoft Corporation. All rights reserved.
  * Licensed under the MIT License.
  */
-import { Activity, MemoryStorage, Storage, ConversationReference, TurnContext } from 'botbuilder';
+import { Activity, ActivityTypes, MemoryStorage, Storage, ConversationReference, TurnContext } from 'botbuilder';
 import { Dialog, DialogContext, DialogSet, DialogTurnStatus, WaterfallDialog } from 'botbuilder-dialogs';
 import { BotkitBotFrameworkAdapter } from './adapter';
 import { BotWorker } from './botworker';
@@ -80,16 +80,21 @@ export interface BotkitConfiguration {
  * Defines the expected form of a message or event object being handled by Botkit.
  * Will also contain any additional fields including in the incoming payload.
  */
-export interface BotkitMessage {
+export interface BotkitMessage extends Activity {
     /**
      * The type of event, in most cases defined by the messaging channel or adapter
      */
     type: string;
 
     /**
+     * The event name if the type is 'event'
+     */
+    event: string;
+
+    /**
      * Text of the message sent by the user (or primary value in case of button click)
      */
-    text?: string;
+    text: string;
 
     /**
      * Any value field received from the platform
@@ -110,12 +115,12 @@ export interface BotkitMessage {
      * A full [ConversationReference](https://docs.microsoft.com/en-us/javascript/api/botframework-schema/conversationreference?view=botbuilder-ts-latest) object that defines the address of the message and all information necessary to send messages back to the originating location.
      * Can be stored for later use, and used with [bot.changeContext()](#changeContext) to send proactive messages.
      */
-    reference: ConversationReference;
+    reference: Partial<ConversationReference>;
 
     /**
      * The original incoming [BotBuilder Activity](https://docs.microsoft.com/en-us/javascript/api/botframework-schema/activity?view=botbuilder-ts-latest) object as created by the adapter.
      */
-    incoming_message: Activity;
+    // incoming_message: Activity;
 
     /**
      * Any additional fields found in the incoming payload from the messaging platform.
@@ -699,6 +704,37 @@ export class Botkit {
     }
 
     /**
+     * Converts an incoming message into BotkitMessage activity
+     * @param message The incoing message from adapter
+     * @return {BotkitMessage} the newly created BotkitMessage activity
+     */
+    private incomingMessageToBotkitMessage(message: any): BotkitMessage {
+        const {channelData} = message;
+        const activity = {
+            // start with all the fields that were in the original incoming payload. NOTE: this is a shallow copy, is that a problem?
+            ...message,
+            timestamp: new Date(),
+            type: message.type === 'message' ? ActivityTypes.Message : ActivityTypes.Event,
+            // normalize the user, text and channel info
+            event: channelData.type || channelData.botkitEventType || message.type,
+            text: message.text,
+            user: message.from.id,
+            channel: message.conversation.id,
+            value: message.value,
+            // incoming_messge: message.channelData,
+            channelData: message.channelData
+        };
+
+
+
+        // set botkit's event type
+        if (activity.type !== ActivityTypes.Message) {
+            activity.channelData.botkitEventType = message.type;
+        }
+        return activity;
+    }
+
+    /**
      * Accepts the result of a BotBuilder adapter's `processActivity()` method and processes it into a Botkit-style message and BotWorker instance
      * which is then used to test for triggers and emit events.
      * NOTE: This method should only be used in custom adapters that receive messages through mechanisms other than the main webhook endpoint (such as those received via websocket, for example)
@@ -707,13 +743,21 @@ export class Botkit {
     public async handleTurn(turnContext: TurnContext): Promise<any> {
         debug('INCOMING ACTIVITY:', turnContext.activity);
 
+        const botkitContext = new TurnContext(
+            turnContext.adapter,
+            this.incomingMessageToBotkitMessage(turnContext.activity)
+        )
+
         // Create a dialog context
-        const dialogContext = await this.dialogSet.createContext(turnContext);
+        const dialogContext = await this.dialogSet.createContext(botkitContext);
 
         // Spawn a bot worker with the dialogContext
         const bot = await this.spawn(dialogContext);
 
         // Turn this turnContext into a Botkit message.
+        const message = botkitContext.activity as BotkitMessage;
+        message.reference = TurnContext.getConversationReference(message);
+        /*
         const message: BotkitMessage = {
             ...turnContext.activity.channelData, // start with all the fields that were in the original incoming payload. NOTE: this is a shallow copy, is that a problem?
 
@@ -735,8 +779,9 @@ export class Botkit {
             context: turnContext,
 
             // include the full unmodified record here
-            incoming_message: turnContext.activity
+            // incoming_message: turnContext.activity
         };
+        */
 
         return new Promise((resolve, reject) => {
             this.middleware.ingest.run(bot, message, async (err, bot, message) => {
@@ -795,7 +840,7 @@ export class Botkit {
                     resolve(listen_results);
                 } else {
                     // Trigger event handlers
-                    const trigger_results = await this.trigger(message.type, bot, message);
+                    const trigger_results = await this.trigger(message.event, bot, message);
 
                     resolve(trigger_results);
                 }
@@ -809,8 +854,8 @@ export class Botkit {
      * @param message {BotkitMessage} an incoming message
      */
     private async listenForTriggers(bot: BotWorker, message: BotkitMessage): Promise<any> {
-        if (this._triggers[message.type]) {
-            const triggers = this._triggers[message.type];
+        if (this._triggers[message.event]) {
+            const triggers = this._triggers[message.event];
             for (var t = 0; t < triggers.length; t++) {
                 const test_results = await this.testTrigger(triggers[t], message);
                 if (test_results) {
@@ -833,8 +878,8 @@ export class Botkit {
      * @param message {BotkitMessage} an incoming message
      */
     private async listenForInterrupts(bot: BotWorker, message: BotkitMessage): Promise<any> {
-        if (this._interrupts[message.type]) {
-            const triggers = this._interrupts[message.type];
+        if (this._interrupts[message.event]) {
+            const triggers = this._interrupts[message.event];
             for (var t = 0; t < triggers.length; t++) {
                 const test_results = await this.testTrigger(triggers[t], message);
                 if (test_results) {
