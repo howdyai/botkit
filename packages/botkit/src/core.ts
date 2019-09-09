@@ -89,7 +89,7 @@ export interface BotkitMessage extends Activity {
     /**
      * The event name if the type is 'event'
      */
-    event: string;
+    event?: string;
 
     /**
      * Text of the message sent by the user (or primary value in case of button click)
