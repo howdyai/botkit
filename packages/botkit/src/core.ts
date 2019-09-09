@@ -120,7 +120,7 @@ export interface BotkitMessage extends Activity {
     /**
      * The original incoming [BotBuilder Activity](https://docs.microsoft.com/en-us/javascript/api/botframework-schema/activity?view=botbuilder-ts-latest) object as created by the adapter.
      */
-    // incoming_message: Activity;
+    incoming_message: Activity;
 
     /**
      * Any additional fields found in the incoming payload from the messaging platform.
@@ -713,7 +713,7 @@ export class Botkit {
         const activity = {
             // start with all the fields that were in the original incoming payload. NOTE: this is a shallow copy, is that a problem?
             ...message,
-            timestamp: new Date(),
+            // timestamp: new Date(),
             type: message.type === 'message' ? ActivityTypes.Message : ActivityTypes.Event,
             // normalize the user, text and channel info
             event: channelData.type || channelData.botkitEventType || message.type,
@@ -721,11 +721,9 @@ export class Botkit {
             user: message.from.id,
             channel: message.conversation.id,
             value: message.value,
-            // incoming_messge: message.channelData,
+            incoming_messge: message,
             channelData: message.channelData
         };
-
-
 
         // set botkit's event type
         if (activity.type !== ActivityTypes.Message) {

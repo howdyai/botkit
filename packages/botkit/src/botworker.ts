@@ -131,7 +131,7 @@ export class BotWorker {
         let activity = this.ensureMessageFormat(resp);
 
         // Get conversation reference from src
-        const reference = TurnContext.getConversationReference(src.incoming_message);
+        const reference = src.reference;
 
         activity = TurnContext.applyConversationReference(activity, reference);
 
