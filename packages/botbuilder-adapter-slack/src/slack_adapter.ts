@@ -524,12 +524,34 @@ export class SlackAdapter extends BotAdapter {
                     type: ActivityTypes.Event,
                     text: null
                 };
-
+                
                 // If this is a message originating from a block_action or button click, we'll mark it as a message
                 // so it gets processed in BotkitConversations
                 if ((event.type === 'block_actions' || event.type == 'interactive_message') && event.actions) {
                     activity.type = ActivityTypes.Message;
-                    activity.text = event.actions[0].value;
+                    switch (event.actions[0].type) {
+                        case 'button': { 
+                            activity.text = event.actions[0].value;
+                        } break
+                        case 'static_select':
+                        case 'external_select':
+                        case 'overflow': {
+                            activity.text = event.actions[0].selected_option.value;
+                        } break
+                        case 'users_select': {
+                            activity.text = event.actions[0].selected_user;
+                        } break
+                        case 'conversations_select': {
+                            activity.text = event.actions[0].selected_conversation;
+                        } break
+                        case 'channels_select': {
+                            activity.text = event.actions[0].selected_channel;
+                        } break
+                        case 'datepicker': {
+                            activity.text = event.action[0].selected_date;
+                        } break
+                        default: activity.text = event.actions[0].type;
+                    }
                 }
                   
                 // @ts-ignore this complains because of extra fields in conversation
