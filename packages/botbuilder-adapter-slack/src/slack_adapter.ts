@@ -530,26 +530,26 @@ export class SlackAdapter extends BotAdapter {
                 if ((event.type === 'block_actions' || event.type == 'interactive_message') && event.actions) {
                     activity.type = ActivityTypes.Message;
                     switch (event.actions[0].type) {
-                        case 'button': { 
+                        case 'button':  
                             activity.text = event.actions[0].value;
-                        } break
+                        break
                         case 'static_select':
                         case 'external_select':
-                        case 'overflow': {
+                        case 'overflow': 
                             activity.text = event.actions[0].selected_option.value;
-                        } break
-                        case 'users_select': {
+                            break
+                        case 'users_select':
                             activity.text = event.actions[0].selected_user;
-                        } break
-                        case 'conversations_select': {
+                            break
+                        case 'conversations_select':
                             activity.text = event.actions[0].selected_conversation;
-                        } break
-                        case 'channels_select': {
+                            break
+                        case 'channels_select':
                             activity.text = event.actions[0].selected_channel;
-                        } break
-                        case 'datepicker': {
+                            break
+                        case 'datepicker':
                             activity.text = event.action[0].selected_date;
-                        } break
+                            break
                         default: activity.text = event.actions[0].type;
                     }
                 }
