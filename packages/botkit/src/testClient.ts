@@ -36,7 +36,7 @@ export class BotkitTestClient {
      * assert.strictEqual(reply.text, 'first reply', 'reply failed');
      * ```
      *
-     * @param channelOrAdapter The channelId to be used for the test or custom adapter. By default the test client will use a default TestAdapter
+     * @param channelId The channelId to be used for the test.
      * Use 'emulator' or 'test' if you are uncertain of the channel you are targeting.
      * Otherwise, it is recommended that you use the id for the channel(s) your bot will be using and write a test case for each channel.
      * @param bot (Required) The Botkit bot that has the skill to test.
@@ -45,7 +45,9 @@ export class BotkitTestClient {
      * @param middlewares (Optional) a stack of middleware to be run when testing
      * @param conversationState (Optional) A ConversationState instance to use in the test client
      */
-    public constructor(channelOrAdapter: string | TestAdapter, bot: Botkit, dialogToTest: string, initialDialogOptions?: any, middlewares?: Middleware[], conversationState?: ConversationState) {
+    public constructor(channelId: string, bot: Botkit, dialogToTest: string, initialDialogOptions?: any, middlewares?: Middleware[], conversationState?: ConversationState);
+    public constructor(testAdapter: TestAdapter, bot: Botkit, dialogToTest: string, initialDialogOptions?: any, middlewares?: Middleware[], conversationState?: ConversationState)
+    constructor(channelOrAdapter: string | TestAdapter, bot: Botkit, dialogToTest: string, initialDialogOptions?: any, middlewares?: Middleware[], conversationState?: ConversationState) {
         this.conversationState = conversationState || new ConversationState(new MemoryStorage());
 
         let dialogState = this.conversationState.createProperty('DialogState');
