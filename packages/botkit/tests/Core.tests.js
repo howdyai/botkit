@@ -4,6 +4,6 @@ const { Botkit } = require('../');
 describe('Botkit', function() {
 
     it('should create a Botkit controller', function () {
-        assert((new Botkit({}) instanceof Botkit), 'Botkit is wrong type');
+        assert((new Botkit({ disable_webserver: true }) instanceof Botkit), 'Botkit is wrong type');
     });
 });
