@@ -40,7 +40,7 @@ interface BotkitMessageTemplate {
         script: string;
         thread?: string;
     };
-    quick_replies?: [any];
+    quick_replies?: any[];
     attachments?: any[];
     channelData?: any;
     collect: {

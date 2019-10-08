@@ -13702,7 +13702,7 @@
               ]
             },
             {
-              "id": 52,
+              "id": 55,
               "name": "continueConversation",
               "kind": 2048,
               "kindString": "Method",
@@ -13713,7 +13713,7 @@
               },
               "signatures": [
                 {
-                  "id": 53,
+                  "id": 56,
                   "name": "continueConversation",
                   "kind": 4096,
                   "kindString": "Call signature",
@@ -13723,7 +13723,7 @@
                   },
                   "parameters": [
                     {
-                      "id": 54,
+                      "id": 57,
                       "name": "reference",
                       "kind": 32768,
                       "kindString": "Parameter",
@@ -13743,7 +13743,7 @@
                       }
                     },
                     {
-                      "id": 55,
+                      "id": 58,
                       "name": "logic",
                       "kind": 32768,
                       "kindString": "Parameter",
@@ -13754,21 +13754,21 @@
                       "type": {
                         "type": "reflection",
                         "declaration": {
-                          "id": 56,
+                          "id": 59,
                           "name": "__type",
                           "kind": 65536,
                           "kindString": "Type literal",
                           "flags": {},
                           "signatures": [
                             {
-                              "id": 57,
+                              "id": 60,
                               "name": "__call",
                               "kind": 4096,
                               "kindString": "Call signature",
                               "flags": {},
                               "parameters": [
                                 {
-                                  "id": 58,
+                                  "id": 61,
                                   "name": "context",
                                   "kind": 32768,
                                   "kindString": "Parameter",
@@ -13794,7 +13794,7 @@
                           "sources": [
                             {
                               "fileName": "webex_adapter.ts",
-                              "line": 382,
+                              "line": 441,
                               "character": 87
                             }
                           ]
@@ -13817,13 +13817,13 @@
               "sources": [
                 {
                   "fileName": "webex_adapter.ts",
-                  "line": 382,
+                  "line": 441,
                   "character": 37
                 }
               ]
             },
             {
-              "id": 48,
+              "id": 51,
               "name": "deleteActivity",
               "kind": 2048,
               "kindString": "Method",
@@ -13834,7 +13834,7 @@
               },
               "signatures": [
                 {
-                  "id": 49,
+                  "id": 52,
                   "name": "deleteActivity",
                   "kind": 4096,
                   "kindString": "Call signature",
@@ -13844,7 +13844,7 @@
                   },
                   "parameters": [
                     {
-                      "id": 50,
+                      "id": 53,
                       "name": "context",
                       "kind": 32768,
                       "kindString": "Parameter",
@@ -13858,7 +13858,7 @@
                       }
                     },
                     {
-                      "id": 51,
+                      "id": 54,
                       "name": "reference",
                       "kind": 32768,
                       "kindString": "Parameter",
@@ -13893,7 +13893,7 @@
               "sources": [
                 {
                   "fileName": "webex_adapter.ts",
-                  "line": 364,
+                  "line": 423,
                   "character": 31
                 }
               ]
@@ -13986,7 +13986,7 @@
               ]
             },
             {
-              "id": 59,
+              "id": 62,
               "name": "processActivity",
               "kind": 2048,
               "kindString": "Method",
@@ -13997,7 +13997,7 @@
               },
               "signatures": [
                 {
-                  "id": 60,
+                  "id": 63,
                   "name": "processActivity",
                   "kind": 4096,
                   "kindString": "Call signature",
@@ -14007,7 +14007,7 @@
                   },
                   "parameters": [
                     {
-                      "id": 61,
+                      "id": 64,
                       "name": "req",
                       "kind": 32768,
                       "kindString": "Parameter",
@@ -14021,7 +14021,7 @@
                       }
                     },
                     {
-                      "id": 62,
+                      "id": 65,
                       "name": "res",
                       "kind": 32768,
                       "kindString": "Parameter",
@@ -14035,7 +14035,7 @@
                       }
                     },
                     {
-                      "id": 63,
+                      "id": 66,
                       "name": "logic",
                       "kind": 32768,
                       "kindString": "Parameter",
@@ -14046,21 +14046,21 @@
                       "type": {
                         "type": "reflection",
                         "declaration": {
-                          "id": 64,
+                          "id": 67,
                           "name": "__type",
                           "kind": 65536,
                           "kindString": "Type literal",
                           "flags": {},
                           "signatures": [
                             {
-                              "id": 65,
+                              "id": 68,
                               "name": "__call",
                               "kind": 4096,
                               "kindString": "Call signature",
                               "flags": {},
                               "parameters": [
                                 {
-                                  "id": 66,
+                                  "id": 69,
                                   "name": "context",
                                   "kind": 32768,
                                   "kindString": "Parameter",
@@ -14086,7 +14086,7 @@
                           "sources": [
                             {
                               "fileName": "webex_adapter.ts",
-                              "line": 399,
+                              "line": 458,
                               "character": 49
                             }
                           ]
@@ -14109,8 +14109,58 @@
               "sources": [
                 {
                   "fileName": "webex_adapter.ts",
-                  "line": 399,
+                  "line": 458,
                   "character": 32
+                }
+              ]
+            },
+            {
+              "id": 40,
+              "name": "registerAdaptiveCardWebhookSubscription",
+              "kind": 2048,
+              "kindString": "Method",
+              "flags": {
+                "isPublic": true,
+                "isExported": true,
+                "isExternal": true
+              },
+              "signatures": [
+                {
+                  "id": 41,
+                  "name": "registerAdaptiveCardWebhookSubscription",
+                  "kind": 4096,
+                  "kindString": "Call signature",
+                  "flags": {},
+                  "comment": {
+                    "shortText": "Register a webhook subscription with Webex Teams to start receiving message events."
+                  },
+                  "parameters": [
+                    {
+                      "id": 42,
+                      "name": "webhook_path",
+                      "kind": 32768,
+                      "kindString": "Parameter",
+                      "flags": {},
+                      "comment": {
+                        "text": "the path of the webhook endpoint like `/api/messages`\n"
+                      },
+                      "type": {
+                        "type": "intrinsic",
+                        "name": "any"
+                      }
+                    }
+                  ],
+                  "type": {
+                    "type": "intrinsic",
+                    "name": "void"
+                  }
+                }
+              ],
+              "sources": [
+                {
+                  "fileName": "webex_adapter.ts",
+                  "line": 309,
+                  "character": 50
                 }
               ]
             },
@@ -14205,7 +14255,7 @@
               ]
             },
             {
-              "id": 40,
+              "id": 43,
               "name": "sendActivities",
               "kind": 2048,
               "kindString": "Method",
@@ -14216,7 +14266,7 @@
               },
               "signatures": [
                 {
-                  "id": 41,
+                  "id": 44,
                   "name": "sendActivities",
                   "kind": 4096,
                   "kindString": "Call signature",
@@ -14226,7 +14276,7 @@
                   },
                   "parameters": [
                     {
-                      "id": 42,
+                      "id": 45,
                       "name": "context",
                       "kind": 32768,
                       "kindString": "Parameter",
@@ -14240,7 +14290,7 @@
                       }
                     },
                     {
-                      "id": 43,
+                      "id": 46,
                       "name": "activities",
                       "kind": 32768,
                       "kindString": "Parameter",
@@ -14281,7 +14331,7 @@
               "sources": [
                 {
                   "fileName": "webex_adapter.ts",
-                  "line": 311,
+                  "line": 364,
                   "character": 31
                 }
               ]
@@ -14306,14 +14356,15 @@
               "title": "Methods",
               "kind": 2048,
               "children": [
-                52,
-                48,
+                55,
+                51,
                 28,
                 32,
-                59,
+                62,
+                40,
                 37,
                 35,
-                40
+                43
               ]
             }
           ],
@@ -14371,7 +14422,7 @@
           ],
           "methods": [
             {
-              "id": 52,
+              "id": 55,
               "name": "continueConversation",
               "kind": 2048,
               "kindString": "Method",
@@ -14382,7 +14433,7 @@
               },
               "signatures": [
                 {
-                  "id": 53,
+                  "id": 56,
                   "name": "continueConversation",
                   "kind": 4096,
                   "kindString": "Call signature",
@@ -14392,7 +14443,7 @@
                   },
                   "parameters": [
                     {
-                      "id": 54,
+                      "id": 57,
                       "name": "reference",
                       "kind": 32768,
                       "kindString": "Parameter",
@@ -14412,7 +14463,7 @@
                       }
                     },
                     {
-                      "id": 55,
+                      "id": 58,
                       "name": "logic",
                       "kind": 32768,
                       "kindString": "Parameter",
@@ -14423,21 +14474,21 @@
                       "type": {
                         "type": "reflection",
                         "declaration": {
-                          "id": 56,
+                          "id": 59,
                           "name": "__type",
                           "kind": 65536,
                           "kindString": "Type literal",
                           "flags": {},
                           "signatures": [
                             {
-                              "id": 57,
+                              "id": 60,
                               "name": "__call",
                               "kind": 4096,
                               "kindString": "Call signature",
                               "flags": {},
                               "parameters": [
                                 {
-                                  "id": 58,
+                                  "id": 61,
                                   "name": "context",
                                   "kind": 32768,
                                   "kindString": "Parameter",
@@ -14463,7 +14514,7 @@
                           "sources": [
                             {
                               "fileName": "webex_adapter.ts",
-                              "line": 382,
+                              "line": 441,
                               "character": 87
                             }
                           ]
@@ -14486,13 +14537,13 @@
               "sources": [
                 {
                   "fileName": "webex_adapter.ts",
-                  "line": 382,
+                  "line": 441,
                   "character": 37
                 }
               ]
             },
             {
-              "id": 48,
+              "id": 51,
               "name": "deleteActivity",
               "kind": 2048,
               "kindString": "Method",
@@ -14503,7 +14554,7 @@
               },
               "signatures": [
                 {
-                  "id": 49,
+                  "id": 52,
                   "name": "deleteActivity",
                   "kind": 4096,
                   "kindString": "Call signature",
@@ -14513,7 +14564,7 @@
                   },
                   "parameters": [
                     {
-                      "id": 50,
+                      "id": 53,
                       "name": "context",
                       "kind": 32768,
                       "kindString": "Parameter",
@@ -14527,7 +14578,7 @@
                       }
                     },
                     {
-                      "id": 51,
+                      "id": 54,
                       "name": "reference",
                       "kind": 32768,
                       "kindString": "Parameter",
@@ -14562,7 +14613,7 @@
               "sources": [
                 {
                   "fileName": "webex_adapter.ts",
-                  "line": 364,
+                  "line": 423,
                   "character": 31
                 }
               ]
@@ -14655,7 +14706,7 @@
               ]
             },
             {
-              "id": 59,
+              "id": 62,
               "name": "processActivity",
               "kind": 2048,
               "kindString": "Method",
@@ -14666,7 +14717,7 @@
               },
               "signatures": [
                 {
-                  "id": 60,
+                  "id": 63,
                   "name": "processActivity",
                   "kind": 4096,
                   "kindString": "Call signature",
@@ -14676,7 +14727,7 @@
                   },
                   "parameters": [
                     {
-                      "id": 61,
+                      "id": 64,
                       "name": "req",
                       "kind": 32768,
                       "kindString": "Parameter",
@@ -14690,7 +14741,7 @@
                       }
                     },
                     {
-                      "id": 62,
+                      "id": 65,
                       "name": "res",
                       "kind": 32768,
                       "kindString": "Parameter",
@@ -14704,7 +14755,7 @@
                       }
                     },
                     {
-                      "id": 63,
+                      "id": 66,
                       "name": "logic",
                       "kind": 32768,
                       "kindString": "Parameter",
@@ -14715,21 +14766,21 @@
                       "type": {
                         "type": "reflection",
                         "declaration": {
-                          "id": 64,
+                          "id": 67,
                           "name": "__type",
                           "kind": 65536,
                           "kindString": "Type literal",
                           "flags": {},
                           "signatures": [
                             {
-                              "id": 65,
+                              "id": 68,
                               "name": "__call",
                               "kind": 4096,
                               "kindString": "Call signature",
                               "flags": {},
                               "parameters": [
                                 {
-                                  "id": 66,
+                                  "id": 69,
                                   "name": "context",
                                   "kind": 32768,
                                   "kindString": "Parameter",
@@ -14755,7 +14806,7 @@
                           "sources": [
                             {
                               "fileName": "webex_adapter.ts",
-                              "line": 399,
+                              "line": 458,
                               "character": 49
                             }
                           ]
@@ -14778,8 +14829,58 @@
               "sources": [
                 {
                   "fileName": "webex_adapter.ts",
-                  "line": 399,
+                  "line": 458,
                   "character": 32
+                }
+              ]
+            },
+            {
+              "id": 40,
+              "name": "registerAdaptiveCardWebhookSubscription",
+              "kind": 2048,
+              "kindString": "Method",
+              "flags": {
+                "isPublic": true,
+                "isExported": true,
+                "isExternal": true
+              },
+              "signatures": [
+                {
+                  "id": 41,
+                  "name": "registerAdaptiveCardWebhookSubscription",
+                  "kind": 4096,
+                  "kindString": "Call signature",
+                  "flags": {},
+                  "comment": {
+                    "shortText": "Register a webhook subscription with Webex Teams to start receiving message events."
+                  },
+                  "parameters": [
+                    {
+                      "id": 42,
+                      "name": "webhook_path",
+                      "kind": 32768,
+                      "kindString": "Parameter",
+                      "flags": {},
+                      "comment": {
+                        "text": "the path of the webhook endpoint like `/api/messages`\n"
+                      },
+                      "type": {
+                        "type": "intrinsic",
+                        "name": "any"
+                      }
+                    }
+                  ],
+                  "type": {
+                    "type": "intrinsic",
+                    "name": "void"
+                  }
+                }
+              ],
+              "sources": [
+                {
+                  "fileName": "webex_adapter.ts",
+                  "line": 309,
+                  "character": 50
                 }
               ]
             },
@@ -14874,7 +14975,7 @@
               ]
             },
             {
-              "id": 40,
+              "id": 43,
               "name": "sendActivities",
               "kind": 2048,
               "kindString": "Method",
@@ -14885,7 +14986,7 @@
               },
               "signatures": [
                 {
-                  "id": 41,
+                  "id": 44,
                   "name": "sendActivities",
                   "kind": 4096,
                   "kindString": "Call signature",
@@ -14895,7 +14996,7 @@
                   },
                   "parameters": [
                     {
-                      "id": 42,
+                      "id": 45,
                       "name": "context",
                       "kind": 32768,
                       "kindString": "Parameter",
@@ -14909,7 +15010,7 @@
                       }
                     },
                     {
-                      "id": 43,
+                      "id": 46,
                       "name": "activities",
                       "kind": 32768,
                       "kindString": "Parameter",
@@ -14950,7 +15051,7 @@
               "sources": [
                 {
                   "fileName": "webex_adapter.ts",
-                  "line": 311,
+                  "line": 364,
                   "character": 31
                 }
               ]
@@ -15038,7 +15139,7 @@
                 "isExternal": true
               },
               "comment": {
-                "shortText": "An instance of the [webex api client](https://www.npmjs.com/package/ciscospark)"
+                "shortText": "An instance of the [webex api client](https://www.npmjs.com/package/webex)"
               },
               "sources": [
                 {
@@ -15049,7 +15150,7 @@
               ],
               "type": {
                 "type": "reference",
-                "name": "Ciscospark"
+                "name": "Webex"
               }
             },
             {
@@ -15286,7 +15387,7 @@
                 "isExternal": true
               },
               "comment": {
-                "shortText": "An instance of the [webex api client](https://www.npmjs.com/package/ciscospark)"
+                "shortText": "An instance of the [webex api client](https://www.npmjs.com/package/webex)"
               },
               "sources": [
                 {
@@ -15297,7 +15398,7 @@
               ],
               "type": {
                 "type": "reference",
-                "name": "Ciscospark"
+                "name": "Webex"
               }
             }
           ],
