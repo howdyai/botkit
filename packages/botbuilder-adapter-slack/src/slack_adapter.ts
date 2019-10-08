@@ -7,7 +7,7 @@
  */
 
 import { Activity, ActivityTypes, BotAdapter, TurnContext, ConversationReference, ResourceResponse } from 'botbuilder';
-import { WebClient, WebAPICallResult } from '@slack/client';
+import { WebClient, WebAPICallResult } from '@slack/web-api';
 import { SlackBotWorker } from './botworker';
 import * as crypto from 'crypto';
 import * as Debug from 'debug';
@@ -514,7 +514,7 @@ export class SlackAdapter extends BotAdapter {
                     timestamp: new Date(),
                     channelId: 'slack',
                     conversation: {
-                        id: event.channel.id,
+                        id: event.channel ? event.channel.id : event.team.id, // use team id for channel id, required because modal block actions and submissions don't include channel.
                         thread_ts: event.thread_ts,
                         team: event.team.id
                     },
