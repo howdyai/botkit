@@ -147,7 +147,7 @@ export class TwilioAdapter extends BotAdapter {
     private activityToTwilio(activity: Partial<Activity>): any {
         let message = {
             body: activity.text,
-            from: this.options.twilio_number,
+            from: this.options.twilio_number || activity.from.id,
             to: activity.conversation.id,
             mediaUrl: undefined
         };
