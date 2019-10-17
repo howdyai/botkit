@@ -96,7 +96,7 @@ const adapter = new SlackAdapter({
         // load the token for this team
         // as captured during oauth 
     }, 
-    getBotUserByTeam: async(team_id) = {
+    getBotUserByTeam: async(team_id) => {
         // load bot user id for this team   
         // as captured during oauth 
     }
