@@ -105,7 +105,7 @@ const adapter = new SlackAdapter({
 // Create a route for the install link.
 // This will redirect the user to Slack's permission request page.
 controller.webserver.get('/install', (req, res) => {
-    res.redirect(controller.getInstallLink());
+    res.redirect(controller.adapter.getInstallLink());
 });
 
 // Create a route to capture the results of the oauth flow.
@@ -196,12 +196,12 @@ controller.on('message', async(bot, message) {
 
 In Botkit handlers, the `bot` worker for Slack contains [all of the base methods](../reference/core.md#BotWorker) as well as the following platform-specific extensions:
 
-### [controller.getInstallLink()](../reference/slack.md#getinstalllink)
+### [controller.adapter.getInstallLink()](../reference/slack.md#getinstalllink)
 
 Returns the first step of an oauth-flow that results in the Botkit application being enabled on a workspace.
 Use this in concert with [multi-team support](#multi-team-support).
 
-### [controller.validateOauthCode()](../reference/slack.md#validateoauthcode)
+### [controller.adapter.validateOauthCode()](../reference/slack.md#validateoauthcode)
 
 This method receives the oauth code returned by Slack at the end of the oauth-flow and returns all of the credentials and authentication details associated with it.  Use this to capture the workspace token and bot user ID needed for multi-team support.
 
