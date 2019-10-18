@@ -33,7 +33,7 @@
     "url": "https://github.com/howdyai/botkit.git"
   },
   "dependencies": {
-    "@slack/web-api": "^5.2.0",
+    "@slack/web-api": "^5.2.1",
     "botbuilder": "^4.5.2",
     "botkit": "^4.5.0",
     "debug": "^4.1.0"
