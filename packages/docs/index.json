@@ -9316,7 +9316,8 @@
               "kindString": "Property",
               "flags": {
                 "isExported": true,
-                "isExternal": true
+                "isExternal": true,
+                "isOptional": true
               },
               "comment": {
                 "shortText": "An array of middlewares that will be automatically bound to the webserver.\nShould be in the form (req, res, next) => {}"
@@ -9608,7 +9609,8 @@
               "kindString": "Property",
               "flags": {
                 "isExported": true,
-                "isExternal": true
+                "isExternal": true,
+                "isOptional": true
               },
               "comment": {
                 "shortText": "An array of middlewares that will be automatically bound to the webserver.\nShould be in the form (req, res, next) => {}"
@@ -11191,13 +11193,11 @@
                 }
               ],
               "type": {
-                "type": "tuple",
-                "elements": [
-                  {
-                    "type": "intrinsic",
-                    "name": "any"
-                  }
-                ]
+                "type": "array",
+                "elementType": {
+                  "type": "intrinsic",
+                  "name": "any"
+                }
               }
             },
             {
@@ -11508,13 +11508,11 @@
                 }
               ],
               "type": {
-                "type": "tuple",
-                "elements": [
-                  {
-                    "type": "intrinsic",
-                    "name": "any"
-                  }
-                ]
+                "type": "array",
+                "elementType": {
+                  "type": "intrinsic",
+                  "name": "any"
+                }
               }
             },
             {
@@ -22705,7 +22703,7 @@
               "sources": [
                 {
                   "fileName": "slack_adapter.ts",
-                  "line": 746,
+                  "line": 768,
                   "character": 6
                 }
               ],
@@ -22725,7 +22723,7 @@
               "sources": [
                 {
                   "fileName": "slack_adapter.ts",
-                  "line": 743,
+                  "line": 765,
                   "character": 8
                 }
               ],
@@ -22745,7 +22743,7 @@
               "sources": [
                 {
                   "fileName": "slack_adapter.ts",
-                  "line": 744,
+                  "line": 766,
                   "character": 11
                 }
               ],
@@ -22765,7 +22763,7 @@
               "sources": [
                 {
                   "fileName": "slack_adapter.ts",
-                  "line": 742,
+                  "line": 764,
                   "character": 8
                 }
               ],
@@ -22785,7 +22783,7 @@
               "sources": [
                 {
                   "fileName": "slack_adapter.ts",
-                  "line": 745,
+                  "line": 767,
                   "character": 11
                 }
               ],
@@ -22811,7 +22809,7 @@
           "sources": [
             {
               "fileName": "slack_adapter.ts",
-              "line": 741,
+              "line": 763,
               "character": 24
             }
           ],
@@ -22833,7 +22831,7 @@
               "sources": [
                 {
                   "fileName": "slack_adapter.ts",
-                  "line": 746,
+                  "line": 768,
                   "character": 6
                 }
               ],
@@ -22853,7 +22851,7 @@
               "sources": [
                 {
                   "fileName": "slack_adapter.ts",
-                  "line": 743,
+                  "line": 765,
                   "character": 8
                 }
               ],
@@ -22873,7 +22871,7 @@
               "sources": [
                 {
                   "fileName": "slack_adapter.ts",
-                  "line": 744,
+                  "line": 766,
                   "character": 11
                 }
               ],
@@ -22893,7 +22891,7 @@
               "sources": [
                 {
                   "fileName": "slack_adapter.ts",
-                  "line": 742,
+                  "line": 764,
                   "character": 8
                 }
               ],
@@ -22913,7 +22911,7 @@
               "sources": [
                 {
                   "fileName": "slack_adapter.ts",
-                  "line": 745,
+                  "line": 767,
                   "character": 11
                 }
               ],
@@ -22944,7 +22942,7 @@
               "sources": [
                 {
                   "fileName": "slack_adapter.ts",
-                  "line": 732,
+                  "line": 754,
                   "character": 11
                 }
               ],
@@ -22964,7 +22962,7 @@
               "sources": [
                 {
                   "fileName": "slack_adapter.ts",
-                  "line": 734,
+                  "line": 756,
                   "character": 11
                 }
               ],
@@ -22988,7 +22986,7 @@
                       "sources": [
                         {
                           "fileName": "slack_adapter.ts",
-                          "line": 735,
+                          "line": 757,
                           "character": 12
                         }
                       ],
@@ -23010,7 +23008,7 @@
                   "sources": [
                     {
                       "fileName": "slack_adapter.ts",
-                      "line": 734,
+                      "line": 756,
                       "character": 12
                     }
                   ]
@@ -23028,7 +23026,7 @@
               "sources": [
                 {
                   "fileName": "slack_adapter.ts",
-                  "line": 733,
+                  "line": 755,
                   "character": 6
                 }
               ],
@@ -23052,7 +23050,7 @@
           "sources": [
             {
               "fileName": "slack_adapter.ts",
-              "line": 731,
+              "line": 753,
               "character": 31
             }
           ],
@@ -23074,7 +23072,7 @@
               "sources": [
                 {
                   "fileName": "slack_adapter.ts",
-                  "line": 732,
+                  "line": 754,
                   "character": 11
                 }
               ],
@@ -23094,7 +23092,7 @@
               "sources": [
                 {
                   "fileName": "slack_adapter.ts",
-                  "line": 734,
+                  "line": 756,
                   "character": 11
                 }
               ],
@@ -23118,7 +23116,7 @@
                       "sources": [
                         {
                           "fileName": "slack_adapter.ts",
-                          "line": 735,
+                          "line": 757,
                           "character": 12
                         }
                       ],
@@ -23140,7 +23138,7 @@
                   "sources": [
                     {
                       "fileName": "slack_adapter.ts",
-                      "line": 734,
+                      "line": 756,
                       "character": 12
                     }
                   ]
@@ -23158,7 +23156,7 @@
               "sources": [
                 {
                   "fileName": "slack_adapter.ts",
-                  "line": 733,
+                  "line": 755,
                   "character": 6
                 }
               ],
@@ -23198,7 +23196,7 @@
               "sources": [
                 {
                   "fileName": "slack_adapter.ts",
-                  "line": 692,
+                  "line": 714,
                   "character": 12
                 }
               ],
@@ -23223,7 +23221,7 @@
               "sources": [
                 {
                   "fileName": "slack_adapter.ts",
-                  "line": 697,
+                  "line": 719,
                   "character": 12
                 }
               ],
@@ -23248,7 +23246,7 @@
               "sources": [
                 {
                   "fileName": "slack_adapter.ts",
-                  "line": 701,
+                  "line": 723,
                   "character": 16
                 }
               ],
@@ -23273,7 +23271,7 @@
               "sources": [
                 {
                   "fileName": "slack_adapter.ts",
-                  "line": 688,
+                  "line": 710,
                   "character": 23
                 }
               ],
@@ -23298,7 +23296,7 @@
               "sources": [
                 {
                   "fileName": "slack_adapter.ts",
-                  "line": 726,
+                  "line": 748,
                   "character": 21
                 }
               ],
@@ -23323,7 +23321,7 @@
               "sources": [
                 {
                   "fileName": "slack_adapter.ts",
-                  "line": 719,
+                  "line": 741,
                   "character": 20
                 }
               ],
@@ -23370,7 +23368,7 @@
                   "sources": [
                     {
                       "fileName": "slack_adapter.ts",
-                      "line": 719,
+                      "line": 741,
                       "character": 22
                     }
                   ]
@@ -23393,7 +23391,7 @@
               "sources": [
                 {
                   "fileName": "slack_adapter.ts",
-                  "line": 714,
+                  "line": 736,
                   "character": 19
                 }
               ],
@@ -23440,7 +23438,7 @@
                   "sources": [
                     {
                       "fileName": "slack_adapter.ts",
-                      "line": 714,
+                      "line": 736,
                       "character": 21
                     }
                   ]
@@ -23462,7 +23460,7 @@
               "sources": [
                 {
                   "fileName": "slack_adapter.ts",
-                  "line": 709,
+                  "line": 731,
                   "character": 15
                 }
               ],
@@ -23487,7 +23485,7 @@
               "sources": [
                 {
                   "fileName": "slack_adapter.ts",
-                  "line": 705,
+                  "line": 727,
                   "character": 10
                 }
               ],
@@ -23515,7 +23513,7 @@
               "sources": [
                 {
                   "fileName": "slack_adapter.ts",
-                  "line": 684,
+                  "line": 706,
                   "character": 21
                 }
               ],
@@ -23546,7 +23544,7 @@
           "sources": [
             {
               "fileName": "slack_adapter.ts",
-              "line": 680,
+              "line": 702,
               "character": 36
             }
           ],
@@ -23567,7 +23565,7 @@
               "sources": [
                 {
                   "fileName": "slack_adapter.ts",
-                  "line": 692,
+                  "line": 714,
                   "character": 12
                 }
               ],
@@ -23592,7 +23590,7 @@
               "sources": [
                 {
                   "fileName": "slack_adapter.ts",
-                  "line": 697,
+                  "line": 719,
                   "character": 12
                 }
               ],
@@ -23617,7 +23615,7 @@
               "sources": [
                 {
                   "fileName": "slack_adapter.ts",
-                  "line": 701,
+                  "line": 723,
                   "character": 16
                 }
               ],
@@ -23642,7 +23640,7 @@
               "sources": [
                 {
                   "fileName": "slack_adapter.ts",
-                  "line": 688,
+                  "line": 710,
                   "character": 23
                 }
               ],
@@ -23667,7 +23665,7 @@
               "sources": [
                 {
                   "fileName": "slack_adapter.ts",
-                  "line": 726,
+                  "line": 748,
                   "character": 21
                 }
               ],
@@ -23692,7 +23690,7 @@
               "sources": [
                 {
                   "fileName": "slack_adapter.ts",
-                  "line": 719,
+                  "line": 741,
                   "character": 20
                 }
               ],
@@ -23739,7 +23737,7 @@
                   "sources": [
                     {
                       "fileName": "slack_adapter.ts",
-                      "line": 719,
+                      "line": 741,
                       "character": 22
                     }
                   ]
@@ -23762,7 +23760,7 @@
               "sources": [
                 {
                   "fileName": "slack_adapter.ts",
-                  "line": 714,
+                  "line": 736,
                   "character": 19
                 }
               ],
@@ -23809,7 +23807,7 @@
                   "sources": [
                     {
                       "fileName": "slack_adapter.ts",
-                      "line": 714,
+                      "line": 736,
                       "character": 21
                     }
                   ]
@@ -23831,7 +23829,7 @@
               "sources": [
                 {
                   "fileName": "slack_adapter.ts",
-                  "line": 709,
+                  "line": 731,
                   "character": 15
                 }
               ],
@@ -23856,7 +23854,7 @@
               "sources": [
                 {
                   "fileName": "slack_adapter.ts",
-                  "line": 705,
+                  "line": 727,
                   "character": 10
                 }
               ],
@@ -23884,7 +23882,7 @@
               "sources": [
                 {
                   "fileName": "slack_adapter.ts",
-                  "line": 684,
+                  "line": 706,
                   "character": 21
                 }
               ],

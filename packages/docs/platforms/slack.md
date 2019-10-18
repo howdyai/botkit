@@ -96,7 +96,7 @@ const adapter = new SlackAdapter({
         // load the token for this team
         // as captured during oauth 
     }, 
-    getBotUserByTeam: async(team_id) => {
+    getBotUserByTeam: async(team_id) = {
         // load bot user id for this team   
         // as captured during oauth 
     }
@@ -105,7 +105,7 @@ const adapter = new SlackAdapter({
 // Create a route for the install link.
 // This will redirect the user to Slack's permission request page.
 controller.webserver.get('/install', (req, res) => {
-    res.redirect(controller.adapter.getInstallLink());
+    res.redirect(adapter.getInstallLink());
 });
 
 // Create a route to capture the results of the oauth flow.
@@ -196,12 +196,12 @@ controller.on('message', async(bot, message) {
 
 In Botkit handlers, the `bot` worker for Slack contains [all of the base methods](../reference/core.md#BotWorker) as well as the following platform-specific extensions:
 
-### [controller.adapter.getInstallLink()](../reference/slack.md#getinstalllink)
+### [controller.getInstallLink()](../reference/slack.md#getinstalllink)
 
 Returns the first step of an oauth-flow that results in the Botkit application being enabled on a workspace.
 Use this in concert with [multi-team support](#multi-team-support).
 
-### [controller.adapter.validateOauthCode()](../reference/slack.md#validateoauthcode)
+### [controller.validateOauthCode()](../reference/slack.md#validateoauthcode)
 
 This method receives the oauth code returned by Slack at the end of the oauth-flow and returns all of the credentials and authentication details associated with it.  Use this to capture the workspace token and bot user ID needed for multi-team support.
 
@@ -264,7 +264,7 @@ controller.on('slash_command', async(bot, message) => {
     // the /command <parameters> part
     let parameter = message.text;
 
-    await bot.replyPublic('My response to your command is: ...');
+    await bot.replyPublic(message, 'My response to your command is: ...');
 
 });
 ```
@@ -340,3 +340,4 @@ Botkit is a part of the [Microsoft Bot Framework](https://dev.botframework.com).
 Want to contribute? [Read the contributor guide](https://github.com/howdyai/botkit/blob/master/CONTRIBUTING.md)
 
 Botkit is released under the [MIT Open Source license](https://github.com/howdyai/botkit/blob/master/LICENSE.md)
+
