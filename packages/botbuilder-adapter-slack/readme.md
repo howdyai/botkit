@@ -262,7 +262,7 @@ controller.on('slash_command', async(bot, message) => {
     // the /command <parameters> part
     let parameter = message.text;
 
-    await bot.replyPublic('My response to your command is: ...');
+    await bot.replyPublic(message, 'My response to your command is: ...');
 
 });
 ```
