@@ -70,6 +70,16 @@ server.post('/api/messages', (req, res) => {
 });
 ```
 
+### Important URLs
+
+Your bot application will present several important URLs. You'll need to configure your Slack application profile with these urls.
+
+The messaging endpoint, which receives all events from Slack is: `https://YOURBOT/api/messages`
+
+The default "install" URL that triggers the oauth flow for multi-team installation is `https://YOURBOT/install`
+
+The oauth callback URL (or "redirect uri") that should be added to your Slack application profile is `https://YOURBOT/install/auth`
+
 ### Multi-team Support
 
 In the examples above, the `SlackAdapter` constructor received a single `botToken` parameters. This binds the adapter and all API calls it makes to a single Slack workspace.
