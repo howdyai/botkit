@@ -475,6 +475,7 @@ export class SlackAdapter extends BotAdapter {
             if (!validSignature()) {
                 debug('Signature verification failed, Ignoring message');
                 res.status(401);
+                res.end();
                 return false;
             }
         }
