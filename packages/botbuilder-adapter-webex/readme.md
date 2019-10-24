@@ -88,7 +88,7 @@ All events [listed here](https://developer.webex.com/webhooks-explained.html#res
 
 ## Calling Webex APIs
 
-This package exposes a pre-configured [Webex API client](https://www.npmjs.com/package/ciscospark) for developers who want to use one of the many available API endpoints.
+This package exposes a pre-configured [Webex API client](https://www.npmjs.com/package/webex) for developers who want to use one of the many available API endpoints.
 
 In Botkit handlers, the `bot` worker object passed into all handlers will contain a `bot.api` field that contains the client, preconfigured and ready to use.
 
