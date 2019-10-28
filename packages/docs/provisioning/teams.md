@@ -23,7 +23,7 @@ These are the important fields when creating your bot:
 
 * `Display name` - Your bot's name in channels and directories. This can be changed later.
 * `Bot handle` - This will be used in the URL for your bot. *Note: This cannot be changed.*
-* `Messaging endpoint` - You may not know this yet, as you will be creating this in the next step when setting up the Botkit app. If you are using the [Botkit starter kit](https://github.com/howdyai/botkit-starter-teams), by default it is: `https://YOURURL/teams/receive`. Feel free to make anything up, you can come back later and change it.
+* `Messaging endpoint` - You may not know this yet, as you will be creating this in the next step when setting up the Botkit app. By default it is: `https://YOURURL/api/messages`.
 
 ### Generate your keys
 Register your bot with Microsoft by clicking: `Create Microsoft App ID and password`
@@ -45,7 +45,7 @@ You will want to leave this window open as you finish setting up Botkit, as you 
 ## Step 4 - Deploy your bot and install to a team
 
 ### Turn on your Botkit app
-Now that everything is setup on Microsoft's side, you can [run Botkit](/docs/readme-teams.md#getting-started) using the method you've chosen and with the information created in the Bot framework in the previous step.
+Now that everything is setup on Microsoft's side, you can run Botkit with the information created in the Bot Framework.
 
 ### Update your Messaging Endpoint in Bot Framework
 Once a Botkit instance is running, you may have a new URL that you will have to update in the bot's settings [in Microsoft Bot Framework](https://dev.botframework.com/bots/).
@@ -54,7 +54,7 @@ Once logged in to that page:
 
 * Click on your bot
 * Select settings
-* Scroll down to the messaging endpoint field and replace the placeholder URL with your active Botkit URL (it should look something like `https://YOURURL/teams/receive`).
+* Scroll down to the messaging endpoint field and replace the placeholder URL with your active Botkit URL (it should look something like `https://YOURURL/api/messages`).
 * Click Save.
 
 ### Create your Application Manifest
@@ -65,13 +65,10 @@ After creating your app package, you can [load it easily into your development t
 
 Say hello to your real live bot!
 
-## Step 5 - Add dialogue and features
-Once you have a bot up and running, you can start the fun part of [making your bot functional](/docs/core.md#basic-usage).
-
-You can extend your bot's functionality using various [Botkit Middleware](/docs/middleware.md), or check our [example library](https://github.com/howdyai/botkit/tree/master/examples) for a good starting point.
+## Step 5 - Add dialog and features
+Once you have a bot up and running, you can start the fun part of [making your bot functional](../core.md).
 
 If you have questions or suggestions, please take a look at our [community support resources](core.md#developer--support-community). You can chat with contributors and enthusiasts in [our Slack community](https://community.botkit.ai/).
 
 ## Additional resources
-* [Botkit Microsoft Teams readme](/docs/readme-teams.md)
 * [Microsoft's Bot Framework](https://dev.botframework.com/)
