@@ -576,6 +576,10 @@ export class BotkitConversation<O extends object = {}> extends Dialog<O> {
         // Let's interpret the current line of the script.
         const thread = this.script[step.thread];
 
+        if (!thread) {
+            throw new Error(`Thread '${step.thread}' not found, did you add any messages to it?`)
+        }
+
         // Capture the previous step value if there previous line included a prompt
         var previous = (step.index >= 1) ? thread[step.index - 1] : null;
         if (step.result && previous && previous.collect) {
@@ -800,28 +804,28 @@ export class BotkitConversation<O extends object = {}> extends Dialog<O> {
         // Quick replies are used by Facebook and Web adapters, but in a different way than they are for Bot Framework.
         // In order to make this as easy as possible, copy these fields for the developer into channelData.
         if (line.quick_replies && typeof(line.quick_replies) != 'function') {
-            outgoing.channelData.quick_replies = [...line.quick_replies];
+            outgoing.channelData.quick_replies = JSON.parse(JSON.stringify(line.quick_replies));
         }
 
         // Similarly, attachment and blocks fields are platform specific.
         // handle slack Block attachments
         if (line.blocks && typeof(line.blocks) != 'function') {
-            outgoing.channelData.blocks = line.blocks;
+            outgoing.channelData.blocks = JSON.parse(JSON.stringify(line.blocks));
         }
 
         // handle facebook attachments.
         if (line.attachment && typeof(line.attachment) != 'function') {
-            outgoing.channelData.attachment = line.attachment;
+            outgoing.channelData.attachment = JSON.parse(JSON.stringify(line.attachment));
         }
 
         // set the type
         if (line.type) {
-            outgoing.type = line.type;
+            outgoing.type = JSON.parse(JSON.stringify(line.type));
         }
 
         // copy all the values in channelData fields
         for (var key in line.channelData) {
-            outgoing.channelData[key] = line.channelData[key];
+            outgoing.channelData[key] = JSON.parse(JSON.stringify(line.channelData[key]));
         }
 
         /*******************************************************************************************************************/
@@ -832,7 +836,7 @@ export class BotkitConversation<O extends object = {}> extends Dialog<O> {
 
         // process templates in native botframework attachments and/or slack attachments
         if (line.attachments && typeof(line.attachments) != 'function') {
-            outgoing.attachments = this.parseTemplatesRecursive(line.attachments, vars);
+            outgoing.attachments = this.parseTemplatesRecursive(JSON.parse(JSON.stringify(line.attachments)), vars);
         }
 
         // process templates in slack attachments in channelData
