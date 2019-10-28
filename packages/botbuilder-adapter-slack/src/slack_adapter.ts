@@ -7,7 +7,7 @@
  */
 
 import { Activity, ActivityTypes, BotAdapter, TurnContext, ConversationReference, ResourceResponse } from 'botbuilder';
-import { WebClient, WebAPICallResult } from '@slack/client';
+import { WebClient, WebAPICallResult } from '@slack/web-api';
 import { SlackBotWorker } from './botworker';
 import * as crypto from 'crypto';
 import * as Debug from 'debug';
@@ -475,6 +475,7 @@ export class SlackAdapter extends BotAdapter {
             if (!validSignature()) {
                 debug('Signature verification failed, Ignoring message');
                 res.status(401);
+                res.end();
                 return false;
             }
         }
@@ -514,7 +515,7 @@ export class SlackAdapter extends BotAdapter {
                     timestamp: new Date(),
                     channelId: 'slack',
                     conversation: {
-                        id: event.channel.id,
+                        id: event.channel ? event.channel.id : event.team.id, // use team id for channel id, required because modal block actions and submissions don't include channel.
                         thread_ts: event.thread_ts,
                         team: event.team.id
                     },
@@ -524,12 +525,34 @@ export class SlackAdapter extends BotAdapter {
                     type: ActivityTypes.Event,
                     text: null
                 };
-
+                
                 // If this is a message originating from a block_action or button click, we'll mark it as a message
                 // so it gets processed in BotkitConversations
                 if ((event.type === 'block_actions' || event.type == 'interactive_message') && event.actions) {
                     activity.type = ActivityTypes.Message;
-                    activity.text = event.actions[0].value;
+                    switch (event.actions[0].type) {
+                        case 'button':  
+                            activity.text = event.actions[0].value;
+                        break
+                        case 'static_select':
+                        case 'external_select':
+                        case 'overflow': 
+                            activity.text = event.actions[0].selected_option.value;
+                            break
+                        case 'users_select':
+                            activity.text = event.actions[0].selected_user;
+                            break
+                        case 'conversations_select':
+                            activity.text = event.actions[0].selected_conversation;
+                            break
+                        case 'channels_select':
+                            activity.text = event.actions[0].selected_channel;
+                            break
+                        case 'datepicker':
+                            activity.text = event.actions[0].selected_date;
+                            break
+                        default: activity.text = event.actions[0].type;
+                    }
                 }
                   
                 // @ts-ignore this complains because of extra fields in conversation

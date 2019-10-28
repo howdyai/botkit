@@ -179,3 +179,4 @@ Botkit is a part of the [Microsoft Bot Framework](https://dev.botframework.com).
 Want to contribute? [Read the contributor guide](https://github.com/howdyai/botkit/blob/master/CONTRIBUTING.md)
 
 Botkit is released under the [MIT Open Source license](https://github.com/howdyai/botkit/blob/master/LICENSE.md)
+
