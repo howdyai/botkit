@@ -318,9 +318,21 @@ This class includes the following methods:
 
 Reserved for use internally by Botkit's `controller.spawn()`, this class is used to create a BotWorker instance that can send messages, replies, and make other API calls.
 
-When used with the SlackAdapter's multi-tenancy mode, it is possible to spawn a bot instance by passing in the Slack workspace ID of a team that has installed the app.
+It is possible to spawn a bot instance by passing in the Slack workspace ID of a team that has installed the app.
 Use this in concert with [startPrivateConversation()](#startPrivateConversation) and [changeContext()](core.md#changecontext) to start conversations
 or send proactive alerts to users on a schedule or in response to external events.
+
+
+```javascript
+// spawn a bot for a given team.
+let bot = await controller.spawn('T0123456');
+
+// start a 1:1 with a specific user
+await bot.startPrivateConversation('U0123456');
+
+// send a message
+await bot.say('Hi user');
+```
 
 
 
