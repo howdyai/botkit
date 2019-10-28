@@ -4,8 +4,6 @@
 
 Facebook is a constantly evolving platform, nominally you can find everything you [need to create a bot](https://developers.facebook.com/docs/messenger-platform/guides/quick-start) on their platform page, but that information is subject to change.
 
-You will need to [install Botkit](https://github.com/howdyai/botkit-starter-facebook) and run it before your bot can be configured with Messenger.
-
 ### 1. [Install Botkit](https://botkit.ai/getstarted.html)
 
 Once installed, you will need to do steps 2-4, and steps 5 in parallel. It helps to have your development enviroment and the Facebook for Developers page open at the same time.
@@ -48,7 +46,7 @@ Run your application with your environment variables set:
 If your application has been configured correctly, you will be able to talk to your bot through the page you specified in Step 3. Congratulations!
 
 ### Additional resources
-*  [Botkit Facebook readme](/docs/readme-facebook.md)
+*  [Botkit Facebook readme](../platforms/facebook.md)
 *  [Botkit Facebook Starter Kit](https://github.com/howdyai/botkit-starter-facebook)
 *  [Messenger Platform Documentation](https://developers.facebook.com/products/messenger/)
 *  [Submit your bot so it can be publically available](https://developers.facebook.com/docs/messenger-platform/submission-process)
