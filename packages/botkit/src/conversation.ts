@@ -762,6 +762,11 @@ export class BotkitConversation<O extends object = {}> extends Dialog<O> {
         let outgoing;
         let text = '';
 
+        // If text is a function, call the function to get the actual text value.
+        if (typeof line.text === 'function') {
+            text = await line.text(vars);
+        }
+
         // if the text is just a string, use it.
         // otherwise, if it is an array, pick a random element
         if (line.text && typeof(line.text)=='string') {
