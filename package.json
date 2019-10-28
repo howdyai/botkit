@@ -31,7 +31,7 @@
     "email-addresses": "^3.0.2",
     "express": "^4.16.4",
     "googleapis": "^34.0.0",
-    "https-proxy-agent": "^2.2.1",
+    "https-proxy-agent": "^2.2.4",
     "jfs": "^0.3.0",
     "localtunnel": "^1.9.1",
     "md5": "^2.2.1",
