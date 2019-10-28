@@ -57,7 +57,7 @@ export interface BotkitConfiguration {
      * An array of middlewares that will be automatically bound to the webserver.
      * Should be in the form (req, res, next) => {}
      */
-    webserver_middlewares: any[];
+    webserver_middlewares?: any[];
 
     /**
      * A Storage interface compatible with [this specification](https://docs.microsoft.com/en-us/javascript/api/botbuilder-core/storage?view=botbuilder-ts-latest)
@@ -482,7 +482,7 @@ export class Botkit {
      * Load a plugin module and bind all included middlewares to their respective endpoints.
      * @param plugin_or_function A plugin module in the form of function(botkit) {...} that returns {name, middlewares, init} or an object in the same form.
      */
-    public usePlugin(plugin_or_function: (botkit: Botkit) => BotkitPlugin | BotkitPlugin): void {
+    public usePlugin(plugin_or_function: ((botkit: Botkit) => BotkitPlugin) | BotkitPlugin): void {
         let plugin: BotkitPlugin;
         if (typeof (plugin_or_function) === 'function') {
             plugin = plugin_or_function(this);

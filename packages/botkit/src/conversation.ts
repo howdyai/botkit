@@ -40,7 +40,7 @@ interface BotkitMessageTemplate {
         script: string;
         thread?: string;
     };
-    quick_replies?: [any];
+    quick_replies?: any[];
     attachments?: any[];
     channelData?: any;
     collect: {
@@ -329,7 +329,7 @@ export class BotkitConversation<O extends object = {}> extends Dialog<O> {
      * @param handlers one or more handler functions defining possible conditional actions based on the response to the question.
      * @param key name of variable to store response in.
      */
-    public ask(message: Partial<BotkitMessageTemplate> | string, handlers: BotkitConvoTrigger | BotkitConvoTrigger[], key: {key: string} | string | null): BotkitConversation {
+    public ask(message: Partial<BotkitMessageTemplate> | string, handlers: BotkitConvoHandler | BotkitConvoTrigger[], key: {key: string} | string | null): BotkitConversation {
         this.addQuestion(message, handlers, key, 'default');
         return this;
     }
@@ -343,7 +343,7 @@ export class BotkitConversation<O extends object = {}> extends Dialog<O> {
      * @param key Name of variable to store response in.
      * @param thread_name Name of thread to which message will be added
      */
-    public addQuestion(message: Partial<BotkitMessageTemplate> | string, handlers: BotkitConvoTrigger | BotkitConvoTrigger[], key: {key: string} | string | null, thread_name: string): BotkitConversation {
+    public addQuestion(message: Partial<BotkitMessageTemplate> | string, handlers: BotkitConvoHandler | BotkitConvoTrigger[], key: {key: string} | string | null, thread_name: string): BotkitConversation {
         if (!thread_name) {
             thread_name = 'default';
         }
@@ -373,6 +373,8 @@ export class BotkitConversation<O extends object = {}> extends Dialog<O> {
                     handler: handlers
                 }
             ];
+        } else {
+            throw new Error("Unsupported handlers type: " + typeof (handlers));
         }
 
         // ensure all options have a type field
@@ -662,7 +664,7 @@ export class BotkitConversation<O extends object = {}> extends Dialog<O> {
             // This could be extended to include cards and other activity attributes.
             } else {
                 // if there is text, attachments, or any channel data fields at all...
-                if (line.type || line.text || line.attachments || (line.channelData && Object.keys(line.channelData).length)) {
+                if (line.type || line.text || line.attachments || line.attachment || (line.channelData && Object.keys(line.channelData).length)) {
                     await dc.context.sendActivity(await this.makeOutgoing(dc, line, step.values));
                 } else if (!line.action) {
                     console.error('Dialog contains invalid message', line);
@@ -777,7 +779,7 @@ export class BotkitConversation<O extends object = {}> extends Dialog<O> {
         }
 
         outgoing.channelData = outgoing.channelData ? outgoing.channelData : {};
-        
+
         /*******************************************************************************************************************/
         // allow dynamic generation of quick replies and/or attachments
         if (typeof(line.quick_replies)=='function') {
