@@ -23,7 +23,7 @@ Next, visit [your console Dashboard](https://www.twilio.com/console) and copy yo
 
 ### 4. Run your bot with variables set
 
- [Follow these instructions](../platforms/twiliosms.md#get-started) to run your bot locally, or by using a third-party service such as [Glitch](https://glitch.com) or [Heroku](https://heroku.com).
+ [Follow these instructions](../platforms/twilio-sms.md#get-started) to run your bot locally, or by using a third-party service such as [Glitch](https://glitch.com) or [Heroku](https://heroku.com).
 
  You will need the following environment variables when running your bot:
 
