@@ -77,6 +77,8 @@ Botkit can send typing indicators to the client to indicate that work is happeni
 
 To achieve this, send a message in the form: `{"type": "typing"}`
 
+The typing indicator will appear until the next message arrives. Typing indicators can be added to dialogs to indicate activity during long running operations. If you wish to have a typing indicator appear before every message, use a middleware to send the indicator and then delay the actual message.
+
 For some examples of this in use, [see the sample code here &raquo;](https://github.com/howdyai/botkit/blob/master/packages/testbot/features/websocket_features.js)
 
 ## Embed Botkit in a Website with iFrames
