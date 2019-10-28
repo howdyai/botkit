@@ -16,7 +16,7 @@ You will receive a `clientId` and a `clientSecret`. You need these values - copy
 
 ## 2. Turn on your Botkit app
 
-You will need to [install Botkit](../readme-slack.md#getting-started) and run it before your bot can be configured with Slack.
+You will need to [install Botkit](../platforms/slack.md#get-started) and run it before your bot can be configured with Slack.
 
 Once you've collected your `clientId` and `clientSecret` tokens from Slack, you can start your Botkit app. You will need to have a bot service online and reachable over the web to complete the following steps and finish setting up your bot.
 
