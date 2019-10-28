@@ -8,3 +8,4 @@
 * [Google Hangouts](../platforms/hangouts.md)
 * [Twilio SMS](../platforms/twilio-sms.md)
 * [Facebook Messenger](../platforms/facebook.md)
+* [Microsoft Teams](../core.md#using-bot-framework-channels)

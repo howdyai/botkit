@@ -36,6 +36,7 @@ This class includes the following methods:
 * [getIdentity()](#getIdentity)
 * [init()](#init)
 * [processActivity()](#processActivity)
+* [registerAdaptiveCardWebhookSubscription()](#registerAdaptiveCardWebhookSubscription)
 * [registerWebhookSubscription()](#registerWebhookSubscription)
 * [resetWebhookSubscriptions()](#resetWebhookSubscriptions)
 * [sendActivities()](#sendActivities)
@@ -158,6 +159,18 @@ Accept an incoming webhook request and convert it into a TurnContext which can b
 
 
 
+<a name="registerAdaptiveCardWebhookSubscription"></a>
+### registerAdaptiveCardWebhookSubscription()
+Register a webhook subscription with Webex Teams to start receiving message events.
+
+**Parameters**
+
+| Argument | Type | description
+|--- |--- |---
+| webhook_path| any | the path of the webhook endpoint like `/api/messages`<br/>
+
+
+
 <a name="registerWebhookSubscription"></a>
 ### registerWebhookSubscription()
 Register a webhook subscription with Webex Teams to start receiving message events.
@@ -220,7 +233,7 @@ This class includes the following methods:
 
 | Name | Type | Description
 |--- |--- |---
-| api | Ciscospark | An instance of the [webex api client](https://www.npmjs.com/package/ciscospark)
+| api | Webex | An instance of the [webex api client](https://www.npmjs.com/package/webex)
 
 ## WebexBotWorker Class Methods
 <a name="deleteMessage"></a>
