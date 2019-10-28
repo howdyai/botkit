@@ -105,9 +105,9 @@ controller.on('message', async(bot, message) {
 
 ## Botkit Extensions
 
-In Botkit handlers, the `bot` worker for Facebook contains [all of the base methods](../docs/reference/core.md#BotWorker) as well as the following platform-specific extensions:
+In Botkit handlers, the `bot` worker for Twilio contains [all of the base methods](../docs/reference/core.md#BotWorker) as well as the following platform-specific extensions:
 
-### [bot.startConversationWithUser()](../docs/reference/twilio-sms#startconversationwithuser)
+### [bot.startConversationWithUser()](../docs/reference/twilio-sms.md#startconversationwithuser)
 
 Use this method to initiate a conversation with a user. After calling this method, any further actions carried out by the bot worker will happen with the specified user.
 
