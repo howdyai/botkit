@@ -1,5 +1,13 @@
 # botbuilder-adapter-facebook changelog
 
+# 1.0.6
+
+* Query parameters for GET apis can now be passed in using an object parameter (like POST): https://github.com/howdyai/botkit/pull/1768
+
+
+Fb api query params #1768
+
+
 # 1.0.5
 
 * Properly export the facebook_api class so it can be used directly. Thanks to [@luckyluo](https://github.com/howdyai/botkit/pull/1766)!

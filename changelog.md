@@ -9,7 +9,10 @@
 * Fix usePlugin parameter type declaration #1836 https://github.com/howdyai/botkit/pull/1836
 * Fix ask/addQuestion type signatures https://github.com/howdyai/botkit/pull/1818
 * Fix to how messages are constructed inside BotkitConversations. https://github.com/howdyai/botkit/pull/1746
-
+* Fail with better error when thread not found https://github.com/howdyai/botkit/pull/1758
+* correct mustache rendering from causing mutation of initial dialog script https://github.com/howdyai/botkit/pull/1761
+* Support .ts (or parameterized) file extensions for loadModules https://github.com/howdyai/botkit/pull/1777
+* The `text` field in a BotkitConversations can now be a function, which can be used to generated internationalized strings.  [DOCS HERE]() based on https://github.com/howdyai/botkit/pull/1747
 
 # 4.5
 
