@@ -329,7 +329,7 @@ export class BotkitConversation<O extends object = {}> extends Dialog<O> {
      * @param handlers one or more handler functions defining possible conditional actions based on the response to the question.
      * @param key name of variable to store response in.
      */
-    public ask(message: Partial<BotkitMessageTemplate> | string, handlers: BotkitConvoTrigger | BotkitConvoTrigger[], key: {key: string} | string | null): BotkitConversation {
+    public ask(message: Partial<BotkitMessageTemplate> | string, handlers: BotkitConvoHandler | BotkitConvoTrigger[], key: {key: string} | string | null): BotkitConversation {
         this.addQuestion(message, handlers, key, 'default');
         return this;
     }
@@ -343,7 +343,7 @@ export class BotkitConversation<O extends object = {}> extends Dialog<O> {
      * @param key Name of variable to store response in.
      * @param thread_name Name of thread to which message will be added
      */
-    public addQuestion(message: Partial<BotkitMessageTemplate> | string, handlers: BotkitConvoTrigger | BotkitConvoTrigger[], key: {key: string} | string | null, thread_name: string): BotkitConversation {
+    public addQuestion(message: Partial<BotkitMessageTemplate> | string, handlers: BotkitConvoHandler | BotkitConvoTrigger[], key: {key: string} | string | null, thread_name: string): BotkitConversation {
         if (!thread_name) {
             thread_name = 'default';
         }
@@ -373,6 +373,8 @@ export class BotkitConversation<O extends object = {}> extends Dialog<O> {
                     handler: handlers
                 }
             ];
+        } else {
+            throw new Error("Unsupported handlers type: " + typeof (handlers));
         }
 
         // ensure all options have a type field
@@ -773,7 +775,7 @@ export class BotkitConversation<O extends object = {}> extends Dialog<O> {
         }
 
         outgoing.channelData = outgoing.channelData ? outgoing.channelData : {};
-        
+
         /*******************************************************************************************************************/
         // allow dynamic generation of quick replies and/or attachments
         if (typeof(line.quick_replies)=='function') {
