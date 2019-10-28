@@ -23,7 +23,7 @@ These are the important fields when creating your bot:
 
 * `Display name` - Your bot's name in channels and directories. This can be changed later.
 * `Bot handle` - This will be used in the URL for your bot. *Note: This cannot be changed.*
-* `Messaging endpoint` - You may not know this yet, as you will be creating this in the next step when setting up the Botkit app. If you are using the [Botkit starter kit](https://github.com/howdyai/botkit-starter-teams), by default it is: `https://YOURURL/teams/receive`. Feel free to make anything up, you can come back later and change it.
+* `Messaging endpoint` - You may not know this yet, as you will be creating this in the next step when setting up the Botkit app. By default it is: `https://YOURURL/api/messages`.
 
 ### Generate your keys
 Register your bot with Microsoft by clicking: `Create Microsoft App ID and password`
@@ -54,7 +54,7 @@ Once logged in to that page:
 
 * Click on your bot
 * Select settings
-* Scroll down to the messaging endpoint field and replace the placeholder URL with your active Botkit URL (it should look something like `https://YOURURL/teams/receive`).
+* Scroll down to the messaging endpoint field and replace the placeholder URL with your active Botkit URL (it should look something like `https://YOURURL/api/messages`).
 * Click Save.
 
 ### Create your Application Manifest

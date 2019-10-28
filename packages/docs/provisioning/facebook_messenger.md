@@ -34,7 +34,7 @@ Click  `Setup Webhooks` to link this application to your Botkit instance.
 
 ![Screenshot of configuring webhooks in the Facebook portal](IMG/fb_webhooks.png)
 
-The callback url will be `https://YOURURL/facebook/receive`. This URL must be publically available, and SSL-secured. More information on this can be found in the next step.
+The callback url will be `https://YOURURL/api/messages`. This URL must be publically available, and SSL-secured. More information on this can be found in the next step.
 
 You will also need to define a `Verify Token` for your page subscription. This is a user-defined string that you will keep secret and pass in with your environment variables.
 

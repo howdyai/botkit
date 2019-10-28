@@ -15,7 +15,7 @@ At this point you can use the Twilio wizard to help you create an application, o
 Check the box `Process Inbound Messages` and under request URL, type the name of your request url.
 
 By default in Botkit, this is:
-https://*mybot.yoururl.com*/sms/receive
+https://*mybot.yoururl.com*/api/messages
 
 ### 3. Collect your tokens
 
