@@ -4,7 +4,7 @@ Setting up a bot for Twilio SMS is one of the easiest experiences for bot develo
 
 ### 1. Install Botkit
 
-You will need to [install Botkit](../platforms/twiliosms.md#get-started) and run it before your bot can be configured with Twilio SMS.
+You will need to [install Botkit](../platforms/twilio-sms.md#get-started) and run it before your bot can be configured with Twilio SMS.
 
 ### 2. Create a new bot in the Twilio Developer Console
 
