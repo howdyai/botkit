@@ -549,7 +549,7 @@ export class SlackAdapter extends BotAdapter {
                             activity.text = event.actions[0].selected_channel;
                             break
                         case 'datepicker':
-                            activity.text = event.action[0].selected_date;
+                            activity.text = event.actions[0].selected_date;
                             break
                         default: activity.text = event.actions[0].type;
                     }
