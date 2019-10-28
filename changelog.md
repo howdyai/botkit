@@ -4,6 +4,13 @@
 
 [Want to contribute? Read our guide!](https://github.com/howdyai/botkit/blob/master/CONTRIBUTING.md)
 
+# 4.6
+
+* Fix usePlugin parameter type declaration #1836 https://github.com/howdyai/botkit/pull/1836
+* Fix ask/addQuestion type signatures https://github.com/howdyai/botkit/pull/1818
+* Fix to how messages are constructed inside BotkitConversations. https://github.com/howdyai/botkit/pull/1746
+
+
 # 4.5
 
 We're skipping a few version numbers here to keep in sync with the rest of [Microsoft Bot Framework](https://github.com/microsoft/botframework).

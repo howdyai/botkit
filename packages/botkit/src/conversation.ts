@@ -660,7 +660,7 @@ export class BotkitConversation<O extends object = {}> extends Dialog<O> {
             // This could be extended to include cards and other activity attributes.
             } else {
                 // if there is text, attachments, or any channel data fields at all...
-                if (line.type || line.text || line.attachments || line.attachment || (line.channelData && Object.keys(line.channelData).length)) {
+                if (line.type || line.text || line.attachments || line.attachment || line.blocks ||  (line.channelData && Object.keys(line.channelData).length)) {
                     await dc.context.sendActivity(await this.makeOutgoing(dc, line, step.values));
                 } else if (!line.action) {
                     console.error('Dialog contains invalid message', line);
