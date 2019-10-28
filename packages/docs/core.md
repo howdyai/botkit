@@ -164,7 +164,7 @@ controller.hears(async(message) => { return (message.text.length > 100) }, 'mess
 });
 
 // compare a value in the message against a database
-// (onloy hear a message if user is already in the database)
+// (only hear a message if user is already in the database)
 controller.hears(async(message) => {
     return new Promise((resolve, reject) => {
         myDatabase.get(message.user).then(function(user) {

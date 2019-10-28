@@ -72,6 +72,16 @@ server.post('/api/messages', (req, res) => {
 });
 ```
 
+### Important URLs
+
+Your bot application will present several important URLs. You'll need to configure your Slack application profile with these urls.
+
+The messaging endpoint, which receives all events from Slack is: `https://YOURBOT/api/messages`
+
+The default "install" URL that triggers the oauth flow for multi-team installation is `https://YOURBOT/install`
+
+The oauth callback URL (or "redirect uri") that should be added to your Slack application profile is `https://YOURBOT/install/auth`
+
 ### Multi-team Support
 
 In the examples above, the `SlackAdapter` constructor received a single `botToken` parameters. This binds the adapter and all API calls it makes to a single Slack workspace.
@@ -105,7 +115,7 @@ const adapter = new SlackAdapter({
 // Create a route for the install link.
 // This will redirect the user to Slack's permission request page.
 controller.webserver.get('/install', (req, res) => {
-    res.redirect(controller.getInstallLink());
+    res.redirect(adapter.getInstallLink());
 });
 
 // Create a route to capture the results of the oauth flow.
@@ -264,7 +274,7 @@ controller.on('slash_command', async(bot, message) => {
     // the /command <parameters> part
     let parameter = message.text;
 
-    await bot.replyPublic('My response to your command is: ...');
+    await bot.replyPublic(message, 'My response to your command is: ...');
 
 });
 ```
@@ -340,3 +350,4 @@ Botkit is a part of the [Microsoft Bot Framework](https://dev.botframework.com).
 Want to contribute? [Read the contributor guide](https://github.com/howdyai/botkit/blob/master/CONTRIBUTING.md)
 
 Botkit is released under the [MIT Open Source license](https://github.com/howdyai/botkit/blob/master/LICENSE.md)
+
