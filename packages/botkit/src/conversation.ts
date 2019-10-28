@@ -576,6 +576,10 @@ export class BotkitConversation<O extends object = {}> extends Dialog<O> {
         // Let's interpret the current line of the script.
         const thread = this.script[step.thread];
 
+        if (!thread) {
+            throw new Error(`Thread '${step.thread}' not found, did you add any messages to it?`)
+        }
+
         // Capture the previous step value if there previous line included a prompt
         var previous = (step.index >= 1) ? thread[step.index - 1] : null;
         if (step.result && previous && previous.collect) {
