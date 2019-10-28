@@ -1116,7 +1116,7 @@ convo.ask('Do you want to eat a taco?', [
      handler: async(response, convo, bot) => {
          return await convo.gotoThread('no_taco');
      }
-  },
+  },s
   {
       default: true,
       handler: async(response, convo, bot) => {
