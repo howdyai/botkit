@@ -340,7 +340,8 @@ Load all Botkit feature modules located in a given folder.
 
 | Argument | Type | description
 |--- |--- |---
-| p| string | path to a folder of module files<br/>
+| p| string | path to a folder of module files
+| exts|  | the extensions that you would like to load (default: ['.js'])<br/>
 
 
 

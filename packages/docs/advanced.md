@@ -23,7 +23,7 @@ These were the goals we set out to achieve in creating the new version of Botkit
 
 ## What's different between 0.7 and 4.0?
 
-The [changelog](https://github.com/howdyai/botkit/blob/master/changelog.md) has lots of details on the new features.
+The [changelog](https://github.com/howdyai/botkit/blob/master/changelog.md#401) has lots of details on the new features.
 
 In addition, here are some notes on the major changes:
 
