@@ -443,6 +443,75 @@ describe('Botkit dialog', function() {
         assert(correct,'results did not match expected format');
     });
 
+    it('should allow cancel', async function() {
+
+        let after_fired = false;
+        const botConvo = new BotkitConversation('testConvo', bot);
+        botConvo.say('errr');
+        botConvo.say('boo');
+        botConvo.ask('huh?', async(response, convo, bot) => {
+            await bot.cancelAllDialogs();
+        },'wha');
+        botConvo.say('foo');
+        botConvo.after(async(results, bot) => {
+            after_fired = true;
+        });
+        bot.addDialog(botConvo);
+
+        // set up a test client
+        const client = new BotkitTestClient('test', bot, 'testConvo');
+        let msg = await client.sendActivity('..');
+        assert(msg.text == 'errr','no errr');
+        msg = await client.getNextReply();
+        assert(msg.text == 'boo','no boo');
+        msg = await client.getNextReply();
+        assert(msg.text == 'huh?', 'wrong prompt');
+        msg = await client.sendActivity('..');
+        assert(msg == null,'did not cancel');
+        msg = await client.getNextReply();
+        assert(msg == null,'did not cancel 2');
+        assert(after_fired === false, 'after fired after cancel');
+
+    });
+
+
+    it('should allow cancel inside child dialog', async function() {
+
+        let after_fired = false;
+        let after_fired2 = false;
+
+        const botConvo = new BotkitConversation('testConvo', bot);
+        const botConvo2 = new BotkitConversation('testConvo2', bot);
+        botConvo.say('hi');
+        botConvo.addChildDialog('testConvo2');
+        botConvo.say('foo');
+        botConvo2.ask('huh?', async(r, convo, bot) => {
+            await bot.cancelAllDialogs();
+        });
+        botConvo2.say('blarg');
+
+        botConvo.after(async(results, bot) => {
+            after_fired = true;
+        });
+        botConvo2.after(async(results, bot) => {
+            after_fired2 = true;
+        });
+
+        bot.addDialog(botConvo);
+        bot.addDialog(botConvo2);
+
+        // set up a test client
+        const client = new BotkitTestClient('test', bot, ['testConvo', 'testConvo2']);
+        let msg = await client.sendActivity('..');
+        assert(msg.text === 'hi', 'wrong msg 1');
+        msg = await client.getNextReply();
+        assert(msg.text == 'huh?', 'wrong msg 2');
+        msg = await client.sendActivity('..');
+        assert(msg == null, 'did not cancel');
+        assert(after_fired === false,'after dialog fired');
+        assert(after_fired2 === false,'after dialog of child fired');
+
+    });
     afterEach(async () => {
         await bot.shutdown();
     });

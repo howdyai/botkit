@@ -562,8 +562,12 @@ export class BotkitConversation<O extends object = {}> extends Dialog<O> {
      */
     public async resumeDialog(dc, reason, result): Promise<any> {
         // Increment step index and run step
-        const state = dc.activeDialog.state;
-        return await this.runStep(dc, state.stepIndex + 1, state.thread || 'default', reason, result);
+        if (dc.activeDialog) {
+            const state = dc.activeDialog.state;
+            return await this.runStep(dc, state.stepIndex + 1, state.thread || 'default', reason, result);
+        } else {
+            return Dialog.EndOfTurn;
+        }
     }
 
     /**
@@ -645,6 +649,11 @@ export class BotkitConversation<O extends object = {}> extends Dialog<O> {
                     }
                 }
             }
+        }
+
+        // was the dialog canceled during the last action?
+        if (!dc.activeDialog) {
+            return await this.end(dc);
         }
 
         // Handle the current step
@@ -745,12 +754,17 @@ export class BotkitConversation<O extends object = {}> extends Dialog<O> {
     public async end(dc: DialogContext): Promise<DialogTurnStatus> {
         // TODO: may have to move these around
         // shallow copy todo: may need deep copy
-        const result = {
-            ...dc.activeDialog.state.values
-        };
+        // protect against canceled dialog.
+        if (dc.activeDialog &&  dc.activeDialog.state) {
+            const result = {
+                ...dc.activeDialog.state.values
+            };
+            await dc.endDialog(result);
+            await this.runAfter(dc, result);
+        } else {
+            await dc.endDialog();
+        }
 
-        await dc.endDialog(result);
-        await this.runAfter(dc, result);
         return DialogTurnStatus.complete;
     }
 
@@ -942,6 +956,9 @@ export class BotkitConversation<O extends object = {}> extends Dialog<O> {
 
             await path.handler.call(this, step.result, convo, bot);
 
+            if (!dc.activeDialog) {
+                return false;   
+            }
             // did we just change threads? if so, restart this turn
             if (index !== step.index || thread_name !== step.thread) {
                 return await this.runStep(dc, step.index, step.thread, DialogReason.nextCalled, null);
