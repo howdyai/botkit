@@ -1,5 +1,9 @@
 # botbuilder-adapter-webex changelog
 
+# 1.0.5
+
+* Update to latest Webex API client library.
+
 # 1.0.3
 
 * Add support for [Adaptive Cards](https://developer.webex.com/blog/new-buttons-cards-webex-teams) thanks to [@darrenparkinson](https://github.com/howdyai/botkit/pull/1760)

@@ -1,6 +1,6 @@
 {
   "name": "botbuilder-adapter-webex",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "Connect Botkit or BotBuilder to Webex Teams",
   "main": "./lib/index.js",
   "typings": "./lib/index.d.ts",
@@ -37,7 +37,7 @@
     "botkit": "^4.5.0",
     "debug": "^4.1.0",
     "url": "^0.11.0",
-    "webex": "^1.75.0"
+    "webex": "^1.80.36"
   },
   "devDependencies": {
     "eslint": "^5.16.0",

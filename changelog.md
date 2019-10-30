@@ -13,6 +13,13 @@
 * correct mustache rendering from causing mutation of initial dialog script https://github.com/howdyai/botkit/pull/1761
 * Support .ts (or parameterized) file extensions for loadModules https://github.com/howdyai/botkit/pull/1777
 * The `text` field in a BotkitConversations can now be a function, which can be used to generated internationalized strings.  [DOCS HERE]() based on https://github.com/howdyai/botkit/pull/1747
+* Fix: allow BotkitPlugins to have additional fields https://github.com/howdyai/botkit/issues/1804
+* Fix: resolve issues where calling cancelAllDialogs() would crash https://github.com/howdyai/botkit/issues/1808
+* Fix: resolve issue where calling cancelAllDialogs() could cause repeat https://github.com/howdyai/botkit/issues/1830
+* Fix: resolve issue where calling convo.repeat() would cause errors https://github.com/howdyai/botkit/issues/1673 and https://github.com/howdyai/botkit/issues/1811
+* Add ability to test dialogs, see [DOCS HERE]()
+
+* Update yeoman generator to make all environment variables UPPERCASE
 
 # 4.5
 

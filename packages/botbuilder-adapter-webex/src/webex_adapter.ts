@@ -540,14 +540,7 @@ export class WebexAdapter extends BotAdapter {
                 .catch((err) => { console.error(err.toString()); });
         } else if (payload.resource === 'attachmentActions' && payload.event === 'created') {
 
-            // TODO: replace this with the native api call instead of this workaround.
-            let opts = {
-                service: 'hydra',
-                resource: `attachment/actions/${ payload.data.id }`
-            };
-
-            let decrypted_message = await this._api.messages.request(opts);
-            decrypted_message = decrypted_message.body;
+            let decrypted_message = await this._api.attachmentActions.get(payload.data);
 
             activity = {
                 id: decrypted_message.id,
