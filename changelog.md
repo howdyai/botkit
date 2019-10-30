@@ -21,6 +21,20 @@
 
 * Update yeoman generator to make all environment variables UPPERCASE
 
+This update includes the following packages:
+
+* Botkit v4.6.0
+* generator-botkit v4.6.0
+* [botbuilder-adapter-web v1.0.4](packages/botbuilder-adapter-web/CHANGELOG.md#104)
+* [botbuilder-adapter-slack v1.0.4](packages/botbuilder-adapter-slack/CHANGELOG.md#104)
+* [botbuilder-adapter-webex v1.0.2](packages/botbuilder-adapter-webex/CHANGELOG.md#102)
+* [botbuilder-adapter-facebook v1.0.4](packages/botbuilder-adapter-facebook/CHANGELOG.md#104)
+* [botbuilder-adapter-hangouts v1.0.3](packages/botbuilder-adapter-hangouts/CHANGELOG.md#103)
+* [botbuilder-adapter-twilio-sms v1.0.2](packages/botbuilder-adapter-twilio-sms/CHANGELOG.md#102)
+* [botkit-plugin-cms v1.0.2](packages/botkit-plugin-cms/CHANGELOG.md#102)
+
+
+
 # 4.5
 
 We're skipping a few version numbers here to keep in sync with the rest of [Microsoft Bot Framework](https://github.com/microsoft/botframework).
