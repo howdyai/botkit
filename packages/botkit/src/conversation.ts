@@ -600,7 +600,7 @@ export class BotkitConversation<O extends object = {}> extends Dialog<O> {
 
                 // did we just change threads? if so, restart this turn
                 if (index !== step.index || thread_name !== step.thread) {
-                    return await this.runStep(dc, step.index, step.thread, DialogReason.nextCalled, step.values);
+                    return await this.runStep(dc, step.index, step.thread, DialogReason.nextCalled);
                 }
             }
 
@@ -639,6 +639,7 @@ export class BotkitConversation<O extends object = {}> extends Dialog<O> {
                     }
 
                     var res = await this.handleAction(path, dc, step);
+
                     if (res !== false) {
                         return res;
                     }
@@ -725,7 +726,7 @@ export class BotkitConversation<O extends object = {}> extends Dialog<O> {
 
             // did we just change threads? if so, restart
             if (index !== step.index || thread_name !== step.thread) {
-                return await this.runStep(dc, step.index, step.thread, DialogReason.nextCalled, step.values);
+                return await this.runStep(dc, step.index, step.thread, DialogReason.nextCalled); // , step.values);
             }
         }
 
@@ -943,7 +944,7 @@ export class BotkitConversation<O extends object = {}> extends Dialog<O> {
 
             // did we just change threads? if so, restart this turn
             if (index !== step.index || thread_name !== step.thread) {
-                return await this.runStep(dc, step.index, step.thread, DialogReason.nextCalled, step.values);
+                return await this.runStep(dc, step.index, step.thread, DialogReason.nextCalled, null);
             }
 
             return false;
@@ -965,17 +966,20 @@ export class BotkitConversation<O extends object = {}> extends Dialog<O> {
         case 'execute_script':
             const ebot = await this._controller.spawn(dc);
 
-            return await ebot.replaceDialog(path.execute.script, {
+            await ebot.replaceDialog(path.execute.script, {
                 thread: path.execute.thread,
                 ...step.values
             });
+
+            return { status: DialogTurnStatus.waiting };
         case 'beginDialog':
             let rbot = await this._controller.spawn(dc);
 
-            return await rbot.beginDialog(path.execute.script, {
+            await rbot.beginDialog(path.execute.script, {
                 thread: path.execute.thread,
                 ...step.values
             });
+            return { status: DialogTurnStatus.waiting };
         case 'repeat':
             return await this.runStep(dc, step.index - 1, step.thread, DialogReason.nextCalled);
         case 'wait':
