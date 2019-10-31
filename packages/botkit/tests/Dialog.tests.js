@@ -512,6 +512,37 @@ describe('Botkit dialog', function() {
         assert(after_fired2 === false,'after dialog of child fired');
 
     });
+
+    it('should stop when convo.stop is called', async function() {
+
+        let after_fired = false;
+        const botConvo = new BotkitConversation('testConvo', bot);
+        botConvo.say('errr');
+        botConvo.say('boo');
+        botConvo.ask('huh?', async(response, convo, bot) => {
+            convo.stop();
+        },'wha');
+        botConvo.say('foo');
+        botConvo.after(async(results, bot) => {
+            after_fired = true;
+        });
+        bot.addDialog(botConvo);
+
+        // set up a test client
+        const client = new BotkitTestClient('test', bot, 'testConvo');
+        let msg = await client.sendActivity('..');
+        assert(msg.text == 'errr','no errr');
+        msg = await client.getNextReply();
+        assert(msg.text == 'boo','no boo');
+        msg = await client.getNextReply();
+        assert(msg.text == 'huh?', 'wrong prompt');
+        msg = await client.sendActivity('..');
+        assert(msg == null,'did not stop');
+        msg = await client.getNextReply();
+        assert(msg == null,'did not stop 2');
+        assert(after_fired === true, 'after fired after stop');
+
+    });
     afterEach(async () => {
         await bot.shutdown();
     });

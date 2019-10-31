@@ -59,6 +59,10 @@ export interface BotkitConversationStep {
      */
     thread: string;
     /**
+     * The length of the current thread
+     */
+    threadLength: number;
+    /**
      * A pointer to the current dialog state
      */
     state: any;
@@ -713,6 +717,7 @@ export class BotkitConversation<O extends object = {}> extends Dialog<O> {
         const nextCalled = false;
         const step = {
             index: index,
+            threadLength: this.script[thread_name].length,
             thread: thread_name,
             state: state,
             options: state.options,
