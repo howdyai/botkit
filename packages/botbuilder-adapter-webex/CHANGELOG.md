@@ -3,6 +3,7 @@
 # 1.0.5
 
 * Update to latest Webex API client library.
+* Fix to mention stripping to better support Webex web client formatting
 
 # 1.0.3
 

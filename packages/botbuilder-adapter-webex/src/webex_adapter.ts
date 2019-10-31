@@ -505,7 +505,7 @@ export class WebexAdapter extends BotAdapter {
 
             if (decrypted_message.html) {
                 // strip the mention & HTML from the message
-                let pattern = new RegExp('^(<p>)?<spark-mention .*?data-object-id="' + this.identity.id + '".*?>.*?</spark-mention>', 'im');
+                let pattern = new RegExp('^(<p>|<div>)?<spark-mention .*?data-object-id="' + this.identity.id + '".*?>.*?</spark-mention>', 'im');
                 if (!decrypted_message.html.match(pattern)) {
                     var encoded_id = this.identity.id;
                     var decoded = Buffer.from(encoded_id, 'base64').toString('ascii');
@@ -513,7 +513,7 @@ export class WebexAdapter extends BotAdapter {
                     // this should look like ciscospark://us/PEOPLE/<id string>
                     var matches;
                     if ((matches = decoded.match(/ciscospark:\/\/.*\/(.*)/im))) {
-                        pattern = new RegExp('^(<p>)?<spark-mention .*?data-object-id="' + matches[1] + '".*?>.*?</spark-mention>', 'im');
+                        pattern = new RegExp('^(<p>|<div>)?<spark-mention .*?data-object-id="' + matches[1] + '".*?>.*?</spark-mention>', 'im');
                     }
                 }
                 var action = decrypted_message.html.replace(pattern, '');
