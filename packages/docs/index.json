@@ -17633,7 +17633,7 @@
               },
               "comment": {
                 "shortText": "Reserved for use internally by Botkit's `controller.spawn()`, this class is used to create a BotWorker instance that can send messages, replies, and make other API calls.",
-                "text": "When used with the SlackAdapter's multi-tenancy mode, it is possible to spawn a bot instance by passing in the Slack workspace ID of a team that has installed the app.\nUse this in concert with [startPrivateConversation()](#startPrivateConversation) and [changeContext()](core.md#changecontext) to start conversations\nor send proactive alerts to users on a schedule or in response to external events.\n"
+                "text": "It is possible to spawn a bot instance by passing in the Slack workspace ID of a team that has installed the app.\nUse this in concert with [startPrivateConversation()](#startPrivateConversation) and [changeContext()](core.md#changecontext) to start conversations\nor send proactive alerts to users on a schedule or in response to external events.\n\n\n```javascript\n// spawn a bot for a given team.\nlet bot = await controller.spawn('T0123456');\n\n// start a 1:1 with a specific user\nawait bot.startPrivateConversation('U0123456');\n\n// send a message\nawait bot.say('Hi user');\n```\n"
               },
               "signatures": [
                 {
@@ -17644,7 +17644,7 @@
                   "flags": {},
                   "comment": {
                     "shortText": "Reserved for use internally by Botkit's `controller.spawn()`, this class is used to create a BotWorker instance that can send messages, replies, and make other API calls.",
-                    "text": "When used with the SlackAdapter's multi-tenancy mode, it is possible to spawn a bot instance by passing in the Slack workspace ID of a team that has installed the app.\nUse this in concert with [startPrivateConversation()](#startPrivateConversation) and [changeContext()](core.md#changecontext) to start conversations\nor send proactive alerts to users on a schedule or in response to external events.\n"
+                    "text": "It is possible to spawn a bot instance by passing in the Slack workspace ID of a team that has installed the app.\nUse this in concert with [startPrivateConversation()](#startPrivateConversation) and [changeContext()](core.md#changecontext) to start conversations\nor send proactive alerts to users on a schedule or in response to external events.\n\n\n```javascript\n// spawn a bot for a given team.\nlet bot = await controller.spawn('T0123456');\n\n// start a 1:1 with a specific user\nawait bot.startPrivateConversation('U0123456');\n\n// send a message\nawait bot.say('Hi user');\n```\n"
                   },
                   "parameters": [
                     {
@@ -17774,7 +17774,7 @@
               "sources": [
                 {
                   "fileName": "botworker.ts",
-                  "line": 342,
+                  "line": 354,
                   "character": 30
                 }
               ]
@@ -17832,7 +17832,7 @@
                                   "sources": [
                                     {
                                       "fileName": "botworker.ts",
-                                      "line": 280,
+                                      "line": 292,
                                       "character": 51
                                     }
                                   ],
@@ -17852,7 +17852,7 @@
                                   "sources": [
                                     {
                                       "fileName": "botworker.ts",
-                                      "line": 280,
+                                      "line": 292,
                                       "character": 36
                                     }
                                   ],
@@ -17875,7 +17875,7 @@
                               "sources": [
                                 {
                                   "fileName": "botworker.ts",
-                                  "line": 280,
+                                  "line": 292,
                                   "character": 30
                                 }
                               ]
@@ -17903,7 +17903,7 @@
                                     "sources": [
                                       {
                                         "fileName": "botworker.ts",
-                                        "line": 280,
+                                        "line": 292,
                                         "character": 84
                                       }
                                     ],
@@ -17923,7 +17923,7 @@
                                     "sources": [
                                       {
                                         "fileName": "botworker.ts",
-                                        "line": 280,
+                                        "line": 292,
                                         "character": 69
                                       }
                                     ],
@@ -17946,7 +17946,7 @@
                                 "sources": [
                                   {
                                     "fileName": "botworker.ts",
-                                    "line": 280,
+                                    "line": 292,
                                     "character": 62
                                   }
                                 ]
@@ -17966,7 +17966,7 @@
               "sources": [
                 {
                   "fileName": "botworker.ts",
-                  "line": 280,
+                  "line": 292,
                   "character": 22
                 }
               ]
@@ -18036,7 +18036,7 @@
               "sources": [
                 {
                   "fileName": "botworker.ts",
-                  "line": 191,
+                  "line": 203,
                   "character": 31
                 }
               ]
@@ -18106,7 +18106,7 @@
               "sources": [
                 {
                   "fileName": "botworker.ts",
-                  "line": 178,
+                  "line": 190,
                   "character": 30
                 }
               ]
@@ -18176,7 +18176,7 @@
               "sources": [
                 {
                   "fileName": "botworker.ts",
-                  "line": 238,
+                  "line": 250,
                   "character": 33
                 }
               ]
@@ -18246,7 +18246,7 @@
               "sources": [
                 {
                   "fileName": "botworker.ts",
-                  "line": 224,
+                  "line": 236,
                   "character": 29
                 }
               ]
@@ -18316,7 +18316,7 @@
               "sources": [
                 {
                   "fileName": "botworker.ts",
-                  "line": 211,
+                  "line": 223,
                   "character": 28
                 }
               ]
@@ -18386,7 +18386,7 @@
               "sources": [
                 {
                   "fileName": "botworker.ts",
-                  "line": 297,
+                  "line": 309,
                   "character": 32
                 }
               ]
@@ -18457,7 +18457,7 @@
               "sources": [
                 {
                   "fileName": "botworker.ts",
-                  "line": 127,
+                  "line": 139,
                   "character": 43
                 }
               ]
@@ -18542,7 +18542,7 @@
               "sources": [
                 {
                   "fileName": "botworker.ts",
-                  "line": 160,
+                  "line": 172,
                   "character": 42
                 }
               ]
@@ -18599,7 +18599,7 @@
               "sources": [
                 {
                   "fileName": "botworker.ts",
-                  "line": 85,
+                  "line": 97,
                   "character": 41
                 }
               ]
@@ -18662,7 +18662,7 @@
               "sources": [
                 {
                   "fileName": "botworker.ts",
-                  "line": 322,
+                  "line": 334,
                   "character": 30
                 }
               ]
@@ -18801,7 +18801,7 @@
               "sources": [
                 {
                   "fileName": "botworker.ts",
-                  "line": 342,
+                  "line": 354,
                   "character": 30
                 }
               ]
@@ -18859,7 +18859,7 @@
                                   "sources": [
                                     {
                                       "fileName": "botworker.ts",
-                                      "line": 280,
+                                      "line": 292,
                                       "character": 51
                                     }
                                   ],
@@ -18879,7 +18879,7 @@
                                   "sources": [
                                     {
                                       "fileName": "botworker.ts",
-                                      "line": 280,
+                                      "line": 292,
                                       "character": 36
                                     }
                                   ],
@@ -18902,7 +18902,7 @@
                               "sources": [
                                 {
                                   "fileName": "botworker.ts",
-                                  "line": 280,
+                                  "line": 292,
                                   "character": 30
                                 }
                               ]
@@ -18930,7 +18930,7 @@
                                     "sources": [
                                       {
                                         "fileName": "botworker.ts",
-                                        "line": 280,
+                                        "line": 292,
                                         "character": 84
                                       }
                                     ],
@@ -18950,7 +18950,7 @@
                                     "sources": [
                                       {
                                         "fileName": "botworker.ts",
-                                        "line": 280,
+                                        "line": 292,
                                         "character": 69
                                       }
                                     ],
@@ -18973,7 +18973,7 @@
                                 "sources": [
                                   {
                                     "fileName": "botworker.ts",
-                                    "line": 280,
+                                    "line": 292,
                                     "character": 62
                                   }
                                 ]
@@ -18993,7 +18993,7 @@
               "sources": [
                 {
                   "fileName": "botworker.ts",
-                  "line": 280,
+                  "line": 292,
                   "character": 22
                 }
               ]
@@ -19063,7 +19063,7 @@
               "sources": [
                 {
                   "fileName": "botworker.ts",
-                  "line": 191,
+                  "line": 203,
                   "character": 31
                 }
               ]
@@ -19133,7 +19133,7 @@
               "sources": [
                 {
                   "fileName": "botworker.ts",
-                  "line": 178,
+                  "line": 190,
                   "character": 30
                 }
               ]
@@ -19203,7 +19203,7 @@
               "sources": [
                 {
                   "fileName": "botworker.ts",
-                  "line": 238,
+                  "line": 250,
                   "character": 33
                 }
               ]
@@ -19273,7 +19273,7 @@
               "sources": [
                 {
                   "fileName": "botworker.ts",
-                  "line": 224,
+                  "line": 236,
                   "character": 29
                 }
               ]
@@ -19343,7 +19343,7 @@
               "sources": [
                 {
                   "fileName": "botworker.ts",
-                  "line": 211,
+                  "line": 223,
                   "character": 28
                 }
               ]
@@ -19413,7 +19413,7 @@
               "sources": [
                 {
                   "fileName": "botworker.ts",
-                  "line": 297,
+                  "line": 309,
                   "character": 32
                 }
               ]
@@ -19484,7 +19484,7 @@
               "sources": [
                 {
                   "fileName": "botworker.ts",
-                  "line": 127,
+                  "line": 139,
                   "character": 43
                 }
               ]
@@ -19569,7 +19569,7 @@
               "sources": [
                 {
                   "fileName": "botworker.ts",
-                  "line": 160,
+                  "line": 172,
                   "character": 42
                 }
               ]
@@ -19626,7 +19626,7 @@
               "sources": [
                 {
                   "fileName": "botworker.ts",
-                  "line": 85,
+                  "line": 97,
                   "character": 41
                 }
               ]
@@ -19689,7 +19689,7 @@
               "sources": [
                 {
                   "fileName": "botworker.ts",
-                  "line": 322,
+                  "line": 334,
                   "character": 30
                 }
               ]
@@ -19708,7 +19708,7 @@
               },
               "comment": {
                 "shortText": "Reserved for use internally by Botkit's `controller.spawn()`, this class is used to create a BotWorker instance that can send messages, replies, and make other API calls.",
-                "text": "When used with the SlackAdapter's multi-tenancy mode, it is possible to spawn a bot instance by passing in the Slack workspace ID of a team that has installed the app.\nUse this in concert with [startPrivateConversation()](#startPrivateConversation) and [changeContext()](core.md#changecontext) to start conversations\nor send proactive alerts to users on a schedule or in response to external events.\n"
+                "text": "It is possible to spawn a bot instance by passing in the Slack workspace ID of a team that has installed the app.\nUse this in concert with [startPrivateConversation()](#startPrivateConversation) and [changeContext()](core.md#changecontext) to start conversations\nor send proactive alerts to users on a schedule or in response to external events.\n\n\n```javascript\n// spawn a bot for a given team.\nlet bot = await controller.spawn('T0123456');\n\n// start a 1:1 with a specific user\nawait bot.startPrivateConversation('U0123456');\n\n// send a message\nawait bot.say('Hi user');\n```\n"
               },
               "signatures": [
                 {
@@ -19719,7 +19719,7 @@
                   "flags": {},
                   "comment": {
                     "shortText": "Reserved for use internally by Botkit's `controller.spawn()`, this class is used to create a BotWorker instance that can send messages, replies, and make other API calls.",
-                    "text": "When used with the SlackAdapter's multi-tenancy mode, it is possible to spawn a bot instance by passing in the Slack workspace ID of a team that has installed the app.\nUse this in concert with [startPrivateConversation()](#startPrivateConversation) and [changeContext()](core.md#changecontext) to start conversations\nor send proactive alerts to users on a schedule or in response to external events.\n"
+                    "text": "It is possible to spawn a bot instance by passing in the Slack workspace ID of a team that has installed the app.\nUse this in concert with [startPrivateConversation()](#startPrivateConversation) and [changeContext()](core.md#changecontext) to start conversations\nor send proactive alerts to users on a schedule or in response to external events.\n\n\n```javascript\n// spawn a bot for a given team.\nlet bot = await controller.spawn('T0123456');\n\n// start a 1:1 with a specific user\nawait bot.startPrivateConversation('U0123456');\n\n// send a message\nawait bot.say('Hi user');\n```\n"
                   },
                   "parameters": [
                     {
