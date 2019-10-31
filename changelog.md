@@ -17,7 +17,9 @@
 * Fix: resolve issues where calling cancelAllDialogs() would crash https://github.com/howdyai/botkit/issues/1808
 * Fix: resolve issue where calling cancelAllDialogs() could cause repeat https://github.com/howdyai/botkit/issues/1830
 * Fix: resolve issue where calling convo.repeat() would cause errors https://github.com/howdyai/botkit/issues/1673 and https://github.com/howdyai/botkit/issues/1811
+
 * Add ability to test dialogs, see [DOCS HERE]()
+* Add `convo.stop()` to allow conversation to be ended inside a handler.
 
 * Update yeoman generator to make all environment variables UPPERCASE
 
