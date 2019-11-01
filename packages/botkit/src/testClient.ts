@@ -45,8 +45,8 @@ export class BotkitTestClient {
      * @param middlewares (Optional) a stack of middleware to be run when testing
      * @param conversationState (Optional) A ConversationState instance to use in the test client
      */
-    public constructor(channelId: string, bot: Botkit, dialogToTest: string | string[], initialDialogOptions?: any, middlewares?: Middleware[], conversationState?: ConversationState);
-    public constructor(testAdapter: TestAdapter, bot: Botkit, dialogToTest: string | string[], initialDialogOptions?: any, middlewares?: Middleware[], conversationState?: ConversationState)
+    constructor(channelId: string, bot: Botkit, dialogToTest: string | string[], initialDialogOptions?: any, middlewares?: Middleware[], conversationState?: ConversationState)
+    constructor(testAdapter: TestAdapter, bot: Botkit, dialogToTest: string | string[], initialDialogOptions?: any, middlewares?: Middleware[], conversationState?: ConversationState)
     constructor(channelOrAdapter: string | TestAdapter, bot: Botkit, dialogToTest: string | string[], initialDialogOptions?: any, middlewares?: Middleware[], conversationState?: ConversationState) {
         this.conversationState = conversationState || new ConversationState(new MemoryStorage());
 
