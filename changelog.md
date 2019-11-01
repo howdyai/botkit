@@ -10,7 +10,7 @@ Version 4.6 includes security and bugfix updates to many dependencies, as well a
 We recommend updating both Botkit core and your platform adapter to the latest version.
 
 **New Features**
-* Add a new `BotkitTestClient` class that makes it possible to write unit tests for dialogs, see [DOCS HERE](https://botkit.ai/docs/v4/) --- [HUGE HUGE thanks to @qwertyuu for leading the effort on this!](https://github.com/howdyai/botkit/pull/1815)
+* Add a new `BotkitTestClient` class that makes it possible to write unit tests for dialogs, see [DOCS HERE](https://botkit.ai/docs/v4/reference/core.html#BotkitTestClient) --- [HUGE HUGE thanks to @qwertyuu for leading the effort on this!](https://github.com/howdyai/botkit/pull/1815)
 * Support .ts (or parameterized) file extensions for loadModules [Thanks to @mutmatt for the PR](https://github.com/howdyai/botkit/pull/1777)
 * The `text` field in a BotkitConversations can now be a function, which can be used to generated internationalized strings. [Thanks to @cooperka for the PR](https://github.com/howdyai/botkit/pull/1747)
 * Add `convo.stop()` to allow conversation to be ended inside a handler.
