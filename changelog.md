@@ -39,6 +39,13 @@ This update includes the following packages:
 * [botbuilder-adapter-twilio-sms v1.0.4](packages/botbuilder-adapter-twilio-sms/CHANGELOG.md#104)
 * [botkit-plugin-cms v1.0.3](packages/botkit-plugin-cms/CHANGELOG.md#103)
 
+# 0.7.5
+
+A maintenance release to the legacy branch was released as 0.7.5.
+
+* Update out of date dependencies to address security issues
+* Add support for Slack's new modals
+
 # 4.5
 
 We're skipping a few version numbers here to keep in sync with the rest of [Microsoft Bot Framework](https://github.com/microsoft/botframework).
