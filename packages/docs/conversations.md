@@ -250,12 +250,12 @@ The object's name is {{vars.object.name}}.
 Botkit ensures that your template is a valid Mustache template, and passes the variables you specify directly to the Mustache template rendering system.
 Our philosophy is that it is OK to stuff whatever type of information your conversation needs into these variables and use them as you please!
 
-## Dynamic Quick Replies and Attachments
+## Dynamic Text, Quick Replies and Attachments
 
 In some cases, developers will need to create dynamic quick replies and/or attachments to the messages within an otherwise pre-scripted dialog.
 As of Botkit v4.5, this can be achieved by specifying a function responsible for generating this content as part of the message template.
 
-Functions may be passed in in the `quick_replies`, `attachment`, `attachments` and `blocks` fields.  All of these functions share the same signature:
+Functions may be passed in in the `text`, `quick_replies`, `attachment`, `attachments` and `blocks` fields.  All of these functions share the same signature:
 `async(message_template, vars) => { return CONTENT; }`
 
 The `message_template` parameter includes the entire template initially passed in to `ask()` or `say()` or any other function used to construct the dialog structure.

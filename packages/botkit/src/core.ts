@@ -166,6 +166,7 @@ export interface BotkitPlugin {
         [key: string]: any[];
     };
     init?: (botkit: Botkit) => void;
+    [key: string]: any; // allow arbitrary additional fields to be added.
 }
 
 /**

@@ -1,5 +1,9 @@
 # botbuilder-adapter-slack changelog
 
+# 1.0.6
+
+* Update dependencies (Bot Framework to 4.6, Botkit to 4.6)
+
 # 1.0.5
 
 * Add support for using the new [Block Kit modals](https://api.slack.com/block-kit/surfaces/modals).  Check out [this sample code for examples of using them](https://github.com/howdyai/botkit/blob/master/packages/testbot/features/slack_modals.js).
