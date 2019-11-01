@@ -6,36 +6,38 @@
 
 # 4.6
 
-* Fix usePlugin parameter type declaration #1836 https://github.com/howdyai/botkit/pull/1836
-* Fix ask/addQuestion type signatures https://github.com/howdyai/botkit/pull/1818
-* Fix to how messages are constructed inside BotkitConversations. https://github.com/howdyai/botkit/pull/1746
-* Fail with better error when thread not found https://github.com/howdyai/botkit/pull/1758
-* correct mustache rendering from causing mutation of initial dialog script https://github.com/howdyai/botkit/pull/1761
-* Support .ts (or parameterized) file extensions for loadModules https://github.com/howdyai/botkit/pull/1777
-* The `text` field in a BotkitConversations can now be a function, which can be used to generated internationalized strings.  [DOCS HERE]() based on https://github.com/howdyai/botkit/pull/1747
-* Fix: allow BotkitPlugins to have additional fields https://github.com/howdyai/botkit/issues/1804
-* Fix: resolve issues where calling cancelAllDialogs() would crash https://github.com/howdyai/botkit/issues/1808
-* Fix: resolve issue where calling cancelAllDialogs() could cause repeat https://github.com/howdyai/botkit/issues/1830
-* Fix: resolve issue where calling convo.repeat() would cause errors https://github.com/howdyai/botkit/issues/1673 and https://github.com/howdyai/botkit/issues/1811
+Version 4.6 includes security and bugfix updates to many dependencies, as well as fixes to some issues in Botkit core.
+We recommend updating both Botkit core and your platform adapter to the latest version.
 
-* Add ability to test dialogs, see [DOCS HERE]()
+**New Features**
+* Add a new `DialogTestClient` class that makes it possible to write unit tests for dialogs, see [DOCS HERE]() --- [HUGE HUGE thanks to @qwertyuu for leading the effort on this!](https://github.com/howdyai/botkit/pull/1815)
+* Support .ts (or parameterized) file extensions for loadModules [Thanks to @mutmatt for the PR](https://github.com/howdyai/botkit/pull/1777)
+* The `text` field in a BotkitConversations can now be a function, which can be used to generated internationalized strings. [Thanks to @cooperka for the PR](https://github.com/howdyai/botkit/pull/1747)
 * Add `convo.stop()` to allow conversation to be ended inside a handler.
-
 * Update yeoman generator to make all environment variables UPPERCASE
+
+**Fixes**
+* Fix usePlugin parameter type declaration [thanks to @etiennellipse](https://github.com/howdyai/botkit/pull/1836)
+* Fix ask/addQuestion type signatures [thanks to @etiennellipse](https://github.com/howdyai/botkit/pull/1818)
+* Fix to how messages are constructed inside BotkitConversations. [thanks to @adantoscano](https://github.com/howdyai/botkit/pull/1746)
+* Fail with better error when thread not found [Thanks to @cooperka](https://github.com/howdyai/botkit/pull/1758)
+* correct mustache rendering from causing mutation of initial dialog script [Thanks to @InnoraG](https://github.com/howdyai/botkit/pull/1761)
+* Fix: allow BotkitPlugins to have additional fields [Thanks to @roeintense](https://github.com/howdyai/botkit/issues/1804)
+* Fix: resolve issues where calling cancelAllDialogs() would crash [thanks to @etiennellipse](https://github.com/howdyai/botkit/issues/1808)
+* Fix: resolve issue where calling cancelAllDialogs() could cause repeat [thanks to @chahat-arora](https://github.com/howdyai/botkit/issues/1830)
+* Fix: resolve issue where calling convo.repeat() would cause errors [thanks to akshaykonjier](https://github.com/howdyai/botkit/issues/1673) and [also to @etiennellipse](https://github.com/howdyai/botkit/issues/1811)
 
 This update includes the following packages:
 
 * Botkit v4.6.0
 * generator-botkit v4.6.0
-* [botbuilder-adapter-web v1.0.4](packages/botbuilder-adapter-web/CHANGELOG.md#104)
-* [botbuilder-adapter-slack v1.0.4](packages/botbuilder-adapter-slack/CHANGELOG.md#104)
-* [botbuilder-adapter-webex v1.0.2](packages/botbuilder-adapter-webex/CHANGELOG.md#102)
-* [botbuilder-adapter-facebook v1.0.4](packages/botbuilder-adapter-facebook/CHANGELOG.md#104)
-* [botbuilder-adapter-hangouts v1.0.3](packages/botbuilder-adapter-hangouts/CHANGELOG.md#103)
-* [botbuilder-adapter-twilio-sms v1.0.2](packages/botbuilder-adapter-twilio-sms/CHANGELOG.md#102)
-* [botkit-plugin-cms v1.0.2](packages/botkit-plugin-cms/CHANGELOG.md#102)
-
-
+* [botbuilder-adapter-web v1.0.5](packages/botbuilder-adapter-web/CHANGELOG.md#105)
+* [botbuilder-adapter-slack v1.0.6](packages/botbuilder-adapter-slack/CHANGELOG.md#106)
+* [botbuilder-adapter-webex v1.0.4](packages/botbuilder-adapter-webex/CHANGELOG.md#104)
+* [botbuilder-adapter-facebook v1.0.6](packages/botbuilder-adapter-facebook/CHANGELOG.md#106)
+* [botbuilder-adapter-hangouts v1.0.4](packages/botbuilder-adapter-hangouts/CHANGELOG.md#103)
+* [botbuilder-adapter-twilio-sms v1.0.4](packages/botbuilder-adapter-twilio-sms/CHANGELOG.md#104)
+* [botkit-plugin-cms v1.0.3](packages/botkit-plugin-cms/CHANGELOG.md#103)
 
 # 4.5
 

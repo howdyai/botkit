@@ -4,6 +4,7 @@
 
 * Update to latest Webex API client library.
 * Fix to mention stripping to better support Webex web client formatting
+* Update dependencies (Bot Framework to 4.6, Botkit to 4.6)
 
 # 1.0.3
 

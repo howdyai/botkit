@@ -4,9 +4,7 @@
 
 * Query parameters for GET apis can now be passed in using an object parameter (like POST): https://github.com/howdyai/botkit/pull/1768
 
-
-Fb api query params #1768
-
+* Update dependencies (Bot Framework to 4.6, Botkit to 4.6)
 
 # 1.0.5
 
