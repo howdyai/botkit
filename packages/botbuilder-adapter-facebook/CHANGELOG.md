@@ -2,7 +2,7 @@
 
 # 1.0.6
 
-* Query parameters for GET apis can now be passed in using an object parameter (like POST): https://github.com/howdyai/botkit/pull/1768
+* Query parameters for GET apis can now be passed in using an object parameter (like POST): [Thanks to @adantoscano](https://github.com/howdyai/botkit/pull/1768)
 
 * Update dependencies (Bot Framework to 4.6, Botkit to 4.6)
 
