@@ -7,3 +7,4 @@
  */
 
 export * from './cms';
+export * from './cms-local';
