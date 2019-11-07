@@ -74,6 +74,8 @@ export class BotkitCMSHelper {
         this.loadAllScripts(this._controller).then(() => {
             debug('Dialogs loaded from Botkit CMS');
             this._controller.completeDep('cms');
+        }).catch((err) => {
+            console.error(`****************************************************************\n${ err }\n****************************************************************`);
         });
     }
 
@@ -96,6 +98,9 @@ export class BotkitCMSHelper {
                     return reject(err);
                 } else {
                     debug('Raw results from Botkit CMS: ', body);
+                    if (body === 'Invalid access token') {
+                        return reject('Failed to load Botkit CMS content: Invalid access token provided.\nMake sure the token passed into the CMS plugin matches the token set in the CMS .env file.');
+                    }
                     let json = null;
                     try {
                         json = JSON.parse(body);

@@ -65,8 +65,8 @@ The SlackAdapter can be used in 2 modes:
 Use with Botkit:
 ```javascript
 const adapter = new SlackAdapter({
-     clientSigningSecret: process.env.SLACK_SECRET,
-     botToken: process.env.SLACK_TOKEN
+     clientSigningSecret: process.env.CLIENT_SIGNING_SECRET,
+     botToken: process.env.BOT_TOKEN
 });
 const controller = new Botkit({
      adapter: adapter,
@@ -77,8 +77,8 @@ const controller = new Botkit({
 Use with BotBuilder:
 ```javascript
 const adapter = new SlackAdapter({
-     clientSigningSecret: process.env.SLACK_SECRET,
-     botToken: process.env.SLACK_TOKEN
+     clientSigningSecret: process.env.CLIENT_SIGNING_SECRET,
+     botToken: process.env.BOT_TOKEN
 });
 // set up restify...
 const server = restify.createServer();
@@ -93,9 +93,9 @@ server.post('/api/messages', (req, res) => {
 Use in "Slack app" multi-team mode:
 ```javascript
 const adapter = new SlackAdapter({
-    clientSigningSecret: process.env.SLACK_SECRET,
-    clientId: process.env.CLIENTID, // oauth client id
-    clientSecret: process.env.CLIENTSECRET, // oauth client secret
+    clientSigningSecret: process.env.CLIENT_SIGNING_SECRET,
+    clientId: process.env.CLIENT_ID, // oauth client id
+    clientSecret: process.env.CLIENT_SECRET, // oauth client secret
     scopes: ['bot'], // oauth scopes requested
     redirectUri: process.env.REDIRECT_URI, // url to redirect post login defaults to `https://<mydomain>/install/auth`
     getTokenForTeam: async(team_id) => Promise<string>, // function that returns a token based on team id
@@ -318,9 +318,21 @@ This class includes the following methods:
 
 Reserved for use internally by Botkit's `controller.spawn()`, this class is used to create a BotWorker instance that can send messages, replies, and make other API calls.
 
-When used with the SlackAdapter's multi-tenancy mode, it is possible to spawn a bot instance by passing in the Slack workspace ID of a team that has installed the app.
+It is possible to spawn a bot instance by passing in the Slack workspace ID of a team that has installed the app.
 Use this in concert with [startPrivateConversation()](#startPrivateConversation) and [changeContext()](core.md#changecontext) to start conversations
 or send proactive alerts to users on a schedule or in response to external events.
+
+
+```javascript
+// spawn a bot for a given team.
+let bot = await controller.spawn('T0123456');
+
+// start a 1:1 with a specific user
+await bot.startPrivateConversation('U0123456');
+
+// send a message
+await bot.say('Hi user');
+```
 
 
 

@@ -45,18 +45,34 @@ export class BotkitTestClient {
      * @param middlewares (Optional) a stack of middleware to be run when testing
      * @param conversationState (Optional) A ConversationState instance to use in the test client
      */
-    public constructor(channelId: string, bot: Botkit, dialogToTest: string, initialDialogOptions?: any, middlewares?: Middleware[], conversationState?: ConversationState);
-    public constructor(testAdapter: TestAdapter, bot: Botkit, dialogToTest: string, initialDialogOptions?: any, middlewares?: Middleware[], conversationState?: ConversationState)
-    constructor(channelOrAdapter: string | TestAdapter, bot: Botkit, dialogToTest: string, initialDialogOptions?: any, middlewares?: Middleware[], conversationState?: ConversationState) {
+    constructor(channelId: string, bot: Botkit, dialogToTest: string | string[], initialDialogOptions?: any, middlewares?: Middleware[], conversationState?: ConversationState)
+    constructor(testAdapter: TestAdapter, bot: Botkit, dialogToTest: string | string[], initialDialogOptions?: any, middlewares?: Middleware[], conversationState?: ConversationState)
+    constructor(channelOrAdapter: string | TestAdapter, bot: Botkit, dialogToTest: string | string[], initialDialogOptions?: any, middlewares?: Middleware[], conversationState?: ConversationState) {
         this.conversationState = conversationState || new ConversationState(new MemoryStorage());
 
         let dialogState = this.conversationState.createProperty('DialogState');
 
-        const targetDialogs = [
-            bot.dialogSet.find(dialogToTest),
-            bot.dialogSet.find(dialogToTest + '_default_prompt'),
-            bot.dialogSet.find(dialogToTest + ':botkit-wrapper'),
-        ];
+        let targetDialogs = [];
+        if (Array.isArray(dialogToTest)) {
+            dialogToTest.forEach((dialogName) => {
+                targetDialogs.push(
+                    bot.dialogSet.find(dialogName)
+                );
+                targetDialogs.push(
+                    bot.dialogSet.find(dialogName + '_default_prompt')
+                );
+                targetDialogs.push(
+                    bot.dialogSet.find(dialogName + ':botkit-wrapper')
+                );
+            });
+            dialogToTest = dialogToTest[0];
+        } else {
+            targetDialogs = [
+                bot.dialogSet.find(dialogToTest),
+                bot.dialogSet.find(dialogToTest + '_default_prompt'),
+                bot.dialogSet.find(dialogToTest + ':botkit-wrapper'),
+            ];
+        }
 
         this._callback = this.getDefaultCallback(targetDialogs, initialDialogOptions || null, dialogState);
 

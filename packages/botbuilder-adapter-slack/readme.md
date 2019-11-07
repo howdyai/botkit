@@ -70,6 +70,16 @@ server.post('/api/messages', (req, res) => {
 });
 ```
 
+### Important URLs
+
+Your bot application will present several important URLs. You'll need to configure your Slack application profile with these urls.
+
+The messaging endpoint, which receives all events from Slack is: `https://YOURBOT/api/messages`
+
+The default "install" URL that triggers the oauth flow for multi-team installation is `https://YOURBOT/install`
+
+The oauth callback URL (or "redirect uri") that should be added to your Slack application profile is `https://YOURBOT/install/auth`
+
 ### Multi-team Support
 
 In the examples above, the `SlackAdapter` constructor received a single `botToken` parameters. This binds the adapter and all API calls it makes to a single Slack workspace.
@@ -226,13 +236,14 @@ await bot.reply(message, content);
 Attachments are still supported by Slack, but the preferred way is to use Block Kit. [Read the official Slack documentation here](https://api.slack.com/reference/messaging/attachments)
 
 
-### [Spawn a worker for a specific team](../docs/reference/slack.md#create-a-new-slackbotworker)
+### [Spawn a worker](../docs/reference/slack.md#create-a-new-slackbotworker)
 
-For a bot that works with multiple teams, it is possible to spawn bot workers bound to a specific team by passing the team ID as the primary parameter to `controller.spawn()`:
+It is possible to spawn bot workers bound to a specific team by passing the team ID as the primary parameter to `controller.spawn()`:
 
 ```javascript
 let bot = await controller.spawn(SLACK_TEAM_ID);
 ```
+
 ### Start or resume conversations with people
 
 Use these method to initiate a conversation with a user, or in a specific channel or thread. After calling these methods, any further actions carried out by the bot worker will happen in that context.
@@ -262,7 +273,7 @@ controller.on('slash_command', async(bot, message) => {
     // the /command <parameters> part
     let parameter = message.text;
 
-    await bot.replyPublic('My response to your command is: ...');
+    await bot.replyPublic(message, 'My response to your command is: ...');
 
 });
 ```
