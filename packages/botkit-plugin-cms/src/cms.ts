@@ -36,16 +36,16 @@ export class BotkitCMSHelper extends CmsPluginCore implements BotkitPlugin {
     /**
      * Botkit Plugin name
      */
-    public name: string = 'Botkit CMS';
+    public name = 'Botkit CMS';
 
     public constructor(config: CMSOptions) {
         super();
-        
+
         this._config = config;
         if (config.controller) {
             this._controller = this._config.controller;
         }
-        
+
         // for backwards compat, handle these alternate locations
         if (this._config.cms_uri && !this._config.uri) {
             this._config.uri = this._config.cms_uri;
@@ -83,8 +83,8 @@ export class BotkitCMSHelper extends CmsPluginCore implements BotkitPlugin {
         });
     }
 
-    private async apiRequest(uri: string, params: {[key: string]: any} = {}, method: string = 'GET'): Promise<any> {
-        let req = {
+    private async apiRequest(uri: string, params: {[key: string]: any} = {}, method = 'GET'): Promise<any> {
+        const req = {
             uri: url.resolve(this._config.uri, uri + '?access_token=' + this._config.token),
             headers: {
                 'content-type': 'application/json'
@@ -140,21 +140,21 @@ export class BotkitCMSHelper extends CmsPluginCore implements BotkitPlugin {
 
     /**
      * Load all script content from the configured CMS instance into a DialogSet and prepare them to be used.
-     * @param dialogSet A DialogSet into which the dialogs should be loaded.  In most cases, this is `controller.dialogSet`, allowing Botkit to access these dialogs through `bot.beginDialog()`.
+     * @param botkit The Botkit controller instance
      */
     public async loadAllScripts(botkit: Botkit): Promise<void> {
-        var scripts = await this.getScripts();
+        const scripts = await this.getScripts();
 
         scripts.forEach((script) => {
             // map threads from array to object
-            let threads = {};
+            const threads = {};
             script.script.forEach((thread) => {
                 threads[thread.topic] = thread.script.map(this.mapFields);
             });
 
-            let d = new BotkitConversation(script.command, this._controller);
-            d.script = threads;
-            botkit.addDialog(d);
+            const dialog = new BotkitConversation(script.command, this._controller);
+            dialog.script = threads;
+            botkit.addDialog(dialog);
         });
     }
 
@@ -162,7 +162,7 @@ export class BotkitCMSHelper extends CmsPluginCore implements BotkitPlugin {
      * Uses the Botkit CMS trigger API to test an incoming message against a list of predefined triggers.
      * If a trigger is matched, the appropriate dialog will begin immediately.
      * @param bot The current bot worker instance
-     * @param message An incoming message to be interpretted
+     * @param message An incoming message to be interpreted
      * @returns Returns false if a dialog is NOT triggered, otherwise returns void.
      */
     public async testTrigger(bot: BotWorker, message: Partial<BotkitMessage>): Promise<any> {

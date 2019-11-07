@@ -21,7 +21,7 @@ export abstract class CmsPluginCore {
 
         // we might have a facebook attachment in fb_attachments
         if (line.fb_attachment) {
-            let attachment = line.fb_attachment;
+            const attachment = line.fb_attachment;
             if (attachment.template_type) {
                 if (attachment.template_type === 'button') {
                     attachment.text = line.text[0];
@@ -39,7 +39,7 @@ export abstract class CmsPluginCore {
 
             // remove blank button array if specified
             if (line.channelData.attachment.payload.elements) {
-                for (var e = 0; e < line.channelData.attachment.payload.elements.length; e++) {
+                for (let e = 0; e < line.channelData.attachment.payload.elements.length; e++) {
                     if (!line.channelData.attachment.payload.elements[e].buttons || !line.channelData.attachment.payload.elements[e].buttons.length) {
                         delete (line.channelData.attachment.payload.elements[e].buttons);
                     }
@@ -69,7 +69,7 @@ export abstract class CmsPluginCore {
 
         // handle additional custom fields defined in Botkit-CMS
         if (line.meta) {
-            for (var a = 0; a < line.meta.length; a++) {
+            for (let a = 0; a < line.meta.length; a++) {
                 line.channelData[line.meta[a].key] = line.meta[a].value;
             }
             delete (line.meta);
@@ -97,7 +97,7 @@ export abstract class CmsPluginCore {
      * @param handler A handler function in the form async(convo, bot) => {}
      */
     public before(script_name: string, thread_name: string, handler: (convo: BotkitDialogWrapper, bot: BotWorker) => Promise<void>): void {
-        let dialog = this._controller.dialogSet.find(script_name) as BotkitConversation;
+        const dialog = this._controller.dialogSet.find(script_name) as BotkitConversation;
         if (dialog) {
             dialog.before(thread_name, handler);
         } else {
@@ -122,7 +122,7 @@ export abstract class CmsPluginCore {
      * @param handler A handler function in the form async(value, convo, bot) => {}
      */
     public onChange(script_name: string, variable_name: string, handler: (value: any, convo: BotkitDialogWrapper, bot: BotWorker) => Promise<void>): void {
-        let dialog = this._controller.dialogSet.find(script_name) as BotkitConversation;
+        const dialog = this._controller.dialogSet.find(script_name) as BotkitConversation;
         if (dialog) {
             dialog.onChange(variable_name, handler);
         } else {
@@ -146,7 +146,7 @@ export abstract class CmsPluginCore {
      * @param handler A handler function in the form async(results, bot) => {}
      */
     public after(script_name: string, handler: (results: any, bot: BotWorker) => Promise<void>): void {
-        let dialog = this._controller.dialogSet.find(script_name) as BotkitConversation;
+        const dialog = this._controller.dialogSet.find(script_name) as BotkitConversation;
         if (dialog) {
             dialog.after(handler);
         } else {

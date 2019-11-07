@@ -6,11 +6,10 @@
  * Licensed under the MIT License.
  */
 
-import { Botkit, BotkitConversation, BotkitMessage, BotkitPlugin, BotWorker } from "botkit";
+import { Botkit, BotkitConversation, BotkitMessage, BotkitPlugin, BotWorker } from 'botkit';
 import { CmsPluginCore } from './plugin-core';
 
 const debug = require('debug')('botkit:cms-local');
-
 
 /**
  * A plugin for Botkit that provides access to local scripts in [Botkit CMS](https://github.com/howdyai/botkit-cms) format,
@@ -34,7 +33,7 @@ export class BotkitCmsLocalPlugin extends CmsPluginCore implements BotkitPlugin 
     private _config: LocalCmsOptions;
     protected _controller: Botkit;
 
-    public name: string = 'Botkit CMS local';
+    public name = 'Botkit CMS local';
 
     /**
      * Constructor
@@ -46,10 +45,10 @@ export class BotkitCmsLocalPlugin extends CmsPluginCore implements BotkitPlugin 
         this._config = config;
 
         if (!this._config.path) {
-            throw new Error("Scripts paths must be set to use Botkit CMS local plugin.");
+            throw new Error('Scripts paths must be set to use Botkit CMS local plugin.');
         }
         if (!this._config.cms) {
-            throw new Error("CMS must be set to use Botkit CMS local plugin.");
+            throw new Error('CMS must be set to use Botkit CMS local plugin.');
         }
     }
 
@@ -66,21 +65,20 @@ export class BotkitCmsLocalPlugin extends CmsPluginCore implements BotkitPlugin 
         this._config.cms.loadScriptsFromFile(this._config.path).then((scripts) => {
             scripts.forEach((script) => {
                 // map threads from array to object
-                let threads = {};
+                const threads = {};
                 script.script.forEach((thread) => {
                     threads[thread.topic] = thread.script.map(this.mapFields);
                 });
 
-                let d = new BotkitConversation(script.command, this._controller);
-                d.script = threads;
-                this._controller.addDialog(d);
+                const dialog = new BotkitConversation(script.command, this._controller);
+                dialog.script = threads;
+                this._controller.addDialog(dialog);
             });
 
             debug('Dialogs loaded from Botkit CMS local file');
             this._controller.completeDep('cms');
-
         }).catch((err) => {
-            console.error("Error loading Botkit CMS local scripts!");
+            console.error('Error loading Botkit CMS local scripts!');
             console.error(`****************************************************************\n${ err }\n****************************************************************`);
         });
     }
@@ -100,16 +98,16 @@ export class BotkitCmsLocalPlugin extends CmsPluginCore implements BotkitPlugin 
      * If a trigger is matched, the appropriate dialog will begin immediately.
      *
      * @param bot The current bot worker instance
-     * @param message An incoming message to be interpretted
+     * @param message An incoming message to be interpreted
      * @returns Returns false if a dialog is NOT triggered, otherwise returns void.
      */
-    public testTrigger(bot: BotWorker, message: BotkitMessage) {
+    public testTrigger(bot: BotWorker, message: BotkitMessage): Promise<any> {
         return this.evaluateTrigger(message.text).then(function(command) {
             if (command.command) {
                 return bot.beginDialog(command.command);
             }
         }).catch(function(error) {
-            if (typeof(error) === 'undefined') {
+            if (typeof (error) === 'undefined') {
                 return false;
             }
             throw error;
@@ -128,12 +126,11 @@ export class BotkitCmsLocalPlugin extends CmsPluginCore implements BotkitPlugin 
      * Load script from CMS by id
      * @param id
      */
-    public async getScriptById(id: string) {
-        try  {
-            const script = await this._config.cms.getScriptById(id);
-            return script;
+    public async getScriptById(id: string): Promise<any> {
+        try {
+            return await this._config.cms.getScriptById(id);
         } catch (error) {
-            if (typeof(error) === 'undefined') {
+            if (typeof (error) === 'undefined') {
                 // Script was just not found
                 return null;
             }
@@ -145,12 +142,11 @@ export class BotkitCmsLocalPlugin extends CmsPluginCore implements BotkitPlugin 
      * Load script from CMS by command
      * @param command
      */
-    public async getScript(command: string) {
-        try  {
-            const script = await this._config.cms.getScript(command);
-            return script;
+    public async getScript(command: string): Promise<any> {
+        try {
+            return await this._config.cms.getScript(command);
         } catch (error) {
-            if (typeof(error) === 'undefined') {
+            if (typeof (error) === 'undefined') {
                 // Script was just not found
                 return null;
             }
@@ -163,4 +159,3 @@ export interface LocalCmsOptions {
     path: string;
     cms: any;
 }
-
