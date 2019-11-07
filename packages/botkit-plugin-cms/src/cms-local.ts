@@ -102,8 +102,10 @@ export class BotkitCmsLocalPlugin extends CmsPluginCore implements BotkitPlugin 
      * @returns Returns false if a dialog is NOT triggered, otherwise returns void.
      */
     public testTrigger(bot: BotWorker, message: BotkitMessage): Promise<any> {
+        debug('Testing Botkit CMS trigger with: ' + message.text);
         return this.evaluateTrigger(message.text).then(function(command) {
             if (command.command) {
+                debug('Trigger found, beginning dialog ' + command.command);
                 return bot.beginDialog(command.command);
             }
         }).catch(function(error) {
