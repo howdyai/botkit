@@ -107,9 +107,9 @@ controller.on('message', async(bot, message) {
 
 ## Botkit Extensions
 
-In Botkit handlers, the `bot` worker for Facebook contains [all of the base methods](../reference/core.md#BotWorker) as well as the following platform-specific extensions:
+In Botkit handlers, the `bot` worker for Twilio contains [all of the base methods](../reference/core.md#BotWorker) as well as the following platform-specific extensions:
 
-### [bot.startConversationWithUser()](../reference/twilio-sms#startconversationwithuser)
+### [bot.startConversationWithUser()](../reference/twilio-sms.md#startconversationwithuser)
 
 Use this method to initiate a conversation with a user. After calling this method, any further actions carried out by the bot worker will happen with the specified user.
 
@@ -131,3 +131,4 @@ Botkit is a part of the [Microsoft Bot Framework](https://dev.botframework.com).
 Want to contribute? [Read the contributor guide](https://github.com/howdyai/botkit/blob/master/CONTRIBUTING.md)
 
 Botkit is released under the [MIT Open Source license](https://github.com/howdyai/botkit/blob/master/LICENSE.md)
+

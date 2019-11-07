@@ -2,6 +2,12 @@
 
 # botkit-plugin-cms changelog
 
+# 1.0.3
+
+* Emit a better error when an invalid token has been provided
+* Update dependencies (Bot Framework to 4.6, Botkit to 4.6)
+
+
 # 1.0.2
 
 * Update dependencies (Bot Framework to 4.5.2, Botkit to 4.5)

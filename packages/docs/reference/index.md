@@ -8,6 +8,7 @@
     * [BotWorker](../reference/core.md#BotWorker)
     * [BotkitConversation](../reference/core.md#BotkitConversation)
     * [BotkitDialogWrapper](../reference/core.md#BotkitDialogWrapper)
+    * [BotkitTestClient](../reference/core.md#BotkitTestClient)
 * [Botkit for the Web](../reference/web.md)
     * [WebAdapter](../reference/web.md#WebAdapter)
 * [Botkit for Webex Teams](../reference/webex.md)

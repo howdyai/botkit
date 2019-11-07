@@ -46,7 +46,11 @@ export class SlackMessageTypeMiddleware extends MiddlewareSet {
             var direct_mention = new RegExp('^' + mentionSyntax, 'i');
 
             // is this a DM, a mention, or just ambient messages passing through?
-            if (context.activity.channelData.channel_type && context.activity.channelData.channel_type === 'im') {
+            if (context.activity.channelData.type == 'block_actions') { 
+                context.activity.channelData.botkitEventType = 'block_actions';
+            } else if (context.activity.channelData.type == 'interactive_message') { 
+                context.activity.channelData.botkitEventType = 'interactive_message';
+            } else if (context.activity.channelData.channel_type && context.activity.channelData.channel_type === 'im') {
                 context.activity.channelData.botkitEventType = 'direct_message';
 
                 // strip any potential leading @mention
