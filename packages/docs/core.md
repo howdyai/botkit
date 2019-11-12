@@ -579,6 +579,7 @@ module.exports = function(botkit) {
             // add a web route
             // controller.webserver.get('/myplugin', async(req, res) => { 
             //      Use a local handlebars view (bundled with plugin) to render a page
+            //      (hbs must be installed and initialized by plugin)
             //      res.render(controller.getLocalView(__dirname + '/views/main'));
             // });
 
