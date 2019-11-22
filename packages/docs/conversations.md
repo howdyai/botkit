@@ -287,7 +287,7 @@ and a [bot worker](reference/core.md#botworker).
 
 Several helper functions are available in order to direct the flow of the conversation from within the handler:
 
-* [convo.repeat()](reference/core.md#rebpeat)
+* [convo.repeat()](reference/core.md#repeat)
 * [convo.setVar()](reference/core.md#setvar)
 * [convo.gotoThread()](reference/core.md#gotothread)
 
