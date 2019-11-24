@@ -53,9 +53,13 @@ server.use(restify.plugins.bodyParser());
 
 // adapter.registerWebhookSubscription('/api/messages');
 
-server.post('/api/messages', (req, res) => {
+server.get('/api/messages', (req, res) => {
+    console.log('QUERY', req.query);
+
     adapter.processActivity(req, res, async(context) => {
         // do your bot logic here!
+
+
         console.log('GOT INCOMING ACTIVITY', context.activity);
         if (context.activity.type === 'message') {
             await context.sendActivity('Received an message: ' + context.activity.text);

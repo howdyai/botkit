@@ -166,6 +166,7 @@ export interface BotkitPlugin {
         [key: string]: any[];
     };
     init?: (botkit: Botkit) => void;
+    [key: string]: any; // allow arbitrary additional fields to be added.
 }
 
 /**
@@ -1123,10 +1124,13 @@ export class Botkit {
      * ```
      *
      * @param p {string} path to a folder of module files
+     * @param exts {string[]} the extensions that you would like to load (default: ['.js'])
      */
-    public loadModules(p: string): void {
-        // load all the .js files from this path
-        fs.readdirSync(p).filter((f) => { return (path.extname(f) === '.js'); }).forEach((file) => {
+    public loadModules(p: string, exts: string[] = ['.js']): void {
+        // load all the .js|.ts files from this path
+        fs.readdirSync(p).filter((f) => {
+            return exts.includes(path.extname(f));
+        }).forEach((file) => {
             this.loadModule(path.join(p, file));
         });
     }

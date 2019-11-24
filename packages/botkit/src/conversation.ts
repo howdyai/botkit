@@ -59,6 +59,10 @@ export interface BotkitConversationStep {
      */
     thread: string;
     /**
+     * The length of the current thread
+     */
+    threadLength: number;
+    /**
      * A pointer to the current dialog state
      */
     state: any;
@@ -562,8 +566,12 @@ export class BotkitConversation<O extends object = {}> extends Dialog<O> {
      */
     public async resumeDialog(dc, reason, result): Promise<any> {
         // Increment step index and run step
-        const state = dc.activeDialog.state;
-        return await this.runStep(dc, state.stepIndex + 1, state.thread || 'default', reason, result);
+        if (dc.activeDialog) {
+            const state = dc.activeDialog.state;
+            return await this.runStep(dc, state.stepIndex + 1, state.thread || 'default', reason, result);
+        } else {
+            return Dialog.EndOfTurn;
+        }
     }
 
     /**
@@ -600,7 +608,7 @@ export class BotkitConversation<O extends object = {}> extends Dialog<O> {
 
                 // did we just change threads? if so, restart this turn
                 if (index !== step.index || thread_name !== step.thread) {
-                    return await this.runStep(dc, step.index, step.thread, DialogReason.nextCalled, step.values);
+                    return await this.runStep(dc, step.index, step.thread, DialogReason.nextCalled);
                 }
             }
 
@@ -639,11 +647,17 @@ export class BotkitConversation<O extends object = {}> extends Dialog<O> {
                     }
 
                     var res = await this.handleAction(path, dc, step);
+
                     if (res !== false) {
                         return res;
                     }
                 }
             }
+        }
+
+        // was the dialog canceled during the last action?
+        if (!dc.activeDialog) {
+            return await this.end(dc);
         }
 
         // Handle the current step
@@ -664,7 +678,7 @@ export class BotkitConversation<O extends object = {}> extends Dialog<O> {
             // This could be extended to include cards and other activity attributes.
             } else {
                 // if there is text, attachments, or any channel data fields at all...
-                if (line.type || line.text || line.attachments || line.attachment || (line.channelData && Object.keys(line.channelData).length)) {
+                if (line.type || line.text || line.attachments || line.attachment || line.blocks ||  (line.channelData && Object.keys(line.channelData).length)) {
                     await dc.context.sendActivity(await this.makeOutgoing(dc, line, step.values));
                 } else if (!line.action) {
                     console.error('Dialog contains invalid message', line);
@@ -703,6 +717,7 @@ export class BotkitConversation<O extends object = {}> extends Dialog<O> {
         const nextCalled = false;
         const step = {
             index: index,
+            threadLength: this.script[thread_name].length,
             thread: thread_name,
             state: state,
             options: state.options,
@@ -725,7 +740,7 @@ export class BotkitConversation<O extends object = {}> extends Dialog<O> {
 
             // did we just change threads? if so, restart
             if (index !== step.index || thread_name !== step.thread) {
-                return await this.runStep(dc, step.index, step.thread, DialogReason.nextCalled, step.values);
+                return await this.runStep(dc, step.index, step.thread, DialogReason.nextCalled); // , step.values);
             }
         }
 
@@ -744,12 +759,17 @@ export class BotkitConversation<O extends object = {}> extends Dialog<O> {
     public async end(dc: DialogContext): Promise<DialogTurnStatus> {
         // TODO: may have to move these around
         // shallow copy todo: may need deep copy
-        const result = {
-            ...dc.activeDialog.state.values
-        };
+        // protect against canceled dialog.
+        if (dc.activeDialog &&  dc.activeDialog.state) {
+            const result = {
+                ...dc.activeDialog.state.values
+            };
+            await dc.endDialog(result);
+            await this.runAfter(dc, result);
+        } else {
+            await dc.endDialog();
+        }
 
-        await dc.endDialog(result);
-        await this.runAfter(dc, result);
         return DialogTurnStatus.complete;
     }
 
@@ -762,10 +782,14 @@ export class BotkitConversation<O extends object = {}> extends Dialog<O> {
         let outgoing;
         let text = '';
 
+
         // if the text is just a string, use it.
         // otherwise, if it is an array, pick a random element
-        if (line.text && typeof(line.text)=='string') {
+        if (line.text && typeof(line.text) === 'string') {
             text = line.text;
+        // If text is a function, call the function to get the actual text value.
+        } else if (line.text && typeof(line.text) === 'function') {
+            text = await line.text(line, vars);
         } else if (Array.isArray(line.text)) {
             text = line.text[Math.floor(Math.random() * line.text.length)];
         }
@@ -937,9 +961,12 @@ export class BotkitConversation<O extends object = {}> extends Dialog<O> {
 
             await path.handler.call(this, step.result, convo, bot);
 
+            if (!dc.activeDialog) {
+                return false;   
+            }
             // did we just change threads? if so, restart this turn
             if (index !== step.index || thread_name !== step.thread) {
-                return await this.runStep(dc, step.index, step.thread, DialogReason.nextCalled, step.values);
+                return await this.runStep(dc, step.index, step.thread, DialogReason.nextCalled, null);
             }
 
             return false;
@@ -961,17 +988,20 @@ export class BotkitConversation<O extends object = {}> extends Dialog<O> {
         case 'execute_script':
             const ebot = await this._controller.spawn(dc);
 
-            return await ebot.replaceDialog(path.execute.script, {
+            await ebot.replaceDialog(path.execute.script, {
                 thread: path.execute.thread,
                 ...step.values
             });
+
+            return { status: DialogTurnStatus.waiting };
         case 'beginDialog':
             let rbot = await this._controller.spawn(dc);
 
-            return await rbot.beginDialog(path.execute.script, {
+            await rbot.beginDialog(path.execute.script, {
                 thread: path.execute.thread,
                 ...step.values
             });
+            return { status: DialogTurnStatus.waiting };
         case 'repeat':
             return await this.runStep(dc, step.index - 1, step.thread, DialogReason.nextCalled);
         case 'wait':

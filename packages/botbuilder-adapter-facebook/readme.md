@@ -58,6 +58,9 @@ controller.on('message', async(bot, message) => {
 Alternately, developers may choose to use `FacebookAdapter` with BotBuilder. With BotBuilder, the adapter is used more directly with a webserver, and all incoming events are handled as [Activities](https://docs.microsoft.com/en-us/javascript/api/botframework-schema/activity?view=botbuilder-ts-latest).
 
 ```javascript
+const { FacebookAdapter } = require('botbuilder-adapter-facebook');
+const restify = require('restify');
+
 const adapter = new FacebookAdapter({
      verify_token: process.env.FACEBOOK_VERIFY_TOKEN,
      app_secret: process.env.FACEBOOK_APP_SECRET,
@@ -65,11 +68,29 @@ const adapter = new FacebookAdapter({
 });
 const server = restify.createServer();
 server.use(restify.plugins.bodyParser());
+server.use(restify.plugins.queryParser());
+
+server.get('/api/messages', (req, res) => {
+     if (req.query['hub.mode'] === 'subscribe') {
+          if (req.query['hub.verify_token'] === process.env.FACEBOOK_VERIFY_TOKEN) {
+               const val = req.query['hub.challenge'];
+               res.sendRaw(200, val);
+          } else {
+               console.log('failed to verify endpoint');
+               res.send('OK');
+          }
+     }
+});
+
 server.post('/api/messages', (req, res) => {
      adapter.processActivity(req, res, async(context) => {
          await context.sendActivity('I heard a message!');
      });
 });
+
+server.listen(process.env.port || process.env.PORT || 3000, () => {
+     console.log(`\n${ server.name } listening to ${ server.url }`);
+ });
 ```
 
 ### Multi-page Support

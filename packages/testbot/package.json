@@ -9,20 +9,21 @@
   "author": "benbrown@gmail.com",
   "license": "MIT",
   "dependencies": {
-    "botbuilder-ai": "^4.5.2",
-    "botbuilder-dialogs": "^4.5.2",
-    "botbuilder": "^4.5.2",
-    "botbuilder-dialogs-botkit-cms": "0.0.1",
-    "botbuilder-adapter-slack": "^1.0.0",
-    "botbuilder-adapter-hangouts": "^1.0.0",
-    "botbuilder-storage-mongodb": "^0.9.5",
-    "botbuilder-adapter-webex": "^1.0.0",
-    "botbuilder-adapter-web": "^1.0.0",
+    "botbuilder": "^4.6.0",
     "botbuilder-adapter-facebook": "^1.0.0",
+    "botbuilder-adapter-hangouts": "^1.0.0",
+    "botbuilder-adapter-slack": "^1.0.0",
     "botbuilder-adapter-twilio-sms": "^1.0.0",
-    "botkit-plugin-cms": "^1.0.2",
-    "botkit": "^4.5.0",
+    "botbuilder-adapter-web": "^1.0.0",
+    "botbuilder-adapter-webex": "^1.0.0",
+    "botbuilder-ai": "^4.6.0",
+    "botbuilder-dialogs": "^4.6.0",
+    "botbuilder-dialogs-botkit-cms": "0.0.1",
+    "botbuilder-storage-mongodb": "^0.9.5",
+    "botkit": "^4.6.0",
+    "botkit-plugin-cms": "^1.0.3",
     "dotenv": "^6.2.0",
-    "express-basic-auth": "^1.1.6"
+    "express-basic-auth": "^1.1.6",
+    "restify": "^8.4.0"
   }
 }
