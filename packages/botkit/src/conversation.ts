@@ -819,6 +819,10 @@ export class BotkitConversation<O extends object = {}> extends Dialog<O> {
         if (typeof(line.attachments)=='function') {
             // set both locations for attachments
             outgoing.attachments = outgoing.channelData.attachments = await line.attachments(line, vars);
+            if (typeof (line.fb_attachment) == 'function') {
+                    outgoing.channelData.attachment = yield line.fb_attachment(line, vars);
+                    delete outgoing.channelData.attachments;
+            }
         }
         if (typeof(line.blocks)=='function') {
             outgoing.channelData.blocks = await line.blocks(line, vars);
