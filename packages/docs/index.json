@@ -9191,7 +9191,6 @@
               "kind": 512,
               "kindString": "Constructor",
               "flags": {
-                "isPublic": true,
                 "isExported": true,
                 "isExternal": true
               },
@@ -9455,12 +9454,12 @@
                 {
                   "fileName": "testClient.ts",
                   "line": 48,
-                  "character": 183
+                  "character": 175
                 },
                 {
                   "fileName": "testClient.ts",
                   "line": 49,
-                  "character": 189
+                  "character": 182
                 }
               ]
             },
@@ -9808,7 +9807,6 @@
               "kind": 512,
               "kindString": "Constructor",
               "flags": {
-                "isPublic": true,
                 "isExported": true,
                 "isExternal": true
               },
@@ -10072,12 +10070,12 @@
                 {
                   "fileName": "testClient.ts",
                   "line": 48,
-                  "character": 183
+                  "character": 175
                 },
                 {
                   "fileName": "testClient.ts",
                   "line": 49,
-                  "character": 189
+                  "character": 182
                 }
               ]
             }

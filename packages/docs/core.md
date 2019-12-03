@@ -351,7 +351,7 @@ A simple example:
 const { BotkitConversation } = require('botkit');
 
 // define the conversation
-const onboarding = new BotkitConversation('onboarding');
+const onboarding = new BotkitConversation('onboarding', controller);
 
 onboarding.say('Hello human!');
 // collect a value with no conditions
