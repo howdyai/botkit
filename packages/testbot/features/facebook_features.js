@@ -1,3 +1,6 @@
+const { BotkitConversation } = require('botkit');
+
+
 module.exports = function(controller) {
 
     if (controller.adapter.name === 'Facebook Adapter') {
@@ -34,13 +37,50 @@ module.exports = function(controller) {
     });
 
 
+
+    let typing = new BotkitConversation('typing', controller);
+
+    typing.say('I am going to type for a while now...');
+    typing.addAction('typing');
+
+    // start the typing indicator
+    typing.addMessage({channelData: {sender_action: 'typing_on'}}, 'typing');
+    // trigger a gotoThread, which gives us an opportunity to delay the next message
+    typing.addAction('next_thread','typing');
+
+    typing.addMessage('typed!','next_thread');
+
+   // use the before handler to delay the next message 
+    typing.before('next_thread',  async() => {
+        return new Promise((resolve, reject) => {
+            // simulate some long running process
+            setTimeout(resolve, 3000);
+        });
+    });
+
+    controller.addDialog(typing);
+
+    controller.hears('typing dialog', 'message', async(bot, message) => {
+        await bot.beginDialog('typing');
+    });
+
+    controller.hears('typing reply', 'message', async(bot, message) => {
+
+      await bot.reply(message,{sender_action: 'typing_on'});
+      setTimeout(async function() {
+        await bot.changeContext(message.reference);
+        await bot.reply(message,'typing done');
+      }, 3000);
+
+    });
+
+
     controller.ready(async () => {
         // example of proactive message
         let bot = await controller.spawn(process.env.FACEBOOK_PAGE_ID);
         bot.startConversationWithUser(process.env.FACEBOOK_ADMIN_USER).then(async () => {
             let res = await bot.say('Hello human');
             console.log('results of proactive message', res);
-
         }); 
 
         let res = await bot.api.callAPI('/me/messenger_profile', 'delete', {fields: ['persistent_menu']});
