@@ -33,6 +33,16 @@ module.exports = function(controller) {
         await bot.reply(message,`I heard you posting back a post_back about ${ message.text }`);
     });
 
+    controller.hears('typing', 'message', async(bot, message)=> {
+
+      await bot.reply(message,{sender_action: 'typing_on'});
+      setTimeout(async function() {
+        await bot.changeContext(message.reference);
+        await bot.reply(message,'typing done');
+
+      }, 3000);
+
+    });
 
     controller.ready(async () => {
         // example of proactive message

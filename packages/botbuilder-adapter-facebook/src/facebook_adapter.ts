@@ -241,6 +241,11 @@ export class FacebookAdapter extends BotAdapter {
 
             if (activity.channelData.sender_action) {
                 message.sender_action = activity.channelData.sender_action;
+
+                // from docs: https://developers.facebook.com/docs/messenger-platform/reference/send-api/
+                // Cannot be sent with message. Must be sent as a separate request.
+                // When using sender_action, recipient should be the only other property set in the request.
+                delete(message.message);
             }
 
             // make sure the quick reply has a type
