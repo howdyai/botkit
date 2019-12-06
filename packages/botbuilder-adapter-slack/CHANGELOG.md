@@ -1,5 +1,9 @@
 # botbuilder-adapter-slack changelog
 
+# 1.0.7
+
+* Update @slack/web-api to 5.5.0
+
 # 1.0.6
 
 * Update dependencies (Bot Framework to 4.6, Botkit to 4.6)
