@@ -34,14 +34,14 @@ interface BotkitConvoTrigger {
  * Template for definiting a BotkitConversation template
  */
 interface BotkitMessageTemplate {
-    text: (template: any, vars: any) => string[] | string[];
+    text: ((template: any, vars: any) => string[]) | string[];
     action?: string;
     execute?: {
         script: string;
         thread?: string;
     };
-    quick_replies?: (template: any, vars: any) => any[] | any[];
-    attachments?: (template: any, vars: any) => any[] | any[];
+    quick_replies?: ((template: any, vars: any) => any[]) | any[];
+    attachments?: ((template: any, vars: any) => any[]) | any[];
     channelData?: any;
     collect: {
         key?: string;
