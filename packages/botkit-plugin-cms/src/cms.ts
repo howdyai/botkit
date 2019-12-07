@@ -166,12 +166,12 @@ export class BotkitCMSHelper {
         // TODO: Port over all the other mappings
 
         // move slack attachments
-        if (line.attachments) {
+        if (line.attachments && !line.fb_attachment) {
             line.channelData.attachments = line.attachments;
         }
 
         // we might have a facebook attachment in fb_attachments
-        if (line.fb_attachment) {
+        if (line.fb_attachment && typeof (line.fb_attachment) !== 'function') {
             let attachment = line.fb_attachment;
             if (attachment.template_type) {
                 if (attachment.template_type === 'button') {
