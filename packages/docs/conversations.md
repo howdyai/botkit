@@ -72,7 +72,7 @@ Then, using the helper methods like `say()` and `ask()`, define a series of mess
 // send a greeting
 convo.say('Howdy!');
 
-// ask a question, store the the response in 'name'
+// ask a question, store the response in 'name'
 convo.ask('What is your name?', async(response, convo, bot) => {
     console.log(`user name is ${ response }`);
     // do something?
@@ -133,7 +133,7 @@ or data validation can be handled using feature of the conversations we call `th
 
 Threads are pre-built chains of dialog between the bot and end user that are built before the conversation begins. Once threads are built, Botkit can be instructed to navigate through the threads automatically, allowing many common programming scenarios such as yes/no/quit prompts to be handled without additional code.
 
-You can build conversation threads in code, or you can use [Botkit CMS](https://github.com/howdyai/botkit-cms)'s script management tool to build them in a friendly web environment and then import then dynamically to the application with [botkit-plugin-cms](plugins/cms.md). Conversations you build yourself and conversations managed in Botkit CMS work the same way -- they run inside your bot and use your code to manage the outcome.
+You can build conversation threads in code, or you can use [Botkit CMS](https://github.com/howdyai/botkit-cms)'s script management tool to build them in a friendly web environment and then import them dynamically to the application with [botkit-plugin-cms](plugins/cms.md). Conversations you build yourself and conversations managed in Botkit CMS work the same way -- they run inside your bot and use your code to manage the outcome.
 
 If you've used the conversation system at all, you've used threads - you just didn't know it. When calling `convo.say()` and `convo.ask()`, you were actually adding messages to the `default` conversation thread that is activated when the conversation object is created.
 
