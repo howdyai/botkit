@@ -1170,7 +1170,7 @@ Bind a function to run whenever a user answers a specific question.  Can be used
 
 ```javascript
 convo.ask('What is your name?', [], 'name');
-convo.onChange('name', async(response, convo, bot) {
+convo.onChange('name', async(response, convo, bot) => {
 
  // user changed their name!
  // do something...
