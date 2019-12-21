@@ -483,7 +483,7 @@ export class BotkitConversation<O extends object = {}> extends Dialog<O> {
      *
      * ```javascript
      * convo.ask('What is your name?', [], 'name');
-     * convo.onChange('name', async(response, convo, bot) {
+     * convo.onChange('name', async(response, convo, bot) => {
      *
      *  // user changed their name!
      *  // do something...

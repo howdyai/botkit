@@ -7076,7 +7076,7 @@
                   "flags": {},
                   "comment": {
                     "shortText": "Bind a function to run whenever a user answers a specific question.  Can be used to validate input and take conditional actions.",
-                    "text": "```javascript\nconvo.ask('What is your name?', [], 'name');\nconvo.onChange('name', async(response, convo, bot) {\n\n // user changed their name!\n // do something...\n\n});\n```"
+                    "text": "```javascript\nconvo.ask('What is your name?', [], 'name');\nconvo.onChange('name', async(response, convo, bot) => {\n\n // user changed their name!\n // do something...\n\n});\n```"
                   },
                   "parameters": [
                     {
@@ -8222,7 +8222,7 @@
                   "flags": {},
                   "comment": {
                     "shortText": "Bind a function to run whenever a user answers a specific question.  Can be used to validate input and take conditional actions.",
-                    "text": "```javascript\nconvo.ask('What is your name?', [], 'name');\nconvo.onChange('name', async(response, convo, bot) {\n\n // user changed their name!\n // do something...\n\n});\n```"
+                    "text": "```javascript\nconvo.ask('What is your name?', [], 'name');\nconvo.onChange('name', async(response, convo, bot) => {\n\n // user changed their name!\n // do something...\n\n});\n```"
                   },
                   "parameters": [
                     {
