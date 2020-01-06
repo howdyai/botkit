@@ -12,9 +12,11 @@ The chat client is built with HTML, CSS and vanilla Javascript.
 Developers can customize the look and feel of the client by modifying the included markup and CSS.
 New chat features such as custom cards or actions can be added with just a little bit of code.
 
+* [How to use typing indicators](#typing-indicators)
 * [How to embed a bot in your website](#embed-botkit-in-a-website-with-iframes)
 * [How to customize the look and feel of your web chat](#customize-the-look-and-feel-of-the-chat-interface)
 * [How to share user account/profile info with Botkit](#share-user-accounts--profile-data-with-botkit)
+
 
 There are three ways to use the web client:
 
@@ -68,6 +70,16 @@ In order to seamlessly integrate your new bot with your existing app or website,
 To do this, either call [Botkit.boot(user)](#botkitbootuser) with the optional user profile parameter, or call [Botkit.identifyUser(user)](#botkitidentifyuseruser) after the connection has been established.
 
 It is important to note that Botkit does not provide any mechanism for validating or verifying the identity of the user passed in via these mechanisms. Used without validation, users can potentially access content associated with other users. For this reason, we recommend that Botkit Anywhere not be used to handle sensitive or private information unless substantial security mechanisms are put in place.
+
+## Typing Indicators
+
+Botkit can send typing indicators to the client to indicate that work is happening behind the scenes.
+
+To achieve this, send a message in the form: `{"type": "typing"}`
+
+The typing indicator will appear until the next message arrives. Typing indicators can be added to dialogs to indicate activity during long running operations. If you wish to have a typing indicator appear before every message, use a middleware to send the indicator and then delay the actual message.
+
+For some examples of this in use, [see the sample code here &raquo;](https://github.com/howdyai/botkit/blob/master/packages/testbot/features/websocket_features.js)
 
 ## Embed Botkit in a Website with iFrames
 

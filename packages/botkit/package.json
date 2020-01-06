@@ -1,6 +1,6 @@
 {
   "name": "botkit",
-  "version": "4.5.0",
+  "version": "4.6.1",
   "description": "Building Blocks for Building Bots",
   "main": "lib/index.js",
   "typings": "./lib/index.d.ts",
@@ -10,7 +10,8 @@
   ],
   "scripts": {
     "build": "tsc",
-    "eslint": "./node_modules/.bin/eslint --fix src/*"
+    "eslint": "./node_modules/.bin/eslint --fix src/*",
+    "test": "tsc ; nyc mocha tests/*.tests.js"
   },
   "author": "benbrown@gmail.com",
   "license": "MIT",
@@ -31,9 +32,9 @@
   },
   "dependencies": {
     "body-parser": "^1.18.3",
-    "botbuilder": "^4.5.2",
-    "botbuilder-dialogs": "^4.5.2",
-    "botframework-connector": "^4.5.2",
+    "botbuilder": "^4.6.0",
+    "botbuilder-dialogs": "^4.6.0",
+    "botframework-connector": "^4.6.0",
     "debug": "^4.1.0",
     "express": "^4.16.4",
     "mustache": "^3.0.1",
@@ -45,7 +46,7 @@
   "devDependencies": {
     "@types/express": "^4.16.0",
     "@types/node": "^10.12.18",
-    "eslint": "^5.16.0",
+    "eslint": "^6.6.0",
     "eslint-config-standard": "^12.0.0",
     "eslint-plugin-import": "^2.14.0",
     "eslint-plugin-node": "^7.0.1",

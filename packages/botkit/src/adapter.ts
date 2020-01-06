@@ -47,7 +47,7 @@ export class BotkitBotFrameworkAdapter extends BotFrameworkAdapter {
      * @ignore
      * @param serviceUrl Clients service url.
      */
-    protected createConnectorClient(serviceUrl: string): ConnectorClient {
+    public createConnectorClient(serviceUrl: string): ConnectorClient {
         const client: ConnectorClient = new ConnectorClient(this.credentials, { baseUri: serviceUrl, userAgent: USER_AGENT });
         return client;
     }

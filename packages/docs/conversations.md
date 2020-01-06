@@ -72,7 +72,7 @@ Then, using the helper methods like `say()` and `ask()`, define a series of mess
 // send a greeting
 convo.say('Howdy!');
 
-// ask a question, store the the response in 'name'
+// ask a question, store the response in 'name'
 convo.ask('What is your name?', async(response, convo, bot) => {
     console.log(`user name is ${ response }`);
     // do something?
@@ -133,7 +133,7 @@ or data validation can be handled using feature of the conversations we call `th
 
 Threads are pre-built chains of dialog between the bot and end user that are built before the conversation begins. Once threads are built, Botkit can be instructed to navigate through the threads automatically, allowing many common programming scenarios such as yes/no/quit prompts to be handled without additional code.
 
-You can build conversation threads in code, or you can use [Botkit CMS](https://github.com/howdyai/botkit-cms)'s script management tool to build them in a friendly web environment and then import then dynamically to the application with [botkit-plugin-cms](plugins/cms.md). Conversations you build yourself and conversations managed in Botkit CMS work the same way -- they run inside your bot and use your code to manage the outcome.
+You can build conversation threads in code, or you can use [Botkit CMS](https://github.com/howdyai/botkit-cms)'s script management tool to build them in a friendly web environment and then import them dynamically to the application with [botkit-plugin-cms](plugins/cms.md). Conversations you build yourself and conversations managed in Botkit CMS work the same way -- they run inside your bot and use your code to manage the outcome.
 
 If you've used the conversation system at all, you've used threads - you just didn't know it. When calling `convo.say()` and `convo.ask()`, you were actually adding messages to the `default` conversation thread that is activated when the conversation object is created.
 
@@ -250,12 +250,12 @@ The object's name is {{vars.object.name}}.
 Botkit ensures that your template is a valid Mustache template, and passes the variables you specify directly to the Mustache template rendering system.
 Our philosophy is that it is OK to stuff whatever type of information your conversation needs into these variables and use them as you please!
 
-## Dynamic Quick Replies and Attachments
+## Dynamic Text, Quick Replies and Attachments
 
 In some cases, developers will need to create dynamic quick replies and/or attachments to the messages within an otherwise pre-scripted dialog.
 As of Botkit v4.5, this can be achieved by specifying a function responsible for generating this content as part of the message template.
 
-Functions may be passed in in the `quick_replies`, `attachment`, `attachments` and `blocks` fields.  All of these functions share the same signature:
+Functions may be passed in in the `text`, `quick_replies`, `attachment`, `attachments` and `blocks` fields.  All of these functions share the same signature:
 `async(message_template, vars) => { return CONTENT; }`
 
 The `message_template` parameter includes the entire template initially passed in to `ask()` or `say()` or any other function used to construct the dialog structure.
@@ -287,7 +287,7 @@ and a [bot worker](reference/core.md#botworker).
 
 Several helper functions are available in order to direct the flow of the conversation from within the handler:
 
-* [convo.repeat()](reference/core.md#rebpeat)
+* [convo.repeat()](reference/core.md#repeat)
 * [convo.setVar()](reference/core.md#setvar)
 * [convo.gotoThread()](reference/core.md#gotothread)
 

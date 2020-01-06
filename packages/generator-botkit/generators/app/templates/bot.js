@@ -38,17 +38,17 @@ const adapter = new SlackAdapter({
     enable_incomplete: true,
 
     // parameters used to secure webhook endpoint
-    verificationToken: process.env.verificationToken,
-    clientSigningSecret: process.env.clientSigningSecret,  
+    verificationToken: process.env.VERIFICATION_TOKEN,
+    clientSigningSecret: process.env.CLIENT_SIGNING_SECRET,  
 
     // auth token for a single-team app
-    botToken: process.env.botToken,
+    botToken: process.env.BOT_TOKEN,
 
     // credentials used to set up oauth for multi-team apps
-    clientId: process.env.clientId,
-    clientSecret: process.env.clientSecret,
+    clientId: process.env.CLIENT_ID,
+    clientSecret: process.env.CLIENT_SECRET,
     scopes: ['bot'], 
-    redirectUri: process.env.redirectUri,
+    redirectUri: process.env.REDIRECT_URI,
  
     // functions required for retrieving team-specific info
     // for use in multi-team apps
@@ -67,8 +67,8 @@ const adapter = new WebexAdapter({
     enable_incomplete: true,
 
     
-    access_token: process.env.access_token,
-    public_address: process.env.public_address
+    access_token: process.env.ACCESS_TOKEN,
+    public_address: process.env.PUBLIC_ADDRESS
 })    
 <% } else if (platform === 'web') { %>
 const adapter = new WebAdapter({});
@@ -122,10 +122,10 @@ const controller = new Botkit({
     storage
 });
 
-if (process.env.cms_uri) {
+if (process.env.CMS_URI) {
     controller.usePlugin(new BotkitCMSHelper({
-        uri: process.env.cms_uri,
-        token: process.env.cms_token,
+        uri: process.env.CMS_URI,
+        token: process.env.CMS_TOKEN,
     }));
 }
 

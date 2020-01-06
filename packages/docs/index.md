@@ -52,7 +52,7 @@ controller.hears('hello','direct_message', function(bot, message) {
 
 ## Build Your Bot
 
-Botkit is programming library, along with a suite of supporting tools and plugins, that provides bot builders a platform independent, language-like interface for building a chatbot or messaging app for any platform. It handles all the nitty gritty technical details, allowing you to focus on building COOL FEATURES for your bot.
+Botkit is a programming library, along with a suite of supporting tools and plugins, that provides bot builders a platform independent, language-like interface for building a chatbot or messaging app for any platform. It handles all the nitty gritty technical details, allowing you to focus on building COOL FEATURES for your bot.
 
 The toolkit is designed to provide meaningful building blocks for creating conversational user interfaces - with functions like `hears()`, `ask()`, and `reply()` that do what they say they do.
 

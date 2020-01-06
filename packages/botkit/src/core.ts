@@ -171,6 +171,7 @@ export interface BotkitPlugin {
         [key: string]: any[];
     };
     init?: (botkit: Botkit) => void;
+    [key: string]: any; // allow arbitrary additional fields to be added.
 }
 
 /**
@@ -487,7 +488,7 @@ export class Botkit {
      * Load a plugin module and bind all included middlewares to their respective endpoints.
      * @param plugin_or_function A plugin module in the form of function(botkit) {...} that returns {name, middlewares, init} or an object in the same form.
      */
-    public usePlugin(plugin_or_function: (botkit: Botkit) => BotkitPlugin | BotkitPlugin): void {
+    public usePlugin(plugin_or_function: ((botkit: Botkit) => BotkitPlugin) | BotkitPlugin): void {
         let plugin: BotkitPlugin;
         if (typeof (plugin_or_function) === 'function') {
             plugin = plugin_or_function(this);
@@ -1166,10 +1167,13 @@ export class Botkit {
      * ```
      *
      * @param p {string} path to a folder of module files
+     * @param exts {string[]} the extensions that you would like to load (default: ['.js'])
      */
-    public loadModules(p: string): void {
-        // load all the .js files from this path
-        fs.readdirSync(p).filter((f) => { return (path.extname(f) === '.js'); }).forEach((file) => {
+    public loadModules(p: string, exts: string[] = ['.js']): void {
+        // load all the .js|.ts files from this path
+        fs.readdirSync(p).filter((f) => {
+            return exts.includes(path.extname(f));
+        }).forEach((file) => {
             this.loadModule(path.join(p, file));
         });
     }

@@ -12,6 +12,7 @@ This is a class reference for all the methods exposed by the [botkit](https://gi
 * <a href="#BotWorker" aria-current="page">BotWorker</a>
 * <a href="#BotkitConversation" aria-current="page">BotkitConversation</a>
 * <a href="#BotkitDialogWrapper" aria-current="page">BotkitDialogWrapper</a>
+* <a href="#BotkitTestClient" aria-current="page">BotkitTestClient</a>
 
 ## Interfaces
 
@@ -340,7 +341,8 @@ Load all Botkit feature modules located in a given folder.
 
 | Argument | Type | description
 |--- |--- |---
-| p| string | path to a folder of module files<br/>
+| p| string | path to a folder of module files
+| exts|  | the extensions that you would like to load (default: ['.js'])<br/>
 
 
 
@@ -1116,7 +1118,7 @@ convo.ask('Do you want to eat a taco?', [
      handler: async(response, convo, bot) => {
          return await convo.gotoThread('no_taco');
      }
-  },
+  },s
   {
       default: true,
       handler: async(response, convo, bot) => {
@@ -1168,7 +1170,7 @@ Bind a function to run whenever a user answers a specific question.  Can be used
 
 ```javascript
 convo.ask('What is your name?', [], 'name');
-convo.onChange('name', async(response, convo, bot) {
+convo.onChange('name', async(response, convo, bot) => {
 
  // user changed their name!
  // do something...
@@ -1219,6 +1221,7 @@ This class includes the following methods:
 * [gotoThread()](#gotoThread)
 * [repeat()](#repeat)
 * [setVar()](#setVar)
+* [stop()](#stop)
 
 
 
@@ -1272,6 +1275,105 @@ Results in {{vars.key}} being replaced with the value in val.
 
 
 
+<a name="stop"></a>
+### stop()
+Stop the dialog.
+
+
+
+<a name="BotkitTestClient"></a>
+## BotkitTestClient
+A client for testing dialogs in isolation.
+
+To use this class in your application, first install the package:
+```bash
+npm install --save botkit
+```
+
+Then import this and other classes into your code:
+```javascript
+const { BotkitTestClient } = require('botkit');
+```
+
+This class includes the following methods:
+* [getNextReply()](#getNextReply)
+* [sendActivity()](#sendActivity)
+
+
+
+### Create a new BotkitTestClient()
+**Parameters**
+
+| Argument | Type | Description
+|--- |--- |---
+| channelId | string | The channelId to be used for the test.<br/>Use 'emulator' or 'test' if you are uncertain of the channel you are targeting.<br/>Otherwise, it is recommended that you use the id for the channel(s) your bot will be using and write a test case for each channel.
+| bot | [Botkit](#Botkit) | (Required) The Botkit bot that has the skill to test.
+| dialogToTest |  | (Required) The identifier of the skill to test in the bot.
+| initialDialogOptions | any | (Optional) additional argument(s) to pass to the dialog being started.
+| middlewares |  | (Optional) a stack of middleware to be run when testing
+| conversationState | ConversationState | (Optional) A ConversationState instance to use in the test client<br/>
+
+Create a BotkitTestClient to test a dialog without having to create a full-fledged adapter.
+
+```javascript
+let client = new BotkitTestClient('test', bot, MY_DIALOG, MY_OPTIONS);
+let reply = await client.sendActivity('first message');
+assert.strictEqual(reply.text, 'first reply', 'reply failed');
+```
+
+
+### Create a new BotkitTestClient()
+**Parameters**
+
+| Argument | Type | Description
+|--- |--- |---
+| testAdapter | TestAdapter | 
+| bot | [Botkit](#Botkit) | (Required) The Botkit bot that has the skill to test.
+| dialogToTest |  | (Required) The identifier of the skill to test in the bot.
+| initialDialogOptions | any | (Optional) additional argument(s) to pass to the dialog being started.
+| middlewares |  | (Optional) a stack of middleware to be run when testing
+| conversationState | ConversationState | (Optional) A ConversationState instance to use in the test client<br/>
+
+Create a BotkitTestClient to test a dialog without having to create a full-fledged adapter.
+
+```javascript
+let client = new BotkitTestClient('test', bot, MY_DIALOG, MY_OPTIONS);
+let reply = await client.sendActivity('first message');
+assert.strictEqual(reply.text, 'first reply', 'reply failed');
+```
+
+
+
+## Properties and Accessors
+
+| Name | Type | Description
+|--- |--- |---
+| conversationState | ConversationState | 
+| dialogTurnResult | DialogTurnResult | 
+
+## BotkitTestClient Class Methods
+<a name="getNextReply"></a>
+### getNextReply()
+Get the next reply waiting to be delivered (if one exists)
+
+
+<a name="sendActivity"></a>
+### sendActivity()
+Send an activity into the dialog.
+
+**Parameters**
+
+| Argument | Type | description
+|--- |--- |---
+| activity|  | an activity potentially with text<br/><br/>```javascript<br/>DialogTest.send('hello').assertReply('hello yourself').then(done);<br/>```<br/>
+
+
+**Returns**
+
+a TestFlow that can be used to assert replies etc
+
+
+
 
 
 <a name="BotkitConfiguration"></a>
@@ -1306,6 +1408,7 @@ Defines the options used when instantiating Botkit to create the main app contro
 | result | any | The results of the previous turn<br/>
 | state | any | A pointer to the current dialog state<br/>
 | thread | string | The name of the current thread<br/>
+| threadLength | number | The length of the current thread<br/>
 | values | any | A pointer directly to state.values<br/>
 <a name="BotkitHandler"></a>
 ## Interface BotkitHandler
