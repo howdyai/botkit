@@ -1,6 +1,6 @@
 {
   "name": "botbuilder-adapter-slack",
-  "version": "1.0.6",
+  "version": "1.0.7",
   "description": "Connect Botkit or BotBuilder to Slack",
   "main": "./lib/index.js",
   "typings": "./lib/index.d.ts",
@@ -33,7 +33,7 @@
     "url": "https://github.com/howdyai/botkit.git"
   },
   "dependencies": {
-    "@slack/web-api": "^5.2.1",
+    "@slack/web-api": "^5.5.0",
     "botbuilder": "^4.6.0",
     "botkit": "^4.6.0",
     "debug": "^4.1.0"
