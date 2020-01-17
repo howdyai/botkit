@@ -97,73 +97,9 @@ export class SlackAdapter extends BotAdapter {
         super();
 
         this.options = options;
-
-        /*
-        * Check for security options. If these are not set, malicious actors can
-        * spoof messages from Slack.
-        * These will be required in upcoming versions of Botkit.
-        */
-        if (!this.options.verificationToken && !this.options.clientSigningSecret) {
-            const warning = [
-                ``,
-                `****************************************************************************************`,
-                `* WARNING: Your bot is operating without recommended security mechanisms in place.     *`,
-                `* Initialize your adapter with a clientSigningSecret parameter to enable               *`,
-                `* verification that all incoming webhooks originate with Slack:                        *`,
-                `*                                                                                      *`,
-                `* var adapter = new SlackAdapter({clientSigningSecret: <my secret from slack>});       *`,
-                `*                                                                                      *`,
-                `****************************************************************************************`,
-                `>> Slack docs: https://api.slack.com/docs/verifying-requests-from-slack`,
-                ``
-            ];
-            console.warn(warning.join('\n'));
-            if (!this.options.enable_incomplete) {
-                throw new Error('Required: include a verificationToken or clientSigningSecret to verify incoming Events API webhooks');
-            }
-        }
-
-        if (this.options.botToken) {
-            this.slack = new WebClient(this.options.botToken);
-            this.slack.auth.test().then((raw_identity) => {
-                const identity = raw_identity as AuthTestResult;
-                debug('** Slack adapter running in single team mode.');
-                debug('** My Slack identity: ', identity.user, 'on team', identity.team);
-                this.identity = { user_id: identity.user_id };
-            }).catch((err) => {
-                // This is a fatal error! Invalid credentials have been provided and the bot can't start.
-                console.error(err);
-                process.exit(1);
-            });
-        } else if (!this.options.getTokenForTeam || !this.options.getBotUserByTeam) {
-            // This is a fatal error. No way to get a token to interact with the Slack API.
-            console.error('Missing Slack API credentials! Provide either a botToken or a getTokenForTeam() and getBotUserByTeam function as part of the SlackAdapter options.');
-            if (!this.options.enable_incomplete) {
-                throw new Error('Incomplete Slack configuration');
-            }
-        } else if (!this.options.clientId || !this.options.clientSecret || !this.options.scopes || !this.options.redirectUri) {
-            // This is a fatal error. Need info to connet to Slack via oauth
-            console.error('Missing Slack API credentials! Provide clientId, clientSecret, scopes and redirectUri as part of the SlackAdapter options.');
-            if (!this.options.enable_incomplete) {
-                throw new Error('Incomplete Slack configuration');
-            }
-        } else {
-            debug('** Slack adapter running in multi-team mode.');
-        }
-
-        if (this.options.enable_incomplete) {
-            const warning = [
-                ``,
-                `****************************************************************************************`,
-                `* WARNING: Your adapter may be running with an incomplete/unsafe configuration.        *`,
-                `* - Ensure all required configuration options are present                              *`,
-                `* - Disable the "enable_incomplete" option!                                            *`,
-                `****************************************************************************************`,
-                ``
-            ];
-            console.warn(warning.join('\n'));
-        }
-
+        this.checkForSecurityOptions();
+        this.checkForExplicitBotTokenOrUndefinedSlackSettings();
+        this.warnIfIncompleteSlackConfigEnabled()
         this.middlewares = {
             spawn: [
                 async (bot, next) => {
@@ -179,6 +115,119 @@ export class SlackAdapter extends BotAdapter {
         };
     }
 
+    /**
+     * Check for security options. If these are not set, malicious actors can
+     * spoof messages from Slack.
+     * These will be required in upcoming versions of Botkit.
+    */
+    protected checkForSecurityOptions(): void {
+        if (!this.options.verificationToken && !this.options.clientSigningSecret) {
+            const warning = [
+                ``,
+                `****************************************************************************************`,
+                `* WARNING: Your bot is operating without recommended security mechanisms in place.     *`,
+                `* Initialize your adapter with a clientSigningSecret parameter to enable               *`,
+                `* verification that all incoming webhooks originate with Slack:                        *`,
+                `*                                                                                      *`,
+                `* var adapter = new SlackAdapter({clientSigningSecret: <my secret from slack>});       *`,
+                `*                                                                                      *`,
+                `****************************************************************************************`,
+                `>> Slack docs: https://api.slack.com/docs/verifying-requests-from-slack`,
+                ``
+            ];
+            console.warn(warning.join('\n'));
+            this.throwIfIncompleteSlackConfigNotPermitted('Required: include a verificationToken or clientSigningSecret to verify incoming Events API webhooks')
+        }
+    }
+
+    /**
+     * Throws indicated error if incomplete not enabled. "Incomplete Slack configuration", by default.
+     */
+    protected throwIfIncompleteSlackConfigNotPermitted(errorMessage: string = "Incomplete Slack configuration") {
+        if (!this.options.enable_incomplete) {
+            throw new Error(errorMessage);
+        }
+    }
+
+    /**
+     * Checks for 
+     * - bot tokens, explicit or from storage using getTokenForTeam or getBotUserByTeam, 
+     * - client ID, 
+     * - client secret, 
+     * - scopes 
+     * - and redirect URI settings
+     * 
+     * All are required for proper use with Slack.
+     */
+    protected checkForExplicitBotTokenOrUndefinedSlackSettings() {
+        switch (undefined) {
+            case !this.options.botToken:
+                this.startSlackInSingleTeamMode();
+                break;
+            case this.options.getTokenForTeam || this.options.getBotUserByTeam:
+                // This is a fatal error. No way to get a token to interact with the Slack API.
+                console.error('Missing Slack API credentials! Provide either a botToken or a getTokenForTeam() and getBotUserByTeam function as part of the SlackAdapter options.');
+                this.throwIfIncompleteSlackConfigNotPermitted()
+                break;
+            case this.options.clientId || this.options.clientSecret || this.options.scopes || this.options.redirectUri:
+                // This is a fatal error. Need info to connet to Slack via oauth
+                console.error('Missing Slack API credentials! Provide clientId, clientSecret, scopes and redirectUri as part of the SlackAdapter options.');
+                this.throwIfIncompleteSlackConfigNotPermitted()
+                break
+            default:
+                debug('** Slack adapter running in multi-team mode.');
+        }
+    }
+
+    /**
+     * Sets adapter's slack property as new Slack WebClient and fatally tests auth. 
+     */
+    protected startSlackInSingleTeamMode(): void {
+        this.slack = new WebClient(this.options.botToken);
+        this.fatallyTestAuthAndAssignAdapterIdentity()
+    }
+
+    /**
+     *  Fatally tests slack auth. Assigns Slack Adapter identity property if passes, console-errors and dies if fails
+     */
+    protected fatallyTestAuthAndAssignAdapterIdentity(): void {
+        this.slack.auth.test().then((raw_identity) => {
+            this.assignAdapterIdentity(raw_identity);
+        }).catch((err) => {
+            // This is a fatal error! Invalid credentials have been provided and the bot can't start.
+            console.error(err);
+            process.exit(1);
+        });
+    }
+
+    /**
+     * Assigns adapter identity given raw_identity input.
+     * @param raw_identity raw identity result returned as [[WebAPICallResult]] from this.slack.auth.test()
+     */
+    protected assignAdapterIdentity(raw_identity: WebAPICallResult): void {
+        const identity = raw_identity as AuthTestResult;
+        debug('** Slack adapter running in single team mode.');
+        debug('** My Slack identity: ', identity.user, 'on team', identity.team);
+        this.identity = { user_id: identity.user_id };
+    }
+
+    /**
+     * Pops in-your-face warning if enable_incomplete option is enabled.
+     */
+    protected warnIfIncompleteSlackConfigEnabled(): void {
+        if (this.options.enable_incomplete) {
+            const warning = [
+                ``,
+                `****************************************************************************************`,
+                `* WARNING: Your adapter may be running with an incomplete/unsafe configuration.        *`,
+                `* - Ensure all required configuration options are present                              *`,
+                `* - Disable the "enable_incomplete" option!                                            *`,
+                `****************************************************************************************`,
+                ``
+            ];
+            console.warn(warning.join('\n'));
+        }
+    }
     /**
      * Get a Slack API client with the correct credentials based on the team identified in the incoming activity.
      * This is used by many internal functions to get access to the Slack API, and is exposed as `bot.api` on any bot worker instances.
@@ -314,7 +363,7 @@ export class SlackAdapter extends BotAdapter {
 
         // if channelData is specified, overwrite any fields in message object
         if (activity.channelData) {
-            Object.keys(activity.channelData).forEach(function(key) {
+            Object.keys(activity.channelData).forEach(function (key) {
                 message[key] = activity.channelData[key];
             });
         }
@@ -525,18 +574,18 @@ export class SlackAdapter extends BotAdapter {
                     type: ActivityTypes.Event,
                     text: null
                 };
-                
+
                 // If this is a message originating from a block_action or button click, we'll mark it as a message
                 // so it gets processed in BotkitConversations
                 if ((event.type === 'block_actions' || event.type == 'interactive_message') && event.actions) {
                     activity.type = ActivityTypes.Message;
                     switch (event.actions[0].type) {
-                        case 'button':  
+                        case 'button':
                             activity.text = event.actions[0].value;
-                        break
+                            break
                         case 'static_select':
                         case 'external_select':
-                        case 'overflow': 
+                        case 'overflow':
                             activity.text = event.actions[0].selected_option.value;
                             break
                         case 'users_select':
@@ -554,7 +603,7 @@ export class SlackAdapter extends BotAdapter {
                         default: activity.text = event.actions[0].type;
                     }
                 }
-                  
+
                 // @ts-ignore this complains because of extra fields in conversation
                 activity.recipient.id = await this.getBotUserByTeam(activity as Activity);
 
