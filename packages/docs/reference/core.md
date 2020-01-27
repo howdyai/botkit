@@ -1306,28 +1306,7 @@ This class includes the following methods:
 
 | Argument | Type | Description
 |--- |--- |---
-| channelId | string | The channelId to be used for the test.<br/>Use 'emulator' or 'test' if you are uncertain of the channel you are targeting.<br/>Otherwise, it is recommended that you use the id for the channel(s) your bot will be using and write a test case for each channel.
-| bot | [Botkit](#Botkit) | (Required) The Botkit bot that has the skill to test.
-| dialogToTest |  | (Required) The identifier of the skill to test in the bot.
-| initialDialogOptions | any | (Optional) additional argument(s) to pass to the dialog being started.
-| middlewares |  | (Optional) a stack of middleware to be run when testing
-| conversationState | ConversationState | (Optional) A ConversationState instance to use in the test client<br/>
-
-Create a BotkitTestClient to test a dialog without having to create a full-fledged adapter.
-
-```javascript
-let client = new BotkitTestClient('test', bot, MY_DIALOG, MY_OPTIONS);
-let reply = await client.sendActivity('first message');
-assert.strictEqual(reply.text, 'first reply', 'reply failed');
-```
-
-
-### Create a new BotkitTestClient()
-**Parameters**
-
-| Argument | Type | Description
-|--- |--- |---
-| testAdapter | TestAdapter | 
+| channelOrAdapter |  | 
 | bot | [Botkit](#Botkit) | (Required) The Botkit bot that has the skill to test.
 | dialogToTest |  | (Required) The identifier of the skill to test in the bot.
 | initialDialogOptions | any | (Optional) additional argument(s) to pass to the dialog being started.
