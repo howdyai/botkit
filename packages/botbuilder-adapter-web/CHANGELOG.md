@@ -3,7 +3,7 @@
 # 1.0.6
 
 * Update dependencies on Bot Framework and Botkit
-* Fix syntax error in sample clinet - Thanks @naktibalda! [#1881](https://github.com/howdyai/botkit/pull/1881)
+* Fix syntax error in sample client - Thanks @naktibalda! [#1881](https://github.com/howdyai/botkit/pull/1881)
 
 # 1.0.5
 

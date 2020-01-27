@@ -4,13 +4,16 @@
 
 [Want to contribute? Read our guide!](https://github.com/howdyai/botkit/blob/master/CONTRIBUTING.md)
 
-# 4.next
+# 4.6.1
+
+Version 4.6.1 includes some security and bugfix updates along with bumping many dependencies to the latest versions.
+We recommend updating both Botkit core and your platform adapter to the latest version.
 
 * Update Bot Framework dependencies to 4.7.1.  Resolved [#1882](https://github.com/howdyai/botkit/issues/1882) and [#1894](https://github.com/howdyai/botkit/issues/1894).
 * Remove `hbs` depencency from Botkit. Not used! Thanks @naktibaldi [#1855](https://github.com/howdyai/botkit/pull/1855)
 * Botkit feature modules can now be written in ES6 syntax. Thanks @cooperka!! [#1854](https://github.com/howdyai/botkit/pull/1854)
 * Allow `attachmentLayout` field in Botkit Conversations -- thanks @innorag [#1865](https://github.com/howdyai/botkit/pull/1865)
-
+* Update dependencies and some minor eslint syntax fixes across all the adapters and sub-packages.
 * Fixes in [botbuilder-adapter-slack](packages/botbuilder-adapter-slack/CHANGELOG.md#108)
 * Fixes in [botbuilder-adapter-web](packages/botbuilder-adapter-web/CHANGELOG.md#106)
 
