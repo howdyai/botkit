@@ -3,10 +3,9 @@ const request = require('request');
 module.exports = function(controller) {
 
     controller.hears('dm me', 'message', async(bot, message) => {
-        // huzzah
-        console.log('starting a new convo...');
+        // this does not work with Bot Framework Emulator.
+        // to achieve the same thing, use bot.changeContext(message.reference);
         await bot.startConversationWithUser(message.reference);
-        console.log('sending reply...');
         await bot.say('Hello! (in private');
     });
 
