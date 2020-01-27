@@ -34,14 +34,14 @@ interface BotkitConvoTrigger {
  * Template for definiting a BotkitConversation template
  */
 interface BotkitMessageTemplate {
-    text: string[];
+    text: ((template: any, vars: any) => string[]) | string[];
     action?: string;
     execute?: {
         script: string;
         thread?: string;
     };
-    quick_replies?: any[];
-    attachments?: any[];
+    quick_replies?: ((template: any, vars: any) => any[]) | any[];
+    attachments?: ((template: any, vars: any) => any[]) | any[];
     channelData?: any;
     collect: {
         key?: string;
@@ -962,7 +962,7 @@ export class BotkitConversation<O extends object = {}> extends Dialog<O> {
             await path.handler.call(this, step.result, convo, bot);
 
             if (!dc.activeDialog) {
-                return false;   
+                return false;
             }
             // did we just change threads? if so, restart this turn
             if (index !== step.index || thread_name !== step.thread) {
