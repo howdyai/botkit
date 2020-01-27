@@ -11,7 +11,9 @@ import { BotkitDialogWrapper } from './dialogWrapper';
 import { ActivityTypes, TurnContext, MessageFactory, ActionTypes } from 'botbuilder';
 import { Dialog, DialogContext, DialogReason, TextPrompt, DialogTurnStatus } from 'botbuilder-dialogs';
 import * as mustache from 'mustache';
-const debug = require('debug')('botkit:conversation');
+import * as Debug from 'debug';
+
+const debug = Debug('botkit:conversation');
 
 /**
  * Definition of the handler functions used to handle .ask and .addQuestion conditions
@@ -42,6 +44,8 @@ interface BotkitMessageTemplate {
     };
     quick_replies?: ((template: any, vars: any) => any[]) | any[];
     attachments?: ((template: any, vars: any) => any[]) | any[];
+    blocks?: ((template: any, vars: any) => any[]) | any[];
+    attachment?: ((template: any, vars: any) => any) | any;
     channelData?: any;
     collect: {
         key?: string;
@@ -186,7 +190,7 @@ export class BotkitConversation<O extends object = {}> extends Dialog<O> {
      * @param action An action or thread name
      * @param thread_name The name of the thread to which this action is added.  Defaults to `default`
      */
-    public addAction(action: string, thread_name: string = 'default'): BotkitConversation {
+    public addAction(action: string, thread_name = 'default'): BotkitConversation {
         this.addMessage({ action: action }, thread_name);
         return this;
     }
@@ -215,7 +219,7 @@ export class BotkitConversation<O extends object = {}> extends Dialog<O> {
      * @param key_name the variable name in which to store the results of the child dialog. if not provided, defaults to dialog_id.
      * @param thread_name the name of a thread to which this call should be added. defaults to 'default'
      */
-    public addChildDialog(dialog_id: string, key_name?: string, thread_name: string = 'default'): BotkitConversation {
+    public addChildDialog(dialog_id: string, key_name?: string, thread_name = 'default'): BotkitConversation {
         this.addQuestion({
             action: 'beginDialog',
             execute: {
@@ -242,7 +246,7 @@ export class BotkitConversation<O extends object = {}> extends Dialog<O> {
      * @param dialog_id the id of another dialog
      * @param thread_name the name of a thread to which this call should be added. defaults to 'default'
      */
-    public addGotoDialog(dialog_id: string, thread_name: string = 'default'): BotkitConversation {
+    public addGotoDialog(dialog_id: string, thread_name = 'default'): BotkitConversation {
         this.addMessage({
             action: 'execute_script',
             execute: {
@@ -378,7 +382,7 @@ export class BotkitConversation<O extends object = {}> extends Dialog<O> {
                 }
             ];
         } else {
-            throw new Error("Unsupported handlers type: " + typeof (handlers));
+            throw new Error('Unsupported handlers type: ' + typeof (handlers));
         }
 
         // ensure all options have a type field
@@ -430,7 +434,7 @@ export class BotkitConversation<O extends object = {}> extends Dialog<O> {
             const convo = new BotkitDialogWrapper(dc, step);
 
             for (let h = 0; h < this._beforeHooks[thread_name].length; h++) {
-                let handler = this._beforeHooks[thread_name][h];
+                const handler = this._beforeHooks[thread_name][h];
                 await handler.call(this, convo, bot);
             }
         }
@@ -471,7 +475,7 @@ export class BotkitConversation<O extends object = {}> extends Dialog<O> {
         if (this._afterHooks.length) {
             const bot = await this._controller.spawn(context);
             for (let h = 0; h < this._afterHooks.length; h++) {
-                let handler = this._afterHooks[h];
+                const handler = this._afterHooks[h];
 
                 await handler.call(this, results, bot);
             }
@@ -519,7 +523,7 @@ export class BotkitConversation<O extends object = {}> extends Dialog<O> {
             const convo = new BotkitDialogWrapper(dc, step);
 
             for (let h = 0; h < this._changeHooks[variable].length; h++) {
-                let handler = this._changeHooks[variable][h];
+                const handler = this._changeHooks[variable][h];
                 // await handler.call(this, value, convo);
                 await handler.call(this, value, convo, bot);
             }
@@ -585,20 +589,20 @@ export class BotkitConversation<O extends object = {}> extends Dialog<O> {
         const thread = this.script[step.thread];
 
         if (!thread) {
-            throw new Error(`Thread '${step.thread}' not found, did you add any messages to it?`)
+            throw new Error(`Thread '${ step.thread }' not found, did you add any messages to it?`);
         }
 
         // Capture the previous step value if there previous line included a prompt
-        var previous = (step.index >= 1) ? thread[step.index - 1] : null;
+        const previous = (step.index >= 1) ? thread[step.index - 1] : null;
         if (step.result && previous && previous.collect) {
             if (previous.collect.key) {
                 // capture before values
-                let index = step.index;
-                let thread_name = step.thread;
+                const index = step.index;
+                const thread_name = step.thread;
 
                 // capture the user input value into the array
                 if (step.values[previous.collect.key] && previous.collect.multiple) {
-                    step.values[previous.collect.key] = [ step.values[previous.collect.key], step.result ].join('\n');
+                    step.values[previous.collect.key] = [step.values[previous.collect.key], step.result].join('\n');
                 } else {
                     step.values[previous.collect.key] = step.result;
                 }
@@ -614,12 +618,12 @@ export class BotkitConversation<O extends object = {}> extends Dialog<O> {
 
             // handle conditions of previous step
             if (previous.collect.options) {
-                var paths = previous.collect.options.filter((option) => { return !option.default === true; });
-                var default_path = previous.collect.options.filter((option) => { return option.default === true; })[0];
-                var path = null;
+                const paths = previous.collect.options.filter((option) => { return !option.default === true; });
+                const default_path = previous.collect.options.filter((option) => { return option.default === true; })[0];
+                let path = null;
 
                 for (let p = 0; p < paths.length; p++) {
-                    let condition = paths[p];
+                    const condition = paths[p];
                     let test;
                     if (condition.type === 'string') {
                         test = new RegExp(condition.pattern, 'i');
@@ -629,7 +633,7 @@ export class BotkitConversation<O extends object = {}> extends Dialog<O> {
                     // TODO: Allow functions to be passed in as patterns
                     // ie async(test) => Promise<boolean>
 
-                    if (step.result && typeof(step.result) == 'string' && step.result.match(test)) {
+                    if (step.result && typeof (step.result) === 'string' && step.result.match(test)) {
                         path = condition;
                         break;
                     }
@@ -646,7 +650,7 @@ export class BotkitConversation<O extends object = {}> extends Dialog<O> {
                         // since this would represent the "end" message and probably not part of the input
                     }
 
-                    var res = await this.handleAction(path, dc, step);
+                    const res = await this.handleAction(path, dc, step);
 
                     if (res !== false) {
                         return res;
@@ -662,7 +666,7 @@ export class BotkitConversation<O extends object = {}> extends Dialog<O> {
 
         // Handle the current step
         if (step.index < thread.length) {
-            let line = thread[step.index];
+            const line = thread[step.index];
 
             // If a prompt is defined in the script, use dc.prompt to call it.
             // This prompt must be a valid dialog defined somewhere in your code!
@@ -678,14 +682,14 @@ export class BotkitConversation<O extends object = {}> extends Dialog<O> {
             // This could be extended to include cards and other activity attributes.
             } else {
                 // if there is text, attachments, or any channel data fields at all...
-                if (line.type || line.text || line.attachments || line.attachment || line.blocks ||  (line.channelData && Object.keys(line.channelData).length)) {
+                if (line.type || line.text || line.attachments || line.attachment || line.blocks || (line.channelData && Object.keys(line.channelData).length)) {
                     await dc.context.sendActivity(await this.makeOutgoing(dc, line, step.values));
                 } else if (!line.action) {
                     console.error('Dialog contains invalid message', line);
                 }
 
                 if (line.action) {
-                    let res = await this.handleAction(line, dc, step);
+                    const res = await this.handleAction(line, dc, step);
                     if (res !== false) {
                         return res;
                     }
@@ -724,7 +728,7 @@ export class BotkitConversation<O extends object = {}> extends Dialog<O> {
             reason: reason,
             result: result,
             values: state.values,
-            next: async (stepResult) => {
+            next: async (stepResult): Promise<any> => {
                 if (nextCalled) {
                     throw new Error(`ScriptedStepContext.next(): method already called for dialog and step '${ this.id }[${ index }]'.`);
                 }
@@ -760,7 +764,7 @@ export class BotkitConversation<O extends object = {}> extends Dialog<O> {
         // TODO: may have to move these around
         // shallow copy todo: may need deep copy
         // protect against canceled dialog.
-        if (dc.activeDialog &&  dc.activeDialog.state) {
+        if (dc.activeDialog && dc.activeDialog.state) {
             const result = {
                 ...dc.activeDialog.state.values
             };
@@ -782,13 +786,12 @@ export class BotkitConversation<O extends object = {}> extends Dialog<O> {
         let outgoing;
         let text = '';
 
-
         // if the text is just a string, use it.
         // otherwise, if it is an array, pick a random element
-        if (line.text && typeof(line.text) === 'string') {
+        if (line.text && typeof (line.text) === 'string') {
             text = line.text;
         // If text is a function, call the function to get the actual text value.
-        } else if (line.text && typeof(line.text) === 'function') {
+        } else if (line.text && typeof (line.text) === 'function') {
             text = await line.text(line, vars);
         } else if (Array.isArray(line.text)) {
             text = line.text[Math.floor(Math.random() * line.text.length)];
@@ -796,7 +799,7 @@ export class BotkitConversation<O extends object = {}> extends Dialog<O> {
 
         /*******************************************************************************************************************/
         // use Bot Framework's message factory to construct the initial object.
-        if (line.quick_replies && typeof(line.quick_replies) != 'function') {
+        if (line.quick_replies && typeof (line.quick_replies) !== 'function') {
             outgoing = MessageFactory.suggestedActions(line.quick_replies.map((reply) => { return { type: ActionTypes.PostBack, title: reply.title, text: reply.payload, displayText: reply.title, value: reply.payload }; }), text);
         } else {
             outgoing = MessageFactory.text(text);
@@ -806,19 +809,19 @@ export class BotkitConversation<O extends object = {}> extends Dialog<O> {
 
         /*******************************************************************************************************************/
         // allow dynamic generation of quick replies and/or attachments
-        if (typeof(line.quick_replies)=='function') {
+        if (typeof (line.quick_replies) === 'function') {
             // set both formats of quick replies
             outgoing.channelData.quick_replies = await line.quick_replies(line, vars);
-            outgoing.suggestedActions = {actions: outgoing.channelData.quick_replies.map((reply) => { return { type: ActionTypes.PostBack, title: reply.title, text: reply.payload, displayText: reply.title, value: reply.payload }; }) };
+            outgoing.suggestedActions = { actions: outgoing.channelData.quick_replies.map((reply) => { return { type: ActionTypes.PostBack, title: reply.title, text: reply.payload, displayText: reply.title, value: reply.payload }; }) };
         }
-        if (typeof(line.attachment)=='function') {
+        if (typeof (line.attachment) === 'function') {
             outgoing.channelData.attachment = await line.attachment(line, vars);
         }
-        if (typeof(line.attachments)=='function') {
+        if (typeof (line.attachments) === 'function') {
             // set both locations for attachments
             outgoing.attachments = outgoing.channelData.attachments = await line.attachments(line, vars);
         }
-        if (typeof(line.blocks)=='function') {
+        if (typeof (line.blocks) === 'function') {
             outgoing.channelData.blocks = await line.blocks(line, vars);
         }
 
@@ -827,18 +830,18 @@ export class BotkitConversation<O extends object = {}> extends Dialog<O> {
 
         // Quick replies are used by Facebook and Web adapters, but in a different way than they are for Bot Framework.
         // In order to make this as easy as possible, copy these fields for the developer into channelData.
-        if (line.quick_replies && typeof(line.quick_replies) != 'function') {
+        if (line.quick_replies && typeof (line.quick_replies) !== 'function') {
             outgoing.channelData.quick_replies = JSON.parse(JSON.stringify(line.quick_replies));
         }
 
         // Similarly, attachment and blocks fields are platform specific.
         // handle slack Block attachments
-        if (line.blocks && typeof(line.blocks) != 'function') {
+        if (line.blocks && typeof (line.blocks) !== 'function') {
             outgoing.channelData.blocks = JSON.parse(JSON.stringify(line.blocks));
         }
 
         // handle facebook attachments.
-        if (line.attachment && typeof(line.attachment) != 'function') {
+        if (line.attachment && typeof (line.attachment) !== 'function') {
             outgoing.channelData.attachment = JSON.parse(JSON.stringify(line.attachment));
         }
 
@@ -848,7 +851,7 @@ export class BotkitConversation<O extends object = {}> extends Dialog<O> {
         }
 
         // copy all the values in channelData fields
-        for (var key in line.channelData) {
+        for (const key in line.channelData) {
             outgoing.channelData[key] = JSON.parse(JSON.stringify(line.channelData[key]));
         }
 
@@ -859,7 +862,7 @@ export class BotkitConversation<O extends object = {}> extends Dialog<O> {
         }
 
         // process templates in native botframework attachments and/or slack attachments
-        if (line.attachments && typeof(line.attachments) != 'function') {
+        if (line.attachments && typeof (line.attachments) !== 'function') {
             outgoing.attachments = this.parseTemplatesRecursive(JSON.parse(JSON.stringify(line.attachments)), vars);
         }
 
@@ -885,19 +888,18 @@ export class BotkitConversation<O extends object = {}> extends Dialog<O> {
             outgoing.suggestedActions = this.parseTemplatesRecursive(outgoing.suggestedActions, vars);
         }
 
-        const that = this;
-        return new Promise(async (resolve, reject) => {
+        return new Promise((resolve, reject) => {
             // run the outgoing message through the Botkit send middleware
-            const bot = await that._controller.spawn(dc);
-            that._controller.middleware.send.run(bot, outgoing, (err, bot, outgoing) => {
-                if (err) {
-                    reject(err);
-                } else {
-                    resolve(outgoing);
-                }
-            });
+            this._controller.spawn(dc).then((bot) => {
+                this._controller.middleware.send.run(bot, outgoing, (err, bot, outgoing) => {
+                    if (err) {
+                        reject(err);
+                    } else {
+                        resolve(outgoing);
+                    }
+                });
+            }).catch(reject);
         });
-
     }
 
     /**
@@ -908,7 +910,7 @@ export class BotkitConversation<O extends object = {}> extends Dialog<O> {
     private parseTemplatesRecursive(attachments: any, vars: any): any {
         if (attachments && attachments.length) {
             for (let a = 0; a < attachments.length; a++) {
-                for (let key in attachments[a]) {
+                for (const key in attachments[a]) {
                     if (typeof (attachments[a][key]) === 'string') {
                         attachments[a][key] = mustache.render(attachments[a][key], { vars: vars });
                     } else {
@@ -917,7 +919,7 @@ export class BotkitConversation<O extends object = {}> extends Dialog<O> {
                 }
             }
         } else {
-            for (let x in attachments) {
+            for (const x in attachments) {
                 if (typeof (attachments[x]) === 'string') {
                     attachments[x] = mustache.render(attachments[x], { vars: vars });
                 } else {
@@ -949,6 +951,7 @@ export class BotkitConversation<O extends object = {}> extends Dialog<O> {
      * @param step The current stpe object
      */
     private async handleAction(path, dc, step): Promise<any> {
+        let worker = null;
         if (path.handler) {
             const index = step.index;
             const thread_name = step.thread;
@@ -986,18 +989,18 @@ export class BotkitConversation<O extends object = {}> extends Dialog<O> {
             step.values._status = 'timeout';
             return await this.end(dc);
         case 'execute_script':
-            const ebot = await this._controller.spawn(dc);
+            worker = await this._controller.spawn(dc);
 
-            await ebot.replaceDialog(path.execute.script, {
+            await worker.replaceDialog(path.execute.script, {
                 thread: path.execute.thread,
                 ...step.values
             });
 
             return { status: DialogTurnStatus.waiting };
         case 'beginDialog':
-            let rbot = await this._controller.spawn(dc);
+            worker = await this._controller.spawn(dc);
 
-            await rbot.beginDialog(path.execute.script, {
+            await worker.beginDialog(path.execute.script, {
                 thread: path.execute.thread,
                 ...step.values
             });
