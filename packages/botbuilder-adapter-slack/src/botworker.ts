@@ -1,6 +1,10 @@
 /**
  * @module botbuilder-adapter-slack
  */
+/**
+ * Copyright (c) Microsoft Corporation. All rights reserved.
+ * Licensed under the MIT License.
+ */
 
 import { Botkit, BotkitMessage, BotWorker } from 'botkit';
 import { WebClient, Dialog } from '@slack/web-api';
