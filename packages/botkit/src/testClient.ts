@@ -15,13 +15,12 @@ import {
     TurnContext
 } from 'botbuilder-core';
 import { Dialog, DialogSet, DialogTurnResult, DialogTurnStatus } from 'botbuilder-dialogs';
-import { Botkit } from "./core";
+import { Botkit } from './core';
 
 /**
  * A client for testing dialogs in isolation.
  */
 export class BotkitTestClient {
-
     private readonly _callback: (turnContext: TurnContext) => Promise<void>;
     private readonly _testAdapter: TestAdapter;
     public dialogTurnResult: DialogTurnResult;
@@ -45,12 +44,12 @@ export class BotkitTestClient {
      * @param middlewares (Optional) a stack of middleware to be run when testing
      * @param conversationState (Optional) A ConversationState instance to use in the test client
      */
-    constructor(channelId: string, bot: Botkit, dialogToTest: string | string[], initialDialogOptions?: any, middlewares?: Middleware[], conversationState?: ConversationState)
-    constructor(testAdapter: TestAdapter, bot: Botkit, dialogToTest: string | string[], initialDialogOptions?: any, middlewares?: Middleware[], conversationState?: ConversationState)
-    constructor(channelOrAdapter: string | TestAdapter, bot: Botkit, dialogToTest: string | string[], initialDialogOptions?: any, middlewares?: Middleware[], conversationState?: ConversationState) {
+    // public constructor(channelId: string, bot: Botkit, dialogToTest: string | string[], initialDialogOptions?: any, middlewares?: Middleware[], conversationState?: ConversationState)
+    // public constructor(testAdapter: TestAdapter, bot: Botkit, dialogToTest: string | string[], initialDialogOptions?: any, middlewares?: Middleware[], conversationState?: ConversationState)
+    public constructor(channelOrAdapter: string | TestAdapter, bot: Botkit, dialogToTest: string | string[], initialDialogOptions?: any, middlewares?: Middleware[], conversationState?: ConversationState) {
         this.conversationState = conversationState || new ConversationState(new MemoryStorage());
 
-        let dialogState = this.conversationState.createProperty('DialogState');
+        const dialogState = this.conversationState.createProperty('DialogState');
 
         let targetDialogs = [];
         if (Array.isArray(dialogToTest)) {
@@ -70,14 +69,14 @@ export class BotkitTestClient {
             targetDialogs = [
                 bot.dialogSet.find(dialogToTest),
                 bot.dialogSet.find(dialogToTest + '_default_prompt'),
-                bot.dialogSet.find(dialogToTest + ':botkit-wrapper'),
+                bot.dialogSet.find(dialogToTest + ':botkit-wrapper')
             ];
         }
 
         this._callback = this.getDefaultCallback(targetDialogs, initialDialogOptions || null, dialogState);
 
-        if (typeof channelOrAdapter == 'string') {
-            this._testAdapter = new TestAdapter(this._callback, {channelId: channelOrAdapter}).use(new AutoSaveStateMiddleware(this.conversationState));
+        if (typeof channelOrAdapter === 'string') {
+            this._testAdapter = new TestAdapter(this._callback, { channelId: channelOrAdapter }).use(new AutoSaveStateMiddleware(this.conversationState));
         } else {
             this._testAdapter = channelOrAdapter;
         }
@@ -102,14 +101,12 @@ export class BotkitTestClient {
     /**
      * Get the next reply waiting to be delivered (if one exists)
      */
-    public getNextReply() {
+    public getNextReply(): Partial<Activity> {
         return this._testAdapter.activityBuffer.shift();
     }
 
     private getDefaultCallback(targetDialogs: Dialog[], initialDialogOptions: any, dialogState: any): (turnContext: TurnContext) => Promise<void> {
-
-        return async (turnContext: TurnContext) => {
-
+        return async (turnContext: TurnContext): Promise<void> => {
             const dialogSet = new DialogSet(dialogState);
             targetDialogs.forEach(targetDialog => dialogSet.add(targetDialog));
 
@@ -128,5 +125,4 @@ export class BotkitTestClient {
             });
         }
     }
-
 }

@@ -23,7 +23,7 @@ export class HangoutsAdapter extends BotAdapter {
      * Name used by Botkit plugin loader
      * @ignore
      */
-    public name: string = 'Google Hangouts Adapter';
+    public name = 'Google Hangouts Adapter';
     /**
      * Object containing one or more Botkit middlewares to bind automatically.
      * @ignore
@@ -89,17 +89,17 @@ export class HangoutsAdapter extends BotAdapter {
 
         if (!this.options.token) {
             const warning = [
-                ``,
-                `****************************************************************************************`,
-                `* WARNING: Your bot is operating without recommended security mechanisms in place.     *`,
-                `* Initialize your adapter with a token parameter to enable                             *`,
-                `* verification that all incoming webhooks originate with Google:                       *`,
-                `*                                                                                      *`,
-                `* var adapter = new HangoutsAdapter({token: <my secret from Google>});                 *`,
-                `*                                                                                      *`,
-                `****************************************************************************************`,
-                `>> Official docs: https://developers.google.com/hangouts/chat/how-tos/bots-develop?hl=en_US#verifying_bot_authenticity`,
-                ``
+                '',
+                '****************************************************************************************',
+                '* WARNING: Your bot is operating without recommended security mechanisms in place.     *',
+                '* Initialize your adapter with a token parameter to enable                             *',
+                '* verification that all incoming webhooks originate with Google:                       *',
+                '*                                                                                      *',
+                '* var adapter = new HangoutsAdapter({token: <my secret from Google>});                 *',
+                '*                                                                                      *',
+                '****************************************************************************************',
+                '>> Official docs: https://developers.google.com/hangouts/chat/how-tos/bots-develop?hl=en_US#verifying_bot_authenticity',
+                ''
             ];
             console.warn(warning.join('\n'));
             if (!this.options.enable_incomplete) {
@@ -107,7 +107,7 @@ export class HangoutsAdapter extends BotAdapter {
             }
         }
 
-        let params = {
+        const params = {
             scopes: 'https://www.googleapis.com/auth/chat.bot',
             ...this.options.google_auth_params
         };
@@ -127,20 +127,20 @@ export class HangoutsAdapter extends BotAdapter {
 
         if (this.options.enable_incomplete) {
             const warning = [
-                ``,
-                `****************************************************************************************`,
-                `* WARNING: Your adapter may be running with an incomplete/unsafe configuration.        *`,
-                `* - Ensure all required configuration options are present                              *`,
-                `* - Disable the "enable_incomplete" option!                                            *`,
-                `****************************************************************************************`,
-                ``
+                '',
+                '****************************************************************************************',
+                '* WARNING: Your adapter may be running with an incomplete/unsafe configuration.        *',
+                '* - Ensure all required configuration options are present                              *',
+                '* - Disable the "enable_incomplete" option!                                            *',
+                '****************************************************************************************',
+                ''
             ];
             console.warn(warning.join('\n'));
         }
 
         this.middlewares = {
             spawn: [
-                async (bot, next) => {
+                async (bot, next): Promise<void> => {
                     bot.api = this.api;
                     next();
                 }
@@ -184,7 +184,7 @@ export class HangoutsAdapter extends BotAdapter {
      */
     public async sendActivities(context: TurnContext, activities: Partial<Activity>[]): Promise<ResourceResponse[]> {
         const responses = [];
-        for (var a = 0; a < activities.length; a++) {
+        for (let a = 0; a < activities.length; a++) {
             const activity = activities[a] as Activity;
             if (activity.type === ActivityTypes.Message) {
                 const message = this.activityToHangouts(activity);
@@ -282,7 +282,7 @@ export class HangoutsAdapter extends BotAdapter {
      * @param logic A bot logic function in the form `async(context) => { ... }`
      */
     public async processActivity(req, res, logic: (context: TurnContext) => Promise<void>): Promise<void> {
-        let event = req.body;
+        const event = req.body;
 
         debug('IN FROM HANGOUTS >', event);
 
