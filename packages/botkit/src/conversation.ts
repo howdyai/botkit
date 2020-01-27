@@ -46,6 +46,7 @@ interface BotkitMessageTemplate {
     attachments?: ((template: any, vars: any) => any[]) | any[];
     blocks?: ((template: any, vars: any) => any[]) | any[];
     attachment?: ((template: any, vars: any) => any) | any;
+    attachmentLayout?: string;
     channelData?: any;
     collect: {
         key?: string;
