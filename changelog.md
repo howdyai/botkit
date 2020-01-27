@@ -6,8 +6,12 @@
 
 # 4.next
 
-* Update Bot Framework dependencies to 4.7.1.  This resolves Typescript build issues.
+* Update Bot Framework dependencies to 4.7.1.  Resolved [#1882](https://github.com/howdyai/botkit/issues/1882) and [#1894](https://github.com/howdyai/botkit/issues/1894).
 * Remove `hbs` depencency from Botkit. Not used! Thanks @naktibaldi [#1855](https://github.com/howdyai/botkit/pull/1855)
+* Botkit feature modules can now be written in ES6 syntax. Thanks @cooperka!! [#1854](https://github.com/howdyai/botkit/pull/1854)
+
+* Fixes in [botbuilder-adapter-slack](packages/botbuilder-adapter-slack/CHANGELOG.md#108)
+* Fixes in [botbuilder-adapter-web](packages/botbuilder-adapter-web/CHANGELOG.md#106)
 
 
 # 4.6

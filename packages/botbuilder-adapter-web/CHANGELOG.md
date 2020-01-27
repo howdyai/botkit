@@ -1,5 +1,10 @@
 # botbuilder-adapter-web changelog
 
+# 1.0.6
+
+* Update dependencies on Bot Framework and Botkit
+* Fix syntax error in sample clinet - Thanks @naktibalda! [#1881](https://github.com/howdyai/botkit/pull/1881)
+
 # 1.0.5
 
 * Update dependencies (Bot Framework to 4.6, Botkit to 4.6)
