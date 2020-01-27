@@ -4,6 +4,12 @@
 
 [Want to contribute? Read our guide!](https://github.com/howdyai/botkit/blob/master/CONTRIBUTING.md)
 
+# 4.next
+
+* Update Bot Framework dependencies to 4.7.1.  This resolves Typescript build issues.
+* Remove `hbs` depencency from Botkit. Not used! Thanks @naktibaldi [#1855](https://github.com/howdyai/botkit/pull/1855)
+
+
 # 4.6
 
 Version 4.6 includes security and bugfix updates to many dependencies, as well as fixes to some issues in Botkit core.

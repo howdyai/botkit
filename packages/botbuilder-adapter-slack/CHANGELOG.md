@@ -1,5 +1,9 @@
 # botbuilder-adapter-slack changelog
 
+# 1.0.8
+
+* Update @slack/web-api to 5.7.0
+
 # 1.0.7
 
 * Update @slack/web-api to 5.5.0

@@ -14,7 +14,6 @@ import * as path from 'path';
 import * as http from 'http';
 import * as express from 'express';
 import * as bodyParser from 'body-parser';
-import * as hbs from 'hbs';
 
 import * as Ware from 'ware';
 import * as fs from 'fs';
@@ -381,15 +380,6 @@ export class Botkit {
                 }
 
                 this.http = http.createServer(this.webserver);
-
-                hbs.localsAsTemplateData(this.webserver);
-
-                // From https://stackoverflow.com/questions/10232574/handlebars-js-parse-object-instead-of-object-object
-                hbs.registerHelper('json', function(context) {
-                    return JSON.stringify(context);
-                });
-
-                this.webserver.set('view engine', 'hbs');
 
                 this.http.listen(process.env.port || process.env.PORT || 3000, () => {
                     if (this._config.disable_console !== true) {
