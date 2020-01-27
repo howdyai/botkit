@@ -4,7 +4,9 @@ module.exports = function(controller) {
 
     controller.hears('dm me', 'message', async(bot, message) => {
         // huzzah
+        console.log('starting a new convo...');
         await bot.startConversationWithUser(message.reference);
+        console.log('sending reply...');
         await bot.say('Hello! (in private');
     });
 
@@ -34,7 +36,7 @@ module.exports = function(controller) {
     controller.hears('members', 'message', async(bot, message) => {
 
         let members = await controller.adapter.getConversationMembers(bot.getConfig('context'));
-        bot.reply(message,JSON.stringify(members));
+        await bot.reply(message,JSON.stringify(members));
 
     });
 
