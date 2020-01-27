@@ -38,17 +38,17 @@ export class SlackMessageTypeMiddleware extends MiddlewareSet {
      */
     public async onTurn(context: TurnContext, next: () => Promise<any>): Promise<void> {
         if (context.activity.type === 'message' && context.activity.channelData) {
-            let adapter = context.adapter as SlackAdapter;
+            const adapter = context.adapter as SlackAdapter;
 
             const bot_user_id = await adapter.getBotUserByTeam(context.activity);
-            var mentionSyntax = '<@' + bot_user_id + '(\\|.*?)?>';
-            var mention = new RegExp(mentionSyntax, 'i');
-            var direct_mention = new RegExp('^' + mentionSyntax, 'i');
+            const mentionSyntax = '<@' + bot_user_id + '(\\|.*?)?>';
+            const mention = new RegExp(mentionSyntax, 'i');
+            const direct_mention = new RegExp('^' + mentionSyntax, 'i');
 
             // is this a DM, a mention, or just ambient messages passing through?
-            if (context.activity.channelData.type == 'block_actions') { 
+            if (context.activity.channelData.type === 'block_actions') {
                 context.activity.channelData.botkitEventType = 'block_actions';
-            } else if (context.activity.channelData.type == 'interactive_message') { 
+            } else if (context.activity.channelData.type === 'interactive_message') {
                 context.activity.channelData.botkitEventType = 'interactive_message';
             } else if (context.activity.channelData.channel_type && context.activity.channelData.channel_type === 'im') {
                 context.activity.channelData.botkitEventType = 'direct_message';

@@ -20,7 +20,7 @@ export class TwilioAdapter extends BotAdapter {
      * Name used by Botkit plugin loader
      * @ignore
      */
-    public name: string = 'Twilio SMS Adapter';
+    public name = 'Twilio SMS Adapter';
 
     /**
      * Object containing one or more Botkit middlewares to bind automatically.
@@ -80,7 +80,7 @@ export class TwilioAdapter extends BotAdapter {
         this.options = options;
 
         if (!options.twilio_number) {
-            let err = 'twilio_number is a required part of the configuration.';
+            const err = 'twilio_number is a required part of the configuration.';
             if (!this.options.enable_incomplete) {
                 throw new Error(err);
             } else {
@@ -88,7 +88,7 @@ export class TwilioAdapter extends BotAdapter {
             }
         }
         if (!options.account_sid) {
-            let err = 'account_sid  is a required part of the configuration.';
+            const err = 'account_sid  is a required part of the configuration.';
             if (!this.options.enable_incomplete) {
                 throw new Error(err);
             } else {
@@ -96,7 +96,7 @@ export class TwilioAdapter extends BotAdapter {
             }
         }
         if (!options.auth_token) {
-            let err = 'auth_token is a required part of the configuration.';
+            const err = 'auth_token is a required part of the configuration.';
             if (!this.options.enable_incomplete) {
                 throw new Error(err);
             } else {
@@ -106,13 +106,13 @@ export class TwilioAdapter extends BotAdapter {
 
         if (this.options.enable_incomplete) {
             const warning = [
-                ``,
-                `****************************************************************************************`,
-                `* WARNING: Your adapter may be running with an incomplete/unsafe configuration.        *`,
-                `* - Ensure all required configuration options are present                              *`,
-                `* - Disable the "enable_incomplete" option!                                            *`,
-                `****************************************************************************************`,
-                ``
+                '',
+                '****************************************************************************************',
+                '* WARNING: Your adapter may be running with an incomplete/unsafe configuration.        *',
+                '* - Ensure all required configuration options are present                              *',
+                '* - Disable the "enable_incomplete" option!                                            *',
+                '****************************************************************************************',
+                ''
             ];
             console.warn(warning.join('\n'));
         }
@@ -131,7 +131,7 @@ export class TwilioAdapter extends BotAdapter {
 
         this.middlewares = {
             spawn: [
-                async (bot, next) => {
+                async (bot, next): Promise<void> => {
                     bot.api = this.api;
                     next();
                 }
@@ -145,7 +145,7 @@ export class TwilioAdapter extends BotAdapter {
      * @returns a Twilio message object with {body, from, to, mediaUrl}
      */
     private activityToTwilio(activity: Partial<Activity>): any {
-        let message = {
+        const message = {
             body: activity.text,
             from: this.options.twilio_number,
             to: activity.conversation.id,
@@ -167,7 +167,7 @@ export class TwilioAdapter extends BotAdapter {
      */
     public async sendActivities(context: TurnContext, activities: Partial<Activity>[]): Promise<ResourceResponse[]> {
         const responses = [];
-        for (var a = 0; a < activities.length; a++) {
+        for (let a = 0; a < activities.length; a++) {
             const activity = activities[a];
             if (activity.type === ActivityTypes.Message) {
                 const message = this.activityToTwilio(activity as Activity);

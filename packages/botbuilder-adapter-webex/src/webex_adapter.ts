@@ -52,7 +52,7 @@ export class WebexAdapter extends BotAdapter {
      * Name used by Botkit plugin loader
      * @ignore
      */
-    public name: string = 'Webex Adapter';
+    public name = 'Webex Adapter';
 
     /**
      * Object containing one or more Botkit middlewares to bind automatically.
@@ -115,7 +115,7 @@ export class WebexAdapter extends BotAdapter {
         };
 
         if (!this.options.access_token) {
-            let err = 'Missing required parameter `access_token`';
+            const err = 'Missing required parameter `access_token`';
             if (!this.options.enable_incomplete) {
                 throw new Error(err);
             } else {
@@ -131,7 +131,7 @@ export class WebexAdapter extends BotAdapter {
             });
 
             if (!this._api) {
-                let err = 'Could not create the Webex Teams API client';
+                const err = 'Could not create the Webex Teams API client';
                 if (!this.options.enable_incomplete) {
                     throw new Error(err);
                 } else {
@@ -141,14 +141,14 @@ export class WebexAdapter extends BotAdapter {
         }
 
         if (!this.options.public_address) {
-            let err = 'Missing required parameter `public_address`';
+            const err = 'Missing required parameter `public_address`';
             if (!this.options.enable_incomplete) {
                 throw new Error(err);
             } else {
                 console.error(err);
             }
         } else {
-            var endpoint = url.parse(this.options.public_address);
+            const endpoint = new url.URL(this.options.public_address);
             if (!endpoint.hostname) {
                 throw new Error('Could not determine hostname of public address: ' + this.options.public_address);
             } else {
@@ -162,13 +162,13 @@ export class WebexAdapter extends BotAdapter {
 
         if (this.options.enable_incomplete) {
             const warning = [
-                ``,
-                `****************************************************************************************`,
-                `* WARNING: Your adapter may be running with an incomplete/unsafe configuration.        *`,
-                `* - Ensure all required configuration options are present                              *`,
-                `* - Disable the "enable_incomplete" option!                                            *`,
-                `****************************************************************************************`,
-                ``
+                '',
+                '****************************************************************************************',
+                '* WARNING: Your adapter may be running with an incomplete/unsafe configuration.        *',
+                '* - Ensure all required configuration options are present                              *',
+                '* - Disable the "enable_incomplete" option!                                            *',
+                '****************************************************************************************',
+                ''
             ];
             console.warn(warning.join('\n'));
         }
@@ -239,9 +239,9 @@ export class WebexAdapter extends BotAdapter {
      * Clear out and reset all the webhook subscriptions currently associated with this application.
      */
     public async resetWebhookSubscriptions(): Promise<any> {
-        return new Promise(async (resolve, reject) => {
+        return new Promise((resolve, reject) => {
             this._api.webhooks.list().then(async (list) => {
-                for (var i = 0; i < list.items.length; i++) {
+                for (let i = 0; i < list.items.length; i++) {
                     await this._api.webhooks.remove(list.items[i]).catch(reject);
                 }
                 resolve();
@@ -254,18 +254,18 @@ export class WebexAdapter extends BotAdapter {
      * @param webhook_path the path of the webhook endpoint like `/api/messages`
      */
     public registerWebhookSubscription(webhook_path): void {
-        var webhook_name = this.options.webhook_name || 'Botkit Firehose';
+        const webhook_name = this.options.webhook_name || 'Botkit Firehose';
 
         this._api.webhooks.list().then((list) => {
-            var hook_id = null;
+            let hook_id = null;
 
-            for (var i = 0; i < list.items.length; i++) {
+            for (let i = 0; i < list.items.length; i++) {
                 if (list.items[i].name === webhook_name) {
                     hook_id = list.items[i].id;
                 }
             }
 
-            var hook_url = 'https://' + this.options.public_address + webhook_path;
+            const hook_url = 'https://' + this.options.public_address + webhook_path;
 
             debug('Webex: incoming webhook url is ', hook_url);
 
@@ -302,23 +302,23 @@ export class WebexAdapter extends BotAdapter {
         });
     }
 
-        /**
+    /**
      * Register a webhook subscription with Webex Teams to start receiving message events.
      * @param webhook_path the path of the webhook endpoint like `/api/messages`
      */
     public registerAdaptiveCardWebhookSubscription(webhook_path): void {
-        var webhook_name = this.options.webhook_name || 'Botkit AttachmentActions';
+        const webhook_name = this.options.webhook_name || 'Botkit AttachmentActions';
 
         this._api.webhooks.list().then((list) => {
-            var hook_id = null;
+            let hook_id = null;
 
-            for (var i = 0; i < list.items.length; i++) {
+            for (let i = 0; i < list.items.length; i++) {
                 if (list.items[i].name === webhook_name) {
                     hook_id = list.items[i].id;
                 }
             }
 
-            var hook_url = 'https://' + this.options.public_address + webhook_path;
+            const hook_url = 'https://' + this.options.public_address + webhook_path;
 
             debug('Webex: incoming webhook url is ', hook_url);
 
@@ -363,7 +363,7 @@ export class WebexAdapter extends BotAdapter {
      */
     public async sendActivities(context: TurnContext, activities: Partial<Activity>[]): Promise<ResourceResponse[]> {
         const responses = [];
-        for (var a = 0; a < activities.length; a++) {
+        for (let a = 0; a < activities.length; a++) {
             const activity = activities[a];
             if (activity.type === ActivityTypes.Message) {
                 // debug('OUTGOING ACTIVITY', activity);
@@ -392,8 +392,8 @@ export class WebexAdapter extends BotAdapter {
                 } else if (activity.channelData && activity.channelData.attachments) {
                     message.attachments = activity.channelData.attachments;
                 }
-                
-                let response = await this._api.messages.create(message);
+
+                const response = await this._api.messages.create(message);
 
                 responses.push(response);
             } else {
@@ -459,12 +459,12 @@ export class WebexAdapter extends BotAdapter {
         res.status(200);
         res.end();
 
-        var payload = req.body;
+        const payload = req.body;
         let activity;
 
         if (this.options.secret) {
-            var signature = req.headers['x-spark-signature'];
-            var hash = crypto.createHmac('sha1', this.options.secret).update(JSON.stringify(payload)).digest('hex');
+            const signature = req.headers['x-spark-signature'];
+            const hash = crypto.createHmac('sha1', this.options.secret).update(JSON.stringify(payload)).digest('hex');
             if (signature !== hash) {
                 console.warn('WARNING: Webhook received message with invalid signature. Potential malicious behavior!');
                 return false;
@@ -507,16 +507,16 @@ export class WebexAdapter extends BotAdapter {
                 // strip the mention & HTML from the message
                 let pattern = new RegExp('^(<p>|<div>)?<spark-mention .*?data-object-id="' + this.identity.id + '".*?>.*?</spark-mention>', 'im');
                 if (!decrypted_message.html.match(pattern)) {
-                    var encoded_id = this.identity.id;
-                    var decoded = Buffer.from(encoded_id, 'base64').toString('ascii');
+                    const encoded_id = this.identity.id;
+                    const decoded = Buffer.from(encoded_id, 'base64').toString('ascii');
 
                     // this should look like ciscospark://us/PEOPLE/<id string>
-                    var matches;
+                    let matches;
                     if ((matches = decoded.match(/ciscospark:\/\/.*\/(.*)/im))) {
                         pattern = new RegExp('^(<p>|<div>)?<spark-mention .*?data-object-id="' + matches[1] + '".*?>.*?</spark-mention>', 'im');
                     }
                 }
-                var action = decrypted_message.html.replace(pattern, '');
+                let action = decrypted_message.html.replace(pattern, '');
 
                 // strip the remaining HTML tags
                 action = action.replace(/<.*?>/img, '');
@@ -527,7 +527,7 @@ export class WebexAdapter extends BotAdapter {
                 // replace the message text with the the HTML version
                 activity.text = action;
             } else {
-                let pattern = new RegExp('^' + this.identity.displayName + '\\s+', 'i');
+                const pattern = new RegExp('^' + this.identity.displayName + '\\s+', 'i');
                 if (activity.text) {
                     activity.text = activity.text.replace(pattern, '');
                 }
@@ -539,8 +539,7 @@ export class WebexAdapter extends BotAdapter {
             this.runMiddleware(context, logic)
                 .catch((err) => { console.error(err.toString()); });
         } else if (payload.resource === 'attachmentActions' && payload.event === 'created') {
-
-            let decrypted_message = await this._api.attachmentActions.get(payload.data);
+            const decrypted_message = await this._api.attachmentActions.get(payload.data);
 
             activity = {
                 id: decrypted_message.id,
@@ -567,7 +566,6 @@ export class WebexAdapter extends BotAdapter {
 
             this.runMiddleware(context, logic)
                 .catch((err) => { console.error(err.toString()); });
-
         } else {
             // type == payload.resource + '.' + payload.event
             // memberships.deleted for example

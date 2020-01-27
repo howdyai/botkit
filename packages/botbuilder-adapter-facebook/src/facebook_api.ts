@@ -31,7 +31,7 @@ export class FacebookAPI {
      * @param api_host optional root hostname for constructing api calls, defaults to graph.facebook.com
      * @param api_version optional api version used when constructing api calls, defaults to v3.2
      */
-    public constructor(token: string, secret: string, api_host: string = 'graph.facebook.com', api_version: string = 'v3.2') {
+    public constructor(token: string, secret: string, api_host = 'graph.facebook.com', api_version = 'v3.2') {
         if (!token) {
             throw new Error('Token is required!');
         }
@@ -47,15 +47,15 @@ export class FacebookAPI {
      * @param method HTTP method, for example POST, GET, DELETE or PUT.
      * @param payload An object to be sent as parameters to the API call.
      */
-    public async callAPI(path: string, method: string = 'POST', payload: any = {}): Promise<any> {
+    public async callAPI(path: string, method = 'POST', payload: any = {}): Promise<any> {
         const proof = this.getAppSecretProof(this.token, this.secret);
 
         let queryString = '?';
         let body = {};
 
         if (method.toUpperCase() === 'GET') {
-            for(const key in payload) {
-                queryString = queryString + `${encodeURIComponent(key)}=${encodeURIComponent(payload[key])}&`;
+            for (const key in payload) {
+                queryString = queryString + `${ encodeURIComponent(key) }=${ encodeURIComponent(payload[key]) }&`;
             }
         } else {
             body = payload;
@@ -66,7 +66,7 @@ export class FacebookAPI {
                 method: method.toUpperCase(),
                 json: true,
                 body,
-                uri: `https://${this.api_host}/${this.api_version}${path}${queryString}access_token=${this.token}&appsecret_proof=${proof}`
+                uri: `https://${ this.api_host }/${ this.api_version }${ path }${ queryString }access_token=${ this.token }&appsecret_proof=${ proof }`
             }, (err, res, body) => {
                 if (err) {
                     reject(err);
@@ -85,7 +85,7 @@ export class FacebookAPI {
      * @param app_secret an app secret
      */
     private getAppSecretProof(access_token, app_secret): string {
-        var hmac = crypto.createHmac('sha256', app_secret || '');
+        const hmac = crypto.createHmac('sha256', app_secret || '');
         return hmac.update(access_token).digest('hex');
     }
 }

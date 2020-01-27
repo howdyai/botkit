@@ -24,7 +24,7 @@ export class WebAdapter extends BotAdapter {
      * Name used to register this adapter with Botkit.
      * @ignore
      */
-    public name: string = 'Web Adapter';
+    public name = 'Web Adapter';
 
     /**
      * The websocket server.
@@ -134,10 +134,10 @@ export class WebAdapter extends BotAdapter {
                     this.runMiddleware(context, logic)
                         .catch((err) => { console.error(err.toString()); });
                 } catch (e) {
-                    var alert = [
-                        `Error parsing incoming message from websocket.`,
-                        `Message must be JSON, and should be in the format documented here:`,
-                        `https://botkit.ai/docs/readme-web.html#message-objects`
+                    const alert = [
+                        'Error parsing incoming message from websocket.',
+                        'Message must be JSON, and should be in the format documented here:',
+                        'https://botkit.ai/docs/readme-web.html#message-objects'
                     ];
                     console.error(alert.join('\n'));
                     console.error(e);
@@ -168,7 +168,7 @@ export class WebAdapter extends BotAdapter {
      * @returns a message ready to send back to the websocket client.
      */
     private activityToMessage(activity: Partial<Activity>): any {
-        let message = {
+        const message = {
             type: activity.type,
             text: activity.text
         };
@@ -183,6 +183,7 @@ export class WebAdapter extends BotAdapter {
         debug('OUTGOING > ', message);
         return message;
     }
+
     /**
      * Standard BotBuilder adapter method to send a message from the bot to the messaging API.
      * [BotBuilder reference docs](https://docs.microsoft.com/en-us/javascript/api/botbuilder-core/botadapter?view=botbuilder-ts-latest#sendactivities).
@@ -191,16 +192,16 @@ export class WebAdapter extends BotAdapter {
      */
     public async sendActivities(context: TurnContext, activities: Partial<Activity>[]): Promise<ResourceResponse[]> {
         const responses = [];
-        for (var a = 0; a < activities.length; a++) {
+        for (let a = 0; a < activities.length; a++) {
             const activity = activities[a];
 
-            let message = this.activityToMessage(activity);
+            const message = this.activityToMessage(activity);
 
             const channel = context.activity.channelId;
 
             if (channel === 'websocket') {
                 // If this turn originated with a websocket message, respond via websocket
-                var ws = clients[activity.recipient.id];
+                const ws = clients[activity.recipient.id];
                 if (ws && ws.readyState === 1) {
                     try {
                         ws.send(JSON.stringify(message));

@@ -27,7 +27,7 @@ export class SlackAdapter extends BotAdapter {
      * Name used by Botkit plugin loader
      * @ignore
      */
-    public name: string = 'Slack Adapter';
+    public name = 'Slack Adapter';
 
     /**
      * Object containing one or more Botkit middlewares to bind automatically.
@@ -105,17 +105,17 @@ export class SlackAdapter extends BotAdapter {
         */
         if (!this.options.verificationToken && !this.options.clientSigningSecret) {
             const warning = [
-                ``,
-                `****************************************************************************************`,
-                `* WARNING: Your bot is operating without recommended security mechanisms in place.     *`,
-                `* Initialize your adapter with a clientSigningSecret parameter to enable               *`,
-                `* verification that all incoming webhooks originate with Slack:                        *`,
-                `*                                                                                      *`,
-                `* var adapter = new SlackAdapter({clientSigningSecret: <my secret from slack>});       *`,
-                `*                                                                                      *`,
-                `****************************************************************************************`,
-                `>> Slack docs: https://api.slack.com/docs/verifying-requests-from-slack`,
-                ``
+                '',
+                '****************************************************************************************',
+                '* WARNING: Your bot is operating without recommended security mechanisms in place.     *',
+                '* Initialize your adapter with a clientSigningSecret parameter to enable               *',
+                '* verification that all incoming webhooks originate with Slack:                        *',
+                '*                                                                                      *',
+                '* var adapter = new SlackAdapter({clientSigningSecret: <my secret from slack>});       *',
+                '*                                                                                      *',
+                '****************************************************************************************',
+                '>> Slack docs: https://api.slack.com/docs/verifying-requests-from-slack',
+                ''
             ];
             console.warn(warning.join('\n'));
             if (!this.options.enable_incomplete) {
@@ -153,13 +153,13 @@ export class SlackAdapter extends BotAdapter {
 
         if (this.options.enable_incomplete) {
             const warning = [
-                ``,
-                `****************************************************************************************`,
-                `* WARNING: Your adapter may be running with an incomplete/unsafe configuration.        *`,
-                `* - Ensure all required configuration options are present                              *`,
-                `* - Disable the "enable_incomplete" option!                                            *`,
-                `****************************************************************************************`,
-                ``
+                '',
+                '****************************************************************************************',
+                '* WARNING: Your adapter may be running with an incomplete/unsafe configuration.        *',
+                '* - Ensure all required configuration options are present                              *',
+                '* - Disable the "enable_incomplete" option!                                            *',
+                '****************************************************************************************',
+                ''
             ];
             console.warn(warning.join('\n'));
         }
@@ -299,11 +299,11 @@ export class SlackAdapter extends BotAdapter {
      * @returns a Slack message object with {text, attachments, channel, thread_ts} as well as any fields found in activity.channelData
      */
     public activityToSlack(activity: Partial<Activity>): any {
-        let channelId = activity.conversation.id;
+        const channelId = activity.conversation.id;
         // @ts-ignore ignore this non-standard field
-        let thread_ts = activity.conversation.thread_ts;
+        const thread_ts = activity.conversation.thread_ts;
 
-        let message: any = {
+        const message: any = {
             ts: activity.id,
             text: activity.text,
             attachments: activity.attachments,
@@ -339,7 +339,7 @@ export class SlackAdapter extends BotAdapter {
      */
     public async sendActivities(context: TurnContext, activities: Partial<Activity>[]): Promise<ResourceResponse[]> {
         const responses = [];
-        for (var a = 0; a < activities.length; a++) {
+        for (let a = 0; a < activities.length; a++) {
             const activity = activities[a];
             if (activity.type === ActivityTypes.Message) {
                 const message = this.activityToSlack(activity as Activity);
@@ -448,20 +448,20 @@ export class SlackAdapter extends BotAdapter {
     private async verifySignature(req, res): Promise<boolean> {
         // is this an verified request from slack?
         if (this.options.clientSigningSecret && req.rawBody) {
-            let timestamp = req.header('X-Slack-Request-Timestamp');
-            let body = req.rawBody;
+            const timestamp = req.header('X-Slack-Request-Timestamp');
+            const body = req.rawBody;
 
-            let signature = [
+            const signature = [
                 'v0',
                 timestamp, // slack request timestamp
                 body // request body
             ];
-            let basestring = signature.join(':');
+            const basestring = signature.join(':');
 
             const hash = 'v0=' + crypto.createHmac('sha256', this.options.clientSigningSecret)
                 .update(basestring)
                 .digest('hex');
-            let retrievedSignature = req.header('X-Slack-Signature');
+            const retrievedSignature = req.header('X-Slack-Signature');
 
             // Compare the hash of the computed signature with the retrieved signature with a secure hmac compare function
             const validSignature = (): boolean => {
@@ -525,36 +525,36 @@ export class SlackAdapter extends BotAdapter {
                     type: ActivityTypes.Event,
                     text: null
                 };
-                
+
                 // If this is a message originating from a block_action or button click, we'll mark it as a message
                 // so it gets processed in BotkitConversations
-                if ((event.type === 'block_actions' || event.type == 'interactive_message') && event.actions) {
+                if ((event.type === 'block_actions' || event.type === 'interactive_message') && event.actions) {
                     activity.type = ActivityTypes.Message;
                     switch (event.actions[0].type) {
-                        case 'button':  
-                            activity.text = event.actions[0].value;
-                        break
-                        case 'static_select':
-                        case 'external_select':
-                        case 'overflow': 
-                            activity.text = event.actions[0].selected_option.value;
-                            break
-                        case 'users_select':
-                            activity.text = event.actions[0].selected_user;
-                            break
-                        case 'conversations_select':
-                            activity.text = event.actions[0].selected_conversation;
-                            break
-                        case 'channels_select':
-                            activity.text = event.actions[0].selected_channel;
-                            break
-                        case 'datepicker':
-                            activity.text = event.actions[0].selected_date;
-                            break
-                        default: activity.text = event.actions[0].type;
+                    case 'button':
+                        activity.text = event.actions[0].value;
+                        break;
+                    case 'static_select':
+                    case 'external_select':
+                    case 'overflow':
+                        activity.text = event.actions[0].selected_option.value;
+                        break;
+                    case 'users_select':
+                        activity.text = event.actions[0].selected_user;
+                        break;
+                    case 'conversations_select':
+                        activity.text = event.actions[0].selected_conversation;
+                        break;
+                    case 'channels_select':
+                        activity.text = event.actions[0].selected_channel;
+                        break;
+                    case 'datepicker':
+                        activity.text = event.actions[0].selected_date;
+                        break;
+                    default: activity.text = event.actions[0].type;
                     }
                 }
-                  
+
                 // @ts-ignore this complains because of extra fields in conversation
                 activity.recipient.id = await this.getBotUserByTeam(activity as Activity);
 
