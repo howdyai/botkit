@@ -3,6 +3,7 @@
 # 1.0.8
 
 * Update @slack/web-api to 5.7.0
+* Make `redirectUri` optional in type definition - thanks @yakirn [#1895](https://github.com/howdyai/botkit/pull/1895/files)
 
 # 1.0.7
 

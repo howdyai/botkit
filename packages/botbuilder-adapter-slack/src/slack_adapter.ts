@@ -729,7 +729,7 @@ export interface SlackAdapterOptions {
     /**
      * The URL users will be redirected to after an oauth flow. In most cases, should be `https://<mydomain.com>/install/auth`
      */
-    redirectUri: string;
+    redirectUri?: string;
 
     /**
      * A method that receives a Slack team id and returns the bot token associated with that team. Required for multi-team apps.
