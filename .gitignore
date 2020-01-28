@@ -10,6 +10,7 @@ examples/db_team_bot/
 */.DS_Store
 .idea
 .vscode
+.env
 coverage
 
 # simple_storage files
