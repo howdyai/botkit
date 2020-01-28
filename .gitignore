@@ -8,7 +8,6 @@ examples/db_slackbutton_slashcommand/
 examples/db_team_bot/
 .DS_Store
 */.DS_Store
-.env
 .idea
 .vscode
 coverage
