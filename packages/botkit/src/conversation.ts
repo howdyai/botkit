@@ -5,7 +5,7 @@
  * Copyright (c) Microsoft Corporation. All rights reserved.
  * Licensed under the MIT License.
  */
-import { Botkit } from './core';
+import { Botkit, BotkitMessage } from './core';
 import { BotWorker } from './botworker';
 import { BotkitDialogWrapper } from './dialogWrapper';
 import { Activity, ActivityTypes, TurnContext, MessageFactory, ActionTypes } from 'botbuilder';
@@ -19,7 +19,7 @@ const debug = Debug('botkit:conversation');
  * Definition of the handler functions used to handle .ask and .addQuestion conditions
  */
 interface BotkitConvoHandler {
-    (answer: string, convo: BotkitDialogWrapper, bot: BotWorker, message: Activity): Promise<any>;
+    (answer: string, convo: BotkitDialogWrapper, bot: BotWorker, message: BotkitMessage): Promise<any>;
 }
 
 /**
@@ -480,7 +480,6 @@ export class BotkitConversation<O extends object = {}> extends Dialog<O> {
             const bot = await this._controller.spawn(context);
             for (let h = 0; h < this._afterHooks.length; h++) {
                 const handler = this._afterHooks[h];
-
                 await handler.call(this, results, bot);
             }
         }
@@ -561,7 +560,7 @@ export class BotkitConversation<O extends object = {}> extends Dialog<O> {
         }
 
         // Run next step with the message text as the result.
-        return await this.resumeDialog(dc, DialogReason.continueCalled, dc.context.activity.text);
+        return await this.resumeDialog(dc, DialogReason.continueCalled, dc.context.activity);
     }
 
     /**
@@ -590,7 +589,6 @@ export class BotkitConversation<O extends object = {}> extends Dialog<O> {
     private async onStep(dc, step): Promise<any> {
         // Let's interpret the current line of the script.
         const thread = this.script[step.thread];
-        const result = step.result ? step.result.text : step.result;
 
         if (!thread) {
             throw new Error(`Thread '${ step.thread }' not found, did you add any messages to it?`);
@@ -606,13 +604,13 @@ export class BotkitConversation<O extends object = {}> extends Dialog<O> {
 
                 // capture the user input value into the array
                 if (step.values[previous.collect.key] && previous.collect.multiple) {
-                    step.values[previous.collect.key] = [step.values[previous.collect.key], result].join('\n');
+                    step.values[previous.collect.key] = [step.values[previous.collect.key], step.result].join('\n');
                 } else {
-                    step.values[previous.collect.key] = result;
+                    step.values[previous.collect.key] = step.result;
                 }
 
                 // run onChange handlers
-                await this.runOnChange(previous.collect.key, result, dc, step);
+                await this.runOnChange(previous.collect.key, step.result, dc, step);
 
                 // did we just change threads? if so, restart this turn
                 if (index !== step.index || thread_name !== step.thread) {
@@ -637,7 +635,7 @@ export class BotkitConversation<O extends object = {}> extends Dialog<O> {
                     // TODO: Allow functions to be passed in as patterns
                     // ie async(test) => Promise<boolean>
 
-                    if (result && typeof (result) === 'string' && result.match(test)) {
+                    if (step.result && typeof (step.result) === 'string' && step.result.match(test)) {
                         path = condition;
                         break;
                     }
@@ -682,8 +680,8 @@ export class BotkitConversation<O extends object = {}> extends Dialog<O> {
                     await dc.context.sendActivity(`Failed to start prompt ${ this._prompt }`);
                     return await step.next();
                 }
-            // If there's nothing but text, send it!
-            // This could be extended to include cards and other activity attributes.
+                // If there's nothing but text, send it!
+                // This could be extended to include cards and other activity attributes.
             } else {
                 // if there is text, attachments, or any channel data fields at all...
                 if (line.type || line.text || line.attachments || line.attachment || line.blocks || (line.channelData && Object.keys(line.channelData).length)) {
@@ -720,7 +718,6 @@ export class BotkitConversation<O extends object = {}> extends Dialog<O> {
         const state = dc.activeDialog.state;
         state.stepIndex = index;
         state.thread = thread_name;
-
         // Create step context
         const nextCalled = false;
         const step = {
@@ -730,7 +727,8 @@ export class BotkitConversation<O extends object = {}> extends Dialog<O> {
             state: state,
             options: state.options,
             reason: reason,
-            result: result,
+            result: result && result.text ? result.text : result,
+            resultObject: result,
             values: state.values,
             next: async (stepResult): Promise<any> => {
                 if (nextCalled) {
@@ -961,7 +959,8 @@ export class BotkitConversation<O extends object = {}> extends Dialog<O> {
         if (path.handler) {
             const index = step.index;
             const thread_name = step.thread;
-            const response = typeof (step.result) === 'object' ? step.result.text : step.result;
+            const result = step.result;
+            const response = result.text || (typeof (result) === 'string' ? result : null);
 
             // spawn a bot instance so devs can use API or other stuff as necessary
             const bot = await this._controller.spawn(dc);
@@ -969,7 +968,7 @@ export class BotkitConversation<O extends object = {}> extends Dialog<O> {
             // create a convo controller object
             const convo = new BotkitDialogWrapper(dc, step);
 
-            await path.handler.call(this, response, convo, bot, step.result);
+            await path.handler.call(this, response, convo, bot, step.resultObject);
 
             if (!dc.activeDialog) {
                 return false;
