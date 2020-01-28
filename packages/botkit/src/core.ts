@@ -700,7 +700,7 @@ export class Botkit {
      * @return {BotkitMessage} the newly created BotkitMessage activity
      */
     private incomingMessageToBotkitMessage(message: any): BotkitMessage {
-        const {channelData} = message;
+        const { channelData } = message;
         const activity = {
             // start with all the fields that were in the original incoming payload. NOTE: this is a shallow copy, is that a problem?
             ...message,
@@ -735,7 +735,7 @@ export class Botkit {
         const botkitContext = new TurnContext(
             turnContext.adapter,
             this.incomingMessageToBotkitMessage(turnContext.activity)
-        )
+        );
 
         // Create a dialog context
         const dialogContext = await this.dialogSet.createContext(botkitContext);
@@ -844,7 +844,7 @@ export class Botkit {
     private async listenForTriggers(bot: BotWorker, message: BotkitMessage): Promise<any> {
         if (this._triggers[message.event]) {
             const triggers = this._triggers[message.event];
-            for (var t = 0; t < triggers.length; t++) {
+            for (let t = 0; t < triggers.length; t++) {
                 const test_results = await this.testTrigger(triggers[t], message);
                 if (test_results) {
                     debug('Heard pattern: ', triggers[t].pattern);
@@ -868,7 +868,7 @@ export class Botkit {
     private async listenForInterrupts(bot: BotWorker, message: BotkitMessage): Promise<any> {
         if (this._interrupts[message.event]) {
             const triggers = this._interrupts[message.event];
-            for (var t = 0; t < triggers.length; t++) {
+            for (let t = 0; t < triggers.length; t++) {
                 const test_results = await this.testTrigger(triggers[t], message);
                 if (test_results) {
                     debug('Heard interruption: ', triggers[t].pattern);

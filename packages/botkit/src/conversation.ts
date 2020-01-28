@@ -19,7 +19,7 @@ const debug = Debug('botkit:conversation');
  * Definition of the handler functions used to handle .ask and .addQuestion conditions
  */
 interface BotkitConvoHandler {
-    (answer: string, convo: BotkitDialogWrapper, bot: BotWorker): Promise<any>;
+    (answer: string, convo: BotkitDialogWrapper, bot: BotWorker, message: Activity): Promise<any>;
 }
 
 /**
@@ -528,7 +528,6 @@ export class BotkitConversation<O extends object = {}> extends Dialog<O> {
 
             for (let h = 0; h < this._changeHooks[variable].length; h++) {
                 const handler = this._changeHooks[variable][h];
-                // await handler.call(this, value, convo);
                 await handler.call(this, value, convo, bot);
             }
         }
@@ -607,7 +606,7 @@ export class BotkitConversation<O extends object = {}> extends Dialog<O> {
 
                 // capture the user input value into the array
                 if (step.values[previous.collect.key] && previous.collect.multiple) {
-                    step.values[previous.collect.key] = [ step.values[previous.collect.key], result ].join('\n');
+                    step.values[previous.collect.key] = [step.values[previous.collect.key], result].join('\n');
                 } else {
                     step.values[previous.collect.key] = result;
                 }
@@ -638,8 +637,7 @@ export class BotkitConversation<O extends object = {}> extends Dialog<O> {
                     // TODO: Allow functions to be passed in as patterns
                     // ie async(test) => Promise<boolean>
 
-
-                    if (result && typeof(result) == 'string' && result.match(test)) {
+                    if (result && typeof (result) === 'string' && result.match(test)) {
                         path = condition;
                         break;
                     }
@@ -813,7 +811,7 @@ export class BotkitConversation<O extends object = {}> extends Dialog<O> {
 
         outgoing.channelData = outgoing.channelData ? outgoing.channelData : {};
         if (line.attachmentLayout) {
-                outgoing.attachmentLayout = line.attachmentLayout;
+            outgoing.attachmentLayout = line.attachmentLayout;
         }
         /*******************************************************************************************************************/
         // allow dynamic generation of quick replies and/or attachments
@@ -963,6 +961,7 @@ export class BotkitConversation<O extends object = {}> extends Dialog<O> {
         if (path.handler) {
             const index = step.index;
             const thread_name = step.thread;
+            const response = typeof (step.result) === 'object' ? step.result.text : step.result;
 
             // spawn a bot instance so devs can use API or other stuff as necessary
             const bot = await this._controller.spawn(dc);
@@ -970,7 +969,7 @@ export class BotkitConversation<O extends object = {}> extends Dialog<O> {
             // create a convo controller object
             const convo = new BotkitDialogWrapper(dc, step);
 
-            await path.handler.call(this, step.result, convo, bot);
+            await path.handler.call(this, response, convo, bot, step.result);
 
             if (!dc.activeDialog) {
                 return false;
