@@ -1,6 +1,6 @@
 {
   "name": "botbuilder-adapter-slack",
-  "version": "1.0.7",
+  "version": "1.0.8",
   "description": "Connect Botkit or BotBuilder to Slack",
   "main": "./lib/index.js",
   "typings": "./lib/index.d.ts",
@@ -33,17 +33,17 @@
     "url": "https://github.com/howdyai/botkit.git"
   },
   "dependencies": {
-    "@slack/web-api": "^5.5.0",
-    "botbuilder": "^4.6.0",
-    "botkit": "^4.6.0",
+    "@slack/web-api": "^5.7.0",
+    "botbuilder": "^4.7.1",
+    "botkit": "^4.6.2",
     "debug": "^4.1.0"
   },
   "devDependencies": {
-    "eslint": "^6.6.0",
-    "eslint-config-standard": "^12.0.0",
-    "eslint-plugin-import": "^2.14.0",
-    "eslint-plugin-node": "^7.0.1",
-    "eslint-plugin-promise": "^4.0.1",
-    "eslint-plugin-standard": "^4.0.0"
+    "eslint": "^6.8.0",
+    "eslint-config-standard": "^14.1.0",
+    "eslint-plugin-import": "^2.20.0",
+    "eslint-plugin-node": "^11.0.0",
+    "eslint-plugin-promise": "^4.2.1",
+    "eslint-plugin-standard": "^4.0.1"
   }
 }

@@ -71,10 +71,10 @@ export class BotkitBotFrameworkAdapter extends BotFrameworkAdapter {
      */
     public async getChannels(context: TurnContext): Promise<{id: string; name: string}[]> {
         if (context.activity.channelData && context.activity.channelData.team) {
-            let token = await this.credentials.getToken(true);
+            const token = await this.credentials.getToken(true);
 
-            var uri = context.activity.serviceUrl + 'v3/teams/' + context.activity.channelData.team.id + '/conversations/';
-            return new Promise(async (resolve, reject) => {
+            const uri = context.activity.serviceUrl + 'v3/teams/' + context.activity.channelData.team.id + '/conversations/';
+            return new Promise((resolve, reject) => {
                 request({
                     method: 'GET',
                     headers: {

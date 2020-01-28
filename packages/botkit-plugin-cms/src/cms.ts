@@ -8,8 +8,10 @@
 
 import { Botkit, BotkitDialogWrapper, BotkitMessage, BotWorker, BotkitConversation } from 'botkit';
 import * as request from 'request';
-const url = require('url');
-const debug = require('debug')('botkit:cms');
+import * as Debug from 'debug';
+import * as url from 'url';
+
+const debug = Debug('botkit:cms');
 
 /**
  * A plugin for Botkit that provides access to an instance of [Botkit CMS](https://github.com/howdyai/botkit-cms), including the ability to load script content into a DialogSet
@@ -34,14 +36,14 @@ export class BotkitCMSHelper {
     /**
      * Botkit Plugin name
      */
-    public name: string = 'Botkit CMS';
+    public name = 'Botkit CMS';
 
     public constructor(config: CMSOptions) {
         this._config = config;
         if (config.controller) {
             this._controller = this._config.controller;
         }
-        
+
         // for backwards compat, handle these alternate locations
         if (this._config.cms_uri && !this._config.uri) {
             this._config.uri = this._config.cms_uri;
@@ -79,9 +81,9 @@ export class BotkitCMSHelper {
         });
     }
 
-    private async apiRequest(uri: string, params: {[key: string]: any} = {}, method: string = 'GET'): Promise<any> {
-        let req = {
-            uri: url.resolve(this._config.uri, uri + '?access_token=' + this._config.token),
+    private async apiRequest(uri: string, params: {[key: string]: any} = {}, method = 'GET'): Promise<any> {
+        const req = {
+            uri: new url.URL(uri + '?access_token=' + this._config.token, this._config.uri),
             headers: {
                 'content-type': 'application/json'
             },
@@ -99,7 +101,7 @@ export class BotkitCMSHelper {
                 } else {
                     debug('Raw results from Botkit CMS: ', body);
                     if (body === 'Invalid access token') {
-                        return reject('Failed to load Botkit CMS content: Invalid access token provided.\nMake sure the token passed into the CMS plugin matches the token set in the CMS .env file.');
+                        return reject(new Error('Failed to load Botkit CMS content: Invalid access token provided.\nMake sure the token passed into the CMS plugin matches the token set in the CMS .env file.'));
                     }
                     let json = null;
                     try {
@@ -139,16 +141,16 @@ export class BotkitCMSHelper {
      * @param dialogSet A DialogSet into which the dialogs should be loaded.  In most cases, this is `controller.dialogSet`, allowing Botkit to access these dialogs through `bot.beginDialog()`.
      */
     public async loadAllScripts(botkit: Botkit): Promise<void> {
-        var scripts = await this.getScripts();
+        const scripts = await this.getScripts();
 
         scripts.forEach((script) => {
             // map threads from array to object
-            let threads = {};
+            const threads = {};
             script.script.forEach((thread) => {
                 threads[thread.topic] = thread.script.map(this.mapFields);
             });
 
-            let d = new BotkitConversation(script.command, this._controller);
+            const d = new BotkitConversation(script.command, this._controller);
             d.script = threads;
             botkit.addDialog(d);
         });
@@ -172,7 +174,7 @@ export class BotkitCMSHelper {
 
         // we might have a facebook attachment in fb_attachments
         if (line.fb_attachment) {
-            let attachment = line.fb_attachment;
+            const attachment = line.fb_attachment;
             if (attachment.template_type) {
                 if (attachment.template_type === 'button') {
                     attachment.text = line.text[0];
@@ -190,7 +192,7 @@ export class BotkitCMSHelper {
 
             // remove blank button array if specified
             if (line.channelData.attachment.payload.elements) {
-                for (var e = 0; e < line.channelData.attachment.payload.elements.length; e++) {
+                for (let e = 0; e < line.channelData.attachment.payload.elements.length; e++) {
                     if (!line.channelData.attachment.payload.elements[e].buttons || !line.channelData.attachment.payload.elements[e].buttons.length) {
                         delete (line.channelData.attachment.payload.elements[e].buttons);
                     }
@@ -220,7 +222,7 @@ export class BotkitCMSHelper {
 
         // handle additional custom fields defined in Botkit-CMS
         if (line.meta) {
-            for (var a = 0; a < line.meta.length; a++) {
+            for (let a = 0; a < line.meta.length; a++) {
                 line.channelData[line.meta[a].key] = line.meta[a].value;
             }
             delete (line.meta);
@@ -263,7 +265,7 @@ export class BotkitCMSHelper {
      * @param handler A handler function in the form async(convo, bot) => {}
      */
     public before(script_name: string, thread_name: string, handler: (convo: BotkitDialogWrapper, bot: BotWorker) => Promise<void>): void {
-        let dialog = this._controller.dialogSet.find(script_name) as BotkitConversation;
+        const dialog = this._controller.dialogSet.find(script_name) as BotkitConversation;
         if (dialog) {
             dialog.before(thread_name, handler);
         } else {
@@ -288,7 +290,7 @@ export class BotkitCMSHelper {
     * @param handler A handler function in the form async(value, convo, bot) => {}
     */
     public onChange(script_name: string, variable_name: string, handler: (value: any, convo: BotkitDialogWrapper, bot: BotWorker) => Promise<void>): void {
-        let dialog = this._controller.dialogSet.find(script_name) as BotkitConversation;
+        const dialog = this._controller.dialogSet.find(script_name) as BotkitConversation;
         if (dialog) {
             dialog.onChange(variable_name, handler);
         } else {
@@ -312,7 +314,7 @@ export class BotkitCMSHelper {
     * @param handler A handler function in the form async(results, bot) => {}
     */
     public after(script_name: string, handler: (results: any, bot: BotWorker) => Promise<void>): void {
-        let dialog = this._controller.dialogSet.find(script_name) as BotkitConversation;
+        const dialog = this._controller.dialogSet.find(script_name) as BotkitConversation;
         if (dialog) {
             dialog.after(handler);
         } else {

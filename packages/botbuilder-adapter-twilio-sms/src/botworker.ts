@@ -8,6 +8,7 @@
 
 import { BotWorker } from 'botkit';
 import * as Twilio from 'twilio';
+import { ConversationAccount, ChannelAccount } from 'botbuilder';
 
 /**
  * This is a specialized version of [Botkit's core BotWorker class](core.md#BotWorker) that includes additional methods for interacting with Twilio SMS.
@@ -31,14 +32,12 @@ import * as Twilio from 'twilio';
      *
      * @param userId A phone number in the form +1XXXYYYZZZZ
      */
-    public async startConversationWithUser(userId: string): Promise<void> {
+    public async startConversationWithUser(userId: string): Promise<any> {
         return this.changeContext({
             channelId: 'twilio-sms',
-            // @ts-ignore
-            conversation: { id: userId },
+            conversation: { id: userId } as ConversationAccount,
             bot: { id: this.controller.getConfig('twilio_number'), name: 'bot' },
-            // @ts-ignore
-            user: { id: userId }
+            user: { id: userId } as ChannelAccount
         });
     }
 }

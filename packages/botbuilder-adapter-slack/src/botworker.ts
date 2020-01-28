@@ -1,6 +1,10 @@
 /**
  * @module botbuilder-adapter-slack
  */
+/**
+ * Copyright (c) Microsoft Corporation. All rights reserved.
+ * Licensed under the MIT License.
+ */
 
 import { Botkit, BotkitMessage, BotWorker } from 'botkit';
 import { WebClient, Dialog } from '@slack/web-api';
@@ -24,15 +28,15 @@ export class SlackBotWorker extends BotWorker {
      * It is possible to spawn a bot instance by passing in the Slack workspace ID of a team that has installed the app.
      * Use this in concert with [startPrivateConversation()](#startPrivateConversation) and [changeContext()](core.md#changecontext) to start conversations
      * or send proactive alerts to users on a schedule or in response to external events.
-     * 
-     * 
+     *
+     *
      * ```javascript
      * // spawn a bot for a given team.
      * let bot = await controller.spawn('T0123456');
      *
      * // start a 1:1 with a specific user
-     * await bot.startPrivateConversation('U0123456'); 
-     * 
+     * await bot.startPrivateConversation('U0123456');
+     *
      * // send a message
      * await bot.say('Hi user');
      * ```
@@ -221,7 +225,7 @@ export class SlackBotWorker extends BotWorker {
      * @param resp an outgoing message object (or part of one or just reply text)
      */
     public async replyPublic(src: any, resp: any): Promise<any> {
-        let msg = this.ensureMessageFormat(resp);
+        const msg = this.ensureMessageFormat(resp);
         msg.channelData.response_type = 'in_channel';
 
         return this.replyInteractive(src, msg);
@@ -266,7 +270,7 @@ export class SlackBotWorker extends BotWorker {
 
             msg = this.controller.adapter.activityToSlack(msg);
 
-            var requestOptions = {
+            const requestOptions = {
                 uri: src.incoming_message.channelData.response_url,
                 method: 'POST',
                 json: msg
@@ -307,7 +311,7 @@ export class SlackBotWorker extends BotWorker {
      * @param dialog_obj A dialog, as created using [SlackDialog](#SlackDialog) or [authored to this spec](https://api.slack.com/dialogs).
      */
     public async replyWithDialog(src, dialog_obj: Dialog): Promise<any> {
-        var msg = {
+        const msg = {
             trigger_id: src.trigger_id,
             dialog: dialog_obj
         };

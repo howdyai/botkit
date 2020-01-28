@@ -98,7 +98,7 @@ export class BotWorker {
      */
     public async say(message: Partial<BotkitMessage> | string): Promise<any> {
         return new Promise((resolve, reject) => {
-            let activity = this.ensureMessageFormat(message);
+            const activity = this.ensureMessageFormat(message);
 
             this._controller.middleware.send.run(this, activity, async (err, bot, activity) => {
                 if (err) {
@@ -246,7 +246,7 @@ export class BotWorker {
     public async startConversationWithUser(reference: any): Promise<void> {
         // this code is mostly copied from BotFrameworkAdapter.createConversation
 
-        if (!reference.serviceUrl) { throw new Error(`bot.startConversationWithUser(): missing serviceUrl.`); }
+        if (!reference.serviceUrl) { throw new Error('bot.startConversationWithUser(): missing serviceUrl.'); }
 
         // Create conversation
         const parameters: ConversationParameters = { bot: reference.bot, members: [reference.user], isGroup: false, activity: null, channelData: null };
@@ -300,7 +300,6 @@ export class BotWorker {
      * @returns a properly formed Activity object
      */
     public ensureMessageFormat(message: Partial<BotkitMessage> | string): Partial<Activity> {
-
         if (typeof (message) === 'string') {
             return {
                 type: 'message',
@@ -356,14 +355,14 @@ export class BotWorker {
                 timestamp: message.timestamp,
                 topicName: message.topicName,
                 value: message.value,
-                valueType: message.valueType,
+                valueType: message.valueType
             };
 
             // Now, copy any additional fields not in the activity into channelData
             // This way, any fields added by the developer to the root object
             // end up in the approved channelData location.
-            for (var key in message) {
-                if (key !== 'channelData' && !activity.hasOwnProperty(key)) {
+            for (const key in message) {
+                if (key !== 'channelData' && !Object.prototype.hasOwnProperty.call(activity, key)) {
                     activity.channelData[key] = message[key];
                 }
             }

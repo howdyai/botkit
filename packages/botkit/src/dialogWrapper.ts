@@ -52,9 +52,8 @@ export class BotkitDialogWrapper {
      */
     public async stop(): Promise<void> {
         // set this to 1 bigger than the total length of the thread.
-        this.step.index = this.step.threadLength+1;
+        this.step.index = this.step.threadLength + 1;
     }
-
 
     /**
      * Set the value of a variable that will be available to messages in the conversation.
@@ -66,5 +65,4 @@ export class BotkitDialogWrapper {
     public setVar(key, val): void {
         this.vars[key] = val;
     }
-
 }

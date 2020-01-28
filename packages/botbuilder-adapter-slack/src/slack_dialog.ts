@@ -92,7 +92,7 @@ export class SlackDialog {
      * @param subtype
      */
     public addText(label: string | any, name: string, value: string, options: string | any, subtype?: string): SlackDialog {
-        var element = (typeof (label) === 'object') ? label : {
+        const element = (typeof (label) === 'object') ? label : {
             label: label,
             name: name,
             value: value,
@@ -101,7 +101,7 @@ export class SlackDialog {
         };
 
         if (typeof (options) === 'object') {
-            for (var key in options) {
+            for (const key in options) {
                 element[key] = options[key];
             }
         }
@@ -163,7 +163,7 @@ export class SlackDialog {
      * @param subtype
      */
     public addTextarea(label: string, name: string, value: string, options: any, subtype: string): SlackDialog {
-        var element = (typeof (label) === 'object') ? label : {
+        const element = (typeof (label) === 'object') ? label : {
             label: label,
             name: name,
             value: value,
@@ -172,7 +172,7 @@ export class SlackDialog {
         };
 
         if (typeof (options) === 'object') {
-            for (var key in options) {
+            for (const key in options) {
                 element[key] = options[key];
             }
         }
@@ -189,8 +189,8 @@ export class SlackDialog {
      * @param option_list
      * @param options
      */
-    public addSelect(label: string, name: string, value: string | number | Object | null, option_list: { label: string; value: string | number | Object | null }[], options?: any): SlackDialog {
-        var element = {
+    public addSelect(label: string, name: string, value: string | number | Record<string, any> | null, option_list: { label: string; value: string | number | Record<string, any> | null }[], options?: any): SlackDialog {
+        const element = {
             label: label,
             name: name,
             value: value,
@@ -198,7 +198,7 @@ export class SlackDialog {
             type: 'select'
         };
         if (typeof (options) === 'object') {
-            for (var key in options) {
+            for (const key in options) {
                 element[key] = options[key];
             }
         }
