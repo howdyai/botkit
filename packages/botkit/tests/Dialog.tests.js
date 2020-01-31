@@ -546,7 +546,7 @@ describe('Botkit dialog', function() {
     });
 
     it('should call handlers for addQuestion and ask with entire message payload', async () => {
-        const nameConvo = new BotkitConversation('nameConvo', bot);
+        const conversation = new BotkitConversation('nameConvo', bot);
 
         let correct1 = false;
         let correct2 = false;
@@ -554,7 +554,7 @@ describe('Botkit dialog', function() {
         let correct4 = false;
         let correct5 = false;
 
-        nameConvo.ask(
+        conversation.ask(
             'First name?',
             async (response, convo, bot, message) => {
                 correct1 = message.type === ActivityTypes.Message && message.text === 'Tony' && response === message.text;
@@ -562,7 +562,7 @@ describe('Botkit dialog', function() {
             },
             'firstName'
         );
-        nameConvo.addQuestion(
+        conversation.addQuestion(
             'Last name?',
             async (response, convo, bot, message) => {
                 correct2 = message.type === ActivityTypes.Message && message.text === 'Stark' && response === message.text;
@@ -572,7 +572,7 @@ describe('Botkit dialog', function() {
             'last_name'
         );
 
-        nameConvo.addQuestion(
+        conversation.addQuestion(
             'Address?',
             async (response, convo, bot, message) => {
                 correct3 = message.type === ActivityTypes.Message &&
@@ -583,7 +583,7 @@ describe('Botkit dialog', function() {
             'address',
             'address'
         );
-        nameConvo.addQuestion(
+        conversation.addQuestion(
             'Favourite Color?',
             [
                 {
@@ -606,7 +606,7 @@ describe('Botkit dialog', function() {
             'color'
         );
 
-        bot.addDialog(nameConvo);
+        bot.addDialog(conversation);
 
         // set up a test client
         const client = new BotkitTestClient('test', bot, ['nameConvo']);
