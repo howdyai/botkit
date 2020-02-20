@@ -313,6 +313,7 @@ declare namespace botkit {
     require_delivery?: boolean;
     retry?: number;
     scopes?: string[];
+    user_scopes?: string[];
     send_via_rtm?: boolean;
     stale_connection_timeout?: number;
   }
