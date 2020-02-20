@@ -317,7 +317,7 @@ declare namespace botkit {
     stale_connection_timeout?: number;
   }
   interface SlackController extends Controller<SlackSpawnConfiguration, SlackMessage, SlackBot> {
-    configureSlackApp(config: { clientId: string; clientSecret: string; redirectUri: string; scopes: string[]; }): this;
+    configureSlackApp(config: { clientId: string; clientSecret: string; redirectUri: string; scopes: string[]; user_scopes?: string[] }): this;
     createHomepageEndpoint(webserver: any): this;
     createOauthEndpoints(webserver: any, callback: (err: Error, req: any, res: any) => void): this;
     createWebhookEndpoints(webserver: any, authenticationTokens?: string[]): this;
