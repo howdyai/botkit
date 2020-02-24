@@ -350,6 +350,9 @@ declare namespace botkit {
     },
     oauth: {
         access: SlackWebAPIMethod;
+        v2: {
+            access: SlackWebAPIMethod;
+        }
     }
     channels: {
         archive: SlackWebAPIMethod;
