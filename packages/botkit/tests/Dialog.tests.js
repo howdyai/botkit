@@ -1,4 +1,5 @@
 const assert = require('assert');
+const { ActivityTypes } = require('botbuilder');
 const { Botkit, BotkitTestClient, BotkitConversation } = require('../');
 
 let bot;
@@ -25,7 +26,7 @@ describe('Botkit dialog', function() {
             text: 'say repeat'
         }, [{
             pattern: 'repeat',
-            handler: async (val, convo, bot) => {
+            handler: async (val, convo, bot, message) => {
                 await convo.repeat();
             }
         }, {
@@ -543,6 +544,97 @@ describe('Botkit dialog', function() {
         assert(after_fired === true, 'after fired after stop');
 
     });
+
+    it('should call handlers for addQuestion and ask with entire message payload', async () => {
+        const conversation = new BotkitConversation('nameConvo', bot);
+
+        let correct1 = false;
+        let correct2 = false;
+        let correct3 = false;
+        let correct4 = false;
+        let correct5 = false;
+
+        conversation.ask(
+            'First name?',
+            async (response, convo, bot, message) => {
+                correct1 = message.type === ActivityTypes.Message && message.text === 'Tony' && response === message.text;
+                convo.gotoThread('last_name');
+            },
+            'firstName'
+        );
+        conversation.addQuestion(
+            'Last name?',
+            async (response, convo, bot, message) => {
+                correct2 = message.type === ActivityTypes.Message && message.text === 'Stark' && response === message.text;
+                convo.gotoThread('address');
+            },
+            'lastName',
+            'last_name'
+        );
+
+        conversation.addQuestion(
+            'Address?',
+            async (response, convo, bot, message) => {
+                correct3 = message.type === ActivityTypes.Message &&
+                    message.text === '10880 Malibu Point, 90265, Malibu, California' &&
+                    response === message.text;
+                convo.gotoThread('color');
+            },
+            'address',
+            'address'
+        );
+        conversation.addQuestion(
+            'Favourite Color?',
+            [
+                {
+                    default: true,
+                    handler: async (response, convo, bot, message) => {
+                        correct4 = message.type === ActivityTypes.Message && response === message.text;
+                        await convo.repeat();
+                    }
+                },
+                {
+                    pattern: 'Red',
+                    handler: async (response, convo, bot, message) => {
+                        correct5 = message.type === ActivityTypes.Message &&
+                            message.text === 'Red' && response === message.text;
+                        await convo.stop();
+                    }
+                }
+            ],
+            'color',
+            'color'
+        );
+
+        bot.addDialog(conversation);
+
+        // set up a test client
+        const client = new BotkitTestClient('test', bot, ['nameConvo']);
+
+        let msg = await client.sendActivity('..');
+        assert(msg.text === 'First name?', 'first prompt wrong');
+
+        msg = await client.sendActivity('Tony');
+        assert(msg.text === 'Last name?', 'second prompt wrong');
+
+        msg = await client.sendActivity('Stark');
+        assert(msg.text === 'Address?', 'third prompt wrong');
+
+        msg = await client.sendActivity('10880 Malibu Point, 90265, Malibu, California');
+        assert(msg.text === 'Favourite Color?', 'fourth prompt wrong');
+
+        msg = await client.sendActivity('Black');
+        assert(msg.text === 'Favourite Color?', 'repeat prompt wrong');
+
+        msg = await client.sendActivity('Red');
+
+        assert(correct1, 'message text not correct for prompt1');
+        assert(correct2, 'message text not correct for prompt2');
+        assert(correct3, 'message text not correct for prompt3');
+        assert(correct4, 'message text not correct for prompt4');
+        assert(correct5, 'message text not correct for prompt5');
+    });
+
     afterEach(async () => {
         await bot.shutdown();
     });

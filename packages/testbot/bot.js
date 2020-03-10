@@ -154,13 +154,13 @@ const controller = new Botkit({
     storage
 });
 
-const cms = new BotkitCMSHelper({
-    cms_uri: process.env.cms_uri,
-    token: process.env.cms_token,
-});
+// const cms = new BotkitCMSHelper({
+//     cms_uri: process.env.cms_uri,
+//     token: process.env.cms_token,
+// });
 
-// add cms tools
-controller.usePlugin(cms);
+// // add cms tools
+// controller.usePlugin(cms);
 
 // Once the bot has booted up its internal services, you can use them to do stuff.
 controller.ready(() => {

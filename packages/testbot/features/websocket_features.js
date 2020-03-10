@@ -95,7 +95,10 @@ module.exports = function(controller) {
                     payload: 'bar',
                 }
             ]
-        }, [], 'reply');
+        }, async(response, convo, bot, message) => {
+            console.log('GOT REPLY', response);
+            console.log('FULL PAyLOAD',message);
+        }, 'reply');
         replies.say('You clicked {{vars.reply}}');
         controller.addDialog(replies);
 
