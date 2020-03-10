@@ -855,7 +855,7 @@ export class BotkitConversation<O extends object = {}> extends Dialog<O> {
 
         // copy all the values in channelData fields
         for (const key in line.channelData) {
-            outgoing.channelData[key] = JSON.parse(JSON.stringify(line.channelData[key]));
+            outgoing.channelData = this.parseTemplatesRecursive(JSON.parse(JSON.stringify(line.channelData)), vars)
         }
 
         /*******************************************************************************************************************/
