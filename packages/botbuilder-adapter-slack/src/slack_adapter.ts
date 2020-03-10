@@ -242,9 +242,14 @@ export class SlackAdapter extends BotAdapter {
      * @returns A url pointing to the first step in Slack's oauth flow.
      */
     public getInstallLink(): string {
+        let redirect = ''
         if (this.options.clientId && this.options.scopes) {
-            let redirect = 'https://slack.com/oauth/authorize?client_id=' + this.options.clientId + '&scope=' + this.options.scopes.join(',');
-
+            if (this.options.oauthVersion == 'v2'|'V2'){
+                redirect = 'https://slack.com/oauth/v2/authorize?client_id=' + this.options.clientId + '&scope=' + this.options.scopes.join(',');
+            } 
+            else {
+                redirect = 'https://slack.com/oauth/authorize?client_id=' + this.options.clientId + '&scope=' + this.options.scopes.join(',');
+            }
             if (this.options.redirectUri) {
                 redirect += '&redirect_uri=' + encodeURIComponent(this.options.redirectUri);
             }
@@ -256,7 +261,7 @@ export class SlackAdapter extends BotAdapter {
     }
 
     /**
-     * Validates an oauth code sent by Slack during the install process.
+     * Validates an oauth v2 code sent by Slack during the install process.
      *
      * An example using Botkit's internal webserver to configure the /install/auth route:
      *
@@ -265,9 +270,9 @@ export class SlackAdapter extends BotAdapter {
      *      try {
      *          const results = await controller.adapter.validateOauthCode(req.query.code);
      *          // make sure to capture the token and bot user id by team id...
-     *          const team_id = results.team_id;
-     *          const token = results.bot.bot_access_token;
-     *          const bot_user = results.bot.bot_user_id;
+     *          const team_id = results.team.id;
+     *          const token = results.access_token;
+     *          const bot_user = results.bot_user_id;
      *          // store these values in a way they'll be retrievable with getBotUserByTeam and getTokenForTeam
      *      } catch (err) {
      *           console.error('OAUTH ERROR:', err);
@@ -280,12 +285,19 @@ export class SlackAdapter extends BotAdapter {
      */
     public async validateOauthCode(code: string): Promise<any> {
         const slack = new WebClient();
-        const results = await slack.oauth.access({
+        const details = {
             code: code,
             client_id: this.options.clientId,
             client_secret: this.options.clientSecret,
             redirect_uri: this.options.redirectUri
-        });
+        } 
+        let results = {};
+        if (this.options.oauthVersion == 'v2'|'V2'){
+            results = await slack.oauth.v2.access(details)
+        }
+        else {
+            results = await slack.oauth.access(details)
+        }
         if (results.ok) {
             return results;
         } else {
