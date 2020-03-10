@@ -4,6 +4,13 @@
 
 [Want to contribute? Read our guide!](https://github.com/howdyai/botkit/blob/master/CONTRIBUTING.md)
 
+# 4.7
+
+* NEW: At long last, the convo.ask callbacks can receive the full incoming message payload in addition to the text content.
+This allows developers to use payload values inside quick replies, button clicks and other rich operations. Many thanks to [@naikus](https://github.com/naikus) for the effort and patience it took to get this in! [PR #1801](https://github.com/howdyai/botkit/pull/1801)
+
+
+
 # 4.6.1
 
 Version 4.6.1 includes some security and bugfix updates along with bumping many dependencies to the latest versions.
