@@ -698,14 +698,9 @@ export class Botkit {
     public async handleTurn(turnContext: TurnContext): Promise<any> {
         debug('INCOMING ACTIVITY:', turnContext.activity);
 
-        // Create a dialog context
-        const dialogContext = await this.dialogSet.createContext(turnContext);
-
-        // Spawn a bot worker with the dialogContext
-        const bot = await this.spawn(dialogContext);
-
         // Turn this turnContext into a Botkit message.
         const message: BotkitMessage = {
+            // ...turnContext.activity,
             ...turnContext.activity.channelData, // start with all the fields that were in the original incoming payload. NOTE: this is a shallow copy, is that a problem?
 
             // if Botkit has further classified this message, use that sub-type rather than the Activity type
@@ -728,6 +723,15 @@ export class Botkit {
             // include the full unmodified record here
             incoming_message: turnContext.activity
         };
+
+        // Stash the Botkit message in
+        turnContext.turnState.set('botkitMessage', message);
+
+        // Create a dialog context
+        const dialogContext = await this.dialogSet.createContext(turnContext);
+
+        // Spawn a bot worker with the dialogContext
+        const bot = await this.spawn(dialogContext);
 
         return new Promise((resolve, reject) => {
             this.middleware.ingest.run(bot, message, async (err, bot, message) => {

@@ -9,7 +9,7 @@ import { Botkit, BotkitMessage } from './core';
 import { BotWorker } from './botworker';
 import { BotkitDialogWrapper } from './dialogWrapper';
 import { Activity, ActivityTypes, TurnContext, MessageFactory, ActionTypes } from 'botbuilder';
-import { Dialog, DialogContext, DialogReason, TextPrompt, PromptValidatorContext, ActivityPrompt, DialogTurnStatus } from 'botbuilder-dialogs';
+import { Dialog, DialogContext, DialogReason, PromptValidatorContext, ActivityPrompt, DialogTurnStatus } from 'botbuilder-dialogs';
 import * as mustache from 'mustache';
 import * as Debug from 'debug';
 
@@ -146,6 +146,7 @@ export class BotkitConversation<O extends object = {}> extends Dialog<O> {
             this._prompt,
             (prompt: PromptValidatorContext<Activity>) => Promise.resolve(prompt.recognized.succeeded === true)
         ));
+
         return this;
     }
 
@@ -479,7 +480,6 @@ export class BotkitConversation<O extends object = {}> extends Dialog<O> {
             const bot = await this._controller.spawn(context);
             for (let h = 0; h < this._afterHooks.length; h++) {
                 const handler = this._afterHooks[h];
-
                 await handler.call(this, results, bot);
             }
         }
@@ -527,7 +527,6 @@ export class BotkitConversation<O extends object = {}> extends Dialog<O> {
 
             for (let h = 0; h < this._changeHooks[variable].length; h++) {
                 const handler = this._changeHooks[variable][h];
-                // await handler.call(this, value, convo);
                 await handler.call(this, value, convo, bot);
             }
         }
@@ -681,8 +680,8 @@ export class BotkitConversation<O extends object = {}> extends Dialog<O> {
                     await dc.context.sendActivity(`Failed to start prompt ${ this._prompt }`);
                     return await step.next();
                 }
-            // If there's nothing but text, send it!
-            // This could be extended to include cards and other activity attributes.
+                // If there's nothing but text, send it!
+                // This could be extended to include cards and other activity attributes.
             } else {
                 // if there is text, attachments, or any channel data fields at all...
                 if (line.type || line.text || line.attachments || line.attachment || line.blocks || (line.channelData && Object.keys(line.channelData).length)) {
@@ -719,7 +718,6 @@ export class BotkitConversation<O extends object = {}> extends Dialog<O> {
         const state = dc.activeDialog.state;
         state.stepIndex = index;
         state.thread = thread_name;
-
         // Create step context
         const nextCalled = false;
         const step = {
@@ -811,7 +809,7 @@ export class BotkitConversation<O extends object = {}> extends Dialog<O> {
 
         outgoing.channelData = outgoing.channelData ? outgoing.channelData : {};
         if (line.attachmentLayout) {
-                outgoing.attachmentLayout = line.attachmentLayout;
+            outgoing.attachmentLayout = line.attachmentLayout;
         }
         /*******************************************************************************************************************/
         // allow dynamic generation of quick replies and/or attachments
@@ -970,7 +968,7 @@ export class BotkitConversation<O extends object = {}> extends Dialog<O> {
             // create a convo controller object
             const convo = new BotkitDialogWrapper(dc, step);
 
-            await path.handler.call(this, response, convo, bot, step.resultObject);
+            await path.handler.call(this, response, convo, bot, dc.context.turnState.get('botkitMessage') || dc.context.activity);
 
             if (!dc.activeDialog) {
                 return false;

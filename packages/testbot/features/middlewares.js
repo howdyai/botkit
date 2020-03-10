@@ -12,7 +12,6 @@ module.exports = function(controller) {
 
     controller.middleware.ingest.use(async (bot, message, next) => {
         message.touchedbyMiddleware = true;
-        console.log('MODIFYING MESSAGE IN INGEST!!', message);
         next();
     });
 
