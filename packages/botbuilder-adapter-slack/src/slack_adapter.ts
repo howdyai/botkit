@@ -85,6 +85,7 @@ export class SlackAdapter extends BotAdapter {
      *     clientId: process.env.CLIENT_ID, // oauth client id
      *     clientSecret: process.env.CLIENT_SECRET, // oauth client secret
      *     scopes: ['bot'], // oauth scopes requested
+     *     oauthVersion: 'v1',
      *     redirectUri: process.env.REDIRECT_URI, // url to redirect post login defaults to `https://<mydomain>/install/auth`
      *     getTokenForTeam: async(team_id) => Promise<string>, // function that returns a token based on team id
      *     getBotUserByTeam: async(team_id) => Promise<string>, // function that returns a bot's user id based on team id
@@ -150,6 +151,11 @@ export class SlackAdapter extends BotAdapter {
         } else {
             debug('** Slack adapter running in multi-team mode.');
         }
+
+        if (!this.options.oauthVersion) {
+            this.options.oauthVersion = 'v1';
+        }
+        this.options.oauthVersion = this.options.oauthVersion.toLowerCase();
 
         if (this.options.enable_incomplete) {
             const warning = [
@@ -242,12 +248,11 @@ export class SlackAdapter extends BotAdapter {
      * @returns A url pointing to the first step in Slack's oauth flow.
      */
     public getInstallLink(): string {
-        let redirect = ''
+        let redirect = '';
         if (this.options.clientId && this.options.scopes) {
-            if (this.options.oauthVersion == 'v2'|'V2'){
+            if (this.options.oauthVersion === 'v2') {
                 redirect = 'https://slack.com/oauth/v2/authorize?client_id=' + this.options.clientId + '&scope=' + this.options.scopes.join(',');
-            } 
-            else {
+            } else {
                 redirect = 'https://slack.com/oauth/authorize?client_id=' + this.options.clientId + '&scope=' + this.options.scopes.join(',');
             }
             if (this.options.redirectUri) {
@@ -290,13 +295,12 @@ export class SlackAdapter extends BotAdapter {
             client_id: this.options.clientId,
             client_secret: this.options.clientSecret,
             redirect_uri: this.options.redirectUri
-        } 
-        let results = {};
-        if (this.options.oauthVersion == 'v2'|'V2'){
-            results = await slack.oauth.v2.access(details)
-        }
-        else {
-            results = await slack.oauth.access(details)
+        };
+        let results: any = {};
+        if (this.options.oauthVersion === 'v2') {
+            results = await slack.oauth.v2.access(details);
+        } else {
+            results = await slack.oauth.access(details);
         }
         if (results.ok) {
             return results;
@@ -735,9 +739,13 @@ export interface SlackAdapterOptions {
      */
     clientSecret?: string;
     /**
-     * A an array of scope names that are being requested during the oauth process. Must match the scopes defined at api.slack.com
+     * A array of scope names that are being requested during the oauth process. Must match the scopes defined at api.slack.com
      */
     scopes?: string[];
+    /**
+     * Which version of Slack's oauth protocol to use, v1 or v2. Defaults to v1.
+     */
+    oauthVersion?: string;
     /**
      * The URL users will be redirected to after an oauth flow. In most cases, should be `https://<mydomain.com>/install/auth`
      */

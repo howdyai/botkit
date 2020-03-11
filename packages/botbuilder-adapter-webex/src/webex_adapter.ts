@@ -176,7 +176,7 @@ export class WebexAdapter extends BotAdapter {
         // Botkit Plugin additions
         this.middlewares = {
             spawn: [
-                async (bot, next) => {
+                async (bot, next): Promise<void> => {
                     // make webex api directly available on a botkit instance.
                     bot.api = this._api;
 

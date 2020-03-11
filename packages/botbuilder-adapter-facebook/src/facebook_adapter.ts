@@ -133,7 +133,7 @@ export class FacebookAdapter extends BotAdapter {
 
         this.middlewares = {
             spawn: [
-                async (bot, next) => {
+                async (bot, next): Promise<void> => {
                     bot.api = await this.getAPI(bot.getConfig('activity'));
                     next();
                 }
