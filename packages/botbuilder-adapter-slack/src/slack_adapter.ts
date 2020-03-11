@@ -244,7 +244,7 @@ export class SlackAdapter extends BotAdapter {
     public getInstallLink(): string {
         let redirect = ''
         if (this.options.clientId && this.options.scopes) {
-            if (this.options.oauthVersion == 'v2'|'V2'){
+            if (this.options.oauthVersion == 'v2'||'V2'){
                 redirect = 'https://slack.com/oauth/v2/authorize?client_id=' + this.options.clientId + '&scope=' + this.options.scopes.join(',');
             } 
             else {
