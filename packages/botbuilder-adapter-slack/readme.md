@@ -149,17 +149,16 @@ To use Slack's [newer "granular scopes"](https://api.slack.com/authentication/oa
 This will cause the adapter to use the v2 oauth URL and credential validation function.
 However, note that the payload returned `validateOauthCode` differs between versions.
 
-From Slack's official docs:
-
-[V1 response payload](https://api.slack.com/methods/oauth.access#response)
-[V2 response payload](https://api.slack.com/methods/oauth.v2.access#response)
-
 In v1, your bot's token will be located at `results.bot.bot_access_token`, whereas in v2, it will be `results.access_token`.
 
 In v1, your bot's user id will be at `results.bot.bot_user_id`, whereas in v2 it will be `results.bot_user_id`.
 
-Take care to update your auth handler function when you migrate to granular scopes.
+From Slack's official docs:
 
+* [V1 response payload](https://api.slack.com/methods/oauth.access#response)
+* [V2 response payload](https://api.slack.com/methods/oauth.v2.access#response)
+
+Take care to update your auth handler function when you migrate to granular scopes.
 
 ## Class Reference
 
