@@ -458,7 +458,8 @@ for handling platform-specific events or activities.
 
 | Argument | Type | description
 |--- |--- |---
-| config (optional)| any | Preferably receives a DialogContext, though can also receive a TurnContext. If excluded, must call `bot.changeContext(reference)` before calling any other method.<br/>
+| config (optional)| any | Preferably receives a DialogContext, though can also receive a TurnContext. If excluded, must call `bot.changeContext(reference)` before calling any other method.
+| custom_adapter (optional)| BotAdapter | 
 
 
 

@@ -395,7 +395,7 @@
               ]
             },
             {
-              "id": 221,
+              "id": 222,
               "name": "addDialog",
               "kind": 2048,
               "kindString": "Method",
@@ -406,7 +406,7 @@
               },
               "signatures": [
                 {
-                  "id": 222,
+                  "id": 223,
                   "name": "addDialog",
                   "kind": 4096,
                   "kindString": "Call signature",
@@ -419,7 +419,7 @@
                   },
                   "parameters": [
                     {
-                      "id": 223,
+                      "id": 224,
                       "name": "dialog",
                       "kind": 32768,
                       "kindString": "Parameter",
@@ -444,7 +444,7 @@
               "sources": [
                 {
                   "fileName": "core.ts",
-                  "line": 1159,
+                  "line": 1161,
                   "character": 20
                 }
               ]
@@ -521,7 +521,7 @@
               ]
             },
             {
-              "id": 224,
+              "id": 225,
               "name": "afterDialog",
               "kind": 2048,
               "kindString": "Method",
@@ -532,7 +532,7 @@
               },
               "signatures": [
                 {
-                  "id": 225,
+                  "id": 226,
                   "name": "afterDialog",
                   "kind": 4096,
                   "kindString": "Call signature",
@@ -545,7 +545,7 @@
                   },
                   "parameters": [
                     {
-                      "id": 226,
+                      "id": 227,
                       "name": "dialog",
                       "kind": 32768,
                       "kindString": "Parameter",
@@ -570,7 +570,7 @@
                       }
                     },
                     {
-                      "id": 227,
+                      "id": 228,
                       "name": "handler",
                       "kind": 32768,
                       "kindString": "Parameter",
@@ -596,7 +596,7 @@
               "sources": [
                 {
                   "fileName": "core.ts",
-                  "line": 1187,
+                  "line": 1189,
                   "character": 22
                 }
               ]
@@ -1294,7 +1294,7 @@
               ]
             },
             {
-              "id": 214,
+              "id": 215,
               "name": "loadModule",
               "kind": 2048,
               "kindString": "Method",
@@ -1305,7 +1305,7 @@
               },
               "signatures": [
                 {
-                  "id": 215,
+                  "id": 216,
                   "name": "loadModule",
                   "kind": 4096,
                   "kindString": "Call signature",
@@ -1317,7 +1317,7 @@
                   },
                   "parameters": [
                     {
-                      "id": 216,
+                      "id": 217,
                       "name": "p",
                       "kind": 32768,
                       "kindString": "Parameter",
@@ -1342,13 +1342,13 @@
               "sources": [
                 {
                   "fileName": "core.ts",
-                  "line": 1102,
+                  "line": 1104,
                   "character": 21
                 }
               ]
             },
             {
-              "id": 217,
+              "id": 218,
               "name": "loadModules",
               "kind": 2048,
               "kindString": "Method",
@@ -1359,7 +1359,7 @@
               },
               "signatures": [
                 {
-                  "id": 218,
+                  "id": 219,
                   "name": "loadModules",
                   "kind": 4096,
                   "kindString": "Call signature",
@@ -1372,7 +1372,7 @@
                   },
                   "parameters": [
                     {
-                      "id": 219,
+                      "id": 220,
                       "name": "p",
                       "kind": 32768,
                       "kindString": "Parameter",
@@ -1388,7 +1388,7 @@
                       }
                     },
                     {
-                      "id": 220,
+                      "id": 221,
                       "name": "exts",
                       "kind": 32768,
                       "kindString": "Parameter",
@@ -1417,7 +1417,7 @@
               "sources": [
                 {
                   "fileName": "core.ts",
-                  "line": 1131,
+                  "line": 1133,
                   "character": 22
                 }
               ]
@@ -1799,11 +1799,25 @@
                         "isOptional": true
                       },
                       "comment": {
-                        "text": "Preferably receives a DialogContext, though can also receive a TurnContext. If excluded, must call `bot.changeContext(reference)` before calling any other method.\n"
+                        "text": "Preferably receives a DialogContext, though can also receive a TurnContext. If excluded, must call `bot.changeContext(reference)` before calling any other method."
                       },
                       "type": {
                         "type": "intrinsic",
                         "name": "any"
+                      }
+                    },
+                    {
+                      "id": 214,
+                      "name": "custom_adapter",
+                      "kind": 32768,
+                      "kindString": "Parameter",
+                      "flags": {
+                        "isExported": true,
+                        "isOptional": true
+                      },
+                      "type": {
+                        "type": "reference",
+                        "name": "BotAdapter"
                       }
                     }
                   ],
@@ -1823,7 +1837,7 @@
               "sources": [
                 {
                   "fileName": "core.ts",
-                  "line": 1061,
+                  "line": 1062,
                   "character": 22
                 }
               ]
@@ -2221,17 +2235,17 @@
               "kind": 2048,
               "children": [
                 163,
-                221,
+                222,
                 147,
-                224,
+                225,
                 166,
                 138,
                 160,
                 174,
                 180,
                 191,
-                214,
-                217,
+                215,
+                218,
                 202,
                 156,
                 169,
@@ -2576,7 +2590,7 @@
               ]
             },
             {
-              "id": 221,
+              "id": 222,
               "name": "addDialog",
               "kind": 2048,
               "kindString": "Method",
@@ -2587,7 +2601,7 @@
               },
               "signatures": [
                 {
-                  "id": 222,
+                  "id": 223,
                   "name": "addDialog",
                   "kind": 4096,
                   "kindString": "Call signature",
@@ -2600,7 +2614,7 @@
                   },
                   "parameters": [
                     {
-                      "id": 223,
+                      "id": 224,
                       "name": "dialog",
                       "kind": 32768,
                       "kindString": "Parameter",
@@ -2625,7 +2639,7 @@
               "sources": [
                 {
                   "fileName": "core.ts",
-                  "line": 1159,
+                  "line": 1161,
                   "character": 20
                 }
               ]
@@ -2702,7 +2716,7 @@
               ]
             },
             {
-              "id": 224,
+              "id": 225,
               "name": "afterDialog",
               "kind": 2048,
               "kindString": "Method",
@@ -2713,7 +2727,7 @@
               },
               "signatures": [
                 {
-                  "id": 225,
+                  "id": 226,
                   "name": "afterDialog",
                   "kind": 4096,
                   "kindString": "Call signature",
@@ -2726,7 +2740,7 @@
                   },
                   "parameters": [
                     {
-                      "id": 226,
+                      "id": 227,
                       "name": "dialog",
                       "kind": 32768,
                       "kindString": "Parameter",
@@ -2751,7 +2765,7 @@
                       }
                     },
                     {
-                      "id": 227,
+                      "id": 228,
                       "name": "handler",
                       "kind": 32768,
                       "kindString": "Parameter",
@@ -2777,7 +2791,7 @@
               "sources": [
                 {
                   "fileName": "core.ts",
-                  "line": 1187,
+                  "line": 1189,
                   "character": 22
                 }
               ]
@@ -3475,7 +3489,7 @@
               ]
             },
             {
-              "id": 214,
+              "id": 215,
               "name": "loadModule",
               "kind": 2048,
               "kindString": "Method",
@@ -3486,7 +3500,7 @@
               },
               "signatures": [
                 {
-                  "id": 215,
+                  "id": 216,
                   "name": "loadModule",
                   "kind": 4096,
                   "kindString": "Call signature",
@@ -3498,7 +3512,7 @@
                   },
                   "parameters": [
                     {
-                      "id": 216,
+                      "id": 217,
                       "name": "p",
                       "kind": 32768,
                       "kindString": "Parameter",
@@ -3523,13 +3537,13 @@
               "sources": [
                 {
                   "fileName": "core.ts",
-                  "line": 1102,
+                  "line": 1104,
                   "character": 21
                 }
               ]
             },
             {
-              "id": 217,
+              "id": 218,
               "name": "loadModules",
               "kind": 2048,
               "kindString": "Method",
@@ -3540,7 +3554,7 @@
               },
               "signatures": [
                 {
-                  "id": 218,
+                  "id": 219,
                   "name": "loadModules",
                   "kind": 4096,
                   "kindString": "Call signature",
@@ -3553,7 +3567,7 @@
                   },
                   "parameters": [
                     {
-                      "id": 219,
+                      "id": 220,
                       "name": "p",
                       "kind": 32768,
                       "kindString": "Parameter",
@@ -3569,7 +3583,7 @@
                       }
                     },
                     {
-                      "id": 220,
+                      "id": 221,
                       "name": "exts",
                       "kind": 32768,
                       "kindString": "Parameter",
@@ -3598,7 +3612,7 @@
               "sources": [
                 {
                   "fileName": "core.ts",
-                  "line": 1131,
+                  "line": 1133,
                   "character": 22
                 }
               ]
@@ -3980,11 +3994,25 @@
                         "isOptional": true
                       },
                       "comment": {
-                        "text": "Preferably receives a DialogContext, though can also receive a TurnContext. If excluded, must call `bot.changeContext(reference)` before calling any other method.\n"
+                        "text": "Preferably receives a DialogContext, though can also receive a TurnContext. If excluded, must call `bot.changeContext(reference)` before calling any other method."
                       },
                       "type": {
                         "type": "intrinsic",
                         "name": "any"
+                      }
+                    },
+                    {
+                      "id": 214,
+                      "name": "custom_adapter",
+                      "kind": 32768,
+                      "kindString": "Parameter",
+                      "flags": {
+                        "isExported": true,
+                        "isOptional": true
+                      },
+                      "type": {
+                        "type": "reference",
+                        "name": "BotAdapter"
                       }
                     }
                   ],
@@ -4004,7 +4032,7 @@
               "sources": [
                 {
                   "fileName": "core.ts",
-                  "line": 1061,
+                  "line": 1062,
                   "character": 22
                 }
               ]
@@ -6479,7 +6507,7 @@
           ]
         },
         {
-          "id": 312,
+          "id": 313,
           "name": "BotkitConversation",
           "kind": 128,
           "kindString": "Class",
@@ -6493,7 +6521,7 @@
           },
           "typeParameter": [
             {
-              "id": 313,
+              "id": 314,
               "name": "O",
               "kind": 131072,
               "kindString": "Type parameter",
@@ -6508,7 +6536,7 @@
           ],
           "children": [
             {
-              "id": 315,
+              "id": 316,
               "name": "constructor",
               "kind": 512,
               "kindString": "Constructor",
@@ -6522,7 +6550,7 @@
               },
               "signatures": [
                 {
-                  "id": 316,
+                  "id": 317,
                   "name": "new BotkitConversation",
                   "kind": 16384,
                   "kindString": "Constructor signature",
@@ -6534,7 +6562,7 @@
                   },
                   "parameters": [
                     {
-                      "id": 317,
+                      "id": 318,
                       "name": "dialogId",
                       "kind": 32768,
                       "kindString": "Parameter",
@@ -6550,7 +6578,7 @@
                       }
                     },
                     {
-                      "id": 318,
+                      "id": 319,
                       "name": "controller",
                       "kind": 32768,
                       "kindString": "Parameter",
@@ -6569,7 +6597,7 @@
                   ],
                   "type": {
                     "type": "reference",
-                    "id": 312,
+                    "id": 313,
                     "name": "BotkitConversation"
                   }
                 }
@@ -6583,7 +6611,7 @@
               ]
             },
             {
-              "id": 314,
+              "id": 315,
               "name": "script",
               "kind": 1024,
               "kindString": "Property",
@@ -6608,7 +6636,7 @@
               }
             },
             {
-              "id": 322,
+              "id": 323,
               "name": "addAction",
               "kind": 2048,
               "kindString": "Method",
@@ -6619,7 +6647,7 @@
               },
               "signatures": [
                 {
-                  "id": 323,
+                  "id": 324,
                   "name": "addAction",
                   "kind": 4096,
                   "kindString": "Call signature",
@@ -6632,7 +6660,7 @@
                   },
                   "parameters": [
                     {
-                      "id": 324,
+                      "id": 325,
                       "name": "action",
                       "kind": 32768,
                       "kindString": "Parameter",
@@ -6648,7 +6676,7 @@
                       }
                     },
                     {
-                      "id": 325,
+                      "id": 326,
                       "name": "thread_name",
                       "kind": 32768,
                       "kindString": "Parameter",
@@ -6667,7 +6695,7 @@
                   ],
                   "type": {
                     "type": "reference",
-                    "id": 312,
+                    "id": 313,
                     "name": "BotkitConversation"
                   }
                 }
@@ -6681,7 +6709,7 @@
               ]
             },
             {
-              "id": 326,
+              "id": 327,
               "name": "addChildDialog",
               "kind": 2048,
               "kindString": "Method",
@@ -6692,7 +6720,7 @@
               },
               "signatures": [
                 {
-                  "id": 327,
+                  "id": 328,
                   "name": "addChildDialog",
                   "kind": 4096,
                   "kindString": "Call signature",
@@ -6705,7 +6733,7 @@
                   },
                   "parameters": [
                     {
-                      "id": 328,
+                      "id": 329,
                       "name": "dialog_id",
                       "kind": 32768,
                       "kindString": "Parameter",
@@ -6721,7 +6749,7 @@
                       }
                     },
                     {
-                      "id": 329,
+                      "id": 330,
                       "name": "key_name",
                       "kind": 32768,
                       "kindString": "Parameter",
@@ -6738,7 +6766,7 @@
                       }
                     },
                     {
-                      "id": 330,
+                      "id": 331,
                       "name": "thread_name",
                       "kind": 32768,
                       "kindString": "Parameter",
@@ -6757,7 +6785,7 @@
                   ],
                   "type": {
                     "type": "reference",
-                    "id": 312,
+                    "id": 313,
                     "name": "BotkitConversation"
                   }
                 }
@@ -6771,7 +6799,7 @@
               ]
             },
             {
-              "id": 331,
+              "id": 332,
               "name": "addGotoDialog",
               "kind": 2048,
               "kindString": "Method",
@@ -6782,7 +6810,7 @@
               },
               "signatures": [
                 {
-                  "id": 332,
+                  "id": 333,
                   "name": "addGotoDialog",
                   "kind": 4096,
                   "kindString": "Call signature",
@@ -6795,7 +6823,7 @@
                   },
                   "parameters": [
                     {
-                      "id": 333,
+                      "id": 334,
                       "name": "dialog_id",
                       "kind": 32768,
                       "kindString": "Parameter",
@@ -6811,7 +6839,7 @@
                       }
                     },
                     {
-                      "id": 334,
+                      "id": 335,
                       "name": "thread_name",
                       "kind": 32768,
                       "kindString": "Parameter",
@@ -6830,7 +6858,7 @@
                   ],
                   "type": {
                     "type": "reference",
-                    "id": 312,
+                    "id": 313,
                     "name": "BotkitConversation"
                   }
                 }
@@ -6844,7 +6872,7 @@
               ]
             },
             {
-              "id": 335,
+              "id": 336,
               "name": "addMessage",
               "kind": 2048,
               "kindString": "Method",
@@ -6855,7 +6883,7 @@
               },
               "signatures": [
                 {
-                  "id": 336,
+                  "id": 337,
                   "name": "addMessage",
                   "kind": 4096,
                   "kindString": "Call signature",
@@ -6868,7 +6896,7 @@
                   },
                   "parameters": [
                     {
-                      "id": 337,
+                      "id": 338,
                       "name": "message",
                       "kind": 32768,
                       "kindString": "Parameter",
@@ -6886,7 +6914,7 @@
                             "typeArguments": [
                               {
                                 "type": "reference",
-                                "id": 262,
+                                "id": 263,
                                 "name": "BotkitMessageTemplate"
                               }
                             ],
@@ -6900,7 +6928,7 @@
                       }
                     },
                     {
-                      "id": 338,
+                      "id": 339,
                       "name": "thread_name",
                       "kind": 32768,
                       "kindString": "Parameter",
@@ -6918,7 +6946,7 @@
                   ],
                   "type": {
                     "type": "reference",
-                    "id": 312,
+                    "id": 313,
                     "name": "BotkitConversation"
                   }
                 }
@@ -6932,7 +6960,7 @@
               ]
             },
             {
-              "id": 346,
+              "id": 347,
               "name": "addQuestion",
               "kind": 2048,
               "kindString": "Method",
@@ -6943,7 +6971,7 @@
               },
               "signatures": [
                 {
-                  "id": 347,
+                  "id": 348,
                   "name": "addQuestion",
                   "kind": 4096,
                   "kindString": "Call signature",
@@ -6956,7 +6984,7 @@
                   },
                   "parameters": [
                     {
-                      "id": 348,
+                      "id": 349,
                       "name": "message",
                       "kind": 32768,
                       "kindString": "Parameter",
@@ -6974,7 +7002,7 @@
                             "typeArguments": [
                               {
                                 "type": "reference",
-                                "id": 262,
+                                "id": 263,
                                 "name": "BotkitMessageTemplate"
                               }
                             ],
@@ -6988,7 +7016,7 @@
                       }
                     },
                     {
-                      "id": 349,
+                      "id": 350,
                       "name": "handlers",
                       "kind": 32768,
                       "kindString": "Parameter",
@@ -7003,14 +7031,14 @@
                         "types": [
                           {
                             "type": "reference",
-                            "id": 251,
+                            "id": 252,
                             "name": "BotkitConvoHandler"
                           },
                           {
                             "type": "array",
                             "elementType": {
                               "type": "reference",
-                              "id": 257,
+                              "id": 258,
                               "name": "BotkitConvoTrigger"
                             }
                           }
@@ -7018,7 +7046,7 @@
                       }
                     },
                     {
-                      "id": 350,
+                      "id": 351,
                       "name": "key",
                       "kind": 32768,
                       "kindString": "Parameter",
@@ -7034,7 +7062,7 @@
                           {
                             "type": "reflection",
                             "declaration": {
-                              "id": 351,
+                              "id": 352,
                               "name": "__type",
                               "kind": 65536,
                               "kindString": "Type literal",
@@ -7043,7 +7071,7 @@
                               },
                               "children": [
                                 {
-                                  "id": 352,
+                                  "id": 353,
                                   "name": "key",
                                   "kind": 32,
                                   "kindString": "Variable",
@@ -7069,7 +7097,7 @@
                                   "title": "Variables",
                                   "kind": 32,
                                   "children": [
-                                    352
+                                    353
                                   ]
                                 }
                               ],
@@ -7094,7 +7122,7 @@
                       }
                     },
                     {
-                      "id": 353,
+                      "id": 354,
                       "name": "thread_name",
                       "kind": 32768,
                       "kindString": "Parameter",
@@ -7112,7 +7140,7 @@
                   ],
                   "type": {
                     "type": "reference",
-                    "id": 312,
+                    "id": 313,
                     "name": "BotkitConversation"
                   }
                 }
@@ -7126,7 +7154,7 @@
               ]
             },
             {
-              "id": 362,
+              "id": 363,
               "name": "after",
               "kind": 2048,
               "kindString": "Method",
@@ -7137,7 +7165,7 @@
               },
               "signatures": [
                 {
-                  "id": 363,
+                  "id": 364,
                   "name": "after",
                   "kind": 4096,
                   "kindString": "Call signature",
@@ -7150,7 +7178,7 @@
                   },
                   "parameters": [
                     {
-                      "id": 364,
+                      "id": 365,
                       "name": "handler",
                       "kind": 32768,
                       "kindString": "Parameter",
@@ -7163,7 +7191,7 @@
                       "type": {
                         "type": "reflection",
                         "declaration": {
-                          "id": 365,
+                          "id": 366,
                           "name": "__type",
                           "kind": 65536,
                           "kindString": "Type literal",
@@ -7172,7 +7200,7 @@
                           },
                           "signatures": [
                             {
-                              "id": 366,
+                              "id": 367,
                               "name": "__call",
                               "kind": 4096,
                               "kindString": "Call signature",
@@ -7181,7 +7209,7 @@
                               },
                               "parameters": [
                                 {
-                                  "id": 367,
+                                  "id": 368,
                                   "name": "results",
                                   "kind": 32768,
                                   "kindString": "Parameter",
@@ -7194,7 +7222,7 @@
                                   }
                                 },
                                 {
-                                  "id": 368,
+                                  "id": 369,
                                   "name": "bot",
                                   "kind": 32768,
                                   "kindString": "Parameter",
@@ -7240,7 +7268,7 @@
               ]
             },
             {
-              "id": 339,
+              "id": 340,
               "name": "ask",
               "kind": 2048,
               "kindString": "Method",
@@ -7251,7 +7279,7 @@
               },
               "signatures": [
                 {
-                  "id": 340,
+                  "id": 341,
                   "name": "ask",
                   "kind": 4096,
                   "kindString": "Call signature",
@@ -7264,7 +7292,7 @@
                   },
                   "parameters": [
                     {
-                      "id": 341,
+                      "id": 342,
                       "name": "message",
                       "kind": 32768,
                       "kindString": "Parameter",
@@ -7282,7 +7310,7 @@
                             "typeArguments": [
                               {
                                 "type": "reference",
-                                "id": 262,
+                                "id": 263,
                                 "name": "BotkitMessageTemplate"
                               }
                             ],
@@ -7296,7 +7324,7 @@
                       }
                     },
                     {
-                      "id": 342,
+                      "id": 343,
                       "name": "handlers",
                       "kind": 32768,
                       "kindString": "Parameter",
@@ -7311,14 +7339,14 @@
                         "types": [
                           {
                             "type": "reference",
-                            "id": 251,
+                            "id": 252,
                             "name": "BotkitConvoHandler"
                           },
                           {
                             "type": "array",
                             "elementType": {
                               "type": "reference",
-                              "id": 257,
+                              "id": 258,
                               "name": "BotkitConvoTrigger"
                             }
                           }
@@ -7326,7 +7354,7 @@
                       }
                     },
                     {
-                      "id": 343,
+                      "id": 344,
                       "name": "key",
                       "kind": 32768,
                       "kindString": "Parameter",
@@ -7342,7 +7370,7 @@
                           {
                             "type": "reflection",
                             "declaration": {
-                              "id": 344,
+                              "id": 345,
                               "name": "__type",
                               "kind": 65536,
                               "kindString": "Type literal",
@@ -7351,7 +7379,7 @@
                               },
                               "children": [
                                 {
-                                  "id": 345,
+                                  "id": 346,
                                   "name": "key",
                                   "kind": 32,
                                   "kindString": "Variable",
@@ -7377,7 +7405,7 @@
                                   "title": "Variables",
                                   "kind": 32,
                                   "children": [
-                                    345
+                                    346
                                   ]
                                 }
                               ],
@@ -7404,7 +7432,7 @@
                   ],
                   "type": {
                     "type": "reference",
-                    "id": 312,
+                    "id": 313,
                     "name": "BotkitConversation"
                   }
                 }
@@ -7418,7 +7446,7 @@
               ]
             },
             {
-              "id": 354,
+              "id": 355,
               "name": "before",
               "kind": 2048,
               "kindString": "Method",
@@ -7429,7 +7457,7 @@
               },
               "signatures": [
                 {
-                  "id": 355,
+                  "id": 356,
                   "name": "before",
                   "kind": 4096,
                   "kindString": "Call signature",
@@ -7442,7 +7470,7 @@
                   },
                   "parameters": [
                     {
-                      "id": 356,
+                      "id": 357,
                       "name": "thread_name",
                       "kind": 32768,
                       "kindString": "Parameter",
@@ -7458,7 +7486,7 @@
                       }
                     },
                     {
-                      "id": 357,
+                      "id": 358,
                       "name": "handler",
                       "kind": 32768,
                       "kindString": "Parameter",
@@ -7471,7 +7499,7 @@
                       "type": {
                         "type": "reflection",
                         "declaration": {
-                          "id": 358,
+                          "id": 359,
                           "name": "__type",
                           "kind": 65536,
                           "kindString": "Type literal",
@@ -7480,7 +7508,7 @@
                           },
                           "signatures": [
                             {
-                              "id": 359,
+                              "id": 360,
                               "name": "__call",
                               "kind": 4096,
                               "kindString": "Call signature",
@@ -7489,7 +7517,7 @@
                               },
                               "parameters": [
                                 {
-                                  "id": 360,
+                                  "id": 361,
                                   "name": "convo",
                                   "kind": 32768,
                                   "kindString": "Parameter",
@@ -7498,12 +7526,12 @@
                                   },
                                   "type": {
                                     "type": "reference",
-                                    "id": 230,
+                                    "id": 231,
                                     "name": "BotkitDialogWrapper"
                                   }
                                 },
                                 {
-                                  "id": 361,
+                                  "id": 362,
                                   "name": "bot",
                                   "kind": 32768,
                                   "kindString": "Parameter",
@@ -7555,7 +7583,7 @@
               ]
             },
             {
-              "id": 369,
+              "id": 370,
               "name": "onChange",
               "kind": 2048,
               "kindString": "Method",
@@ -7566,7 +7594,7 @@
               },
               "signatures": [
                 {
-                  "id": 370,
+                  "id": 371,
                   "name": "onChange",
                   "kind": 4096,
                   "kindString": "Call signature",
@@ -7579,7 +7607,7 @@
                   },
                   "parameters": [
                     {
-                      "id": 371,
+                      "id": 372,
                       "name": "variable",
                       "kind": 32768,
                       "kindString": "Parameter",
@@ -7595,7 +7623,7 @@
                       }
                     },
                     {
-                      "id": 372,
+                      "id": 373,
                       "name": "handler",
                       "kind": 32768,
                       "kindString": "Parameter",
@@ -7608,7 +7636,7 @@
                       "type": {
                         "type": "reflection",
                         "declaration": {
-                          "id": 373,
+                          "id": 374,
                           "name": "__type",
                           "kind": 65536,
                           "kindString": "Type literal",
@@ -7617,7 +7645,7 @@
                           },
                           "signatures": [
                             {
-                              "id": 374,
+                              "id": 375,
                               "name": "__call",
                               "kind": 4096,
                               "kindString": "Call signature",
@@ -7626,7 +7654,7 @@
                               },
                               "parameters": [
                                 {
-                                  "id": 375,
+                                  "id": 376,
                                   "name": "response",
                                   "kind": 32768,
                                   "kindString": "Parameter",
@@ -7639,7 +7667,7 @@
                                   }
                                 },
                                 {
-                                  "id": 376,
+                                  "id": 377,
                                   "name": "convo",
                                   "kind": 32768,
                                   "kindString": "Parameter",
@@ -7652,7 +7680,7 @@
                                   }
                                 },
                                 {
-                                  "id": 377,
+                                  "id": 378,
                                   "name": "bot",
                                   "kind": 32768,
                                   "kindString": "Parameter",
@@ -7703,7 +7731,7 @@
               ]
             },
             {
-              "id": 319,
+              "id": 320,
               "name": "say",
               "kind": 2048,
               "kindString": "Method",
@@ -7714,7 +7742,7 @@
               },
               "signatures": [
                 {
-                  "id": 320,
+                  "id": 321,
                   "name": "say",
                   "kind": 4096,
                   "kindString": "Call signature",
@@ -7727,7 +7755,7 @@
                   },
                   "parameters": [
                     {
-                      "id": 321,
+                      "id": 322,
                       "name": "message",
                       "kind": 32768,
                       "kindString": "Parameter",
@@ -7745,7 +7773,7 @@
                             "typeArguments": [
                               {
                                 "type": "reference",
-                                "id": 262,
+                                "id": 263,
                                 "name": "BotkitMessageTemplate"
                               }
                             ],
@@ -7761,7 +7789,7 @@
                   ],
                   "type": {
                     "type": "reference",
-                    "id": 312,
+                    "id": 313,
                     "name": "BotkitConversation"
                   }
                 }
@@ -7780,30 +7808,30 @@
               "title": "Constructors",
               "kind": 512,
               "children": [
-                315
+                316
               ]
             },
             {
               "title": "Properties",
               "kind": 1024,
               "children": [
-                314
+                315
               ]
             },
             {
               "title": "Methods",
               "kind": 2048,
               "children": [
-                322,
-                326,
-                331,
-                335,
-                346,
-                362,
-                339,
-                354,
-                369,
-                319
+                323,
+                327,
+                332,
+                336,
+                347,
+                363,
+                340,
+                355,
+                370,
+                320
               ]
             }
           ],
@@ -7822,7 +7850,7 @@
           ],
           "props": [
             {
-              "id": 314,
+              "id": 315,
               "name": "script",
               "kind": 1024,
               "kindString": "Property",
@@ -7849,7 +7877,7 @@
           ],
           "methods": [
             {
-              "id": 322,
+              "id": 323,
               "name": "addAction",
               "kind": 2048,
               "kindString": "Method",
@@ -7860,7 +7888,7 @@
               },
               "signatures": [
                 {
-                  "id": 323,
+                  "id": 324,
                   "name": "addAction",
                   "kind": 4096,
                   "kindString": "Call signature",
@@ -7873,7 +7901,7 @@
                   },
                   "parameters": [
                     {
-                      "id": 324,
+                      "id": 325,
                       "name": "action",
                       "kind": 32768,
                       "kindString": "Parameter",
@@ -7889,7 +7917,7 @@
                       }
                     },
                     {
-                      "id": 325,
+                      "id": 326,
                       "name": "thread_name",
                       "kind": 32768,
                       "kindString": "Parameter",
@@ -7908,7 +7936,7 @@
                   ],
                   "type": {
                     "type": "reference",
-                    "id": 312,
+                    "id": 313,
                     "name": "BotkitConversation"
                   }
                 }
@@ -7922,7 +7950,7 @@
               ]
             },
             {
-              "id": 326,
+              "id": 327,
               "name": "addChildDialog",
               "kind": 2048,
               "kindString": "Method",
@@ -7933,7 +7961,7 @@
               },
               "signatures": [
                 {
-                  "id": 327,
+                  "id": 328,
                   "name": "addChildDialog",
                   "kind": 4096,
                   "kindString": "Call signature",
@@ -7946,7 +7974,7 @@
                   },
                   "parameters": [
                     {
-                      "id": 328,
+                      "id": 329,
                       "name": "dialog_id",
                       "kind": 32768,
                       "kindString": "Parameter",
@@ -7962,7 +7990,7 @@
                       }
                     },
                     {
-                      "id": 329,
+                      "id": 330,
                       "name": "key_name",
                       "kind": 32768,
                       "kindString": "Parameter",
@@ -7979,7 +8007,7 @@
                       }
                     },
                     {
-                      "id": 330,
+                      "id": 331,
                       "name": "thread_name",
                       "kind": 32768,
                       "kindString": "Parameter",
@@ -7998,7 +8026,7 @@
                   ],
                   "type": {
                     "type": "reference",
-                    "id": 312,
+                    "id": 313,
                     "name": "BotkitConversation"
                   }
                 }
@@ -8012,7 +8040,7 @@
               ]
             },
             {
-              "id": 331,
+              "id": 332,
               "name": "addGotoDialog",
               "kind": 2048,
               "kindString": "Method",
@@ -8023,7 +8051,7 @@
               },
               "signatures": [
                 {
-                  "id": 332,
+                  "id": 333,
                   "name": "addGotoDialog",
                   "kind": 4096,
                   "kindString": "Call signature",
@@ -8036,7 +8064,7 @@
                   },
                   "parameters": [
                     {
-                      "id": 333,
+                      "id": 334,
                       "name": "dialog_id",
                       "kind": 32768,
                       "kindString": "Parameter",
@@ -8052,7 +8080,7 @@
                       }
                     },
                     {
-                      "id": 334,
+                      "id": 335,
                       "name": "thread_name",
                       "kind": 32768,
                       "kindString": "Parameter",
@@ -8071,7 +8099,7 @@
                   ],
                   "type": {
                     "type": "reference",
-                    "id": 312,
+                    "id": 313,
                     "name": "BotkitConversation"
                   }
                 }
@@ -8085,7 +8113,7 @@
               ]
             },
             {
-              "id": 335,
+              "id": 336,
               "name": "addMessage",
               "kind": 2048,
               "kindString": "Method",
@@ -8096,7 +8124,7 @@
               },
               "signatures": [
                 {
-                  "id": 336,
+                  "id": 337,
                   "name": "addMessage",
                   "kind": 4096,
                   "kindString": "Call signature",
@@ -8109,7 +8137,7 @@
                   },
                   "parameters": [
                     {
-                      "id": 337,
+                      "id": 338,
                       "name": "message",
                       "kind": 32768,
                       "kindString": "Parameter",
@@ -8127,7 +8155,7 @@
                             "typeArguments": [
                               {
                                 "type": "reference",
-                                "id": 262,
+                                "id": 263,
                                 "name": "BotkitMessageTemplate"
                               }
                             ],
@@ -8141,7 +8169,7 @@
                       }
                     },
                     {
-                      "id": 338,
+                      "id": 339,
                       "name": "thread_name",
                       "kind": 32768,
                       "kindString": "Parameter",
@@ -8159,7 +8187,7 @@
                   ],
                   "type": {
                     "type": "reference",
-                    "id": 312,
+                    "id": 313,
                     "name": "BotkitConversation"
                   }
                 }
@@ -8173,7 +8201,7 @@
               ]
             },
             {
-              "id": 346,
+              "id": 347,
               "name": "addQuestion",
               "kind": 2048,
               "kindString": "Method",
@@ -8184,7 +8212,7 @@
               },
               "signatures": [
                 {
-                  "id": 347,
+                  "id": 348,
                   "name": "addQuestion",
                   "kind": 4096,
                   "kindString": "Call signature",
@@ -8197,7 +8225,7 @@
                   },
                   "parameters": [
                     {
-                      "id": 348,
+                      "id": 349,
                       "name": "message",
                       "kind": 32768,
                       "kindString": "Parameter",
@@ -8215,7 +8243,7 @@
                             "typeArguments": [
                               {
                                 "type": "reference",
-                                "id": 262,
+                                "id": 263,
                                 "name": "BotkitMessageTemplate"
                               }
                             ],
@@ -8229,7 +8257,7 @@
                       }
                     },
                     {
-                      "id": 349,
+                      "id": 350,
                       "name": "handlers",
                       "kind": 32768,
                       "kindString": "Parameter",
@@ -8244,14 +8272,14 @@
                         "types": [
                           {
                             "type": "reference",
-                            "id": 251,
+                            "id": 252,
                             "name": "BotkitConvoHandler"
                           },
                           {
                             "type": "array",
                             "elementType": {
                               "type": "reference",
-                              "id": 257,
+                              "id": 258,
                               "name": "BotkitConvoTrigger"
                             }
                           }
@@ -8259,7 +8287,7 @@
                       }
                     },
                     {
-                      "id": 350,
+                      "id": 351,
                       "name": "key",
                       "kind": 32768,
                       "kindString": "Parameter",
@@ -8275,7 +8303,7 @@
                           {
                             "type": "reflection",
                             "declaration": {
-                              "id": 351,
+                              "id": 352,
                               "name": "__type",
                               "kind": 65536,
                               "kindString": "Type literal",
@@ -8284,7 +8312,7 @@
                               },
                               "children": [
                                 {
-                                  "id": 352,
+                                  "id": 353,
                                   "name": "key",
                                   "kind": 32,
                                   "kindString": "Variable",
@@ -8310,7 +8338,7 @@
                                   "title": "Variables",
                                   "kind": 32,
                                   "children": [
-                                    352
+                                    353
                                   ]
                                 }
                               ],
@@ -8335,7 +8363,7 @@
                       }
                     },
                     {
-                      "id": 353,
+                      "id": 354,
                       "name": "thread_name",
                       "kind": 32768,
                       "kindString": "Parameter",
@@ -8353,7 +8381,7 @@
                   ],
                   "type": {
                     "type": "reference",
-                    "id": 312,
+                    "id": 313,
                     "name": "BotkitConversation"
                   }
                 }
@@ -8367,7 +8395,7 @@
               ]
             },
             {
-              "id": 362,
+              "id": 363,
               "name": "after",
               "kind": 2048,
               "kindString": "Method",
@@ -8378,7 +8406,7 @@
               },
               "signatures": [
                 {
-                  "id": 363,
+                  "id": 364,
                   "name": "after",
                   "kind": 4096,
                   "kindString": "Call signature",
@@ -8391,7 +8419,7 @@
                   },
                   "parameters": [
                     {
-                      "id": 364,
+                      "id": 365,
                       "name": "handler",
                       "kind": 32768,
                       "kindString": "Parameter",
@@ -8404,7 +8432,7 @@
                       "type": {
                         "type": "reflection",
                         "declaration": {
-                          "id": 365,
+                          "id": 366,
                           "name": "__type",
                           "kind": 65536,
                           "kindString": "Type literal",
@@ -8413,7 +8441,7 @@
                           },
                           "signatures": [
                             {
-                              "id": 366,
+                              "id": 367,
                               "name": "__call",
                               "kind": 4096,
                               "kindString": "Call signature",
@@ -8422,7 +8450,7 @@
                               },
                               "parameters": [
                                 {
-                                  "id": 367,
+                                  "id": 368,
                                   "name": "results",
                                   "kind": 32768,
                                   "kindString": "Parameter",
@@ -8435,7 +8463,7 @@
                                   }
                                 },
                                 {
-                                  "id": 368,
+                                  "id": 369,
                                   "name": "bot",
                                   "kind": 32768,
                                   "kindString": "Parameter",
@@ -8481,7 +8509,7 @@
               ]
             },
             {
-              "id": 339,
+              "id": 340,
               "name": "ask",
               "kind": 2048,
               "kindString": "Method",
@@ -8492,7 +8520,7 @@
               },
               "signatures": [
                 {
-                  "id": 340,
+                  "id": 341,
                   "name": "ask",
                   "kind": 4096,
                   "kindString": "Call signature",
@@ -8505,7 +8533,7 @@
                   },
                   "parameters": [
                     {
-                      "id": 341,
+                      "id": 342,
                       "name": "message",
                       "kind": 32768,
                       "kindString": "Parameter",
@@ -8523,7 +8551,7 @@
                             "typeArguments": [
                               {
                                 "type": "reference",
-                                "id": 262,
+                                "id": 263,
                                 "name": "BotkitMessageTemplate"
                               }
                             ],
@@ -8537,7 +8565,7 @@
                       }
                     },
                     {
-                      "id": 342,
+                      "id": 343,
                       "name": "handlers",
                       "kind": 32768,
                       "kindString": "Parameter",
@@ -8552,14 +8580,14 @@
                         "types": [
                           {
                             "type": "reference",
-                            "id": 251,
+                            "id": 252,
                             "name": "BotkitConvoHandler"
                           },
                           {
                             "type": "array",
                             "elementType": {
                               "type": "reference",
-                              "id": 257,
+                              "id": 258,
                               "name": "BotkitConvoTrigger"
                             }
                           }
@@ -8567,7 +8595,7 @@
                       }
                     },
                     {
-                      "id": 343,
+                      "id": 344,
                       "name": "key",
                       "kind": 32768,
                       "kindString": "Parameter",
@@ -8583,7 +8611,7 @@
                           {
                             "type": "reflection",
                             "declaration": {
-                              "id": 344,
+                              "id": 345,
                               "name": "__type",
                               "kind": 65536,
                               "kindString": "Type literal",
@@ -8592,7 +8620,7 @@
                               },
                               "children": [
                                 {
-                                  "id": 345,
+                                  "id": 346,
                                   "name": "key",
                                   "kind": 32,
                                   "kindString": "Variable",
@@ -8618,7 +8646,7 @@
                                   "title": "Variables",
                                   "kind": 32,
                                   "children": [
-                                    345
+                                    346
                                   ]
                                 }
                               ],
@@ -8645,7 +8673,7 @@
                   ],
                   "type": {
                     "type": "reference",
-                    "id": 312,
+                    "id": 313,
                     "name": "BotkitConversation"
                   }
                 }
@@ -8659,7 +8687,7 @@
               ]
             },
             {
-              "id": 354,
+              "id": 355,
               "name": "before",
               "kind": 2048,
               "kindString": "Method",
@@ -8670,7 +8698,7 @@
               },
               "signatures": [
                 {
-                  "id": 355,
+                  "id": 356,
                   "name": "before",
                   "kind": 4096,
                   "kindString": "Call signature",
@@ -8683,7 +8711,7 @@
                   },
                   "parameters": [
                     {
-                      "id": 356,
+                      "id": 357,
                       "name": "thread_name",
                       "kind": 32768,
                       "kindString": "Parameter",
@@ -8699,7 +8727,7 @@
                       }
                     },
                     {
-                      "id": 357,
+                      "id": 358,
                       "name": "handler",
                       "kind": 32768,
                       "kindString": "Parameter",
@@ -8712,7 +8740,7 @@
                       "type": {
                         "type": "reflection",
                         "declaration": {
-                          "id": 358,
+                          "id": 359,
                           "name": "__type",
                           "kind": 65536,
                           "kindString": "Type literal",
@@ -8721,7 +8749,7 @@
                           },
                           "signatures": [
                             {
-                              "id": 359,
+                              "id": 360,
                               "name": "__call",
                               "kind": 4096,
                               "kindString": "Call signature",
@@ -8730,7 +8758,7 @@
                               },
                               "parameters": [
                                 {
-                                  "id": 360,
+                                  "id": 361,
                                   "name": "convo",
                                   "kind": 32768,
                                   "kindString": "Parameter",
@@ -8739,12 +8767,12 @@
                                   },
                                   "type": {
                                     "type": "reference",
-                                    "id": 230,
+                                    "id": 231,
                                     "name": "BotkitDialogWrapper"
                                   }
                                 },
                                 {
-                                  "id": 361,
+                                  "id": 362,
                                   "name": "bot",
                                   "kind": 32768,
                                   "kindString": "Parameter",
@@ -8796,7 +8824,7 @@
               ]
             },
             {
-              "id": 369,
+              "id": 370,
               "name": "onChange",
               "kind": 2048,
               "kindString": "Method",
@@ -8807,7 +8835,7 @@
               },
               "signatures": [
                 {
-                  "id": 370,
+                  "id": 371,
                   "name": "onChange",
                   "kind": 4096,
                   "kindString": "Call signature",
@@ -8820,7 +8848,7 @@
                   },
                   "parameters": [
                     {
-                      "id": 371,
+                      "id": 372,
                       "name": "variable",
                       "kind": 32768,
                       "kindString": "Parameter",
@@ -8836,7 +8864,7 @@
                       }
                     },
                     {
-                      "id": 372,
+                      "id": 373,
                       "name": "handler",
                       "kind": 32768,
                       "kindString": "Parameter",
@@ -8849,7 +8877,7 @@
                       "type": {
                         "type": "reflection",
                         "declaration": {
-                          "id": 373,
+                          "id": 374,
                           "name": "__type",
                           "kind": 65536,
                           "kindString": "Type literal",
@@ -8858,7 +8886,7 @@
                           },
                           "signatures": [
                             {
-                              "id": 374,
+                              "id": 375,
                               "name": "__call",
                               "kind": 4096,
                               "kindString": "Call signature",
@@ -8867,7 +8895,7 @@
                               },
                               "parameters": [
                                 {
-                                  "id": 375,
+                                  "id": 376,
                                   "name": "response",
                                   "kind": 32768,
                                   "kindString": "Parameter",
@@ -8880,7 +8908,7 @@
                                   }
                                 },
                                 {
-                                  "id": 376,
+                                  "id": 377,
                                   "name": "convo",
                                   "kind": 32768,
                                   "kindString": "Parameter",
@@ -8893,7 +8921,7 @@
                                   }
                                 },
                                 {
-                                  "id": 377,
+                                  "id": 378,
                                   "name": "bot",
                                   "kind": 32768,
                                   "kindString": "Parameter",
@@ -8944,7 +8972,7 @@
               ]
             },
             {
-              "id": 319,
+              "id": 320,
               "name": "say",
               "kind": 2048,
               "kindString": "Method",
@@ -8955,7 +8983,7 @@
               },
               "signatures": [
                 {
-                  "id": 320,
+                  "id": 321,
                   "name": "say",
                   "kind": 4096,
                   "kindString": "Call signature",
@@ -8968,7 +8996,7 @@
                   },
                   "parameters": [
                     {
-                      "id": 321,
+                      "id": 322,
                       "name": "message",
                       "kind": 32768,
                       "kindString": "Parameter",
@@ -8986,7 +9014,7 @@
                             "typeArguments": [
                               {
                                 "type": "reference",
-                                "id": 262,
+                                "id": 263,
                                 "name": "BotkitMessageTemplate"
                               }
                             ],
@@ -9002,7 +9030,7 @@
                   ],
                   "type": {
                     "type": "reference",
-                    "id": 312,
+                    "id": 313,
                     "name": "BotkitConversation"
                   }
                 }
@@ -9018,7 +9046,7 @@
           ],
           "constructors": [
             {
-              "id": 315,
+              "id": 316,
               "name": "constructor",
               "kind": 512,
               "kindString": "Constructor",
@@ -9032,7 +9060,7 @@
               },
               "signatures": [
                 {
-                  "id": 316,
+                  "id": 317,
                   "name": "new BotkitConversation",
                   "kind": 16384,
                   "kindString": "Constructor signature",
@@ -9044,7 +9072,7 @@
                   },
                   "parameters": [
                     {
-                      "id": 317,
+                      "id": 318,
                       "name": "dialogId",
                       "kind": 32768,
                       "kindString": "Parameter",
@@ -9060,7 +9088,7 @@
                       }
                     },
                     {
-                      "id": 318,
+                      "id": 319,
                       "name": "controller",
                       "kind": 32768,
                       "kindString": "Parameter",
@@ -9079,7 +9107,7 @@
                   ],
                   "type": {
                     "type": "reference",
-                    "id": 312,
+                    "id": 313,
                     "name": "BotkitConversation"
                   }
                 }
@@ -9095,7 +9123,7 @@
           ]
         },
         {
-          "id": 230,
+          "id": 231,
           "name": "BotkitDialogWrapper",
           "kind": 128,
           "kindString": "Class",
@@ -9108,7 +9136,7 @@
           },
           "children": [
             {
-              "id": 235,
+              "id": 236,
               "name": "constructor",
               "kind": 512,
               "kindString": "Constructor",
@@ -9119,7 +9147,7 @@
               },
               "signatures": [
                 {
-                  "id": 236,
+                  "id": 237,
                   "name": "new BotkitDialogWrapper",
                   "kind": 16384,
                   "kindString": "Constructor signature",
@@ -9128,7 +9156,7 @@
                   },
                   "parameters": [
                     {
-                      "id": 237,
+                      "id": 238,
                       "name": "dc",
                       "kind": 32768,
                       "kindString": "Parameter",
@@ -9141,7 +9169,7 @@
                       }
                     },
                     {
-                      "id": 238,
+                      "id": 239,
                       "name": "step",
                       "kind": 32768,
                       "kindString": "Parameter",
@@ -9150,14 +9178,14 @@
                       },
                       "type": {
                         "type": "reference",
-                        "id": 299,
+                        "id": 300,
                         "name": "BotkitConversationStep"
                       }
                     }
                   ],
                   "type": {
                     "type": "reference",
-                    "id": 230,
+                    "id": 231,
                     "name": "BotkitDialogWrapper"
                   }
                 }
@@ -9171,7 +9199,7 @@
               ]
             },
             {
-              "id": 231,
+              "id": 232,
               "name": "vars",
               "kind": 1024,
               "kindString": "Property",
@@ -9193,7 +9221,7 @@
               "type": {
                 "type": "reflection",
                 "declaration": {
-                  "id": 232,
+                  "id": 233,
                   "name": "__type",
                   "kind": 65536,
                   "kindString": "Type literal",
@@ -9202,7 +9230,7 @@
                   },
                   "indexSignature": [
                     {
-                      "id": 233,
+                      "id": 234,
                       "name": "__index",
                       "kind": 8192,
                       "kindString": "Index signature",
@@ -9211,7 +9239,7 @@
                       },
                       "parameters": [
                         {
-                          "id": 234,
+                          "id": 235,
                           "name": "key",
                           "kind": 32768,
                           "kindString": "Parameter",
@@ -9241,7 +9269,7 @@
               }
             },
             {
-              "id": 239,
+              "id": 240,
               "name": "gotoThread",
               "kind": 2048,
               "kindString": "Method",
@@ -9252,7 +9280,7 @@
               },
               "signatures": [
                 {
-                  "id": 240,
+                  "id": 241,
                   "name": "gotoThread",
                   "kind": 4096,
                   "kindString": "Call signature",
@@ -9264,7 +9292,7 @@
                   },
                   "parameters": [
                     {
-                      "id": 241,
+                      "id": 242,
                       "name": "thread",
                       "kind": 32768,
                       "kindString": "Parameter",
@@ -9301,7 +9329,7 @@
               ]
             },
             {
-              "id": 242,
+              "id": 243,
               "name": "repeat",
               "kind": 2048,
               "kindString": "Method",
@@ -9312,7 +9340,7 @@
               },
               "signatures": [
                 {
-                  "id": 243,
+                  "id": 244,
                   "name": "repeat",
                   "kind": 4096,
                   "kindString": "Call signature",
@@ -9343,7 +9371,7 @@
               ]
             },
             {
-              "id": 246,
+              "id": 247,
               "name": "setVar",
               "kind": 2048,
               "kindString": "Method",
@@ -9354,7 +9382,7 @@
               },
               "signatures": [
                 {
-                  "id": 247,
+                  "id": 248,
                   "name": "setVar",
                   "kind": 4096,
                   "kindString": "Call signature",
@@ -9366,7 +9394,7 @@
                   },
                   "parameters": [
                     {
-                      "id": 248,
+                      "id": 249,
                       "name": "key",
                       "kind": 32768,
                       "kindString": "Parameter",
@@ -9382,7 +9410,7 @@
                       }
                     },
                     {
-                      "id": 249,
+                      "id": 250,
                       "name": "val",
                       "kind": 32768,
                       "kindString": "Parameter",
@@ -9413,7 +9441,7 @@
               ]
             },
             {
-              "id": 244,
+              "id": 245,
               "name": "stop",
               "kind": 2048,
               "kindString": "Method",
@@ -9424,7 +9452,7 @@
               },
               "signatures": [
                 {
-                  "id": 245,
+                  "id": 246,
                   "name": "stop",
                   "kind": 4096,
                   "kindString": "Call signature",
@@ -9460,24 +9488,24 @@
               "title": "Constructors",
               "kind": 512,
               "children": [
-                235
+                236
               ]
             },
             {
               "title": "Properties",
               "kind": 1024,
               "children": [
-                231
+                232
               ]
             },
             {
               "title": "Methods",
               "kind": 2048,
               "children": [
-                239,
-                242,
-                246,
-                244
+                240,
+                243,
+                247,
+                245
               ]
             }
           ],
@@ -9490,7 +9518,7 @@
           ],
           "props": [
             {
-              "id": 231,
+              "id": 232,
               "name": "vars",
               "kind": 1024,
               "kindString": "Property",
@@ -9512,7 +9540,7 @@
               "type": {
                 "type": "reflection",
                 "declaration": {
-                  "id": 232,
+                  "id": 233,
                   "name": "__type",
                   "kind": 65536,
                   "kindString": "Type literal",
@@ -9521,7 +9549,7 @@
                   },
                   "indexSignature": [
                     {
-                      "id": 233,
+                      "id": 234,
                       "name": "__index",
                       "kind": 8192,
                       "kindString": "Index signature",
@@ -9530,7 +9558,7 @@
                       },
                       "parameters": [
                         {
-                          "id": 234,
+                          "id": 235,
                           "name": "key",
                           "kind": 32768,
                           "kindString": "Parameter",
@@ -9562,7 +9590,7 @@
           ],
           "methods": [
             {
-              "id": 239,
+              "id": 240,
               "name": "gotoThread",
               "kind": 2048,
               "kindString": "Method",
@@ -9573,7 +9601,7 @@
               },
               "signatures": [
                 {
-                  "id": 240,
+                  "id": 241,
                   "name": "gotoThread",
                   "kind": 4096,
                   "kindString": "Call signature",
@@ -9585,7 +9613,7 @@
                   },
                   "parameters": [
                     {
-                      "id": 241,
+                      "id": 242,
                       "name": "thread",
                       "kind": 32768,
                       "kindString": "Parameter",
@@ -9622,7 +9650,7 @@
               ]
             },
             {
-              "id": 242,
+              "id": 243,
               "name": "repeat",
               "kind": 2048,
               "kindString": "Method",
@@ -9633,7 +9661,7 @@
               },
               "signatures": [
                 {
-                  "id": 243,
+                  "id": 244,
                   "name": "repeat",
                   "kind": 4096,
                   "kindString": "Call signature",
@@ -9664,7 +9692,7 @@
               ]
             },
             {
-              "id": 246,
+              "id": 247,
               "name": "setVar",
               "kind": 2048,
               "kindString": "Method",
@@ -9675,7 +9703,7 @@
               },
               "signatures": [
                 {
-                  "id": 247,
+                  "id": 248,
                   "name": "setVar",
                   "kind": 4096,
                   "kindString": "Call signature",
@@ -9687,7 +9715,7 @@
                   },
                   "parameters": [
                     {
-                      "id": 248,
+                      "id": 249,
                       "name": "key",
                       "kind": 32768,
                       "kindString": "Parameter",
@@ -9703,7 +9731,7 @@
                       }
                     },
                     {
-                      "id": 249,
+                      "id": 250,
                       "name": "val",
                       "kind": 32768,
                       "kindString": "Parameter",
@@ -9734,7 +9762,7 @@
               ]
             },
             {
-              "id": 244,
+              "id": 245,
               "name": "stop",
               "kind": 2048,
               "kindString": "Method",
@@ -9745,7 +9773,7 @@
               },
               "signatures": [
                 {
-                  "id": 245,
+                  "id": 246,
                   "name": "stop",
                   "kind": 4096,
                   "kindString": "Call signature",
@@ -9778,7 +9806,7 @@
           ],
           "constructors": [
             {
-              "id": 235,
+              "id": 236,
               "name": "constructor",
               "kind": 512,
               "kindString": "Constructor",
@@ -9789,7 +9817,7 @@
               },
               "signatures": [
                 {
-                  "id": 236,
+                  "id": 237,
                   "name": "new BotkitDialogWrapper",
                   "kind": 16384,
                   "kindString": "Constructor signature",
@@ -9798,7 +9826,7 @@
                   },
                   "parameters": [
                     {
-                      "id": 237,
+                      "id": 238,
                       "name": "dc",
                       "kind": 32768,
                       "kindString": "Parameter",
@@ -9811,7 +9839,7 @@
                       }
                     },
                     {
-                      "id": 238,
+                      "id": 239,
                       "name": "step",
                       "kind": 32768,
                       "kindString": "Parameter",
@@ -9820,14 +9848,14 @@
                       },
                       "type": {
                         "type": "reference",
-                        "id": 299,
+                        "id": 300,
                         "name": "BotkitConversationStep"
                       }
                     }
                   ],
                   "type": {
                     "type": "reference",
-                    "id": 230,
+                    "id": 231,
                     "name": "BotkitDialogWrapper"
                   }
                 }
@@ -9843,7 +9871,7 @@
           ]
         },
         {
-          "id": 395,
+          "id": 396,
           "name": "BotkitTestClient",
           "kind": 128,
           "kindString": "Class",
@@ -9856,7 +9884,7 @@
           },
           "children": [
             {
-              "id": 398,
+              "id": 399,
               "name": "constructor",
               "kind": 512,
               "kindString": "Constructor",
@@ -9871,7 +9899,7 @@
               },
               "signatures": [
                 {
-                  "id": 399,
+                  "id": 400,
                   "name": "new BotkitTestClient",
                   "kind": 16384,
                   "kindString": "Constructor signature",
@@ -9884,7 +9912,7 @@
                   },
                   "parameters": [
                     {
-                      "id": 400,
+                      "id": 401,
                       "name": "channelId",
                       "kind": 32768,
                       "kindString": "Parameter",
@@ -9900,7 +9928,7 @@
                       }
                     },
                     {
-                      "id": 401,
+                      "id": 402,
                       "name": "bot",
                       "kind": 32768,
                       "kindString": "Parameter",
@@ -9917,7 +9945,7 @@
                       }
                     },
                     {
-                      "id": 402,
+                      "id": 403,
                       "name": "dialogToTest",
                       "kind": 32768,
                       "kindString": "Parameter",
@@ -9945,7 +9973,7 @@
                       }
                     },
                     {
-                      "id": 403,
+                      "id": 404,
                       "name": "initialDialogOptions",
                       "kind": 32768,
                       "kindString": "Parameter",
@@ -9962,7 +9990,7 @@
                       }
                     },
                     {
-                      "id": 404,
+                      "id": 405,
                       "name": "middlewares",
                       "kind": 32768,
                       "kindString": "Parameter",
@@ -9982,7 +10010,7 @@
                       }
                     },
                     {
-                      "id": 405,
+                      "id": 406,
                       "name": "conversationState",
                       "kind": 32768,
                       "kindString": "Parameter",
@@ -10001,12 +10029,12 @@
                   ],
                   "type": {
                     "type": "reference",
-                    "id": 395,
+                    "id": 396,
                     "name": "BotkitTestClient"
                   }
                 },
                 {
-                  "id": 406,
+                  "id": 407,
                   "name": "new BotkitTestClient",
                   "kind": 16384,
                   "kindString": "Constructor signature",
@@ -10019,7 +10047,7 @@
                   },
                   "parameters": [
                     {
-                      "id": 407,
+                      "id": 408,
                       "name": "testAdapter",
                       "kind": 32768,
                       "kindString": "Parameter",
@@ -10032,7 +10060,7 @@
                       }
                     },
                     {
-                      "id": 408,
+                      "id": 409,
                       "name": "bot",
                       "kind": 32768,
                       "kindString": "Parameter",
@@ -10049,7 +10077,7 @@
                       }
                     },
                     {
-                      "id": 409,
+                      "id": 410,
                       "name": "dialogToTest",
                       "kind": 32768,
                       "kindString": "Parameter",
@@ -10077,7 +10105,7 @@
                       }
                     },
                     {
-                      "id": 410,
+                      "id": 411,
                       "name": "initialDialogOptions",
                       "kind": 32768,
                       "kindString": "Parameter",
@@ -10094,7 +10122,7 @@
                       }
                     },
                     {
-                      "id": 411,
+                      "id": 412,
                       "name": "middlewares",
                       "kind": 32768,
                       "kindString": "Parameter",
@@ -10114,7 +10142,7 @@
                       }
                     },
                     {
-                      "id": 412,
+                      "id": 413,
                       "name": "conversationState",
                       "kind": 32768,
                       "kindString": "Parameter",
@@ -10133,7 +10161,7 @@
                   ],
                   "type": {
                     "type": "reference",
-                    "id": 395,
+                    "id": 396,
                     "name": "BotkitTestClient"
                   }
                 }
@@ -10157,7 +10185,7 @@
               ]
             },
             {
-              "id": 397,
+              "id": 398,
               "name": "conversationState",
               "kind": 1024,
               "kindString": "Property",
@@ -10179,7 +10207,7 @@
               }
             },
             {
-              "id": 396,
+              "id": 397,
               "name": "dialogTurnResult",
               "kind": 1024,
               "kindString": "Property",
@@ -10201,7 +10229,7 @@
               }
             },
             {
-              "id": 416,
+              "id": 417,
               "name": "getNextReply",
               "kind": 2048,
               "kindString": "Method",
@@ -10212,7 +10240,7 @@
               },
               "signatures": [
                 {
-                  "id": 417,
+                  "id": 418,
                   "name": "getNextReply",
                   "kind": 4096,
                   "kindString": "Call signature",
@@ -10243,7 +10271,7 @@
               ]
             },
             {
-              "id": 413,
+              "id": 414,
               "name": "sendActivity",
               "kind": 2048,
               "kindString": "Method",
@@ -10254,7 +10282,7 @@
               },
               "signatures": [
                 {
-                  "id": 414,
+                  "id": 415,
                   "name": "sendActivity",
                   "kind": 4096,
                   "kindString": "Call signature",
@@ -10267,7 +10295,7 @@
                   },
                   "parameters": [
                     {
-                      "id": 415,
+                      "id": 416,
                       "name": "activity",
                       "kind": 32768,
                       "kindString": "Parameter",
@@ -10324,23 +10352,23 @@
               "title": "Constructors",
               "kind": 512,
               "children": [
-                398
+                399
               ]
             },
             {
               "title": "Properties",
               "kind": 1024,
               "children": [
-                397,
-                396
+                398,
+                397
               ]
             },
             {
               "title": "Methods",
               "kind": 2048,
               "children": [
-                416,
-                413
+                417,
+                414
               ]
             }
           ],
@@ -10353,7 +10381,7 @@
           ],
           "props": [
             {
-              "id": 397,
+              "id": 398,
               "name": "conversationState",
               "kind": 1024,
               "kindString": "Property",
@@ -10375,7 +10403,7 @@
               }
             },
             {
-              "id": 396,
+              "id": 397,
               "name": "dialogTurnResult",
               "kind": 1024,
               "kindString": "Property",
@@ -10399,7 +10427,7 @@
           ],
           "methods": [
             {
-              "id": 416,
+              "id": 417,
               "name": "getNextReply",
               "kind": 2048,
               "kindString": "Method",
@@ -10410,7 +10438,7 @@
               },
               "signatures": [
                 {
-                  "id": 417,
+                  "id": 418,
                   "name": "getNextReply",
                   "kind": 4096,
                   "kindString": "Call signature",
@@ -10441,7 +10469,7 @@
               ]
             },
             {
-              "id": 413,
+              "id": 414,
               "name": "sendActivity",
               "kind": 2048,
               "kindString": "Method",
@@ -10452,7 +10480,7 @@
               },
               "signatures": [
                 {
-                  "id": 414,
+                  "id": 415,
                   "name": "sendActivity",
                   "kind": 4096,
                   "kindString": "Call signature",
@@ -10465,7 +10493,7 @@
                   },
                   "parameters": [
                     {
-                      "id": 415,
+                      "id": 416,
                       "name": "activity",
                       "kind": 32768,
                       "kindString": "Parameter",
@@ -10519,7 +10547,7 @@
           ],
           "constructors": [
             {
-              "id": 398,
+              "id": 399,
               "name": "constructor",
               "kind": 512,
               "kindString": "Constructor",
@@ -10534,7 +10562,7 @@
               },
               "signatures": [
                 {
-                  "id": 399,
+                  "id": 400,
                   "name": "new BotkitTestClient",
                   "kind": 16384,
                   "kindString": "Constructor signature",
@@ -10547,7 +10575,7 @@
                   },
                   "parameters": [
                     {
-                      "id": 400,
+                      "id": 401,
                       "name": "channelId",
                       "kind": 32768,
                       "kindString": "Parameter",
@@ -10563,7 +10591,7 @@
                       }
                     },
                     {
-                      "id": 401,
+                      "id": 402,
                       "name": "bot",
                       "kind": 32768,
                       "kindString": "Parameter",
@@ -10580,7 +10608,7 @@
                       }
                     },
                     {
-                      "id": 402,
+                      "id": 403,
                       "name": "dialogToTest",
                       "kind": 32768,
                       "kindString": "Parameter",
@@ -10608,7 +10636,7 @@
                       }
                     },
                     {
-                      "id": 403,
+                      "id": 404,
                       "name": "initialDialogOptions",
                       "kind": 32768,
                       "kindString": "Parameter",
@@ -10625,7 +10653,7 @@
                       }
                     },
                     {
-                      "id": 404,
+                      "id": 405,
                       "name": "middlewares",
                       "kind": 32768,
                       "kindString": "Parameter",
@@ -10645,7 +10673,7 @@
                       }
                     },
                     {
-                      "id": 405,
+                      "id": 406,
                       "name": "conversationState",
                       "kind": 32768,
                       "kindString": "Parameter",
@@ -10664,12 +10692,12 @@
                   ],
                   "type": {
                     "type": "reference",
-                    "id": 395,
+                    "id": 396,
                     "name": "BotkitTestClient"
                   }
                 },
                 {
-                  "id": 406,
+                  "id": 407,
                   "name": "new BotkitTestClient",
                   "kind": 16384,
                   "kindString": "Constructor signature",
@@ -10682,7 +10710,7 @@
                   },
                   "parameters": [
                     {
-                      "id": 407,
+                      "id": 408,
                       "name": "testAdapter",
                       "kind": 32768,
                       "kindString": "Parameter",
@@ -10695,7 +10723,7 @@
                       }
                     },
                     {
-                      "id": 408,
+                      "id": 409,
                       "name": "bot",
                       "kind": 32768,
                       "kindString": "Parameter",
@@ -10712,7 +10740,7 @@
                       }
                     },
                     {
-                      "id": 409,
+                      "id": 410,
                       "name": "dialogToTest",
                       "kind": 32768,
                       "kindString": "Parameter",
@@ -10740,7 +10768,7 @@
                       }
                     },
                     {
-                      "id": 410,
+                      "id": 411,
                       "name": "initialDialogOptions",
                       "kind": 32768,
                       "kindString": "Parameter",
@@ -10757,7 +10785,7 @@
                       }
                     },
                     {
-                      "id": 411,
+                      "id": 412,
                       "name": "middlewares",
                       "kind": 32768,
                       "kindString": "Parameter",
@@ -10777,7 +10805,7 @@
                       }
                     },
                     {
-                      "id": 412,
+                      "id": 413,
                       "name": "conversationState",
                       "kind": 32768,
                       "kindString": "Parameter",
@@ -10796,7 +10824,7 @@
                   ],
                   "type": {
                     "type": "reference",
-                    "id": 395,
+                    "id": 396,
                     "name": "BotkitTestClient"
                   }
                 }
@@ -11411,7 +11439,7 @@
           ]
         },
         {
-          "id": 299,
+          "id": 300,
           "name": "BotkitConversationStep",
           "kind": 256,
           "kindString": "Interface",
@@ -11421,7 +11449,7 @@
           },
           "children": [
             {
-              "id": 300,
+              "id": 301,
               "name": "index",
               "kind": 1024,
               "kindString": "Property",
@@ -11445,7 +11473,7 @@
               }
             },
             {
-              "id": 308,
+              "id": 309,
               "name": "next",
               "kind": 1024,
               "kindString": "Property",
@@ -11466,7 +11494,7 @@
               "type": {
                 "type": "reflection",
                 "declaration": {
-                  "id": 309,
+                  "id": 310,
                   "name": "__type",
                   "kind": 65536,
                   "kindString": "Type literal",
@@ -11475,7 +11503,7 @@
                   },
                   "signatures": [
                     {
-                      "id": 310,
+                      "id": 311,
                       "name": "__call",
                       "kind": 4096,
                       "kindString": "Call signature",
@@ -11484,7 +11512,7 @@
                       },
                       "parameters": [
                         {
-                          "id": 311,
+                          "id": 312,
                           "name": "stepResult",
                           "kind": 32768,
                           "kindString": "Parameter",
@@ -11520,7 +11548,7 @@
               }
             },
             {
-              "id": 304,
+              "id": 305,
               "name": "options",
               "kind": 1024,
               "kindString": "Property",
@@ -11544,7 +11572,7 @@
               }
             },
             {
-              "id": 305,
+              "id": 306,
               "name": "reason",
               "kind": 1024,
               "kindString": "Property",
@@ -11568,7 +11596,7 @@
               }
             },
             {
-              "id": 306,
+              "id": 307,
               "name": "result",
               "kind": 1024,
               "kindString": "Property",
@@ -11592,7 +11620,7 @@
               }
             },
             {
-              "id": 303,
+              "id": 304,
               "name": "state",
               "kind": 1024,
               "kindString": "Property",
@@ -11616,7 +11644,7 @@
               }
             },
             {
-              "id": 301,
+              "id": 302,
               "name": "thread",
               "kind": 1024,
               "kindString": "Property",
@@ -11640,7 +11668,7 @@
               }
             },
             {
-              "id": 302,
+              "id": 303,
               "name": "threadLength",
               "kind": 1024,
               "kindString": "Property",
@@ -11664,7 +11692,7 @@
               }
             },
             {
-              "id": 307,
+              "id": 308,
               "name": "values",
               "kind": 1024,
               "kindString": "Property",
@@ -11693,15 +11721,15 @@
               "title": "Properties",
               "kind": 1024,
               "children": [
-                300,
-                308,
-                304,
+                301,
+                309,
                 305,
                 306,
-                303,
-                301,
+                307,
+                304,
                 302,
-                307
+                303,
+                308
               ]
             }
           ],
@@ -11714,7 +11742,7 @@
           ],
           "props": [
             {
-              "id": 300,
+              "id": 301,
               "name": "index",
               "kind": 1024,
               "kindString": "Property",
@@ -11738,7 +11766,7 @@
               }
             },
             {
-              "id": 308,
+              "id": 309,
               "name": "next",
               "kind": 1024,
               "kindString": "Property",
@@ -11759,7 +11787,7 @@
               "type": {
                 "type": "reflection",
                 "declaration": {
-                  "id": 309,
+                  "id": 310,
                   "name": "__type",
                   "kind": 65536,
                   "kindString": "Type literal",
@@ -11768,7 +11796,7 @@
                   },
                   "signatures": [
                     {
-                      "id": 310,
+                      "id": 311,
                       "name": "__call",
                       "kind": 4096,
                       "kindString": "Call signature",
@@ -11777,7 +11805,7 @@
                       },
                       "parameters": [
                         {
-                          "id": 311,
+                          "id": 312,
                           "name": "stepResult",
                           "kind": 32768,
                           "kindString": "Parameter",
@@ -11813,7 +11841,7 @@
               }
             },
             {
-              "id": 304,
+              "id": 305,
               "name": "options",
               "kind": 1024,
               "kindString": "Property",
@@ -11837,7 +11865,7 @@
               }
             },
             {
-              "id": 305,
+              "id": 306,
               "name": "reason",
               "kind": 1024,
               "kindString": "Property",
@@ -11861,7 +11889,7 @@
               }
             },
             {
-              "id": 306,
+              "id": 307,
               "name": "result",
               "kind": 1024,
               "kindString": "Property",
@@ -11885,7 +11913,7 @@
               }
             },
             {
-              "id": 303,
+              "id": 304,
               "name": "state",
               "kind": 1024,
               "kindString": "Property",
@@ -11909,7 +11937,7 @@
               }
             },
             {
-              "id": 301,
+              "id": 302,
               "name": "thread",
               "kind": 1024,
               "kindString": "Property",
@@ -11933,7 +11961,7 @@
               }
             },
             {
-              "id": 302,
+              "id": 303,
               "name": "threadLength",
               "kind": 1024,
               "kindString": "Property",
@@ -11957,7 +11985,7 @@
               }
             },
             {
-              "id": 307,
+              "id": 308,
               "name": "values",
               "kind": 1024,
               "kindString": "Property",
@@ -11983,7 +12011,7 @@
           ]
         },
         {
-          "id": 251,
+          "id": 252,
           "name": "BotkitConvoHandler",
           "kind": 256,
           "kindString": "Interface",
@@ -11995,7 +12023,7 @@
           },
           "signatures": [
             {
-              "id": 252,
+              "id": 253,
               "name": "__call",
               "kind": 4096,
               "kindString": "Call signature",
@@ -12005,7 +12033,7 @@
               },
               "parameters": [
                 {
-                  "id": 253,
+                  "id": 254,
                   "name": "answer",
                   "kind": 32768,
                   "kindString": "Parameter",
@@ -12016,19 +12044,19 @@
                   }
                 },
                 {
-                  "id": 254,
+                  "id": 255,
                   "name": "convo",
                   "kind": 32768,
                   "kindString": "Parameter",
                   "flags": {},
                   "type": {
                     "type": "reference",
-                    "id": 230,
+                    "id": 231,
                     "name": "BotkitDialogWrapper"
                   }
                 },
                 {
-                  "id": 255,
+                  "id": 256,
                   "name": "bot",
                   "kind": 32768,
                   "kindString": "Parameter",
@@ -12040,7 +12068,7 @@
                   }
                 },
                 {
-                  "id": 256,
+                  "id": 257,
                   "name": "message",
                   "kind": 32768,
                   "kindString": "Parameter",
@@ -12073,7 +12101,7 @@
           ]
         },
         {
-          "id": 257,
+          "id": 258,
           "name": "BotkitConvoTrigger",
           "kind": 256,
           "kindString": "Interface",
@@ -12085,7 +12113,7 @@
           },
           "children": [
             {
-              "id": 261,
+              "id": 262,
               "name": "default",
               "kind": 1024,
               "kindString": "Property",
@@ -12106,7 +12134,7 @@
               }
             },
             {
-              "id": 260,
+              "id": 261,
               "name": "handler",
               "kind": 1024,
               "kindString": "Property",
@@ -12122,12 +12150,12 @@
               ],
               "type": {
                 "type": "reference",
-                "id": 251,
+                "id": 252,
                 "name": "BotkitConvoHandler"
               }
             },
             {
-              "id": 259,
+              "id": 260,
               "name": "pattern",
               "kind": 1024,
               "kindString": "Property",
@@ -12157,7 +12185,7 @@
               }
             },
             {
-              "id": 258,
+              "id": 259,
               "name": "type",
               "kind": 1024,
               "kindString": "Property",
@@ -12183,10 +12211,10 @@
               "title": "Properties",
               "kind": 1024,
               "children": [
+                262,
                 261,
                 260,
-                259,
-                258
+                259
               ]
             }
           ],
@@ -12199,7 +12227,7 @@
           ],
           "props": [
             {
-              "id": 261,
+              "id": 262,
               "name": "default",
               "kind": 1024,
               "kindString": "Property",
@@ -12220,7 +12248,7 @@
               }
             },
             {
-              "id": 260,
+              "id": 261,
               "name": "handler",
               "kind": 1024,
               "kindString": "Property",
@@ -12236,12 +12264,12 @@
               ],
               "type": {
                 "type": "reference",
-                "id": 251,
+                "id": 252,
                 "name": "BotkitConvoHandler"
               }
             },
             {
-              "id": 259,
+              "id": 260,
               "name": "pattern",
               "kind": 1024,
               "kindString": "Property",
@@ -12271,7 +12299,7 @@
               }
             },
             {
-              "id": 258,
+              "id": 259,
               "name": "type",
               "kind": 1024,
               "kindString": "Property",
@@ -12782,7 +12810,7 @@
           ]
         },
         {
-          "id": 262,
+          "id": 263,
           "name": "BotkitMessageTemplate",
           "kind": 256,
           "kindString": "Interface",
@@ -12794,7 +12822,7 @@
           },
           "children": [
             {
-              "id": 268,
+              "id": 269,
               "name": "action",
               "kind": 1024,
               "kindString": "Property",
@@ -12815,7 +12843,7 @@
               }
             },
             {
-              "id": 288,
+              "id": 289,
               "name": "attachment",
               "kind": 1024,
               "kindString": "Property",
@@ -12836,21 +12864,21 @@
                   {
                     "type": "reflection",
                     "declaration": {
-                      "id": 289,
+                      "id": 290,
                       "name": "__type",
                       "kind": 65536,
                       "kindString": "Type literal",
                       "flags": {},
                       "signatures": [
                         {
-                          "id": 290,
+                          "id": 291,
                           "name": "__call",
                           "kind": 4096,
                           "kindString": "Call signature",
                           "flags": {},
                           "parameters": [
                             {
-                              "id": 291,
+                              "id": 292,
                               "name": "template",
                               "kind": 32768,
                               "kindString": "Parameter",
@@ -12861,7 +12889,7 @@
                               }
                             },
                             {
-                              "id": 292,
+                              "id": 293,
                               "name": "vars",
                               "kind": 32768,
                               "kindString": "Parameter",
@@ -12895,7 +12923,7 @@
               }
             },
             {
-              "id": 293,
+              "id": 294,
               "name": "attachmentLayout",
               "kind": 1024,
               "kindString": "Property",
@@ -12916,7 +12944,7 @@
               }
             },
             {
-              "id": 278,
+              "id": 279,
               "name": "attachments",
               "kind": 1024,
               "kindString": "Property",
@@ -12937,21 +12965,21 @@
                   {
                     "type": "reflection",
                     "declaration": {
-                      "id": 279,
+                      "id": 280,
                       "name": "__type",
                       "kind": 65536,
                       "kindString": "Type literal",
                       "flags": {},
                       "signatures": [
                         {
-                          "id": 280,
+                          "id": 281,
                           "name": "__call",
                           "kind": 4096,
                           "kindString": "Call signature",
                           "flags": {},
                           "parameters": [
                             {
-                              "id": 281,
+                              "id": 282,
                               "name": "template",
                               "kind": 32768,
                               "kindString": "Parameter",
@@ -12962,7 +12990,7 @@
                               }
                             },
                             {
-                              "id": 282,
+                              "id": 283,
                               "name": "vars",
                               "kind": 32768,
                               "kindString": "Parameter",
@@ -13002,7 +13030,7 @@
               }
             },
             {
-              "id": 283,
+              "id": 284,
               "name": "blocks",
               "kind": 1024,
               "kindString": "Property",
@@ -13023,21 +13051,21 @@
                   {
                     "type": "reflection",
                     "declaration": {
-                      "id": 284,
+                      "id": 285,
                       "name": "__type",
                       "kind": 65536,
                       "kindString": "Type literal",
                       "flags": {},
                       "signatures": [
                         {
-                          "id": 285,
+                          "id": 286,
                           "name": "__call",
                           "kind": 4096,
                           "kindString": "Call signature",
                           "flags": {},
                           "parameters": [
                             {
-                              "id": 286,
+                              "id": 287,
                               "name": "template",
                               "kind": 32768,
                               "kindString": "Parameter",
@@ -13048,7 +13076,7 @@
                               }
                             },
                             {
-                              "id": 287,
+                              "id": 288,
                               "name": "vars",
                               "kind": 32768,
                               "kindString": "Parameter",
@@ -13088,7 +13116,7 @@
               }
             },
             {
-              "id": 294,
+              "id": 295,
               "name": "channelData",
               "kind": 1024,
               "kindString": "Property",
@@ -13109,7 +13137,7 @@
               }
             },
             {
-              "id": 295,
+              "id": 296,
               "name": "collect",
               "kind": 1024,
               "kindString": "Property",
@@ -13126,14 +13154,14 @@
               "type": {
                 "type": "reflection",
                 "declaration": {
-                  "id": 296,
+                  "id": 297,
                   "name": "__type",
                   "kind": 65536,
                   "kindString": "Type literal",
                   "flags": {},
                   "children": [
                     {
-                      "id": 297,
+                      "id": 298,
                       "name": "key",
                       "kind": 32,
                       "kindString": "Variable",
@@ -13154,7 +13182,7 @@
                       }
                     },
                     {
-                      "id": 298,
+                      "id": 299,
                       "name": "options",
                       "kind": 32,
                       "kindString": "Variable",
@@ -13173,7 +13201,7 @@
                         "type": "array",
                         "elementType": {
                           "type": "reference",
-                          "id": 257,
+                          "id": 258,
                           "name": "BotkitConvoTrigger"
                         }
                       }
@@ -13184,8 +13212,8 @@
                       "title": "Variables",
                       "kind": 32,
                       "children": [
-                        297,
-                        298
+                        298,
+                        299
                       ]
                     }
                   ],
@@ -13200,7 +13228,7 @@
               }
             },
             {
-              "id": 269,
+              "id": 270,
               "name": "execute",
               "kind": 1024,
               "kindString": "Property",
@@ -13218,14 +13246,14 @@
               "type": {
                 "type": "reflection",
                 "declaration": {
-                  "id": 270,
+                  "id": 271,
                   "name": "__type",
                   "kind": 65536,
                   "kindString": "Type literal",
                   "flags": {},
                   "children": [
                     {
-                      "id": 271,
+                      "id": 272,
                       "name": "script",
                       "kind": 32,
                       "kindString": "Variable",
@@ -13245,7 +13273,7 @@
                       }
                     },
                     {
-                      "id": 272,
+                      "id": 273,
                       "name": "thread",
                       "kind": 32,
                       "kindString": "Variable",
@@ -13271,8 +13299,8 @@
                       "title": "Variables",
                       "kind": 32,
                       "children": [
-                        271,
-                        272
+                        272,
+                        273
                       ]
                     }
                   ],
@@ -13287,7 +13315,7 @@
               }
             },
             {
-              "id": 273,
+              "id": 274,
               "name": "quick_replies",
               "kind": 1024,
               "kindString": "Property",
@@ -13308,21 +13336,21 @@
                   {
                     "type": "reflection",
                     "declaration": {
-                      "id": 274,
+                      "id": 275,
                       "name": "__type",
                       "kind": 65536,
                       "kindString": "Type literal",
                       "flags": {},
                       "signatures": [
                         {
-                          "id": 275,
+                          "id": 276,
                           "name": "__call",
                           "kind": 4096,
                           "kindString": "Call signature",
                           "flags": {},
                           "parameters": [
                             {
-                              "id": 276,
+                              "id": 277,
                               "name": "template",
                               "kind": 32768,
                               "kindString": "Parameter",
@@ -13333,7 +13361,7 @@
                               }
                             },
                             {
-                              "id": 277,
+                              "id": 278,
                               "name": "vars",
                               "kind": 32768,
                               "kindString": "Parameter",
@@ -13373,7 +13401,7 @@
               }
             },
             {
-              "id": 263,
+              "id": 264,
               "name": "text",
               "kind": 1024,
               "kindString": "Property",
@@ -13393,21 +13421,21 @@
                   {
                     "type": "reflection",
                     "declaration": {
-                      "id": 264,
+                      "id": 265,
                       "name": "__type",
                       "kind": 65536,
                       "kindString": "Type literal",
                       "flags": {},
                       "signatures": [
                         {
-                          "id": 265,
+                          "id": 266,
                           "name": "__call",
                           "kind": 4096,
                           "kindString": "Call signature",
                           "flags": {},
                           "parameters": [
                             {
-                              "id": 266,
+                              "id": 267,
                               "name": "template",
                               "kind": 32768,
                               "kindString": "Parameter",
@@ -13418,7 +13446,7 @@
                               }
                             },
                             {
-                              "id": 267,
+                              "id": 268,
                               "name": "vars",
                               "kind": 32768,
                               "kindString": "Parameter",
@@ -13463,16 +13491,16 @@
               "title": "Properties",
               "kind": 1024,
               "children": [
-                268,
-                288,
-                293,
-                278,
-                283,
-                294,
-                295,
                 269,
-                273,
-                263
+                289,
+                294,
+                279,
+                284,
+                295,
+                296,
+                270,
+                274,
+                264
               ]
             }
           ],
@@ -13485,7 +13513,7 @@
           ],
           "props": [
             {
-              "id": 268,
+              "id": 269,
               "name": "action",
               "kind": 1024,
               "kindString": "Property",
@@ -13506,7 +13534,7 @@
               }
             },
             {
-              "id": 288,
+              "id": 289,
               "name": "attachment",
               "kind": 1024,
               "kindString": "Property",
@@ -13527,21 +13555,21 @@
                   {
                     "type": "reflection",
                     "declaration": {
-                      "id": 289,
+                      "id": 290,
                       "name": "__type",
                       "kind": 65536,
                       "kindString": "Type literal",
                       "flags": {},
                       "signatures": [
                         {
-                          "id": 290,
+                          "id": 291,
                           "name": "__call",
                           "kind": 4096,
                           "kindString": "Call signature",
                           "flags": {},
                           "parameters": [
                             {
-                              "id": 291,
+                              "id": 292,
                               "name": "template",
                               "kind": 32768,
                               "kindString": "Parameter",
@@ -13552,7 +13580,7 @@
                               }
                             },
                             {
-                              "id": 292,
+                              "id": 293,
                               "name": "vars",
                               "kind": 32768,
                               "kindString": "Parameter",
@@ -13586,7 +13614,7 @@
               }
             },
             {
-              "id": 293,
+              "id": 294,
               "name": "attachmentLayout",
               "kind": 1024,
               "kindString": "Property",
@@ -13607,7 +13635,7 @@
               }
             },
             {
-              "id": 278,
+              "id": 279,
               "name": "attachments",
               "kind": 1024,
               "kindString": "Property",
@@ -13628,21 +13656,21 @@
                   {
                     "type": "reflection",
                     "declaration": {
-                      "id": 279,
+                      "id": 280,
                       "name": "__type",
                       "kind": 65536,
                       "kindString": "Type literal",
                       "flags": {},
                       "signatures": [
                         {
-                          "id": 280,
+                          "id": 281,
                           "name": "__call",
                           "kind": 4096,
                           "kindString": "Call signature",
                           "flags": {},
                           "parameters": [
                             {
-                              "id": 281,
+                              "id": 282,
                               "name": "template",
                               "kind": 32768,
                               "kindString": "Parameter",
@@ -13653,7 +13681,7 @@
                               }
                             },
                             {
-                              "id": 282,
+                              "id": 283,
                               "name": "vars",
                               "kind": 32768,
                               "kindString": "Parameter",
@@ -13693,7 +13721,7 @@
               }
             },
             {
-              "id": 283,
+              "id": 284,
               "name": "blocks",
               "kind": 1024,
               "kindString": "Property",
@@ -13714,21 +13742,21 @@
                   {
                     "type": "reflection",
                     "declaration": {
-                      "id": 284,
+                      "id": 285,
                       "name": "__type",
                       "kind": 65536,
                       "kindString": "Type literal",
                       "flags": {},
                       "signatures": [
                         {
-                          "id": 285,
+                          "id": 286,
                           "name": "__call",
                           "kind": 4096,
                           "kindString": "Call signature",
                           "flags": {},
                           "parameters": [
                             {
-                              "id": 286,
+                              "id": 287,
                               "name": "template",
                               "kind": 32768,
                               "kindString": "Parameter",
@@ -13739,7 +13767,7 @@
                               }
                             },
                             {
-                              "id": 287,
+                              "id": 288,
                               "name": "vars",
                               "kind": 32768,
                               "kindString": "Parameter",
@@ -13779,7 +13807,7 @@
               }
             },
             {
-              "id": 294,
+              "id": 295,
               "name": "channelData",
               "kind": 1024,
               "kindString": "Property",
@@ -13800,7 +13828,7 @@
               }
             },
             {
-              "id": 295,
+              "id": 296,
               "name": "collect",
               "kind": 1024,
               "kindString": "Property",
@@ -13817,14 +13845,14 @@
               "type": {
                 "type": "reflection",
                 "declaration": {
-                  "id": 296,
+                  "id": 297,
                   "name": "__type",
                   "kind": 65536,
                   "kindString": "Type literal",
                   "flags": {},
                   "children": [
                     {
-                      "id": 297,
+                      "id": 298,
                       "name": "key",
                       "kind": 32,
                       "kindString": "Variable",
@@ -13845,7 +13873,7 @@
                       }
                     },
                     {
-                      "id": 298,
+                      "id": 299,
                       "name": "options",
                       "kind": 32,
                       "kindString": "Variable",
@@ -13864,7 +13892,7 @@
                         "type": "array",
                         "elementType": {
                           "type": "reference",
-                          "id": 257,
+                          "id": 258,
                           "name": "BotkitConvoTrigger"
                         }
                       }
@@ -13875,8 +13903,8 @@
                       "title": "Variables",
                       "kind": 32,
                       "children": [
-                        297,
-                        298
+                        298,
+                        299
                       ]
                     }
                   ],
@@ -13891,7 +13919,7 @@
               }
             },
             {
-              "id": 269,
+              "id": 270,
               "name": "execute",
               "kind": 1024,
               "kindString": "Property",
@@ -13909,14 +13937,14 @@
               "type": {
                 "type": "reflection",
                 "declaration": {
-                  "id": 270,
+                  "id": 271,
                   "name": "__type",
                   "kind": 65536,
                   "kindString": "Type literal",
                   "flags": {},
                   "children": [
                     {
-                      "id": 271,
+                      "id": 272,
                       "name": "script",
                       "kind": 32,
                       "kindString": "Variable",
@@ -13936,7 +13964,7 @@
                       }
                     },
                     {
-                      "id": 272,
+                      "id": 273,
                       "name": "thread",
                       "kind": 32,
                       "kindString": "Variable",
@@ -13962,8 +13990,8 @@
                       "title": "Variables",
                       "kind": 32,
                       "children": [
-                        271,
-                        272
+                        272,
+                        273
                       ]
                     }
                   ],
@@ -13978,7 +14006,7 @@
               }
             },
             {
-              "id": 273,
+              "id": 274,
               "name": "quick_replies",
               "kind": 1024,
               "kindString": "Property",
@@ -13999,21 +14027,21 @@
                   {
                     "type": "reflection",
                     "declaration": {
-                      "id": 274,
+                      "id": 275,
                       "name": "__type",
                       "kind": 65536,
                       "kindString": "Type literal",
                       "flags": {},
                       "signatures": [
                         {
-                          "id": 275,
+                          "id": 276,
                           "name": "__call",
                           "kind": 4096,
                           "kindString": "Call signature",
                           "flags": {},
                           "parameters": [
                             {
-                              "id": 276,
+                              "id": 277,
                               "name": "template",
                               "kind": 32768,
                               "kindString": "Parameter",
@@ -14024,7 +14052,7 @@
                               }
                             },
                             {
-                              "id": 277,
+                              "id": 278,
                               "name": "vars",
                               "kind": 32768,
                               "kindString": "Parameter",
@@ -14064,7 +14092,7 @@
               }
             },
             {
-              "id": 263,
+              "id": 264,
               "name": "text",
               "kind": 1024,
               "kindString": "Property",
@@ -14084,21 +14112,21 @@
                   {
                     "type": "reflection",
                     "declaration": {
-                      "id": 264,
+                      "id": 265,
                       "name": "__type",
                       "kind": 65536,
                       "kindString": "Type literal",
                       "flags": {},
                       "signatures": [
                         {
-                          "id": 265,
+                          "id": 266,
                           "name": "__call",
                           "kind": 4096,
                           "kindString": "Call signature",
                           "flags": {},
                           "parameters": [
                             {
-                              "id": 266,
+                              "id": 267,
                               "name": "template",
                               "kind": 32768,
                               "kindString": "Parameter",
@@ -14109,7 +14137,7 @@
                               }
                             },
                             {
-                              "id": 267,
+                              "id": 268,
                               "name": "vars",
                               "kind": 32768,
                               "kindString": "Parameter",

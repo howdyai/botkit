@@ -231,7 +231,7 @@ export class BotWorker {
         );
 
         // create a turn context
-        const turnContext = new TurnContext(this._controller.adapter, activity as Activity);
+        const turnContext = new TurnContext(this.getConfig('context').adapter, activity as Activity);
 
         // create a new dialogContext so beginDialog works.
         const dialogContext = await this._controller.dialogSet.createContext(turnContext);
@@ -250,7 +250,7 @@ export class BotWorker {
 
         // Create conversation
         const parameters: ConversationParameters = { bot: reference.bot, members: [reference.user], isGroup: false, activity: null, channelData: null };
-        const client = this.controller.adapter.createConnectorClient(reference.serviceUrl);
+        const client = this.getConfig('context').adapter.createConnectorClient(reference.serviceUrl);
 
         // Mix in the tenant ID if specified. This is required for MS Teams.
         if (reference.conversation && reference.conversation.tenantId) {
@@ -282,7 +282,7 @@ export class BotWorker {
         if (response.serviceUrl) { request.serviceUrl = response.serviceUrl; }
 
         // Create context and run middleware
-        const turnContext: TurnContext = this.controller.adapter.createContext(request);
+        const turnContext: TurnContext = this.getConfig('context').adapter.createContext(request);
 
         // create a new dialogContext so beginDialog works.
         const dialogContext = await this._controller.dialogSet.createContext(turnContext);

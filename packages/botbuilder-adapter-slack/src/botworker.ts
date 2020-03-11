@@ -268,7 +268,7 @@ export class SlackBotWorker extends BotWorker {
                 msg.conversation.thread_ts = src.incoming_message.channelData.thread_ts;
             }
 
-            msg = this.controller.adapter.activityToSlack(msg);
+            msg = this.getConfig('context').adapter.activityToSlack(msg);
 
             const requestOptions = {
                 uri: src.incoming_message.channelData.response_url,
@@ -336,7 +336,7 @@ export class SlackBotWorker extends BotWorker {
      * @param update An object in the form `{id: <id of message to update>, conversation: { id: <channel> }, text: <new text>, card: <array of card objects>}`
      */
     public async updateMessage(update: Partial<BotkitMessage>): Promise<any> {
-        return this.controller.adapter.updateActivity(
+        return this.getConfig('context').adapter.updateActivity(
             this.getConfig('context'),
             update
         );
@@ -356,7 +356,7 @@ export class SlackBotWorker extends BotWorker {
      * @param update An object in the form of `{id: <id of message to delete>, conversation: { id: <channel of message> }}`
      */
     public async deleteMessage(update: Partial<BotkitMessage>): Promise<any> {
-        return this.controller.adapter.deleteActivity(
+        return this.getConfig('context').adapter.deleteActivity(
             this.getConfig('context'),
             {
                 activityId: update.id,

@@ -9,7 +9,7 @@
 * NEW: At long last, the convo.ask callbacks can receive the full incoming message payload in addition to the text content.
 This allows developers to use payload values inside quick replies, button clicks and other rich operations. Many thanks to [@naikus](https://github.com/naikus) for the effort and patience it took to get this in! [PR #1801](https://github.com/howdyai/botkit/pull/1801)
 
-
+* Multi-adapter support improved. Botkit will now spawn the appropriate type of Botworker when used in a multi-adapter scenario. [See this example for a demonstration of using multiple adapters in a single bot app](./packages/testbot/multiadapter.js). [Issue #1920](https://github.com/howdyai/botkit/issues/1920)
 
 # 4.6.1
 

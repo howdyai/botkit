@@ -5,7 +5,7 @@
  * Copyright (c) Microsoft Corporation. All rights reserved.
  * Licensed under the MIT License.
  */
-import { Activity, MemoryStorage, Storage, ConversationReference, TurnContext } from 'botbuilder';
+import { Activity, MemoryStorage, Storage, ConversationReference, TurnContext, BotAdapter } from 'botbuilder';
 import { Dialog, DialogContext, DialogSet, DialogTurnStatus, WaterfallDialog } from 'botbuilder-dialogs';
 import { BotkitBotFrameworkAdapter } from './adapter';
 import { BotWorker } from './botworker';
@@ -1057,8 +1057,9 @@ export class Botkit {
      * The spawned `bot` contains all information required to process outbound messages and handle dialog state, and may also contain extensions
      * for handling platform-specific events or activities.
      * @param config {any} Preferably receives a DialogContext, though can also receive a TurnContext. If excluded, must call `bot.changeContext(reference)` before calling any other method.
+     * @param adapter {BotAdapter} An optional reference to a specific adapter from which the bot will be spawned. If not specified, will use the adapter from which the configuration object originates. Required for spawning proactive bots in a multi-adapter scenario.
      */
-    public async spawn(config?: any): Promise<BotWorker> {
+    public async spawn(config?: any, custom_adapter?: BotAdapter): Promise<BotWorker> {
         if (config instanceof TurnContext) {
             config = {
                 dialogContext: await this.dialogSet.createContext(config as TurnContext),
@@ -1076,8 +1077,9 @@ export class Botkit {
         }
 
         let worker: BotWorker = null;
-        if (this.adapter.botkit_worker) {
-            const CustomBotWorker = this.adapter.botkit_worker;
+        const adapter = custom_adapter || config.context.adapter || this.adapter;
+        if (adapter.botkit_worker) {
+            const CustomBotWorker = adapter.botkit_worker;
             worker = new CustomBotWorker(this, config);
         } else {
             worker = new BotWorker(this, config);
