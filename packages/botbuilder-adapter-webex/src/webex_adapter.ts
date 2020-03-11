@@ -277,9 +277,9 @@ export class WebexAdapter extends BotAdapter {
                     event: 'all',
                     secret: this.options.secret,
                     name: webhook_name
-                }).then(function () {
+                }).then(function() {
                     debug('Webex: SUCCESSFULLY UPDATED WEBEX WEBHOOKS');
-                }).catch(function (err) {
+                }).catch(function(err) {
                     console.error('FAILED TO REGISTER WEBHOOK', err);
                     throw new Error(err);
                 });
@@ -290,14 +290,14 @@ export class WebexAdapter extends BotAdapter {
                     event: 'all',
                     secret: this.options.secret,
                     name: webhook_name
-                }).then(function () {
+                }).then(function() {
                     debug('Webex: SUCCESSFULLY REGISTERED WEBEX WEBHOOKS');
-                }).catch(function (err) {
+                }).catch(function(err) {
                     console.error('FAILED TO REGISTER WEBHOOK', err);
                     throw new Error(err);
                 });
             }
-        }).catch(function (err) {
+        }).catch(function(err) {
             throw new Error(err);
         });
     }
@@ -330,9 +330,9 @@ export class WebexAdapter extends BotAdapter {
                     event: 'all',
                     secret: this.options.secret,
                     name: webhook_name
-                }).then(function () {
+                }).then(function() {
                     debug('Webex: SUCCESSFULLY UPDATED WEBEX WEBHOOKS');
-                }).catch(function (err) {
+                }).catch(function(err) {
                     console.error('FAILED TO REGISTER WEBHOOK', err);
                     throw new Error(err);
                 });
@@ -343,14 +343,14 @@ export class WebexAdapter extends BotAdapter {
                     event: 'all',
                     secret: this.options.secret,
                     name: webhook_name
-                }).then(function () {
+                }).then(function() {
                     debug('Webex: SUCCESSFULLY REGISTERED WEBEX WEBHOOKS');
-                }).catch(function (err) {
+                }).catch(function(err) {
                     console.error('FAILED TO REGISTER WEBHOOK', err);
                     throw new Error(err);
                 });
             }
-        }).catch(function (err) {
+        }).catch(function(err) {
             throw new Error(err);
         });
     }
@@ -366,7 +366,7 @@ export class WebexAdapter extends BotAdapter {
         for (let a = 0; a < activities.length; a++) {
             const activity = activities[a];
             if (activity.type === ActivityTypes.Message) {
-                // debug('OUTGOING ACTIVITY', activity);
+                debug('OUTGOING ACTIVITY', activity);
 
                 // transform activity into the webex message format
                 // https://developer.webex.com/docs/api/v1/messages/create-a-message
