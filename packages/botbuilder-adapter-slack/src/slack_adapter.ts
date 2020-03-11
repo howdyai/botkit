@@ -622,6 +622,9 @@ export class SlackAdapter extends BotAdapter {
                     }
                 }
 
+                // Copy over the authed_users
+                activity.channelData.authed_users = event.authed_users;
+
                 // @ts-ignore this complains because of extra fields in conversation
                 activity.recipient.id = await this.getBotUserByTeam(activity as Activity);
 
