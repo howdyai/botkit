@@ -1099,7 +1099,7 @@ handler marked as the default choice.
 [Learn more about building conversations &rarr;](../conversations.md#build-a-conversation)
 ```javascript
 // ask a question, handle the response with a function
-convo.ask('What is your name?', async(response, convo, bot) => {
+convo.ask('What is your name?', async(response, convo, bot, full_message) => {
  await bot.say('Oh your name is ' + response);
 }, {key: 'name'});
 
@@ -1108,20 +1108,20 @@ convo.ask('Do you want to eat a taco?', [
  {
      pattern: 'yes',
      type: 'string',
-     handler: async(response, convo, bot) => {
+     handler: async(response_text, convo, bot, full_message) => {
          return await convo.gotoThread('yes_taco');
      }
  },
  {
      pattern: 'no',
      type: 'string',
-     handler: async(response, convo, bot) => {
+     handler: async(response_text, convo, bot, full_message) => {
          return await convo.gotoThread('no_taco');
      }
   },s
   {
       default: true,
-      handler: async(response, convo, bot) => {
+      handler: async(response_text, convo, bot, full_message) => {
           await bot.say('I do not understand your response!');
           // start over!
           return await convo.repeat();
