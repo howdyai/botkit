@@ -271,7 +271,9 @@ export class BotWorker {
         );
 
         const conversation: ConversationAccount = {
-            id: response.id,
+            // fallback to existing conversation id because Emulator will respond without a response.id AND needs to stay in same channel.
+            // This should be fixed by Emulator. https://github.com/microsoft/BotFramework-Emulator/issues/2097
+            id: response.id || reference.conversation.id,
             isGroup: false,
             conversationType: null,
             tenantId: null,

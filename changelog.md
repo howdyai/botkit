@@ -13,7 +13,8 @@ This allows developers to use payload values inside quick replies, button clicks
 * NEW: Values in `channelData` will now be processed as Mustache templates inside BotkitConversations. [Thanks @me-cedric](https://github.com/me-cedric) for [pr #1925](https://github.com/howdyai/botkit/pull/1925)
 
 * FIX: Facebook Adapter will not attempt to set up web routes if webserver is not configured. [#1916](https://github.com/howdyai/botkit/issues/1916)
-
+* FIX: Exclude `activity.conversation.properties` field when generating state storage key. [#1849](https://github.com/howdyai/botkit/issues/1849)
+* FIX: Allow startConversationWithUser to work with Bot Framework Emulator. [#1834](https://github.com/howdyai/botkit/issues/1834)
 
 # 4.6.1
 

@@ -8,7 +8,7 @@ module.exports = function(controller) {
             // this does not work with Bot Framework Emulator.
             // to achieve the same thing, use bot.changeContext(message.reference);
             await bot.startConversationWithUser(message.reference);
-            await bot.say('Hello! (in private');
+            await bot.say('Hello! (in private)');
         });
 
         controller.hears('update me', 'message', async(bot, message) => {
