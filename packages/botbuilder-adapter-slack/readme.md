@@ -143,7 +143,7 @@ controller.webserver.get('/install/auth', (req, res) => {
 });
 ```
 
-### Using Slacks v2 OAuth
+### Using Slack's v2 OAuth
 
 To use Slack's [newer "granular scopes"](https://api.slack.com/authentication/oauth-v2), specify `oauthVersion: 'v2'` in your adapter configuration.
 This will cause the adapter to use the v2 oauth URL and credential validation function.

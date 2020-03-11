@@ -3,7 +3,7 @@
 # 1.0.9
 
 * Update @slack/web-api to 5.8.0 
-* Add `oauthVersion` parameter to constructor. If set to `v2`, oauth features will use Slack's latest auth functions and urls.
+* Add `oauthVersion` parameter to constructor. If set to `v2`, oauth features will use Slack's latest auth functions and urls. [More info](readme.md#using-slacks-v2-oauth)
 
 # 1.0.8
 
