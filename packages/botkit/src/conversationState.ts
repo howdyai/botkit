@@ -24,7 +24,7 @@ export class BotkitConversationState extends ConversationState {
 
         // create a combo key by sorting all the fields in the conversation address and combining them all
         // mix in user id as well, because conversations are between the bot and a single user
-        const conversationId: string = Object.keys(activity.conversation).sort().map((key) => activity.conversation[key]).filter((val) => val !== '' && val !== null && typeof val !== 'undefined').join('-') + '-' + activity.from.id;
+        const conversationId: string = Object.keys(activity.conversation).filter((key) => { return key !== 'properties'; }).sort().map((key) => activity.conversation[key]).filter((val) => val !== '' && val !== null && typeof val !== 'undefined').join('-') + '-' + activity.from.id;
 
         if (!channelId) {
             throw new Error('missing activity.channelId');
