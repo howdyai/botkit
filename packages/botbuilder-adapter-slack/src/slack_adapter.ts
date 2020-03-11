@@ -292,7 +292,7 @@ export class SlackAdapter extends BotAdapter {
             redirect_uri: this.options.redirectUri
         } 
         let results = {};
-        if (this.options.oauthVersion == 'v2'|'V2'){
+        if (this.options.oauthVersion == 'v2'||'V2'){
             results = await slack.oauth.v2.access(details)
         }
         else {
