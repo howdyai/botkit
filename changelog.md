@@ -8,8 +8,10 @@
 
 * NEW: At long last, the convo.ask callbacks can receive the full incoming message payload in addition to the text content.
 This allows developers to use payload values inside quick replies, button clicks and other rich operations. Many thanks to [@naikus](https://github.com/naikus) for the effort and patience it took to get this in! [PR #1801](https://github.com/howdyai/botkit/pull/1801)
-* Multi-adapter support improved. Botkit will now spawn the appropriate type of Botworker when used in a multi-adapter scenario. [See this example for a demonstration of using multiple adapters in a single bot app](./packages/testbot/multiadapter.js). [Issue #1920](https://github.com/howdyai/botkit/issues/1920)
-* Add support for Slack's v2 oauth. [More details here](./packages/botbuilder-adapter-slack/CHANGELOG.md#109). Thanks to [@sfny](https://github.com/sfny) for [PR #1928](https://github.com/howdyai/botkit/pull/1928)
+* NEW: Multi-adapter support improved. Botkit will now spawn the appropriate type of Botworker when used in a multi-adapter scenario. [See this example for a demonstration of using multiple adapters in a single bot app](./packages/testbot/multiadapter.js). [Issue #1920](https://github.com/howdyai/botkit/issues/1920)
+* NEW: Add support for Slack's v2 oauth. [More details here](./packages/botbuilder-adapter-slack/CHANGELOG.md#109). Thanks to [@sfny](https://github.com/sfny) for [PR #1928](https://github.com/howdyai/botkit/pull/1928)
+* NEW: Values in `channelData` will now be processed as Mustache templates inside BotkitConversations. [Thanks @me-cedric](https://github.com/me-cedric) for [pr #1925](https://github.com/howdyai/botkit/pull/1925)
+
 
 # 4.6.1
 
