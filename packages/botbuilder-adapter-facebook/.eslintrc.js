@@ -7,6 +7,8 @@ module.exports = {
         "camelcase": 0,
         "no-unused-vars": 0,
         "@typescript-eslint/indent": 0,
+        "@typescript-eslint/ban-ts-ignore": 1,
+        "@typescript-eslint/no-object-literal-type-assertion": 0,
         "@typescript-eslint/explicit-member-accessibility": 1,
         "space-before-function-paren": [2, {
             "named": "never",

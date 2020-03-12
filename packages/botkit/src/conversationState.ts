@@ -34,6 +34,7 @@ export class BotkitConversationState extends ConversationState {
             throw new Error('missing activity.conversation.id');
         }
 
+        // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
         // @ts-ignore namespace is technically private
         return `${ channelId }/conversations/${ conversationId }/${ this.namespace }`;
     }

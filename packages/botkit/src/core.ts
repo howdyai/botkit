@@ -14,12 +14,11 @@ import * as path from 'path';
 import * as http from 'http';
 import * as express from 'express';
 import * as bodyParser from 'body-parser';
-import * as hbs from 'hbs';
-
 import * as Ware from 'ware';
 import * as fs from 'fs';
+import * as Debug from 'debug';
 
-const debug = require('debug')('botkit');
+const debug = Debug('botkit');
 
 /**
  * Defines the options used when instantiating Botkit to create the main app controller with `new Botkit(options)`
@@ -249,7 +248,7 @@ export class Botkit {
         ingest: new Ware(),
         send: new Ware(),
         receive: new Ware(),
-        interpret: new Ware(),
+        interpret: new Ware()
     }
 
     /**
@@ -382,15 +381,6 @@ export class Botkit {
 
                 this.http = http.createServer(this.webserver);
 
-                hbs.localsAsTemplateData(this.webserver);
-
-                // From https://stackoverflow.com/questions/10232574/handlebars-js-parse-object-instead-of-object-object
-                hbs.registerHelper('json', function(context) {
-                    return JSON.stringify(context);
-                });
-
-                this.webserver.set('view engine', 'hbs');
-
                 this.http.listen(process.env.port || process.env.PORT || 3000, () => {
                     if (this._config.disable_console !== true) {
                         console.log(`Webhook endpoint online:  http://localhost:${ process.env.PORT || 3000 }${ this._config.webhook_uri }`);
@@ -408,7 +398,7 @@ export class Botkit {
             this.adapter = new BotkitBotFrameworkAdapter(adapterConfig);
             if (this.webserver) {
                 if (this._config.disable_console !== true) {
-                    console.log(`Open this bot in Bot Framework Emulator: bfemulator://livechat.open?botUrl=` + encodeURIComponent(`http://localhost:${ process.env.PORT || 3000 }${ this._config.webhook_uri }`));
+                    console.log('Open this bot in Bot Framework Emulator: bfemulator://livechat.open?botUrl=' + encodeURIComponent(`http://localhost:${ process.env.PORT || 3000 }${ this._config.webhook_uri }`));
                 }
             }
         } else {
@@ -515,8 +505,8 @@ export class Botkit {
         this.plugin_list.push(name);
 
         if (endpoints.middlewares) {
-            for (var mw in endpoints.middlewares) {
-                for (var e = 0; e < endpoints.middlewares[mw].length; e++) {
+            for (const mw in endpoints.middlewares) {
+                for (let e = 0; e < endpoints.middlewares[mw].length; e++) {
                     this.middleware[mw].use(endpoints.middlewares[mw][e]);
                 }
             }
@@ -633,7 +623,7 @@ export class Botkit {
 
         this._deps[name] = true;
 
-        for (let key in this._deps) {
+        for (const key in this._deps) {
             if (this._deps[key] === false) {
                 return false;
             }
@@ -650,7 +640,7 @@ export class Botkit {
     private signalBootComplete(): void {
         this.booted = true;
         for (let h = 0; h < this._bootCompleteHandlers.length; h++) {
-            let handler = this._bootCompleteHandlers[h];
+            const handler = this._bootCompleteHandlers[h];
             handler.call(this);
         }
     }
@@ -748,7 +738,6 @@ export class Botkit {
                         if (err) {
                             reject(err);
                         } else {
-
                             const interrupt_results = await this.listenForInterrupts(bot, message);
 
                             if (interrupt_results === false) {
@@ -785,7 +774,7 @@ export class Botkit {
      * @param message {BotkitMessage} an incoming message
      */
     private async processTriggersAndEvents(bot: BotWorker, message: BotkitMessage): Promise<any> {
-        return new Promise(async (resolve, reject) => {
+        return new Promise((resolve, reject) => {
             this.middleware.interpret.run(bot, message, async (err, bot, message) => {
                 if (err) {
                     return reject(err);
@@ -812,7 +801,7 @@ export class Botkit {
     private async listenForTriggers(bot: BotWorker, message: BotkitMessage): Promise<any> {
         if (this._triggers[message.type]) {
             const triggers = this._triggers[message.type];
-            for (var t = 0; t < triggers.length; t++) {
+            for (let t = 0; t < triggers.length; t++) {
                 const test_results = await this.testTrigger(triggers[t], message);
                 if (test_results) {
                     debug('Heard pattern: ', triggers[t].pattern);
@@ -836,7 +825,7 @@ export class Botkit {
     private async listenForInterrupts(bot: BotWorker, message: BotkitMessage): Promise<any> {
         if (this._interrupts[message.type]) {
             const triggers = this._interrupts[message.type];
-            for (var t = 0; t < triggers.length; t++) {
+            for (let t = 0; t < triggers.length; t++) {
                 const test_results = await this.testTrigger(triggers[t], message);
                 if (test_results) {
                     debug('Heard interruption: ', triggers[t].pattern);
@@ -914,8 +903,8 @@ export class Botkit {
 
         debug('Registering hears for ', events);
 
-        for (var p = 0; p < patterns.length; p++) {
-            for (var e = 0; e < events.length; e++) {
+        for (let p = 0; p < patterns.length; p++) {
+            for (let e = 0; e < events.length; e++) {
                 const event = events[e];
                 const pattern = patterns[p];
 
@@ -968,10 +957,10 @@ export class Botkit {
         }
         debug('Registering hears for ', events);
 
-        for (var p = 0; p < patterns.length; p++) {
-            for (var e = 0; e < events.length; e++) {
-                var event = events[e];
-                var pattern = patterns[p];
+        for (let p = 0; p < patterns.length; p++) {
+            for (let e = 0; e < events.length; e++) {
+                const event = events[e];
+                const pattern = patterns[p];
 
                 if (!this._interrupts[event]) {
                     this._interrupts[event] = [];
@@ -1045,7 +1034,7 @@ export class Botkit {
     public async trigger(event: string, bot?: BotWorker, message?: BotkitMessage): Promise<any> {
         debug('Trigger event: ', event);
         if (this._events[event] && this._events[event].length) {
-            for (var h = 0; h < this._events[event].length; h++) {
+            for (let h = 0; h < this._events[event].length; h++) {
                 try {
                     const handler_results = await this._events[event][h].call(bot, bot, message);
                     if (handler_results === false) {
@@ -1084,7 +1073,7 @@ export class Botkit {
 
         let worker: BotWorker = null;
         if (this.adapter.botkit_worker) {
-            let CustomBotWorker = this.adapter.botkit_worker;
+            const CustomBotWorker = this.adapter.botkit_worker;
             worker = new CustomBotWorker(this, config);
         } else {
             worker = new BotWorker(this, config);
@@ -1108,7 +1097,16 @@ export class Botkit {
      */
     public loadModule(p: string): void {
         debug('Load Module:', p);
-        require(p)(this);
+        // eslint-disable-next-line @typescript-eslint/no-var-requires
+        const module = require(p);
+        // Handle both CJS `module.exports` and ESM `export default` syntax.
+        if (typeof module === 'function') {
+            module(this);
+        } else if (module && typeof module.default === 'function') {
+            module.default(this);
+        } else {
+            throw new Error(`Failed to load '${ p }', did you export a function?`);
+        }
     }
 
     /**
@@ -1161,11 +1159,11 @@ export class Botkit {
         // add a wrapper dialog that will be called by bot.beginDialog
         // and is responsible for capturing the parent results
         this.dialogSet.add(new WaterfallDialog(dialog.id + ':botkit-wrapper', [
-            async (step) => {
+            async (step): Promise<any> => {
                 return step.beginDialog(dialog.id, step.options);
             },
-            async (step) => {
-                let bot = await this.spawn(step.context);
+            async (step): Promise<any> => {
+                const bot = await this.spawn(step.context);
 
                 await this.trigger(dialog.id + ':after', bot, step.result);
 
