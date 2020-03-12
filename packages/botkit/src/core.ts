@@ -1172,7 +1172,6 @@ export class Botkit {
                 const bot = await this.spawn(step.context);
 
                 await this.trigger(dialog.id + ':after', bot, step.result);
-
                 return step.endDialog(step.result);
             }
         ]));
