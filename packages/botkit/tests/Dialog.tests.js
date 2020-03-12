@@ -226,6 +226,38 @@ describe('Botkit dialog', function() {
         assert(reply2 == null, 'wrong reply 2');
     });
 
+    it('should work with call to beginDialog in handler', async function() {
+        const botConvo = new BotkitConversation('testConvo', bot);
+        botConvo.ask('What is your name?', async (response, convo, bot) => {
+            await bot.beginDialog('testConvo2');
+        }, 'name');
+        botConvo.say('got it.');
+        bot.addDialog(botConvo);
+
+        const botConvo2 = new BotkitConversation('testConvo2', bot);
+        botConvo2.ask('What is your favorite color?', async (response, convo, bot) => {
+            // noop
+        }, 'color');
+        botConvo2.say('ok you said {{vars.color}}');
+        bot.addDialog(botConvo2);
+
+        // set up a test client
+        const client = new BotkitTestClient('test', bot, ['testConvo', 'testConvo2']);
+
+        const prompt = await client.sendActivity('..');
+        assert(prompt.text === 'What is your name?', 'wrong prompt 1');
+
+        const prompt2 = await client.sendActivity('ben');
+        assert(prompt2.text === 'What is your favorite color?', 'wrong prompt 2');
+
+        const reply = await client.sendActivity('black');
+        assert(reply.text === 'ok you said black', 'wrong reply');
+
+        const reply2 = await client.getNextReply();
+        assert(reply2 === 'got it.', 'wrong reply 2');
+    });
+
+
     it('should navigate threads', async function() {
         // test all the ways threads are triggered
         // convo.gotoThread inside an ask
