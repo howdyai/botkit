@@ -7,7 +7,7 @@
  */
 import { Botkit, BotkitMessage } from './core';
 import { Activity, ConversationAccount, ConversationReference, ConversationParameters, TurnContext } from 'botbuilder';
-import { DialogTurnResult } from 'botbuilder-dialogs';
+import { DialogTurnResult, Dialog } from 'botbuilder-dialogs';
 
 /**
  * A base class for a `bot` instance, an object that contains the information and functionality for taking action in response to an incoming message.
@@ -173,6 +173,34 @@ export class BotWorker {
         if (this._config.dialogContext) {
             return this._config.dialogContext.cancelAllDialogs();
         }
+    }
+
+    /**
+     * Get a reference to the active dialog
+     * @returns a reference to the active dialog or undefined if no dialog is active
+     */
+    public getActiveDialog(): Dialog | undefined {
+        return this.getConfig('dialogContext').activeDialog;
+    }
+
+    /**
+     * Check if any dialog is active or not
+     * @returns true if there is an active dialog, otherwise false
+     */
+    public hasActiveDialog(): boolean {
+        return !!this.getActiveDialog();
+    }
+
+    /**
+     * Check to see if a given dialog is currently active in the stack
+     * @param id The id of a dialog to look for in the dialog stack
+     * @returns true if dialog with id is located anywhere in the dialog stack
+     */
+    public isDialogActive(id: string): boolean {
+        if (this.getConfig('dialogContext').stack.length) {
+            return (this.getConfig('dialogContext').stack.filter((d) => d.id === id).length > 0);
+        }
+        return false;
     }
 
     /**
