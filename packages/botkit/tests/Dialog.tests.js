@@ -79,7 +79,7 @@ describe('Botkit dialog', function() {
         // botConvo.say('ok');
 
         botConvo.ask({
-            text: ['what is your last name']
+            text: ['what is your last name{{vars.count}}']
         }
         , [
             {
@@ -93,6 +93,13 @@ describe('Botkit dialog', function() {
                 handler: async (answer, convo, bot) => {
                     await bot.say('name not recognized, say another name');
 
+                    let count = convo.vars.count;
+                    if (!count) {
+                        count = 1;
+                    } else {
+                        count++;
+                    }
+                    convo.setVar('count', count)/
                     await convo.repeat();
                 }
             }
@@ -120,13 +127,13 @@ describe('Botkit dialog', function() {
         assert(reply4.text === 'name not recognized, say another name', 'did not get invalid error 1');
 
         const reply5 = await client.getNextReply();
-        assert(reply5.text === 'what is your last name', 'did not get reprompt');
+        assert(reply5.text === 'what is your last name1', 'did not get reprompt');
 
         const reply6 = await client.sendActivity('brown');
         assert(reply6.text === 'name not recognized, say another name', 'did not get invalid error 2');
 
         const reply8 = await client.getNextReply();
-        assert(reply8.text === 'what is your last name', 'did not get reprompt');
+        assert(reply8.text === 'what is your last name2', 'did not get reprompt');
 
         const reply9 = await client.sendActivity('smith');
         assert(reply9.text === 'I like the name smith', 'did not get final confirm');
@@ -192,7 +199,7 @@ describe('Botkit dialog', function() {
         assert(reply.text == 'ok', 'wrong reply');
 
         const reply2 = await client.getNextReply();
-        assert(reply2.text == 'got it.', 'wrong reply 2');
+        assert(reply2.text == 'got it.', 'wrong reply 2 in addChildDialog test');
     });
 
     it('should work with call to addGotoDialog', async function() {
@@ -223,7 +230,7 @@ describe('Botkit dialog', function() {
         assert(reply.text == 'ok', 'wrong reply');
 
         const reply2 = await client.getNextReply();
-        assert(reply2 == null, 'wrong reply 2');
+        assert(reply2 == null, 'wrong reply 2 in addGotoDialog test');
     });
 
     it('should work with call to beginDialog in handler', async function() {
@@ -254,7 +261,7 @@ describe('Botkit dialog', function() {
         assert(reply.text === 'ok you said black', 'wrong reply');
 
         const reply2 = await client.getNextReply();
-        assert(reply2 === 'got it.', 'wrong reply 2');
+        assert(reply2.text === 'got it.', 'wrong reply 2 in beginDialog test');
     });
 
 

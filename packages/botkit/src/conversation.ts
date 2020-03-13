@@ -325,7 +325,7 @@ export class BotkitConversation<O extends object = {}> extends Dialog<O> {
      *      handler: async(response_text, convo, bot, full_message) => {
      *          return await convo.gotoThread('no_taco');
      *      }
-     *   },s
+     *   },
      *   {
      *       default: true,
      *       handler: async(response_text, convo, bot, full_message) => {
@@ -393,6 +393,9 @@ export class BotkitConversation<O extends object = {}> extends Dialog<O> {
         message.collect.options.forEach((o) => { if (!o.type) { o.type = 'string'; } });
 
         this.script[thread_name].push(message);
+
+        // add a null message where the handlers for the previous message will fire.
+        this.script[thread_name].push({ action: 'next' });
 
         return this;
     }
