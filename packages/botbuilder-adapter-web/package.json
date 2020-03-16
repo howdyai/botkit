@@ -1,6 +1,6 @@
 {
   "name": "botbuilder-adapter-web",
-  "version": "1.0.6",
+  "version": "1.0.7",
   "description": "Connect Botkit or BotBuilder to the Web",
   "main": "./lib/index.js",
   "typings": "./lib/index.d.ts",
@@ -35,7 +35,7 @@
     "url": "https://github.com/howdyai/botkit.git"
   },
   "dependencies": {
-    "botkit": "^4.6.2",
+    "botkit": "^4.8.0",
     "botbuilder": "^4.7.1",
     "debug": "^4.1.0",
     "url": "^0.11.0",
