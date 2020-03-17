@@ -11,10 +11,15 @@ This allows developers to use payload values inside quick replies, button clicks
 * NEW: Multi-adapter support improved. Botkit will now spawn the appropriate type of Botworker when used in a multi-adapter scenario. [See this example for a demonstration of using multiple adapters in a single bot app](./packages/testbot/multiadapter.js). [Issue #1920](https://github.com/howdyai/botkit/issues/1920)
 * NEW: Add support for Slack's v2 oauth. [More details here](./packages/botbuilder-adapter-slack/CHANGELOG.md#109). Thanks to [@sfny](https://github.com/sfny) for [PR #1928](https://github.com/howdyai/botkit/pull/1928)
 * NEW: Values in `channelData` will now be processed as Mustache templates inside BotkitConversations. [Thanks @me-cedric](https://github.com/me-cedric) for [pr #1925](https://github.com/howdyai/botkit/pull/1925)
+* NEW: New Dialog related features for determining if a bot is already in a conversation. 
 
 * FIX: Facebook Adapter will not attempt to set up web routes if webserver is not configured. [#1916](https://github.com/howdyai/botkit/issues/1916)
 * FIX: Exclude `activity.conversation.properties` field when generating state storage key. [#1849](https://github.com/howdyai/botkit/issues/1849)
 * FIX: Allow startConversationWithUser to work with Bot Framework Emulator. [#1834](https://github.com/howdyai/botkit/issues/1834)
+* FIX: Using `beginDialog` inside an `ask()` caused weird behaviors.  Fixes for [#1878](https://github.com/howdyai/botkit/issues/1878) and [#1932](https://github.com/howdyai/botkit/issues/1932)
+* FIX: Webex - remove empty `files` key [#1906](https://github.com/howdyai/botkit/pull/1906)
+* FIX: Slack - authed_users added to message [#1911](https://github.com/howdyai/botkit/issues/1911)
+* Update: all dependencies to latest, including bot framework 4.7->4.8 and mustache 3.0 -> 4.0
 
 # 4.6.1
 

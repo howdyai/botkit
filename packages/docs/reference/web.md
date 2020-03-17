@@ -17,9 +17,7 @@ This is a class reference for all the methods exposed by the [botbuilder-adapter
 Connect [Botkit](https://www.npmjs.com/package/botkit) or [BotBuilder](https://www.npmjs.com/package/botbuilder) to the Web.
 It offers both websocket and webhook capabilities.
 To use this adapter, you will need a compatible chat client - generate one using the [Botkit yeoman generator](https://npmjs.com/package/generator-botkit),
-or use one of the following examples:
-* [official](https://github.com/howdyai/botkit/tree/master/packages/botbuilder-adapter-web/client)
-* [community](https://github.com/mabuonomo/botkit-socket-client)
+or use [the one included in the project repo here.](https://github.com/howdyai/botkit/tree/master/packages/botbuilder-adapter-web/client)
 
 To use this class in your application, first install the package:
 ```bash
