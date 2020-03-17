@@ -576,9 +576,12 @@ This class includes the following methods:
 * [cancelAllDialogs()](#cancelAllDialogs)
 * [changeContext()](#changeContext)
 * [ensureMessageFormat()](#ensureMessageFormat)
+* [getActiveDialog()](#getActiveDialog)
 * [getConfig()](#getConfig)
+* [hasActiveDialog()](#hasActiveDialog)
 * [httpBody()](#httpBody)
 * [httpStatus()](#httpStatus)
+* [isDialogActive()](#isDialogActive)
 * [replaceDialog()](#replaceDialog)
 * [reply()](#reply)
 * [say()](#say)
@@ -673,6 +676,17 @@ a properly formed Activity object
 
 
 
+<a name="getActiveDialog"></a>
+### getActiveDialog()
+Get a reference to the active dialog
+
+**Returns**
+
+a reference to the active dialog or undefined if no dialog is active
+
+
+
+
 <a name="getConfig"></a>
 ### getConfig()
 Get a value from the BotWorker's configuration.
@@ -695,6 +709,17 @@ The value stored in the configuration (or null if absent)
 let original_context = bot.getConfig('context');
 await original_context.sendActivity('send directly using the adapter instead of Botkit');
 ```
+
+
+<a name="hasActiveDialog"></a>
+### hasActiveDialog()
+Check if any dialog is active or not
+
+**Returns**
+
+true if there is an active dialog, otherwise false
+
+
 
 
 <a name="httpBody"></a>
@@ -736,6 +761,24 @@ controller.on('event', async(bot, message) => {
   bot.httpStatus(500);
 });
 ```
+
+
+<a name="isDialogActive"></a>
+### isDialogActive()
+Check to see if a given dialog is currently active in the stack
+
+**Parameters**
+
+| Argument | Type | description
+|--- |--- |---
+| id| string | The id of a dialog to look for in the dialog stack
+
+
+**Returns**
+
+true if dialog with id is located anywhere in the dialog stack
+
+
 
 
 <a name="replaceDialog"></a>
@@ -1119,7 +1162,7 @@ convo.ask('Do you want to eat a taco?', [
      handler: async(response_text, convo, bot, full_message) => {
          return await convo.gotoThread('no_taco');
      }
-  },s
+  },
   {
       default: true,
       handler: async(response_text, convo, bot, full_message) => {
