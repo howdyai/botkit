@@ -1,6 +1,6 @@
 {
   "name": "botkit-plugin-cms",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "Extend Botkit with access to botkit-cms",
   "main": "./lib/index.js",
   "typings": "./lib/index.d.ts",
