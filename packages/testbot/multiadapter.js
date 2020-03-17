@@ -58,7 +58,8 @@ controller.ready(() => {
     });
 
     controller.on('message', async (bot, message) => {
-        await bot.reply(message,'I heard ya');
+        const adapter_type = bot.getConfig('context').adapter.name;
+        await bot.reply(message,`I heard ya on my ${ adapter_type }  adapter`);
     });
 
 });

@@ -176,7 +176,7 @@ export class WebexAdapter extends BotAdapter {
         // Botkit Plugin additions
         this.middlewares = {
             spawn: [
-                async (bot, next) => {
+                async (bot, next): Promise<void> => {
                     // make webex api directly available on a botkit instance.
                     bot.api = this._api;
 
@@ -366,13 +366,14 @@ export class WebexAdapter extends BotAdapter {
         for (let a = 0; a < activities.length; a++) {
             const activity = activities[a];
             if (activity.type === ActivityTypes.Message) {
-                // debug('OUTGOING ACTIVITY', activity);
+                debug('OUTGOING ACTIVITY', activity);
 
                 // transform activity into the webex message format
                 // https://developer.webex.com/docs/api/v1/messages/create-a-message
-                const message: any = {
-                    files: activity.channelData ? activity.channelData.files : ''
-                };
+                const message: any = {};
+                if (activity.channelData && activity.channelData.files) {
+                    message.files = activity.channelData.files;
+                }
                 if (activity.text) {
                     message.text = activity.text;
                 }

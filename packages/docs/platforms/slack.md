@@ -100,8 +100,9 @@ const adapter = new SlackAdapter({
     clientSigningSecret: process.env.SLACK_SECRET,
     clientId: process.env.CLIENTID, // oauth client id
     clientSecret: process.env.CLIENTSECRET, // oauth client secret
-    scopes: ['bot'], // oauth scopes requested
+    scopes: ['bot'], // oauth scopes requested, 'bot' deprecated by Slack in favor of granular permissions
     redirectUri: process.env.REDIRECT_URI, // url to redirect post-login
+    oauthVersion: 'v1', // or use v2
     getTokenForTeam: async(team_id) => {
         // load the token for this team
         // as captured during oauth 
@@ -125,9 +126,9 @@ controller.webserver.get('/install/auth', (req, res) => {
         const results = await controller.adapter.validateOauthCode(req.query.code);
 
         // Store token by team in bot state.
-        let team = results.team_id;
-        let token = results.bot.bot_access_token;
-        let userId = results.bot.bot_user_id;
+        let team = results.team_id; // results.team.id in oauth v2
+        let token = results.bot.bot_access_token; // results.access_token in oauth v2
+        let userId = results.bot.bot_user_id; // results.bot_user_id in oauth v2
 
         // Securely store the token and usedId so that they can be retrieved later by the team id.
         // ...
@@ -143,6 +144,23 @@ controller.webserver.get('/install/auth', (req, res) => {
     }
 });
 ```
+
+### Using Slack's v2 OAuth
+
+To use Slack's [newer "granular scopes"](https://api.slack.com/authentication/oauth-v2), specify `oauthVersion: 'v2'` in your adapter configuration.
+This will cause the adapter to use the v2 oauth URL and credential validation function.
+However, note that the payload returned `validateOauthCode` differs between versions.
+
+In v1, your bot's token will be located at `results.bot.bot_access_token`, whereas in v2, it will be `results.access_token`.
+
+In v1, your bot's user id will be at `results.bot.bot_user_id`, whereas in v2 it will be `results.bot_user_id`.
+
+From Slack's official docs:
+
+* [V1 response payload](https://api.slack.com/methods/oauth.access#response)
+* [V2 response payload](https://api.slack.com/methods/oauth.v2.access#response)
+
+Take care to update your auth handler function when you migrate to granular scopes.
 
 ## Class Reference
 

@@ -1,5 +1,11 @@
 # botbuilder-adapter-slack changelog
 
+# 1.0.9
+
+* Update @slack/web-api to 5.8.0 
+* Add `oauthVersion` parameter to constructor. If set to `v2`, oauth features will use Slack's latest auth functions and urls. [More info](readme.md#using-slacks-v2-oauth)
+* Make `authed_users` field available. [Fix for #1911](https://github.com/howdyai/botkit/issues/1911)
+
 # 1.0.8
 
 * Update @slack/web-api to 5.7.0 which includes access to new Oauth features (see [#1890](https://github.com/howdyai/botkit/pull/1890))

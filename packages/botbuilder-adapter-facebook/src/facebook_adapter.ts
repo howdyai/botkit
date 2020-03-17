@@ -133,7 +133,7 @@ export class FacebookAdapter extends BotAdapter {
 
         this.middlewares = {
             spawn: [
-                async (bot, next) => {
+                async (bot, next): Promise<void> => {
                     bot.api = await this.getAPI(bot.getConfig('activity'));
                     next();
                 }
@@ -148,15 +148,17 @@ export class FacebookAdapter extends BotAdapter {
      */
     public async init(botkit): Promise<any> {
         debug('Add GET webhook endpoint for verification at: ', botkit.getConfig('webhook_uri'));
-        botkit.webserver.get(botkit.getConfig('webhook_uri'), (req, res) => {
-            if (req.query['hub.mode'] === 'subscribe') {
-                if (req.query['hub.verify_token'] === this.options.verify_token) {
-                    res.send(req.query['hub.challenge']);
-                } else {
-                    res.send('OK');
+        if (botkit.webserver) {
+            botkit.webserver.get(botkit.getConfig('webhook_uri'), (req, res) => {
+                if (req.query['hub.mode'] === 'subscribe') {
+                    if (req.query['hub.verify_token'] === this.options.verify_token) {
+                        res.send(req.query['hub.challenge']);
+                    } else {
+                        res.send('OK');
+                    }
                 }
-            }
-        });
+            });
+        }
     }
 
     /**

@@ -97,6 +97,24 @@ module.exports = function(controller) {
             ]
         }, [], 'reply');
         replies.say('You clicked {{vars.reply}}');
+        replies.ask({
+            text: 'Click one of these suggestions!',
+            quick_replies: [
+                {
+                    title: 'Norm',
+                    payload: 'norm',
+                },
+                {
+                    title: 'Flarm',
+                    payload: 'flarm',
+                }
+            ]
+        }, async(response, convo, bot, message) => {
+            console.log('GOT REPLY', response);
+            console.log('FULL PAyLOAD',message);
+        }, 'reply');
+        replies.say('You clicked {{vars.reply}}');
+
         controller.addDialog(replies);
 
         controller.hears('qqq', 'message', async(bot, message) => {

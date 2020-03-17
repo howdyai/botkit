@@ -109,7 +109,6 @@ export class BotkitTestClient {
         return async (turnContext: TurnContext): Promise<void> => {
             const dialogSet = new DialogSet(dialogState);
             targetDialogs.forEach(targetDialog => dialogSet.add(targetDialog));
-
             const dialogContext = await dialogSet.createContext(turnContext);
             this.dialogTurnResult = await dialogContext.continueDialog();
             if (this.dialogTurnResult.status === DialogTurnStatus.empty) {

@@ -1,4 +1,5 @@
 const assert = require('assert');
+const { ActivityTypes } = require('botbuilder');
 const { Botkit, BotkitTestClient, BotkitConversation } = require('../');
 
 let bot;
@@ -25,7 +26,7 @@ describe('Botkit dialog', function() {
             text: 'say repeat'
         }, [{
             pattern: 'repeat',
-            handler: async (val, convo, bot) => {
+            handler: async (val, convo, bot, message) => {
                 await convo.repeat();
             }
         }, {
@@ -78,7 +79,7 @@ describe('Botkit dialog', function() {
         // botConvo.say('ok');
 
         botConvo.ask({
-            text: ['what is your last name']
+            text: ['what is your last name{{vars.count}}']
         }
         , [
             {
@@ -92,6 +93,13 @@ describe('Botkit dialog', function() {
                 handler: async (answer, convo, bot) => {
                     await bot.say('name not recognized, say another name');
 
+                    let count = convo.vars.count;
+                    if (!count) {
+                        count = 1;
+                    } else {
+                        count++;
+                    }
+                    convo.setVar('count', count)/
                     await convo.repeat();
                 }
             }
@@ -119,13 +127,13 @@ describe('Botkit dialog', function() {
         assert(reply4.text === 'name not recognized, say another name', 'did not get invalid error 1');
 
         const reply5 = await client.getNextReply();
-        assert(reply5.text === 'what is your last name', 'did not get reprompt');
+        assert(reply5.text === 'what is your last name1', 'did not get reprompt');
 
         const reply6 = await client.sendActivity('brown');
         assert(reply6.text === 'name not recognized, say another name', 'did not get invalid error 2');
 
         const reply8 = await client.getNextReply();
-        assert(reply8.text === 'what is your last name', 'did not get reprompt');
+        assert(reply8.text === 'what is your last name2', 'did not get reprompt');
 
         const reply9 = await client.sendActivity('smith');
         assert(reply9.text === 'I like the name smith', 'did not get final confirm');
@@ -191,7 +199,7 @@ describe('Botkit dialog', function() {
         assert(reply.text == 'ok', 'wrong reply');
 
         const reply2 = await client.getNextReply();
-        assert(reply2.text == 'got it.', 'wrong reply 2');
+        assert(reply2.text == 'got it.', 'wrong reply 2 in addChildDialog test');
     });
 
     it('should work with call to addGotoDialog', async function() {
@@ -222,8 +230,40 @@ describe('Botkit dialog', function() {
         assert(reply.text == 'ok', 'wrong reply');
 
         const reply2 = await client.getNextReply();
-        assert(reply2 == null, 'wrong reply 2');
+        assert(reply2 == null, 'wrong reply 2 in addGotoDialog test');
     });
+
+    it('should work with call to beginDialog in handler', async function() {
+        const botConvo = new BotkitConversation('testConvo', bot);
+        botConvo.ask('What is your name?', async (response, convo, bot) => {
+            await bot.beginDialog('testConvo2');
+        }, 'name');
+        botConvo.say('got it.');
+        bot.addDialog(botConvo);
+
+        const botConvo2 = new BotkitConversation('testConvo2', bot);
+        botConvo2.ask('What is your favorite color?', async (response, convo, bot) => {
+            // noop
+        }, 'color');
+        botConvo2.say('ok you said {{vars.color}}');
+        bot.addDialog(botConvo2);
+
+        // set up a test client
+        const client = new BotkitTestClient('test', bot, ['testConvo', 'testConvo2']);
+
+        const prompt = await client.sendActivity('..');
+        assert(prompt.text === 'What is your name?', 'wrong prompt 1');
+
+        const prompt2 = await client.sendActivity('ben');
+        assert(prompt2.text === 'What is your favorite color?', 'wrong prompt 2');
+
+        const reply = await client.sendActivity('black');
+        assert(reply.text === 'ok you said black', 'wrong reply');
+
+        const reply2 = await client.getNextReply();
+        assert(reply2.text === 'got it.', 'wrong reply 2 in beginDialog test');
+    });
+
 
     it('should navigate threads', async function() {
         // test all the ways threads are triggered
@@ -543,6 +583,97 @@ describe('Botkit dialog', function() {
         assert(after_fired === true, 'after fired after stop');
 
     });
+
+    it('should call handlers for addQuestion and ask with entire message payload', async () => {
+        const conversation = new BotkitConversation('nameConvo', bot);
+
+        let correct1 = false;
+        let correct2 = false;
+        let correct3 = false;
+        let correct4 = false;
+        let correct5 = false;
+
+        conversation.ask(
+            'First name?',
+            async (response, convo, bot, message) => {
+                correct1 = message.type === ActivityTypes.Message && message.text === 'Tony' && response === message.text;
+                convo.gotoThread('last_name');
+            },
+            'firstName'
+        );
+        conversation.addQuestion(
+            'Last name?',
+            async (response, convo, bot, message) => {
+                correct2 = message.type === ActivityTypes.Message && message.text === 'Stark' && response === message.text;
+                convo.gotoThread('address');
+            },
+            'lastName',
+            'last_name'
+        );
+
+        conversation.addQuestion(
+            'Address?',
+            async (response, convo, bot, message) => {
+                correct3 = message.type === ActivityTypes.Message &&
+                    message.text === '10880 Malibu Point, 90265, Malibu, California' &&
+                    response === message.text;
+                convo.gotoThread('color');
+            },
+            'address',
+            'address'
+        );
+        conversation.addQuestion(
+            'Favourite Color?',
+            [
+                {
+                    default: true,
+                    handler: async (response, convo, bot, message) => {
+                        correct4 = message.type === ActivityTypes.Message && response === message.text;
+                        await convo.repeat();
+                    }
+                },
+                {
+                    pattern: 'Red',
+                    handler: async (response, convo, bot, message) => {
+                        correct5 = message.type === ActivityTypes.Message &&
+                            message.text === 'Red' && response === message.text;
+                        await convo.stop();
+                    }
+                }
+            ],
+            'color',
+            'color'
+        );
+
+        bot.addDialog(conversation);
+
+        // set up a test client
+        const client = new BotkitTestClient('test', bot, ['nameConvo']);
+
+        let msg = await client.sendActivity('..');
+        assert(msg.text === 'First name?', 'first prompt wrong');
+
+        msg = await client.sendActivity('Tony');
+        assert(msg.text === 'Last name?', 'second prompt wrong');
+
+        msg = await client.sendActivity('Stark');
+        assert(msg.text === 'Address?', 'third prompt wrong');
+
+        msg = await client.sendActivity('10880 Malibu Point, 90265, Malibu, California');
+        assert(msg.text === 'Favourite Color?', 'fourth prompt wrong');
+
+        msg = await client.sendActivity('Black');
+        assert(msg.text === 'Favourite Color?', 'repeat prompt wrong');
+
+        msg = await client.sendActivity('Red');
+
+        assert(correct1, 'message text not correct for prompt1');
+        assert(correct2, 'message text not correct for prompt2');
+        assert(correct3, 'message text not correct for prompt3');
+        assert(correct4, 'message text not correct for prompt4');
+        assert(correct5, 'message text not correct for prompt5');
+    });
+
     afterEach(async () => {
         await bot.shutdown();
     });
