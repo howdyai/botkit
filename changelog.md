@@ -4,14 +4,21 @@
 
 [Want to contribute? Read our guide!](https://github.com/howdyai/botkit/blob/master/CONTRIBUTING.md)
 
-# 4.7
+# 4.8
+
+In addition to fixing a bunch of bugs and adding some new features, this version brings Botkit up to date with Bot Framework's latest release - [Change log here](https://github.com/microsoft/botbuilder-js/releases). 
+
+There are lots of interesting things happening in the Bot Framework world including a new [GUI for dialog management called Bot Framework Composer](https://github.com/microsoft/botframework-composer), a new templating system called [Language Generation](https://github.com/microsoft/BotBuilder-Samples/tree/master/experimental/language-generation), and more. Check out the [main hub repo for more information.](https://github.com/microsoft/botframework-sdk#readme)
+
 
 * NEW: At long last, the convo.ask callbacks can receive the full incoming message payload in addition to the text content.
 This allows developers to use payload values inside quick replies, button clicks and other rich operations. Many thanks to [@naikus](https://github.com/naikus) for the effort and patience it took to get this in! [PR #1801](https://github.com/howdyai/botkit/pull/1801)
 * NEW: Multi-adapter support improved. Botkit will now spawn the appropriate type of Botworker when used in a multi-adapter scenario. [See this example for a demonstration of using multiple adapters in a single bot app](./packages/testbot/multiadapter.js). [Issue #1920](https://github.com/howdyai/botkit/issues/1920)
 * NEW: Add support for Slack's v2 oauth. [More details here](./packages/botbuilder-adapter-slack/CHANGELOG.md#109). Thanks to [@sfny](https://github.com/sfny) for [PR #1928](https://github.com/howdyai/botkit/pull/1928)
 * NEW: Values in `channelData` will now be processed as Mustache templates inside BotkitConversations. [Thanks @me-cedric](https://github.com/me-cedric) for [pr #1925](https://github.com/howdyai/botkit/pull/1925)
-* NEW: New Dialog related features for determining if a bot is already in a conversation. 
+* NEW: New Dialog related features for determining if a bot is already in a conversation, including [bot.hasActiveDialog()](packages/docs/reference/core.md#hasActiveDialog),
+[bot.getActiveDialog()](packages/docs/reference/core.md#getActiveDialog), and
+[bot.isDialogActive()](packages/docs/reference/core.md#isDialogActive) 
 
 * FIX: Facebook Adapter will not attempt to set up web routes if webserver is not configured. [#1916](https://github.com/howdyai/botkit/issues/1916)
 * FIX: Exclude `activity.conversation.properties` field when generating state storage key. [#1849](https://github.com/howdyai/botkit/issues/1849)
