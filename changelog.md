@@ -10,6 +10,7 @@ In addition to fixing a bunch of bugs and adding some new features, this version
 
 There are lots of interesting things happening in the Bot Framework world including a new [GUI for dialog management called Bot Framework Composer](https://github.com/microsoft/botframework-composer), a new templating system called [Language Generation](https://github.com/microsoft/BotBuilder-Samples/tree/master/experimental/language-generation), and more. Check out the [main hub repo for more information.](https://github.com/microsoft/botframework-sdk#readme)
 
+### NEW 
 
 * NEW: At long last, the convo.ask callbacks can receive the full incoming message payload in addition to the text content.
 This allows developers to use payload values inside quick replies, button clicks and other rich operations. Many thanks to [@naikus](https://github.com/naikus) for the effort and patience it took to get this in! [PR #1801](https://github.com/howdyai/botkit/pull/1801)
@@ -19,6 +20,8 @@ This allows developers to use payload values inside quick replies, button clicks
 * NEW: New Dialog related features for determining if a bot is already in a conversation, including [bot.hasActiveDialog()](packages/docs/reference/core.md#hasActiveDialog),
 [bot.getActiveDialog()](packages/docs/reference/core.md#getActiveDialog), and
 [bot.isDialogActive()](packages/docs/reference/core.md#isDialogActive) 
+
+### FIXED
 
 * FIX: Facebook Adapter will not attempt to set up web routes if webserver is not configured. [#1916](https://github.com/howdyai/botkit/issues/1916)
 * FIX: Exclude `activity.conversation.properties` field when generating state storage key. [#1849](https://github.com/howdyai/botkit/issues/1849)
