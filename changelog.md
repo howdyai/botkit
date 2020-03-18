@@ -4,6 +4,11 @@
 
 [Want to contribute? Read our guide!](https://github.com/howdyai/botkit/blob/master/CONTRIBUTING.md)
 
+# 4.8.1
+
+* FIX: Fixing a bug introduced in 4.8 pertaining to spawning proactive bots for Slack. [#1937](https://github.com/howdyai/botkit/issues/1937)
+
+
 # 4.8
 
 In addition to fixing a bunch of bugs and adding some new features, this version brings Botkit up to date with Bot Framework's latest release - [Change log here](https://github.com/microsoft/botbuilder-js/releases). 

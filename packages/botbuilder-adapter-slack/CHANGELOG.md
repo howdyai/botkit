@@ -1,5 +1,9 @@
 # botbuilder-adapter-slack changelog
 
+# 1.0.10
+
+* FIX: Fixing a bug introduced in 4.8 pertaining to spawning proactive bots for Slack. [#1937](https://github.com/howdyai/botkit/issues/1937)
+
 # 1.0.9
 
 * Update @slack/web-api to 5.8.0 
