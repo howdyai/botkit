@@ -35,7 +35,7 @@
   "dependencies": {
     "@slack/web-api": "^5.8.0",
     "botbuilder": "^4.8.0",
-    "botkit": "^4.8.0",
+    "botkit": "^4.8.1",
     "debug": "^4.1.0"
   },
   "devDependencies": {
