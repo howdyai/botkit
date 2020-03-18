@@ -1077,13 +1077,17 @@ export class Botkit {
         }
 
         let worker: BotWorker = null;
-        const adapter = custom_adapter || config.context.adapter || this.adapter;
+        const adapter = custom_adapter || (config.context && config.context.adapter) ? config.context.adapter : this.adapter;
+
         if (adapter.botkit_worker) {
             const CustomBotWorker = adapter.botkit_worker;
             worker = new CustomBotWorker(this, config);
         } else {
             worker = new BotWorker(this, config);
         }
+
+        // make sure the adapter is available in a standard location.
+        worker.getConfig().adapter = adapter;
 
         return new Promise((resolve, reject) => {
             this.middleware.spawn.run(worker, (err, worker) => {
