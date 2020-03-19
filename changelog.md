@@ -4,6 +4,10 @@
 
 [Want to contribute? Read our guide!](https://github.com/howdyai/botkit/blob/master/CONTRIBUTING.md)
 
+# 0.7.6
+
+* Add support for Slack oauth.v2.access method `bot.api.oauth.v2.access`
+
 # 0.7.5
 
 * Add support for Slack modals
