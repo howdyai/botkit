@@ -167,7 +167,7 @@ export class WebAdapter extends BotAdapter {
      * @param activity
      * @returns a message ready to send back to the websocket client.
      */
-    private activityToMessage(activity: Partial<Activity>): any {
+    protected activityToMessage(activity: Partial<Activity>): any {
         const message = {
             type: activity.type,
             text: activity.text
