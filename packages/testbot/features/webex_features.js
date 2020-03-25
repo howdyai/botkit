@@ -137,6 +137,19 @@ module.exports = function(controller) {
     controller.on('attachmentActions', async(bot, message) => {
       console.log('GOT A CARD SUBMIT', message);
     });
+    
+    controller.hears('threaded', 'message,direct_message', async(bot, message) => {
+      
+      let text = 'I\'m responding to you in a thread!';
+      await bot.replyInThread(message, {markdown: text});
+
+
+      // message.parentId ? message.parentId : message.id
+      //  if the message is in the main channel, respond in a thread
+      //  if the message is already in a thread, respond to the same thread
+      await bot.startConversationInThread(message.channel, message.user, (message.parentId ? message.parentId : message.id));
+      await bot.say('And this should also be in that thread!');
+    });
 
     controller.hears('create a room','message,direct_message', async(bot, message) => {
 

@@ -118,6 +118,14 @@ Use this method to initiate a private 1:1 conversation with a user.
 
 Calling this method will create or switch to the private 1:1 room for any messages sent with `bot.say`. However, due to a quirk in the Webex protocol, multi-message dialogs started with `beginDialog` will not work.
 
+### [bot.startConversationInThread()](../reference/webex.md#startConversationInThread)
+
+Use this method to start a conversation with a user in a thread. After calling this method, any further actions carried out by the bot worker will happen in that context.
+
+### [bot.replyInThread()](../reference/webex.md#replyInThread)
+
+Use this method to reply in a thread vs the main channel.
+
 ### Remove messages
 
 Webex Teams supports deleting messages. Do so with the following convenience method:
