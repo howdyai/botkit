@@ -20,3 +20,4 @@ coverage
 
 # temp test files
 tests/**/temp/
+package-lock.json
