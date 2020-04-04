@@ -33,6 +33,7 @@
   "dependencies": {
     "body-parser": "^1.19.0",
     "botbuilder": "^4.8.0",
+    "botbuilder-core": "^4.8.0",
     "botbuilder-dialogs": "^4.8.0",
     "botframework-connector": "^4.8.0",
     "debug": "^4.1.0",
@@ -42,7 +43,7 @@
     "request": "^2.88.0",
     "ware": "^1.3.0"
   },
-  "devDependencies": { 
+  "devDependencies": {
     "@types/debug": "^4.1.5",
     "@types/express": "^4.17.2",
     "@types/node": "^10.17.5",
