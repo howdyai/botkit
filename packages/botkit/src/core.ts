@@ -1077,7 +1077,7 @@ export class Botkit {
         }
 
         let worker: BotWorker = null;
-        const adapter = custom_adapter || (config.context && config.context.adapter) ? config.context.adapter : this.adapter;
+        const adapter = custom_adapter || (config && config.context && config.context.adapter) ? config.context.adapter : this.adapter;
 
         if (adapter.botkit_worker) {
             const CustomBotWorker = adapter.botkit_worker;
