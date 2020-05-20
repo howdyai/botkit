@@ -225,6 +225,8 @@ This class includes the following methods:
 * [deleteMessage()](#deleteMessage)
 * [startConversationInRoom()](#startConversationInRoom)
 * [startPrivateConversation()](#startPrivateConversation)
+* [startConversationInThread()](#startConversationInThread)
+* [replyInThread()](#replyInThread)
 
 
 
@@ -312,6 +314,46 @@ USE WITH CAUTION while we try to sort this out.
 | userId| string | user id of a webex teams user, like one from `message.user`<br/>
 
 
+<a name="replyInThread"></a>
+### replyInThread()
+Like bot.reply, but as a threaded response to the incoming message rather than a new message in the main channel.
+
+**Parameters**
+
+| Argument | Type | description
+|--- |--- |---
+| src| any | an incoming message object
+| resp| any | an outgoing message object (or part of one or just reply text)<br/>
+
+
+<a name="startConversationInThread"></a>
+### startConversationInThread()
+Switch a bot's context into a specific sub-thread within a channel.
+After calling this method, messages sent with `bot.say` and any dialogs started with `bot.beginDialog` will occur in this new context.
+
+**Parameters**
+
+| Argument | Type | description
+|--- |--- |---
+| channelId| string | A Slack channel id, like one found in `message.channel`
+| userId| string | A Slack user id, like one found in `message.user` or in a `<@mention>`
+| parentId| string | A parentId of the parent message of the thread.<br/>
+
+
+
+```javascript
+controller.hears('in a thread', 'message', async(bot, message) => {
+
+     // branch from the main channel into a side thread associated with this message
+     await bot.startConversationInThread(message.channel, message.user, message.id);
+
+     // say hello
+     await bot.say(`Let's handle this offline...`);
+     // ... continue...
+     await bot.beginDialog(OFFLINE_DIALOG);
+
+});
+```
 
 
 
