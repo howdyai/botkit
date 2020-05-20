@@ -6,7 +6,10 @@
 
 # 4.9.0
 
-* Update dependencies to Bot Framework 4.9
+* Update dependencies to [Bot Framework 4.9](https://github.com/microsoft/botbuilder-js/releases/tag/4.9.0)
+* Update some dev dependencies like lerna, mocha and nyc
+
+* FIX: Allow size limits to be adjusted on the Express json and urlencoded parsers. Fixes [#1941](https://github.com/howdyai/botkit/issues/1941)
 
 # 4.8.1
 

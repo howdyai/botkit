@@ -73,6 +73,17 @@ export interface BotkitConfiguration {
      * Disable messages normally sent to the console during startup.
      */
     disable_console?: boolean;
+
+    /**
+     * Limit of the size of incoming JSON payloads parsed by the Express bodyParser. Defaults to '100kb'
+     */
+    jsonLimit?: string;
+
+    /**
+     * Limit of the size of incoming URL encoded payloads parsed by the Express bodyParser. Defaults to '100kb'
+     */
+    urlEncodedLimit?: string;
+
 }
 
 /**
@@ -323,6 +334,8 @@ export class Botkit {
             webhook_uri: '/api/messages',
             dialogStateProperty: 'dialogState',
             disable_webserver: false,
+            jsonLimit: '100kb',
+            urlEncodedLimit: '100kb',
             ...config
         };
 
@@ -370,8 +383,8 @@ export class Botkit {
                     next();
                 });
 
-                this.webserver.use(bodyParser.json());
-                this.webserver.use(bodyParser.urlencoded({ extended: true }));
+                this.webserver.use(bodyParser.json({ limit: this._config.jsonLimit }));
+                this.webserver.use(bodyParser.urlencoded({ limit: this._config.urlEncodedLimit, extended: true }));
 
                 if (this._config.webserver_middlewares && this._config.webserver_middlewares.length) {
                     this._config.webserver_middlewares.forEach((middleware) => {
