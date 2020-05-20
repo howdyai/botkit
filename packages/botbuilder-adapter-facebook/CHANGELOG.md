@@ -1,5 +1,9 @@
 # botbuilder-adapter-facebook changelog
 
+# 1.0.10
+
+* Update dependencies to Botkit 4.9, Bot Framework 4.9
+
 # 1.0.7
 
 * Fix for Facebook typing indicators. To send a typing indicator, use `await bot.say({sender_action: 'typing_on'});`

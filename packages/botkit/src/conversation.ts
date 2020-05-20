@@ -36,7 +36,7 @@ interface BotkitConvoTrigger {
  * Template for definiting a BotkitConversation template
  */
 interface BotkitMessageTemplate {
-    text: ((template: any, vars: any) => string[]) | string[];
+    text: ((template: any, vars: any) => string) | string[];
     action?: string;
     execute?: {
         script: string;

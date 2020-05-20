@@ -1,5 +1,10 @@
 # botbuilder-adapter-webex changelog
 
+# 1.0.8
+
+* Update dependencies to Botkit 4.9, Bot Framework 4.9
+* New: Add abilbity to start conversations or reply in a thread. Thanks to [@billyzoellers](https://github.com/billyzoellers) for the [pull request](https://github.com/howdyai/botkit/pull/1942)
+
 # 1.0.6
 
 * Fix issue where empty files field would cause issues. Thanks to [@viveksyngh](https://github.com/viveksyngh) - [PR #1906](https://github.com/howdyai/botkit/pull/1906)

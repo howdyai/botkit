@@ -1,6 +1,6 @@
 {
   "name": "botbuilder-adapter-facebook",
-  "version": "1.0.9",
+  "version": "1.0.10",
   "description": "Connect Botkit or BotBuilder to Facebook Messenger",
   "main": "lib/index.js",
   "typings": "./lib/index.d.ts",
@@ -34,8 +34,8 @@
     "url": "https://github.com/howdyai/botkit.git"
   },
   "dependencies": {
-    "botbuilder": "^4.8.0",
-    "botkit": "^4.8.0",
+    "botbuilder": "^4.9.0",
+    "botkit": "^4.9.0",
     "debug": "^4.1.0"
   },
   "devDependencies": {
