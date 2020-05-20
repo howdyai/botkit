@@ -1,5 +1,9 @@
 # botbuilder-adapter-web changelog
 
+# 1.0.8
+
+* Update dependencies to Botkit 4.9, Bot Framework 4.9
+
 # 1.0.6
 
 * Update dependencies on Bot Framework and Botkit

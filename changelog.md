@@ -4,6 +4,10 @@
 
 [Want to contribute? Read our guide!](https://github.com/howdyai/botkit/blob/master/CONTRIBUTING.md)
 
+# 4.9.0
+
+* Update dependencies to Bot Framework 4.9
+
 # 4.8.1
 
 * FIX: Fixing a bug introduced in 4.8 pertaining to spawning proactive bots for Slack. [#1937](https://github.com/howdyai/botkit/issues/1937)
