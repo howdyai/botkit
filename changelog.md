@@ -10,8 +10,8 @@
 * Update some dev dependencies like lerna, mocha and nyc
 
 * FIX: Allow size limits to be adjusted on the Express json and urlencoded parsers. Fixes [#1941](https://github.com/howdyai/botkit/issues/1941)
-
 * FIX: Allow bots to be spawned with null config. Thanks to [@NxP4Code](https://github.com/NxP4Code) for [this pull request](https://github.com/howdyai/botkit/pull/1955)
+* FIX: Fix dynamic text field type definition. Thanks to [@etienneellipse](https://github.com/etiennellipse) for [this pull request](https://github.com/howdyai/botkit/pull/1960)
 
 # 4.8.1
 
