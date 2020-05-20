@@ -3,6 +3,7 @@
 # 1.0.8
 
 * Update dependencies to Botkit 4.9, Bot Framework 4.9
+* New: Add abilbity to start conversations or reply in a thread. Thanks to [@billyzoellers](https://github.com/billyzoellers) for the [pull request](https://github.com/howdyai/botkit/pull/1942)
 
 # 1.0.6
 
