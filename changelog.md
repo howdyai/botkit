@@ -11,6 +11,8 @@
 
 * FIX: Allow size limits to be adjusted on the Express json and urlencoded parsers. Fixes [#1941](https://github.com/howdyai/botkit/issues/1941)
 
+* FIX: Allow bots to be spawned with null config. Thanks to [@NxP4Code](https://github.com/NxP4Code) for [this pull request](https://github.com/howdyai/botkit/pull/1955)
+
 # 4.8.1
 
 * FIX: Fixing a bug introduced in 4.8 pertaining to spawning proactive bots for Slack. [#1937](https://github.com/howdyai/botkit/issues/1937)

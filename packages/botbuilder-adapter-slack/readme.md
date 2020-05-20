@@ -96,8 +96,8 @@ The application must implement its own mechanism for securely storing and retrie
 ```javascript
 const adapter = new SlackAdapter({
     clientSigningSecret: process.env.SLACK_SECRET,
-    clientId: process.env.CLIENTID, // oauth client id
-    clientSecret: process.env.CLIENTSECRET, // oauth client secret
+    clientId: process.env.CLIENT_ID, // oauth client id
+    clientSecret: process.env.CLIENT_SECRET, // oauth client secret
     scopes: ['bot'], // oauth scopes requested, 'bot' deprecated by Slack in favor of granular permissions
     redirectUri: process.env.REDIRECT_URI, // url to redirect post-login
     oauthVersion: 'v1', // or use v2

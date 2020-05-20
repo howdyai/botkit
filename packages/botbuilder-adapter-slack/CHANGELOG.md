@@ -3,6 +3,7 @@
 # 1.0.11
 
 * Update dependencies to Botkit 4.9, Bot Framework 4.9
+* Fox: Remove enforcement of as_user field when using v2 oauth - Thanks to [@garytowers](https://github.com/GaryTowers) for [this pull request](https://github.com/howdyai/botkit/pull/1944).
 
 # 1.0.10
 
