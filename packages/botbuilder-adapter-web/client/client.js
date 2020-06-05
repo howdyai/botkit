@@ -117,7 +117,7 @@ var Botkit = {
         var that = this;
 
         that.request('/api/messages', message).then(function (messages) {
-            messages.forEach((message) => {
+            messages.forEach(function (message) {
                 that.trigger(message.type, message);
             });
         }).catch(function (err) {
