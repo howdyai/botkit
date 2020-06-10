@@ -865,10 +865,6 @@ export class BotkitConversation<O extends object = {}> extends Dialog<O> {
                 ...channelDataParsed
             };
         }
-        
-        for (const key in line.channelData) {
-            outgoing.channelData = this.parseTemplatesRecursive(JSON.parse(JSON.stringify(line.channelData)), vars)
-        }
 
         /*******************************************************************************************************************/
         // Handle template token replacements
