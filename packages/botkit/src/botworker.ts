@@ -97,16 +97,9 @@ export class BotWorker {
      * @returns Return value will contain the results of the send action, typically `{id: <id of message>}`
      */
     public async say(message: Partial<BotkitMessage> | string): Promise<any> {
-        return new Promise((resolve, reject) => {
-            const activity = this.ensureMessageFormat(message);
-
-            this._controller.middleware.send.run(this, activity, async (err, bot, activity) => {
-                if (err) {
-                    return reject(err);
-                }
-                resolve(await this.getConfig('context').sendActivity(activity));
-            });
-        });
+        const activity = this.ensureMessageFormat(message);
+        await this._controller.middleware.send.run(this, activity);
+        return this.getConfig('context').sendActivity(activity)
     };
 
     /**

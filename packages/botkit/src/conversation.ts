@@ -894,18 +894,10 @@ export class BotkitConversation<O extends object = {}> extends Dialog<O> {
             outgoing.suggestedActions = this.parseTemplatesRecursive(outgoing.suggestedActions, vars);
         }
 
-        return new Promise((resolve, reject) => {
-            // run the outgoing message through the Botkit send middleware
-            this._controller.spawn(dc).then((bot) => {
-                this._controller.middleware.send.run(bot, outgoing, (err, bot, outgoing) => {
-                    if (err) {
-                        reject(err);
-                    } else {
-                        resolve(outgoing);
-                    }
-                });
-            }).catch(reject);
-        });
+        const bot = await this._controller.spawn(dc);
+        await this._controller.middleware.send.run(bot, outgoing);
+
+        return outgoing;
     }
 
     /**

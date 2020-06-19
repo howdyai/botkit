@@ -17,6 +17,7 @@ import * as bodyParser from 'body-parser';
 import * as Ware from 'ware';
 import * as fs from 'fs';
 import * as Debug from 'debug';
+import * as util from 'util';
 
 const debug = Debug('botkit');
 
@@ -366,6 +367,12 @@ export class Botkit {
         const dialogState = this.conversationState.createProperty(this.getConfig('dialogStateProperty'));
 
         this.dialogSet = new DialogSet(dialogState);
+
+        this.middleware.spawn.run = util.promisify(this.middleware.spawn.run).bind( this.middleware.spawn);
+        this.middleware.ingest.run = util.promisify(this.middleware.ingest.run).bind( this.middleware.ingest);
+        this.middleware.send.run = util.promisify(this.middleware.send.run).bind( this.middleware.send);
+        this.middleware.receive.run = util.promisify(this.middleware.receive.run).bind( this.middleware.receive);
+        this.middleware.interpret.run = util.promisify(this.middleware.interpret.run).bind( this.middleware.interpret);
 
         if (this._config.disable_webserver !== true) {
             if (!this._config.webserver) {
@@ -746,33 +753,21 @@ export class Botkit {
         // Spawn a bot worker with the dialogContext
         const bot = await this.spawn(dialogContext);
 
-        return new Promise((resolve, reject) => {
-            this.middleware.ingest.run(bot, message, async (err, bot, message) => {
-                if (err) {
-                    reject(err);
-                } else {
-                    this.middleware.receive.run(bot, message, async (err, bot, message) => {
-                        if (err) {
-                            reject(err);
-                        } else {
-                            const interrupt_results = await this.listenForInterrupts(bot, message);
+        await this.middleware.ingest.run(bot, message);
+        await this.middleware.receive.run(bot, message);
 
-                            if (interrupt_results === false) {
-                                // Continue dialog if one is present
-                                const dialog_results = await dialogContext.continueDialog();
-                                if (dialog_results && dialog_results.status === DialogTurnStatus.empty) {
-                                    await this.processTriggersAndEvents(bot, message);
-                                }
-                            }
+        const interrupt_results = await this.listenForInterrupts(bot, message);
 
-                            // make sure changes to the state get persisted after the turn is over.
-                            await this.saveState(bot);
-                            resolve();
-                        }
-                    });
-                }
-            });
-        });
+        if (interrupt_results === false) {
+            // Continue dialog if one is present
+            const dialog_results = await dialogContext.continueDialog();
+            if (dialog_results && dialog_results.status === DialogTurnStatus.empty) {
+                await this.processTriggersAndEvents(bot, message);
+            }
+        }
+
+        // make sure changes to the state get persisted after the turn is over.
+        await this.saveState(bot);
     }
 
     /**
@@ -791,23 +786,16 @@ export class Botkit {
      * @param message {BotkitMessage} an incoming message
      */
     private async processTriggersAndEvents(bot: BotWorker, message: BotkitMessage): Promise<any> {
-        return new Promise((resolve, reject) => {
-            this.middleware.interpret.run(bot, message, async (err, bot, message) => {
-                if (err) {
-                    return reject(err);
-                }
-                const listen_results = await this.listenForTriggers(bot, message);
+        await this.middleware.interpret.run(bot, message);
 
-                if (listen_results !== false) {
-                    resolve(listen_results);
-                } else {
-                    // Trigger event handlers
-                    const trigger_results = await this.trigger(message.type, bot, message);
+        const listen_results = await this.listenForTriggers(bot, message);
 
-                    resolve(trigger_results);
-                }
-            });
-        });
+        if (listen_results !== false) {
+            return listen_results;
+        }
+
+        // Trigger event handlers
+        return this.trigger(message.type, bot, message);
     }
 
     /**
@@ -1102,15 +1090,8 @@ export class Botkit {
         // make sure the adapter is available in a standard location.
         worker.getConfig().adapter = adapter;
 
-        return new Promise((resolve, reject) => {
-            this.middleware.spawn.run(worker, (err, worker) => {
-                if (err) {
-                    reject(err);
-                } else {
-                    resolve(worker);
-                }
-            });
-        });
+        await this.middleware.spawn.run(worker);
+        return worker;
     }
 
     /**
