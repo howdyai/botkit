@@ -322,6 +322,7 @@ export class SlackAdapter extends BotAdapter {
         const message: any = {
             ts: activity.id,
             text: activity.text,
+            blocks: activity.blocks,
             attachments: activity.attachments,
 
             channel: channelId,
