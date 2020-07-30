@@ -687,7 +687,7 @@ export class Botkit {
      */
     private configureWebhookEndpoint(): void {
         if (this.webserver) {
-            this.webserver.post(this._config.webhook_uri, (req, res) => {
+            this.webserver.post(this._config.webhook_uri, (req, res, next) => {
                 // Allow the Botbuilder middleware to fire.
                 // this middleware is responsible for turning the incoming payload into a BotBuilder Activity
                 // which we can then use to turn into a BotkitMessage
@@ -696,6 +696,7 @@ export class Botkit {
                     console.error('Experienced an error inside the turn handler', err);
                     throw err;
                 });
+                next();
             });
         } else {
             throw new Error('Cannot configure webhook endpoints when webserver is disabled');
