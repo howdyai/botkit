@@ -1,5 +1,5 @@
 const assert = require('assert');
-const { Botkit, BotWorker } = require('../');
+const { Botkit, TeamsBotWorker } = require('../');
 const { TwilioAdapter, TwilioBotWorker } = require('../../botbuilder-adapter-twilio-sms');
 
 describe('Botkit', function() {
@@ -26,7 +26,7 @@ describe('Botkit', function() {
         const anotherAdapter = new TwilioAdapter({enable_incomplete: true});
         
         const bot = await controller.spawn({});
-        assert((bot instanceof BotWorker), 'Default Bot worker is wrong type');
+        assert((bot instanceof TeamsBotWorker), 'Default Bot worker is wrong type');
 
         const tbot = await controller.spawn({}, anotherAdapter);
         assert((tbot instanceof TwilioBotWorker), 'Secondary Bot worker is wrong type');

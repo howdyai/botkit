@@ -7,6 +7,7 @@
  */
 import { BotFrameworkAdapter, TurnContext } from 'botbuilder';
 import { ConnectorClient, TokenApiClient } from 'botframework-connector';
+import { TeamsBotWorker } from './teamsHelpers';
 import * as request from 'request';
 import * as os from 'os';
 
@@ -27,19 +28,8 @@ const USER_AGENT: string = `Microsoft-BotFramework/3.1 Botkit/${ pjson.version }
  * * Adds middleware for adjusting location of tenant id field (MS Teams)
  */
 export class BotkitBotFrameworkAdapter extends BotFrameworkAdapter {
-    public constructor(options) {
-        super(options);
 
-        // Fix a (temporary) issue with transitional location of MS Teams tenantId
-        // this fix should already be present in botbuilder 4.4
-        // when/if that happens, this can be removed.
-        this.use(async (context, next) => {
-            if (!context.activity.conversation.tenantId && context.activity.channelData && context.activity.channelData.tenant) {
-                context.activity.conversation.tenantId = context.activity.channelData.tenant.id;
-            }
-            await next();
-        });
-    }
+    public botkit_worker = TeamsBotWorker;
 
     /**
      * Allows for mocking of the connector client in unit tests.
