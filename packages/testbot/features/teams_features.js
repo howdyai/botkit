@@ -58,6 +58,14 @@ module.exports = function(controller) {
           }
         });
 
+        controller.hears('getTeamChannels', 'message', async(bot, message) => {
+          try {
+            await bot.reply(message, JSON.stringify(await bot.teams.getTeamChannels(bot.getConfig('context'))));
+          } catch(err) {
+            await bot.reply(message, err.message);
+          }
+        });
+
 
         controller.hears('getMember', 'message', async(bot, message) => {
           try {
