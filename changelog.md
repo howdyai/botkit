@@ -10,6 +10,7 @@
 * Update some dev dependencies like lerna, eslint, etc.
 
 * FIX: Adjust mechanism for handling templates in channelData to avoid data loss. Thanks [@ashitikov](https://github.com/ashitikov) for the [pull request](https://github.com/howdyai/botkit/pull/1979)
+* FIX: Botkit will now spawn the appropriate botworker if a custom adapter is passed in. Thanks to [@etiennellipse](https://github.com/etiennellipse) for [reporting this issue](https://github.com/howdyai/botkit/issues/1984)!
 
 # 4.9.0
 
