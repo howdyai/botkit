@@ -100,7 +100,7 @@ export class SlackBotWorker extends BotWorker {
      */
     public async startPrivateConversation(userId: string): Promise<any> {
         // create the new IM channel
-        const channel: any = await this.api.im.open({ user: userId });
+        const channel: any = await this.api.conversations.open({ users: userId });
 
         if (channel.ok === true) {
             // now, switch contexts
