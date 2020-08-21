@@ -145,12 +145,12 @@ const controller = new Botkit({
     webhook_uri: '/api/messages',
     webserver_middlewares: [(req, res, next) => { console.log('REQ > ', req.url); next(); }],
     // disable_console: true,
-    // adapter: adapter,
+    adapter: adapter,
     // disable_webserver: true,
-    adapterConfig: {
-        appId: process.env.APP_ID,
-        appPassword: process.env.APP_PASSWORD
-    },
+    // adapterConfig: {
+    //     appId: process.env.APP_ID,
+    //     appPassword: process.env.APP_PASSWORD
+    // },
     storage
 });
 

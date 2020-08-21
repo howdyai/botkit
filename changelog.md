@@ -6,7 +6,7 @@
 
 # 4.10.0
 
-* Update dependencies to [Bot Framework 4.10]
+* Update dependencies to [Bot Framework 4.10.1](https://github.com/microsoft/botbuilder-js/releases/tag/4.10)
 * Update some dev dependencies like lerna, eslint, etc.
 
 * NEW: Additional support for Microsoft Teams! [Read all about it](packages/docs/core.md#ms-teams-extensions) or [see these new methods in action](packages/testbot/features/teams_features.js)
