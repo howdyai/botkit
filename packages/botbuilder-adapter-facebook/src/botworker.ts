@@ -68,7 +68,7 @@ export class FacebookBotWorker extends BotWorker {
      * @param userId the PSID of a user the bot has previously interacted with
      */
     public async startConversationWithUser(userId): Promise<void> {
-        return this.changeContext({
+        await this.changeContext({
             channelId: 'facebook',
             // @ts-ignore
             conversation: { id: userId },

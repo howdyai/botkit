@@ -1,8 +1,10 @@
-const request = require('request');
+const { TeamsInvokeMiddleware } = require('botkit');
 
 module.exports = function(controller) {
 
     if (!controller.adapter.name) {
+
+      controller.adapter.use(new TeamsInvokeMiddleware());
 
       const adaptiveCard = {
         "type": "AdaptiveCard",
