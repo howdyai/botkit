@@ -29,7 +29,7 @@ export class TeamsBotWorker extends BotWorker {
    * Reply to a Teams task module task/fetch or task/submit with a task module response.
    * See https://docs.microsoft.com/en-us/microsoftteams/platform/task-modules-and-cards/task-modules/task-modules-bots
    * @param message 
-   * @param taskInfo { type: 'continue|message', value: {} } 
+   * @param taskInfo an object in the form {type, value}
    */
   public async replyWithTaskInfo(message: BotkitMessage, taskInfo: any) {
     if (!taskInfo || taskInfo == {}) {

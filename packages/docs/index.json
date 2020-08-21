@@ -5754,7 +5754,7 @@
                         "isExported": true
                       },
                       "comment": {
-                        "text": "}\n"
+                        "text": "an object in the form {type, value}\n"
                       },
                       "type": {
                         "type": "intrinsic",
@@ -6991,7 +6991,7 @@
                         "isExported": true
                       },
                       "comment": {
-                        "text": "}\n"
+                        "text": "an object in the form {type, value}\n"
                       },
                       "type": {
                         "type": "intrinsic",

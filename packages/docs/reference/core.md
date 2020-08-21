@@ -842,7 +842,7 @@ See https://docs.microsoft.com/en-us/microsoftteams/platform/task-modules-and-ca
 | Argument | Type | description
 |--- |--- |---
 | message| [BotkitMessage](#BotkitMessage) | 
-| taskInfo| any | }<br/>
+| taskInfo| any | an object in the form {type, value}<br/>
 
 
 

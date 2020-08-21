@@ -547,7 +547,7 @@ const controller = new Botkit({
 Several helper extensions are included for using Botkit with Microsoft Teams. Connecting to Teams does not require a customized adapter - Botkit's default adapter does the job. However, to ease the use of advanced features in Teams, Botkit includes several extensions.
 
 * The [TeamsInvokeMiddleware](reference/core.md#teamsinvokemiddleware) is an optional adapter middleware which will cause Botkit to emit specially named events related to Teams "invoke" events. With this middleware enabled, Botkit will emit "task/fetch" and "task/submit" events, rather than plain "invoke" events.
-* The BotWorker returned by this adapter includes `bot.teams`, which is an instance of the TeamsInfo helper. Using this, bots can access additional information about Teams. [See Docs]((https://docs.microsoft.com/en-us/javascript/api/botbuilder/teamsinfo?view=botbuilder-ts-latest).
+* The BotWorker returned by this adapter includes `bot.teams`, which is an instance of the TeamsInfo helper. Using this, bots can access additional information about Teams. [See Docs](https://docs.microsoft.com/en-us/javascript/api/botbuilder/teamsinfo?view=botbuilder-ts-latest).
 * The BotWorker also includes a helper method, `bot.replyWithTaskInfo()` that can be used to respond to Task Module related events. [See Docs](reference/core.md#replywithtaskinfo)
 
 Set up adapter with middleware:
