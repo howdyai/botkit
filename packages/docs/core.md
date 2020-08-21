@@ -513,7 +513,7 @@ or one of the remixable starter kits.
 
 A Botkit application usually has 2 main components: a main app file called `bot.js` where Botkit is configured, and a folder of modules that get automatically loaded into the application.
 
-The bot's features - all of the stuff involved in defining trigger patterns, dialogs, custom middlewares and handlers - are organized into JavaScript modules, and then loaded into the app using [controller.loadModules()](reference/core.md#loadmodules). Each feature file should contain only the code required for a specific feature. This will help to keep the project code well organized and modular.
+The bot's features - all of the stuff involved in defining trigger patterns, dialogs, custom middlewares and handlers - are organized into JavaScript modules, and then loaded into the app using [controller.loadModules()](reference/core.md#loadmodules). If you are using Typescript, make sure to include `ts` extension into the second parameter as a string array (default is `['.js']`, and you probably want it to be `['.js', '.ts']`). Each feature file should contain only the code required for a specific feature. This will help to keep the project code well organized and modular.
 
 The feature modules follow the form below:
 

@@ -47,7 +47,7 @@ export interface BotkitConfiguration {
     adapterConfig?: {[key: string]: any}; // object with stuff in it
 
     /**
-     * An instance of Express used to define web endpoints.  If not specified, oen will be created internally.
+     * An instance of Express used to define web endpoints.  If not specified, one will be created internally.
      * Note: only use your own Express if you absolutely must for some reason. Otherwise, use `controller.webserver`
      */
     webserver?: any;
