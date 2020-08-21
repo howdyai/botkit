@@ -33,6 +33,7 @@ The Botkit project includes several official adapters. Using these plugins, your
 * [Google Hangouts](platforms/hangouts.md)
 * [Facebook Messenger](platforms/facebook.md)
 * [Twilio SMS](platforms/twilio-sms.md)
+* [Microsoft Teams](#ms-teams-extensions)
 
 In addition, the open source community has created a variety of plugins and extensions to Bot Framework.  Check out the [Bot Builder Community Repo](https://github.com/BotBuilderCommunity/botbuilder-community-js) for additional adapters, storage connectors and middlewares.
 
@@ -538,6 +539,45 @@ const controller = new Botkit({
         appId: process.env.appId,
         appPassword: process.env.appPassword
     }
+});
+```
+
+## MS Teams Extensions
+
+Several helper extensions are included for using Botkit with Microsoft Teams. Connecting to Teams does not require a customized adapter - Botkit's default adapter does the job. However, to ease the use of advanced features in Teams, Botkit includes several extensions.
+
+* The [TeamsInvokeMiddleware](reference/core.md#teamsinvokemiddleware) is an optional adapter middleware which will cause Botkit to emit specially named events related to Teams "invoke" events. With this middleware enabled, Botkit will emit "task/fetch" and "task/submit" events, rather than plain "invoke" events.
+* The BotWorker returned by this adapter includes `bot.teams`, which is an instance of the TeamsInfo helper. Using this, bots can access additional information about Teams. [See Docs]((https://docs.microsoft.com/en-us/javascript/api/botbuilder/teamsinfo?view=botbuilder-ts-latest).
+* The BotWorker also includes a helper method, `bot.replyWithTaskInfo()` that can be used to respond to Task Module related events. [See Docs](reference/core.md#replywithtaskinfo)
+
+Set up adapter with middleware:
+
+```javascript
+const controller = new Botkit({
+    webhook_uri: '/api/messages',
+    adapterConfig: {
+        appId: process.env.appId,
+        appPassword: process.env.appPassword
+    }
+});
+controller.adapter.use(new TeamsInvokeMiddleware());
+```
+
+Access Teams specific APIs:
+```javascript
+controller.hears('getTeamDetails', 'message', async(bot, message) => {
+    try {
+    await bot.reply(message, JSON.stringify(await bot.teams.getTeamDetails(bot.getConfig('context'))));
+    } catch(err) {
+    await bot.reply(message, err.message);
+    }
+});
+```
+
+Respond to Task Modules:
+```javascript
+controller.on('task/fetch', async(bot, message) => {
+    await bot.replyWithTaskInfo(message, {type: 'continue', value: { ... }});
 });
 ```
 

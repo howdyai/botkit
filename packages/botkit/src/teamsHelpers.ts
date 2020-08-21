@@ -62,6 +62,16 @@ export class TeamsBotWorker extends BotWorker {
  * When used, causes Botkit to emit special events for teams "invokes"
  * Based on https://github.com/microsoft/botbuilder-js/blob/master/libraries/botbuilder/src/teamsActivityHandler.ts
  * This allows Botkit bots to respond directly to task/fetch or task/submit events, as an example.
+ * To use this, bind it to the adapter before creating the Botkit controller:
+ * ```javascript
+ * const Botkit = new Botkit({...});
+ * botkit.adapter.use(new TeamsInvokeMiddleware());
+ *
+ * // can bind directly to task/fetch, task/submit and other invoke types used by teams
+ * controller.on('task/fetch', async(bot, message) => {
+ *    await bot.replyWithTaskInfo(message, taskInfo);
+ * });
+ * ```
  */
 export class TeamsInvokeMiddleware extends MiddlewareSet {
     /**

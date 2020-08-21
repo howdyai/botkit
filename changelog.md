@@ -9,7 +9,7 @@
 * Update dependencies to [Bot Framework 4.10]
 * Update some dev dependencies like lerna, eslint, etc.
 
-* NEW: Additional support for Microsoft Teams!
+* NEW: Additional support for Microsoft Teams! [Read all about it!](docs/core.md#ms-teams-extensions)
   * Bot workers spawned from the default adapter now feature `bot.teams` which is an instance to the [TeamsInfo helper class](https://docs.microsoft.com/en-us/javascript/api/botbuilder/teamsinfo?view=botbuilder-ts-latest). 
   * Botkit now includes an optional middleware [TeamsInvokeMiddleware] for handling "invoke" responses from Teams including task modules.  -- [Docs here](packages/docs/reference/core.md#TeamsInvokeMiddleware)
   * Botkit now includes `bot.replyWithTaskInfo()` which can be used to respond to task module events. [Read about Taks Modules](https://docs.microsoft.com/en-us/microsoftteams/platform/task-modules-and-cards/what-are-task-modules) -- [Docs here](packages/docs/reference/core.md#replyWithTaskInfo)

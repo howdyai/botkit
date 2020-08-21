@@ -13670,7 +13670,8 @@
             "isExternal": true
           },
           "comment": {
-            "shortText": "When used, causes Botkit to emit special events for teams \"invokes\"\nBased on https://github.com/microsoft/botbuilder-js/blob/master/libraries/botbuilder/src/teamsActivityHandler.ts\nThis allows Botkit bots to respond directly to task/fetch or task/submit events, as an example."
+            "shortText": "When used, causes Botkit to emit special events for teams \"invokes\"\nBased on https://github.com/microsoft/botbuilder-js/blob/master/libraries/botbuilder/src/teamsActivityHandler.ts\nThis allows Botkit bots to respond directly to task/fetch or task/submit events, as an example.\nTo use this, bind it to the adapter before creating the Botkit controller:\n```javascript\nconst Botkit = new Botkit({...});\nbotkit.adapter.use(new TeamsInvokeMiddleware());",
+            "text": "// can bind directly to task/fetch, task/submit and other invoke types used by teams\ncontroller.on('task/fetch', async(bot, message) => {\n   await bot.replyWithTaskInfo(message, taskInfo);\n});\n```\n"
           },
           "children": [
             {
@@ -13755,7 +13756,7 @@
                           "sources": [
                             {
                               "fileName": "teamsHelpers.ts",
-                              "line": 72,
+                              "line": 82,
                               "character": 51
                             }
                           ]
@@ -13778,7 +13779,7 @@
               "sources": [
                 {
                   "fileName": "teamsHelpers.ts",
-                  "line": 72,
+                  "line": 82,
                   "character": 23
                 }
               ]
@@ -13796,7 +13797,7 @@
           "sources": [
             {
               "fileName": "teamsHelpers.ts",
-              "line": 66,
+              "line": 76,
               "character": 34
             }
           ],
@@ -13890,7 +13891,7 @@
                           "sources": [
                             {
                               "fileName": "teamsHelpers.ts",
-                              "line": 72,
+                              "line": 82,
                               "character": 51
                             }
                           ]
@@ -13913,7 +13914,7 @@
               "sources": [
                 {
                   "fileName": "teamsHelpers.ts",
-                  "line": 72,
+                  "line": 82,
                   "character": 23
                 }
               ]
