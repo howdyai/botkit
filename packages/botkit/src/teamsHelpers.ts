@@ -7,11 +7,13 @@
  */
 import { Botkit, BotkitMessage } from './core';
 import { BotWorker } from './botworker';
-import { TeamsInfo, MiddlewareSet, TurnContext, TaskModuleTaskInfo } from 'botbuilder';
+import { TeamsInfo, MiddlewareSet, TurnContext } from 'botbuilder';
 
 /**
- * An extension of the core BotWorker class that exposes the TeamsInfo helper class for MS Teams.
+ * This is a specialized version of [Botkit's core BotWorker class](core.md#BotWorker) that includes additional methods for interacting with Microsoft Teams.
+ * It includes all functionality from the base class, as well as the extension methods below.
  * This BotWorker is used with the built-in Bot Framework adapter.
+ * @noInheritDoc
  */
 export class TeamsBotWorker extends BotWorker {
 
@@ -20,7 +22,7 @@ export class TeamsBotWorker extends BotWorker {
   }
 
   /**
-   *  Grants access to the TeamsInfo helper class
+   * Grants access to the TeamsInfo helper class
    * See: https://docs.microsoft.com/en-us/javascript/api/botbuilder/teamsinfo?view=botbuilder-ts-latest
    */
   public teams: TeamsInfo = TeamsInfo;
