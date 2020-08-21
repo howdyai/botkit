@@ -398,7 +398,7 @@ export class WebexAdapter extends BotAdapter {
                 if (activity.conversation && activity.conversation.parentId) {
                     // @ts-ignore ignore this webex specific field
                     message.parentId = activity.conversation.parentId;
-                } else if (activity.channelData.parentId) {
+                } else if (activity.channelData && activity.channelData.parentId) {
                     message.parentId = activity.channelData.parentId;
                 }
                 
