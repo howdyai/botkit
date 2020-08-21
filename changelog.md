@@ -11,8 +11,8 @@
 
 * NEW: Additional support for Microsoft Teams! [Read all about it!](packages/docs/core.md#ms-teams-extensions)
   * Bot workers spawned from the default adapter now feature `bot.teams` which is an instance to the [TeamsInfo helper class](https://docs.microsoft.com/en-us/javascript/api/botbuilder/teamsinfo?view=botbuilder-ts-latest). 
-  * Botkit now includes an optional middleware [TeamsInvokeMiddleware] for handling "invoke" responses from Teams including task modules.  -- [Docs here](packages/docs/reference/core.md#TeamsInvokeMiddleware)
-  * Botkit now includes `bot.replyWithTaskInfo()` which can be used to respond to task module events. [Read about Taks Modules](https://docs.microsoft.com/en-us/microsoftteams/platform/task-modules-and-cards/what-are-task-modules) -- [Docs here](packages/docs/reference/core.md#replyWithTaskInfo)
+  * Botkit now includes an optional middleware [TeamsInvokeMiddleware](packages/docs/reference/core.md#TeamsInvokeMiddleware) for handling "invoke" responses from Teams including task modules.
+  * Botkit now includes [bot.replyWithTaskInfo()](packages/docs/reference/core.md#replyWithTaskInfo) which can be used to respond to task module events. [Read more about Task Modules](https://docs.microsoft.com/en-us/microsoftteams/platform/task-modules-and-cards/what-are-task-modules)
 
 * FIX: Adjust mechanism for handling templates in channelData to avoid data loss. Thanks [@ashitikov](https://github.com/ashitikov) for the [pull request](https://github.com/howdyai/botkit/pull/1979)
 * FIX: Botkit will now spawn the appropriate botworker if a custom adapter is passed in. Thanks to [@etiennellipse](https://github.com/etiennellipse) for [reporting this issue](https://github.com/howdyai/botkit/issues/1984)!
