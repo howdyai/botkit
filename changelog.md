@@ -4,6 +4,13 @@
 
 [Want to contribute? Read our guide!](https://github.com/howdyai/botkit/blob/master/CONTRIBUTING.md)
 
+# 4.10.0
+
+* Update dependencies to [Bot Framework 4.10]
+* Update some dev dependencies like lerna, eslint, etc.
+
+* FIX: Adjust mechanism for handling templates in channelData to avoid data loss. Thanks [@ashitikov](https://github.com/ashitikov) for the [pull request](https://github.com/howdyai/botkit/pull/1979)
+
 # 4.9.0
 
 * Update dependencies to [Bot Framework 4.9](https://github.com/microsoft/botbuilder-js/releases/tag/4.9.0)
