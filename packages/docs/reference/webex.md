@@ -223,7 +223,9 @@ const { WebexBotWorker } = require('botbuilder-adapter-webex');
 
 This class includes the following methods:
 * [deleteMessage()](#deleteMessage)
+* [replyInThread()](#replyInThread)
 * [startConversationInRoom()](#startConversationInRoom)
+* [startConversationInThread()](#startConversationInThread)
 * [startPrivateConversation()](#startPrivateConversation)
 
 
@@ -257,6 +259,19 @@ await bot.deleteMessage(sent);
 ```
 
 
+<a name="replyInThread"></a>
+### replyInThread()
+Like bot.reply, but as a threaded response to the incoming message rather than a new message in the main channel.
+
+**Parameters**
+
+| Argument | Type | description
+|--- |--- |---
+| src| any | an incoming message object
+| resp| any | an outgoing message object (or part of one or just reply text)<br/>
+
+
+
 <a name="startConversationInRoom"></a>
 ### startConversationInRoom()
 Switch a bot's context into a different room.
@@ -276,6 +291,48 @@ controller.hears('take this offline', 'message', async(bot, message) => {
 
      // switch to a different channel
      await bot.startConversationInRoom(WEBEX_ROOM_ID, message.user);
+
+     // say hello
+     await bot.say('Shall we discuss this matter over here?');
+     // ... continue...
+     await bot.beginDialog(ANOTHER_DIALOG);
+
+});
+```
+
+Also useful when sending pro-active messages such as those sent on a schedule or in response to external events:
+```javascript
+// Spawn a worker
+let bot = await controller.spawn();
+
+// Set the context for the bot's next action...
+await bot.startConversationInRoom(CACHED_ROOM_ID, CACHED_USER_ID);
+
+// Begin a dialog in the 1:1 context
+await bot.beginDialog(ALERT_DIALOG);
+```
+
+
+<a name="startConversationInThread"></a>
+### startConversationInThread()
+Switch a bot's context into a specific thread within a room.
+After calling this method, messages sent with `bot.say` and any dialogs started with `bot.beginDialog` will occur in this new context.
+
+**Parameters**
+
+| Argument | Type | description
+|--- |--- |---
+| roomId| string | A Webex rooom id, like one found in `message.channel`
+| userId| string | A Webex user id, like one found in `message.user`
+| parentId| string | A webex message id that should be the parent message, like the one found in `message.id`<br/>
+
+
+
+```javascript
+controller.hears('take this offline', 'message', async(bot, message) => {
+
+     // switch to a different channel
+     await bot.startConversationInThread(WEBEX_ROOM_ID, message.user, message.id);
 
      // say hello
      await bot.say('Shall we discuss this matter over here?');

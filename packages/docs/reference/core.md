@@ -9,10 +9,12 @@ This is a class reference for all the methods exposed by the [botkit](https://gi
 
 * <a href="#Botkit" aria-current="page">Botkit</a>
 * <a href="#BotkitBotFrameworkAdapter" aria-current="page">BotkitBotFrameworkAdapter</a>
+* <a href="#TeamsBotWorker" aria-current="page">TeamsBotWorker</a>
 * <a href="#BotWorker" aria-current="page">BotWorker</a>
 * <a href="#BotkitConversation" aria-current="page">BotkitConversation</a>
 * <a href="#BotkitDialogWrapper" aria-current="page">BotkitDialogWrapper</a>
 * <a href="#BotkitTestClient" aria-current="page">BotkitTestClient</a>
+* <a href="#TeamsInvokeMiddleware" aria-current="page">TeamsInvokeMiddleware</a>
 
 ## Interfaces
 
@@ -524,16 +526,12 @@ This class includes the following methods:
 
 
 
-### Create a new BotkitBotFrameworkAdapter()
-**Parameters**
 
-| Argument | Type | Description
+## Properties and Accessors
+
+| Name | Type | Description
 |--- |--- |---
-| options | any | 
-
-
-
-
+| botkit_worker | [TeamsBotWorker](#TeamsBotWorker) | 
 
 ## BotkitBotFrameworkAdapter Class Methods
 <a name="getChannels"></a>
@@ -552,6 +550,365 @@ Can only be called with a TurnContext that originated in a team conversation - 1
 
 an array of channels in the format [{name: string, id: string}]
 
+
+
+
+
+<a name="TeamsBotWorker"></a>
+## TeamsBotWorker
+An extension of the core BotWorker class that exposes the TeamsInfo helper class for MS Teams.
+This BotWorker is used with the built-in Bot Framework adapter.
+
+To use this class in your application, first install the package:
+```bash
+npm install --save botkit
+```
+
+Then import this and other classes into your code:
+```javascript
+const { TeamsBotWorker } = require('botkit');
+```
+
+This class includes the following methods:
+* [beginDialog()](#beginDialog)
+* [cancelAllDialogs()](#cancelAllDialogs)
+* [changeContext()](#changeContext)
+* [ensureMessageFormat()](#ensureMessageFormat)
+* [getActiveDialog()](#getActiveDialog)
+* [getConfig()](#getConfig)
+* [hasActiveDialog()](#hasActiveDialog)
+* [httpBody()](#httpBody)
+* [httpStatus()](#httpStatus)
+* [isDialogActive()](#isDialogActive)
+* [replaceDialog()](#replaceDialog)
+* [reply()](#reply)
+* [replyWithTaskInfo()](#replyWithTaskInfo)
+* [say()](#say)
+* [startConversationWithUser()](#startConversationWithUser)
+
+
+
+### Create a new TeamsBotWorker()
+**Parameters**
+
+| Argument | Type | Description
+|--- |--- |---
+| controller | [Botkit](#Botkit) | 
+| config | any | 
+
+
+
+
+## Properties and Accessors
+
+| Name | Type | Description
+|--- |--- |---
+| teams | TeamsInfo |  Grants access to the TeamsInfo helper class<br/>See: https://docs.microsoft.com/en-us/javascript/api/botbuilder/teamsinfo?view=botbuilder-ts-latest
+| controller |  | Get a reference to the main Botkit controller.
+
+## TeamsBotWorker Class Methods
+<a name="beginDialog"></a>
+### beginDialog()
+Begin a pre-defined dialog by specifying its id. The dialog will be started in the same context (same user, same channel) in which the original incoming message was received.
+[See "Using Dialogs" in the core documentation.](../index.md#using-dialogs)
+
+**Parameters**
+
+| Argument | Type | description
+|--- |--- |---
+| id| string | id of dialog
+| options (optional)| any | object containing options to be passed into the dialog<br/>
+
+
+
+```javascript
+controller.hears('hello', 'message', async(bot, message) => {
+     await bot.beginDialog(GREETINGS_DIALOG);
+});
+```
+
+<a name="cancelAllDialogs"></a>
+### cancelAllDialogs()
+Cancel any and all active dialogs for the current user/context.
+
+
+<a name="changeContext"></a>
+### changeContext()
+Alter the context in which a bot instance will send messages.
+Use this method to create or adjust a bot instance so that it can send messages to a predefined user/channel combination.
+
+**Parameters**
+
+| Argument | Type | description
+|--- |--- |---
+| reference| Partial&lt;ConversationReference&gt; | A [ConversationReference](https://docs.microsoft.com/en-us/javascript/api/botframework-schema/conversationreference?view=botbuilder-ts-latest), most likely captured from an incoming message and stored for use in proactive messaging scenarios.<br/>
+
+
+
+```javascript
+// get the reference field and store it.
+const saved_reference = message.reference;
+
+// later on...
+let bot = await controller.spawn();
+bot.changeContext(saved_reference);
+bot.say('Hello!');
+```
+
+
+<a name="ensureMessageFormat"></a>
+### ensureMessageFormat()
+Take a crudely-formed Botkit message with any sort of field (may just be a string, may be a partial message object)
+and map it into a beautiful BotFramework Activity.
+Any fields not found in the Activity definition will be moved to activity.channelData.
+
+**Parameters**
+
+| Argument | Type | description
+|--- |--- |---
+| message|  | 
+
+
+**Returns**
+
+a properly formed Activity object
+
+
+
+
+<a name="getActiveDialog"></a>
+### getActiveDialog()
+Get a reference to the active dialog
+
+**Returns**
+
+a reference to the active dialog or undefined if no dialog is active
+
+
+
+
+<a name="getConfig"></a>
+### getConfig()
+Get a value from the BotWorker's configuration.
+
+**Parameters**
+
+| Argument | Type | description
+|--- |--- |---
+| key (optional)| string | The name of a value stored in the configuration
+
+
+**Returns**
+
+The value stored in the configuration (or null if absent)
+
+
+
+
+```javascript
+let original_context = bot.getConfig('context');
+await original_context.sendActivity('send directly using the adapter instead of Botkit');
+```
+
+
+<a name="hasActiveDialog"></a>
+### hasActiveDialog()
+Check if any dialog is active or not
+
+**Returns**
+
+true if there is an active dialog, otherwise false
+
+
+
+
+<a name="httpBody"></a>
+### httpBody()
+Set the http response body for this turn.
+Use this to define the response value when the platform requires a synchronous response to the incoming webhook.
+
+**Parameters**
+
+| Argument | Type | description
+|--- |--- |---
+| body| any | (any) a value that will be returned as the http response body<br/>
+
+
+
+Example handling of a /slash command from Slack:
+```javascript
+controller.on('slash_command', async(bot, message) => {
+ bot.httpBody('This is a reply to the slash command.');
+})
+```
+
+
+<a name="httpStatus"></a>
+### httpStatus()
+Set the http response status code for this turn
+
+**Parameters**
+
+| Argument | Type | description
+|--- |--- |---
+| status| number | a valid http status code like 200 202 301 500 etc<br/>
+
+
+
+```javascript
+controller.on('event', async(bot, message) => {
+  // respond with a 500 error code for some reason!
+  bot.httpStatus(500);
+});
+```
+
+
+<a name="isDialogActive"></a>
+### isDialogActive()
+Check to see if a given dialog is currently active in the stack
+
+**Parameters**
+
+| Argument | Type | description
+|--- |--- |---
+| id| string | The id of a dialog to look for in the dialog stack
+
+
+**Returns**
+
+true if dialog with id is located anywhere in the dialog stack
+
+
+
+
+<a name="replaceDialog"></a>
+### replaceDialog()
+Replace any active dialogs with a new a pre-defined dialog by specifying its id. The dialog will be started in the same context (same user, same channel) in which the original incoming message was received.
+[See "Using Dialogs" in the core documentation.](../index.md#using-dialogs)
+
+**Parameters**
+
+| Argument | Type | description
+|--- |--- |---
+| id| string | id of dialog
+| options (optional)| any | object containing options to be passed into the dialog<br/>
+
+
+
+```javascript
+controller.hears('hello', 'message', async(bot, message) => {
+     await bot.replaceDialog(GREETINGS_DIALOG);
+});
+```
+
+<a name="reply"></a>
+### reply()
+Reply to an incoming message.
+Message will be sent using the context of the source message, which may in some cases be different than the context used to spawn the bot.
+
+**Parameters**
+
+| Argument | Type | description
+|--- |--- |---
+| src| Partial&lt;BotkitMessage&gt; | An incoming message, usually passed in to a handler function
+| resp|  | A string containing the text of a reply, or more fully formed message object
+
+
+**Returns**
+
+Return value will contain the results of the send action, typically &#x60;{id: &lt;id of message&gt;}&#x60;
+
+
+
+
+Note that like [bot.say()](#say), `reply()` can take a string or a message object.
+
+```javascript
+controller.on('event', async(bot, message) => {
+
+ await bot.reply(message, 'I received an event and am replying to it.');
+
+});
+```
+
+
+<a name="replyWithTaskInfo"></a>
+### replyWithTaskInfo()
+Reply to a Teams task module task/fetch or task/submit with a task module response.
+See https://docs.microsoft.com/en-us/microsoftteams/platform/task-modules-and-cards/task-modules/task-modules-bots
+
+**Parameters**
+
+| Argument | Type | description
+|--- |--- |---
+| message| [BotkitMessage](#BotkitMessage) | 
+| taskInfo| any | }<br/>
+
+
+
+<a name="say"></a>
+### say()
+Send a message using whatever context the `bot` was spawned in or set using [changeContext()](#changecontext) --
+or more likely, one of the platform-specific helpers like
+[startPrivateConversation()](../reference/slack.md#startprivateconversation) (Slack),
+[startConversationWithUser()](../reference/twilio-sms.md#startconversationwithuser) (Twilio SMS),
+and [startConversationWithUser()](../reference/facebook.md#startconversationwithuser) (Facebook Messenger).
+Be sure to check the platform documentation for others - most adapters include at least one.
+
+**Parameters**
+
+| Argument | Type | description
+|--- |--- |---
+| message|  | A string containing the text of a reply, or more fully formed message object
+
+
+**Returns**
+
+Return value will contain the results of the send action, typically &#x60;{id: &lt;id of message&gt;}&#x60;
+
+
+
+
+Simple use in event handler (acts the same as bot.reply)
+```javascript
+controller.on('event', async(bot, message) => {
+
+ await bot.say('I received an event!');
+
+});
+```
+
+Use with a freshly spawned bot and bot.changeContext:
+```javascript
+let bot = controller.spawn(OPTIONS);
+bot.changeContext(REFERENCE);
+bot.say('ALERT! I have some news.');
+```
+
+Use with multi-field message object:
+```javascript
+controller.on('event', async(bot, message) => {
+     bot.say({
+         text: 'I heard an event',
+         attachments: [
+             title: message.type,
+             text: `The message was of type ${ message.type }`,
+             // ...
+         ]
+     });
+});
+```
+
+
+<a name="startConversationWithUser"></a>
+### startConversationWithUser()
+
+
+**Parameters**
+
+| Argument | Type | description
+|--- |--- |---
+| reference| any | 
 
 
 
@@ -1419,6 +1776,44 @@ a TestFlow that can be used to assert replies etc
 
 
 
+<a name="TeamsInvokeMiddleware"></a>
+## TeamsInvokeMiddleware
+When used, causes Botkit to emit special events for teams "invokes"
+Based on https://github.com/microsoft/botbuilder-js/blob/master/libraries/botbuilder/src/teamsActivityHandler.ts
+This allows Botkit bots to respond directly to task/fetch or task/submit events, as an example.
+
+To use this class in your application, first install the package:
+```bash
+npm install --save botkit
+```
+
+Then import this and other classes into your code:
+```javascript
+const { TeamsInvokeMiddleware } = require('botkit');
+```
+
+This class includes the following methods:
+* [onTurn()](#onTurn)
+
+
+
+
+
+## TeamsInvokeMiddleware Class Methods
+<a name="onTurn"></a>
+### onTurn()
+Not for direct use - implements the MiddlewareSet's required onTurn function used to process the event
+
+**Parameters**
+
+| Argument | Type | description
+|--- |--- |---
+| context| TurnContext | 
+| next|  | <br/>
+
+
+
+
 
 <a name="BotkitConfiguration"></a>
 ## Interface BotkitConfiguration
@@ -1433,9 +1828,11 @@ Defines the options used when instantiating Botkit to create the main app contro
 | dialogStateProperty | string | Name of the dialogState property in the ConversationState that will be used to automatically track the dialog state. Defaults to `dialogState`.<br/>
 | disable_console | boolean | Disable messages normally sent to the console during startup.<br/>
 | disable_webserver | boolean | Disable webserver. If true, Botkit will not create a webserver or expose any webhook endpoints automatically. Defaults to false.<br/>
+| jsonLimit | string | Limit of the size of incoming JSON payloads parsed by the Express bodyParser. Defaults to '100kb'<br/>
 | storage | Storage | A Storage interface compatible with [this specification](https://docs.microsoft.com/en-us/javascript/api/botbuilder-core/storage?view=botbuilder-ts-latest)<br/>Defaults to the ephemeral [MemoryStorage](https://docs.microsoft.com/en-us/javascript/api/botbuilder-core/memorystorage?view=botbuilder-ts-latest) implementation.<br/>
+| urlEncodedLimit | string | Limit of the size of incoming URL encoded payloads parsed by the Express bodyParser. Defaults to '100kb'<br/>
 | webhook_uri | string | Path used to create incoming webhook URI.  Defaults to `/api/messages`<br/>
-| webserver | any | An instance of Express used to define web endpoints.  If not specified, oen will be created internally.<br/>Note: only use your own Express if you absolutely must for some reason. Otherwise, use `controller.webserver`<br/>
+| webserver | any | An instance of Express used to define web endpoints.  If not specified, one will be created internally.<br/>Note: only use your own Express if you absolutely must for some reason. Otherwise, use `controller.webserver`<br/>
 | webserver_middlewares |  | An array of middlewares that will be automatically bound to the webserver.<br/>Should be in the form (req, res, next) => {}<br/>
 <a name="BotkitConversationStep"></a>
 ## Interface BotkitConversationStep
