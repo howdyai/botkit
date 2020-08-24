@@ -27,7 +27,6 @@ const USER_AGENT: string = `Microsoft-BotFramework/3.1 Botkit/${ pjson.version }
  * * Adds middleware for adjusting location of tenant id field (MS Teams)
  */
 export class BotkitBotFrameworkAdapter extends BotFrameworkAdapter {
-
     public botkit_worker = TeamsBotWorker;
 
     /**

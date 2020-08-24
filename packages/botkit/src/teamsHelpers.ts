@@ -5,7 +5,7 @@
  * Copyright (c) Microsoft Corporation. All rights reserved.
  * Licensed under the MIT License.
  */
-import { Botkit, BotkitMessage } from './core';
+import { BotkitMessage } from './core';
 import { BotWorker } from './botworker';
 import { TeamsInfo, MiddlewareSet, TurnContext } from 'botbuilder';
 
@@ -16,11 +16,6 @@ import { TeamsInfo, MiddlewareSet, TurnContext } from 'botbuilder';
  * @noInheritDoc
  */
 export class TeamsBotWorker extends BotWorker {
-
-  public constructor(controller: Botkit, config) {
-    super(controller, config);
-  }
-
   /**
    * Grants access to the TeamsInfo helper class
    * See: https://docs.microsoft.com/en-us/javascript/api/botbuilder/teamsinfo?view=botbuilder-ts-latest
@@ -30,33 +25,33 @@ export class TeamsBotWorker extends BotWorker {
   /**
    * Reply to a Teams task module task/fetch or task/submit with a task module response.
    * See https://docs.microsoft.com/en-us/microsoftteams/platform/task-modules-and-cards/task-modules/task-modules-bots
-   * @param message 
+   * @param message
    * @param taskInfo an object in the form {type, value}
    */
-  public async replyWithTaskInfo(message: BotkitMessage, taskInfo: any) {
-    if (!taskInfo || taskInfo == {}) {
+  public async replyWithTaskInfo(message: BotkitMessage, taskInfo: any): Promise<any> {
+      if (!taskInfo || taskInfo == {}) {
       // send a null response back
-      taskInfo  = {
-        type: 'message',
-        value: '',
+          taskInfo = {
+              type: 'message',
+              value: ''
+          };
       }
-    }
-    return new Promise((resolve, reject) => {
-      this.controller.middleware.send.run(this, taskInfo, async (err, bot, taskInfo) => {
-        if (err) {
-            return reject(err);
-        }
-        resolve(await this.getConfig('context').sendActivity({
-          type: 'invokeResponse',
-          value: {
-              status: 200,
-              body: {
-                task: taskInfo
+      return new Promise((resolve, reject) => {
+          this.controller.middleware.send.run(this, taskInfo, async (err, bot, taskInfo) => {
+              if (err) {
+                  return reject(err);
               }
-          }
-        }));
+              resolve(await this.getConfig('context').sendActivity({
+                  type: 'invokeResponse',
+                  value: {
+                      status: 200,
+                      body: {
+                          task: taskInfo
+                      }
+                  }
+              }));
+          });
       });
-    });
   }
 }
 
@@ -82,28 +77,28 @@ export class TeamsInvokeMiddleware extends MiddlewareSet {
      * @param next
      */
     public async onTurn(context: TurnContext, next: () => Promise<any>): Promise<void> {
-      if (context.activity.type === 'invoke') {
-        if (!context.activity.name && context.activity.channelId === 'msteams') {
-          context.activity.channelData.botkitEventType = 'cardAction';
-        } else {
-          switch (context.activity.name) {
-            case 'fileConsent/invoke':
-            case 'actionableMessage/executeAction':
-            case 'composeExtension/queryLink':
-            case 'composeExtension/query':
-            case 'composeExtension/selectItem':
-            case 'composeExtension/submitAction':
-            case 'composeExtension/fetchTask':
-            case 'composeExtension/querySettingUrl':
-            case 'composeExtension/setting':
-            case 'composeExtension/onCardButtonClicked':
-            case 'task/fetch':
-            case 'task/submit':
-              context.activity.channelData.botkitEventType = context.activity.name;
-              break;
-          }
+        if (context.activity.type === 'invoke') {
+            if (!context.activity.name && context.activity.channelId === 'msteams') {
+                context.activity.channelData.botkitEventType = 'cardAction';
+            } else {
+                switch (context.activity.name) {
+                case 'fileConsent/invoke':
+                case 'actionableMessage/executeAction':
+                case 'composeExtension/queryLink':
+                case 'composeExtension/query':
+                case 'composeExtension/selectItem':
+                case 'composeExtension/submitAction':
+                case 'composeExtension/fetchTask':
+                case 'composeExtension/querySettingUrl':
+                case 'composeExtension/setting':
+                case 'composeExtension/onCardButtonClicked':
+                case 'task/fetch':
+                case 'task/submit':
+                    context.activity.channelData.botkitEventType = context.activity.name;
+                    break;
+                }
+            }
         }
-      }
-      await next();
-  }
+        await next();
+    }
 }
