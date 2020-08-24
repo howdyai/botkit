@@ -1,8 +1,16 @@
 # botbuilder-adapter-slack changelog
 
+
+# 1.0.13
+
+* Update dependencies to Botkit 4.10, Bot Framework 4.10
+* Update @slack/web-api to 5.11.0
+
+
 # 1.0.12
 
 * Adjust startPrivateConversation to use converations.open instead of im.open
+
 
 # 1.0.11
 
