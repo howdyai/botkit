@@ -1,5 +1,13 @@
 # botbuilder-adapter-webex changelog
 
+# 1.0.9
+
+* Test for presence of channelData before accessing it. Thanks [@viveksyngh](https://github.com/viveksyngh) for the [pull request](https://github.com/howdyai/botkit/pull/2010)
+
+* Update dependencies to Botkit 4.10, Bot Framework 4.10
+
+
+
 # 1.0.8
 
 * Update dependencies to Botkit 4.9, Bot Framework 4.9

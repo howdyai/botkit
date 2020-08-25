@@ -10,6 +10,9 @@
   "dependencies": {
     "handlebars": "^4.7.2",
     "typedoc": "^0.16.9",
-    "typedoc-plugin-external-module-name": "^2.0.0"
+    "typedoc-plugin-external-module-name": "2.1.0"
+  },
+  "devDependencies": {
+    "typedoc-plugin-no-inherit": "^1.1.10"
   }
 }

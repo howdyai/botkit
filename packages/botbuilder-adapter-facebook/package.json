@@ -1,6 +1,6 @@
 {
   "name": "botbuilder-adapter-facebook",
-  "version": "1.0.10",
+  "version": "1.0.11",
   "description": "Connect Botkit or BotBuilder to Facebook Messenger",
   "main": "lib/index.js",
   "typings": "./lib/index.d.ts",
@@ -34,15 +34,15 @@
     "url": "https://github.com/howdyai/botkit.git"
   },
   "dependencies": {
-    "botbuilder": "^4.9.0",
-    "botkit": "^4.9.0",
+    "botbuilder": "^4.10.1",
+    "botkit": "^4.10.0",
     "debug": "^4.1.0"
   },
   "devDependencies": {
-    "eslint": "^6.8.0",
-    "eslint-config-standard": "^14.1.0",
+    "eslint": "^7.7.0",
+    "eslint-config-standard": "^14.1.1",
     "eslint-plugin-import": "^2.20.0",
-    "eslint-plugin-node": "^11.0.0",
+    "eslint-plugin-node": "^11.1.0",
     "eslint-plugin-promise": "^4.2.1",
     "eslint-plugin-standard": "^4.0.1"
   }

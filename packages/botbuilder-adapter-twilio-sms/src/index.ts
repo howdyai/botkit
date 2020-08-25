@@ -7,3 +7,4 @@
  */
 
 export * from './twilio_adapter';
+export * from './botworker';

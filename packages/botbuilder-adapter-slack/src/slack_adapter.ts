@@ -172,7 +172,7 @@ export class SlackAdapter extends BotAdapter {
 
         this.middlewares = {
             spawn: [
-                async (bot, next) => {
+                async (bot, next): Promise<void> => {
                     // make the Slack API available to all bot instances.
                     bot.api = await this.getAPI(bot.getConfig('activity')).catch((err) => {
                         debug('An error occurred while trying to get API creds for team', err);

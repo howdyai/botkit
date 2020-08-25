@@ -1,5 +1,11 @@
 # botbuilder-adapter-web changelog
 
+# 1.0.9
+
+* Update dependencies to Botkit 4.10, Bot Framework 4.10
+
+* Fix to websocket ping call. [Issue #2003](https://github.com/howdyai/botkit/issues/2003)
+
 # 1.0.8
 
 * Update dependencies to Botkit 4.9, Bot Framework 4.9

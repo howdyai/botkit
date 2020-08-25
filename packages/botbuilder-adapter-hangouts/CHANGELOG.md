@@ -1,5 +1,10 @@
 # botbuilder-adapter-hangouts changelog
 
+
+# 1.0.8
+
+* Update dependencies to Botkit 4.10, Bot Framework 4.10
+
 # 1.0.7
 
 * Update dependencies to Botkit 4.9, Bot Framework 4.9

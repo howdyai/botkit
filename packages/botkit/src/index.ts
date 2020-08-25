@@ -10,4 +10,5 @@ export * from './core';
 export * from './conversation';
 export * from './botworker';
 export * from './dialogWrapper';
+export * from './teamsHelpers';
 export * from './testClient';

@@ -5,9 +5,9 @@
  * Copyright (c) Microsoft Corporation. All rights reserved.
  * Licensed under the MIT License.
  */
-import { BotFrameworkAdapter, TurnContext } from 'botbuilder';
+import { BotFrameworkAdapter, TurnContext, TeamsInfo, ChannelInfo } from 'botbuilder';
 import { ConnectorClient, TokenApiClient } from 'botframework-connector';
-import * as request from 'request';
+import { TeamsBotWorker } from './teamsHelpers';
 import * as os from 'os';
 
 const pjson: any = require('../package.json'); // eslint-disable-line @typescript-eslint/no-var-requires
@@ -27,19 +27,7 @@ const USER_AGENT: string = `Microsoft-BotFramework/3.1 Botkit/${ pjson.version }
  * * Adds middleware for adjusting location of tenant id field (MS Teams)
  */
 export class BotkitBotFrameworkAdapter extends BotFrameworkAdapter {
-    public constructor(options) {
-        super(options);
-
-        // Fix a (temporary) issue with transitional location of MS Teams tenantId
-        // this fix should already be present in botbuilder 4.4
-        // when/if that happens, this can be removed.
-        this.use(async (context, next) => {
-            if (!context.activity.conversation.tenantId && context.activity.channelData && context.activity.channelData.tenant) {
-                context.activity.conversation.tenantId = context.activity.channelData.tenant.id;
-            }
-            await next();
-        });
-    }
+    public botkit_worker = TeamsBotWorker;
 
     /**
      * Allows for mocking of the connector client in unit tests.
@@ -69,27 +57,10 @@ export class BotkitBotFrameworkAdapter extends BotFrameworkAdapter {
      * @param context A TurnContext object representing a message or event from a user in Teams
      * @returns an array of channels in the format [{name: string, id: string}]
      */
-    public async getChannels(context: TurnContext): Promise<{id: string; name: string}[]> {
+    public async getChannels(context: TurnContext): Promise<ChannelInfo[]> {
         if (context.activity.channelData && context.activity.channelData.team) {
-            const token = await this.credentials.getToken(true);
-
-            const uri = context.activity.serviceUrl + 'v3/teams/' + context.activity.channelData.team.id + '/conversations/';
-            return new Promise((resolve, reject) => {
-                request({
-                    method: 'GET',
-                    headers: {
-                        Authorization: 'Bearer ' + token
-                    },
-                    json: true,
-                    uri: uri
-                }, async function(err, res, json) {
-                    if (err) {
-                        reject(err);
-                    } else {
-                        resolve(json.conversations ? json.conversations.map((c) => { if (!c.name) { c.name = 'General'; } return c; }) : []);
-                    }
-                });
-            });
+            const channels = await TeamsInfo.getTeamChannels(context);
+            return channels ? channels.map((c) => { if (!c.name) { c.name = 'General'; } return c; }) : [];
         } else {
             console.error('getChannels cannot be called from unknown team');
             return [];

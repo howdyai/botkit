@@ -9,10 +9,12 @@ This is a class reference for all the methods exposed by the [botkit](https://gi
 
 * <a href="#Botkit" aria-current="page">Botkit</a>
 * <a href="#BotkitBotFrameworkAdapter" aria-current="page">BotkitBotFrameworkAdapter</a>
+* <a href="#TeamsBotWorker" aria-current="page">TeamsBotWorker</a>
 * <a href="#BotWorker" aria-current="page">BotWorker</a>
 * <a href="#BotkitConversation" aria-current="page">BotkitConversation</a>
 * <a href="#BotkitDialogWrapper" aria-current="page">BotkitDialogWrapper</a>
 * <a href="#BotkitTestClient" aria-current="page">BotkitTestClient</a>
+* <a href="#TeamsInvokeMiddleware" aria-current="page">TeamsInvokeMiddleware</a>
 
 ## Interfaces
 
@@ -524,16 +526,12 @@ This class includes the following methods:
 
 
 
-### Create a new BotkitBotFrameworkAdapter()
-**Parameters**
 
-| Argument | Type | Description
+## Properties and Accessors
+
+| Name | Type | Description
 |--- |--- |---
-| options | any | 
-
-
-
-
+| botkit_worker | [TeamsBotWorker](#TeamsBotWorker) | 
 
 ## BotkitBotFrameworkAdapter Class Methods
 <a name="getChannels"></a>
@@ -552,6 +550,60 @@ Can only be called with a TurnContext that originated in a team conversation - 1
 
 an array of channels in the format [{name: string, id: string}]
 
+
+
+
+
+<a name="TeamsBotWorker"></a>
+## TeamsBotWorker
+This is a specialized version of [Botkit's core BotWorker class](core.md#BotWorker) that includes additional methods for interacting with Microsoft Teams.
+It includes all functionality from the base class, as well as the extension methods below.
+This BotWorker is used with the built-in Bot Framework adapter.
+
+To use this class in your application, first install the package:
+```bash
+npm install --save botkit
+```
+
+Then import this and other classes into your code:
+```javascript
+const { TeamsBotWorker } = require('botkit');
+```
+
+This class includes the following methods:
+* [replyWithTaskInfo()](#replyWithTaskInfo)
+
+
+
+### Create a new TeamsBotWorker()
+**Parameters**
+
+| Argument | Type | Description
+|--- |--- |---
+| controller | [Botkit](#Botkit) | 
+| config | any | 
+
+
+
+
+## Properties and Accessors
+
+| Name | Type | Description
+|--- |--- |---
+| teams | TeamsInfo | Grants access to the TeamsInfo helper class<br/>See: https://docs.microsoft.com/en-us/javascript/api/botbuilder/teamsinfo?view=botbuilder-ts-latest
+
+## TeamsBotWorker Class Methods
+<a name="replyWithTaskInfo"></a>
+### replyWithTaskInfo()
+Reply to a Teams task module task/fetch or task/submit with a task module response.
+See https://docs.microsoft.com/en-us/microsoftteams/platform/task-modules-and-cards/task-modules/task-modules-bots
+
+**Parameters**
+
+| Argument | Type | description
+|--- |--- |---
+| message| [BotkitMessage](#BotkitMessage) | 
+| taskInfo| any | an object in the form {type, value}<br/>
 
 
 
@@ -1419,6 +1471,55 @@ a TestFlow that can be used to assert replies etc
 
 
 
+<a name="TeamsInvokeMiddleware"></a>
+## TeamsInvokeMiddleware
+When used, causes Botkit to emit special events for teams "invokes"
+Based on https://github.com/microsoft/botbuilder-js/blob/master/libraries/botbuilder/src/teamsActivityHandler.ts
+This allows Botkit bots to respond directly to task/fetch or task/submit events, as an example.
+To use this, bind it to the adapter before creating the Botkit controller:
+```javascript
+const Botkit = new Botkit({...});
+botkit.adapter.use(new TeamsInvokeMiddleware());
+
+// can bind directly to task/fetch, task/submit and other invoke types used by teams
+controller.on('task/fetch', async(bot, message) => {
+   await bot.replyWithTaskInfo(message, taskInfo);
+});
+```
+
+
+To use this class in your application, first install the package:
+```bash
+npm install --save botkit
+```
+
+Then import this and other classes into your code:
+```javascript
+const { TeamsInvokeMiddleware } = require('botkit');
+```
+
+This class includes the following methods:
+* [onTurn()](#onTurn)
+
+
+
+
+
+## TeamsInvokeMiddleware Class Methods
+<a name="onTurn"></a>
+### onTurn()
+Not for direct use - implements the MiddlewareSet's required onTurn function used to process the event
+
+**Parameters**
+
+| Argument | Type | description
+|--- |--- |---
+| context| TurnContext | 
+| next|  | <br/>
+
+
+
+
 
 <a name="BotkitConfiguration"></a>
 ## Interface BotkitConfiguration
@@ -1433,9 +1534,11 @@ Defines the options used when instantiating Botkit to create the main app contro
 | dialogStateProperty | string | Name of the dialogState property in the ConversationState that will be used to automatically track the dialog state. Defaults to `dialogState`.<br/>
 | disable_console | boolean | Disable messages normally sent to the console during startup.<br/>
 | disable_webserver | boolean | Disable webserver. If true, Botkit will not create a webserver or expose any webhook endpoints automatically. Defaults to false.<br/>
+| jsonLimit | string | Limit of the size of incoming JSON payloads parsed by the Express bodyParser. Defaults to '100kb'<br/>
 | storage | Storage | A Storage interface compatible with [this specification](https://docs.microsoft.com/en-us/javascript/api/botbuilder-core/storage?view=botbuilder-ts-latest)<br/>Defaults to the ephemeral [MemoryStorage](https://docs.microsoft.com/en-us/javascript/api/botbuilder-core/memorystorage?view=botbuilder-ts-latest) implementation.<br/>
+| urlEncodedLimit | string | Limit of the size of incoming URL encoded payloads parsed by the Express bodyParser. Defaults to '100kb'<br/>
 | webhook_uri | string | Path used to create incoming webhook URI.  Defaults to `/api/messages`<br/>
-| webserver | any | An instance of Express used to define web endpoints.  If not specified, oen will be created internally.<br/>Note: only use your own Express if you absolutely must for some reason. Otherwise, use `controller.webserver`<br/>
+| webserver | any | An instance of Express used to define web endpoints.  If not specified, one will be created internally.<br/>Note: only use your own Express if you absolutely must for some reason. Otherwise, use `controller.webserver`<br/>
 | webserver_middlewares |  | An array of middlewares that will be automatically bound to the webserver.<br/>Should be in the form (req, res, next) => {}<br/>
 <a name="BotkitConversationStep"></a>
 ## Interface BotkitConversationStep
