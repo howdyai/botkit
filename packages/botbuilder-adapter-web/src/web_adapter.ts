@@ -157,7 +157,9 @@ export class WebAdapter extends BotAdapter {
                     return ws.terminate();
                 }
                 ws.isAlive = false;
-                ws.ping('', false, () =>{});
+                ws.ping('', false, () => {
+                    // noop
+                });
             });
         }, 30000);
     }

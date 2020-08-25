@@ -82,7 +82,7 @@ export class WebexBotWorker extends BotWorker {
             channelId: 'webex'
         });
     }
-    
+
     /**
      * Switch a bot's context into a specific thread within a room.
      * After calling this method, messages sent with `bot.say` and any dialogs started with `bot.beginDialog` will occur in this new context.
@@ -137,7 +137,7 @@ export class WebexBotWorker extends BotWorker {
      */
     public async replyInThread(src: any, resp: any): Promise<any> {
         // set parentId to src.id
-        resp.parentId = src.parentId ? src.parentId : src.id; 
+        resp.parentId = src.parentId ? src.parentId : src.id;
         return this.reply(src, resp);
     }
 

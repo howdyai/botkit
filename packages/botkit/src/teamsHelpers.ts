@@ -29,7 +29,7 @@ export class TeamsBotWorker extends BotWorker {
    * @param taskInfo an object in the form {type, value}
    */
   public async replyWithTaskInfo(message: BotkitMessage, taskInfo: any): Promise<any> {
-      if (!taskInfo || taskInfo == {}) {
+      if (!taskInfo || taskInfo === {}) {
       // send a null response back
           taskInfo = {
               type: 'message',
