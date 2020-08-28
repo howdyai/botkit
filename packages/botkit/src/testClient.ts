@@ -21,8 +21,8 @@ import { Botkit } from './core';
  * A client for testing dialogs in isolation.
  */
 export class BotkitTestClient {
-    private readonly _callback: (turnContext: TurnContext) => Promise<void>;
-    private readonly _testAdapter: TestAdapter;
+    protected _callback: (turnContext: TurnContext) => Promise<void>;
+    protected _testAdapter: TestAdapter;
     public dialogTurnResult: DialogTurnResult;
     public conversationState: ConversationState;
 

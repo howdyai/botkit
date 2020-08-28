@@ -22,10 +22,10 @@ class FakeAdapter extends TestAdapter {
 }
 
 class CustomTestClient extends BotkitTestClient {
-  constructor(channelId, bot, dialogToTest) {
-    super(channelId, bot, dialogToTest);
-    this._testAdapter = new FakeAdapter(this._callback, { channelId: channelId }).use(new AutoSaveStateMiddleware(this.conversationState));
-  }
+    constructor(channelId, bot, dialogToTest) {
+        super(channelId, bot, dialogToTest);
+        this._testAdapter = new FakeAdapter(this._callback, { channelId: channelId }).use(new AutoSaveStateMiddleware(this.conversationState));
+    }
 }
 
 function createDialog(controller) {
@@ -39,7 +39,7 @@ function createDialog(controller) {
     return dialog;
 }
 
-describe('Test something with custom worker', () => {
+describe('Botkit dialog with custom worker', () => {
     let botkit;
     let client;
     let testAdapter;
@@ -58,7 +58,7 @@ describe('Test something with custom worker', () => {
         let message = await client.sendActivity('');
         assert(message.text === 'How you like me now?');
         message = await client.sendActivity('nice!');
-        assert(message.text === 'You are: Roger','Custom adapter spawning invalid bot');
+        assert(message.text === 'You are: Roger', 'Custom adapter spawning invalid bot');
     });
 
     afterEach(async () => {
