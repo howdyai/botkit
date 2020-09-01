@@ -1,0 +1,51 @@
+{
+  "name": "botbuilder-adapter-mattermost",
+  "version": "1.0.0",
+  "description": "Connect Botkit or BotBuilder to Mattermost",
+  "main": "./lib/index.js",
+  "typings": "./lib/index.d.ts",
+  "files": [
+    "/lib",
+    "/src"
+  ],
+  "scripts": {
+    "build": "tsc",
+    "test": "tsc ; nyc mocha tests/*.tests.js",
+    "eslint": "./node_modules/.bin/eslint --fix src/*"
+  },
+  "author": "Microsoft Corp.",
+  "license": "MIT",
+  "keywords": [
+    "mattermost",
+    "botkit",
+    "botbuilder",
+    "botframework",
+    "bots",
+    "chatbots",
+    "azure"
+  ],
+  "homepage": "https://github.com/howdyai/botkit/blob/master/packages/botbuilder-adapter-mattermost#readme",
+  "bugs": {
+    "url": "https://github.com/howdyai/botkit/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/howdyai/botkit.git"
+  },
+  "dependencies": {
+    "@slack/web-api": "^5.11.0",
+    "botbuilder": "^4.10.1",
+    "botkit": "^4.10.0",
+    "debug": "^4.1.0",
+    "node-fetch": "^2.6.0",
+    "ws": "^7.3.1"
+  },
+  "devDependencies": {
+    "eslint": "^7.7.0",
+    "eslint-config-standard": "^14.1.1",
+    "eslint-plugin-import": "^2.20.0",
+    "eslint-plugin-node": "^11.1.0",
+    "eslint-plugin-promise": "^4.2.1",
+    "eslint-plugin-standard": "^4.0.1"
+  }
+}
