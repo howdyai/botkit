@@ -125,7 +125,7 @@ export class SlackAdapter extends BotAdapter {
         }
 
         if (this.options.botToken) {
-            this.slack = new WebClient(this.options.botToken);
+            this.slack = this.options.webClientOptions ? new WebClient(this.options.botToken, this.options.webClientOptions) : new WebClient(this.options.botToken)
             this.slack.auth.test().then((raw_identity) => {
                 const identity = raw_identity as AuthTestResult;
                 debug('** Slack adapter running in single team mode.');
@@ -737,7 +737,10 @@ export interface SlackAdapterOptions {
      * A token (provided by Slack) for a bot to work on a single workspace
      */
     botToken?: string;
-
+    /**
+     * An Object for pass through options to the WebClient
+     */
+    webClientOptions?: object;
     /**
      * The oauth client id provided by Slack for multi-team apps
      */
