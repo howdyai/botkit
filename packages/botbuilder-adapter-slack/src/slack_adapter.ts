@@ -42,6 +42,15 @@ export class SlackAdapter extends BotAdapter {
     public botkit_worker = SlackBotWorker;
 
     /**
+     * A wrapper for creating the WebClient. Checking if there is a WebClient configuration
+     * @param botToken
+     * @private
+     */
+    private webClient(botToken: string) {
+        return this.options.webClientOptions ? new WebClient(botToken, this.options.webClientOptions) : new WebClient(botToken)
+    }
+
+    /**
      * Create a Slack adapter.
      *
      * The SlackAdapter can be used in 2 modes:
@@ -125,7 +134,7 @@ export class SlackAdapter extends BotAdapter {
         }
 
         if (this.options.botToken) {
-            this.slack = this.options.webClientOptions ? new WebClient(this.options.botToken, this.options.webClientOptions) : new WebClient(this.options.botToken)
+            this.slack = this.webClient(this.options.botToken);
             this.slack.auth.test().then((raw_identity) => {
                 const identity = raw_identity as AuthTestResult;
                 debug('** Slack adapter running in single team mode.');
@@ -202,7 +211,7 @@ export class SlackAdapter extends BotAdapter {
                 if (!token) {
                     throw new Error('Missing credentials for team.');
                 }
-                return new WebClient(token);
+                return this.webClient(token);
             } else {
                 // No API can be created, this is
                 debug('Unable to create API based on activity: ', activity);
