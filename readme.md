@@ -1,38 +1,12 @@
-# [Botkit](https://botkit.ai) - Building Blocks for Building Bots
+# Botkit Legacy Version
 
-[![npm](https://img.shields.io/npm/v/botkit.svg)](https://www.npmjs.com/package/botkit)
-[![David](https://img.shields.io/david/howdyai/botkit.svg)](https://david-dm.org/howdyai/botkit)
-[![npm](https://img.shields.io/npm/l/botkit.svg)](https://spdx.org/licenses/MIT)
-[![Build Status](https://travis-ci.com/howdyai/botkit.svg?branch=master)](https://travis-ci.com/howdyai/botkit)
+This is the maintenance branch for the legacy version of Botkit (< 0.7.4).
 
-**Botkit is the leading developer tool for building chat bots, apps and custom integrations for major messaging platforms.**
+Only security and bug fix updates will be made to this branch!
 
-Botkit offers everything you need to design, build and operate an app:
+## New Project?
 
-* Easy-to-extend starter kits
-* Fully-featured SDK with support for all major platforms
-* [Tons of plugins and middlewares](https://botkit.ai/docs/readme-middlewares.html)
-
-Plus, Botkit works with all the NLP services (like Microsoft LUIS and IBM Watson), can use any type of database you want, and runs on almost any hosting platform.
-
-## Install Botkit
-
-Botkit is a Node.js module, and works with Node and npm.
-
-### **Remix on Glitch**
-
-Want to dive right in? [Remix one of our starter kits on Glitch](https://glitch.com/botkit). You'll start with a fully functioning app that you can edit and run from the browser!
-
- [![Remix on Glitch](https://botkit.ai/docs/glitch.png)](https://glitch.com/botkit)
-
-### **Command Line Interface**
-
-The best way to get started locally with Botkit is by installing our command line tool, and using it to create a new Botkit project. This will install and configure a starter kit for you!
-
-```
-npm install -g botkit
-botkit new
-```
+If you are starting a new project, use the [4+ version found here](https://github.com/howdyai/botkit).
 
 ### **Start from Scratch**
 
@@ -41,7 +15,7 @@ You can also add Botkit into an existing Node application.
 First, add it to your project:
 
 ```
-npm install --save botkit
+npm install --save botkit@0.7.4
 ```
 
 Then, add Botkit to your application code:
@@ -56,7 +30,7 @@ controller.hears('hello','direct_message', function(bot, message) {
 });
 ```
 
-[Review the documentation](https://botkit.ai/docs/) to learn how to configure Botkit's controller to work with the messaging platform of your choice.
+[Review the documentation](https://botkit.ai/docs/v0) to learn how to configure Botkit's controller to work with the messaging platform of your choice.
 
 ## Build Your Bot
 
@@ -82,7 +56,7 @@ controller.hears(['string','pattern .*',new RegExp('.*','i')],'message_received,
 });
 ```
 
-[Read more about hearing things &rsaquo;](https://botkit.ai/docs/core.html#matching-patterns-and-keywords-with-hears)
+[Read more about hearing things &rsaquo;](https://botkit.ai/docs/v0/core.html#matching-patterns-and-keywords-with-hears)
 
 ### Responding to Events
 
@@ -96,7 +70,7 @@ controller.on('channel_join', function(bot, message) {
 });
 ```
 
-[See a full list of events and more information about handling them &rsaquo;](https://botkit.ai/docs/core.html#receiving-messages-and-events)
+[See a full list of events and more information about handling them &rsaquo;](https://botkit.ai/docs/v0/core.html#receiving-messages-and-events)
 
 ### Middleware
 
@@ -138,25 +112,25 @@ controller.middleware.send.use(function(bot, message, next) {
 ## Full Documentation
 
 * [Get Started](https://botkit.ai/getstarted.html)
-* [Introduction](https://botkit.ai/docs/)
-* [Core Features](https://botkit.ai/docs/core.html)
-* [Botkit Studio API](https://botkit.ai/docs/readme-studio.html)
+* [Introduction](https://botkit.ai/docs/v0)
+* [Core Features](https://botkit.ai/docs/v0/core.html)
+* [Botkit Studio API](https://botkit.ai/docs/v0/readme-studio.html)
 * Platforms
-  * [Web and Apps](https://botkit.ai/docs/readme-web.html)
-  * [Slack](https://botkit.ai/docs/readme-slack.html)
-  * [Cisco Webex](https://botkit.ai/docs/readme-webex.html)
-  * [Cisco Jabber](https://botkit.ai/docs/readme-ciscojabber.html)
-  * [Microsoft Teams](https://botkit.ai/docs/readme-teams.html)
-  * [Facebook Messenger](https://botkit.ai/docs/readme-facebook.html)
-  * [Twilio SMS](https://botkit.ai/docs/readme-twiliosms.html)
-  * [Twilio IPM](https://botkit.ai/docs/readme-twilioipm.html)
-  * [Microsoft Bot Framework](https://botkit.ai/docs/readme-botframework.html)
-  * [Google Hangouts Chat](https://botkit.ai/docs/readme-google-hangouts.html)
-* [Extending Botkit with Plugins and Middleware](https://botkit.ai/docs/middleware.html)
-  * [Message Pipeline](https://botkit.ai/docs/readme-pipeline.html)
-  * [List of current plugins](https://botkit.ai/docs/readme-middlewares.html)
-* [Storing Information](https://botkit.ai/docs/storage.html)
-* [Logging](https://botkit.ai/docs/logging.html)
+  * [Web and Apps](https://botkit.ai/docs/v0/readme-web.html)
+  * [Slack](https://botkit.ai/docs/v0/readme-slack.html)
+  * [Cisco Webex](https://botkit.ai/docs/v0/readme-webex.html)
+  * [Cisco Jabber](https://botkit.ai/docs/v0/readme-ciscojabber.html)
+  * [Microsoft Teams](https://botkit.ai/docs/v0/readme-teams.html)
+  * [Facebook Messenger](https://botkit.ai/docs/v0/readme-facebook.html)
+  * [Twilio SMS](https://botkit.ai/docs/v0/readme-twiliosms.html)
+  * [Twilio IPM](https://botkit.ai/docs/v0/readme-twilioipm.html)
+  * [Microsoft Bot Framework](https://botkit.ai/docs/v0/readme-botframework.html)
+  * [Google Hangouts Chat](https://botkit.ai/docs/v0/readme-google-hangouts.html)
+* [Extending Botkit with Plugins and Middleware](https://botkit.ai/docs/v0/middleware.html)
+  * [Message Pipeline](https://botkit.ai/docs/v0/readme-pipeline.html)
+  * [List of current plugins](https://botkit.ai/docs/v0/readme-middlewares.html)
+* [Storing Information](https://botkit.ai/docs/v0/storage.html)
+* [Logging](https://botkit.ai/docs/v0/logging.html)
 * Contributing to Botkit
   * [Contributing to Botkit Core](CONTRIBUTING.md)
   * [Building platform connectors](https://botkit.ai/docs/howto/build_connector.html)

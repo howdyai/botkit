@@ -154,6 +154,7 @@ declare namespace botkit {
     setVar(field: string, value: any): void;
     silentRepeat(): void;
     stop(status?: ConversationStatusType): void;
+    successful(): boolean;
     transitionTo(thread: string, message: string | M): void;
   }
   interface ConversationCaptureOptions {
@@ -349,6 +350,9 @@ declare namespace botkit {
     },
     oauth: {
         access: SlackWebAPIMethod;
+        v2: {
+            access: SlackWebAPIMethod;
+        }
     }
     channels: {
         archive: SlackWebAPIMethod;
