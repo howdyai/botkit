@@ -273,6 +273,8 @@ export class FacebookAdapter extends BotAdapter {
      */
     public async sendActivities(context: TurnContext, activities: Partial<Activity>[]): Promise<ResourceResponse[]> {
         const responses = [];
+        console.log(activities)
+        console.log(JSON.stringify(activities))
         for (let a = 0; a < activities.length; a++) {
             const activity = activities[a];
             if (activity.type === ActivityTypes.Message) {
@@ -285,7 +287,7 @@ export class FacebookAdapter extends BotAdapter {
                     }
                     debug('RESPONSE FROM FACEBOOK > ', res);
                 } catch (err) {
-                    console.error('Error sending activity to Facebook:', err);
+                    console.error('Error sending activity to FACE3:', err);
                 }
             } else {
                 // If there are ever any non-message type events that need to be sent, do it here.
