@@ -193,28 +193,101 @@ export class FacebookAdapter extends BotAdapter {
         }
     }
 
+    private createCards(activity: any): any{
+
+        return {
+            "attachment":{
+              "type":"template",
+              "payload":{
+                "template_type":"generic",
+                "elements":[
+                   {
+                    "title":"Welcome",
+                    "image_url":"https://chatbotmazstaprod01.blob.core.windows.net/img-carobot-v2/IT_600x200.png?sp=r&st=2020-10-13T14:49:24Z&se=2030-10-13T22:49:24Z&spr=https&sv=2019-12-12&sr=b&sig=qBssrauKC7rjQk1vCewcLg9f4zb4FgTLSu8gj5eQujc%3D",
+                    "subtitle":"We have the right hat for everyone.",
+                    "default_action": {
+                      "type": "web_url",
+                      "url": "https://petersfancybrownhats.com/view?item=103",
+                      "webview_height_ratio": "tall",
+                    },
+                    "buttons":[
+                      {
+                        "type":"web_url",
+                        "url":"https://petersfancybrownhats.com",
+                        "title":"View Website"
+                      },{
+                        "type":"postback",
+                        "title":"Start Chatting",
+                        "payload":"DEVELOPER_DEFINED_PAYLOAD"
+                      }              
+                    ]      
+                  },
+                  {
+                    "title":"ohla",
+                    "image_url":"https://chatbotmazstaprod01.blob.core.windows.net/img-carobot-v2/IT_600x200.png?sp=r&st=2020-10-13T14:49:24Z&se=2030-10-13T22:49:24Z&spr=https&sv=2019-12-12&sr=b&sig=qBssrauKC7rjQk1vCewcLg9f4zb4FgTLSu8gj5eQujc%3D",
+                    "subtitle":"We have the right hat for everyone.",
+                    "default_action": {
+                      "type": "web_url",
+                      "url": "https://petersfancybrownhats.com/view?item=103",
+                      "webview_height_ratio": "tall",
+                    },
+                    "buttons":[
+                      {
+                        "type":"web_url",
+                        "url":"https://petersfancybrownhats.com",
+                        "title":"View Website"
+                      },{
+                        "type":"postback",
+                        "title":"Start Chatting",
+                        "payload":"DEVELOPER_DEFINED_PAYLOAD"
+                      }              
+                    ]      
+                  }
+                ]
+              }
+            }
+            
+        }
+
+    }
+
+    private createTextMEssage(activity: any):any{
+        return {
+            text: activity.text,
+            sticker_id: undefined,
+            attachment: undefined,
+            quick_replies: undefined
+        }
+    }
+
     /**
      * Converts an Activity object to a Facebook messenger outbound message ready for the API.
      * @param activity
      */
     private activityToFacebook(activity: any): any {
+
+        let responseMEssage = {};
+
+        if(activity.attachments){
+            responseMEssage = this.createCards(activity);
+        }else{
+            responseMEssage = this.createTextMEssage(activity);
+        }
+
         const message = {
             recipient: {
                 id: activity.conversation.id
             },
-            message: {
-                text: activity.text,
-                sticker_id: undefined,
-                attachment: undefined,
-                quick_replies: undefined
-            },
+            message: responseMEssage,
+            responseMEssage,
             messaging_type: 'RESPONSE',
             tag: undefined,
             notification_type: undefined,
             persona_id: undefined,
             sender_action: undefined
         };
-
+        console.log("RESPONSE FACEBOOK")
+        console.log(JSON.stringify(message));
         // map these fields to their appropriate place
         if (activity.channelData) {
             if (activity.channelData.messaging_type) {
@@ -226,11 +299,11 @@ export class FacebookAdapter extends BotAdapter {
             }
 
             if (activity.channelData.sticker_id) {
-                message.message.sticker_id = activity.channelData.sticker_id;
+            //    message.message.sticker_id = activity.channelData.sticker_id;
             }
 
             if (activity.channelData.attachment) {
-                message.message.attachment = activity.channelData.attachment;
+                //message.message.attachment = activity.channelData.attachment;
             }
 
             if (activity.channelData.persona_id) {
@@ -247,17 +320,17 @@ export class FacebookAdapter extends BotAdapter {
                 // from docs: https://developers.facebook.com/docs/messenger-platform/reference/send-api/
                 // Cannot be sent with message. Must be sent as a separate request.
                 // When using sender_action, recipient should be the only other property set in the request.
-                delete (message.message);
+              //  delete (message.message);
             }
 
             // make sure the quick reply has a type
-            if (activity.channelData.quick_replies) {
+            /*if (activity.channelData.quick_replies) {
                 message.message.quick_replies = activity.channelData.quick_replies.map(function(item) {
                     const quick_reply = { ...item };
                     if (!item.content_type) quick_reply.content_type = 'text';
                     return quick_reply;
                 });
-            }
+            }*/
         }
 
         debug('OUT TO FACEBOOK > ', message);
@@ -273,7 +346,7 @@ export class FacebookAdapter extends BotAdapter {
      */
     public async sendActivities(context: TurnContext, activities: Partial<Activity>[]): Promise<ResourceResponse[]> {
         const responses = [];
-        console.log(activities)
+        console.log("ACTIVITIES REC")
         console.log(JSON.stringify(activities))
         for (let a = 0; a < activities.length; a++) {
             const activity = activities[a];
@@ -287,7 +360,7 @@ export class FacebookAdapter extends BotAdapter {
                     }
                     debug('RESPONSE FROM FACEBOOK > ', res);
                 } catch (err) {
-                    console.error('Error sending activity to FACE3:', err);
+                    console.error('Error sending activity to FACE4:', err);
                 }
             } else {
                 // If there are ever any non-message type events that need to be sent, do it here.
