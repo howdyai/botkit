@@ -11,6 +11,8 @@ import * as Debug from 'debug';
 import { FacebookBotWorker } from './botworker';
 import { FacebookAPI } from './facebook_api';
 import * as crypto from 'crypto';
+import {MessagesCreator} from './messages_creator';
+import { validateExpressRequest } from 'twilio/lib/webhooks/webhooks';
 const debug = Debug('botkit:facebook');
 
 /**
@@ -198,22 +200,46 @@ export class FacebookAdapter extends BotAdapter {
      * @param activity
      */
     private activityToFacebook(activity: any): any {
-        const message = {
+        console.log("[activity.channelData]");
+        console.log(JSON.stringify(activity));
+        var sender_action;
+        var responseMessage;
+        var message;
+        if (activity.type==="typing") {
+            
+            sender_action="typing_on";
+        }
+        else{
+            responseMessage = MessagesCreator.activityToFacebook(activity);
+        }
+        
+        
+        
+        console.log("[ResponseMessage]");
+        console.log(responseMessage);
+        
+        if (responseMessage) {
+            message = {
+                recipient: {
+                    id: activity.conversation.id
+                },
+                message: responseMessage,
+                messaging_type: 'RESPONSE',
+                tag: undefined,
+                notification_type: undefined,
+                persona_id: undefined,
+                sender_action: undefined
+            }
+        }
+else{
+         message = {
             recipient: {
                 id: activity.conversation.id
             },
-            message: {
-                text: activity.text,
-                sticker_id: undefined,
-                attachment: undefined,
-                quick_replies: undefined
-            },
-            messaging_type: 'RESPONSE',
-            tag: undefined,
-            notification_type: undefined,
-            persona_id: undefined,
-            sender_action: undefined
-        };
+           
+            sender_action: sender_action
+        }
+    }
 
         // map these fields to their appropriate place
         if (activity.channelData) {
@@ -262,6 +288,11 @@ export class FacebookAdapter extends BotAdapter {
 
         debug('OUT TO FACEBOOK > ', message);
 
+        console.log("[OUT TO FACEBOOK]");
+        console.log(message);
+        
+        
+
         return message;
     }
 
@@ -273,12 +304,17 @@ export class FacebookAdapter extends BotAdapter {
      */
     public async sendActivities(context: TurnContext, activities: Partial<Activity>[]): Promise<ResourceResponse[]> {
         const responses = [];
-        console.log(activities)
-        console.log(JSON.stringify(activities))
         for (let a = 0; a < activities.length; a++) {
+            console.log("[--ACTIVITIES FACEBOOK--]:");
+            console.log(JSON.stringify(activities));
+            console.log("\n\n--------------------------------------------");
+            console.log("[--CONTEXT TO FACEBOOK--]: ", context);
+            
+            
             const activity = activities[a];
-            if (activity.type === ActivityTypes.Message) {
+            if (activity.type === ActivityTypes.Message || activity.type === ActivityTypes.Typing) {
                 const message = this.activityToFacebook(activity);
+
                 try {
                     const api = await this.getAPI(context.activity);
                     const res = await api.callAPI('/me/messages', 'POST', message);
@@ -287,7 +323,7 @@ export class FacebookAdapter extends BotAdapter {
                     }
                     debug('RESPONSE FROM FACEBOOK > ', res);
                 } catch (err) {
-                    console.error('Error sending activity to FACE3:', err);
+                    console.error('Error sending activity to Facebook:', err);
                 }
             } else {
                 // If there are ever any non-message type events that need to be sent, do it here.
