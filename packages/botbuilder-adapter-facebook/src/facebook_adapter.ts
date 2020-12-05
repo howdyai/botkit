@@ -11,6 +11,7 @@ import * as Debug from 'debug';
 import { FacebookBotWorker } from './botworker';
 import { FacebookAPI } from './facebook_api';
 import * as crypto from 'crypto';
+import {MessagesCreator} from './messages_creator';
 const debug = Debug('botkit:facebook');
 
 /**
@@ -194,56 +195,47 @@ export class FacebookAdapter extends BotAdapter {
     }
 
     private createCards(activity: any): any{
+        let elements = new Array();
+
+        console.log("activities: " + activity.attachments.length);
+        for(var i=0; i<activity.attachments.length; i++){
+            
+            console.log("att: " + activity.attachments[i].attachments.length);
+            for(var j=0; j<activity.attachments[i].attachments.length; j++){
+                let card = activity.attachments[i].attachments[j];
+                let bottons_area = new Array();
+                console.log("burttons -> " + JSON.stringify(card))
+                for(var k=0; k<card.content.buttons.length; k++){
+                    var btn = card.content.buttons[k];
+                    bottons_area.push({
+                        type: "postback",
+                        payload: btn.value,
+                        title: btn.value
+                    });
+                }
+
+                elements.push({
+                    title: card.content.title,
+                    subtitle: card.content.text,
+                    image_url: card.content.images[0].url,
+                    default_action: {
+                      "type": "web_url",
+                      "url": "https://petersfancybrownhats.com/view?item=103",
+                      "webview_height_ratio": "tall",
+                    },
+                    buttons: bottons_area
+                })
+
+            }
+            
+        }
 
         return {
             "attachment":{
               "type":"template",
               "payload":{
                 "template_type":"generic",
-                "elements":[
-                   {
-                    "title":"Welcome",
-                    "image_url":"https://chatbotmazstaprod01.blob.core.windows.net/img-carobot-v2/IT_600x200.png?sp=r&st=2020-10-13T14:49:24Z&se=2030-10-13T22:49:24Z&spr=https&sv=2019-12-12&sr=b&sig=qBssrauKC7rjQk1vCewcLg9f4zb4FgTLSu8gj5eQujc%3D",
-                    "subtitle":"We have the right hat for everyone.",
-                    "default_action": {
-                      "type": "web_url",
-                      "url": "https://petersfancybrownhats.com/view?item=103",
-                      "webview_height_ratio": "tall",
-                    },
-                    "buttons":[
-                      {
-                        "type":"web_url",
-                        "url":"https://petersfancybrownhats.com",
-                        "title":"View Website"
-                      },{
-                        "type":"postback",
-                        "title":"Start Chatting",
-                        "payload":"DEVELOPER_DEFINED_PAYLOAD"
-                      }              
-                    ]      
-                  },
-                  {
-                    "title":"ohla",
-                    "image_url":"https://chatbotmazstaprod01.blob.core.windows.net/img-carobot-v2/IT_600x200.png?sp=r&st=2020-10-13T14:49:24Z&se=2030-10-13T22:49:24Z&spr=https&sv=2019-12-12&sr=b&sig=qBssrauKC7rjQk1vCewcLg9f4zb4FgTLSu8gj5eQujc%3D",
-                    "subtitle":"We have the right hat for everyone.",
-                    "default_action": {
-                      "type": "web_url",
-                      "url": "https://petersfancybrownhats.com/view?item=103",
-                      "webview_height_ratio": "tall",
-                    },
-                    "buttons":[
-                      {
-                        "type":"web_url",
-                        "url":"https://petersfancybrownhats.com",
-                        "title":"View Website"
-                      },{
-                        "type":"postback",
-                        "title":"Start Chatting",
-                        "payload":"DEVELOPER_DEFINED_PAYLOAD"
-                      }              
-                    ]      
-                  }
-                ]
+                "elements": elements
               }
             }
             
@@ -266,20 +258,13 @@ export class FacebookAdapter extends BotAdapter {
      */
     private activityToFacebook(activity: any): any {
 
-        let responseMEssage = {};
-
-        if(activity.attachments){
-            responseMEssage = this.createCards(activity);
-        }else{
-            responseMEssage = this.createTextMEssage(activity);
-        }
+        let responseMessage = MessagesCreator.activityToFacebook(activity);
 
         const message = {
             recipient: {
                 id: activity.conversation.id
             },
-            message: responseMEssage,
-            responseMEssage,
+            message: responseMessage,
             messaging_type: 'RESPONSE',
             tag: undefined,
             notification_type: undefined,
@@ -346,8 +331,6 @@ export class FacebookAdapter extends BotAdapter {
      */
     public async sendActivities(context: TurnContext, activities: Partial<Activity>[]): Promise<ResourceResponse[]> {
         const responses = [];
-        console.log("ACTIVITIES REC")
-        console.log(JSON.stringify(activities))
         for (let a = 0; a < activities.length; a++) {
             const activity = activities[a];
             if (activity.type === ActivityTypes.Message) {
@@ -360,7 +343,7 @@ export class FacebookAdapter extends BotAdapter {
                     }
                     debug('RESPONSE FROM FACEBOOK > ', res);
                 } catch (err) {
-                    console.error('Error sending activity to FACE4:', err);
+                    console.error('Error sending activity to Facebook:', err);
                 }
             } else {
                 // If there are ever any non-message type events that need to be sent, do it here.
