@@ -273,9 +273,16 @@ export class FacebookAdapter extends BotAdapter {
     public async sendActivities(context: TurnContext, activities: Partial<Activity>[]): Promise<ResourceResponse[]> {
         const responses = [];
         for (let a = 0; a < activities.length; a++) {
+            console.log("[--ACTIVITIES FACEBOOK--]:");
+            console.log(JSON.stringify(activities));
+            console.log("\n\n--------------------------------------------");
+            console.log("[--CONTEXT TO FACEBOOK--]: ", context);
+            
+            
             const activity = activities[a];
             if (activity.type === ActivityTypes.Message) {
                 const message = this.activityToFacebook(activity);
+
                 try {
                     const api = await this.getAPI(context.activity);
                     const res = await api.callAPI('/me/messages', 'POST', message);

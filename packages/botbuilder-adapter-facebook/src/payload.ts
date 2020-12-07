@@ -24,7 +24,14 @@ export class Payload{
         
         console.log('ACTIVITY => ' + JSON.stringify(activity));
 
-        let attachments = activity.attachments[0].attachments;
+        let attachments="";
+
+        if(activity.attachments[0].attachments!=undefined || null){
+            attachments = activity.attachments[0].attachments;
+        }else{
+             attachments = activity.attachments;
+        }
+        //let attachments = activity.attachments[0].attachments;
         
         if(attachments == undefined || 
             attachments == null)

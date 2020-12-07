@@ -16,7 +16,7 @@ export class MessagesCreator {
 		
 		let type = this.validateTypeMessage(activity);
 		console.log('VALIDATE ACTIVITY: ' + JSON.stringify(activity));
-		console.log('type: ' + type);
+		console.log('--Type-- : ' + type);
 		let message;
 		switch(type){
 			case TYPES.TEXT:				
@@ -37,16 +37,18 @@ export class MessagesCreator {
 	}
 
 	private static validateTypeMessage(activity):string{
-
+		
+		console.log("[ATCHMENT_LENGT]: ", activity);
+		
 
 		if(activity.attachments){
 			if(activity.attachmentLayout &&
 				activity.attachmentLayout == 'list'){
 					return TYPES.CARRUSEL;
 			}
-			if(activity.attachment.length == 1 &&
-				activity.attachmentLayout == undefined){
-				return TYPES.CARD;
+			if(activity.attachments.length >= 1 /*&&
+				activity.attachmentLayout == undefined*/){
+				return TYPES.CARRUSEL;
 			}
 			
         }else{
