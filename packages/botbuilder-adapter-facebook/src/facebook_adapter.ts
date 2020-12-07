@@ -194,64 +194,6 @@ export class FacebookAdapter extends BotAdapter {
         }
     }
 
-    private createCards(activity: any): any{
-        let elements = new Array();
-
-        console.log("activities: " + activity.attachments.length);
-        for(var i=0; i<activity.attachments.length; i++){
-            
-            console.log("att: " + activity.attachments[i].attachments.length);
-            for(var j=0; j<activity.attachments[i].attachments.length; j++){
-                let card = activity.attachments[i].attachments[j];
-                let bottons_area = new Array();
-                console.log("burttons -> " + JSON.stringify(card))
-                for(var k=0; k<card.content.buttons.length; k++){
-                    var btn = card.content.buttons[k];
-                    bottons_area.push({
-                        type: "postback",
-                        payload: btn.value,
-                        title: btn.value
-                    });
-                }
-
-                elements.push({
-                    title: card.content.title,
-                    subtitle: card.content.text,
-                    image_url: card.content.images[0].url,
-                    default_action: {
-                      "type": "web_url",
-                      "url": "https://petersfancybrownhats.com/view?item=103",
-                      "webview_height_ratio": "tall",
-                    },
-                    buttons: bottons_area
-                })
-
-            }
-            
-        }
-
-        return {
-            "attachment":{
-              "type":"template",
-              "payload":{
-                "template_type":"generic",
-                "elements": elements
-              }
-            }
-            
-        }
-
-    }
-
-    private createTextMEssage(activity: any):any{
-        return {
-            text: activity.text,
-            sticker_id: undefined,
-            attachment: undefined,
-            quick_replies: undefined
-        }
-    }
-
     /**
      * Converts an Activity object to a Facebook messenger outbound message ready for the API.
      * @param activity
@@ -271,8 +213,7 @@ export class FacebookAdapter extends BotAdapter {
             persona_id: undefined,
             sender_action: undefined
         };
-        console.log("RESPONSE FACEBOOK")
-        console.log(JSON.stringify(message));
+
         // map these fields to their appropriate place
         if (activity.channelData) {
             if (activity.channelData.messaging_type) {
@@ -284,11 +225,11 @@ export class FacebookAdapter extends BotAdapter {
             }
 
             if (activity.channelData.sticker_id) {
-            //    message.message.sticker_id = activity.channelData.sticker_id;
+                message.message.sticker_id = activity.channelData.sticker_id;
             }
 
             if (activity.channelData.attachment) {
-                //message.message.attachment = activity.channelData.attachment;
+                message.message.attachment = activity.channelData.attachment;
             }
 
             if (activity.channelData.persona_id) {
@@ -305,17 +246,17 @@ export class FacebookAdapter extends BotAdapter {
                 // from docs: https://developers.facebook.com/docs/messenger-platform/reference/send-api/
                 // Cannot be sent with message. Must be sent as a separate request.
                 // When using sender_action, recipient should be the only other property set in the request.
-              //  delete (message.message);
+                delete (message.message);
             }
 
             // make sure the quick reply has a type
-            /*if (activity.channelData.quick_replies) {
+            if (activity.channelData.quick_replies) {
                 message.message.quick_replies = activity.channelData.quick_replies.map(function(item) {
                     const quick_reply = { ...item };
                     if (!item.content_type) quick_reply.content_type = 'text';
                     return quick_reply;
                 });
-            }*/
+            }
         }
 
         debug('OUT TO FACEBOOK > ', message);
