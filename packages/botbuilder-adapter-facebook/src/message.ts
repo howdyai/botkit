@@ -47,7 +47,7 @@ export class Message{
     }
 
     public setQuick_replies(replies:Array<QuickReply>):void{
-
+        this.quick_replies=replies;
     }
 
     public static createChoose(activity: any): Message{

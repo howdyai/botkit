@@ -23,6 +23,8 @@ export class MessagesCreator {
 			break;
 			case TYPES.CARRUSEL:
 				message = Message.createCarruselMessageCards(activity);
+			case TYPES.CHOOSE:
+				message= Message.createChoose(activity);
 			break;
 		}
 
