@@ -2,13 +2,14 @@
  * 
  */
 import {Attachment} from './attachment'
+import { QuickReply } from './quickReply';
 
 export class Message{
 
     private text:string;
     private sticker_id:string
-    private quick_replies: string;
     private attachment:Attachment;
+    private quick_replies:Array<QuickReply>;
     
     private constructor(){
     }
@@ -41,6 +42,20 @@ export class Message{
         let message = new Message();
         let attachment = Attachment.createAttachmentFromActivity(activity);       
         message.setAttachment(attachment);
+
+        return message;
+    }
+
+    public setQuick_replies(replies:Array<QuickReply>):void{
+
+    }
+
+    public static createChoose(activity: any): Message{
+        let message = new Message();
+
+        message.setText(activity.text);
+        let actions = QuickReply.getRepliesListFromActivity(activity.suggestedActions);
+        message.setQuick_replies(actions);
 
         return message;
     }

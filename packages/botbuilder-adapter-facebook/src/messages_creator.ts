@@ -7,10 +7,6 @@ import {Message} from './message'
 import { MESSAGES_PATH } from 'botbuilder/lib/streaming';
 export class MessagesCreator {
 
-	static TEXT = 'TEXT';
-	static CARD = 'CARD';
-	static CARROUSEL = 'CARROUSEL';
-
 
 	public static activityToFacebook(activity: any): any{
 		
@@ -51,7 +47,9 @@ export class MessagesCreator {
 				return TYPES.CARRUSEL;
 			}
 			
-        }else{
+        }else if(activity.suggestedActions){
+			return TYPES.CHOOSE;
+		}else{
 			return TYPES.TEXT;
         }
 
