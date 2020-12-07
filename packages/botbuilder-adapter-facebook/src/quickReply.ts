@@ -24,14 +24,21 @@ export class QuickReply{
     }
 
     public static getRepliesListFromActivity(activity: any): Array<QuickReply>{
+
+        console.log("== getRepliesListFromActivity == ")
+        console.log(JSON.stringify(activity));
+
         let replies = new Array();
 
-        for(let i=0; i<activity.actions; i++){
+        for(let i=0; i<activity.actions.length; i++){
             let action = activity.actions[i];
             replies.push(
                 this.createQuickReplyFromAction(action)
             );
         }
+
+        console.log("== LISTA CREADA == ")
+        console.log(JSON.stringify(replies));
 
         return replies;
     }
@@ -39,9 +46,9 @@ export class QuickReply{
     public static createQuickReplyFromAction(action:any):QuickReply{
 
         return this.createQuickReply(
-            'postback',
+            'text',
             action.title,
-            action.value
+            'postback'
         );
 
     }
