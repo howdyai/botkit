@@ -1,3 +1,4 @@
+import { url } from "inspector";
 import { Err } from "typedoc/dist/lib/utils/result";
 import {Payload} from './payload'
 /**
@@ -43,15 +44,32 @@ export class Button {
 	public static createCardButton(title, type, payload):Button{
 		let button = new Button(title, type);
 		button.setPayload(payload);
+		console.log("[Botton Create]");
+		console.log(button);
+				
 		return button;
 	}
 
+	public static createCardButtonUrl(title, type, url):Button{
+		let button = new Button(title, type);
+		button.setUr(url);
+		console.log("[Botton Create]");
+		console.log(button);
+			
+		return button;
+	}
 	/**
 	 * create a button from activity object
 	 * @param activity 
 	 */
 	public static createButtonFromActivityAction(activity: any):Button{
 		if(activity == null) throw new Error('Object not found');
+		
+		if(activity.type=="openUrl"){
+			return this.createCardButtonUrl(activity.title, "web_url", activity.value)
+
+		}
+		
 		let type = 'postback';
 		return this.createCardButton(activity.value, type, activity.title)
 	}
@@ -62,6 +80,14 @@ export class Button {
 
 	public getPayload(){
 		return this.payload;
+	}
+
+	public setUr(url){
+		this.url=url;
+
+	}
+	public getUrl(){
+		return this.url;
 	}
 
 	

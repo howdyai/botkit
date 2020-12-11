@@ -40,7 +40,7 @@ export class Element {
 
 		let element = this.createElement(	
 			activity.content.title || '',
-			activity.content.images[0].url,
+			activity.content.images[0].url ||'',
 			activity.content.text || '',
 		)		
 		
