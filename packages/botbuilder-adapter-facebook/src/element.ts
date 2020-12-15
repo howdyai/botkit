@@ -28,6 +28,10 @@ export class Element {
 		this.buttons = buttons;
 	}
 
+	public getButtons(): Array<Button>{
+		return this.buttons;
+	}
+
 	public setButtonsFromAny(buttons:any):void{
 		this.buttons = buttons;
 	}
