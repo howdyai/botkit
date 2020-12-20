@@ -249,11 +249,17 @@ export class SlackAdapter extends BotAdapter {
      */
     public getInstallLink(): string {
         let redirect = '';
-        if (this.options.clientId && this.options.scopes) {
+        if (this.options.clientId && (this.options.scopes || this.options.user_scopes) ) {
             if (this.options.oauthVersion === 'v2') {
-                redirect = 'https://slack.com/oauth/v2/authorize?client_id=' + this.options.clientId + '&scope=' + this.options.scopes.join(',');
+                redirect = 'https://slack.com/oauth/v2/authorize?client_id=' + this.options.clientId;
             } else {
-                redirect = 'https://slack.com/oauth/authorize?client_id=' + this.options.clientId + '&scope=' + this.options.scopes.join(',');
+                redirect = 'https://slack.com/oauth/authorize?client_id=' + this.options.clientId;
+            }
+            if (this.options.scopes) {
+                redirect += "&scope=" + this.options.scopes.join(",");
+            }
+            if (this.options.user_scopes) {
+                redirect += "&user_scope=" + this.options.user_scopes.join(",");
             }
             if (this.options.redirectUri) {
                 redirect += '&redirect_uri=' + encodeURIComponent(this.options.redirectUri);
@@ -750,6 +756,10 @@ export interface SlackAdapterOptions {
      * A array of scope names that are being requested during the oauth process. Must match the scopes defined at api.slack.com
      */
     scopes?: string[];
+    /**
+     * A array of user_scope names that are being requested during the oauth process. Must match the user_scopes defined at api.slack.com
+     */
+    user_scopes?: string[];
     /**
      * Which version of Slack's oauth protocol to use, v1 or v2. Defaults to v1.
      */
