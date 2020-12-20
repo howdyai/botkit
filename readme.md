@@ -70,3 +70,11 @@ To build updated versions of the class reference documents found in `packages/do
 ```bash
 lerna run build-docs
 ```
+Botkit Starter Kit for Slack Bots
+
+
+Botkit is designed to ease the process of designing and running useful, creative bots that live inside messaging platforms. Bots are applications that can send and receive messages, and in many cases, appear alongside their human counterparts as users.
+
+Some bots talk like people, others silently work in the background, while others present interfaces much like modern mobile applications. Botkit gives developers the necessary tools for building bots of any kind! It provides an easy-to-understand interface for sending and receiving messages so that developers can focus on creating novel applications and experiences instead of dealing with API endpoints.
+
+ Botkit is to make bot building easy, fun, and accessible to anyone with the desire to create a future filled with talking machines!
