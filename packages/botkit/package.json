@@ -35,7 +35,7 @@
     "botbuilder": "^4.10.1",
     "botbuilder-core": "^4.10.1",
     "botbuilder-dialogs": "^4.10.1",
-    "botframework-connector": "^4.10.1",
+    "botframework-connector": "^4.7.3",
     "debug": "^4.1.0",
     "express": "^4.17.1",
     "mustache": "^4.0.1",
