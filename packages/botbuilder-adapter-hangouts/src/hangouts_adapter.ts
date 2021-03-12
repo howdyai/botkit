@@ -10,6 +10,7 @@ import { Activity, ActivityTypes, BotAdapter, TurnContext, ConversationReference
 import * as Debug from 'debug';
 import { google } from 'googleapis';
 import { HangoutsBotWorker } from './botworker';
+import { RequestValidator } from './request_validator';
 const debug = Debug('botkit:hangouts');
 
 const apiVersion = 'v1';
@@ -24,11 +25,13 @@ export class HangoutsAdapter extends BotAdapter {
      * @ignore
      */
     public name = 'Google Hangouts Adapter';
+
     /**
      * Object containing one or more Botkit middlewares to bind automatically.
      * @ignore
      */
     public middlewares;
+
     /**
      * A customized BotWorker object that exposes additional utility methods.
      * @ignore
@@ -46,12 +49,17 @@ export class HangoutsAdapter extends BotAdapter {
     private api: any;
 
     /**
+     * A utility to validate requests received by the hanouts adapter.
+     */
+    private requestValidator: RequestValidator;
+
+    /**
      * Create an adapter to handle incoming messages from Google Hangouts and translate them into a standard format for processing by your bot.
      *
      * Use with Botkit:
      *```javascript
      * const adapter = new HangoutsAdapter({
-     *      token: process.env.GOOGLE_TOKEN,
+     *      project_number: process.env.GOOGLE_PROJECT_NUMBER,
      *      google_auth_params: {
      *          credentials: process.env.GOOGLE_CREDS
      *      }
@@ -65,7 +73,7 @@ export class HangoutsAdapter extends BotAdapter {
      * Use with BotBuilder:
      *```javascript
      * const adapter = new HangoutsAdapter({
-     *      token: process.env.GOOGLE_TOKEN,
+     *      project_number: process.env.GOOGLE_PROJECT_NUMBER,
      *      google_auth_params: {
      *          credentials: process.env.GOOGLE_CREDS
      *      }
@@ -80,32 +88,13 @@ export class HangoutsAdapter extends BotAdapter {
      * });
      * ```
      *
-     * @param options An object containing API credentials and a webhook verification token
+     * @param options An object containing API credentials
      */
     public constructor(options: HangoutsAdapterOptions) {
         super();
 
         this.options = options;
-
-        if (!this.options.token) {
-            const warning = [
-                '',
-                '****************************************************************************************',
-                '* WARNING: Your bot is operating without recommended security mechanisms in place.     *',
-                '* Initialize your adapter with a token parameter to enable                             *',
-                '* verification that all incoming webhooks originate with Google:                       *',
-                '*                                                                                      *',
-                '* var adapter = new HangoutsAdapter({token: <my secret from Google>});                 *',
-                '*                                                                                      *',
-                '****************************************************************************************',
-                '>> Official docs: https://developers.google.com/hangouts/chat/how-tos/bots-develop?hl=en_US#verifying_bot_authenticity',
-                ''
-            ];
-            console.warn(warning.join('\n'));
-            if (!this.options.enable_incomplete) {
-                throw new Error('Required: include a verificationToken or clientSigningSecret to verify incoming Events API webhooks');
-            }
-        }
+        this.requestValidator = new RequestValidator();
 
         const params = {
             scopes: 'https://www.googleapis.com/auth/chat.bot',
@@ -286,7 +275,7 @@ export class HangoutsAdapter extends BotAdapter {
 
         debug('IN FROM HANGOUTS >', event);
 
-        if (this.options.token && this.options.token !== event.token) {
+        if (!(await this.requestValidator.isValid(req, this.options.project_number))) {
             res.status(401);
             debug('Token verification failed, Ignoring message');
         } else {
@@ -367,12 +356,12 @@ export interface HangoutsAdapterOptions {
         client_email?: string;
         private_key?: string;
     };
+
     /**
-     * Shared secret token used to validate the origin of incoming webhooks.
-     * Get this from the [Google API console for your bot app](https://console.cloud.google.com/apis/api/chat.googleapis.com/hangouts-chat) - it is found on the Configuration tab under the heading "Verification Token".
-     * If defined, the origin of all incoming webhooks will be validated and any non-matching requests will be rejected.
+     * ProjectId to verify the audience of the bearer token, also referenced as the project number of the bot.
+     * Get this from the [Google Cloud Platform Dashboard for your bot](https://console.cloud.google.com/home/dashboard) - it is found under the heading "Project number".
      */
-    token: string; // webhook validation token
+    project_number: string;
 
     /**
      * Allow the adapter to startup without a complete configuration.
