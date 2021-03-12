@@ -35,9 +35,11 @@
   },
   "dependencies": {
     "botbuilder": "^4.10.1",
-    "googleapis": "^34.0.0",
     "botkit": "^4.10.0",
-    "debug": "^4.1.0"
+    "cross-fetch": "^3.0.6",
+    "debug": "^4.1.0",
+    "googleapis": "^34.0.0",
+    "jsonwebtoken": "^8.5.1"
   },
   "devDependencies": {
     "eslint": "^7.7.0",
@@ -45,6 +47,7 @@
     "eslint-plugin-import": "^2.20.0",
     "eslint-plugin-node": "^11.1.0",
     "eslint-plugin-promise": "^4.2.1",
-    "eslint-plugin-standard": "^4.0.1"
+    "eslint-plugin-standard": "^4.0.1",
+    "nock": "^13.0.11"
   }
 }

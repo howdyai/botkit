@@ -37,7 +37,7 @@ Developers can then bind to Botkit's event emitting system using `controller.on`
 
 ```javascript
 const adapter = new HangoutsAdapter({
-    token: process.env.GOOGLE_TOKEN,
+    project_number: process.env.GOOGLE_PROJECT_NUMBER,
     google_auth_params: {
         credentials: process.env.GOOGLE_CREDS
     }
@@ -59,7 +59,7 @@ Alternately, developers may choose to use `HangoutsAdapter` with BotBuilder. Wit
 
 ```javascript
 const adapter = new HangoutsAdapter({
-    token: process.env.GOOGLE_TOKEN,
+    project_number: process.env.GOOGLE_PROJECT_NUMBER,
     google_auth_params: {
         credentials: process.env.GOOGLE_CREDS
     }

@@ -7,3 +7,4 @@
  */
 
 export * from './hangouts_adapter';
+export * from './request_validator';
