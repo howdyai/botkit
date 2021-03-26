@@ -161,7 +161,7 @@ Developers can create complex conversational systems by combining these message 
 From inside a prompt handler function, use `convo.gotoThread()` to instantly switch to a different part of the conversation. Botkit can be set to automatically navigate between threads based on user input, such as in the example below.
 
 ```javascript
-    let convo = new BotkitConversation(controller, 'cheese');
+    let convo = new BotkitConversation('cheese', controller);
 
     // create a path for when a user says YES
     convo.addMessage({
