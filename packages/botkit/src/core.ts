@@ -865,7 +865,7 @@ export class Botkit {
      */
     private async testTrigger(trigger: BotkitTrigger, message: BotkitMessage): Promise<boolean> {
         if (trigger.type === 'string') {
-            const test = new RegExp(trigger.pattern as string, 'i');
+            const test = new RegExp('^' + trigger.pattern + '$' as string, 'i');
             if (message.text && message.text.match(test)) {
                 return true;
             }
