@@ -306,7 +306,7 @@ export class FacebookAdapter extends BotAdapter {
     }
 
     /**
-     * Facebook adapter does not support updateActivity.
+     * Facebook adapter does not support deleteActivity.
      * @ignore
      */
     // eslint-disable-next-line
