@@ -8,7 +8,7 @@
   "author": "benbrown@gmail.com",
   "license": "MIT",
   "dependencies": {
-    "handlebars": "^4.7.2",
+    "handlebars": "^4.7.7",
     "typedoc": "^0.16.9",
     "typedoc-plugin-external-module-name": "2.1.0"
   },
