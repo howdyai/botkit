@@ -22,7 +22,7 @@ const { WebexAdapter } = require('botbuilder-adapter-webex');
 
 ## Get Started
 
-If you are starting a brand new project, [follow these instructions to create a customized application template.](https://botkit.ai/getstarted.html)
+If you are starting a brand new project, [follow these instructions to create a customized application template.](../index.md)
 
 ## Use WebexAdapter in your App
 

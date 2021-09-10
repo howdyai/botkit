@@ -575,16 +575,6 @@ This class includes the following methods:
 
 
 
-### Create a new TeamsBotWorker()
-**Parameters**
-
-| Argument | Type | Description
-|--- |--- |---
-| controller | [Botkit](#Botkit) | 
-| config | any | 
-
-
-
 
 ## Properties and Accessors
 

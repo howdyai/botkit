@@ -21,7 +21,7 @@ const { SlackAdapter } = require('botbuilder-adapter-slack');
 
 ## Get Started
 
-If you are starting a brand new project, [follow these instructions to create a customized application template.](https://botkit.ai/getstarted.html)
+If you are starting a brand new project, [follow these instructions to create a customized application template.](../docs/index.md)
 
 ## Use SlackAdapter in your App
 
