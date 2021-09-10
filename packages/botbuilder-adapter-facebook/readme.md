@@ -20,7 +20,7 @@ const { FacebookAdapter } = require('botbuilder-adapter-facebook');
 
 ## Get Started
 
-If you are starting a brand new project, [follow these instructions to create a customized application template.](https://botkit.ai/getstarted.html)
+If you are starting a brand new project, [follow these instructions to create a customized application template.](../docs/index.md)
 
 ## Use FacebookAdapter in your App
 

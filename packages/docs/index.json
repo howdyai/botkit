@@ -4336,7 +4336,7 @@
               "sources": [
                 {
                   "fileName": "adapter.ts",
-                  "line": 31,
+                  "line": 30,
                   "character": 24
                 }
               ],
@@ -4406,7 +4406,7 @@
               "sources": [
                 {
                   "fileName": "adapter.ts",
-                  "line": 61,
+                  "line": 60,
                   "character": 28
                 }
               ]
@@ -4455,7 +4455,7 @@
               "sources": [
                 {
                   "fileName": "adapter.ts",
-                  "line": 31,
+                  "line": 30,
                   "character": 24
                 }
               ],
@@ -4527,7 +4527,7 @@
               "sources": [
                 {
                   "fileName": "adapter.ts",
-                  "line": 61,
+                  "line": 60,
                   "character": 28
                 }
               ]
@@ -4550,79 +4550,6 @@
           "children": [
             {
               "id": 53,
-              "name": "constructor",
-              "kind": 512,
-              "kindString": "Constructor",
-              "flags": {
-                "isPublic": true,
-                "isExported": true,
-                "isExternal": true
-              },
-              "signatures": [
-                {
-                  "id": 54,
-                  "name": "new TeamsBotWorker",
-                  "kind": 16384,
-                  "kindString": "Constructor signature",
-                  "flags": {
-                    "isExported": true
-                  },
-                  "parameters": [
-                    {
-                      "id": 55,
-                      "name": "controller",
-                      "kind": 32768,
-                      "kindString": "Parameter",
-                      "flags": {
-                        "isExported": true
-                      },
-                      "type": {
-                        "type": "reference",
-                        "id": 185,
-                        "name": "Botkit"
-                      }
-                    },
-                    {
-                      "id": 56,
-                      "name": "config",
-                      "kind": 32768,
-                      "kindString": "Parameter",
-                      "flags": {
-                        "isExported": true
-                      },
-                      "type": {
-                        "type": "intrinsic",
-                        "name": "any"
-                      }
-                    }
-                  ],
-                  "type": {
-                    "type": "reference",
-                    "id": 52,
-                    "name": "TeamsBotWorker"
-                  },
-                  "overwrites": {
-                    "type": "reference",
-                    "id": 3,
-                    "name": "BotWorker.__constructor"
-                  }
-                }
-              ],
-              "sources": [
-                {
-                  "fileName": "teamsHelpers.ts",
-                  "line": 18,
-                  "character": 47
-                }
-              ],
-              "overwrites": {
-                "type": "reference",
-                "id": 3,
-                "name": "BotWorker.__constructor"
-              }
-            },
-            {
-              "id": 57,
               "name": "teams",
               "kind": 1024,
               "kindString": "Property",
@@ -4637,7 +4564,7 @@
               "sources": [
                 {
                   "fileName": "teamsHelpers.ts",
-                  "line": 28,
+                  "line": 23,
                   "character": 14
                 }
               ],
@@ -4648,7 +4575,7 @@
               "defaultValue": "TeamsInfo"
             },
             {
-              "id": 58,
+              "id": 54,
               "name": "replyWithTaskInfo",
               "kind": 2048,
               "kindString": "Method",
@@ -4659,7 +4586,7 @@
               },
               "signatures": [
                 {
-                  "id": 59,
+                  "id": 55,
                   "name": "replyWithTaskInfo",
                   "kind": 4096,
                   "kindString": "Call signature",
@@ -4671,7 +4598,7 @@
                   },
                   "parameters": [
                     {
-                      "id": 60,
+                      "id": 56,
                       "name": "message",
                       "kind": 32768,
                       "kindString": "Parameter",
@@ -4686,7 +4613,7 @@
                       }
                     },
                     {
-                      "id": 61,
+                      "id": 57,
                       "name": "taskInfo",
                       "kind": 32768,
                       "kindString": "Parameter",
@@ -4707,7 +4634,7 @@
                     "typeArguments": [
                       {
                         "type": "intrinsic",
-                        "name": "unknown"
+                        "name": "any"
                       }
                     ],
                     "name": "Promise"
@@ -4717,7 +4644,7 @@
               "sources": [
                 {
                   "fileName": "teamsHelpers.ts",
-                  "line": 36,
+                  "line": 31,
                   "character": 32
                 }
               ]
@@ -4725,24 +4652,17 @@
           ],
           "groups": [
             {
-              "title": "Constructors",
-              "kind": 512,
-              "children": [
-                53
-              ]
-            },
-            {
               "title": "Properties",
               "kind": 1024,
               "children": [
-                57
+                53
               ]
             },
             {
               "title": "Methods",
               "kind": 2048,
               "children": [
-                58
+                54
               ]
             }
           ],
@@ -4762,7 +4682,7 @@
           ],
           "props": [
             {
-              "id": 57,
+              "id": 53,
               "name": "teams",
               "kind": 1024,
               "kindString": "Property",
@@ -4777,7 +4697,7 @@
               "sources": [
                 {
                   "fileName": "teamsHelpers.ts",
-                  "line": 28,
+                  "line": 23,
                   "character": 14
                 }
               ],
@@ -4790,7 +4710,7 @@
           ],
           "methods": [
             {
-              "id": 58,
+              "id": 54,
               "name": "replyWithTaskInfo",
               "kind": 2048,
               "kindString": "Method",
@@ -4801,7 +4721,7 @@
               },
               "signatures": [
                 {
-                  "id": 59,
+                  "id": 55,
                   "name": "replyWithTaskInfo",
                   "kind": 4096,
                   "kindString": "Call signature",
@@ -4813,7 +4733,7 @@
                   },
                   "parameters": [
                     {
-                      "id": 60,
+                      "id": 56,
                       "name": "message",
                       "kind": 32768,
                       "kindString": "Parameter",
@@ -4828,7 +4748,7 @@
                       }
                     },
                     {
-                      "id": 61,
+                      "id": 57,
                       "name": "taskInfo",
                       "kind": 32768,
                       "kindString": "Parameter",
@@ -4849,7 +4769,7 @@
                     "typeArguments": [
                       {
                         "type": "intrinsic",
-                        "name": "unknown"
+                        "name": "any"
                       }
                     ],
                     "name": "Promise"
@@ -4859,87 +4779,13 @@
               "sources": [
                 {
                   "fileName": "teamsHelpers.ts",
-                  "line": 36,
+                  "line": 31,
                   "character": 32
                 }
               ]
             }
           ],
-          "constructors": [
-            {
-              "id": 53,
-              "name": "constructor",
-              "kind": 512,
-              "kindString": "Constructor",
-              "flags": {
-                "isPublic": true,
-                "isExported": true,
-                "isExternal": true
-              },
-              "signatures": [
-                {
-                  "id": 54,
-                  "name": "new TeamsBotWorker",
-                  "kind": 16384,
-                  "kindString": "Constructor signature",
-                  "flags": {
-                    "isExported": true
-                  },
-                  "parameters": [
-                    {
-                      "id": 55,
-                      "name": "controller",
-                      "kind": 32768,
-                      "kindString": "Parameter",
-                      "flags": {
-                        "isExported": true
-                      },
-                      "type": {
-                        "type": "reference",
-                        "id": 185,
-                        "name": "Botkit"
-                      }
-                    },
-                    {
-                      "id": 56,
-                      "name": "config",
-                      "kind": 32768,
-                      "kindString": "Parameter",
-                      "flags": {
-                        "isExported": true
-                      },
-                      "type": {
-                        "type": "intrinsic",
-                        "name": "any"
-                      }
-                    }
-                  ],
-                  "type": {
-                    "type": "reference",
-                    "id": 52,
-                    "name": "TeamsBotWorker"
-                  },
-                  "overwrites": {
-                    "type": "reference",
-                    "id": 3,
-                    "name": "BotWorker.__constructor"
-                  }
-                }
-              ],
-              "sources": [
-                {
-                  "fileName": "teamsHelpers.ts",
-                  "line": 18,
-                  "character": 47
-                }
-              ],
-              "overwrites": {
-                "type": "reference",
-                "id": 3,
-                "name": "BotWorker.__constructor"
-              }
-            }
-          ]
+          "constructors": []
         },
         {
           "id": 2,
@@ -11449,7 +11295,7 @@
                           "sources": [
                             {
                               "fileName": "teamsHelpers.ts",
-                              "line": 84,
+                              "line": 79,
                               "character": 51
                             }
                           ]
@@ -11472,7 +11318,7 @@
               "sources": [
                 {
                   "fileName": "teamsHelpers.ts",
-                  "line": 84,
+                  "line": 79,
                   "character": 23
                 }
               ]
@@ -11490,7 +11336,7 @@
           "sources": [
             {
               "fileName": "teamsHelpers.ts",
-              "line": 78,
+              "line": 73,
               "character": 34
             }
           ],
@@ -11584,7 +11430,7 @@
                           "sources": [
                             {
                               "fileName": "teamsHelpers.ts",
-                              "line": 84,
+                              "line": 79,
                               "character": 51
                             }
                           ]
@@ -11607,7 +11453,7 @@
               "sources": [
                 {
                   "fileName": "teamsHelpers.ts",
-                  "line": 84,
+                  "line": 79,
                   "character": 23
                 }
               ]

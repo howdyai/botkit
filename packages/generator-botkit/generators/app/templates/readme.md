@@ -6,5 +6,5 @@ To complete the configuration of this bot, make sure to update the included `.en
 
 [Botkit Docs](https://github.com/howdyai/botkit/blob/main/packages/docs/index.md)
 
-This bot is powered by [a folder full of modules](https://botkit.ai/docs/v4/core.html#organize-your-bot-code). 
+This bot is powered by [a folder full of modules](https://github.com/howdyai/botkit/blob/main/packages/docs/core.md#organize-your-bot-code). 
 Edit the samples, and add your own in the [features/](features/) folder.
