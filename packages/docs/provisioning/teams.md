@@ -68,7 +68,7 @@ Say hello to your real live bot!
 ## Step 5 - Add dialog and features
 Once you have a bot up and running, you can start the fun part of [making your bot functional](../core.md).
 
-If you have questions or suggestions, please take a look at our [community support resources](core.md#developer--support-community). You can chat with contributors and enthusiasts in [our Slack community](https://community.botkit.ai/).
+If you have questions or suggestions, please take a look at our [community support resources](core.md#developer--support-community).
 
 ## Additional resources
 * [Microsoft's Bot Framework](https://dev.botframework.com/)
