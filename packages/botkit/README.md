@@ -7,7 +7,7 @@
 
 **Botkit is an open source developer tool for building chat bots, apps and custom integrations for major messaging platforms.**
 
-## The information in this document is for the brand new 4.0 branch of Botkit! If you're looking for documentation for previous versions, [look here](https://botkit.ai/docs/v0/).
+## The information in this document is for the brand new 4.0 branch of Botkit! If you're looking for documentation for previous versions, [look here](https://github.com/howdyai/botkit-docs).
 
 ## Install Botkit
 
@@ -23,7 +23,7 @@ yo botkit
 
 Want to dive right in? [Remix one of our starter kits on Glitch](https://glitch.com/botkit). You'll start with a fully functioning app that you can edit and run from the browser!
 
- [![Remix on Glitch](https://botkit.ai/docs/glitch.png)](https://glitch.com/botkit)
+ [![Remix on Glitch](https://github.com/howdyai/botkit/blob/main/packages/docs/glitch.png?raw=true)](https://glitch.com/botkit)
 
 ## Build Your Bot
 
@@ -123,14 +123,14 @@ controller.middleware.send.use(function(bot, message, next) {
 ```
 ## Documentation
 
-[Full documentation of Botkit, including a class reference, can be found on the docs site](https://botkit.ai/docs/v4), as well as [on Github](../docs/index.md).
+[Full documentation of Botkit, including a class reference, can be found on the docs site](../docs/index.md).
 
 ## [Change Log](https://github.com/howdyai/botkit/blob/master/changelog.md)
 
 ## Community & Support
 
 Join our thriving community of Botkit developers and bot enthusiasts at large.
-Over 10,000 members strong, [our open Slack group](https://community.botkit.ai) is
+Over 10,000 members strong, [our Github site](https://github.com/howdyai/botkit) is
 _the place_ for people interested in the art and science of making bots.
 Come to ask questions, share your progress, and commune with your peers!
 

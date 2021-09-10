@@ -10,9 +10,9 @@ and is released under the [MIT Open Source license](LICENSE.md)
 # Use Botkit
 
 * [Install Botkit and get started](packages/botkit#readme)
-* [Botkit Core Docs](https://botkit.ai/docs/v4/)
-* [Botkit Platform Support](https://botkit.ai/docs/v4/platforms/)
-* [Botkit Class Reference](https://botkit.ai/docs/v4/reference/)
+* [Botkit Core Docs](https://github.com/howdyai/botkit/blob/main/packages/docs/index.md)
+* [Botkit Platform Support](https://github.com/howdyai/botkit/blob/main/packages/docs/platforms/index.md)
+* [Botkit Class Reference](https://github.com/howdyai/botkit/blob/main/packages/docs/reference/index.md)
 
 ## Packages included in this repo
 
