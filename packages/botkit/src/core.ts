@@ -746,7 +746,7 @@ export class Botkit {
         // Spawn a bot worker with the dialogContext
         const bot = await this.spawn(dialogContext);
 
-        return new Promise((resolve, reject) => {
+        return new Promise<void>((resolve, reject) => {
             this.middleware.ingest.run(bot, message, async (err, bot, message) => {
                 if (err) {
                     reject(err);
