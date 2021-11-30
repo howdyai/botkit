@@ -16,7 +16,6 @@ steps:
   displayName: 'Install Node.js'
 
 - script: |
-    cd botkit
     npm install
     lerna bootstrap --hoist
     lerna run build
