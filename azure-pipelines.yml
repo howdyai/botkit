@@ -1,0 +1,29 @@
+# Node.js
+# Build a general Node.js project with npm.
+# Add steps that analyze code, save build artifacts, deploy, and more:
+# https://docs.microsoft.com/azure/devops/pipelines/languages/javascript
+
+trigger:
+- main
+
+pool:
+  vmImage: ubuntu-latest
+
+steps:
+- task: NodeTool@0
+  inputs:
+    versionSpec: '10.x'
+  displayName: 'Install Node.js'
+
+- script: |
+    cd botkit
+    npm install
+    lerna bootstrap --hoist
+    lerna run build
+  displayName: 'npm install and build'
+
+- task: ComponentGovernanceComponentDetection@0
+  inputs:
+    scanType: 'LogOnly'
+    verbosity: 'Verbose'
+    alertWarningLevel: 'High'
