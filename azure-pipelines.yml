@@ -24,6 +24,5 @@ steps:
 
 - task: ComponentGovernanceComponentDetection@0
   inputs:
-    scanType: 'LogOnly'
+    scanType: 'Register'
     verbosity: 'Verbose'
-    alertWarningLevel: 'High'
