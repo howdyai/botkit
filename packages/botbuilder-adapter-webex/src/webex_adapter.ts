@@ -239,7 +239,7 @@ export class WebexAdapter extends BotAdapter {
      * Clear out and reset all the webhook subscriptions currently associated with this application.
      */
     public async resetWebhookSubscriptions(): Promise<any> {
-        return new Promise((resolve, reject) => {
+        return new Promise<void>((resolve, reject) => {
             this._api.webhooks.list().then(async (list) => {
                 for (let i = 0; i < list.items.length; i++) {
                     await this._api.webhooks.remove(list.items[i]).catch(reject);
