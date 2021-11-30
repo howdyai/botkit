@@ -11,7 +11,8 @@
       "es5",
       "es2015",
       "es2016.array.include",
-      "esnext.asynciterable"
+      "esnext.asynciterable",
+      "dom"
     ]
   },
   "include": [

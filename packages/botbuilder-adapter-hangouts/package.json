@@ -1,6 +1,6 @@
 {
   "name": "botbuilder-adapter-hangouts",
-  "version": "1.0.8",
+  "version": "1.0.9",
   "description": "Connect Botkit or BotBuilder to Google Hangouts",
   "main": "./lib/index.js",
   "typings": "./lib/index.d.ts",
@@ -34,9 +34,9 @@
     "url": "https://github.com/howdyai/botkit.git"
   },
   "dependencies": {
-    "botbuilder": "^4.10.1",
+    "botbuilder": "^4.15.0",
     "googleapis": "^34.0.0",
-    "botkit": "^4.10.0",
+    "botkit": "^4.15.0",
     "debug": "^4.1.0"
   },
   "devDependencies": {
