@@ -3,6 +3,8 @@
  * Licensed under the MIT License.
  */
 var Generator = require('yeoman-generator');
+var _ = require('underscore');
+_.extend(Generator.prototype, require('yeoman-generator/lib/actions/install'));
 
 module.exports = class extends Generator {
     async prompting() {
