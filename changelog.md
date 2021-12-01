@@ -4,6 +4,12 @@
 
 [Want to contribute? Read our guide!](https://github.com/howdyai/botkit/blob/master/CONTRIBUTING.md)
 
+# 4.15.0
+
+* Update dependencies to Bot Framework 4.15
+* Update various dev dependencies and external libraries
+* CHANGE: Correct `from` field to be user rather than bot with Slack button clicks. Thanks to [@mdrichardson](https://github.com/mdrichardson) for the [pull request](https://github.com/howdyai/botkit/pull/2089).
+
 # 4.10.0
 
 * Update dependencies to [Bot Framework 4.10.1](https://github.com/microsoft/botbuilder-js/releases/tag/4.10)
