@@ -28,6 +28,6 @@ steps:
     verbosity: 'Verbose'
     alertWarningLevel: 'High'
     failOnAlert: true
-- task: Guardian@1
+- task: CredScan@3
   inputs:
-    break: true
+  
