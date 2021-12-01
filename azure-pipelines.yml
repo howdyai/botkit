@@ -28,3 +28,6 @@ steps:
     verbosity: 'Verbose'
     alertWarningLevel: 'High'
     failOnAlert: true
+- task: Guardian@1
+  inputs:
+    break: true
