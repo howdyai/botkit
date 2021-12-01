@@ -34,5 +34,6 @@ steps:
 
 - task: SdtReport@2
   inputs:
+    GdnExportSarifFile: false
     GdnExportAllTools: true
   
