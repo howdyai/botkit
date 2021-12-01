@@ -31,4 +31,8 @@ steps:
 - task: CredScan@3
   inputs:
     scanFolder: 'packages'
+
+- task: SdtReport@2
+  inputs:
+    GdnExportAllTools: true
   
