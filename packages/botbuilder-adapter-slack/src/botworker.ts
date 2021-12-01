@@ -108,7 +108,9 @@ export class SlackBotWorker extends BotWorker {
                 conversation: {
                     id: channel.channel.id,
                     // @ts-ignore this field is required for slack
-                    team: this.getConfig('activity').conversation.team
+                    team: this.getConfig('activity').conversation.team,
+                    // @ts-ignore this field is required for slack
+                    enterprise: this.getConfig('activity').conversation.enterprise
                 },
                 user: { id: userId, name: null },
                 channelId: 'slack'
@@ -145,7 +147,9 @@ export class SlackBotWorker extends BotWorker {
             conversation: {
                 id: channelId,
                 // @ts-ignore this field is required for slack
-                team: this.getConfig('activity').conversation.team
+                team: this.getConfig('activity').conversation.team,
+                // @ts-ignore this field is required for slack
+                enterprise: this.getConfig('activity').conversation.enterprise
             },
             user: { id: userId, name: null },
             channelId: 'slack'
@@ -179,7 +183,10 @@ export class SlackBotWorker extends BotWorker {
                 id: channelId,
                 // @ts-ignore this field is required for slack
                 thread_ts: thread_ts,
-                team: this.getConfig('activity').conversation.team
+                // @ts-ignore this field is required for slack
+                team: this.getConfig('activity').conversation.team,
+                // @ts-ignore this field is required for slack
+                enterprise: this.getConfig('activity').conversation.enterprise
             },
             user: { id: userId, name: null },
             channelId: 'slack'

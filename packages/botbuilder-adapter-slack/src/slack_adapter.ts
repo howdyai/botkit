@@ -198,7 +198,7 @@ export class SlackAdapter extends BotAdapter {
             // @ts-ignore
             if (activity.conversation.team) {
                 // @ts-ignore
-                const token = await this.options.getTokenForTeam(activity.conversation.team);
+                const token = await this.options.getTokenForTeam(activity.conversation.team, activity);
                 if (!token) {
                     throw new Error('Missing credentials for team.');
                 }
@@ -223,7 +223,7 @@ export class SlackAdapter extends BotAdapter {
             // @ts-ignore
             if (activity.conversation.team) {
                 // @ts-ignore
-                const user_id = await this.options.getBotUserByTeam(activity.conversation.team);
+                const user_id = await this.options.getBotUserByTeam(activity.conversation.team, activity);
                 if (!user_id) {
                     throw new Error('Missing credentials for team.');
                 }
@@ -538,7 +538,8 @@ export class SlackAdapter extends BotAdapter {
                     conversation: {
                         id: event.channel ? event.channel.id : event.team.id, // use team id for channel id, required because modal block actions and submissions don't include channel.
                         thread_ts: event.thread_ts,
-                        team: event.team.id
+                        team: event.team.id,
+                        enterprise: event.team.enterprise_id
                     },
                     from: { id: event.bot_id ? event.bot_id : event.user.id },
                     recipient: { id: null },
@@ -633,8 +634,9 @@ export class SlackAdapter extends BotAdapter {
                 // @ts-ignore this complains because of extra fields in conversation
                 activity.recipient.id = await this.getBotUserByTeam(activity as Activity);
 
-                // Normalize the location of the team id
+                // Normalize the location of the team id and enterprise id
                 activity.channelData.team = event.team_id;
+                activity.channelData.enterprise = event.enterprise_id;
 
                 // add the team id to the conversation record
                 // @ts-ignore -- Tell Typescript to ignore this overload
@@ -690,8 +692,9 @@ export class SlackAdapter extends BotAdapter {
 
                 activity.recipient.id = await this.getBotUserByTeam(activity as Activity);
 
-                // Normalize the location of the team id
+                // Normalize the location of the team id and enterprise id
                 activity.channelData.team = event.team_id;
+                activity.channelData.enterprise = event.enterprise_id;
 
                 // add the team id to the conversation record
                 // @ts-ignore -- Tell Typescript to ignore this overload
@@ -762,12 +765,12 @@ export interface SlackAdapterOptions {
     /**
      * A method that receives a Slack team id and returns the bot token associated with that team. Required for multi-team apps.
      */
-    getTokenForTeam?: (teamId: string) => Promise<string>;
+    getTokenForTeam?: (teamId: string, activity: Activity) => Promise<string>;
 
     /**
      * A method that receives a Slack team id and returns the bot user id associated with that team. Required for multi-team apps.
      */
-    getBotUserByTeam?: (teamId: string) => Promise<string>;
+    getBotUserByTeam?: (teamId: string, activity: Activity) => Promise<string>;
 
     /**
      * Allow the adapter to startup without a complete configuration.
