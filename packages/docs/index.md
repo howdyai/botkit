@@ -10,8 +10,6 @@
 
 ## Install Botkit
 
-[**New to Botkit?** Read our guide to getting started with Botkit](https://botkit.ai/getstarted.html).
-
 ### Remix on Glitch
 
 Want to dive right in? [Remix one of our starter kits on Glitch](https://glitch.com/botkit). You'll start with a fully functioning app that you can edit and run from the browser!

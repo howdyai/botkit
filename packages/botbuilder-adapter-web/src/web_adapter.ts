@@ -135,9 +135,7 @@ export class WebAdapter extends BotAdapter {
                         .catch((err) => { console.error(err.toString()); });
                 } catch (e) {
                     const alert = [
-                        'Error parsing incoming message from websocket.',
-                        'Message must be JSON, and should be in the format documented here:',
-                        'https://botkit.ai/docs/readme-web.html#message-objects'
+                        'Error parsing incoming message from websocket.'
                     ];
                     console.error(alert.join('\n'));
                     console.error(e);

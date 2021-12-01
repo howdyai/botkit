@@ -22,7 +22,7 @@ const { WebAdapter } = require('botbuilder-adapter-web');
 
 ## Get Started
 
-If you are starting a brand new project, [follow these instructions to create a customized application template.](https://botkit.ai/getstarted.html)
+If you are starting a brand new project, [follow these instructions to create a customized application template.](../index.md)
 
 ## Use WebAdapter in your App
 
@@ -86,7 +86,7 @@ Configures the webserver to accept websocket connections. This method is called 
 ## Community & Support
 
 Join our thriving community of Botkit developers and bot enthusiasts at large.
-Over 10,000 members strong, [our open Slack group](https://community.botkit.ai) is
+Over 10,000 members strong, [our Github site](https://github.com/howdyai/botkit) is
 _the place_ for people interested in the art and science of making bots.
 Come to ask questions, share your progress, and commune with your peers!
 

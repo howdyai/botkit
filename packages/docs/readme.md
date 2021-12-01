@@ -2,8 +2,6 @@
 
 This repo contains the source material for the official Botkit 4.x docs.
 
-View a nicely rendered version of these docs (and more) at [https://botkit.ai/docs/v4](https://botkit.ai/docs/v4)
-
 * [Get Started](index.md)
 * [Plugins](plugins/index.md)
 * [Platform Adapters](platforms/index.md)

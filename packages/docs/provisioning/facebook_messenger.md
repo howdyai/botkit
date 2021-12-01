@@ -4,7 +4,7 @@
 
 Facebook is a constantly evolving platform, nominally you can find everything you [need to create a bot](https://developers.facebook.com/docs/messenger-platform/guides/quick-start) on their platform page, but that information is subject to change.
 
-### 1. [Install Botkit](https://botkit.ai/getstarted.html)
+### 1. [Install Botkit](../index.md)
 
 Once installed, you will need to do steps 2-4, and steps 5 in parallel. It helps to have your development enviroment and the Facebook for Developers page open at the same time.
 
