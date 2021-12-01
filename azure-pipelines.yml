@@ -30,4 +30,5 @@ steps:
     failOnAlert: true
 - task: CredScan@3
   inputs:
+    scanFolder: 'packages'
   
