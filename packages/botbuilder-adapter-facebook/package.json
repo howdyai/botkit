@@ -11,7 +11,8 @@
   "scripts": {
     "build": "tsc",
     "test": "tsc ; nyc mocha tests/*.tests.js",
-    "eslint": "./node_modules/.bin/eslint --fix src/*"
+    "eslint": "./node_modules/.bin/eslint --fix src/*",
+    "pack": "npm pack"
   },
   "author": "Microsoft Corp.",
   "license": "MIT",

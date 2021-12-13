@@ -11,7 +11,8 @@
   "scripts": {
     "build": "tsc",
     "eslint": "./node_modules/.bin/eslint --fix src/*",
-    "test": "tsc ; nyc mocha tests/*.tests.js"
+    "test": "tsc ; nyc mocha tests/*.tests.js",
+    "pack": "npm pack"
   },
   "author": "benbrown@gmail.com",
   "license": "MIT",
