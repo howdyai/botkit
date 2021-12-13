@@ -31,3 +31,6 @@ steps:
 - task: CredScan@3
   inputs:
     scanFolder: 'packages'
+    - task: ManifestGeneratorTask@0
+      inputs:
+        BuildDropPath: 'packages/'
