@@ -36,3 +36,9 @@ steps:
   inputs:
     BuildComponentPath: 'packages/'
     PackageName: 'Botkit'
+
+- task: PublishBuildArtifacts@1
+  inputs:
+    PathtoPublish: '$(Build.ArtifactStagingDirectory)'
+    ArtifactName: 'botkit-allpackages-drop'
+    publishLocation: 'Container'
