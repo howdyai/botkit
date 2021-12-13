@@ -34,4 +34,5 @@ steps:
 
 - task: ManifestGeneratorTask@0
   inputs:
-    BuildDropPath: '/'
+    BuildComponentPath: 'packages/'
+    PackageName: 'Botkit'
