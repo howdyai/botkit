@@ -128,4 +128,4 @@ controller.middleware.send.use(function(bot, message, next) {
 ## What's Next?
 
 * [Continue learning about Botkit's core features](core.md)
-* [View set-up guides for all the major platforms](/docs/provisioning/)
+* [View set-up guides for all the major platforms](provisioning/index.md)
