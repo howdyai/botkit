@@ -19,10 +19,13 @@ steps:
 - script:
     rm -r packages/testbot
     
+    echo "rebase main package-lock"
     cat package-lock.json | node scripts/rebasePackageLock.js https://fuselabs.pkgs.visualstudio.com/_packaging/FuseNPM/npm/registry/ > new-package-lock.json
+    echo "moving file..."
     mv new-package-lock.json package-lock.json
-
+    echo "rebase facebook adapter"
     cat packages/botbuilder-adapter-facebook/package-lock.json | node scripts/rebasePackageLock.js https://fuselabs.pkgs.visualstudio.com/_packaging/FuseNPM/npm/registry/ > packages/botbuilder-adapter-facebook/new-package-lock.json
+    echo "moving file..."
     mv packages/botbuilder-adapter-facebook/new-package-lock.json packages/botbuilder-adapter-facebook/package-lock.json
 
     cat packages/botbuilder-adapter-hangouts/package-lock.json | node scripts/rebasePackageLock.js https://fuselabs.pkgs.visualstudio.com/_packaging/FuseNPM/npm/registry/ > packages/botbuilder-adapter-hangouts/new-package-lock.json
