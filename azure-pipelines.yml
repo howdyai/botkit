@@ -20,7 +20,16 @@ steps:
     npm install
     lerna bootstrap --hoist
     lerna run build
+    lerna run pack
   displayName: 'npm install and build'
+
+- task: CopyFiles@2
+  displayName: copy .tgz files to staging area
+  inputs:
+    SourceFolder: packages
+    Contents: '*/*.tgz'
+    TargetFolder: '$(Build.ArtifactStagingDirectory)'
+    flattenFolders: true
 
 - task: ComponentGovernanceComponentDetection@0
   inputs:
