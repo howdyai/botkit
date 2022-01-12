@@ -18,6 +18,7 @@ steps:
 
 - script:
     rm -r packages/testbot
+    
     cat package-lock.json | node scripts/rebasePackageLock.js https://fuselabs.pkgs.visualstudio.com/_packaging/FuseNPM/npm/registry/ > new-package-lock.json
     mv new-package-lock.json package-lock.json
 
