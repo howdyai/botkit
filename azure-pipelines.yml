@@ -65,7 +65,7 @@ steps:
     scanType: 'Register'
     verbosity: 'Verbose'
     alertWarningLevel: 'High'
-    failOnAlert: true
+    failOnAlert: false
 - task: CredScan@3
   inputs:
     scanFolder: 'packages'
