@@ -67,7 +67,7 @@ steps:
 
 - script:
     npm install
-    lerna bootstrap --hoist
+    lerna bootstrap --ci
     lerna run build
     lerna run pack
   displayName: 'npm install and build'
