@@ -93,7 +93,6 @@ steps:
     failOnAlert: false
 
 - task: CredScan@3
-  inputs:
 
 - task: ManifestGeneratorTask@0
   displayName: 'Generate manifest'
