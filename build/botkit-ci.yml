@@ -14,7 +14,7 @@ steps:
   inputs:
     versionSpec: '14.x'
     checkLatest: true
-  displayName: 'Install Node.js'
+  displayName: 'Install Node.js 14.x'
 
 - task: Bash@3
   inputs:
@@ -64,6 +64,7 @@ steps:
       echo "rebase generator..."
       cat packages/generator-botkit/package-lock.json | node scripts/rebasePackageLock.js https://fuselabs.pkgs.visualstudio.com/_packaging/FuseNPM/npm/registry/ > packages/generator-botkit/new-package-lock.json
       mv packages/generator-botkit/new-package-lock.json packages/generator-botkit/package-lock.json
+  displayName: 'Set up registries for FuseNPM feed'
 
 - task: Bash@3
   inputs:
@@ -73,6 +74,7 @@ steps:
       lerna bootstrap --hoist
       lerna run build
       lerna run pack
+  displayName: 'Build packages'
 
 - task: CopyFiles@2
   displayName: copy .tgz files to staging area
@@ -83,16 +85,18 @@ steps:
     flattenFolders: true
 
 - task: ComponentGovernanceComponentDetection@0
+  displayName: 'Component Detection'
   inputs:
     scanType: 'Register'
     verbosity: 'Verbose'
     alertWarningLevel: 'High'
     failOnAlert: false
+
 - task: CredScan@3
   inputs:
-    scanFolder: 'packages'
 
 - task: ManifestGeneratorTask@0
+  displayName: 'Generate manifest'
   inputs:
     BuildComponentPath: 'packages/'
     PackageName: 'Botkit'
@@ -101,3 +105,10 @@ steps:
   inputs:
     targetPath: '$(Pipeline.Workspace)'
     publishLocation: 'pipeline'
+
+- script: |
+   cd ..
+   dir /s
+  displayName: 'Dir workspace'
+  continueOnError: true
+  condition: succeededOrFailed()
