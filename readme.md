@@ -59,7 +59,7 @@ Use lerna to set up the local packages:
 lerna bootstrap --hoist
 ```
 
-Now, build all of the libraries:
+Now, build all of the included libraries:
 
 ```bash
 lerna run build
