@@ -9,6 +9,9 @@ trigger:
 pool:
   vmImage: windows-latest
 
+variables:
+  Packaging.EnableSBOMSigning: true
+
 steps:
 - task: NodeTool@0
   inputs:
