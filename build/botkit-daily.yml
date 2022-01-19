@@ -14,7 +14,7 @@ steps:
   inputs:
     versionSpec: '14.x'
     checkLatest: true
-  displayName: 'Install Node.js'
+  displayName: 'Install Node.js 14.x'
 
 - task: Bash@3
   inputs:
@@ -64,6 +64,7 @@ steps:
       echo "rebase generator..."
       cat packages/generator-botkit/package-lock.json | node scripts/rebasePackageLock.js https://fuselabs.pkgs.visualstudio.com/_packaging/FuseNPM/npm/registry/ > packages/generator-botkit/new-package-lock.json
       mv packages/generator-botkit/new-package-lock.json packages/generator-botkit/package-lock.json
+  displayName: 'Set up for FuseNPM feed'
 
 - task: Bash@3
   inputs:
@@ -73,31 +74,41 @@ steps:
       lerna bootstrap --hoist
       lerna run build
       lerna run pack
+  displayName: 'Build packages'
 
 - task: CopyFiles@2
   displayName: copy .tgz files to staging area
   inputs:
     SourceFolder: packages
     Contents: '*/*.tgz'
-    TargetFolder: '$(Build.ArtifactStagingDirectory)'
+    TargetFolder: '$(Build.ArtifactStagingDirectory)/drop'
     flattenFolders: true
 
 - task: ComponentGovernanceComponentDetection@0
+  displayName: 'Component Detection'
   inputs:
     scanType: 'Register'
     verbosity: 'Verbose'
     alertWarningLevel: 'High'
     failOnAlert: false
+
 - task: CredScan@3
-  inputs:
-    scanFolder: 'packages'
 
-- task: ManifestGeneratorTask@0
+- task: AzureArtifacts.manifest-generator-task.manifest-generator-task.ManifestGeneratorTask@0
+  displayName: 'Generate Software Bill of Materials (SBOM)'
   inputs:
-    BuildComponentPath: 'packages/'
-    PackageName: 'Botkit'
+    BuildDropPath: '$(Build.ArtifactStagingDirectory)/drop'
+    PackageName: 'Microsoft Botkit'
+    PackageVersion: $(ReleasePackageVersion)
 
-- task: PublishPipelineArtifact@1
+- task: PublishBuildArtifacts@1
+  displayName: 'Push .tgz files to Artifacts drop'
   inputs:
-    targetPath: '$(Pipeline.Workspace)'
-    publishLocation: 'pipeline'
+    PathtoPublish: '$(Build.ArtifactStagingDirectory)\drop'
+    ArtifactName: drop
+
+- powershell: |
+    Get-ChildItem .. -ErrorAction Continue -Recurse -Force | Where {$_.FullName -notlike "*node_modules*"}
+  displayName: 'Dir workspace except node_modules'
+  continueOnError: true
+  condition: succeededOrFailed()

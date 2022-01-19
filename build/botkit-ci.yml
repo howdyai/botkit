@@ -64,7 +64,7 @@ steps:
       echo "rebase generator..."
       cat packages/generator-botkit/package-lock.json | node scripts/rebasePackageLock.js https://fuselabs.pkgs.visualstudio.com/_packaging/FuseNPM/npm/registry/ > packages/generator-botkit/new-package-lock.json
       mv packages/generator-botkit/new-package-lock.json packages/generator-botkit/package-lock.json
-  displayName: 'Set up registries for FuseNPM feed'
+  displayName: 'Set up for FuseNPM feed'
 
 - task: Bash@3
   inputs:
@@ -105,9 +105,8 @@ steps:
     targetPath: '$(Pipeline.Workspace)'
     publishLocation: 'pipeline'
 
-- script: |
-   cd ..
-   dir /s
-  displayName: 'Dir workspace'
+- powershell: |
+    Get-ChildItem .. -ErrorAction Continue -Recurse -Force | Where {$_.FullName -notlike "*node_modules*"}
+  displayName: 'Dir workspace except node_modules'
   continueOnError: true
   condition: succeededOrFailed()
