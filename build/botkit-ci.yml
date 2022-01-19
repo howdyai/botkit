@@ -76,14 +76,6 @@ steps:
       lerna run pack
   displayName: 'Build packages'
 
-- task: CopyFiles@2
-  displayName: copy .tgz files to staging area
-  inputs:
-    SourceFolder: packages
-    Contents: '*/*.tgz'
-    TargetFolder: '$(Build.ArtifactStagingDirectory)'
-    flattenFolders: true
-
 - task: ComponentGovernanceComponentDetection@0
   displayName: 'Component Detection'
   inputs:
@@ -93,17 +85,6 @@ steps:
     failOnAlert: false
 
 - task: CredScan@3
-
-- task: ManifestGeneratorTask@0
-  displayName: 'Generate manifest'
-  inputs:
-    BuildComponentPath: 'packages/'
-    PackageName: 'Botkit'
-
-- task: PublishPipelineArtifact@1
-  inputs:
-    targetPath: '$(Pipeline.Workspace)'
-    publishLocation: 'pipeline'
 
 - powershell: |
     Get-ChildItem .. -ErrorAction Continue -Recurse -Force | Where {$_.FullName -notlike "*node_modules*"}
