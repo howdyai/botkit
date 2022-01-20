@@ -43,6 +43,13 @@ steps:
     }
   displayName: 'Set botkit package version'
 
+- task: colinsalmcorner.colinsalmcorner-buildtasks.tag-build-task.tagBuildOrRelease@0
+  displayName: tag build with version number
+  inputs:
+    tags: |
+     version=$(PackageVersion)
+  continueOnError: true
+
 - task: Bash@3
   inputs:
     targetType: 'inline'
