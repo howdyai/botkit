@@ -130,7 +130,7 @@ steps:
   displayName: 'Generate Software Bill of Materials (SBOM)'
   inputs:
     BuildDropPath: '$(Build.ArtifactStagingDirectory)/drop'
-    PackageName: 'Microsoft Botkit'
+    PackageName: 'Botkit'
     PackageVersion: $(PackageVersion)
 
 - task: PublishBuildArtifacts@1
