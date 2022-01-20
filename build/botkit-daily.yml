@@ -14,6 +14,7 @@ pr: none # pr trigger is set in ADO
 
 variables:
   Packaging.EnableSBOMSigning: true
+  runCodesignValidationInjection: false
 #  PackageVersion: 4.16.0-dev.{DateStamp}.$(Build.BuildId) Define this in Azure to be settable at queue time.
 
 steps:
