@@ -14,6 +14,7 @@ pr: none # pr trigger is set in ADO
 
 variables:
   Packaging.EnableSBOMSigning: true
+#  PackageVersion: 4.16.0-dev.{DateStamp}.$(Build.BuildId) Define this in Azure to be settable at queue time.
 
 steps:
 - task: NodeTool@0
@@ -21,6 +22,33 @@ steps:
     versionSpec: '14.x'
     checkLatest: true
   displayName: 'Install Node.js 14.x'
+
+- powershell: |
+    # Replace {DateStamp} with the actual value in var PackageVersionFormat
+    $dateStamp = (Get-Date -format "yyyyMMdd");
+    
+    "Raw PackageVersion = $(PackageVersion)";
+    $v = "$(PackageVersion)".Replace("{DateStamp}",$dateStamp);
+    Write-Host "##vso[task.setvariable variable=PackageVersion;]$v";
+    "Resolved PackageVersion = $v";
+  displayName: 'Resolve variable PackageVersion'
+
+- powershell: |
+    Get-ChildItem -Recurse -Path 'packages\botkit\package.json' | % {
+        $_.FullName; 
+        $content = Get-Content -Raw $_.FullName | ConvertFrom-Json;
+        $content.version = "$(PackageVersion)";
+        $content | ConvertTo-Json | Set-Content $_.FullName;
+        '-------------'; get-content $_.FullName; '==================='
+    }
+  displayName: 'Set botkit package version'
+
+- task: colinsalmcorner.colinsalmcorner-buildtasks.tag-build-task.tagBuildOrRelease@0
+  displayName: tag build with version number
+  inputs:
+    tags: |
+     version=$(PackageVersion)
+  continueOnError: true
 
 - task: Bash@3
   inputs:
@@ -102,8 +130,8 @@ steps:
   displayName: 'Generate Software Bill of Materials (SBOM)'
   inputs:
     BuildDropPath: '$(Build.ArtifactStagingDirectory)/drop'
-    PackageName: 'Microsoft Botkit'
-    PackageVersion: $(ReleasePackageVersion)
+    PackageName: 'Botkit'
+    PackageVersion: $(PackageVersion)
 
 - task: PublishBuildArtifacts@1
   displayName: 'Push .tgz files to Artifacts drop'
