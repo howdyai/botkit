@@ -12,6 +12,9 @@ pool:
 trigger: none # ci trigger is set in ADO
 pr: none # pr trigger is set in ADO
 
+variables:
+  runCodesignValidationInjection: false
+
 steps:
 - task: NodeTool@0
   inputs:
