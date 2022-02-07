@@ -35,9 +35,10 @@
   },
   "dependencies": {
     "@slack/web-api": "^6.5.1",
-    "botbuilder": "^4.15.0",
-    "botkit": "^4.15.0",
-    "debug": "^4.1.0"
+    "botbuilder": "^4.10.0",
+    "botkit": "^4.10.0",
+    "debug": "^4.1.0",
+    "node-fetch": "^3.1.0"
   },
   "devDependencies": {
     "eslint": "^8.3.0",

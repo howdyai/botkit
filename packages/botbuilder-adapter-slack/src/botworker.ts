@@ -8,7 +8,7 @@
 
 import { Botkit, BotkitMessage, BotWorker } from 'botkit';
 import { WebClient, Dialog } from '@slack/web-api';
-import * as request from 'request';
+import fetch from 'node-fetch';
 
 /**
  * This is a specialized version of [Botkit's core BotWorker class](core.md#BotWorker) that includes additional methods for interacting with Slack.
@@ -270,21 +270,16 @@ export class SlackBotWorker extends BotWorker {
 
             msg = this.getConfig('adapter').activityToSlack(msg);
 
-            const requestOptions = {
-                uri: src.incoming_message.channelData.response_url,
-                method: 'POST',
-                json: msg
-            };
+            const res = await fetch(
+                src.incoming_message.channelData.response_url,
+                {
+                    method: 'POST',
+                    body: JSON.stringify(msg),
+                    headers: { 'Content-Type': 'application/json' },
+                }
+            );
 
-            return new Promise(function(resolve, reject) {
-                request(requestOptions, function(err, res, body) {
-                    if (err) {
-                        reject(err);
-                    } else {
-                        resolve(body);
-                    }
-                });
-            });
+            return await res.json();
         }
     };
 
