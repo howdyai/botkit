@@ -1,6 +1,6 @@
 {
   "name": "botbuilder-adapter-webex",
-  "version": "1.0.9",
+  "version": "1.0.10",
   "description": "Connect Botkit or BotBuilder to Webex Teams",
   "main": "./lib/index.js",
   "typings": "./lib/index.d.ts",
@@ -11,7 +11,8 @@
   "scripts": {
     "build": "tsc",
     "test": "tsc ; nyc mocha tests/*.tests.js",
-    "eslint": "./node_modules/.bin/eslint --fix src/*"
+    "eslint": "./node_modules/.bin/eslint --fix src/*",
+    "pack": "npm pack"
   },
   "author": "Microsoft Corp.",
   "license": "MIT",
@@ -33,18 +34,18 @@
     "url": "https://github.com/howdyai/botkit.git"
   },
   "dependencies": {
-    "botbuilder": "^4.10.1",
-    "botkit": "^4.10.0",
+    "botbuilder": "^4.15.0",
+    "botkit": "^4.15.0",
     "debug": "^4.1.0",
     "url": "^0.11.0",
     "webex": "^1.80.148"
   },
   "devDependencies": {
-    "eslint": "^7.7.0",
-    "eslint-config-standard": "^14.1.1",
-    "eslint-plugin-import": "^2.20.0",
+    "eslint": "^8.3.0",
+    "eslint-config-standard": "^16.0.3",
+    "eslint-plugin-import": "^2.25.3",
     "eslint-plugin-node": "^11.1.0",
-    "eslint-plugin-promise": "^4.2.1",
+    "eslint-plugin-promise": "^5.1.1",
     "eslint-plugin-standard": "^4.0.1"
   }
 }

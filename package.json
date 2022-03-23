@@ -7,14 +7,16 @@
     "test": "lerna run build ; lerna run test",
     "build-docs": "lerna run build-docs",
     "eslint": "./node_modules/.bin/eslint  ./packages/*/src/*.ts ./packages/*/src/**/*.ts",
-    "eslint-fix": "./node_modules/.bin/eslint  ./packages/*/src/*.ts ./packages/*/src/**/*.ts --fix"
+    "eslint-fix": "./node_modules/.bin/eslint  ./packages/*/src/*.ts ./packages/*/src/**/*.ts --fix",
+    "lerna:pack": "lerna run pack"
   },
   "devDependencies": {
-    "@typescript-eslint/eslint-plugin": "^2.17.0",
-    "@typescript-eslint/parser": "^2.17.0",
-    "eslint": "^7.7.0",
-    "lerna": "^3.22.1",
-    "mocha": "^8.1.1",
+    "@typescript-eslint/eslint-plugin": "^5.16.0",
+    "@typescript-eslint/parser": "^5.16.0",
+    "eslint": "^8.11.0",
+    "eslint-config-standard": "^16.0.3",
+    "lerna": "^4.0.0",
+    "mocha": "^9.1.3",
     "nyc": "^15.1.0",
     "typescript": "^3.7.5"
   }

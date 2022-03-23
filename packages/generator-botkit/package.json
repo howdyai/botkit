@@ -1,8 +1,10 @@
 {
   "name": "generator-botkit",
-  "version": "4.10.0",
+  "version": "4.15.0",
   "description": "Automatically generate a Botkit application template for any supported platform",
-  "scripts": {},
+  "scripts": {
+    "pack": "npm pack"
+  },
   "files": [
     "generators"
   ],
@@ -23,6 +25,7 @@
     "url": "https://github.com/howdyai/botkit.git"
   },
   "dependencies": {
-    "yeoman-generator": "^3.2.0"
+    "yeoman-generator": "5.6.1",
+    "underscore": "1.13.1"
   }
 }

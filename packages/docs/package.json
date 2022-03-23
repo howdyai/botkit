@@ -8,9 +8,9 @@
   "author": "benbrown@gmail.com",
   "license": "MIT",
   "dependencies": {
-    "handlebars": "^4.7.2",
-    "typedoc": "^0.16.9",
-    "typedoc-plugin-external-module-name": "2.1.0"
+    "handlebars": "^4.7.7",
+    "typedoc": "^0.22.10",
+    "typedoc-plugin-external-module-name": "4.0.6"
   },
   "devDependencies": {
     "typedoc-plugin-no-inherit": "^1.1.10"

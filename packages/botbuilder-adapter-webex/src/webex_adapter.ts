@@ -239,7 +239,7 @@ export class WebexAdapter extends BotAdapter {
      * Clear out and reset all the webhook subscriptions currently associated with this application.
      */
     public async resetWebhookSubscriptions(): Promise<any> {
-        return new Promise((resolve, reject) => {
+        return new Promise<void>((resolve, reject) => {
             this._api.webhooks.list().then(async (list) => {
                 for (let i = 0; i < list.items.length; i++) {
                     await this._api.webhooks.remove(list.items[i]).catch(reject);
@@ -487,7 +487,7 @@ export class WebexAdapter extends BotAdapter {
                 id: decrypted_message.id,
                 timestamp: new Date(),
                 channelId: 'webex',
-                conversation: { id: decrypted_message.roomId },
+                conversation: { id: decrypted_message.roomId, parentId: decrypted_message.parentId },
                 from: { id: decrypted_message.personId, name: decrypted_message.personEmail },
                 recipient: { id: this.identity.id },
                 text: decrypted_message.text,

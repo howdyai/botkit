@@ -1,0 +1,99 @@
+# Node.js
+# Build a general Node.js project with npm.
+# Add steps that analyze code, save build artifacts, deploy, and more:
+# https://docs.microsoft.com/azure/devops/pipelines/languages/javascript
+
+# "name" here defines the build number format. Build number is accessed via $(Build.BuildNumber)
+name: $(Build.BuildId)
+
+pool:
+  vmImage: windows-latest
+
+trigger: none # ci trigger is set in ADO
+pr: none # pr trigger is set in ADO
+
+variables:
+  runCodesignValidationInjection: false
+
+steps:
+- task: NodeTool@0
+  inputs:
+    versionSpec: '14.x'
+    checkLatest: true
+  displayName: 'Install Node.js 14.x'
+
+- task: Bash@3
+  inputs:
+    targetType: 'inline'
+    script: |
+      rm -r packages/testbot
+      rm -r packages/docs
+      
+      echo "rebase main package-lock"
+      cat package-lock.json | node build/scripts/rebasePackageLock.js https://fuselabs.pkgs.visualstudio.com/_packaging/FuseNPM/npm/registry/ > new-package-lock.json
+      echo "moving file..."
+      mv new-package-lock.json package-lock.json
+      
+      echo "rebase facebook adapter"
+      cat packages/botbuilder-adapter-facebook/package-lock.json | node build/scripts/rebasePackageLock.js https://fuselabs.pkgs.visualstudio.com/_packaging/FuseNPM/npm/registry/ > packages/botbuilder-adapter-facebook/new-package-lock.json
+      echo "moving file..."
+      mv packages/botbuilder-adapter-facebook/new-package-lock.json packages/botbuilder-adapter-facebook/package-lock.json
+      
+      echo "rebase hangouts adapter"
+      cat packages/botbuilder-adapter-hangouts/package-lock.json | node build/scripts/rebasePackageLock.js https://fuselabs.pkgs.visualstudio.com/_packaging/FuseNPM/npm/registry/ > packages/botbuilder-adapter-hangouts/new-package-lock.json
+      mv packages/botbuilder-adapter-hangouts/new-package-lock.json packages/botbuilder-adapter-hangouts/package-lock.json
+      
+      echo "rebase slack adapter..."
+      cat packages/botbuilder-adapter-slack/package-lock.json | node build/scripts/rebasePackageLock.js https://fuselabs.pkgs.visualstudio.com/_packaging/FuseNPM/npm/registry/ > packages/botbuilder-adapter-slack/new-package-lock.json
+      mv packages/botbuilder-adapter-slack/new-package-lock.json packages/botbuilder-adapter-slack/package-lock.json
+      
+      echo "rebase twilio adapter..."
+      cat packages/botbuilder-adapter-twilio-sms/package-lock.json | node build/scripts/rebasePackageLock.js https://fuselabs.pkgs.visualstudio.com/_packaging/FuseNPM/npm/registry/ > packages/botbuilder-adapter-twilio-sms/new-package-lock.json
+      mv packages/botbuilder-adapter-twilio-sms/new-package-lock.json packages/botbuilder-adapter-twilio-sms/package-lock.json
+      
+      echo "rebase web adapter..."
+      cat packages/botbuilder-adapter-web/package-lock.json | node build/scripts/rebasePackageLock.js https://fuselabs.pkgs.visualstudio.com/_packaging/FuseNPM/npm/registry/ > packages/botbuilder-adapter-web/new-package-lock.json
+      mv packages/botbuilder-adapter-web/new-package-lock.json packages/botbuilder-adapter-web/package-lock.json
+      
+      echo "rebase webex adapter..."
+      cat packages/botbuilder-adapter-webex/package-lock.json | node build/scripts/rebasePackageLock.js https://fuselabs.pkgs.visualstudio.com/_packaging/FuseNPM/npm/registry/ > packages/botbuilder-adapter-webex/new-package-lock.json
+      mv packages/botbuilder-adapter-webex/new-package-lock.json packages/botbuilder-adapter-webex/package-lock.json
+      
+      echo "rebase cms plugin..."
+      cat packages/botkit-plugin-cms/package-lock.json | node build/scripts/rebasePackageLock.js https://fuselabs.pkgs.visualstudio.com/_packaging/FuseNPM/npm/registry/ > packages/botkit-plugin-cms/new-package-lock.json
+      mv packages/botkit-plugin-cms/new-package-lock.json packages/botkit-plugin-cms/package-lock.json
+      
+      echo "rebase botkit..."
+      cat packages/botkit/package-lock.json | node build/scripts/rebasePackageLock.js https://fuselabs.pkgs.visualstudio.com/_packaging/FuseNPM/npm/registry/ > packages/botkit/new-package-lock.json
+      mv packages/botkit/new-package-lock.json packages/botkit/package-lock.json
+      
+      echo "rebase generator..."
+      cat packages/generator-botkit/package-lock.json | node build/scripts/rebasePackageLock.js https://fuselabs.pkgs.visualstudio.com/_packaging/FuseNPM/npm/registry/ > packages/generator-botkit/new-package-lock.json
+      mv packages/generator-botkit/new-package-lock.json packages/generator-botkit/package-lock.json
+  displayName: 'Set up for FuseNPM feed'
+
+- task: Bash@3
+  inputs:
+    targetType: 'inline'
+    script: |
+      npm install --ignore-scripts
+      lerna bootstrap --hoist
+      lerna run build
+      lerna run pack
+  displayName: 'Build packages'
+
+- task: ComponentGovernanceComponentDetection@0
+  displayName: 'Component Detection'
+  inputs:
+    scanType: 'Register'
+    verbosity: 'Verbose'
+    alertWarningLevel: 'High'
+    failOnAlert: false
+
+- task: CredScan@3
+
+- powershell: |
+    Get-ChildItem .. -ErrorAction Continue -Recurse -Force | Where {$_.FullName -notlike "*node_modules*"}
+  displayName: 'Dir workspace except node_modules'
+  continueOnError: true
+  condition: succeededOrFailed()

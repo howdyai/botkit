@@ -10,8 +10,6 @@
 
 ## Install Botkit
 
-[**New to Botkit?** Read our guide to getting started with Botkit](https://botkit.ai/getstarted.html).
-
 ### Remix on Glitch
 
 Want to dive right in? [Remix one of our starter kits on Glitch](https://glitch.com/botkit). You'll start with a fully functioning app that you can edit and run from the browser!
@@ -130,4 +128,4 @@ controller.middleware.send.use(function(bot, message, next) {
 ## What's Next?
 
 * [Continue learning about Botkit's core features](core.md)
-* [View set-up guides for all the major platforms](/docs/provisioning/)
+* [View set-up guides for all the major platforms](provisioning/index.md)
