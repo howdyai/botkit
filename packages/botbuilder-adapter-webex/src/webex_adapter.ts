@@ -487,7 +487,7 @@ export class WebexAdapter extends BotAdapter {
                 id: decrypted_message.id,
                 timestamp: new Date(),
                 channelId: 'webex',
-                conversation: { id: decrypted_message.roomId },
+                conversation: { id: decrypted_message.roomId, parentId: decrypted_message.parentId },
                 from: { id: decrypted_message.personId, name: decrypted_message.personEmail },
                 recipient: { id: this.identity.id },
                 text: decrypted_message.text,
