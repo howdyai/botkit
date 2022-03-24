@@ -1523,7 +1523,8 @@ Defines the options used when instantiating Botkit to create the main app contro
 | adapterConfig |  | If using the BotFramework service, options included in `adapterConfig` will be passed to the new Adapter when created internally.<br/>See [BotFrameworkAdapterSettings](https://docs.microsoft.com/en-us/javascript/api/botbuilder/botframeworkadaptersettings?view=azure-node-latest&viewFallbackFrom=botbuilder-ts-latest).<br/>
 | dialogStateProperty | string | Name of the dialogState property in the ConversationState that will be used to automatically track the dialog state. Defaults to `dialogState`.<br/>
 | disable_console | boolean | Disable messages normally sent to the console during startup.<br/>
-| disable_webserver | boolean | Disable webserver. If true, Botkit will not create a webserver or expose any webhook endpoints automatically. Defaults to false.<br/>
+| disable_webserver | boolean | Disable webserver. If true, Botkit will not create a webserver or expose any webhook endpoints automatically. Defaults to false.<br/>For an example of how to use your own Express, [see this sample code](https://github.com/howdyai/botkit/blob/main/packages/testbot/custom_express.js).
+
 | jsonLimit | string | Limit of the size of incoming JSON payloads parsed by the Express bodyParser. Defaults to '100kb'<br/>
 | storage | Storage | A Storage interface compatible with [this specification](https://docs.microsoft.com/en-us/javascript/api/botbuilder-core/storage?view=botbuilder-ts-latest)<br/>Defaults to the ephemeral [MemoryStorage](https://docs.microsoft.com/en-us/javascript/api/botbuilder-core/memorystorage?view=botbuilder-ts-latest) implementation.<br/>
 | urlEncodedLimit | string | Limit of the size of incoming URL encoded payloads parsed by the Express bodyParser. Defaults to '100kb'<br/>
