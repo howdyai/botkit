@@ -66,6 +66,7 @@ export interface BotkitConfiguration {
 
     /**
      * Disable webserver. If true, Botkit will not create a webserver or expose any webhook endpoints automatically. Defaults to false.
+     * For an example of how to use your own Express, [see this sample code](https://github.com/howdyai/botkit/blob/main/packages/testbot/custom_express.js).
      */
     disable_webserver?: boolean;
 
