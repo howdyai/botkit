@@ -865,6 +865,11 @@ export class BotkitConversation<O extends object = {}> extends Dialog<O> {
             };
         }
 
+        // copy user ID from vars (in order to have it in send middleware)
+        if (!outgoing.user && vars && vars.user) {
+            outgoing.user = vars.user;
+        }
+
         /*******************************************************************************************************************/
         // Handle template token replacements
         if (outgoing.text) {
