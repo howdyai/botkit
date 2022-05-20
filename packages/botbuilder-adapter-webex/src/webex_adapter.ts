@@ -253,52 +253,56 @@ export class WebexAdapter extends BotAdapter {
      * Register a webhook subscription with Webex Teams to start receiving message events.
      * @param webhook_path the path of the webhook endpoint like `/api/messages`
      */
-    public registerWebhookSubscription(webhook_path): void {
-        const webhook_name = this.options.webhook_name || 'Botkit Firehose';
+    public registerWebhookSubscription(webhook_path): Promise<any> {
+        return new Promise<void>((resolve, reject) => {
+            const webhook_name = this.options.webhook_name || 'Botkit Firehose';
 
-        this._api.webhooks.list().then((list) => {
-            let hook_id = null;
+            this._api.webhooks.list().then((list) => {
+                let hook_id = null;
 
-            for (let i = 0; i < list.items.length; i++) {
-                if (list.items[i].name === webhook_name) {
-                    hook_id = list.items[i].id;
+                for (let i = 0; i < list.items.length; i++) {
+                    if (list.items[i].name === webhook_name) {
+                        hook_id = list.items[i].id;
+                    }
                 }
-            }
 
-            const hook_url = 'https://' + this.options.public_address + webhook_path;
+                const hook_url = 'https://' + this.options.public_address + webhook_path;
 
-            debug('Webex: incoming webhook url is ', hook_url);
+                debug('Webex: incoming webhook url is ', hook_url);
 
-            if (hook_id) {
-                this._api.webhooks.update({
-                    id: hook_id,
-                    resource: 'all',
-                    targetUrl: hook_url,
-                    event: 'all',
-                    secret: this.options.secret,
-                    name: webhook_name
-                }).then(function() {
-                    debug('Webex: SUCCESSFULLY UPDATED WEBEX WEBHOOKS');
-                }).catch(function(err) {
-                    console.error('FAILED TO REGISTER WEBHOOK', err);
-                    throw new Error(err);
-                });
-            } else {
-                this._api.webhooks.create({
-                    resource: 'all',
-                    targetUrl: hook_url,
-                    event: 'all',
-                    secret: this.options.secret,
-                    name: webhook_name
-                }).then(function() {
-                    debug('Webex: SUCCESSFULLY REGISTERED WEBEX WEBHOOKS');
-                }).catch(function(err) {
-                    console.error('FAILED TO REGISTER WEBHOOK', err);
-                    throw new Error(err);
-                });
-            }
-        }).catch(function(err) {
-            throw new Error(err);
+                if (hook_id) {
+                    this._api.webhooks.update({
+                        id: hook_id,
+                        resource: 'all',
+                        targetUrl: hook_url,
+                        event: 'all',
+                        secret: this.options.secret,
+                        name: webhook_name
+                    }).then(function() {
+                        debug('Webex: SUCCESSFULLY UPDATED WEBEX WEBHOOKS');
+                        resolve();
+                    }).catch(function(err) {
+                        console.error('FAILED TO REGISTER WEBHOOK', err);
+                        reject(new Error(err));
+                    });
+                } else {
+                    this._api.webhooks.create({
+                        resource: 'all',
+                        targetUrl: hook_url,
+                        event: 'all',
+                        secret: this.options.secret,
+                        name: webhook_name
+                    }).then(function() {
+                        debug('Webex: SUCCESSFULLY REGISTERED WEBEX WEBHOOKS');
+                        resolve();
+                    }).catch(function(err) {
+                        console.error('FAILED TO REGISTER WEBHOOK', err);
+                        reject(new Error(err));
+                    });
+                }
+            }).catch(function(err) {
+                reject(new Error(err));
+            });
         });
     }
 
@@ -306,52 +310,56 @@ export class WebexAdapter extends BotAdapter {
      * Register a webhook subscription with Webex Teams to start receiving message events.
      * @param webhook_path the path of the webhook endpoint like `/api/messages`
      */
-    public registerAdaptiveCardWebhookSubscription(webhook_path): void {
-        const webhook_name = this.options.webhook_name || 'Botkit AttachmentActions';
+    public registerAdaptiveCardWebhookSubscription(webhook_path): Promise<any> {
+        return new Promise<void>((resolve, reject) => {
+            const webhook_name = this.options.webhook_name || 'Botkit AttachmentActions';
 
-        this._api.webhooks.list().then((list) => {
-            let hook_id = null;
+            this._api.webhooks.list().then((list) => {
+                let hook_id = null;
 
-            for (let i = 0; i < list.items.length; i++) {
-                if (list.items[i].name === webhook_name) {
-                    hook_id = list.items[i].id;
+                for (let i = 0; i < list.items.length; i++) {
+                    if (list.items[i].name === webhook_name) {
+                        hook_id = list.items[i].id;
+                    }
                 }
-            }
 
-            const hook_url = 'https://' + this.options.public_address + webhook_path;
+                const hook_url = 'https://' + this.options.public_address + webhook_path;
 
-            debug('Webex: incoming webhook url is ', hook_url);
+                debug('Webex: incoming webhook url is ', hook_url);
 
-            if (hook_id) {
-                this._api.webhooks.update({
-                    id: hook_id,
-                    resource: 'attachmentActions',
-                    targetUrl: hook_url,
-                    event: 'all',
-                    secret: this.options.secret,
-                    name: webhook_name
-                }).then(function() {
-                    debug('Webex: SUCCESSFULLY UPDATED WEBEX WEBHOOKS');
-                }).catch(function(err) {
-                    console.error('FAILED TO REGISTER WEBHOOK', err);
-                    throw new Error(err);
-                });
-            } else {
-                this._api.webhooks.create({
-                    resource: 'attachmentActions',
-                    targetUrl: hook_url,
-                    event: 'all',
-                    secret: this.options.secret,
-                    name: webhook_name
-                }).then(function() {
-                    debug('Webex: SUCCESSFULLY REGISTERED WEBEX WEBHOOKS');
-                }).catch(function(err) {
-                    console.error('FAILED TO REGISTER WEBHOOK', err);
-                    throw new Error(err);
-                });
-            }
-        }).catch(function(err) {
-            throw new Error(err);
+                if (hook_id) {
+                    this._api.webhooks.update({
+                        id: hook_id,
+                        resource: 'attachmentActions',
+                        targetUrl: hook_url,
+                        event: 'all',
+                        secret: this.options.secret,
+                        name: webhook_name
+                    }).then(function() {
+                        debug('Webex: SUCCESSFULLY UPDATED WEBEX WEBHOOKS');
+                        resolve();
+                    }).catch(function(err) {
+                        console.error('FAILED TO REGISTER WEBHOOK', err);
+                        reject(new Error(err));
+                    });
+                } else {
+                    this._api.webhooks.create({
+                        resource: 'attachmentActions',
+                        targetUrl: hook_url,
+                        event: 'all',
+                        secret: this.options.secret,
+                        name: webhook_name
+                    }).then(function() {
+                        debug('Webex: SUCCESSFULLY REGISTERED WEBEX WEBHOOKS');
+                        resolve();
+                    }).catch(function(err) {
+                        console.error('FAILED TO REGISTER WEBHOOK', err);
+                        reject(new Error(err));
+                    });
+                }
+            }).catch(function(err) {
+                reject(new Error(err));
+            });
         });
     }
 
