@@ -506,6 +506,10 @@ export class WebexAdapter extends BotAdapter {
             if (activity.from.id === this.identity.id) {
                 activity.channelData.botkitEventType = 'self_message';
                 activity.type = ActivityTypes.Event;
+             } else if (activity.channelData.mentionedPeople && 
+                        activity.channelData.mentionedPeople.includes(this.identity.id)) {
+                // this is someone trying to talk to the bot
+                activity.channelData.botkitEventType = 'direct_mention';
             } else {
                 // change the event type of messages sent in 1:1s
                 if (activity.channelData.roomType === 'direct') {
