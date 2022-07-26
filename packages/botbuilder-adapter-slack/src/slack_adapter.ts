@@ -517,7 +517,7 @@ export class SlackAdapter extends BotAdapter {
 
         if (event.type === 'url_verification') {
             res.status(200);
-            res.header('Content-Type: text/plain');
+            res.header('Content-Type', 'text/plain');
             res.send(event.challenge);
             return;
         }
