@@ -6,7 +6,7 @@
  * Licensed under the MIT License.
  */
 
-import * as request from 'request';
+import fetch from 'cross-fetch';
 import * as crypto from 'crypto';
 
 /**
@@ -61,22 +61,29 @@ export class FacebookAPI {
             body = payload;
         }
 
-        return new Promise((resolve, reject) => {
-            request({
+        const fetchResponse = await fetch(
+            `https://${ this.api_host }/${ this.api_version }${ path }${ queryString }access_token=${ this.token }&appsecret_proof=${ proof }`,
+            {
                 method: method.toUpperCase(),
-                json: true,
-                body,
-                uri: `https://${ this.api_host }/${ this.api_version }${ path }${ queryString }access_token=${ this.token }&appsecret_proof=${ proof }`
-            }, (err, res, body) => {
-                if (err) {
-                    reject(err);
-                } else if (body.error) {
-                    reject(body.error.message);
-                } else {
-                    resolve(body);
-                }
-            });
-        });
+                body: JSON.stringify(body)
+            }
+        );
+
+        const responseData = await fetchResponse.text();
+        if (!fetchResponse.ok) {
+            throw new Error(`Request failed with status ${ fetchResponse.status }: ${ responseData }`);
+        }
+
+        try {
+            const responseJson = JSON.parse(responseData);
+            if (responseJson.error) {
+                throw new Error(responseJson.error.message);
+            }
+
+            return responseJson;
+        } catch (e) {
+            return responseData;
+        }
     }
 
     /**

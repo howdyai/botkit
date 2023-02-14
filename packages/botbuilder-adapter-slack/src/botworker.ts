@@ -8,7 +8,7 @@
 
 import { Botkit, BotkitMessage, BotWorker } from 'botkit';
 import { WebClient, Dialog } from '@slack/web-api';
-import * as request from 'request';
+import fetch from 'cross-fetch';
 
 /**
  * This is a specialized version of [Botkit's core BotWorker class](core.md#BotWorker) that includes additional methods for interacting with Slack.
@@ -178,7 +178,7 @@ export class SlackBotWorker extends BotWorker {
             conversation: {
                 id: channelId,
                 // @ts-ignore this field is required for slack
-                thread_ts: thread_ts,
+                thread_ts,
                 team: this.getConfig('activity').conversation.team
             },
             user: { id: userId, name: null },
@@ -229,7 +229,7 @@ export class SlackBotWorker extends BotWorker {
         msg.channelData.response_type = 'in_channel';
 
         return this.replyInteractive(src, msg);
-    };
+    }
 
     /**
      * Like bot.reply, but used to send an immediate private reply to a /slash command.
@@ -244,7 +244,7 @@ export class SlackBotWorker extends BotWorker {
         msg.channelData.to = src.user;
 
         return this.replyInteractive(src, msg);
-    };
+    }
 
     /**
      * Like bot.reply, but used to respond to an `interactive_message` event and cause the original message to be replaced with a new one.
@@ -270,23 +270,20 @@ export class SlackBotWorker extends BotWorker {
 
             msg = this.getConfig('adapter').activityToSlack(msg);
 
-            const requestOptions = {
-                uri: src.incoming_message.channelData.response_url,
-                method: 'POST',
-                json: msg
-            };
+            const fetchResponse = await fetch(src.incoming_message.channelData.response_url, { method: 'POST', body: JSON.stringify(msg) });
+            const responseData = await fetchResponse.text();
 
-            return new Promise(function(resolve, reject) {
-                request(requestOptions, function(err, res, body) {
-                    if (err) {
-                        reject(err);
-                    } else {
-                        resolve(body);
-                    }
-                });
-            });
+            if (!fetchResponse.ok) {
+                throw new Error(`Request failed with status ${ fetchResponse.status }: ${ responseData }`);
+            }
+
+            try {
+                return JSON.parse(responseData);
+            } catch (e) {
+                return responseData;
+            }
         }
-    };
+    }
 
     /**
      * Return 1 or more error to a `dialog_submission` event that will be displayed as form validation errors.
@@ -303,7 +300,7 @@ export class SlackBotWorker extends BotWorker {
         }
 
         this.httpBody(JSON.stringify({ errors }));
-    };
+    }
 
     /**
      * Reply to a button click with a request to open a dialog.
@@ -317,7 +314,7 @@ export class SlackBotWorker extends BotWorker {
         };
 
         return this.api.dialog.open(msg);
-    };
+    }
 
     /**
      * Update an existing message with new content.
