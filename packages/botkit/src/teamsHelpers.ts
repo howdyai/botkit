@@ -16,43 +16,43 @@ import { TeamsInfo, MiddlewareSet, TurnContext } from 'botbuilder';
  * @noInheritDoc
  */
 export class TeamsBotWorker extends BotWorker {
-  /**
+    /**
    * Grants access to the TeamsInfo helper class
    * See: https://docs.microsoft.com/en-us/javascript/api/botbuilder/teamsinfo?view=botbuilder-ts-latest
    */
-  public teams: TeamsInfo = TeamsInfo;
+    public teams: TeamsInfo = TeamsInfo;
 
-  /**
+    /**
    * Reply to a Teams task module task/fetch or task/submit with a task module response.
    * See https://docs.microsoft.com/en-us/microsoftteams/platform/task-modules-and-cards/task-modules/task-modules-bots
    * @param message
    * @param taskInfo an object in the form {type, value}
    */
-  public async replyWithTaskInfo(message: BotkitMessage, taskInfo: any): Promise<any> {
-      if (!taskInfo || taskInfo === {}) {
-      // send a null response back
-          taskInfo = {
-              type: 'message',
-              value: ''
-          };
-      }
-      return new Promise((resolve, reject) => {
-          this.controller.middleware.send.run(this, taskInfo, async (err, bot, taskInfo) => {
-              if (err) {
-                  return reject(err);
-              }
-              resolve(await this.getConfig('context').sendActivity({
-                  type: 'invokeResponse',
-                  value: {
-                      status: 200,
-                      body: {
-                          task: taskInfo
-                      }
-                  }
-              }));
-          });
-      });
-  }
+    public async replyWithTaskInfo(message: BotkitMessage, taskInfo: any): Promise<any> {
+        if (!taskInfo || Object.keys(taskInfo).length === 0) {
+            // send a null response back
+            taskInfo = {
+                type: 'message',
+                value: ''
+            };
+        }
+        return new Promise((resolve, reject) => {
+            this.controller.middleware.send.run(this, taskInfo, async (err, bot, taskInfo) => {
+                if (err) {
+                    return reject(err);
+                }
+                resolve(await this.getConfig('context').sendActivity({
+                    type: 'invokeResponse',
+                    value: {
+                        status: 200,
+                        body: {
+                            task: taskInfo
+                        }
+                    }
+                }));
+            });
+        });
+    }
 }
 
 /**

@@ -7,11 +7,17 @@
  */
 
 import { Botkit, BotkitDialogWrapper, BotkitMessage, BotWorker, BotkitConversation } from 'botkit';
-import * as request from 'request';
+import fetch from 'cross-fetch';
 import * as Debug from 'debug';
 import * as url from 'url';
 
 const debug = Debug('botkit:cms');
+
+export interface CMSOptions {
+    uri: string;
+    token: string;
+    controller?: Botkit;
+}
 
 /**
  * A plugin for Botkit that provides access to an instance of [Botkit CMS](https://github.com/howdyai/botkit-cms), including the ability to load script content into a DialogSet
@@ -87,43 +93,48 @@ export class BotkitCMSHelper {
             headers: {
                 'content-type': 'application/json'
             },
-            method: method,
+            method,
             form: params
         };
 
         debug('Make request to Botkit CMS: ', req);
 
-        return new Promise((resolve, reject) => {
-            request(req, function(err, res, body) {
-                if (err) {
-                    debug('Error in Botkit CMS api: ', err);
-                    return reject(err);
-                } else {
-                    debug('Raw results from Botkit CMS: ', body);
-                    if (body === 'Invalid access token') {
-                        return reject(new Error('Failed to load Botkit CMS content: Invalid access token provided.\nMake sure the token passed into the CMS plugin matches the token set in the CMS .env file.'));
-                    }
-                    let json = null;
-                    try {
-                        json = JSON.parse(body);
-                    } catch (err) {
-                        debug('Error parsing JSON from Botkit CMS api: ', err);
-                        return reject(err);
-                    }
+        const fetchResponse = await fetch(
+            new url.URL(uri + '?access_token=' + this._config.token, this._config.uri),
+            {
+                headers: {
+                    'content-type': 'application/json'
+                },
+                method,
+                body: JSON.stringify(params)
+            }
+        );
 
-                    if (!json || json == null) {
-                        reject(new Error('Botkit CMS API response was empty or invalid JSON'));
-                    } else if (json.error) {
-                        if (res.statusCode === 401) {
-                            console.error(json.error);
-                        }
-                        reject(json.error);
-                    } else {
-                        resolve(json);
-                    }
-                }
-            });
-        });
+        const responseData = await fetchResponse.text();
+        if (!fetchResponse.ok) {
+            throw new Error(`Request failed with status ${ fetchResponse.status }: ${ responseData }`);
+        }
+
+        debug('Raw results from Botkit CMS: ', responseData);
+        if (responseData === 'Invalid access token') {
+            throw new Error('Failed to load Botkit CMS content: Invalid access token provided.\nMake sure the token passed into the CMS plugin matches the token set in the CMS .env file.');
+        }
+
+        let json = null;
+        try {
+            json = JSON.parse(responseData);
+        } catch (err) {
+            debug('Error parsing JSON from Botkit CMS api: ', err);
+            throw err;
+        }
+
+        if (!json || json == null) {
+            throw new Error('Botkit CMS API response was empty or invalid JSON');
+        } else if (json.error) {
+            throw json.error;
+        }
+
+        return json;
     }
 
     private async getScripts(): Promise<any[]> {
@@ -321,10 +332,4 @@ export class BotkitCMSHelper {
             throw new Error('Could not find dialog: ' + script_name);
         }
     }
-}
-
-export interface CMSOptions {
-    uri: string;
-    token: string;
-    controller?: Botkit;
 }

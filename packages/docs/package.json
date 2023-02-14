@@ -9,10 +9,9 @@
   "license": "MIT",
   "dependencies": {
     "handlebars": "^4.7.7",
-    "typedoc": "^0.22.10",
-    "typedoc-plugin-external-module-name": "4.0.6"
+    "typedoc": "^0.23.25"
   },
   "devDependencies": {
-    "typedoc-plugin-no-inherit": "^1.1.10"
+    "typedoc-plugin-no-inherit": "^1.4.0"
   }
 }

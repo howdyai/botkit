@@ -109,6 +109,9 @@ function generateReference(src, dest) {
 
     for (var m = 0; m < data.children.length; m++) {
         let module = data.children[m];
+        if (!module.children) {
+            continue;
+        }
 
         // find the classes
         for (var c = 0; c < module.children.length; c++) {

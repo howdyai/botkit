@@ -1,10 +1,10 @@
-const request = require('request');
+const fetch = require('cross-fetch');
 module.exports = function(controller) {
 
     controller.hears(['flip'], 'message', async (bot, message) => {
-        request.get('http://www.tableflipper.com/json', (e, r, json) => {
+        fetch('http://www.tableflipper.com/json').then(resp => resp.text).then(json => {
             const url = JSON.parse(json);
-            bot.reply(message,url.gif);
+            bot.reply(message, url.gif);
         });
     });
 }

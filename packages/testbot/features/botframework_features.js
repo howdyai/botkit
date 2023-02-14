@@ -1,5 +1,3 @@
-const request = require('request');
-
 module.exports = function(controller) {
 
     if (!controller.adapter.name) {
