@@ -1,6 +1,6 @@
 {
-  "name": "botbuilder-adapter-facebook",
-  "version": "1.0.12",
+  "name": "acn-botbuilder-adapter-facebook",
+  "version": "1.0.13",
   "description": "Connect Botkit or BotBuilder to Facebook Messenger",
   "main": "lib/index.js",
   "typings": "./lib/index.d.ts",
