@@ -385,6 +385,9 @@ export class FacebookAdapter extends BotAdapter {
         //  in case of Checkbox Plug-in sender.id is not present, instead we should look at optin.user_ref
         if (!message.sender && message.optin && message.optin.user_ref) {
             message.sender = { id: message.optin.user_ref };
+        } else if (!message.sender){
+            // Ignore message in case where message sender does not exist. FB Workplace sends messages automatically in some cases and botkit cannot read them causing it to throw an error
+            return
         }
 
         const activity: Activity = {
