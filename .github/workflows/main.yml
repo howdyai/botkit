@@ -1,0 +1,47 @@
+Certainly! Here's the GitHub Actions workflow for deploying Botpress on DigitalOcean. You can copy and paste this code into your GitHub repository:
+
+```yaml
+name: Deploy Botpress
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout Repository
+      uses: actions/checkout@v2
+
+    - name: Setup Node.js
+      uses: actions/setup-node@v3
+      with:
+        node-version: '14'
+
+    - name: Install Dependencies
+      run: npm install
+
+    - name: Build Docker Image
+      run: docker build -t botpress .
+
+    - name: Set up SSH
+      run: |
+        mkdir -p ~/.ssh
+        echo "$SSH_PRIVATE_KEY" > ~/.ssh/id_rsa
+        chmod 600 ~/.ssh/id_rsa
+        ssh-keyscan -t rsa -H YOUR_DROPLET_IP >> ~/.ssh/known_hosts
+
+    - name: Deploy to DigitalOcean
+      run: |
+        ssh -i ~/.ssh/id_rsa YOUR_DROPLET_USERNAME@YOUR_DROPLET_IP << 'ENDSSH'
+          docker stop botpress || true
+          docker rm botpress || true
+          docker pull botpress
+          docker run -d -p 3000:3000 --name botpress botpress
+        ENDSSH
+```
+
+Remember to replace placeholders like `YOUR_DROPLET_IP`, `YOUR_SSH_PRIVATE_KEY`, and `YOUR_DROPLET_USERNAME` with your actual DigitalOcean Droplet details. Additionally, make sure to store your SSH private key as a secret in GitHub.
