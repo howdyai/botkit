@@ -254,7 +254,7 @@ To enable this in a Botkit app:
 
 * Add [this module](https://gist.github.com/benbrown/d6fbf2c8aac37b60c746abc08b9b96e7) to your app.
 * Download the latest [Bot Framework Emulator](https://aka.ms/botframework-emulator)
-* Launch your bot app and make sure it is connected to the outside world with a tool like ngrok
+* Launch your bot app and make sure it is connected to the outside world with a tool like [tunnelmole](https://tunnelmole.com/docs/) or [ngrok](https://ngrok.com/). Tunnelmole is an open source tunneling tool, whereas ngrok is a popular closed source tunneling tool
 * Launch Bot Framework emulator and enable inspector mode "View > Bot Inspector Mode" in the menu
 * Connect to "http://localhost:3000/api/sidecar"
 * Bot Framework emulator will display a command like "/INSPECT attach XYZ".  Copy paste this into the channel with your bot that you want to inspect.
